@@ -1,0 +1,278 @@
+REESTRUCTURA COMPLETA DE LA DEMO "DECOKASA TRACKING"
+
+Vas a reestructurar la aplicación que ya existe. Conserva lo que funciona (cálculo de días hábiles, datos de ejemplo, selector ES/EN), pero aplica TODOS los cambios de este mensaje. Es un software empresarial: cada pantalla debe ser clara hasta el mínimo detalle para una persona que nunca lo ha usado.
+
+==================================================
+0. REGLAS GENERALES
+==================================================
+- Sigue siendo una DEMO ESTÁTICA: solo frontend (React + TypeScript + Tailwind), datos en memoria, sin backend, sin APIs externas, sin servicios de Google, sin Google Fonts (usar system-ui, "Segoe UI", Roboto, sans-serif).
+- Fecha actual SIMULADA fija: martes 06/10/2026. Días hábiles = lunes a viernes.
+- Formato de fecha en toda la app: dd/mm/aaaa. Los plazos siempre dicen "días hábiles".
+- Toda acción importante pide confirmación en un modal propio (nunca alert/confirm del navegador) y muestra un aviso breve de éxito ("Check registrado", "Archivo subido").
+- Cada botón que el usuario no puede usar NO se muestra; si se muestra deshabilitado, debe decir por qué (por ejemplo: "Falta subir: Packing List").
+- Textos en español claro y directo, sin tecnicismos. Selector ES / EN en el encabezado.
+
+==================================================
+1. IDENTIDAD VISUAL: EL AMARILLO DOMINA
+==================================================
+Paleta oficial de Decokasa S.A.S:
+- Amarillo Decokasa #FFD100 → COLOR PRINCIPAL Y DOMINANTE.
+- Gris oscuro #515151 → textos principales.
+- Gris medio #6C6B6D → textos secundarios, bordes, íconos.
+- Blanco #FFFFFF → fondo de contenido.
+
+Cómo aplicarla (el gris NO debe dominar):
+- Barra superior (header) en amarillo #FFD100 a todo el ancho, con el logo "Decokasa" en #2E2E2E negrita y "S.A.S" más pequeño.
+- Pantalla de inicio de sesión con fondo amarillo #FFD100 y tarjeta blanca centrada.
+- Menú lateral blanco; la opción activa con fondo amarillo #FFD100 y texto #2E2E2E; las demás con hover amarillo muy claro #FFF6CC.
+- Botones principales amarillos #FFD100 con texto #2E2E2E en negrita; hover #E6BC00. Botones secundarios blancos con borde #6C6B6D.
+- Tarjetas de indicadores con una franja superior amarilla de 4 px.
+- En la línea de estados horizontal: etapas completadas en amarillo, etapa actual en amarillo con borde grueso y animación suave, pendientes en blanco con borde gris.
+- Fondos de sección: blanco o amarillo muy claro #FFFBEA. Nunca bloques grandes de gris.
+- Contraste: sobre amarillo, el texto siempre es #2E2E2E (nunca blanco). Nunca texto amarillo sobre fondo blanco.
+- Semáforo con colores distintos al de marca y SIEMPRE con ícono + texto: A tiempo verde #16A34A ✓, Por vencer naranja #EA580C 🕒, Retrasado rojo #DC2626 ⚠, En pausa / Cancelado gris #6C6B6D ⏸.
+
+==================================================
+2. INICIO DE SESIÓN CON USUARIO Y CONTRASEÑA
+==================================================
+- Formulario real de login: campo "Usuario (correo)" y "Contraseña", botón "Ingresar". Mensaje de error claro si los datos no coinciden: "Usuario o contraseña incorrectos. Revisa los datos e inténtalo de nuevo."
+- Debajo, un recuadro plegable "Usuarios de demostración" con la tabla de usuarios, su rol y su contraseña, y un botón "Usar" en cada fila que llena el formulario.
+- Contraseña de todos los usuarios demo: Demo2026
+- Al ingresar se ve el nombre, el rol y un botón "Cerrar sesión" en el encabezado.
+- Cada usuario solo ve los módulos y botones de su rol (ver sección 3).
+
+Usuarios de demostración:
+| Nombre | Usuario | Rol | Área |
+| Mirian Franco | mfranco@decokasa.ec | Administrador | Sistemas |
+| Juan Carlos Tulcán | jctulcan@decokasa.ec | Junta de Socios | Socio · Responsable de compras |
+| Daniel Tulcán | dftulcan@decokasa.ec | Junta de Socios | Socio |
+| David Tulcán | cdtulcan@decokasa.ec | Editor Compras China | Gestión China · Latinoamérica World |
+| Andrea Collaguazo | acollaguazo@decokasa.ec | Editor Compras China | Asistente de compras China |
+| Andrea Quishpe | aquishpe@decokasa.ec | Editor Marketing | Marketing / Sistemas |
+| Anderson Enriquez | aenriquez@decokasa.ec | Editor Logística | Logística Ecuador importaciones |
+| Marcela Catucuamba | mcatucuamba@decokasa.ec | Editor Compras Ecuador | Departamento de Compras |
+| Invitado | consulta@decokasa.ec | Consulta | Solo lectura |
+
+==================================================
+3. ROLES Y PERMISOS (OBLIGATORIO RESPETARLOS)
+==================================================
+Crea una matriz de permisos en el código y úsala en toda la app.
+
+ADMINISTRADOR (Mirian) → CONTROL TOTAL:
+- Ve todos los módulos.
+- Crea, edita, pausa, cancela, reabre y crea nuevas versiones de pedidos.
+- Puede dar, devolver o revertir el check de CUALQUIER etapa.
+- Edita fechas manualmente (con advertencia: "Modificar fechas puede generar retrasos en ventas, pérdidas económicas y quiebre de stock").
+- Crea usuarios, asigna roles y etapas, activa o desactiva usuarios.
+- Ve la auditoría completa, reportes y configuración (plazos por etapa).
+- Reemplaza documentos (nunca se eliminan: se guarda historial de versiones).
+
+JUNTA DE SOCIOS (aprobadores):
+- Ve todos los pedidos, reportes y alertas.
+- Aprueba o rechaza la etapa "Aprobación de la Junta" (paso a fabricación).
+- Pausa, reanuda, cancela y reabre pedidos (motivo obligatorio).
+- Escribe observaciones en cualquier etapa. No da checks de etapas operativas.
+
+EDITOR COMPRAS CHINA (David, Andrea Collaguazo):
+- Etapas: Revisión y check list, Fabricación, Aprobación de embarque y Packing List, BL y contenedores, Viaje marítimo.
+- Sube el Reporte de mercadería (Excel), Packing List, Commercial Invoice, BL, Certificado de origen, Fotos de inspección, Ficha técnica y Catálogo de producto nuevo.
+- Puede pedir ampliación de fabricación (máximo +10 días hábiles, con motivo).
+
+EDITOR MARKETING (Andrea Quishpe):
+- Crea pedidos nuevos (etapa Solicitud) con Excel del pedido y Zip de etiquetas.
+- Codificación de productos nuevos.
+
+EDITOR LOGÍSTICA (Anderson):
+- Etapas: Reporte de mercadería (da el check verificando lo que envió China), Desaduanización (En trámite / Retenido / Liberado), Bodega (verificación e incidencias), Cierre documental.
+
+EDITOR COMPRAS ECUADOR (Marcela):
+- Investigación y aprobación de productos nuevos.
+- Validación final del cierre documental (check final que pone el pedido en "Finalizado").
+- Recibe las alertas de retraso.
+
+CONSULTA (Invitado):
+- Solo ve el tablero, la lista de pedidos y el rastreo. Sin botones de acción ni descarga de archivos.
+
+Reglas comunes:
+- Todos los usuarios ven todos los pedidos (excepto que Consulta no ve archivos).
+- Los editores solo ven y descargan los archivos de SUS etapas; el Administrador y la Junta ven todos.
+- Revertir un check: lo puede hacer cualquier editor asignado a esa etapa o el Administrador, con motivo obligatorio.
+- Todo queda en el historial: quién, qué, cuándo (fecha y hora) y por qué.
+
+==================================================
+4. ESTRUCTURA DE LA APLICACIÓN (MÓDULOS)
+==================================================
+Diseño: encabezado amarillo fijo arriba + menú lateral izquierdo (en celular se convierte en menú hamburguesa) + contenido con migas de pan ("Inicio › Pedidos › IMP-2026-006-PANEL-EXT-WPC").
+
+Menú lateral (se muestra según el rol):
+1. Inicio
+2. Rastrear pedido
+3. Pedidos
+4. Productos nuevos
+5. Alertas (con contador)
+6. Reportes (Administrador y Junta)
+7. Usuarios y roles (solo Administrador)
+8. Auditoría (solo Administrador)
+9. Configuración (solo Administrador)
+10. Ayuda
+
+--- 4.1 INICIO ---
+- Saludo con nombre y rol: "Hola, David · Editor Compras China".
+- Tarjeta "Mis tareas pendientes": los pedidos donde el usuario actual debe dar un check o subir un archivo, con plazo y semáforo, y botón "Ir a la etapa".
+- Indicadores: Pedidos en curso, En tránsito, En aduana, Retrasados, Próximas llegadas (30 días).
+- Lista corta "Próximas llegadas a bodega" y "Pedidos retrasados".
+
+--- 4.2 RASTREAR PEDIDO (estilo Servientrega) ---
+- Un buscador grande centrado: "Escribe el código del pedido" (por ejemplo IMP-2026-006-PANEL-EXT-WPC) y botón amarillo "Rastrear".
+- Resultado: estado actual grande, llegada estimada, semáforo y la LÍNEA DE ESTADOS HORIZONTAL (sección 5) en modo solo lectura.
+
+--- 4.3 PEDIDOS ---
+- Tabla con: Código, Nombre, Etapa actual, Estado, Semáforo, Fecha del pedido, Llegada estimada, Responsable actual.
+- Filtros: estado, semáforo, responsable, rango de fechas. Buscador por código o nombre.
+- Botón "Nuevo pedido" (Administrador y Marketing): formulario con nombre del producto, fecha del pedido, ¿incluye producto nuevo? (sí/no, suma 10 días a la revisión), subir Excel del pedido (obligatorio), subir Zip de etiquetas (obligatorio), bodega de destino (Chongón por defecto; Quito, Ibarra u otra). Genera el código automático con el formato IMP-AAAA-NNN-PRODUCTO y muestra una vista previa del cronograma calculado antes de guardar.
+
+--- 4.4 DETALLE DEL PEDIDO (pantalla principal) ---
+Encabezado: código, nombre, estado actual grande, semáforo, fecha del pedido, llegada estimada a bodega, bodega de destino, versión del pedido (v1, v2), botones según rol (Pausar, Cancelar, Reabrir, Nueva versión, Editar fechas).
+Debajo, la LÍNEA DE ESTADOS HORIZONTAL (sección 5).
+Debajo, pestañas:
+  a) Etapa seleccionada (sección 6) ← se abre al hacer clic en una etapa de la línea.
+  b) Productos del pedido (sección 7).
+  c) Documentos (todos los archivos del pedido agrupados por etapa, con versión, quién lo subió y fecha).
+  d) Cronograma (tabla de las 11 etapas: plazo, fecha estimada de inicio y fin, fecha real, días de diferencia).
+  e) Historial (auditoría del pedido).
+
+--- 4.5 PRODUCTOS NUEVOS ---
+- Lista de solicitudes de producto nuevo con su propia línea horizontal de 6 pasos:
+  1 Origen (Ecuador solicita / China propone) → 2 Investigación (Compras Ecuador, 7 días hábiles, +10 si visitan fábricas) → 3 Ficha técnica + catálogo de colores y diseños (Compras China, se suben juntos) → 4 Aprobación (Compras Ecuador, 10 días hábiles; si rechaza, motivo obligatorio y estado "Rechazado") → 5 Codificación (Marketing, 4 días hábiles; el código se REGISTRA, no se genera) → 6 Listo para pedido.
+- Cada paso tiene observaciones y archivos igual que las etapas del pedido.
+
+--- 4.6 ALERTAS ---
+- Lista con: pedido, etapa, tipo (Por vencer / Retrasado / Retenido en aduana / Devuelto / Cambio de estado), fecha, leída o no.
+- Avisos 3 días hábiles antes de que venza un plazo y cuando se vence ("Este pedido llegará con retraso: 5 días hábiles de atraso").
+
+--- 4.7 REPORTES (Administrador y Junta) ---
+- Pedidos por estado (gráfico de barras), pedidos retrasados, tiempo promedio por etapa vs plazo, próximas llegadas, incidencias por pedido, pedidos por responsable.
+- Botones "Exportar PDF" y "Exportar Excel" (en la demo muestran un aviso "Disponible en la versión final").
+
+--- 4.8 USUARIOS Y ROLES (solo Administrador) ---
+- Tabla de usuarios: nombre, correo, rol, área, país (Ecuador/China), etapas asignadas, activo/inactivo.
+- Botones: Nuevo usuario, Editar, Desactivar.
+- Matriz visual de permisos por rol (tabla con ✓ y ✗) para que el cliente entienda quién puede hacer qué.
+
+--- 4.9 AUDITORÍA (solo Administrador) ---
+- Registro de todas las acciones: fecha y hora, usuario, rol, pedido, etapa, acción, motivo/observación. Filtros por usuario, pedido y acción.
+
+--- 4.10 CONFIGURACIÓN (solo Administrador) ---
+- Tabla editable de plazos por etapa (días hábiles), días de aviso antes del vencimiento (3), bodegas disponibles, tipos de archivo permitidos y tamaño máximo (100 MB).
+
+--- 4.11 AYUDA ---
+- Guía corta por rol: "¿Qué hago yo en el sistema?", explicación de cada estado, del semáforo y de los días hábiles.
+
+==================================================
+5. LÍNEA DE ESTADOS HORIZONTAL (MUY IMPORTANTE)
+==================================================
+- Las 11 etapas se muestran en HORIZONTAL, de izquierda a derecha, unidas por una línea (como un rastreo de envíos):
+  1 Solicitud · 2 Revisión y check list · 3 Aprobación de la Junta · 4 Fabricación · 5 Aprobación de embarque y Packing List · 6 Reporte de mercadería · 7 BL y contenedores · 8 Viaje marítimo · 9 Desaduanización · 10 Bodega · 11 Cierre documental
+- Cada etapa es un círculo con ícono (documento, lupa, firma, fábrica, caja, lista, contenedor, barco, aduana, bodega, carpeta) y debajo: nombre, responsable, fecha (real si terminó, estimada si no) y el semáforo.
+- Completada: círculo amarillo #FFD100 con ✓. Actual: amarillo con borde grueso #2E2E2E y pulso suave. Pendiente: blanco con borde gris. Devuelta: borde naranja con ícono ↺. Retenida en aduana: rojo.
+- La línea entre etapas se llena de amarillo hasta la etapa actual (barra de progreso con porcentaje).
+- Encima de la línea, agrupadores pequeños: "Pedido" (1-3), "Producción en China" (4-5), "Documentos" (6-7), "Tránsito" (8), "Llegada a Ecuador" (9-11).
+- Al hacer clic en cualquier etapa se abre su panel (sección 6) debajo.
+- En celular: la línea se desplaza horizontalmente con el dedo y se centra en la etapa actual.
+- Si el pedido está En pausa o Cancelado, se muestra una franja sobre la línea con el estado, quién lo hizo y el motivo.
+
+==================================================
+6. PANEL DE CADA ETAPA (OBSERVACIONES Y ARCHIVOS EN TODAS)
+==================================================
+Cada una de las 11 etapas tiene el mismo panel, dividido en bloques:
+
+A) "¿Qué se hace en esta etapa?": una explicación de 1-2 líneas, responsable, suplente, plazo en días hábiles, fecha estimada de inicio y fin, días restantes o de atraso, y semáforo.
+
+B) Check list de la etapa (casillas que el responsable marca). Ejemplos:
+   - Revisión: "El pedido cumple con el formato establecido", "Las fechas del cronograma son correctas" (Compras); "Revisadas las observaciones de Compras China" (Marketing/Sistemas); "La información cargada es correcta y completa" (Logística China); "Etiquetas, productos y fechas de vencimiento completos" (Compras China). La etapa se completa cuando todos los puntos tienen check.
+   - Aprobación de embarque: "Packing List subido", "Commercial Invoice subido", "Fecha de embarque confirmada".
+   - Bodega: "Mercadería verificada contra el Packing List", "Incidencias registradas".
+
+C) Documentos de la etapa:
+   - Lista de documentos REQUERIDOS (con ✓ si ya está subido o "Falta" en rojo) y OPCIONALES.
+     · Solicitud: Excel del pedido / proforma (obligatorio), Zip de etiquetas (obligatorio).
+     · Aprobación de embarque: Packing List (obligatorio), Commercial Invoice (obligatorio).
+     · Reporte de mercadería: Reporte en Excel (obligatorio).
+     · BL y contenedores: BL en PDF (obligatorio), Certificado de origen (opcional).
+     · Fabricación: Fotos de inspección (opcional).
+     · Bodega: Informe de incidencias (obligatorio si hay incidencias), fotos.
+     · Cierre documental: verifica que estén Proforma, Packing List, Commercial Invoice, BL y Reporte de mercadería; Certificado de origen y Fotos son opcionales.
+   - Zona de carga: arrastrar y soltar o botón "Subir archivo" (usa un input de archivo real del navegador). Acepta PDF, Excel, Word, JPG/PNG y Zip, hasta 100 MB; si no cumple, muestra el error exacto ("El archivo supera los 100 MB" / "Tipo de archivo no permitido").
+   - También permite "Pegar enlace de Google Drive" (solo se guarda el enlace en la demo).
+   - Cada archivo muestra: ícono por tipo, nombre, tamaño, versión, quién lo subió, fecha y hora. Las imágenes muestran miniatura y se abren en grande al hacer clic.
+   - No existe botón eliminar: solo "Reemplazar", que crea una nueva versión y guarda la anterior en el historial.
+   - Texto de ayuda: "En la versión final, los archivos se guardan automáticamente en la carpeta del pedido en Google Drive."
+
+D) Observaciones de la etapa (tipo conversación, en orden cronológico):
+   - Cada observación muestra foto/iniciales, nombre, rol, fecha y hora, y el texto. Puede adjuntar archivos.
+   - Caja de texto "Escribe una observación…" y botón "Publicar".
+   - Las observaciones no se traducen automáticamente (mostrar nota pequeña).
+
+E) Acciones (según el rol):
+   - "Dar check y avanzar" (amarillo): solo se habilita si el check list está completo y los documentos obligatorios están subidos; si no, dice exactamente qué falta. Pide confirmación y permite observación opcional.
+   - "Devolver con observaciones": motivo obligatorio; la etapa vuelve al responsable anterior.
+   - "Revertir check": motivo obligatorio.
+   - Fabricación: "Solicitar ampliación" (1 a 10 días hábiles, motivo obligatorio; más de 10 da error).
+   - Desaduanización: selector de subestado En trámite / Retenido / Liberado (Retenido genera alerta).
+   - Aprobación de la Junta: "Aprobar fabricación" / "Rechazar" (motivo obligatorio).
+   - Cierre documental: el check final lo da Compras Ecuador (Marcela) o el Administrador → estado "Finalizado".
+   - Si el usuario no tiene permiso: mensaje "Esta etapa la gestiona Anderson Enriquez (Logística). Puedes ver la información pero no modificarla."
+
+F) Historial de la etapa: lista de acciones con fecha, hora, usuario y motivo.
+
+==================================================
+7. PRODUCTOS DEL PEDIDO (CON DATOS REALES)
+==================================================
+Pestaña con la tabla de líneas del pedido: Código Decokasa, Código chino, Descripción, Medida, Color, Cantidad pedida, Cantidad recibida (se llena en Bodega), Diferencia y estado (Completo / Faltante / Sobrante / Dañado). Totales al pie.
+En la etapa Bodega, Anderson llena "Cantidad recibida" e incidencias (con foto y observación) por línea, y el sistema arma el "Informe de incidencias" automáticamente.
+
+==================================================
+8. DATOS DE EJEMPLO
+==================================================
+Pedido principal, basado en la orden real del cliente:
+- Código: IMP-2026-006-PANEL-EXT-WPC
+- Nombre: Panel ranurado exterior WPC — Productos de Alta Rotación
+- Fecha del pedido: 20/08/2026. Responsable del pedido: Juan Carlos Tulcán (Compras). Gestión China: David Tulcán (Latinoamérica World). Elaborado por: Mirian (Compras & Marketing).
+- Estado: En fabricación, a tiempo. Revisión y Aprobación de la Junta completadas con sus checks y observaciones.
+- Documentos ya subidos: Orden_Pedido_Panel_Exterior_WPC.xlsx (Solicitud) y etiquetas-codigos-barras-EXTERIOR.zip (Solicitud, 16 etiquetas).
+- Observación de Mirian en Solicitud: "Se recomienda venir empacado con plástico para evitar rayaduras."
+- Líneas del pedido (Panel exterior WPC, medida 219 x 26 x 2900 mm; Ángulo panel exterior, medida 40 x 50 x 2900 mm, color único; los ángulos son el 30 % de cada panel):
+  | Código | Código chino | Paneles | Ángulo (código) | Ángulos |
+  | EXT10 | EXT 01 /10 | 640 | ANG-EXT10 (EXT 02 /10) | 192 |
+  | EXT20 | EXT 01 /20 | 880 | ANG-EXT20 (EXT 02 /20) | 264 |
+  | EXT30 | EXT 01 /30 | 640 | ANG-EXT30 (EXT 02 /30) | 192 |
+  | EXT40 | EXT 01 /40 | 350 | ANG-EXT40 (EXT 02 /40) | 105 |
+  | EXT50 | EXT 01 /50 | 880 | ANG-EXT50 (EXT 02 /50) | 264 |
+  | EXT60 | EXT60 | 640 | ANG-EXT60 | 192 |
+  | EXT70 | EXT70 | 640 | ANG-EXT70 | 192 |
+  | EXT80 | EXT80 | 640 | ANG-EXT80 | 192 |
+  Totales: 5.310 paneles + 1.593 ángulos = 6.903 unidades. Color de EXT10: Teak (los demás, "según catálogo").
+
+Otros pedidos (mantén y ajusta los que ya existen):
+- IMP-2026-001-PISO-SPC — en Bodega Chongón, a tiempo, con 1 incidencia ("2 cajas con esquinas golpeadas", con foto).
+- IMP-2026-002-CORTINAS-ROLLER — Desaduanización, RETENIDO ("Aduana solicitó inspección física").
+- IMP-2026-003-PAPEL-TAPIZ — Viaje marítimo, RETRASADO 8 días hábiles.
+- IMP-2026-004-PERSIANAS — BL y contenedores, POR VENCER (faltan 2 días hábiles), falta subir el BL.
+- IMP-2026-005-ALFOMBRAS — Fabricación con ampliación de +5 días ("Fábrica reporta retraso en materia prima").
+- IMP-2026-007-ZOCALOS — EN PAUSA por la Junta ("Revisar cantidades").
+- IMP-2026-008-LAMINAS-PVC — Revisión, DEVUELTO con observaciones ("El formato del Excel no coincide con la plantilla"), incluye producto nuevo (+10 días).
+- IMP-2026-000-LAMINAS-PVC — FINALIZADO, con todos los documentos.
+Producto nuevo de ejemplo: "Panel acústico de madera" propuesto por China, en el paso 4 Aprobación (Compras Ecuador).
+
+==================================================
+9. CRITERIOS DE ACEPTACIÓN (REVÍSALOS ANTES DE TERMINAR)
+==================================================
+- El amarillo #FFD100 es el color que más se ve (header, menú activo, botones, línea de estados); el gris solo se usa en textos y bordes.
+- El login funciona con usuario y contraseña; con datos incorrectos muestra el error.
+- Con cada uno de los 9 usuarios cambian el menú, los botones y los permisos según la sección 3. El Invitado no ve ningún botón de acción.
+- La línea de estados es horizontal en todos los pedidos y en el rastreo.
+- Las 11 etapas tienen observaciones, carga de archivos e historial.
+- "Dar check" no se habilita si falta un documento obligatorio o un punto del check list, y dice qué falta.
+- Ningún documento se puede eliminar, solo reemplazar con versión.
+- La tabla de productos del pedido IMP-2026-006 suma 5.310 + 1.593 = 6.903.
+- Todo se ve bien en un celular de 375 px y no hay errores en la consola.

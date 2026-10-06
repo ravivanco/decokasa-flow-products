@@ -1,0 +1,111 @@
+PROMPTS DE SEGUIMIENTO PARA GOOGLE AI STUDIO — DEMO DECOKASA S.A.S
+Úsalos DESPUÉS de pegar "prompt_correccion_ai_studio.txt".
+Pega UNO a la vez, en el chat del mismo proyecto, y revisa el resultado antes de pasar al siguiente.
+Si un prompt ya quedó bien, sáltalo.
+
+==================================================
+PROMPT 1 — AUTOREVISIÓN (pégalo siempre primero)
+==================================================
+Revisa la aplicación contra los "Criterios de aceptación" de la sección 9 de mi mensaje anterior. Haz una lista con cada criterio marcado como CUMPLE o NO CUMPLE, y explica en una línea por qué. Luego corrige todos los que no cumplen sin cambiar lo que ya funciona. Al final muéstrame la lista actualizada.
+
+==================================================
+PROMPT 2 — ROLES Y PERMISOS
+==================================================
+Verifica que los permisos salgan de UNA sola matriz central (por ejemplo, un archivo permissions.ts) y que toda la app la use: menú lateral, botones de acción, carga de archivos y descarga de documentos.
+Prueba mentalmente cada usuario y corrige lo que no coincida:
+- Mirian (Administrador): ve los 10 módulos y puede actuar en las 11 etapas.
+- Juan Carlos y Daniel (Junta): ven Reportes y Alertas; solo actúan en "Aprobación de la Junta" y en Pausar / Reanudar / Cancelar / Reabrir. No ven Usuarios, Auditoría ni Configuración.
+- David y Andrea Collaguazo (Compras China): actúan solo en Revisión, Fabricación, Aprobación de embarque, BL y Viaje.
+- Andrea Quishpe (Marketing): crea pedidos y hace la codificación de productos nuevos.
+- Anderson (Logística): actúa solo en Reporte de mercadería, Desaduanización, Bodega y Cierre documental.
+- Marcela (Compras Ecuador): aprueba productos nuevos y da la validación final del cierre.
+- Invitado (Consulta): no ve ningún botón de acción ni archivos.
+Cuando un usuario abre una etapa que no le toca, muestra el aviso: "Esta etapa la gestiona [nombre] ([área]). Puedes ver la información pero no modificarla."
+Agrega en el encabezado una etiqueta amarilla con el rol del usuario conectado.
+
+==================================================
+PROMPT 3 — LÍNEA DE ESTADOS HORIZONTAL
+==================================================
+Mejora la línea de estados horizontal del detalle del pedido y del rastreo:
+- Las 11 etapas en una sola fila, de izquierda a derecha, con círculos de 44 px unidos por una línea de 4 px.
+- La línea se rellena en amarillo #FFD100 hasta la etapa actual y muestra arriba a la derecha el porcentaje de avance ("45 % completado").
+- Etapa completada: círculo amarillo con ✓ negro. Actual: amarillo con borde negro de 3 px y un pulso suave (respeta prefers-reduced-motion). Pendiente: blanco con borde gris. Devuelta: borde naranja e ícono ↺. Retenida: rojo.
+- Debajo de cada círculo: nombre corto, responsable, fecha (real o "Est. dd/mm/aaaa") y el semáforo con ícono.
+- Arriba, los agrupadores "Pedido", "Producción en China", "Documentos", "Tránsito" y "Llegada a Ecuador" con una línea fina que abarque sus etapas.
+- La etapa seleccionada se marca con un subrayado amarillo y su panel se abre debajo.
+- En celular la fila se desplaza con el dedo y al cargar se centra sola en la etapa actual.
+
+==================================================
+PROMPT 4 — PANEL DE ETAPA: ARCHIVOS Y OBSERVACIONES
+==================================================
+Asegúrate de que las 11 etapas tengan el panel completo con estos bloques, en este orden y con títulos visibles:
+1) "¿Qué se hace en esta etapa?"  2) "Check list"  3) "Documentos"  4) "Observaciones"  5) "Acciones"  6) "Historial de la etapa".
+Archivos:
+- Usa un input de archivo real y arrastrar y soltar. Guarda en memoria nombre, tipo, tamaño, versión, usuario, fecha y hora; para imágenes crea una URL local para mostrar la miniatura y una vista ampliada.
+- Valida tipo (PDF, Excel, Word, JPG/PNG, Zip) y tamaño (máx. 100 MB) con mensajes claros.
+- Sin botón eliminar; "Reemplazar" crea la versión siguiente (v2, v3) y la anterior se ve en "Ver versiones anteriores".
+- Muestra el aviso: "En la versión final, este archivo se guardará en la carpeta del pedido en Google Drive."
+Observaciones:
+- Estilo conversación, con iniciales en un círculo amarillo, nombre, rol, fecha y hora.
+- Se pueden adjuntar archivos a una observación.
+- El botón "Publicar" se desactiva si el texto está vacío.
+Cada acción (subir, reemplazar, observar, check, devolver, revertir) se agrega al Historial de la etapa y a la Auditoría general.
+
+==================================================
+PROMPT 5 — PRODUCTOS DEL PEDIDO Y VERIFICACIÓN EN BODEGA
+==================================================
+En el detalle del pedido IMP-2026-006-PANEL-EXT-WPC, la pestaña "Productos del pedido" debe mostrar dos grupos con subtotal:
+- "Paneles ranurados exterior WPC" (219 x 26 x 2900 mm): EXT10 a EXT80 con su código chino y cantidad. Subtotal 5.310.
+- "Ángulos panel exterior" (40 x 50 x 2900 mm, color único, 30 % de cada panel): ANG-EXT10 a ANG-EXT80. Subtotal 1.593.
+- Total general: 6.903 unidades.
+Columnas: Código Decokasa, Código chino, Descripción, Medida, Color, Pedida, Recibida, Diferencia, Estado.
+En la etapa Bodega (solo Anderson o el Administrador), "Recibida" se vuelve editable; la Diferencia se calcula sola y el Estado cambia a Completo (verde), Faltante (rojo), Sobrante (naranja) o Dañado (con foto obligatoria).
+Agrega el botón "Generar informe de incidencias", que muestra un resumen con las líneas que tienen diferencias, fotos y observaciones, y lo agrega como documento de la etapa Bodega.
+
+==================================================
+PROMPT 6 — MÓDULO PRODUCTOS NUEVOS
+==================================================
+Completa el módulo "Productos nuevos":
+- Lista con: nombre, origen (Ecuador solicita / China propone), paso actual, responsable, semáforo y fecha estimada.
+- Botón "Nueva solicitud" (Administrador, Compras Ecuador y Compras China) con: nombre del producto, origen, descripción, foto de referencia y "¿se visitarán fábricas?" (suma 10 días hábiles a la investigación).
+- Detalle con la misma línea horizontal amarilla de 6 pasos y el mismo panel de etapa (observaciones, archivos, acciones, historial).
+- En "Aprobación", Marcela tiene los botones "Aprobar" y "Rechazar" (motivo obligatorio). Si se rechaza, el estado es "Rechazado" en rojo y el motivo queda visible.
+- En "Codificación", Andrea Quishpe registra el código del producto en un campo de texto (el sistema no lo genera).
+- Al terminar, aparece el botón "Usar en un pedido nuevo", que abre el formulario de pedido con "incluye producto nuevo" ya marcado.
+Ejemplo cargado: "Panel acústico de madera", propuesto por China, en el paso 4 Aprobación.
+
+==================================================
+PROMPT 7 — USUARIOS, MATRIZ DE PERMISOS Y AUDITORÍA
+==================================================
+En "Usuarios y roles" (solo Administrador):
+- Tabla de los 9 usuarios con filtros por rol y país.
+- Formulario "Nuevo usuario" y "Editar" con nombre, correo, rol, área, país y etapas asignadas (casillas con las 11 etapas). Al guardar, el usuario nuevo puede iniciar sesión con la contraseña Demo2026.
+- "Desactivar": el usuario ya no puede ingresar ("Tu usuario está desactivado. Contacta al administrador.").
+- Pestaña "Matriz de permisos": tabla con los roles en columnas y las acciones en filas (Ver pedidos, Crear pedido, Dar check en su etapa, Dar check en cualquier etapa, Revertir check, Subir archivos, Ver todos los archivos, Pausar/Cancelar, Reabrir, Editar fechas, Aprobar fabricación, Aprobar producto nuevo, Gestionar usuarios, Ver auditoría) con ✓ verde y ✗ gris.
+En "Auditoría": tabla con fecha y hora, usuario, rol, pedido, etapa, acción y motivo; filtros por usuario, pedido, acción y fechas; más reciente primero.
+
+==================================================
+PROMPT 8 — INICIO, ALERTAS Y REPORTES
+==================================================
+- Inicio: la tarjeta "Mis tareas pendientes" debe cambiar según el usuario conectado. Por ejemplo, David ve "IMP-2026-004-PERSIANAS — Falta subir el BL — vence en 2 días hábiles"; Anderson ve "IMP-2026-002-CORTINAS-ROLLER — Retenido en aduana"; el Invitado ve "No tienes tareas: tu usuario es de solo consulta."
+- Alertas: contador rojo en la campana del encabezado y en el menú; botón "Marcar todas como leídas"; al hacer clic en una alerta se abre el pedido en la etapa correspondiente.
+- Reportes: gráfico de barras de pedidos por estado (barras amarillas), tabla de retrasados con días de atraso, tiempo promedio por etapa vs plazo (barra amarilla = plazo, barra gris oscura = real) y próximas llegadas en los próximos 30 días.
+
+==================================================
+PROMPT 9 — PULIDO VISUAL Y CELULAR
+==================================================
+Haz una revisión visual completa:
+- El amarillo #FFD100 debe ser el color dominante: encabezado, login, menú activo, botones principales, línea de estados, franjas de las tarjetas. Si en alguna pantalla domina el gris, cámbialo.
+- Ningún texto blanco sobre amarillo y ningún texto amarillo sobre blanco.
+- Tipografía consistente: títulos 24/20/16 px en negrita, texto 14 px, etiquetas 12 px.
+- Espaciados consistentes y tablas con encabezado amarillo muy claro #FFF6CC.
+- Estados vacíos con mensaje útil (por ejemplo: "Aún no hay observaciones en esta etapa. Escribe la primera.").
+- En 375 px: el menú lateral se vuelve hamburguesa, las tablas se desplazan dentro de su contenedor, los botones ocupan el ancho completo y nada se corta.
+
+==================================================
+PROMPT 10 — PREPARAR LA PRESENTACIÓN
+==================================================
+Agrega para la presentación:
+- En el pie de página, un botón discreto "Reiniciar demo" que restaura todos los datos de ejemplo (con confirmación).
+- Una franja delgada amarilla sobre el encabezado que diga "Versión de demostración · datos de ejemplo · fecha simulada 06/10/2026".
+- En el login, debajo de los usuarios de demostración, una nota: "Recomendado para la presentación: empieza con Mirian (Administrador), luego David (China), Anderson (Logística) y termina con el Invitado."
