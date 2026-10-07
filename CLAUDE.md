@@ -10,9 +10,22 @@ The current code is a **static demo exported from Google AI Studio**: React 19 +
 
 Planned production stack (not built yet): reuse this React frontend + Spring Boot 3 (Java 21) + PostgreSQL (JPA/Flyway) + Docker, JWT auth, permissions enforced server-side. The China team cannot reach Google services without VPN, so **never load Google Fonts or other Google-hosted resources in the UI**.
 
+## Monorepo layout
+
+- `frontend/` — the React demo (all paths under **Architecture** are relative to it). Run npm commands from here.
+- `backend/` — empty, reserved for Spring Boot.
+- `docs/` — project docs by type: `prd`, `actas`, `backlog`, `dominio`, `adr`, `diagramas`, `datos`, `api`, `seguridad`, `manuales`.
+- `documentacion/` — original client material (see below).
+
+## Git conventions
+
+- Branches: `main` (stable releases, tags) ← `develop` (integration) ← `feature/DKT-xx-nombre-corto` / `fix/DKT-xx-…`; `hotfix/DKT-xx-…` from `main` merges into both.
+- Commit messages: `DKT-xx: descripción en imperativo` (template in `.gitmessage`).
+
 ## Commands
 
 ```bash
+cd frontend
 npm install
 npm run dev      # Vite on http://localhost:3000
 npm run build    # production build to dist/
