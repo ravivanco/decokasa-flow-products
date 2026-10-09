@@ -1,0 +1,13 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Enlaces simbólicos de skills (se regeneran con npx skills)
+.claude/skills/
+# Archivos temporales de Word
+~$*.docx
