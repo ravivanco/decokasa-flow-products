@@ -1,0 +1,24 @@
+# Entorno local de Decokasa.
+# Por ahora solo la base de datos; backend y frontend se agregan en la fase 1 (paso 1.4).
+# Las variables se leen de .env en la raíz (no se sube a git).
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: decokasa-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-decokasa}
+      POSTGRES_USER: ${POSTGRES_USER:-decokasa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-decokasa} -d ${POSTGRES_DB:-decokasa}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:

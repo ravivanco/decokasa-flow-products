@@ -11,3 +11,7 @@ coverage/
 .claude/skills/
 # Archivos temporales de Word
 ~$*.docx
+
+# Temporales
+.tmp/
+documentos/manual-paso-a-paso.docx
