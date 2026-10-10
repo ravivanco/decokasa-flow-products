@@ -1,0 +1,25 @@
+%% C4 de contexto. Fuentes: requerimientos.md (4.2, 4.3), ADR-0002, 0003, 0005, 0013. [P] = propuesta del equipo. ⏸ = pendiente del cliente.
+C4Context
+  title Decokasa Seguimiento - contexto del sistema
+
+  Person(admin, "Admin (Mirian)", "Crea pedidos del flujo A, gestiona usuarios y roles, recibe todas las alertas, puede actuar o reasignar en cualquier etapa")
+  Person(ecuador, "Equipo Ecuador", "Marketing (codificación), asistente de compras (revisión), logística (salida, bodega, incidencias)")
+  Person(china, "Compras China (David)", "Análisis, fabricación, embarque y aduana; crea pedidos del flujo B")
+  Person(consulta, "Asistente de compras en China", "Solo consulta; ⏸ qué ve en el sistema")
+
+  System(sistema, "Decokasa Seguimiento", "Web interna: pedidos de importación por etapas, plazos en días hábiles, historial, archivos y alertas")
+
+  System_Ext(drive, "Google Drive", "Unidad compartida; el servidor copia con cuenta de servicio (ADR-0003)")
+  System_Ext(correo, "Correo Google Workspace", "Alertas al admin (ADR-0005); Gmail API o SMTP [P] (ADR-0013); ⏸ también al responsable")
+  System_Ext(claude, "API de Claude", "Fase 7; ⏸ caso de uso sin definir")
+
+  Rel(admin, sistema, "Usa", "HTTPS")
+  Rel(ecuador, sistema, "Usa", "HTTPS")
+  Rel(china, sistema, "Usa desde China", "HTTPS")
+  Rel(consulta, sistema, "Consulta", "HTTPS")
+  Rel(sistema, drive, "Copia archivos", "Drive API")
+  Rel(sistema, correo, "Envía alertas")
+  Rel(correo, admin, "Correo de alerta")
+  Rel(sistema, claude, "⏸ Fase 7")
+
+  UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")

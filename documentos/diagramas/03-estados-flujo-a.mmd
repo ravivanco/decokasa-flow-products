@@ -1,0 +1,41 @@
+%% Estados del flujo A (pedido de Ecuador). Fuente: requerimientos.md 4.4; arquitectura.md 4.2; openapi.yaml (acciones). ⏸ = pendiente del cliente.
+stateDiagram-v2
+  direction TB
+  A1: A1 Crear solicitud (admin)
+  A2: A2 Codificación (marketing) - 24 h
+  A3: A3 Revisión y aprobación (asist. compras) - 24 h
+  A4: A4 Análisis y gestión (compras China) - 3 días
+  A5: A5 Fabricación (compras China) - plazo ⏸
+  A6: A6 Embarque (compras China) - 10 días
+  A7: A7 Aduana Ecuador (compras China)
+  A8: A8 Autorización de salida (logística) - 24 h
+  A9: A9 Bodega (logística) - 24 h
+  A10: A10 Incidencias (logística) - plazo ⏸
+  A11: A11 Fin (automático)
+
+  [*] --> A1 : crear pedido
+  A1 --> A2 : ENVIAR con solicitud adjunta
+  A2 --> A3 : ENVIAR con documentos codificados
+  A3 --> A4 : APROBAR
+  A3 --> A2 : RECHAZAR con observación
+  A4 --> A5 : APROBAR
+  A4 --> A2 : DEVOLVER_POR_ERROR con observación
+  A4 --> A2 : DEVOLVER_POR_PRODUCTO_NUEVO con urgencia 4, 12 o 24 h
+  A5 --> A6 : APROBAR con observación
+  A6 --> A7 : APROBAR con Packing List y BL
+  A7 --> A7 : REPORTAR_DEMORA con observación y nueva fecha ⏸
+  A7 --> A8 : APROBAR llegada
+  A8 --> A9 : APROBAR
+  A9 --> A9 : ELEGIR_BODEGA
+  A9 --> A10 : APROBAR con bodega elegida y documentos
+  A10 --> A11 : APROBAR con documentos ⏸
+  A11 --> [*]
+
+  note right of A2
+    La urgencia vence al volver a A4.
+    ⏸ Horas hábiles o corridas.
+    ⏸ Qué pasa si A3 rechaza durante una urgencia.
+  end note
+  note right of A7
+    Tránsito de 45 días: ⏸ hábiles o corridos.
+  end note

@@ -1,0 +1,71 @@
+%% Entidad-relación. Fuente: modelo-datos.md (secciones 2 y 3). [P] = propuesta; ⏸ = pendiente.
+%% secuencia_pedido: [P] ⏸ solo si se aprueba DK-EC-AAAA-NNNN. feriado: [P] ⏸. token_renovacion: [P].
+erDiagram
+  pais ||--o{ usuario_pais : "habilita"
+  usuario ||--o{ usuario_pais : "trabaja en"
+  rol ||--o{ usuario : "asignado a"
+  rol ||--o{ rol_permiso : "tiene"
+  pais ||--o{ definicion_flujo : "define"
+  definicion_flujo ||--|{ definicion_etapa : "contiene"
+  definicion_etapa ||--o{ transicion_permitida : "permite"
+  transicion_permitida ||--o{ documento_requerido : "exige"
+  rol ||--o{ definicion_etapa : "responsable de"
+  definicion_flujo ||--o{ pedido : "versión que sigue"
+  pais ||--o{ pedido : "de"
+  usuario ||--o{ pedido : "crea"
+  bodega |o--o{ pedido : "destino"
+  pedido ||--|{ etapa_pedido : "línea de tiempo"
+  usuario |o--o{ etapa_pedido : "asignado"
+  pedido ||--o{ evento_pedido : "historial"
+  usuario |o--o{ evento_pedido : "autor"
+  pedido ||--o{ adjunto : "tiene"
+  evento_pedido ||--o{ evento_adjunto : "liga"
+  adjunto ||--o{ evento_adjunto : "liga"
+  evento_pedido |o--o{ notificacion : "origina"
+  pais ||--o{ secuencia_pedido : "numera"
+  pais ||--o{ feriado : "calendario"
+  usuario ||--o{ token_renovacion : "renueva"
+
+  pedido {
+    uuid id PK
+    text numero UK "formato pendiente"
+    text pais_codigo FK
+    text tipo_flujo "A o B"
+    uuid flujo_id FK
+    smallint etapa_actual
+    boolean finalizado
+    text urgencia_nivel "nulo si no hay"
+    timestamptz urgencia_vence_en
+    bigint version "bloqueo optimista"
+  }
+  etapa_pedido {
+    uuid id PK
+    uuid pedido_id FK
+    smallint numero
+    text estado "una sola ACTUAL"
+    uuid asignado_a FK
+    timestamptz vence_en
+    integer reentradas
+  }
+  evento_pedido {
+    uuid id PK
+    uuid pedido_id FK
+    text tipo
+    uuid usuario_id FK "nulo si es del sistema"
+    timestamptz ocurrido_en
+    text observacion
+  }
+  definicion_flujo {
+    uuid id PK
+    text pais_codigo FK
+    text tipo_flujo
+    integer version
+    boolean vigente "una vigente por país y tipo"
+  }
+  adjunto {
+    uuid id PK
+    uuid pedido_id FK
+    bigint tamano_bytes "máximo 100 MB"
+    text estado_copia
+    text drive_id
+  }
