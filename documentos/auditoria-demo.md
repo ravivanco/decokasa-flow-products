@@ -7,6 +7,7 @@
 - Lectura del código fuente contra los requerimientos (secciones 2 a 6).
 - Revisión de calidad React (`/ecc:react-review`) y auditoría técnica de diseño y accesibilidad (`/impeccable audit`), integradas sin duplicados en la sección 7.
 - Chequeos automáticos: `npm run lint` y `npm audit`, más el detector de Impeccable y el cálculo de contrastes de color.
+- Revisión de seguridad (`/ecc:security-scan` con AgentShield, más revisión manual) en la sección 10.
 - No se ejecutó el demo en el navegador ni se modificó ningún archivo de código.
 
 ## 1. Resumen
@@ -32,6 +33,8 @@ El demo cubre bien la **forma** del sistema: los 2 flujos con sus etapas, roles,
 5. **No se pueden crear usuarios ni asignar roles.** La pantalla de usuarios es solo de lectura y sirve para cambiar de sesión.
 
 **Calidad técnica (sección 7):** la puntuación de diseño es 9/20 (nivel Pobre) y la revisión React no tiene hallazgos críticos. Hay 19 hallazgos consolidados: 7 P1, 7 P2 y 5 P3. El principal problema es la accesibilidad: modales, teclado, etiquetas, contraste del semáforo y tamaño de texto. No hay riesgos de seguridad propios de React ni dependencias vulnerables. Casi todo se corrige al migrar cada componente a shadcn/ui en la fase 1.
+
+**Seguridad (sección 10):** el demo no puede pasar a producción. Hay 11 hallazgos: 4 críticos, 2 altos, 3 medios y 2 bajos. Los críticos: cualquiera entra como admin o cambia de rol, la contraseña está en el código y los permisos solo existen en el navegador. Hay además datos de empleados reales en el código y fechas, archivos y correos inventados. Los 270 "críticos" que marcó AgentShield en `package-lock.json` son falsos positivos.
 
 ## 2. Sección 4.2 — Restricciones
 
@@ -275,20 +278,61 @@ Q5, Q7, Q8 y Q12 son de todo el proyecto y se resuelven una sola vez: ESLint y `
 | `utils/translations.ts` | No lo usa ningún archivo; la app es solo en español |
 | Ventana para cambiar de usuario en `App.tsx:439-470` | Permite hacerse pasar por cualquier rol |
 | `metadata.json` | Configuración de AI Studio |
-| Dependencias `@google/genai`, `express`, `dotenv`, `motion`, `tsx`, `@types/express` | Ningún archivo de `src/` las importa |
+| Dependencias `@google/genai`, `express`, `dotenv`, `motion`, `tsx`, `@types/express`, `autoprefixer` | Ningún archivo de `src/` las importa, y `autoprefixer` no tiene configuración de PostCSS (sección 10, S7) |
 
 ## 9. Lo que no se pudo comprobar
 
 - El comportamiento visual: no se ejecutó el demo en el navegador. El diseño responsive, el tacto en pantalla y el foco visible se evaluaron leyendo el código, sin capturas.
 - La revisión React leyó solo fragmentos de `OrderProductsTab`, `UsersManagementView`, `TimelineCalculatorView` y `orderState.ts`, y no leyó `HelpView`. Esos archivos se reescriben o se descartan (sección 8).
+- Si los correos de los usuarios demo son reales, y si el repositorio de GitHub es privado: no se pudo consultar porque `gh` no está instalado (sección 10, S5).
 - Si los 45 días de tránsito deben ser hábiles o corridos (ver 2.2).
 - Qué debe ver la asistente de compras en China (sigue sin definir en los requerimientos).
 
-## 10. Para el paso 0.4 (seguridad)
+## 10. Seguridad y preparación para producción (paso 0.4)
 
-Solo se anotan; se revisan en el paso 0.4:
+**Fecha:** 2026-10-10. **Alcance:** `frontend/src/`, `frontend/package.json` y los archivos de configuración del frontend. Solo revisión; no se modificó código.
 
-- Contraseña de demo única y en texto plano: `data/initialData.ts:13`.
-- Cualquier usuario puede cambiarse a otro rol: `Header.tsx:105` y `App.tsx:439-470`.
-- Todos los permisos están solo en el cliente: `utils/permissions.ts`.
-- `GEMINI_API_KEY` en `frontend/.env.example`, sin uso.
+**Veredicto: el demo no puede pasar a producción.** Hay 4 hallazgos críticos: cualquiera entra como admin o cambia de rol, y la contraseña está escrita en el código. Es lo esperable en un demo sin backend. Las fases 1 a 3 y 8 del manual los resuelven.
+
+### 10.1 Herramientas y resultados
+
+| Herramienta | Resultado |
+| --- | --- |
+| AgentShield (`npx ecc-agentshield scan --path frontend`) | Nota B (80/100), con 270 hallazgos "críticos" de clave de Azure en `package-lock.json`. **Todos son falsos positivos:** son los hashes `sha512` del campo `integrity` del lockfile (comprobado en `package-lock.json:3908`). AgentShield revisa configuraciones de agentes; analizó solo 2 archivos y no revisa el código TSX |
+| `npm audit --omit=dev` | 0 vulnerabilidades (sección 7.1) |
+| Revisión manual de `src/`, `package.json`, `vite.config.ts`, `index.html`, `.env.example` y `metadata.json` | Hallazgos S1 a S11 |
+
+### 10.2 Hallazgos
+
+Severidad: **Crítico** permite tomar el control del sistema; **Alto** expone datos o hace pasar como reales datos inventados; **Medio** aumenta el riesgo o confunde; **Bajo** solo afecta al desarrollo o se resuelve en el despliegue. Todos bloquean el paso a producción, salvo los Bajos.
+
+| # | Hallazgo | Sev. | Dónde | Relación con lo ya documentado | Se resuelve en |
+| --- | --- | --- | --- | --- | --- |
+| S1 | Contraseña única de demo (`Demo2026`) escrita en el código y comparada en el navegador; cualquiera que abra el bundle la ve | Crítico | `data/initialData.ts:13`, `components/LoginScreen.tsx:35` | Amplía 2.4 (falta la autenticación propia) | Fase 1: login con JWT y BCrypt en el servidor |
+| S2 | Cualquier usuario puede tomar otro rol, admin incluido: cambio rápido en el encabezado, ventana de cambio de usuario, botones de ingreso rápido en el login y "cambiar de sesión" en la gestión de usuarios | Crítico | `Header.tsx:102-106`, `App.tsx:439-470`, `LoginScreen.tsx:45-50, 198`, `UsersManagementView.tsx` (`onSwitchUser`) | La sección 8.3 ya descarta la ventana de `App.tsx`; aquí se suman las otras tres entradas | Fase 1 |
+| S3 | La aplicación arranca con sesión iniciada como admin, sin pasar por el login | Crítico | `App.tsx:49` | Es el error 5 de la sección 6; aquí se marca como riesgo de seguridad | Fase 1 |
+| S4 | Todos los permisos y el historial se deciden en el navegador: los botones solo se desactivan en pantalla, y quien controle el navegador puede actuar en cualquier etapa o crear eventos de historial con cualquier usuario y fecha | Crítico | `utils/permissions.ts`, `StagePanel.tsx:355`, `utils/orderState.ts` (eventos `hist-${Date.now()}`) | Amplía 2.3 (responsable de la etapa e historial inmutable) | Fases 1 y 2: permisos y eventos en el servidor |
+| S5 | Datos de personas reales en el código y en GitHub: los 7 usuarios con nombre, correo corporativo y teléfono. Además, los correos se repiten en las notificaciones de ejemplo y en `App.tsx` (`mfranco@decokasa.ec` aparece 9 veces). Los teléfonos parecen inventados (números secuenciales como `+593 99 123 4567`); los correos siguen el formato de la empresa y podrían ser reales | Alto | `data/initialData.ts:18-125`, `App.tsx:113, 135, 157, 180` | Nuevo | Ahora: confirmar con el cliente si los correos son reales y que el repositorio es privado. Fase 1: los usuarios pasan a la base de datos y las semillas usan datos de prueba |
+| S6 | Datos y fechas inventados que la pantalla muestra como reales: "hoy" fijo (`SIMULATED_TODAY`, 40 usos); horas fijas en los eventos del historial (`'12:30'`, `'14:15'`… en 10 lugares); subida que siempre "crea" un PDF de 8.4 MB con un enlace de Drive inventado; fecha de demora fija; destinatario de correo fijo; pedidos y correos de ejemplo cargados al iniciar | Alto | `utils/dateUtils.ts:3`, `utils/orderState.ts:209-759`, `orderState.ts:645-646`, `StagePanel.tsx:268-281, 712`, `App.tsx:113`, `data/initialData.ts` (`PEDIDOS_INICIALES`, `NOTIFICACIONES_GMAIL_INICIALES`) | Reúne datos ya citados por separado en 2.1 #13 y #15, 2.2 y 8.3 | Fases 1 a 3: fecha y hora del servidor (hora de Ecuador), subida real y datos desde la base |
+| S7 | Dependencias sin usar que no deben ir a producción: `@google/genai`, `express`, `dotenv` y `motion` (de ejecución); `tsx`, `@types/express` y `autoprefixer` (de desarrollo; no hay configuración de PostCSS y Tailwind 4 no lo necesita). `express` y `@google/genai` son librerías de servidor y sugieren capacidades que la app no tiene | Medio | `frontend/package.json:13-34` | La sección 8.3 ya las descarta; aquí se suma `autoprefixer` y se marca el riesgo | Fase 1 (paso 1.2) |
+| S8 | Restos de la configuración de AI Studio que invitan a poner una clave en el frontend: `GEMINI_API_KEY` y `APP_URL` en `.env.example`; el README pide poner la clave en `.env.local`; `metadata.json` declara la capacidad `SERVER_SIDE_GEMINI_API`. Si alguien la renombra con prefijo `VITE_`, la clave termina en el bundle público | Medio | `frontend/.env.example`, `frontend/README.md`, `frontend/metadata.json` | La sección 8.3 descarta `metadata.json`; aquí se suman `.env.example` y el README | Fase 1. La clave de Claude vive solo en el backend (fase 7) |
+| S9 | La subida de archivos no valida nada: ni tipo, ni tamaño, ni nombre. El enlace de Drive se arma con el nombre del archivo sin codificar | Medio | `StagePanel.tsx:268-281`, `utils/orderState.ts:646` | Amplía 2.1 #15 (subida simulada) | Fase 3: validación en el servidor (tipo, 100 MB, nombre) y enlaces que entrega Drive |
+| S10 | El servidor de desarrollo escucha en toda la red (`vite --host=0.0.0.0`): cualquier equipo de la misma red puede abrir el demo | Bajo | `frontend/package.json:7` | Nuevo | Usar solo en desarrollo; producción sirve el build con nginx (fase 8) |
+| S11 | Sin cabeceras de seguridad ni política de contenido (CSP): no hay servidor que las envíe | Bajo | `frontend/index.html` | Nuevo | Fase 8: cabeceras y CSP en nginx |
+
+**Conteo:** 4 críticos, 2 altos, 3 medios y 2 bajos (11 en total).
+
+### 10.3 Lo que está bien
+
+- No hay claves reales en el código ni en el repositorio. `.env` está en `.gitignore`, y `.env.example` solo trae valores de ejemplo.
+- `vite.config.ts` no inyecta variables de entorno en el bundle, y el código no usa `import.meta.env`.
+- No hay `dangerouslySetInnerHTML`, ni enlaces con datos del usuario, ni tokens en `localStorage` (sección 7.1).
+- `index.html` no carga scripts ni fuentes de terceros.
+
+### 10.4 Orden de corrección
+
+1. **Ahora, sin código:** confirmar con el cliente si los correos de S5 son reales y que el repositorio de GitHub es privado.
+2. **Fase 1:** S1, S2, S3, S7 y S8, junto con el login real y la limpieza de `package.json`.
+3. **Fase 2:** S4, con permisos y eventos validados en el servidor.
+4. **Fase 3:** S9 y la parte de S6 que corresponde a la subida de archivos.
+5. **Fase 8:** S10 y S11, más la auditoría final del paso 8.5.
