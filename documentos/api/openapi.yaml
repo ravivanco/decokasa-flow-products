@@ -1,0 +1,2046 @@
+openapi: 3.1.0
+info:
+  title: Decokasa — API de seguimiento de pedidos de importación
+  version: 0.1.0-borrador
+  description: |
+    Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
+    entre frontend y backend: los dos se verifican contra este archivo.
+
+    **Fuentes:** `documentos/requerimientos.md` (fuente de verdad; transiciones en 4.4 y 4.5),
+    `.claude/PRPs/prds/decokasa.prd.md`, `documentos/arquitectura.md` y `documentos/adr/`.
+
+    **Cómo distinguir lo aprobado de lo propuesto.** Cada operación y algunos campos llevan:
+    - `x-origen: requisito`: lo pide `requerimientos.md`, o sale directamente de un ADR en estado accepted.
+    - `x-origen: propuesta`: decisión de diseño del equipo, no aprobada; se puede cambiar.
+    - `x-pendiente`: depende de una pregunta abierta del cliente (`requerimientos.md`, "Por confirmar con el cliente"; `arquitectura.md`, 8.1).
+
+    Los nombres de rutas, campos y códigos de error son diseño del contrato y se pueden ajustar
+    antes de la fase 1 siguiendo el protocolo de cambio de contrato.
+
+    **Contradicciones entre fuentes (sin resolver):**
+    1. Destinatarios de las alertas: el registro de decisiones dice "Gmail al admin" y el valor
+       provisional agrega al responsable (ADR-0005). El contrato no expone la configuración de destinatarios.
+    2. Tránsito de 45 días: la calculadora lo cuenta en días corridos; `arquitectura.md` usa días
+       hábiles como provisional (ADR-0006). El campo `tipoPlazo` admite los dos valores.
+    3. Formato del número de pedido: `DK-EC-AAAA-NNNN` es una propuesta pendiente de aprobación; por eso no se fija con `pattern`.
+    4. ¿El admin crea pedidos del flujo B? `requerimientos.md` 4.2 #4 dice que los crea David; el
+       admin "actúa en cualquier etapa". Queda pendiente; ver `POST /pedidos`.
+    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI).
+
+    **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6).
+    - Leer pedidos, línea de tiempo, historial, bodegas y definiciones: cualquier usuario autenticado
+      (requisito 4.2 #17; JTBD "cualquiera"). Pendiente: qué ve la asistente de compras en China.
+    - Actuar sobre la etapa actual, subir archivos y agregar observaciones: el usuario asignado a la
+      etapa, cualquiera con el rol responsable o el admin. Para las acciones es requisito (4.2,
+      invariantes); para archivos y observaciones es **propuesta**, porque la fuente no dice quién.
+    - Usuarios, roles, auditoría, notificaciones, vencidos y configuración de plazos: solo el admin.
+
+    **Revisión:** revisado con `/ecc:api-design` el 2026-10-10 contra requerimientos, PRD, arquitectura y ADR.
+
+    **Fuera de este contrato:** Colombia y la API de Claude (fase 7, ADR-0009), pausar o cancelar
+    pedidos y el checklist por etapa (pendientes de confirmar), y la subida reanudable por partes
+    (propuesta de `arquitectura.md`, se define en la fase 3).
+  contact:
+    name: Equipo Decokasa
+  license:
+    name: Uso interno de DECOKASA S.A.S.
+    identifier: LicenseRef-Propietario
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Desarrollo local. El servidor de producción se define en la fase 8.
+tags:
+  - name: autenticacion
+    description: Inicio de sesión con JWT (ADR-0002).
+  - name: usuarios
+    description: Usuarios; solo el admin los gestiona.
+  - name: roles
+    description: Roles como datos; solo el admin los gestiona.
+  - name: flujos
+    description: Definiciones de flujo y etapa (solo lectura).
+  - name: pedidos
+    description: Crear, listar, buscar y ver pedidos con su línea de tiempo.
+  - name: acciones
+    description: Transiciones de etapa y reasignación.
+  - name: observaciones
+    description: Observaciones por etapa.
+  - name: archivos
+    description: Archivos por etapa, copiados a Google Drive desde el servidor.
+  - name: bodegas
+    description: Catálogo de bodegas.
+  - name: plazos
+    description: Cronograma, vencimientos y configuración de plazos.
+  - name: historial
+    description: Eventos inmutables por pedido y auditoría global.
+  - name: notificaciones
+    description: Registro de correos enviados, pendientes y fallidos.
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      tags: [autenticacion]
+      operationId: iniciarSesion
+      summary: Iniciar sesión con correo, nombre de usuario o teléfono
+      x-origen: requisito
+      description: |
+        Requisito 4.2 #1 y ADR-0002 (JWT + BCrypt). El identificador puede ser el correo, el nombre
+        de usuario o el teléfono. Credenciales incorrectas y usuario desactivado responden igual
+        (401), para no revelar qué cuentas existen. **Propuesta (ADR-0002):** bloqueo temporal tras
+        N intentos fallidos (respuesta 423).
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudInicioSesion'
+      responses:
+        '200':
+          description: Sesión iniciada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespuestaSesion'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '423':
+          description: 'Propuesta: cuenta bloqueada temporalmente por intentos fallidos.'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
+  /auth/renovar:
+    post:
+      tags: [autenticacion]
+      operationId: renovarSesion
+      summary: Renovar el token de acceso
+      x-origen: propuesta
+      description: 'Propuesta (ADR-0002): JWT de vida corta con renovación. Si no se aprueba, se elimina.'
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tokenRenovacion]
+              properties:
+                tokenRenovacion:
+                  type: string
+      responses:
+        '200':
+          description: Token renovado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespuestaSesion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+
+  /auth/yo:
+    get:
+      tags: [autenticacion]
+      operationId: obtenerUsuarioActual
+      summary: Usuario de la sesión actual, con su rol y permisos
+      x-origen: requisito
+      description: 'Lo usa el frontend para mostrar el dashboard del rol (requisito 4.2 #2).'
+      responses:
+        '200':
+          description: Usuario actual con sus permisos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioActual'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+
+  /usuarios:
+    get:
+      tags: [usuarios]
+      operationId: listarUsuarios
+      summary: Listar usuarios
+      x-origen: requisito
+      x-roles: [admin]
+      parameters:
+        - name: activo
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Usuarios.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+    post:
+      tags: [usuarios]
+      operationId: crearUsuario
+      summary: Crear usuario (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      description: Requisito 4.2 #3. El correo, el nombre de usuario y el teléfono son únicos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudCrearUsuario'
+      responses:
+        '201':
+          description: Usuario creado.
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /usuarios/{usuarioId}:
+    parameters:
+      - $ref: '#/components/parameters/UsuarioId'
+    get:
+      tags: [usuarios]
+      operationId: obtenerUsuario
+      summary: Detalle de un usuario
+      x-origen: requisito
+      x-roles: [admin]
+      responses:
+        '200':
+          description: Usuario.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    patch:
+      tags: [usuarios]
+      operationId: actualizarUsuario
+      summary: Actualizar datos, rol o estado activo de un usuario (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      description: Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudActualizarUsuario'
+      responses:
+        '200':
+          description: Usuario actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /roles:
+    get:
+      tags: [roles]
+      operationId: listarRoles
+      summary: Listar roles
+      x-origen: requisito
+      x-roles: [admin]
+      responses:
+        '200':
+          description: Roles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rol'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+    post:
+      tags: [roles]
+      operationId: crearRol
+      summary: Crear rol (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      description: 'Requisitos 1.3 ("Mirian podrá agregar usuarios y roles") y 4.6.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudRol'
+      responses:
+        '201':
+          description: Rol creado.
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rol'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /roles/{rolId}:
+    parameters:
+      - name: rolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      tags: [roles]
+      operationId: actualizarRol
+      summary: Reemplazar los datos del rol (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudRol'
+      responses:
+        '200':
+          description: Rol actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rol'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /flujos/{pais}/{tipoFlujo}:
+    get:
+      tags: [flujos]
+      operationId: consultarDefinicionFlujo
+      summary: Definición vigente de un flujo (etapas, responsables, plazos y acciones)
+      x-origen: requisito
+      description: |
+        Lo usa el frontend para dibujar la línea de tiempo y saber qué acciones mostrar en cada etapa.
+        Esto evita los errores 1 y 2 del demo (`auditoria-demo.md`, sección 6). El flujo configurable
+        por datos es ADR-0004 (propuesta); el contenido de las etapas es requisito (4.4 y 4.5).
+      parameters:
+        - name: pais
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodigoPais'
+        - name: tipoFlujo
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/TipoFlujo'
+        - name: version
+          in: query
+          description: 'Versión del flujo. Sin este parámetro se devuelve la vigente. Un pedido sigue la versión con la que se creó (`PedidoDetalle.versionFlujo`; ADR-0004).'
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Definición del flujo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefinicionFlujo'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos:
+    get:
+      tags: [pedidos]
+      operationId: listarPedidos
+      summary: Listar pedidos con filtros
+      x-origen: requisito
+      parameters:
+        - name: tipoFlujo
+          in: query
+          schema:
+            $ref: '#/components/schemas/TipoFlujo'
+        - name: etapa
+          in: query
+          description: Número de la etapa actual.
+          schema:
+            type: integer
+            minimum: 1
+        - name: vencido
+          in: query
+          schema:
+            type: boolean
+        - name: texto
+          in: query
+          description: Busca en el número y en el nombre del pedido.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Página de pedidos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaPedidos'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+    post:
+      tags: [pedidos]
+      operationId: crearPedido
+      summary: Crear pedido (solicitud) del flujo A o B
+      x-origen: requisito
+      x-roles: [admin, compras_china]
+      x-pendiente: ¿El admin crea pedidos del flujo B? (`arquitectura.md`, 8.1)
+      x-permisos-por-flujo:
+        A: [admin]
+        B: [compras_china]
+      description: |
+        Requisito 4.2 #4: el flujo A lo crea el admin; el flujo B, Compras China (David). Si el rol
+        no corresponde al `tipoFlujo`, la respuesta es 403 (pendiente: si el admin también crea el B).
+        El servidor genera el número (requisito 4.2 #5). El pedido queda en A1 / B1. La solicitud
+        (A1) o la propuesta de producto (B1) se adjuntan después con `POST .../archivos`, y la
+        etapa se envía con la acción ENVIAR.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudCrearPedido'
+      responses:
+        '201':
+          description: Pedido creado.
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalle'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /pedidos/buscar:
+    get:
+      tags: [pedidos]
+      operationId: buscarPedidoPorNumero
+      summary: Buscar un pedido por su número (rastreo)
+      x-origen: requisito
+      description: 'Requisito 4.2 #17: devuelve el flujo, la etapa actual marcada y el resumen de las etapas anteriores.'
+      parameters:
+        - name: numero
+          in: query
+          required: true
+          schema:
+            type: string
+          example: DK-EC-2026-0001
+      responses:
+        '200':
+          description: Pedido encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalle'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos/bandeja:
+    get:
+      tags: [pedidos]
+      operationId: listarBandeja
+      summary: Pedidos pendientes del usuario actual
+      x-origen: requisito
+      description: 'Pedidos cuya etapa actual está asignada al usuario o a su rol (requisitos 4.2 #2 y 4.3). El admin ve todos.'
+      parameters:
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Bandeja del usuario.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaPedidos'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+
+  /pedidos/vencidos:
+    get:
+      tags: [plazos]
+      operationId: listarPedidosVencidos
+      summary: Pedidos con la etapa actual vencida, por etapa y por responsable
+      x-origen: requisito
+      x-roles: [admin]
+      description: 'Requisitos 4.2 #16 (el motivo del retraso queda visible) y 4.8 (panel de vencidos).'
+      parameters:
+        - name: etapa
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+        - name: responsableId
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Pedidos vencidos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PedidoResumen'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /pedidos/{pedidoId}:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    get:
+      tags: [pedidos]
+      operationId: obtenerPedido
+      summary: Detalle del pedido con su línea de tiempo
+      x-origen: requisito
+      description: 'Línea de tiempo horizontal con la etapa actual marcada (respuestas del cliente) y el resumen de cada etapa (requisito 4.2 #17).'
+      responses:
+        '200':
+          description: Pedido.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalle'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos/{pedidoId}/acciones:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    post:
+      tags: [acciones]
+      operationId: ejecutarAccionEtapa
+      summary: Ejecutar una acción sobre la etapa actual del pedido
+      x-origen: requisito
+      description: |
+        Transiciones de `requerimientos.md` 4.4 (flujo A) y 4.5 (flujo B). El servidor valida el rol
+        o la asignación (o el admin), que la acción esté permitida en la etapa actual y sus requisitos.
+
+        | Etapa | Acciones permitidas | Destino | Requisitos |
+        | --- | --- | --- | --- |
+        | A1 / B1 | ENVIAR | A2 / B2 | Solicitud (A1) o producto propuesto (B1) adjuntos |
+        | B2 | APROBAR / RECHAZAR | B3 / B1 | RECHAZAR: observación |
+        | A2 / B3 | ENVIAR | A3 / B4 | Documentos codificados adjuntos |
+        | A3 / B4 | APROBAR / RECHAZAR | A4 / B5 — A2 / B3 | RECHAZAR: observación |
+        | A4 / B5 | APROBAR / DEVOLVER_POR_ERROR / DEVOLVER_POR_PRODUCTO_NUEVO | A5 / B6 — A2 / B3 — A2 / B3 | Devolver: observación; por producto nuevo, además, urgencia |
+        | A5 / B6 | APROBAR | A6 / B7 | Observación |
+        | A6 / B7 | APROBAR | A7 / B8 | Packing List / BL adjuntos |
+        | A7 / B8 | APROBAR / REPORTAR_DEMORA | A8 / B9 — se queda | Demora: observación y nueva fecha |
+        | A8 / B9 | APROBAR | A9 / B10 | — |
+        | A9 / B10 | ELEGIR_BODEGA / APROBAR | se queda — A10 / B11 | APROBAR: bodega elegida y documentos |
+        | A10 / B11 | APROBAR | A11 / B12 (Fin automático) | Documentos (pendiente: cuáles son "todos") |
+
+        La urgencia (4, 12 o 24 h) tiene su propio vencimiento hasta volver a A4 / B5 (requisito 4.2 #11).
+        El campo `etapaEsperada` evita actuar sobre una etapa que otro usuario ya movió (propuesta de diseño).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudAccion'
+            examples:
+              rechazarRevision:
+                summary: Marcela rechaza en A3
+                value:
+                  accion: RECHAZAR
+                  etapaEsperada: 3
+                  observacion: Las medidas del modelo 2 no coinciden con la ficha.
+              devolverUrgente:
+                summary: David devuelve por producto nuevo con urgencia
+                value:
+                  accion: DEVOLVER_POR_PRODUCTO_NUEVO
+                  etapaEsperada: 4
+                  observacion: La fábrica propone un modelo nuevo; codificarlo.
+                  nivelUrgencia: URGENTE
+      responses:
+        '200':
+          description: Acción ejecutada; devuelve el pedido actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalle'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+        '422':
+          $ref: '#/components/responses/RequisitoFaltante'
+
+  /pedidos/{pedidoId}/etapas/{numeroEtapa}/asignacion:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+      - $ref: '#/components/parameters/NumeroEtapa'
+    put:
+      tags: [acciones]
+      operationId: reasignarEtapa
+      summary: Reasignar la etapa actual a otro usuario (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      x-pendiente: ¿Se puede reasignar a un usuario de otro rol? (`arquitectura.md`, 8.1)
+      description: |
+        Respuestas del cliente ("El admin puede actuar en cualquier etapa o reasignarla").
+        **Propuesta:** solo se reasigna la etapa actual; si `numeroEtapa` no es la actual, la
+        respuesta es 409 ETAPA_CAMBIO.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [usuarioId]
+              properties:
+                usuarioId:
+                  type: string
+                  format: uuid
+                motivo:
+                  type: string
+                  maxLength: 1000
+      responses:
+        '200':
+          description: Etapa reasignada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalle'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /pedidos/{pedidoId}/observaciones:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    post:
+      tags: [observaciones]
+      operationId: agregarObservacion
+      summary: Agregar una observación a la etapa actual
+      x-origen: requisito
+      description: |
+        Requisito 4.2 #7: cada etapa tiene observaciones. Los archivos se suben antes y se referencian por id.
+        **Propuesta:** pueden agregarla el usuario asignado a la etapa actual, quien tenga el rol responsable o el admin; la fuente no dice quién.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [texto]
+              properties:
+                texto:
+                  type: string
+                  minLength: 1
+                  maxLength: 4000
+                adjuntoIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+      responses:
+        '201':
+          description: Observación registrada como evento del historial.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventoHistorial'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos/{pedidoId}/historial:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    get:
+      tags: [historial]
+      operationId: consultarHistorialPedido
+      summary: Historial completo del pedido (solo inserción)
+      x-origen: requisito
+      responses:
+        '200':
+          description: Eventos, del más reciente al más antiguo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventoHistorial'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos/{pedidoId}/etapas/{numeroEtapa}/archivos:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+      - $ref: '#/components/parameters/NumeroEtapa'
+    get:
+      tags: [archivos]
+      operationId: listarAdjuntosDeEtapa
+      summary: Archivos de una etapa
+      x-origen: requisito
+      responses:
+        '200':
+          description: Adjuntos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adjunto'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    post:
+      tags: [archivos]
+      operationId: subirArchivo
+      summary: Subir un archivo a la etapa actual (máximo 100 MB)
+      x-origen: requisito
+      x-pendiente: Formatos aceptados (propuesta, PDF, Word, Excel, imágenes y ZIP).
+      description: |
+        Requisito 4.2 #15 y ADR-0003: el servidor recibe el archivo y lo copia a Google Drive en
+        segundo plano; el navegador nunca llama a Google. Responde enseguida con `estadoCopia: PENDIENTE`.
+        Solo se puede subir a la etapa actual; si `numeroEtapa` no es la actual, la respuesta es 409 ETAPA_CAMBIO.
+        **Propuesta:** pueden subir el usuario asignado, quien tenga el rol responsable o el admin.
+        La subida reanudable por partes es una propuesta de la fase 3.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [archivo, tipoDocumento]
+              properties:
+                archivo:
+                  type: string
+                  contentMediaType: application/octet-stream
+                tipoDocumento:
+                  type: string
+                  description: Tipo de documento según la definición de la etapa (por ejemplo, "Packing List").
+      responses:
+        '201':
+          description: Archivo recibido; la copia a Drive queda pendiente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adjunto'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+        '413':
+          description: El archivo supera 100 MB.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+        '415':
+          description: Tipo de archivo no aceptado.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
+  /archivos/{adjuntoId}/enlace:
+    get:
+      tags: [archivos]
+      operationId: obtenerEnlaceArchivo
+      summary: Enlace de Drive del archivo
+      x-origen: requisito
+      parameters:
+        - name: adjuntoId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Enlace entregado por Drive.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [url]
+                properties:
+                  url:
+                    type: string
+                    format: uri
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          description: El archivo todavía no se copió a Drive.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
+  /archivos/copias-fallidas:
+    get:
+      tags: [archivos]
+      operationId: consultarCopiasFallidas
+      summary: Archivos cuya copia a Drive falló (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      description: Requisito 4.8 ("Registro de copias a Drive fallidas, visible para el admin").
+      responses:
+        '200':
+          description: Adjuntos con `estadoCopia` FALLIDO.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adjunto'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /bodegas:
+    get:
+      tags: [bodegas]
+      operationId: listarBodegas
+      summary: Catálogo de bodegas
+      x-origen: requisito
+      parameters:
+        - name: activa
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Bodegas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bodega'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+    post:
+      tags: [bodegas]
+      operationId: crearBodega
+      summary: Agregar una bodega al catálogo
+      x-origen: requisito
+      x-roles: [logistica]
+      x-pendiente: ¿El admin también mantiene el catálogo? (`arquitectura.md`, 8.1)
+      description: 'Requisito 4.2 #14: Anderson (Logística) mantiene la lista.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudBodega'
+      responses:
+        '201':
+          description: Bodega creada.
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bodega'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /bodegas/{bodegaId}:
+    patch:
+      tags: [bodegas]
+      operationId: actualizarBodega
+      summary: Actualizar o activar o desactivar una bodega
+      x-origen: requisito
+      x-roles: [logistica]
+      x-pendiente: ¿El admin también mantiene el catálogo?
+      parameters:
+        - name: bodegaId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudActualizarBodega'
+      responses:
+        '200':
+          description: Bodega actualizada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bodega'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /pedidos/{pedidoId}/cronograma:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    get:
+      tags: [plazos]
+      operationId: obtenerCronograma
+      summary: Cronograma del pedido contra la meta de días
+      x-origen: requisito
+      description: |
+        Reemplaza la calculadora actual (respuestas del cliente). Las fechas se calculan en días
+        hábiles con la hora de Ecuador (ADR-0006); una fecha en fin de semana pasa al lunes y un
+        retraso arrastra las siguientes.
+      responses:
+        '200':
+          description: Cronograma.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cronograma'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /configuracion/plazos:
+    get:
+      tags: [plazos]
+      operationId: consultarConfiguracionPlazos
+      summary: Meta de días y feriados configurados
+      x-origen: requisito
+      responses:
+        '200':
+          description: Configuración vigente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguracionPlazos'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+    put:
+      tags: [plazos]
+      operationId: actualizarConfiguracionPlazos
+      summary: Cambiar la meta de días y los feriados (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      x-pendiente: 'Meta ("se ajusta") y feriados (propuesta, calendario de Ecuador editable por el admin).'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfiguracionPlazos'
+      responses:
+        '200':
+          description: Configuración actualizada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguracionPlazos'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /auditoria:
+    get:
+      tags: [historial]
+      operationId: consultarAuditoriaGlobal
+      summary: Historial de todos los pedidos (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      parameters:
+        - name: desde
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: hasta
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: usuarioId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Eventos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaEventos'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /notificaciones:
+    get:
+      tags: [notificaciones]
+      operationId: consultarNotificaciones
+      summary: Correos enviados, pendientes y fallidos (solo admin)
+      x-origen: requisito
+      x-roles: [admin]
+      description: 'Requisitos 4.2 #16 y 4.8 (registro de correos enviados y fallidos). Reemplaza la vista de Gmail del demo.'
+      parameters:
+        - name: estado
+          in: query
+          schema:
+            $ref: '#/components/schemas/EstadoNotificacion'
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Notificaciones.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaNotificaciones'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: ADR-0002. El token lleva el id y el rol del usuario; los permisos se validan siempre en el servidor.
+
+  headers:
+    Location:
+      description: Ruta del recurso creado.
+      schema:
+        type: string
+        format: uri-reference
+
+  parameters:
+    PedidoId:
+      name: pedidoId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    UsuarioId:
+      name: usuarioId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    NumeroEtapa:
+      name: numeroEtapa
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 12
+    Pagina:
+      name: pagina
+      in: query
+      description: Página, desde 0.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Tamano:
+      name: tamano
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  responses:
+    Validacion:
+      description: Datos inválidos (código VALIDACION).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    NoAutenticado:
+      description: Sin sesión o con el token vencido (código NO_AUTENTICADO).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    SinPermiso:
+      description: El usuario no tiene el rol, no está asignado a la etapa o no es admin (código SIN_PERMISO).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    NoEncontrado:
+      description: El recurso no existe (código NO_ENCONTRADO).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    Conflicto:
+      description: |
+        Conflicto con el estado actual. Códigos: ETAPA_CAMBIO (la etapa actual no es la esperada),
+        TRANSICION_NO_PERMITIDA (la acción no existe en la etapa actual) o DUPLICADO (correo, usuario,
+        teléfono o nombre ya registrado).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    RequisitoFaltante:
+      description: |
+        Falta un requisito de la acción (código REQUISITO_FALTANTE): un documento obligatorio,
+        la observación, la urgencia o la bodega. `faltantes` indica cuáles.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+
+  schemas:
+    Problema:
+      type: object
+      description: Error con el formato RFC 9457 (Problem Details), más un código estable para el frontend.
+      required: [title, status, codigo]
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        codigo:
+          type: string
+          enum:
+            - VALIDACION
+            - NO_AUTENTICADO
+            - SIN_PERMISO
+            - NO_ENCONTRADO
+            - ETAPA_CAMBIO
+            - TRANSICION_NO_PERMITIDA
+            - DUPLICADO
+            - REQUISITO_FALTANTE
+            - ARCHIVO_DEMASIADO_GRANDE
+            - TIPO_ARCHIVO_NO_ACEPTADO
+            - COPIA_PENDIENTE
+            - CUENTA_BLOQUEADA
+        errores:
+          type: array
+          description: Errores por campo (solo con VALIDACION).
+          items:
+            type: object
+            required: [campo, mensaje]
+            properties:
+              campo:
+                type: string
+              mensaje:
+                type: string
+        faltantes:
+          type: array
+          description: Requisitos que faltan (solo con REQUISITO_FALTANTE), por ejemplo "Packing List" o "bodega".
+          items:
+            type: string
+
+    CodigoPais:
+      type: string
+      enum: [EC, CO]
+      description: 'EC activo; CO inactivo en v1 (ADR-0009).'
+    TipoFlujo:
+      type: string
+      enum: [A, B]
+      description: 'A: pedido de Ecuador (productos existentes y nuevos). B: pedido propuesto por China.'
+    CodigoRol:
+      type: string
+      description: 'Código del rol. Los 6 iniciales son admin, asistente_compras, marketing, compras_china, logistica y asistente_china. Es texto libre porque el admin puede crear roles (requisito 4.6).'
+      examples: [admin, compras_china]
+    NivelUrgencia:
+      type: string
+      enum: [URGENTE, PRIORITARIO, NORMAL]
+      description: 'URGENTE 4 h, PRIORITARIO 12 h, NORMAL 24 h (requisito 4.2 #11). Pendiente: horas hábiles o corridas.'
+    AccionEtapa:
+      type: string
+      enum: [ENVIAR, APROBAR, RECHAZAR, DEVOLVER_POR_ERROR, DEVOLVER_POR_PRODUCTO_NUEVO, REPORTAR_DEMORA, ELEGIR_BODEGA]
+    EstadoEtapa:
+      type: string
+      enum: [PENDIENTE, ACTUAL, COMPLETADA, DEVUELTA]
+      description: 'DEVUELTA: la etapa se completó, pero el pedido volvió a una etapa anterior.'
+    EstadoCopia:
+      type: string
+      enum: [PENDIENTE, COPIADO, FALLIDO]
+    EstadoNotificacion:
+      type: string
+      enum: [PENDIENTE, ENVIADA, FALLIDA]
+    TipoPlazo:
+      type: string
+      enum: [HORAS_HABILES, DIAS_HABILES, DIAS_CORRIDOS]
+      description: 'Pendiente: el tránsito de 45 días y las urgencias pueden ser hábiles o corridos (ADR-0006).'
+    FechaHora:
+      type: string
+      format: date-time
+      description: 'Con la zona de Ecuador (-05:00), por ejemplo 2026-10-09T14:15:00-05:00 (ADR-0006).'
+
+    SolicitudInicioSesion:
+      type: object
+      required: [identificador, contrasena]
+      properties:
+        identificador:
+          type: string
+          description: Correo, nombre de usuario o teléfono.
+          minLength: 1
+        contrasena:
+          type: string
+          format: password
+          minLength: 1
+    RespuestaSesion:
+      type: object
+      required: [tokenAcceso, expiraEn, usuario]
+      properties:
+        tokenAcceso:
+          type: string
+        expiraEn:
+          type: integer
+          description: Segundos de vida del token.
+        tokenRenovacion:
+          type: [string, 'null']
+          description: 'Propuesta (ADR-0002). Nulo si no se aprueba la renovación.'
+        usuario:
+          $ref: '#/components/schemas/Usuario'
+
+    Usuario:
+      type: object
+      required: [id, nombre, correo, usuario, telefono, rol, paises, activo]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+        correo:
+          type: string
+          format: email
+        usuario:
+          type: string
+          description: Nombre de usuario para iniciar sesión.
+        telefono:
+          type: string
+        rol:
+          $ref: '#/components/schemas/CodigoRol'
+        paises:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodigoPais'
+        activo:
+          type: boolean
+    UsuarioActual:
+      allOf:
+        - $ref: '#/components/schemas/Usuario'
+        - type: object
+          required: [permisos]
+          properties:
+            permisos:
+              type: array
+              description: Permisos efectivos del rol, para que el frontend muestre u oculte opciones. El servidor los vuelve a validar en cada llamada.
+              items:
+                type: string
+    SolicitudCrearUsuario:
+      type: object
+      required: [nombre, correo, usuario, telefono, rol, contrasenaInicial]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+        correo:
+          type: string
+          format: email
+        usuario:
+          type: string
+          minLength: 3
+        telefono:
+          type: string
+          minLength: 7
+        rol:
+          $ref: '#/components/schemas/CodigoRol'
+        paises:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodigoPais'
+          default: [EC]
+        contrasenaInicial:
+          type: string
+          format: password
+          minLength: 8
+    SolicitudActualizarUsuario:
+      type: object
+      minProperties: 1
+      properties:
+        nombre:
+          type: string
+        correo:
+          type: string
+          format: email
+        telefono:
+          type: string
+        rol:
+          $ref: '#/components/schemas/CodigoRol'
+        paises:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodigoPais'
+        activo:
+          type: boolean
+
+    Rol:
+      type: object
+      required: [id, codigo, nombre, permisos]
+      properties:
+        id:
+          type: string
+          format: uuid
+        codigo:
+          $ref: '#/components/schemas/CodigoRol'
+        nombre:
+          type: string
+        permisos:
+          type: array
+          description: Permisos del rol (por ejemplo, crear pedidos del flujo A o mantener bodegas). La lista exacta se define en la fase 1.
+          items:
+            type: string
+        etapasQueAtiende:
+          type: array
+          readOnly: true
+          description: |
+            Etapas de las que el rol es responsable (requisito 4.6). Es de solo lectura: se deriva del
+            `rolResponsable` de las definiciones de flujo, que son la única fuente, para no duplicarlo
+            (ADR-0004, propuesta).
+          items:
+            type: object
+            required: [tipoFlujo, numero]
+            properties:
+              tipoFlujo:
+                $ref: '#/components/schemas/TipoFlujo'
+              numero:
+                type: integer
+    SolicitudRol:
+      type: object
+      required: [codigo, nombre, permisos]
+      properties:
+        codigo:
+          $ref: '#/components/schemas/CodigoRol'
+        nombre:
+          type: string
+        permisos:
+          type: array
+          items:
+            type: string
+
+    DefinicionFlujo:
+      type: object
+      required: [pais, tipoFlujo, version, etapas]
+      properties:
+        pais:
+          $ref: '#/components/schemas/CodigoPais'
+        tipoFlujo:
+          $ref: '#/components/schemas/TipoFlujo'
+        version:
+          type: integer
+          minimum: 1
+        etapas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefinicionEtapa'
+    DefinicionEtapa:
+      type: object
+      required: [numero, nombre, rolResponsable, acciones, automatica]
+      properties:
+        numero:
+          type: integer
+          minimum: 1
+        nombre:
+          type: string
+        rolResponsable:
+          $ref: '#/components/schemas/CodigoRol'
+        plazo:
+          oneOf:
+            - $ref: '#/components/schemas/Plazo'
+            - type: 'null'
+          description: 'Nulo si el cliente no lo definió (Fabricación, Incidencias).'
+        acciones:
+          type: array
+          description: 'Acciones permitidas en la etapa, con su destino y sus requisitos (tabla de `ejecutarAccionEtapa`; `arquitectura.md`, 4.2).'
+          items:
+            $ref: '#/components/schemas/DefinicionAccion'
+        automatica:
+          type: boolean
+          description: 'Verdadero solo en Fin (A11 / B12), que se marca sola.'
+    DefinicionAccion:
+      type: object
+      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosObligatorios]
+      properties:
+        accion:
+          $ref: '#/components/schemas/AccionEtapa'
+        etapaDestino:
+          type: [integer, 'null']
+          description: 'Número de la etapa de destino. Nulo si el pedido se queda en la misma etapa (REPORTAR_DEMORA, ELEGIR_BODEGA).'
+        requiereObservacion:
+          type: boolean
+        requiereUrgencia:
+          type: boolean
+        requiereBodega:
+          type: boolean
+        documentosObligatorios:
+          type: array
+          description: 'Tipos de documento que deben estar adjuntos a la etapa antes de la acción (por ejemplo, "Packing List" y "BL" en A6).'
+          items:
+            type: string
+    Plazo:
+      type: object
+      required: [cantidad, tipo]
+      properties:
+        cantidad:
+          type: integer
+          minimum: 1
+        tipo:
+          $ref: '#/components/schemas/TipoPlazo'
+
+    SolicitudCrearPedido:
+      type: object
+      required: [tipoFlujo, nombre]
+      properties:
+        tipoFlujo:
+          $ref: '#/components/schemas/TipoFlujo'
+        pais:
+          allOf:
+            - $ref: '#/components/schemas/CodigoPais'
+          default: EC
+          description: 'En v1 solo se acepta EC (ADR-0009); CO responde 400.'
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 200
+        descripcion:
+          type: string
+          maxLength: 4000
+        incluyeProductosNuevos:
+          type: boolean
+          description: 'Solo flujo A: el pedido de Ecuador incluye productos nuevos además de existentes (requisito 4.2 #6).'
+          default: false
+
+    PedidoResumen:
+      type: object
+      required: [id, numero, nombre, pais, tipoFlujo, etapaActual, nombreEtapaActual, vencida, finalizado]
+      properties:
+        id:
+          type: string
+          format: uuid
+        numero:
+          type: string
+          description: 'Número único que no se reutiliza (requisito 4.2 #5). Formato propuesto y pendiente de aprobación DK-EC-AAAA-NNNN.'
+          examples: [DK-EC-2026-0001]
+        nombre:
+          type: string
+        pais:
+          $ref: '#/components/schemas/CodigoPais'
+        tipoFlujo:
+          $ref: '#/components/schemas/TipoFlujo'
+        etapaActual:
+          type: integer
+          minimum: 1
+        nombreEtapaActual:
+          type: string
+        responsableActual:
+          oneOf:
+            - $ref: '#/components/schemas/UsuarioResumen'
+            - type: 'null'
+        venceEn:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        vencida:
+          type: boolean
+        motivoRetraso:
+          type: [string, 'null']
+        urgencia:
+          oneOf:
+            - $ref: '#/components/schemas/Urgencia'
+            - type: 'null'
+        finalizado:
+          type: boolean
+    PedidoDetalle:
+      allOf:
+        - $ref: '#/components/schemas/PedidoResumen'
+        - type: object
+          required: [creadoPor, creadoEn, versionFlujo, lineaDeTiempo, accionesDisponibles]
+          properties:
+            descripcion:
+              type: [string, 'null']
+            incluyeProductosNuevos:
+              type: boolean
+            creadoPor:
+              $ref: '#/components/schemas/UsuarioResumen'
+            creadoEn:
+              $ref: '#/components/schemas/FechaHora'
+            versionFlujo:
+              type: integer
+            bodega:
+              oneOf:
+                - $ref: '#/components/schemas/Bodega'
+                - type: 'null'
+            demoraAduana:
+              oneOf:
+                - $ref: '#/components/schemas/DemoraAduana'
+                - type: 'null'
+            lineaDeTiempo:
+              type: array
+              description: 'Una entrada por etapa del flujo, en orden; la etapa actual tiene estado ACTUAL.'
+              items:
+                $ref: '#/components/schemas/EtapaEnLinea'
+            accionesDisponibles:
+              type: array
+              description: 'Acciones que el usuario actual puede ejecutar ahora; vacío si no le corresponde.'
+              items:
+                $ref: '#/components/schemas/AccionEtapa'
+    PaginaPedidos:
+      type: object
+      required: [elementos, pagina, tamano, total]
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: '#/components/schemas/PedidoResumen'
+        pagina:
+          type: integer
+        tamano:
+          type: integer
+        total:
+          type: integer
+    PaginaEventos:
+      type: object
+      required: [elementos, pagina, tamano, total]
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventoHistorial'
+        pagina:
+          type: integer
+        tamano:
+          type: integer
+        total:
+          type: integer
+    PaginaNotificaciones:
+      type: object
+      required: [elementos, pagina, tamano, total]
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notificacion'
+        pagina:
+          type: integer
+        tamano:
+          type: integer
+        total:
+          type: integer
+    UsuarioResumen:
+      type: object
+      required: [id, nombre, rol]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+        rol:
+          $ref: '#/components/schemas/CodigoRol'
+    EtapaEnLinea:
+      type: object
+      required: [numero, nombre, estado, rolResponsable]
+      properties:
+        numero:
+          type: integer
+        nombre:
+          type: string
+        estado:
+          $ref: '#/components/schemas/EstadoEtapa'
+        rolResponsable:
+          $ref: '#/components/schemas/CodigoRol'
+        asignadoA:
+          oneOf:
+            - $ref: '#/components/schemas/UsuarioResumen'
+            - type: 'null'
+        entrada:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        salida:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        venceEn:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        reentradas:
+          type: integer
+          minimum: 0
+        resumen:
+          type: [string, 'null']
+          description: 'Resumen de lo ocurrido en la etapa (requisito 4.2 #17).'
+    Urgencia:
+      type: object
+      required: [nivel, horas, activadaEn, venceEn]
+      properties:
+        nivel:
+          $ref: '#/components/schemas/NivelUrgencia'
+        horas:
+          type: integer
+          enum: [4, 12, 24]
+        activadaEn:
+          $ref: '#/components/schemas/FechaHora'
+        venceEn:
+          $ref: '#/components/schemas/FechaHora'
+          description: 'Vencimiento propio de la urgencia, desde la devolución hasta volver a A4 / B5.'
+    DemoraAduana:
+      type: object
+      required: [reportadaPor, reportadaEn, motivo, nuevaFechaEstimadaLlegada]
+      properties:
+        reportadaPor:
+          $ref: '#/components/schemas/UsuarioResumen'
+        reportadaEn:
+          $ref: '#/components/schemas/FechaHora'
+        motivo:
+          type: string
+        nuevaFechaEstimadaLlegada:
+          type: string
+          format: date
+
+    SolicitudAccion:
+      oneOf:
+        - $ref: '#/components/schemas/AccionEnviar'
+        - $ref: '#/components/schemas/AccionAprobar'
+        - $ref: '#/components/schemas/AccionRechazar'
+        - $ref: '#/components/schemas/AccionDevolverPorError'
+        - $ref: '#/components/schemas/AccionDevolverPorProductoNuevo'
+        - $ref: '#/components/schemas/AccionReportarDemora'
+        - $ref: '#/components/schemas/AccionElegirBodega'
+      discriminator:
+        propertyName: accion
+        mapping:
+          ENVIAR: '#/components/schemas/AccionEnviar'
+          APROBAR: '#/components/schemas/AccionAprobar'
+          RECHAZAR: '#/components/schemas/AccionRechazar'
+          DEVOLVER_POR_ERROR: '#/components/schemas/AccionDevolverPorError'
+          DEVOLVER_POR_PRODUCTO_NUEVO: '#/components/schemas/AccionDevolverPorProductoNuevo'
+          REPORTAR_DEMORA: '#/components/schemas/AccionReportarDemora'
+          ELEGIR_BODEGA: '#/components/schemas/AccionElegirBodega'
+    AccionBase:
+      type: object
+      required: [accion, etapaEsperada]
+      properties:
+        accion:
+          $ref: '#/components/schemas/AccionEtapa'
+        etapaEsperada:
+          type: integer
+          minimum: 1
+          x-origen: propuesta
+          description: 'Propuesta de diseño: etapa que el usuario ve en pantalla. Si no coincide con la actual, la respuesta es 409 ETAPA_CAMBIO.'
+        adjuntoIds:
+          type: array
+          description: Archivos ya subidos a la etapa actual que acompañan la acción.
+          items:
+            type: string
+            format: uuid
+    AccionEnviar:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          properties:
+            accion:
+              const: ENVIAR
+            observacion:
+              type: string
+              maxLength: 4000
+    AccionAprobar:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          properties:
+            accion:
+              const: APROBAR
+            observacion:
+              type: string
+              maxLength: 4000
+              description: 'Obligatoria en Fabricación (A5 / B6), según el requisito 4.4.'
+    AccionRechazar:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          required: [observacion]
+          properties:
+            accion:
+              const: RECHAZAR
+            observacion:
+              type: string
+              minLength: 1
+              maxLength: 4000
+    AccionDevolverPorError:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          required: [observacion]
+          properties:
+            accion:
+              const: DEVOLVER_POR_ERROR
+            observacion:
+              type: string
+              minLength: 1
+              maxLength: 4000
+    AccionDevolverPorProductoNuevo:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          required: [observacion, nivelUrgencia]
+          properties:
+            accion:
+              const: DEVOLVER_POR_PRODUCTO_NUEVO
+            observacion:
+              type: string
+              minLength: 1
+              maxLength: 4000
+            nivelUrgencia:
+              $ref: '#/components/schemas/NivelUrgencia'
+    AccionReportarDemora:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          required: [observacion, nuevaFechaEstimadaLlegada]
+          properties:
+            accion:
+              const: REPORTAR_DEMORA
+            observacion:
+              type: string
+              minLength: 1
+              maxLength: 4000
+            nuevaFechaEstimadaLlegada:
+              type: string
+              format: date
+              description: 'Pendiente: ¿la escribe David o la calcula el sistema? El valor provisional es que la escribe David; si se decide calcularla, el campo pasa a opcional.'
+              x-pendiente: Recálculo en aduana.
+    AccionElegirBodega:
+      allOf:
+        - $ref: '#/components/schemas/AccionBase'
+        - type: object
+          required: [bodegaId]
+          properties:
+            accion:
+              const: ELEGIR_BODEGA
+            bodegaId:
+              type: string
+              format: uuid
+
+    EventoHistorial:
+      type: object
+      description: 'Evento inmutable del pedido (requisito 4.2, invariantes; ADR-0012 propuesta).'
+      required: [id, pedidoId, etapa, tipo, usuario, fecha]
+      properties:
+        id:
+          type: string
+          format: uuid
+        pedidoId:
+          type: string
+          format: uuid
+        numeroPedido:
+          type: string
+        etapa:
+          type: integer
+        tipo:
+          type: string
+          enum: [PEDIDO_CREADO, ETAPA_ENVIADA, ETAPA_APROBADA, ETAPA_RECHAZADA, PEDIDO_DEVUELTO, DEMORA_REPORTADA, BODEGA_ASIGNADA, OBSERVACION_AGREGADA, ARCHIVO_SUBIDO, ETAPA_REASIGNADA, PLAZO_VENCIDO, PEDIDO_FINALIZADO]
+        usuario:
+          oneOf:
+            - $ref: '#/components/schemas/UsuarioResumen'
+            - type: 'null'
+          description: 'Nulo en los eventos del sistema (Fin automático, plazo vencido).'
+        fecha:
+          $ref: '#/components/schemas/FechaHora'
+        observacion:
+          type: [string, 'null']
+        nivelUrgencia:
+          oneOf:
+            - $ref: '#/components/schemas/NivelUrgencia'
+            - type: 'null'
+        adjuntoIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    Adjunto:
+      type: object
+      required: [id, pedidoId, etapa, nombre, tipoDocumento, tamanoBytes, subidoPor, subidoEn, estadoCopia]
+      properties:
+        id:
+          type: string
+          format: uuid
+        pedidoId:
+          type: string
+          format: uuid
+        etapa:
+          type: integer
+        eventoId:
+          type: [string, 'null']
+          format: uuid
+        nombre:
+          type: string
+        tipoDocumento:
+          type: string
+        tamanoBytes:
+          type: integer
+          minimum: 1
+          maximum: 104857600
+        subidoPor:
+          $ref: '#/components/schemas/UsuarioResumen'
+        subidoEn:
+          $ref: '#/components/schemas/FechaHora'
+        estadoCopia:
+          $ref: '#/components/schemas/EstadoCopia'
+
+    Bodega:
+      type: object
+      required: [id, nombre, ciudad, activa]
+      properties:
+        id:
+          type: string
+          format: uuid
+        nombre:
+          type: string
+        ciudad:
+          type: string
+        activa:
+          type: boolean
+    SolicitudBodega:
+      type: object
+      required: [nombre, ciudad]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+        ciudad:
+          type: string
+          minLength: 1
+        activa:
+          type: boolean
+          default: true
+    SolicitudActualizarBodega:
+      type: object
+      minProperties: 1
+      description: Solo se envían los campos que cambian (por ejemplo, `activa` para desactivarla).
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+        ciudad:
+          type: string
+          minLength: 1
+        activa:
+          type: boolean
+
+    Cronograma:
+      type: object
+      required: [pedidoId, fechaPedido, metaDias, totalDiasPlanificados, etapas]
+      properties:
+        pedidoId:
+          type: string
+          format: uuid
+        fechaPedido:
+          type: string
+          format: date
+        metaDias:
+          type: integer
+          description: 'Configurable; provisional 90 (pendiente: "se ajusta").'
+        totalDiasPlanificados:
+          type: integer
+        diferenciaContraMeta:
+          type: integer
+          description: 'Positivo si el plan supera la meta.'
+        etapas:
+          type: array
+          items:
+            type: object
+            required: [numero, nombre, fechaPlanificada]
+            properties:
+              numero:
+                type: integer
+              nombre:
+                type: string
+              fechaPlanificada:
+                type: string
+                format: date
+              fechaReal:
+                type: [string, 'null']
+                format: date
+              movidaAlLunes:
+                type: boolean
+    ConfiguracionPlazos:
+      type: object
+      required: [metaDias]
+      properties:
+        metaDias:
+          type: integer
+          minimum: 1
+        feriados:
+          type: array
+          description: 'Propuesta pendiente (Could en el PRD): calendario de feriados de Ecuador editable por el admin.'
+          x-pendiente: Feriados de Ecuador y China.
+          items:
+            type: object
+            required: [fecha, descripcion]
+            properties:
+              fecha:
+                type: string
+                format: date
+              descripcion:
+                type: string
+
+    Notificacion:
+      type: object
+      required: [id, destinatario, asunto, estado, creadaEn, intentos]
+      properties:
+        id:
+          type: string
+          format: uuid
+        pedidoId:
+          type: [string, 'null']
+          format: uuid
+        destinatario:
+          type: string
+          format: email
+        asunto:
+          type: string
+        estado:
+          $ref: '#/components/schemas/EstadoNotificacion'
+        creadaEn:
+          $ref: '#/components/schemas/FechaHora'
+        enviadaEn:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        intentos:
+          type: integer
+          minimum: 0
+        ultimoError:
+          type: [string, 'null']
