@@ -64,10 +64,10 @@ Sin definir en los requerimientos o detectadas en la auditoría:
 - [ ] Plazo de Fabricación (A5 / B6): **TBD**. La calculadora usa 8 + 31 días.
 - [ ] Plazo de Incidencias (A10 / B11): **TBD**.
 - [ ] ¿Los 45 días de tránsito son hábiles o corridos? La calculadora original usa días corridos (`auditoria-demo.md`, 2.2).
-- [ ] ¿Los correos de los usuarios demo son reales, y el repositorio de GitHub es privado? (`auditoria-demo.md`, S5).
+- [ ] ¿Los correos de los usuarios demo son reales? (`auditoria-demo.md`, S5). El repositorio de GitHub es **público** (comprobado el 2026-10-12): decidir si pasa a privado.
 - [ ] Recuperación de contraseña por correo: **TBD**.
 - [ ] Quién tiene acceso directo a la carpeta de Drive: **TBD**.
-- [ ] Logo y colores de la marca (necesarios para el sistema de diseño).
+- [ ] Marca: los 4 logos en JPEG ya se recibieron y se aplicaron en `documentos/diseno/DESIGN.md`. Faltan versiones transparentes (sobre todo el isotipo), los códigos de color y la tipografía oficiales, y decidir qué nombre se muestra (Decokasa o Latinoamérica World).
 - [ ] Creación de la cuenta de servicio de Google Workspace para Drive y Gmail (el cliente confirmó que tiene Workspace).
 - [ ] Proceso de Colombia: etapas, responsables, plazos y bodegas (el cliente lo dejó para más adelante).
 - [ ] Caso de uso de la API de Claude (el cliente lo dejó para más adelante).

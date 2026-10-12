@@ -11,14 +11,20 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 - `documentos/requerimientos.md` — requisitos, transiciones por etapa (secciones 4.4 y 4.5) y respuestas del cliente (sección 5). Si un requisito cambia, se actualiza aquí antes que el código.
 - `documentos/manual-paso-a-paso.md` — orden de trabajo por fases (0 a 8), la skill de cada paso y la puerta de salida de cada fase. Seguirlo en orden.
 - `.claude/PRPs/prds/` y `.claude/PRPs/plans/` — PRD y planes por fase (los usan `/ecc:prp-plan` y `/ecc:prp-implement`).
-- `documentos/adr/` — decisiones de arquitectura. `documentos/diagramas/` — diagramas Mermaid.
+- `documentos/adr/` — decisiones de arquitectura (8 accepted, 6 proposed). `documentos/diagramas/` — diagramas Mermaid.
+- `documentos/arquitectura.md` (módulos y reglas R1–R9), `documentos/api/openapi.yaml` (contrato) y `documentos/modelo-datos.md` (tablas) — diseño técnico de la fase 0. El código los sigue; si hay que apartarse, se registra en un ADR.
+- `documentos/diseno/DESIGN.md` — colores, tipografía, tokens y componentes base. `documentos/auditoria-demo.md` — qué se reutiliza del demo y hallazgos de calidad (Q) y seguridad (S).
+- `documentos/epicas-historias-jira.docx` — 8 épicas y 32 historias, ya cargadas a mano en Jira.
+- Las marcas [P] (propuesta) y ⏸ (pendiente del cliente) de los documentos no son requisitos confirmados.
 
 ## Estado actual
 
+- Fase 0 (solo documentación): entregables de fase 0 completos; cierre pendiente del PR hacia develop. La implementación empieza en la fase 1.
 - `frontend/` es el demo importado de Google AI Studio, todavía sin backend.
 - `backend/` está vacío; el proyecto Spring Boot se crea en la fase 1.
 - `docker-compose.yml` solo tiene PostgreSQL 17; el backend y el frontend se agregan en la fase 1.
 - No hay pruebas automatizadas todavía (ni Vitest ni Playwright ni JUnit).
+- El repositorio de GitHub es público (comprobado el 2026-10-12) y ya contiene correos y teléfonos del demo y los logos del cliente (auditoría S5). ⏸ Pasarlo a privado lo decide el cliente. Mientras tanto, no subir secretos ni más datos del cliente.
 
 ## Comandos
 

@@ -331,7 +331,7 @@ Severidad: **Crítico** permite tomar el control del sistema; **Alto** expone da
 
 ### 10.4 Orden de corrección
 
-1. **Ahora, sin código:** confirmar con el cliente si los correos de S5 son reales y que el repositorio de GitHub es privado.
+1. **Ahora, sin código:** confirmar con el cliente si los correos de S5 son reales. El 2026-10-12 se comprobó que el repositorio de GitHub es **público**; queda decidir si pasa a privado.
 2. **Fase 1:** S1, S2, S3, S7 y S8, junto con el login real y la limpieza de `package.json`.
 3. **Fase 2:** S4, con permisos y eventos validados en el servidor.
 4. **Fase 3:** S9 y la parte de S6 que corresponde a la subida de archivos.
