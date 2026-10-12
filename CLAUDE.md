@@ -22,7 +22,7 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 - Fase 0 (solo documentación): entregables de fase 0 completos; cierre pendiente del PR hacia develop. La implementación empieza en la fase 1.
 - `frontend/` es el demo importado de Google AI Studio, todavía sin backend.
 - `backend/` tiene el esqueleto (paso 1.3): Spring Boot 4.1.1, Java 21, Gradle 9.7.1 (wrapper con sha256), paquete `com.decokasa.seguimiento`. Hay `compartido` (errores del contrato, `CodigoRol`, `CodigoPais`, puerto `Reloj`, manejador RFC 9457) y `configuracion` (`/api/v1/salud`, seguridad sin login todavía). Las reglas R1–R4 y R9 se verifican con ArchUnit (`arquitectura/ReglasArquitecturaTest`). Sin usuarios, login ni migraciones aún.
-- `docker-compose.yml` solo tiene PostgreSQL 17; el backend y el frontend se agregan en la fase 1.
+- `docker-compose.yml` levanta PostgreSQL 17, el backend (`backend/Dockerfile`, JRE 21 sin root) y el frontend (`frontend/Dockerfile`: build de Vite servido por nginx, que envía `/api` al backend con `frontend/nginx.conf`) (paso 1.4). Las variables están en `.env.example`; los valores locales, en `.env` (ignorado por Git).
 - Frontend: Vitest + Testing Library + MSW configurados (paso 1.2); TypeScript en modo `strict`; shadcn/ui inicializado con los tokens de `DESIGN.md` en `src/index.css` y componentes en `src/components/ui/`. Todavía no hay Playwright ni JUnit.
 - El repositorio de GitHub es público (comprobado el 2026-10-12) y ya contiene correos y teléfonos del demo y los logos del cliente (auditoría S5). ⏸ Pasarlo a privado lo decide el cliente. Mientras tanto, no subir secretos ni más datos del cliente.
 
@@ -53,12 +53,17 @@ Backend (desde `backend/`; en PowerShell usar `.\gradlew.bat`):
 
 La conexión a la base sale de `DB_URL`, `DB_USUARIO` y `DB_CONTRASENA`; no hay secretos en `application.yml`.
 
-Base de datos (desde la raíz; necesita `POSTGRES_PASSWORD` en un `.env` en la raíz, si falta no arranca):
+Docker (desde la raíz; copiar `.env.example` como `.env` y completar `POSTGRES_PASSWORD`, si falta no arranca):
 
 ```bash
-docker compose up -d postgres
-docker compose down
+docker compose up -d --build --wait   # PostgreSQL :5432 y backend :8080 (solo 127.0.0.1), frontend http://localhost:3000
+docker compose up -d postgres         # solo la base, para trabajar con npm run dev y ./gradlew bootRun
+docker compose ps                     # los tres deben estar "healthy"
+docker compose logs -f backend
+docker compose down                   # agrega -v para borrar también los datos de la base
 ```
+
+El frontend de Docker y `npm run dev` usan el puerto 3000: no correr los dos a la vez.
 
 ## Arquitectura del demo (frontend/src)
 
