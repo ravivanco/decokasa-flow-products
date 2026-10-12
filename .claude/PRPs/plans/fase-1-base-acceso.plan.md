@@ -37,7 +37,6 @@ Las decisiones del equipo quedaron aprobadas por Richard el 2026-10-12 y registr
 
 | # | Tema | Qué dicen las fuentes | Cómo lo trata el plan | Tareas que dependen |
 | --- | --- | --- | --- | --- |
-| D4 | **Uno o varios roles por usuario** | `requerimientos.md` 4.6 dice "rol(es)". El manual (paso 1.5) mencionaba una tabla `usuario_rol`. El contrato (`Usuario.rol`), `modelo-datos.md` 3.1 (`usuario.rol_id`) y `arquitectura.md` 4.1 describen **un rol**. Todas las fuentes lo marcan ⏸ | **Sin valor aprobado.** El plan separa lo que no depende de esto. La relación usuario–rol (columna `rol_id` o tabla `usuario_rol`), los DTO y el selector de rol esperan la respuesta (⛔ D4). La regla "un usuario sin rol no puede acceder" se prueba en los dos casos | T9b, T13 (partes de rol), T15 (asignar rol), T16, T22 |
 | D5b | **¿El repositorio pasa a privado?** | El repositorio es público (comprobado el 2026-10-12, `CLAUDE.md`). El manual (paso 1.5) pide sembrar los 6 usuarios reales con contraseña temporal | Ver D5: no se sube ningún dato real ni contraseña, sea cual sea la respuesta | T10 |
 | — | **Alcance del rol `consulta`** (D7) | No aparece en las fuentes; Richard decidió conservarlo | Dashboard vacío de consulta, sin permisos de gestión | T10, T24 |
 | — | Qué ve la asistente de compras en China | `requerimientos.md` 4.3: dashboard de consulta, **TBD** qué ve | Dashboard vacío de consulta, sin permisos de gestión | T24 |
@@ -48,15 +47,16 @@ Las decisiones del equipo quedaron aprobadas por Richard el 2026-10-12 y registr
 | # | Tema | Decisión | Dónde se registra | Tareas |
 | --- | --- | --- | --- | --- |
 | D1 | **WebSocket** | **No se agrega en la fase 1**; queda para la fase 5. La elección entre WebSocket y consultas periódicas se toma en esa fase | ADR-0014 y manual (paso 1.3) | T5 |
-| D2 | **Bloqueo por intentos fallidos** | **5 intentos fallidos de contraseña → 15 minutos de bloqueo** (423 `CUENTA_BLOQUEADA`). Valores configurables. La diferencia de fuentes sobre quién escribió `requerimientos.md` 4.7 queda anotada en ADR-0002, sin afectar a los valores | ADR-0002, `requerimientos.md` 4.7 | T9a, T12, T14, T15 |
-| D3 | **JWT y renovación** | **Acceso de 15 minutos; renovación de la sesión hasta 8 horas** desde el inicio de sesión (límite absoluto), **con rotación** y detección de reutilización (familias de tokens) | ADR-0002, `requerimientos.md` 4.7, `modelo-datos.md` | T9a, T12, T14, T17, T18 |
+| D2 | **Bloqueo por intentos fallidos** | **5 intentos fallidos de contraseña → 15 minutos de bloqueo** (423 `CUENTA_BLOQUEADA`). Valores configurables. La diferencia de fuentes sobre quién escribió `requerimientos.md` 4.7 queda anotada en ADR-0002, sin afectar a los valores | ADR-0002, `requerimientos.md` 4.7 | T9, T12, T14, T15 |
+| D3 | **JWT y renovación** | **Acceso de 15 minutos; renovación de la sesión hasta 8 horas** desde el inicio de sesión (límite absoluto), **con rotación** y detección de reutilización (familias de tokens) | ADR-0002, `requerimientos.md` 4.7, `modelo-datos.md` | T9, T12, T14, T17, T18 |
 | D3b | **Almacenamiento del token de renovación** (revisado) | **Propuesta pendiente de aprobación:** cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth`; acceso solo en memoria; nada en `localStorage` ni `sessionStorage`; verificación de `Origin`; nuevo `POST /auth/cerrar-sesion`. El contrato ya lo describe como propuesta | ADR-0002, `openapi.yaml` 0.2.0 | T13, T14, T17, T18 |
 | D5 | **Datos iniciales** | Las migraciones siembran **países y los 7 roles**; las pruebas usan usuarios ficticios; los usuarios reales se cargan fuera de git; ninguna contraseña real ni clave en el repositorio. [P] La forma de carga: un cargador de arranque con un archivo local ignorado por git | ADR-0015 | T10 |
 | D6 | **Pantallas del demo** | Las pantallas de pedidos se conservan **sin ruta** hasta conectarlas en su fase. El router de la fase 1 solo expone login, dashboard vacío por rol, usuarios y roles | PRD (registro de decisiones) | T19, T23 |
 | D7 | **Rol `consulta`** | **Se conserva** como 7.º rol, sin permisos de gestión. ⏸ Su alcance queda pendiente del cliente | `requerimientos.md` 5, `openapi.yaml` (`CodigoRol`), ADR-0015 | T10, T24 |
+| D4 | **Roles por usuario** (antes pregunta para el cliente) | **Uno o varios roles por usuario, asignados solo por el admin** (tabla `usuario_rol`). Decisión de Richard del 2026-10-12, **no respuesta del cliente**. Un usuario sin roles no puede acceder; una cuenta desactivada no inicia ni renueva sesión y su historial se conserva | `requerimientos.md` 4.7 y 5, `modelo-datos.md` 3.1, `arquitectura.md` 4.1, `openapi.yaml` 0.3.0 (`Usuario.roles`) | T9, T10, T13, T15, T16, T22 |
 | D8 | **Backend** | **Gradle, arquitectura hexagonal y transacciones fuera del dominio.** Siguen como propuesta: el nombre del paquete `com.decokasa.seguimiento`, ArchUnit y el outbox (fase 3) | ADR-0010, 0011 y 0012 | T5, T6, T7, T17 |
 
-**Regla que se conserva (manual, paso 1.6):** **un usuario sin rol no puede acceder.** Se prueba en el dominio y en la API sea cual sea la respuesta a D4: con un rol, la base también rechaza el usuario sin rol; con varios roles, un usuario con la lista vacía no inicia sesión (T9b, T11, T13).
+**Regla que se conserva (manual, paso 1.6):** **un usuario sin roles no puede acceder.** La base permite un usuario sin filas en `usuario_rol` (por ejemplo, uno cargado fuera de Git sin roles); el dominio y el inicio de sesión lo rechazan, y se prueba en T11 y T13. Lo mismo para una cuenta desactivada, al iniciar y al renovar sesión (D4).
 
 ---
 
@@ -379,18 +379,12 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 
 ### Paso 1.5 — Migración inicial
 
-#### Task 9a: Prueba de migración y migración V1, sin la relación usuario–rol (D2, D3)
-- **ACTION**: Primero `MigracionesIT` (`@DataJpaTest` + Testcontainers, `@AutoConfigureTestDatabase(replace = NONE)`): Flyway aplica y Hibernate valida; correo, usuario y teléfono duplicados violan la unicidad (correo y usuario sin distinguir mayúsculas); `token_hash` es único. Después, `V1__usuarios_roles_paises.sql`.
-- **IMPLEMENT**: Tablas de `modelo-datos.md` §3.1: `pais`, `rol`, `rol_permiso`, `usuario` (**sin** `rol_id`; con `intentos_fallidos` y `bloqueado_hasta`, D2), `usuario_pais` y `token_renovacion` (`familia_id`, `token_hash`, `creado_en`, `expira_en`, `revocado_en`; D3). Índices únicos `lower(correo)`, `lower(usuario)` y `telefono`; índices en cada FK y en `familia_id`. `CHECK` de formato en `pais.codigo` e `intentos_fallidos >= 0`. Textos en `text`.
+#### Task 9: Prueba de migración y migración V1 (D2, D3, D4)
+- **ACTION**: Primero `MigracionesIT` (Testcontainers con `postgres:17`; Flyway aplica sobre una base vacía y la prueba revisa con JDBC): esquema, semilla y restricciones. Después, `V1__usuarios_roles_paises.sql`. La validación de Hibernate contra el esquema llega con las entidades (T16).
+- **IMPLEMENT**: Tablas de `modelo-datos.md` §3.1: `pais`, `rol`, `rol_permiso`, `usuario` (sin `rol_id`; con `intentos_fallidos` y `bloqueado_hasta`, D2), `usuario_rol` (D4: PK `usuario_id` + `rol_id`, `asignado_en`), `usuario_pais` y `token_renovacion` (`familia_id`, `token_hash`, `creado_en`, `expira_en`, `revocado_en`; D3). Índices únicos `lower(correo)`, `lower(usuario)` y `telefono`; índices en cada FK que no cubra una PK y en `familia_id`. `CHECK` de formato en `pais.codigo` y `rol.codigo`, `intentos_fallidos >= 0` y `expira_en > creado_en`. FK sin `ON DELETE CASCADE`. Semilla: EC (activo), CO (inactivo) y los 7 roles; sin usuarios ni permisos.
 - **MIRROR**: REPOSITORY_PATTERN, `modelo-datos.md` §1 y §4.
-- **GOTCHA**: No crear ni `usuario.rol_id` ni `usuario_rol` en esta migración (⛔ D4). Así V1 no anticipa la respuesta del cliente; la relación llega en una migración separada (T9b).
+- **GOTCHA**: Ningún usuario real ni contraseña en la migración (D5). La lista de permisos sigue pendiente y se define con los casos de uso (T10); `rol_permiso` queda vacía. Los 7 roles usan UUIDv7 fijos y válidos (marca de tiempo 2026-10-12). Hecho el 2026-10-12: `MigracionesIT` con 38 pruebas.
 - **VALIDATE**: `./gradlew test --tests '*MigracionesIT*'`.
-
-#### Task 9b: Relación usuario–rol (⛔ D4, pendiente del cliente)
-- **ACTION**: Cuando el cliente responda, escribir primero la prueba y después la migración `V3__usuario_rol.sql`.
-- **IMPLEMENT**: Un rol → columna `usuario.rol_id uuid NOT NULL REFERENCES rol(id)` e índice. Varios roles → tabla `usuario_rol (usuario_id, rol_id)` con PK compuesta e índice en `rol_id`, y cambio del contrato (`Usuario.rol` → `roles`, lista con al menos un elemento).
-- **GOTCHA**: En los dos casos se prueba que **un usuario sin rol no puede acceder**: con un rol, la base rechaza el `INSERT` sin `rol_id` y el login lo rechaza en el dominio; con varios, un usuario sin filas en `usuario_rol` recibe 401 al iniciar sesión.
-- **VALIDATE**: `MigracionesIT` y `AuthControllerIT` en verde.
 
 #### Task 10: Semilla de países y roles; usuarios fuera de git (D5 confirmada)
 - **ACTION**: `V2__semilla_paises_roles.sql`: `EC` activo y `CO` inactivo; los 7 roles (`admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta`, D7) con sus nombres; permisos `usuarios.gestionar` y `roles.gestionar` solo para `admin` [P]. Después, la prueba `CargadorUsuariosInicialesTest` y el cargador.
@@ -414,7 +408,7 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 
 #### Task 13: Pruebas de la API y de la seguridad
 - **ACTION**: `AuthControllerIT` y `UsuarioControllerIT` (`@SpringBootTest` + `MockMvc` + Testcontainers).
-- **IMPLEMENT**: Login con correo, usuario y teléfono → 200 con `tokenAcceso` y `expiraEn: 900`, y la cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth` (⛔ D3b); el cuerpo no lleva el token de renovación; contraseña incorrecta, usuario inexistente, usuario desactivado y **usuario sin rol** → 401 con el mismo cuerpo (`codigo: NO_AUTENTICADO`; la parte "sin rol" depende de T9b); 5 fallos → 423; `/auth/renovar` con la cookie → 200 y cookie nueva, con `Origin` ajeno → 403; `/auth/cerrar-sesion` → 204 y la cookie se borra; el JWT lleva `sub` = id y `rol`; `GET /auth/yo` devuelve `permisos`; `GET`/`POST` de `/usuarios` y `/roles` sin token → 401, con token de `marketing` → 403 `SIN_PERMISO`, con token de `admin` → 200/201; duplicado → 409 `DUPLICADO`; datos inválidos → 400 `VALIDACION` con `errores[].campo`; CORS solo para `CORS_ORIGENES`; cabeceras de seguridad presentes.
+- **IMPLEMENT**: Login con correo, usuario y teléfono → 200 con `tokenAcceso` y `expiraEn: 900`, y la cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth` (⛔ D3b); el cuerpo no lleva el token de renovación; contraseña incorrecta, usuario inexistente, usuario desactivado y **usuario sin rol** → 401 con el mismo cuerpo (`codigo: NO_AUTENTICADO`; también sin roles o con la cuenta desactivada, D4); 5 fallos → 423; `/auth/renovar` con la cookie → 200 y cookie nueva, con `Origin` ajeno → 403; `/auth/cerrar-sesion` → 204 y la cookie se borra; el JWT lleva `sub` = id y `rol`; `GET /auth/yo` devuelve `permisos`; `GET`/`POST` de `/usuarios` y `/roles` sin token → 401, con token de `marketing` → 403 `SIN_PERMISO`, con token de `admin` → 200/201; duplicado → 409 `DUPLICADO`; datos inválidos → 400 `VALIDACION` con `errores[].campo`; CORS solo para `CORS_ORIGENES`; cabeceras de seguridad presentes.
 - **MIRROR**: ERROR_HANDLING (formas exactas del contrato).
 - **GOTCHA**: Las respuestas deben coincidir campo por campo con `openapi.yaml`. Si algo no encaja, se cambia el contrato siguiendo su protocolo; no se cambia la implementación en silencio.
 - **VALIDATE**: Fallan.
@@ -429,17 +423,18 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 #### Task 15: Dominio y casos de uso de `usuarios`
 - **ACTION**: Implementar hasta que pasen las Tasks 11 y 12.
 - **IMPLEMENT**:
-  - Dominio: `Usuario` (id, nombre, correo, usuario, teléfono normalizado, rol o roles según D4, países, activo, intentos, bloqueadoHasta; métodos `registrarFallo(ahora, politica)`, `registrarAcierto()`, `estaBloqueado(ahora)` y `puedeIniciarSesion()`, que exige activo y al menos un rol), `Rol` (código, nombre, permisos), `PoliticaBloqueo` (record: 5 intentos, 15 min; D2), `SesionRenovable` (familia, hash, vencimiento absoluto de 8 h; D3) y `Credencial`. Errores: `CredencialesInvalidas`, `CuentaBloqueada`, `DatoDuplicado(campo)`, `NoEncontrado` y `SinPermiso`.
-  - Puertos de entrada (`arquitectura.md` 4.1): `IniciarSesion`, `RenovarSesion` (D3), `CerrarSesion`, `ObtenerUsuarioActual`, `ConsultarUsuarios`, `CrearUsuario`, `ActualizarUsuario` (países, activo y, [P], una contraseña nueva; la asignación de rol, ⛔ D4), `CrearRol`, `ActualizarRol` y `ConsultarRoles`.
-  - Para no anticipar D4, `Usuario` expone `tieneRol(CodigoRol)` y `roles()`; con un solo rol, la lista tiene un elemento.
+  - Dominio: `Usuario` (id, nombre, correo, usuario, teléfono normalizado, uno o varios roles (D4), países, activo, intentos, bloqueadoHasta; métodos `registrarFallo(ahora, politica)`, `registrarAcierto()`, `estaBloqueado(ahora)` y `puedeIniciarSesion()`, que exige activo y al menos un rol), `Rol` (código, nombre, permisos), `PoliticaBloqueo` (record: 5 intentos, 15 min; D2), `SesionRenovable` (familia, hash, vencimiento absoluto de 8 h; D3), `Credencial` y `ContrasenaNueva` (record que valida al menos 8 caracteres y **como máximo 72 bytes en UTF-8**, `valor.getBytes(StandardCharsets.UTF_8).length <= 72`, y lanza `DatoInvalido` en el campo; se usa al crear el usuario y al cambiar la contraseña). Errores: `CredencialesInvalidas`, `CuentaBloqueada`, `DatoDuplicado(campo)`, `NoEncontrado` y `SinPermiso`.
+  - Puertos de entrada (`arquitectura.md` 4.1): `IniciarSesion`, `RenovarSesion` (D3), `CerrarSesion`, `ObtenerUsuarioActual`, `ConsultarUsuarios`, `CrearUsuario`, `ActualizarUsuario` (países, activo, roles y, [P], una contraseña nueva; desactivar revoca los tokens de renovación), `CrearRol`, `ActualizarRol` y `ConsultarRoles`.
+  - `Usuario` expone `tieneRol(CodigoRol)` y `roles()` (D4). `puedeIniciarSesion()` y la renovación exigen activo y al menos un rol.
   - Puertos de salida: `UsuarioRepositorio`, `RolRepositorio`, `CodificadorContrasena`, `EmisorTokens`, `TokenRenovacionRepositorio` (D3) y `Reloj`.
   - La verificación "solo admin" va **dentro del caso de uso**, con el permiso del usuario que llama (R6), además de la regla de la capa web.
 - **MIRROR**: SERVICE_PATTERN.
 - **GOTCHA**: Para no revelar si la cuenta existe, con un identificador inexistente se ejecuta igual un `matches` de BCrypt contra un hash fijo, para que el tiempo de respuesta sea similar.
+- **GOTCHA (contraseña de más de 72 bytes)**: BCrypt solo procesa 72 bytes; una contraseña más larga nunca se recorta en silencio. Al crear o cambiarla, `ContrasenaNueva` la rechaza (400 `VALIDACION`). Al iniciar sesión no puede coincidir con ninguna guardada: `IniciarSesion` responde `CredencialesInvalidas` y cuenta el intento fallido (D2) sin pasarla a BCrypt. El límite se mide en bytes UTF-8, no en caracteres (`String.length()` no sirve).
 - **VALIDATE**: Pruebas de dominio y de aplicación en verde.
 
 #### Task 16: Persistencia y seguridad (adaptadores de salida)
-- **ACTION**: `UsuarioEntity`, `RolEntity` y `TokenRenovacionEntity` (D3); la relación usuario–rol en la entidad (`@ManyToOne` o tabla de unión) espera T9b (⛔ D4); repositorios Spring Data y mapeadores; `BCryptCodificador` (fuerza 12 [P]); `JwtEmisor` con `NimbusJwtEncoder` HS256 (claims `sub`, `rol`, `iat`, `exp`; emisor `decokasa`).
+- **ACTION**: `UsuarioEntity`, `RolEntity` y `TokenRenovacionEntity` (D3); la relación usuario–rol como tabla de unión `usuario_rol` (D4); repositorios Spring Data y mapeadores; `BCryptCodificador` (fuerza 12 [P]; segunda barrera: si recibe más de 72 bytes en UTF-8, `codificar` lanza un error y `coincide` devuelve falso, sin depender de cómo lo trate la versión de Spring Security); `JwtEmisor` con `NimbusJwtEncoder` HS256 (claims `sub`, `roles`, `iat`, `exp`; emisor `decokasa`).
 - **MIRROR**: REPOSITORY_PATTERN.
 - **GOTCHA**: La búsqueda por identificador es una sola consulta: `where lower(correo)=:id or lower(usuario)=:id or telefono=:telefonoNormalizado`. `@Version` en `UsuarioEntity`; la excepción de bloqueo optimista se traduce a 409.
 - **VALIDATE**: `UsuarioJpaRepositorioIT` (Testcontainers) en verde.
@@ -475,9 +470,9 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 - **ACTION**: `Header.tsx`: quitar `onSwitchUserPrompt`, el chip clicable, el cambio de país y la fecha simulada; mostrar nombre, rol (`getRoleNameDisplay`) y "Cerrar sesión". `Sidebar.tsx`: `NavLink` a `/inicio`, `/usuarios` y `/roles` según los permisos. Borrar la ventana "Simulador de roles" de `App.tsx` (S2).
 - **VALIDATE**: `grep -rn "onSwitchUser\|USUARIOS_DEMO\|DEMO_PASSWORD\|Demo2026" src` sin resultados.
 
-#### Task 22: Gestión de usuarios y roles (admin) (⛔ D4)
-- **ACTION**: Reescribir `UsersManagementView.tsx`: tabla shadcn con nombre, correo, usuario, teléfono, rol y estado; diálogo de alta y edición con React Hook Form + Zod; activar o desactivar. Crear `RolesManagementView.tsx`: lista, alta y edición de código, nombre y permisos.
-- **IMPLEMENT**: `useMutation` + `invalidateQueries({ queryKey: ['usuarios'] })`; un 409 `DUPLICADO` se asigna al campo con `setError`. El control para elegir el rol depende de D4: un `Select` si es un rol, una selección múltiple con al menos uno si son varios (⛔ D4). El resto de la pantalla (lista, alta, edición, activar) no depende de esa respuesta.
+#### Task 22: Gestión de usuarios y roles (admin) (D4)
+- **ACTION**: Reescribir `UsersManagementView.tsx`: tabla shadcn con nombre, correo, usuario, teléfono, roles y estado; diálogo de alta y edición con React Hook Form + Zod; activar o desactivar. Crear `RolesManagementView.tsx`: lista, alta y edición de código, nombre y permisos.
+- **IMPLEMENT**: `useMutation` + `invalidateQueries({ queryKey: ['usuarios'] })`; un 409 `DUPLICADO` se asigna al campo con `setError`. Los roles se eligen con una selección múltiple que exige al menos uno (D4; `minItems: 1` del contrato). El esquema Zod usa los mismos límites que la base y la API (`modelo-datos.md` 3.1, "Límites de campos"); la contraseña se valida en bytes con `.refine((v) => new TextEncoder().encode(v).length <= 72, 'Máximo 72 bytes: las letras con tilde y los emoji ocupan más de uno')`; para quitar el acceso, el formulario ofrece desactivar la cuenta, no dejarla sin roles.
 - **GOTCHA**: El diálogo de shadcn ya resuelve el foco, la tecla Escape y `aria-modal` (auditoría Q1).
 - **VALIDATE**: `UsersManagementView.test.tsx` en verde.
 
@@ -512,9 +507,16 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 | Login por usuario | `admin1` | Sesión | |
 | Login por teléfono | `+593 99 000 0001`, guardado como `+593990000001` | Sesión | Espacios |
 | Contraseña incorrecta | Contraseña mala | `CredencialesInvalidas`; `intentos_fallidos` + 1 (D2) | |
+| Contraseña nueva de 72 bytes | 36 veces "ñ" (36 caracteres, 72 bytes) | Se acepta y luego inicia sesión con ella | Límite exacto en bytes |
+| Contraseña nueva de 73 bytes | 36 veces "ñ" + "a" (37 caracteres, 73 bytes) | 400 `VALIDACION` en `contrasenaInicial`; no se guarda nada | Pasa `maxLength: 72` en caracteres, pero no el límite en bytes |
+| Contraseña nueva con emoji | 18 emoji de 4 bytes (72 bytes) y 19 (76 bytes) | Se acepta / 400 | Caracteres de 4 bytes |
+| Sin recorte silencioso | Usuario con una contraseña de 72 bytes; login con esa contraseña + "x" (73 bytes) | `CredencialesInvalidas`; `intentos_fallidos` + 1 | Si se recortara a 72 bytes, entraría |
 | Usuario inexistente | Identificador desconocido | `CredencialesInvalidas` (mismo error) | Enumeración de cuentas |
 | Usuario desactivado | `activo = false` | `CredencialesInvalidas` | |
-| Usuario sin rol | Usuario sin ningún rol asignado | `CredencialesInvalidas` (no puede acceder) | Regla del manual (paso 1.6); vale para uno o varios roles (D4) |
+| Usuario sin rol | Usuario sin filas en `usuario_rol` | `CredencialesInvalidas` (no puede acceder) | Regla del manual (paso 1.6) y D4 |
+| Varios roles (D4) | Usuario con `compras_china` y `logistica` | Sesión; el token lleva los dos roles y los permisos son la unión | |
+| Renovar con cuenta desactivada (D4) | Token válido, `activo = false` | 401 y la familia queda revocada | |
+| Renovar sin roles (D4) | Token válido, usuario sin roles | 401 y la familia queda revocada | |
 | Bloqueo (D2) | 5 fallos seguidos | `CuentaBloqueada` hasta `ahora + 15m` | Un acierto en el 4.º intento reinicia |
 | Desbloqueo (D2) | Reloj adelantado 15 min | Puede entrar | |
 | Renovación (D3) | Token válido / revocado / vencido | Par nuevo / 401 / 401 | Reutilización |
@@ -607,7 +609,7 @@ EXPECT: Login, dashboard por rol y gestión de usuarios funcionan
 
 | Risk | Likelihood | Impact | Mitigation |
 | --- | --- | --- | --- |
-| El cliente tarda en responder D4 y bloquea el cierre de la fase 1 | Media | Alto | V1 se separa de la relación usuario–rol (T9a/T9b); el dominio expone `roles()`; solo T9b, la asignación de rol y el selector esperan |
+| El cliente pide después un solo rol por usuario (D4 la decidió el equipo, no el cliente) | Baja | Medio | Una migración nueva lo restringe (por ejemplo, índice único en `usuario_rol.usuario_id`); el dominio ya trabaja con `roles()` |
 | Los datos personales del demo siguen en el historial público | Alta (ya ocurrió) | Alto | Pasar el repositorio a privado (⏸ D5b); no agregar datos nuevos |
 | No consta quién escribió `requerimientos.md` 4.7 (bloqueo y JWT) | Baja | Bajo | Valores decididos por el equipo y configurables (ADR-0002) |
 | Docker o Testcontainers fallan en Windows | Media | Medio | Docker 29 y Compose v5 están instalados; si fallan, ejecutar las pruebas de integración en WSL o en la CI (fase 8) |

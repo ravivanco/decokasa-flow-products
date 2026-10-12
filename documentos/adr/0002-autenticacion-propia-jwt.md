@@ -10,7 +10,7 @@ Los usuarios entran con correo, nombre de usuario o teléfono, más contraseña 
 
 ## Decisión
 
-El backend autentica con Spring Security, guarda las contraseñas con BCrypt y emite un JWT con el rol del usuario. Los permisos por rol y por etapa se validan en el servidor.
+El backend autentica con Spring Security, guarda las contraseñas con BCrypt y emite un JWT con los roles del usuario. Los permisos por rol y por etapa se validan en el servidor.
 
 ## Alternativas consideradas
 
@@ -41,7 +41,8 @@ El backend autentica con Spring Security, guarda las contraseñas con BCrypt y e
 Valores concretos de lo que `requerimientos.md` 4.7 pide sin número ("JWT de vida corta y bloqueo tras varios intentos fallidos"). No son respuesta del cliente.
 
 - **Bloqueo:** tras **5 intentos fallidos** de contraseña, la cuenta queda bloqueada **15 minutos**. Un inicio de sesión correcto reinicia el contador. Mientras dura el bloqueo, la API responde 423 `CUENTA_BLOQUEADA`. Los dos valores son configurables.
-- **JWT de acceso:** dura **15 minutos**. Lleva el id y el rol del usuario; los permisos se validan siempre en el servidor.
+- **JWT de acceso:** dura **15 minutos**. Lleva el id y los roles del usuario (uno o varios, `requerimientos.md` 4.7); los permisos se validan siempre en el servidor.
+- **Cuentas sin roles o desactivadas** (decisión del equipo, 2026-10-12): no inician ni renuevan sesión. Al desactivar una cuenta se revocan sus tokens de renovación; el usuario no se borra y su historial se conserva.
 - **Renovación de la sesión:** hasta **8 horas** contadas desde el inicio de sesión (límite absoluto, no se alarga con el uso). Cada renovación entrega un token de renovación nuevo y revoca el anterior (rotación). Pasadas las 8 horas, hay que volver a iniciar sesión.
 
 ## Almacenamiento seguro del token de renovación (propuesta, pendiente de aprobación)

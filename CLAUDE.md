@@ -11,7 +11,7 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 - `documentos/requerimientos.md` — requisitos, transiciones por etapa (secciones 4.4 y 4.5) y respuestas del cliente (sección 5). Si un requisito cambia, se actualiza aquí antes que el código.
 - `documentos/manual-paso-a-paso.md` — orden de trabajo por fases (0 a 8), la skill de cada paso y la puerta de salida de cada fase. Seguirlo en orden.
 - `.claude/PRPs/prds/` y `.claude/PRPs/plans/` — PRD y planes por fase (los usan `/ecc:prp-plan` y `/ecc:prp-implement`).
-- `documentos/adr/` — decisiones de arquitectura (8 accepted, 6 proposed). `documentos/diagramas/` — diagramas Mermaid.
+- `documentos/adr/` — decisiones de arquitectura (16 ADR: 8 accepted por el cliente, 5 accepted por el equipo y 3 proposed; el estado de cada uno está en su `README.md`). `documentos/diagramas/` — diagramas Mermaid.
 - `documentos/arquitectura.md` (módulos y reglas R1–R9), `documentos/api/openapi.yaml` (contrato) y `documentos/modelo-datos.md` (tablas) — diseño técnico de la fase 0. El código los sigue; si hay que apartarse, se registra en un ADR.
 - `documentos/diseno/DESIGN.md` — colores, tipografía, tokens y componentes base. `documentos/auditoria-demo.md` — qué se reutiliza del demo y hallazgos de calidad (Q) y seguridad (S).
 - `documentos/epicas-historias-jira.docx` — 8 épicas y 32 historias, ya cargadas a mano en Jira.
@@ -19,11 +19,12 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 
 ## Estado actual
 
-- Fase 0 (solo documentación): entregables de fase 0 completos; cierre pendiente del PR hacia develop. La implementación empieza en la fase 1.
+- Fase 0 (documentación): integrada en `develop` mediante el PR #1. La fase 1 se trabaja en la rama `fase-1-base-acceso`.
 - `frontend/` es el demo importado de Google AI Studio, todavía sin backend.
-- `backend/` tiene el esqueleto (paso 1.3): Spring Boot 4.1.1, Java 21, Gradle 9.7.1 (wrapper con sha256), paquete `com.decokasa.seguimiento`. Hay `compartido` (errores del contrato, `CodigoRol`, `CodigoPais`, puerto `Reloj`, manejador RFC 9457) y `configuracion` (`/api/v1/salud`, seguridad sin login todavía). Las reglas R1–R4 y R9 se verifican con ArchUnit (`arquitectura/ReglasArquitecturaTest`). Sin usuarios, login ni migraciones aún.
+- `backend/` tiene el esqueleto (paso 1.3): Spring Boot 4.1.1, Java 21, Gradle 9.7.1 (wrapper con sha256), paquete `com.decokasa.seguimiento`. Hay `compartido` (errores del contrato, `CodigoRol`, `CodigoPais`, puerto `Reloj`, manejador RFC 9457) y `configuracion` (`/api/v1/salud`, seguridad sin login todavía). Las reglas R1–R4 y R9 se verifican con ArchUnit (`arquitectura/ReglasArquitecturaTest`). Migración Flyway `V1__usuarios_roles_paises.sql` (paso 1.5): `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_rol` (uno o varios roles, decisión del equipo), `usuario_pais` y `token_renovacion`; siembra EC, CO y los 7 roles, sin usuarios. La prueban `MigracionesIT` (Testcontainers). Sin login ni casos de uso de usuarios aún.
 - `docker-compose.yml` levanta PostgreSQL 17, el backend (`backend/Dockerfile`, JRE 21 sin root) y el frontend (`frontend/Dockerfile`: build de Vite servido por nginx, que envía `/api` al backend con `frontend/nginx.conf`) (paso 1.4). Las variables están en `.env.example`; los valores locales, en `.env` (ignorado por Git).
-- Frontend: Vitest + Testing Library + MSW configurados (paso 1.2); TypeScript en modo `strict`; shadcn/ui inicializado con los tokens de `DESIGN.md` en `src/index.css` y componentes en `src/components/ui/`. Todavía no hay Playwright ni JUnit.
+- Frontend: Vitest + Testing Library + MSW configurados (paso 1.2); TypeScript en modo `strict`; shadcn/ui inicializado con los tokens de `DESIGN.md` en `src/index.css` y componentes en `src/components/ui/`. Todavía no hay Playwright.
+- Backend: pruebas JUnit 5 (pasos 1.3 y 1.5) con MockMvc, ArchUnit y Testcontainers (`AplicacionArrancaIT`, `MigracionesIT`); cobertura JaCoCo ≥ 80 % en `./gradlew check`.
 - El repositorio de GitHub es público (comprobado el 2026-10-12) y ya contiene correos y teléfonos del demo y los logos del cliente (auditoría S5). ⏸ Pasarlo a privado lo decide el cliente. Mientras tanto, no subir secretos ni más datos del cliente.
 
 ## Comandos

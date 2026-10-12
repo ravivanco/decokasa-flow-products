@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.2.0-borrador
+  version: 0.3.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -26,12 +26,16 @@ info:
     4. ¿El admin crea pedidos del flujo B? `requerimientos.md` 4.2 #4 dice que los crea David; el
        admin "actúa en cualquier etapa". Queda pendiente; ver `POST /pedidos`.
     5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI). El equipo decidió que no entra antes de la fase 5.
-    6. ¿Uno o varios roles por usuario? `requerimientos.md` 4.6 dice "rol(es)"; este contrato describe un rol (`Usuario.rol`). Pendiente del cliente; si son varios, `rol` pasa a ser una lista.
+    6. Roles por usuario: resuelto por el equipo (Richard, 2026-10-12), no por el cliente. Un usuario tiene uno o
+       varios roles (`Usuario.roles`), que solo asigna el admin (`requerimientos.md` 4.7).
 
     **Cambios del 2026-10-12 (fase 1):** valores de sesión aprobados por el equipo (ADR-0002): bloqueo de 15 min tras
     5 intentos fallidos, acceso de 15 min y renovación hasta 8 h con rotación. El token de renovación viaja en una
     cookie `HttpOnly` (propuesta de ADR-0002) y ya no en el cuerpo; se agrega `POST /auth/cerrar-sesion`. El rol
     `consulta` se suma a los roles iniciales.
+
+    **Cambios del 2026-10-12 (fase 1, paso 1.5; versión 0.3.0):** `Usuario.rol` pasa a `Usuario.roles` (lista; decisión
+    del equipo). Un usuario sin roles o desactivado no inicia ni renueva sesión.
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6).
     - Leer pedidos, línea de tiempo, historial, bodegas y definiciones: cualquier usuario autenticado
@@ -92,7 +96,8 @@ paths:
       description: |
         Requisito 4.2 #1 y ADR-0002 (JWT + BCrypt). El identificador puede ser el correo, el nombre
         de usuario o el teléfono. Credenciales incorrectas y usuario desactivado responden igual
-        (401), para no revelar qué cuentas existen. Un usuario sin rol tampoco inicia sesión (401).
+        (401), para no revelar qué cuentas existen. Un usuario sin roles tampoco inicia sesión (401); un usuario
+        puede tener uno o varios roles (decisión del equipo, `requerimientos.md` 4.7).
         **Decidido por el equipo (ADR-0002, 2026-10-12):** tras 5 intentos fallidos de contraseña, la cuenta
         queda bloqueada 15 minutos (respuesta 423). El token de acceso dura 15 minutos.
       security: []
@@ -133,6 +138,8 @@ paths:
         ADR-0002 (decisión del equipo, 2026-10-12): la sesión se renueva hasta 8 horas desde el inicio
         de sesión. Cada llamada entrega un token de acceso nuevo y rota el token de renovación (la cookie
         anterior queda revocada). Si llega un token ya revocado, se revoca toda la sesión y responde 401.
+        Si la cuenta está desactivada o ya no tiene roles, también responde 401 y revoca la sesión
+        (decisión del equipo, `requerimientos.md` 4.7).
         **Propuesta (ADR-0002):** el token de renovación viaja en la cookie `decokasa_renovacion` y no en
         el cuerpo; el servidor comprueba la cabecera `Origin`.
       security: []
@@ -179,7 +186,7 @@ paths:
     get:
       tags: [autenticacion]
       operationId: obtenerUsuarioActual
-      summary: Usuario de la sesión actual, con su rol y permisos
+      summary: Usuario de la sesión actual, con sus roles y permisos
       x-origen: requisito
       description: 'Lo usa el frontend para mostrar el dashboard del rol (requisito 4.2 #2).'
       responses:
@@ -274,10 +281,13 @@ paths:
     patch:
       tags: [usuarios]
       operationId: actualizarUsuario
-      summary: Actualizar datos, rol o estado activo de un usuario (solo admin)
+      summary: Actualizar datos, roles o estado activo de un usuario (solo admin)
       x-origen: requisito
       x-roles: [admin]
-      description: Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
+      description: |
+        Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
+        `roles` reemplaza la lista completa de roles del usuario. Desactivar revoca sus sesiones abiertas;
+        el usuario no se borra y su historial se conserva (`requerimientos.md` 4.7).
       requestBody:
         required: true
         content:
@@ -1150,7 +1160,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: ADR-0002. El token lleva el id y el rol del usuario; los permisos se validan siempre en el servidor.
+      description: ADR-0002. El token lleva el id y los roles del usuario; los permisos se validan siempre en el servidor.
 
   headers:
     Location:
@@ -1313,7 +1323,8 @@ components:
       description: 'A: pedido de Ecuador (productos existentes y nuevos). B: pedido propuesto por China.'
     CodigoRol:
       type: string
-      description: 'Código del rol. Los 7 iniciales son admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta (este último conservado por decisión del equipo; su alcance está pendiente del cliente). Es texto libre porque el admin puede crear roles (requisito 4.6).'
+      pattern: '^[a-z_]{3,40}$'
+      description: 'Código del rol. Los 7 iniciales son admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta (este último conservado por decisión del equipo; su alcance está pendiente del cliente). No es una lista cerrada porque el admin puede crear roles (requisito 4.6); el formato es el mismo en la base (`rol.codigo`) y en el dominio (`CodigoRol`).'
       examples: [admin, compras_china]
     NivelUrgencia:
       type: string
@@ -1349,10 +1360,18 @@ components:
           type: string
           description: Correo, nombre de usuario o teléfono.
           minLength: 1
+          maxLength: 254
         contrasena:
           type: string
           format: password
           minLength: 1
+          maxLength: 72
+          x-max-bytes: 72
+          description: |
+            Como máximo 72 bytes en UTF-8 (límite de BCrypt). `maxLength` cuenta caracteres y solo es una cota
+            exterior: una letra con tilde ocupa 2 bytes y un emoji 4. Una contraseña de más de 72 bytes no
+            puede estar guardada, así que responde 401 igual que unas credenciales incorrectas; el servidor
+            nunca la recorta.
     RespuestaSesion:
       type: object
       required: [tokenAcceso, expiraEn, usuario]
@@ -1367,7 +1386,7 @@ components:
 
     Usuario:
       type: object
-      required: [id, nombre, correo, usuario, telefono, rol, paises, activo]
+      required: [id, nombre, correo, usuario, telefono, roles, paises, activo]
       properties:
         id:
           type: string
@@ -1382,8 +1401,12 @@ components:
           description: Nombre de usuario para iniciar sesión.
         telefono:
           type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+        roles:
+          type: array
+          uniqueItems: true
+          description: Uno o varios roles (decisión del equipo). Una lista vacía significa que el usuario no puede acceder.
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1398,27 +1421,47 @@ components:
           properties:
             permisos:
               type: array
-              description: Permisos efectivos del rol, para que el frontend muestre u oculte opciones. El servidor los vuelve a validar en cada llamada.
+              description: Permisos efectivos (la unión de los permisos de todos sus roles), para que el frontend muestre u oculte opciones. El servidor los vuelve a validar en cada llamada.
               items:
                 type: string
+    Correo:
+      type: string
+      format: email
+      maxLength: 254
+      description: 'Único sin distinguir mayúsculas. Máximo 254 caracteres, igual que `usuario.correo` en la base.'
+    Telefono:
+      type: string
+      minLength: 7
+      maxLength: 20
+      pattern: '^\+?[0-9 ()-]{7,20}$'
+      description: |
+        Se aceptan espacios, guiones y paréntesis. El servidor los quita antes de guardar, y el resultado debe
+        tener de 7 a 15 dígitos con un `+` opcional al inicio (`^\+?[0-9]{7,15}$`, igual que `usuario.telefono`
+        en la base). Por ejemplo, `+593 99 000 0001` se guarda como `+593990000001`.
     SolicitudCrearUsuario:
       type: object
-      required: [nombre, correo, usuario, telefono, rol, contrasenaInicial]
+      description: 'Los límites son los mismos de la base de datos y de los formularios (`modelo-datos.md` 3.1, "Límites de campos").'
+      required: [nombre, correo, usuario, telefono, roles, contrasenaInicial]
       properties:
         nombre:
           type: string
           minLength: 1
+          maxLength: 200
         correo:
-          type: string
-          format: email
+          $ref: '#/components/schemas/Correo'
         usuario:
           type: string
           minLength: 3
+          maxLength: 50
         telefono:
-          type: string
-          minLength: 7
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+          $ref: '#/components/schemas/Telefono'
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: 'Al menos un rol (decisión del equipo, `requerimientos.md` 4.7).'
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1428,19 +1471,34 @@ components:
           type: string
           format: password
           minLength: 8
+          maxLength: 72
+          x-max-bytes: 72
+          description: |
+            Al menos 8 caracteres y como máximo **72 bytes en UTF-8**, que es lo que BCrypt procesa. JSON Schema
+            no puede limitar bytes: `maxLength: 72` cuenta caracteres y solo es una cota exterior (una letra con
+            tilde ocupa 2 bytes; un emoji, 4). El servidor mide los bytes en UTF-8 y, si pasan de 72, responde
+            400 `VALIDACION` con el error en este campo. Nunca recorta la contraseña en silencio. La extensión
+            `x-max-bytes` deja el límite real escrito para el backend y los formularios.
     SolicitudActualizarUsuario:
       type: object
+      description: 'Los mismos límites que `SolicitudCrearUsuario`.'
       minProperties: 1
       properties:
         nombre:
           type: string
+          minLength: 1
+          maxLength: 200
         correo:
-          type: string
-          format: email
+          $ref: '#/components/schemas/Correo'
         telefono:
-          type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+          $ref: '#/components/schemas/Telefono'
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: 'Reemplaza la lista completa. Al menos un rol; para retirar el acceso se desactiva la cuenta con `activo: false` (decisión del equipo, `requerimientos.md` 4.7).'
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1459,9 +1517,10 @@ components:
           $ref: '#/components/schemas/CodigoRol'
         nombre:
           type: string
+          maxLength: 100
         permisos:
           type: array
-          description: Permisos del rol (por ejemplo, crear pedidos del flujo A o mantener bodegas). La lista exacta se define en la fase 1.
+          description: Permisos del rol (por ejemplo, crear pedidos del flujo A o mantener bodegas). Pendiente; la lista exacta se define con los casos de uso de la fase 1.
           items:
             type: string
         etapasQueAtiende:
@@ -1487,10 +1546,15 @@ components:
           $ref: '#/components/schemas/CodigoRol'
         nombre:
           type: string
+          minLength: 1
+          maxLength: 100
         permisos:
           type: array
+          description: Pendiente. La lista de permisos se define con los casos de uso de la fase 1.
           items:
             type: string
+            minLength: 1
+            maxLength: 100
 
     DefinicionFlujo:
       type: object
@@ -1702,15 +1766,18 @@ components:
           type: integer
     UsuarioResumen:
       type: object
-      required: [id, nombre, rol]
+      required: [id, nombre, roles]
       properties:
         id:
           type: string
           format: uuid
         nombre:
           type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+        roles:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CodigoRol'
     EtapaEnLinea:
       type: object
       required: [numero, nombre, estado, rolResponsable]

@@ -241,16 +241,16 @@ Listo cuando `docker compose up` levanta los 3 servicios y `/api/v1/salud` respo
 **Paso 1.5 — Migración inicial.** Skill: `ecc:database-migrations`
 
 ```text
-/ecc:database-migrations Crea la migración Flyway V1 con las tablas pais, rol, rol_permiso, usuario, usuario_pais y token_renovacion, según documentos/modelo-datos.md. Correo, usuario y teléfono son únicos. Siembra los países y los 7 roles. No siembres usuarios reales ni contraseñas.
+/ecc:database-migrations Crea la migración Flyway V1 con las tablas pais, rol, rol_permiso, usuario, usuario_rol, usuario_pais y token_renovacion, según documentos/modelo-datos.md. Correo, usuario y teléfono son únicos. Siembra los países y los 7 roles. No siembres usuarios reales ni contraseñas.
 ```
 
 - **Usuarios reales y secretos:** se cargan fuera de git; las pruebas usan usuarios ficticios (ADR-0015).
-- **Relación usuario–rol:** espera la respuesta del cliente sobre si un usuario tiene uno o varios roles (columna `rol_id` o tabla `usuario_rol`; `modelo-datos.md`, sección 6). Mientras tanto, no se da ninguna de las dos por aprobada.
+- **Relación usuario–rol:** uno o varios roles por usuario con la tabla `usuario_rol`, asignados solo por el admin. Es decisión del equipo (2026-10-12), no respuesta del cliente (`requerimientos.md` 4.7).
 
 **Paso 1.6 — Pruebas primero.** Skills: `ecc:tdd-workflow`, `ecc:springboot-tdd`, `/ecc:react-test`
 
 ```text
-/ecc:springboot-tdd Escribe las pruebas, antes del código, para: login con correo, con usuario y con teléfono; contraseña incorrecta; bloqueo de 15 minutos tras 5 intentos fallidos; JWT de acceso de 15 minutos con rol; renovación hasta 8 horas con rotación; solo el admin crea usuarios y asigna roles; un usuario sin rol no entra.
+/ecc:springboot-tdd Escribe las pruebas, antes del código, para: login con correo, con usuario y con teléfono; contraseña incorrecta; bloqueo de 15 minutos tras 5 intentos fallidos; JWT de acceso de 15 minutos con rol; renovación hasta 8 horas con rotación; solo el admin crea usuarios y asigna uno o varios roles; un usuario sin roles no entra; una cuenta desactivada no inicia ni renueva sesión.
 ```
 
 ```text

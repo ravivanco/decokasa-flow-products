@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-10-10 · **Fase 0, paso 0.9** · **Fuentes:** `documentos/requerimientos.md` (sección 4.6 y respuestas del cliente), `documentos/arquitectura.md`, `documentos/api/openapi.yaml` y `documentos/adr/`. Correspondencia con JPA revisada con la skill `ecc:jpa-patterns`.
 
-Esquema PostgreSQL 17 para el MVP de Ecuador: 20 tablas. Es solo diseño; las migraciones Flyway se escriben en la fase 1, y este documento no contiene SQL ejecutable.
+Esquema PostgreSQL 17 para el MVP de Ecuador: 21 tablas (con `usuario_rol`, agregada el 2026-10-12). Es solo diseño; las migraciones Flyway se escriben desde la fase 1 (`backend/src/main/resources/db/migration/`), y este documento no contiene SQL ejecutable.
 
 **Marcas:**
 - Sin marca: requisito de `requerimientos.md`, o consecuencia directa de uno.
@@ -19,7 +19,7 @@ Esquema PostgreSQL 17 para el MVP de Ecuador: 20 tablas. Es solo diseño; las mi
 | Valores cerrados (estado, acción, tipo de flujo) | `text` con `CHECK (... IN (...))`, sin tipos `ENUM` de PostgreSQL | **[P]** Agregar un valor es una migración simple, y en JPA se mapea con `@Enumerated(STRING)` |
 | Concurrencia | Columna `version bigint` (bloqueo optimista) en `pedido`, `usuario`, `bodega` y `secuencia_pedido` | **[P]** Respalda el error 409 `ETAPA_CAMBIO` del contrato |
 | Esquema | Flyway es dueño del esquema; Hibernate solo valida (`ddl-auto=validate`) | ADR-0001 (Flyway) y skill `jpa-patterns` |
-| Borrados | No hay borrado físico de pedidos, eventos ni adjuntos. Usuarios y bodegas se desactivan con `activo` / `activa` | Requisito 4.6 e invariante del historial |
+| Borrados | No hay borrado físico de pedidos, eventos ni adjuntos. Usuarios y bodegas se desactivan con `activo` / `activa`; las FK hacia `usuario` no usan `ON DELETE CASCADE`, así el historial de un usuario desactivado se conserva | Requisitos 4.6 y 4.7, e invariante del historial |
 
 ## 2. Diagrama entidad-relación
 
@@ -27,7 +27,8 @@ Esquema PostgreSQL 17 para el MVP de Ecuador: 20 tablas. Es solo diseño; las mi
 erDiagram
   pais ||--o{ usuario_pais : ""
   usuario ||--o{ usuario_pais : ""
-  rol ||--o{ usuario : "tiene"
+  usuario ||--o{ usuario_rol : "tiene"
+  rol ||--o{ usuario_rol : ""
   rol ||--o{ rol_permiso : ""
   pais ||--o{ definicion_flujo : ""
   definicion_flujo ||--|{ definicion_etapa : "etapas"
@@ -68,11 +69,13 @@ erDiagram
 | Columna | Tipo | Restricciones | Nota |
 | --- | --- | --- | --- |
 | `id` | `uuid` | PK | |
-| `codigo` | `text` | NOT NULL, UNIQUE | `admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta` (conservado por decisión del equipo, alcance ⏸); el admin puede crear más (requisito 4.6) |
-| `nombre` | `text` | NOT NULL | |
+| `codigo` | `text` | NOT NULL, UNIQUE, `CHECK (codigo ~ '^[a-z_]{3,40}$')` | `admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta` (conservado por decisión del equipo, alcance ⏸); el admin puede crear más (requisito 4.6). El `CHECK` es el mismo formato que valida `CodigoRol` en el dominio |
+| `nombre` | `text` | NOT NULL, `CHECK (char_length(nombre) BETWEEN 1 AND 100)` | Nombres de los 7 iniciales (aceptados el 2026-10-12): Administrador, Asistente de compras, Marketing y codificación, Compras China, Logística, Asistente de compras en China y Consulta |
 | `creado_en` | `timestamptz` | NOT NULL | |
 
-**`rol_permiso`** — permisos del rol. La lista exacta de permisos se define en la fase 1.
+Los 7 roles iniciales tienen identificadores fijos (aceptados el 2026-10-12), iguales en todos los entornos: UUIDv7 válidos con la marca de tiempo 2026-10-12T00:00:00Z, de `01a12d68-b800-7000-8000-000000000001` (admin) a `…000000000007` (consulta). `MigracionesIT` comprueba la versión, la variante y la fecha.
+
+**`rol_permiso`** — permisos del rol. **Pendiente:** la lista de permisos se define con los casos de uso de la fase 1; la migración V1 crea la tabla vacía.
 
 | Columna | Tipo | Restricciones |
 | --- | --- | --- |
@@ -91,14 +94,40 @@ Las "etapas que atiende" el rol (requisito 4.6) no se guardan aquí. Se derivan 
 | `usuario` | `text` | NOT NULL | Nombre de usuario; único sin distinguir mayúsculas |
 | `telefono` | `text` | NOT NULL | Único. **[P]** Se guarda normalizado (solo dígitos y el `+`) para que el login por teléfono funcione con o sin espacios |
 | `contrasena_hash` | `text` | NOT NULL | BCrypt (ADR-0002); nunca la contraseña |
-| `rol_id` | `uuid` | NOT NULL, FK → `rol.id` | ⏸ **Sin aprobar.** Así lo describe hoy el contrato (un rol). Requisito 4.6 dice "rol(es)" y el manual menciona `usuario_rol`; si el cliente elige varios roles, esta columna se reemplaza por la tabla `usuario_rol`. En ambos casos, un usuario sin rol no puede iniciar sesión |
-| `activo` | `boolean` | NOT NULL DEFAULT true | |
+| `activo` | `boolean` | NOT NULL DEFAULT true | Desactivado: no inicia ni renueva sesión, y sus tokens de renovación se revocan. No se borra (requisito 4.7) |
 | `intentos_fallidos` | `integer` | NOT NULL DEFAULT 0, `CHECK (>= 0)` | Bloqueo tras 5 intentos fallidos (ADR-0002, decidido por el equipo el 2026-10-12) |
 | `bloqueado_hasta` | `timestamptz` | NULL | Fin del bloqueo de 15 min (ADR-0002) |
 | `creado_en`, `actualizado_en` | `timestamptz` | NOT NULL | |
 | `version` | `bigint` | NOT NULL | Bloqueo optimista |
 
-**`usuario_pais`**: `usuario_id` (FK) y `pais_codigo` (FK); PK compuesta.
+**Límites de campos** (aceptados por Richard el 2026-10-12). Son los mismos en la base (`CHECK` de la migración V1), en la API (`openapi.yaml`, `minLength`/`maxLength`/`pattern`) y en los formularios del frontend (esquemas Zod, tarea 22). Si uno cambia, se cambian los tres a la vez. El dominio valida primero; la base es la última barrera.
+
+| Campo | Base de datos | API | Nota |
+| --- | --- | --- | --- |
+| `usuario.nombre` | 1 a 200 caracteres | `minLength: 1`, `maxLength: 200` | |
+| `usuario.correo` | Con `@` después del primer carácter; hasta 254 | `format: email`, `maxLength: 254` (`Correo`) | Único sin distinguir mayúsculas |
+| `usuario.usuario` | 3 a 50 caracteres | `minLength: 3`, `maxLength: 50` | Único sin distinguir mayúsculas |
+| `usuario.telefono` | `^\+?[0-9]{7,15}$` (ya normalizado) | Hasta 20 caracteres con espacios, guiones o paréntesis (`Telefono`) | El servidor normaliza antes de guardar; el resultado cumple el formato de la base |
+| Contraseña | Solo se guarda el hash (`contrasena_hash`); la base no conoce la contraseña ni su largo | Al menos 8 caracteres y como máximo **72 bytes en UTF-8** (`contrasenaInicial`: `minLength: 8`, `maxLength: 72` como cota exterior y `x-max-bytes: 72`) | BCrypt solo procesa 72 bytes. Se mide en bytes, no en caracteres: "ñ" o "á" ocupan 2 y un emoji 4. Más de 72 bytes se rechaza (400 al crear o cambiarla; 401 al iniciar sesión); nunca se recorta en silencio. Formularios: `new TextEncoder().encode(valor).length <= 72` |
+| `rol.codigo` | `^[a-z_]{3,40}$` | `pattern` de `CodigoRol` | Igual que `CodigoRol` en el dominio |
+| `rol.nombre` | 1 a 100 caracteres | `minLength: 1`, `maxLength: 100` | |
+| `rol_permiso.permiso` | 1 a 100 caracteres | `maxLength: 100` | Lista de permisos pendiente |
+| `usuario.intentos_fallidos` | `>= 0` | No se expone | |
+
+Los roles del usuario están en `usuario_rol`, no en esta tabla.
+
+**`usuario_rol`** (decisión del equipo del 2026-10-12, no del cliente: uno o varios roles por usuario, asignados solo por el admin; requisito 4.7)
+
+| Columna | Tipo | Restricciones | Nota |
+| --- | --- | --- | --- |
+| `usuario_id` | `uuid` | FK → `usuario.id`, parte de la PK | |
+| `rol_id` | `uuid` | FK → `rol.id`, parte de la PK | No se puede borrar un rol asignado |
+| `asignado_en` | `timestamptz` | NOT NULL | Cuándo se asignó, para auditoría (aceptado el 2026-10-12) |
+
+- PK (`usuario_id`, `rol_id`): el mismo rol no se asigna dos veces. Índice en (`rol_id`) para "usuarios con este rol".
+- **Usuario sin roles** (aceptado por Richard el 2026-10-12): la base lo permite, por ejemplo en una carga externa, pero ese usuario tiene **prohibido iniciar y renovar sesión**; lo impiden el dominio y el inicio de sesión (pruebas del paso 1.6). Crear o editar un usuario por la API exige **al menos un rol**; para retirar el acceso se **desactiva la cuenta**.
+
+**`usuario_pais`**: `usuario_id` (FK) y `pais_codigo` (FK); PK compuesta. Índice en (`pais_codigo`).
 
 **`token_renovacion`** (ADR-0002; renovación aprobada por el equipo el 2026-10-12: hasta 8 h con rotación)
 
@@ -112,7 +141,9 @@ Las "etapas que atiende" el rol (requisito 4.6) no se guardan aquí. Se derivan 
 | `expira_en` | `timestamptz` | NOT NULL | Vencimiento absoluto: inicio de sesión + 8 h, igual para toda la familia |
 | `revocado_en` | `timestamptz` | NULL | Al rotar, cerrar sesión, desactivar al usuario o cambiar su contraseña |
 
-Índices: (`usuario_id`) y (`familia_id`). [P] Una tarea programada borra las filas con más de 30 días desde su vencimiento.
+- `CHECK (expira_en > creado_en)`.
+- Renovar exige un token sin revocar ni vencer **y** un usuario activo con al menos un rol (requisito 4.7).
+- Índices: (`usuario_id`) y (`familia_id`). [P] Una tarea programada borra las filas con más de 30 días desde su vencimiento.
 
 ### 3.2 Definiciones de flujo versionadas (módulo `flujos`)
 
@@ -244,7 +275,7 @@ Restricciones adicionales:
 | `etapa` | `smallint` | NOT NULL | |
 | `tipo` | `text` | NOT NULL, `CHECK (IN ('PEDIDO_CREADO','ETAPA_ENVIADA','ETAPA_APROBADA','ETAPA_RECHAZADA','PEDIDO_DEVUELTO','DEMORA_REPORTADA','BODEGA_ASIGNADA','OBSERVACION_AGREGADA','ARCHIVO_SUBIDO','ETAPA_REASIGNADA','PLAZO_VENCIDO','PEDIDO_FINALIZADO'))` | Mismos valores que el contrato |
 | `usuario_id` | `uuid` | NULL, FK → `usuario` | Nulo en los eventos del sistema |
-| `rol_codigo` | `text` | NULL | Rol del usuario en ese momento; queda aunque luego cambie de rol |
+| `rol_codigo` | `text` | NULL | Rol con el que actuó (un usuario puede tener varios); queda aunque luego cambien sus roles |
 | `ocurrido_en` | `timestamptz` | NOT NULL | Hora del servidor (R5) |
 | `observacion` | `text` | NULL, `CHECK (char_length(observacion) <= 4000)` | |
 | `nivel_urgencia` | `text` | NULL | |
@@ -362,7 +393,6 @@ Cómo funcionaría:
 | Pendiente | Tablas afectadas | Cómo queda el modelo hasta que se decida |
 | --- | --- | --- |
 | Formato del número de pedido | `secuencia_pedido`, `pedido.numero` | `numero` es `text` sin formato fijo |
-| ¿Un usuario puede tener varios roles? ("rol(es)" en 4.6) | `usuario.rol_id` o `usuario_rol` | **Sin decidir; bloquea la relación usuario–rol de la migración de la fase 1.** Un rol: columna `rol_id NOT NULL`, como el contrato actual. Varios roles: tabla `usuario_rol` (PK `usuario_id` + `rol_id`), y cambiar `Usuario.rol` del contrato por una lista. En los dos casos, un usuario sin rol no inicia sesión |
 | Plazos de Fabricación e Incidencias; tránsito hábil o corrido | `definicion_etapa.plazo_*` | Columnas nulas o configurables por etapa |
 | Urgencias en horas hábiles o corridas | `definicion_etapa`, `pedido.urgencia_vence_en` | El tipo de plazo se configura por etapa |
 | Rechazo en Revisión durante una urgencia | `pedido.urgencia_*` | El modelo guarda la urgencia; la regla vive en el dominio |
@@ -398,6 +428,7 @@ Revisado con `ecc:jpa-patterns` y con las reglas de `arquitectura.md` (R1 a R3).
 ## 8. Siguientes pasos
 
 - **Paso 0.10:** el diagrama ER de la sección 2 pasa a `documentos/diagramas/`.
-- **Fase 1:** migración V1 con `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_pais` y `token_renovacion`; semilla de países y de los 7 roles (ADR-0015). La relación usuario–rol espera la respuesta del cliente (sección 6). Ningún usuario real ni contraseña va en las migraciones.
+- **Fase 1:** migración V1 con `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_rol`, `usuario_pais` y `token_renovacion`; semilla de países y de los 7 roles (ADR-0015). Ningún usuario real ni contraseña va en las migraciones.
+- **Resuelto el 2026-10-12 por el equipo (no por el cliente):** uno o varios roles por usuario, con la tabla `usuario_rol` (antes era un pendiente de la sección 6).
 - **Fase 2:** migración V2 con flujos, pedidos, etapas, eventos y la secuencia.
 - **Fases 3 y 4:** adjuntos, notificaciones y bodegas.

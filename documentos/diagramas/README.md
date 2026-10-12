@@ -17,7 +17,7 @@
 
 **Propuestas que aparecen en los diagramas:** outbox (ADR-0012), canal de correo (ADR-0013), WebSocket desde la fase 5 (ADR-0014), tablas `secuencia_pedido` y `feriado`.
 
-**Pendiente del cliente en el ER:** si la relación `rol`–`usuario` es de uno o de varios roles por usuario.
+**Decidido por el equipo en el ER (Richard, 2026-10-12; no es respuesta del cliente):** uno o varios roles por usuario, con la tabla `usuario_rol`.
 
 **Pendientes que aparecen:** qué ve la asistente de China, destinatarios de las alertas, caso de uso de la API de Claude, plazos de Fabricación e Incidencias, documentos de Incidencias, nueva fecha en aduana, tránsito de 45 días, urgencias hábiles o corridas, rechazo durante una urgencia, si el admin crea pedidos del flujo B y el formato del número de pedido.
 

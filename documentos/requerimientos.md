@@ -440,7 +440,7 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 
 | Entidad | Datos clave | Nota |
 | --- | --- | --- |
-| Usuario | nombre, correo, usuario, teléfono, contraseña (hash), rol(es), país(es) | Los tres identificadores son únicos |
+| Usuario | nombre, correo, usuario, teléfono, contraseña (hash), rol(es), país(es), activo | Los tres identificadores son únicos. Uno o varios roles, que solo asigna el admin (decisión del equipo, 4.7). Se desactiva, no se borra |
 | Rol | nombre, permisos, etapas que atiende | Lo crea el admin |
 | País | EC, CO, flujos habilitados | CO inactivo en v1 |
 | Definición de flujo | país, tipo (A Ecuador / B China), etapas en orden, transiciones permitidas | Versionada, para no romper pedidos en curso |
@@ -460,6 +460,12 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
   - JWT de acceso de **15 minutos**.
   - Renovación de la sesión **hasta 8 horas** desde el inicio de sesión, con rotación del token de renovación en cada uso.
   - El almacenamiento del token de renovación en el navegador se describe en ADR-0002 (propuesta pendiente de aprobación).
+- **Usuarios y roles — decisión de Richard (equipo) del 2026-10-12, no es respuesta del cliente:**
+  - Un usuario puede tener **uno o varios roles** (tabla `usuario_rol`). Solo el admin asigna o quita roles.
+  - Un usuario **sin roles no puede acceder**: no inicia sesión ni renueva la sesión. La base de datos permite guardarlo (por ejemplo, en una carga externa), pero crear o editar un usuario por la API exige **al menos un rol**; para retirar el acceso se **desactiva la cuenta**.
+  - Los límites de los campos (largo del nombre, correo, usuario, teléfono y contraseña) son los mismos en la base, la API y los formularios (`modelo-datos.md` 3.1).
+  - Una cuenta **desactivada** no puede iniciar ni renovar sesión; al desactivarla se revocan sus sesiones abiertas.
+  - Los usuarios no se borran: se desactivan, y el historial de sus acciones se conserva.
 - Los datos personales reales (usuarios, correos, teléfonos) y las contraseñas o claves nunca se guardan en el repositorio. Las migraciones solo cargan países y roles; los usuarios reales se cargan fuera de git, y las pruebas usan usuarios ficticios (ADR-0015).
 - Los permisos se revisan en el servidor por rol y por etapa, nunca solo en la pantalla.
 - La carpeta de Drive se organiza por país y pedido. Quién tiene acceso directo a Drive: **TBD**.
@@ -552,5 +558,5 @@ Mientras tanto, se usa el valor propuesto y queda configurable.
 | Archivos | "si esta bien" | ¿Qué formatos se aceptan? | PDF, Word, Excel, imágenes y ZIP; 100 MB por archivo |
 | Número de pedido | "uno diferente y más profesional" | ¿Aprueban el formato? | `DK-EC-2026-0001` |
 | Andrea Collaguazo | "Asistente de compras en China nada más" | ¿Qué ve en el sistema? | Solo consulta de pedidos, sin acciones |
-| Roles por usuario | La entidad Usuario dice "rol(es)" (4.6) | ¿Un usuario puede tener uno o varios roles? | Sin valor aprobado. El contrato y el modelo de datos describen un rol; el manual menciona una tabla `usuario_rol`. Bloquea la relación usuario–rol de la migración de la fase 1 |
+| Roles por usuario | La entidad Usuario dice "rol(es)" (4.6) | ¿Un usuario puede tener uno o varios roles? | **Decidido por el equipo (Richard, 2026-10-12), sin respuesta del cliente:** uno o varios roles, asignados solo por el admin (4.7). Si el cliente pide otra cosa, se revisa con una migración nueva |
 | Rol `consulta` | No aparece en este documento; el demo lo tenía y el equipo decidió conservarlo (2026-10-12) | ¿Quién lo usa y qué puede ver? | Dashboard de consulta, sin permisos de gestión ni acciones |

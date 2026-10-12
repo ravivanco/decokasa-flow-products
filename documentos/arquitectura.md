@@ -110,7 +110,7 @@ flowchart TD
 - **`pedidos` es el centro.** Ejecuta las acciones de etapa y, para eso, usa los puertos de entrada de otros módulos:
   - `ResolverTransicion` de `flujos`, que da la etapa de destino y los requisitos de la acción.
   - Los cálculos de vencimiento de `plazos`.
-  - El rol del usuario, en `usuarios`.
+  - Los roles del usuario, en `usuarios`.
   - La bodega elegida, en `bodegas`.
   - Los adjuntos de la etapa, en `archivos`.
 - **`plazos` necesita saber qué pedidos tienen una etapa activa** para detectar vencimientos. Lo pide con su propio puerto de salida, `PedidosConEtapaActiva`, que implementa un adaptador del módulo `pedidos`. Así la dependencia va siempre de `pedidos` hacia `plazos` y no hay ciclo (R9).
@@ -123,11 +123,11 @@ flowchart TD
 
 | Capa | Elementos |
 | --- | --- |
-| Dominio | `Usuario` (nombre, correo, nombre de usuario y teléfono únicos, activo, países, rol; ⏸ uno o varios roles), `Rol` (nombre, permisos, etapas que atiende; es un dato que crea el admin, y los 7 roles iniciales se cargan con una migración: admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta, este último conservado por decisión del equipo con alcance ⏸), `Pais` (EC activo, CO inactivo en v1), `Credencial` |
-| Puertos de entrada | `IniciarSesion` (correo, usuario o teléfono + contraseña), `RenovarSesion`, `CerrarSesion`, `CrearUsuario`, `ActualizarUsuario`, `AsignarRol`, `ActivarDesactivarUsuario`, `CrearRol`, `ActualizarRol`, `ConsultarUsuarios`, `ObtenerUsuarioActual`; ⏸ `RecuperarContrasena` |
+| Dominio | `Usuario` (nombre, correo, nombre de usuario y teléfono únicos, activo, países, uno o varios roles: decisión del equipo del 2026-10-12, tabla `usuario_rol`), `Rol` (nombre, permisos, etapas que atiende; es un dato que crea el admin, y los 7 roles iniciales se cargan con una migración: admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta, este último conservado por decisión del equipo con alcance ⏸), `Pais` (EC activo, CO inactivo en v1), `Credencial` |
+| Puertos de entrada | `IniciarSesion` (correo, usuario o teléfono + contraseña), `RenovarSesion`, `CerrarSesion`, `CrearUsuario`, `ActualizarUsuario`, `AsignarRoles`, `ActivarDesactivarUsuario`, `CrearRol`, `ActualizarRol`, `ConsultarUsuarios`, `ObtenerUsuarioActual`; ⏸ `RecuperarContrasena` |
 | Puertos de salida | `UsuarioRepositorio`, `RolRepositorio`, `TokenRenovacionRepositorio`, `CodificadorContrasena`, `EmisorTokens`, `Reloj` |
 | Adaptadores | Entrada: `AuthController`, `UsuarioController`, `RolController`. Salida: `UsuarioJpaRepositorio`, `RolJpaRepositorio`, `TokenRenovacionJpaRepositorio`, `BCryptCodificador`, `JwtEmisor` |
-| Reglas | Solo el admin crea usuarios y roles y asigna roles (requerimientos 1.3, 4.2 #3 y 4.6). Un usuario sin rol no puede iniciar sesión. **Decidido por el equipo (2026-10-12, ADR-0002):** bloqueo de 15 min tras 5 intentos fallidos de contraseña; JWT de acceso de 15 min; renovación de la sesión hasta 8 h desde el inicio de sesión, con rotación y detección de reutilización. **[P]** Token de renovación en cookie `HttpOnly` (ADR-0002). ⏸ Qué ve la asistente de compras en China y el rol `consulta` |
+| Reglas | Solo el admin crea usuarios y roles y asigna roles (requerimientos 1.3, 4.2 #3 y 4.6). **Decidido por el equipo (Richard, 2026-10-12; requerimientos 4.7):** un usuario tiene uno o varios roles; sin roles no puede acceder (no inicia ni renueva sesión); una cuenta desactivada no inicia ni renueva sesión y se revocan sus tokens de renovación; los usuarios no se borran y su historial se conserva. **Decidido por el equipo (2026-10-12, ADR-0002):** bloqueo de 15 min tras 5 intentos fallidos de contraseña; JWT de acceso de 15 min; renovación de la sesión hasta 8 h desde el inicio de sesión, con rotación y detección de reutilización. **[P]** Token de renovación en cookie `HttpOnly` (ADR-0002). ⏸ Qué ve la asistente de compras en China y el rol `consulta` |
 
 ### 4.2 `flujos` (motor de flujos)
 
@@ -364,7 +364,6 @@ Ninguna bloquea la arquitectura: cada una se resuelve con un valor configurable 
 | Formatos de archivo aceptados | `archivos` | `PoliticaArchivos` | PDF, Word, Excel, imágenes y ZIP; 100 MB |
 | Documentos de Incidencias ("todos los documentos") | `flujos` | Requisitos de la etapa en la definición del flujo | Sin definir |
 | Qué ve la asistente de compras en China | `usuarios`, `pedidos` | Permisos del rol `asistente_china` | Solo consulta |
-| ¿Un usuario puede tener uno o varios roles? ("rol(es)" en requerimientos 4.6) | `usuarios` | Relación usuario–rol: columna `rol_id` o tabla `usuario_rol` | Sin valor aprobado; bloquea esa parte de la migración de la fase 1 |
 | Alcance del rol `consulta` (conservado por el equipo) | `usuarios`, `pedidos` | Permisos del rol `consulta` | Dashboard de consulta, sin acciones |
 | ¿El admin crea pedidos del flujo B? | `pedidos` | Permiso de `CrearPedido` | Solo Compras China |
 | ¿Se reasigna a un usuario de otro rol? | `pedidos` | Validación de `ReasignarEtapa` | Solo usuarios con el rol responsable |
@@ -394,6 +393,7 @@ Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar. La
 | Monorepo y Gradle | — | Dos repositorios; Maven | Aprobada (ADR-0010) |
 | Paquete base `com.decokasa.seguimiento` | Sección 5 | Otro nombre | Propuesta |
 | Países y roles en migraciones; usuarios reales y secretos fuera de git | — | Sembrar usuarios en la migración | Aprobada (ADR-0015) |
+| Uno o varios roles por usuario (tabla `usuario_rol`), asignados solo por el admin | Sección 4.1 | Un rol por usuario (`usuario.rol_id`) | Aprobada por el equipo (Richard, 2026-10-12); no es respuesta del cliente |
 | Propuesta de 31 días para Fabricación | Sección 8.1 | El valor que fije el cliente | Pendiente del cliente |
 
 ## 9. Correspondencia con el demo

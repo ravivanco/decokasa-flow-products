@@ -52,7 +52,7 @@ Cada una está explicada en el ADR correspondiente.
 | Versión de PostgreSQL | `requerimientos.md` dice "16 o 17"; `docker-compose.yml` usa la 17 | 0001 |
 | WebSocket | Está en el stack recomendado del cliente, pero no en el stack fijo de `CLAUDE.md`. El equipo decidió que no entra antes de la fase 5; el manual (paso 1.3) ya no lo incluye en la fase 1 | 0014 |
 | Bloqueo y JWT de vida corta | `requerimientos.md` 4.7 los incluye; versiones anteriores de ADR-0002 y `arquitectura.md` decían que el cliente no los pidió. No consta quién escribió 4.7; los valores los fijó el equipo | 0002 |
-| Uno o varios roles por usuario | `requerimientos.md` 4.6 dice "rol(es)" y el manual (paso 1.5) menciona `usuario_rol`; el contrato y el modelo de datos describen un rol. **Pendiente del cliente** | — |
+| Uno o varios roles por usuario | `requerimientos.md` 4.6 dice "rol(es)"; el contrato y el modelo de datos describían un rol. **Resuelto por el equipo (Richard, 2026-10-12), no por el cliente:** uno o varios roles con la tabla `usuario_rol` (`requerimientos.md` 4.7) | — |
 | Destinatarios de las alertas | El registro dice "Gmail al admin"; el valor provisional de `requerimientos.md` y `arquitectura.md` agrega al responsable | 0005 |
 | Tránsito de 45 días | La calculadora usa días corridos; `arquitectura.md` usa días hábiles como provisional | 0006 |
 

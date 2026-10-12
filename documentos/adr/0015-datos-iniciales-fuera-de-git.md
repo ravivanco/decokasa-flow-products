@@ -56,4 +56,3 @@ El manual (paso 1.5) pedía sembrar en la migración los 6 usuarios de `requerim
 
 - Si el repositorio pasa a privado. No cambia esta decisión.
 - Alcance del rol `consulta`.
-- Si un usuario puede tener uno o varios roles (afecta a la relación usuario–rol, no a esta decisión).
