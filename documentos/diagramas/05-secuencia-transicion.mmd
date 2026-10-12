@@ -1,0 +1,36 @@
+%% Secuencia de una acción de etapa: Marcela rechaza en A3. Fuente: arquitectura.md sección 6; openapi.yaml POST /pedidos/{id}/acciones. [P] = propuesta.
+sequenceDiagram
+  autonumber
+  actor M as Marcela (asist. compras)
+  participant UI as Frontend
+  participant API as AccionEtapaController
+  participant UC as EjecutarAccionEtapa
+  participant MF as ResolverTransicion (flujos)
+  participant PL as plazos
+  participant REPO as PedidoRepositorio
+  participant EV as PublicadorEventos
+  participant HIST as historial
+  participant OUT as cola de correos (outbox [P])
+  participant MAIL as Notificador (Gmail API o SMTP [P])
+
+  M->>UI: Rechaza con observación
+  UI->>API: POST /pedidos/{id}/acciones (RECHAZAR, etapaEsperada 3, JWT)
+  API->>UC: abre la transacción [P] y envía el comando
+  UC->>REPO: cargar pedido
+  UC->>UC: validar asignación a A3 o admin (R6)
+  alt la etapa actual no es la esperada
+    UC-->>API: error ETAPA_CAMBIO
+    API-->>UI: 409
+  else la acción es válida
+    UC->>MF: destino y requisitos de RECHAZAR en A3
+    MF-->>UC: destino A2, requiere observación
+    UC->>PL: vencimiento de A2 (reentrada, días hábiles)
+    UC->>REPO: guardar pedido en A2
+    UC->>EV: publicar EtapaRechazada
+    EV->>HIST: registrar evento (misma transacción)
+    EV->>OUT: encolar correo al admin (misma transacción)
+    UC-->>API: pedido actualizado
+    API-->>UI: 200 PedidoDetalle
+  end
+  Note over OUT,MAIL: Después del commit, una tarea programada envía y reintenta
+  OUT->>MAIL: enviar correo pendiente

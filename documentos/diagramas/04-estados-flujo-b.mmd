@@ -1,0 +1,40 @@
+%% Estados del flujo B (pedido propuesto por China) con sus devoluciones. Fuente: requerimientos.md 4.5; arquitectura.md 4.2. ⏸ = pendiente del cliente.
+stateDiagram-v2
+  direction TB
+  B1: B1 Crear solicitud y producto propuesto (compras China)
+  B2: B2 Revisión de productos propuestos (asist. compras) - 24 h
+  B3: B3 Codificación (marketing) - 24 h
+  B4: B4 Revisión y aprobación (asist. compras) - 24 h
+  B5: B5 Análisis y gestión (compras China) - 3 días
+  B6: B6 Fabricación - plazo ⏸
+  B7: B7 Embarque - 10 días
+  B8: B8 Aduana Ecuador
+  B9: B9 Autorización de salida - 24 h
+  B10: B10 Bodega - 24 h
+  B11: B11 Incidencias - plazo ⏸
+  B12: B12 Fin (automático)
+
+  [*] --> B1 : crear pedido (⏸ si el admin también puede)
+  B1 --> B2 : ENVIAR con producto propuesto adjunto
+  B2 --> B3 : APROBAR
+  B2 --> B1 : RECHAZAR con observación
+  B3 --> B4 : ENVIAR con documentos codificados
+  B4 --> B5 : APROBAR
+  B4 --> B3 : RECHAZAR con observación
+  B5 --> B6 : APROBAR
+  B5 --> B3 : DEVOLVER_POR_ERROR con observación
+  B5 --> B3 : DEVOLVER_POR_PRODUCTO_NUEVO con urgencia 4, 12 o 24 h
+  B6 --> B7 : APROBAR con observación
+  B7 --> B8 : APROBAR con Packing List y BL
+  B8 --> B8 : REPORTAR_DEMORA con observación y nueva fecha ⏸
+  B8 --> B9 : APROBAR llegada
+  B9 --> B10 : APROBAR
+  B10 --> B10 : ELEGIR_BODEGA
+  B10 --> B11 : APROBAR con bodega elegida y documentos
+  B11 --> B12 : APROBAR con documentos ⏸
+  B12 --> [*]
+
+  note right of B5
+    B5 devuelve a B3 (Codificación), no a B2:
+    corrección confirmada por el cliente.
+  end note

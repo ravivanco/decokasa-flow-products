@@ -1,0 +1,28 @@
+%% C4 de contenedores. Fuentes: arquitectura.md (1, 3, 4.9), ADR-0001, 0011, 0012, 0014, openapi.yaml, modelo-datos.md. [P] = propuesta. ⏸ = pendiente.
+C4Container
+  title Decokasa Seguimiento - contenedores
+
+  Person(usuarios, "Usuarios", "6 roles: admin, marketing, asistente de compras, compras China, logística, asistente China")
+
+  System_Boundary(sis, "Decokasa Seguimiento") {
+    Container(spa, "Frontend web", "React 19, Vite, TypeScript, TanStack Query", "Dashboards por rol, línea de tiempo horizontal, bandejas y acciones de etapa")
+    Container(api, "Backend API", "Spring Boot 3, Java 21", "Monolito modular hexagonal [P] (ADR-0011); REST /api/v1 según openapi.yaml; JWT (ADR-0002)")
+    Container(jobs, "Tareas programadas", "Spring Scheduling, mismo proceso", "Vencimientos, copia a Drive y envío de correos desde la cola outbox [P] (ADR-0012)")
+    ContainerDb(db, "Base de datos", "PostgreSQL 17", "20 tablas; flujos versionados; historial de solo inserción")
+    Container(tmp, "Almacén temporal", "Disco del servidor", "Archivos recibidos antes de copiarse a Drive")
+  }
+
+  System_Ext(drive, "Google Drive", "Unidad compartida (ADR-0003)")
+  System_Ext(correo, "Correo Google Workspace", "Gmail API o SMTP [P] (ADR-0013)")
+
+  Rel(usuarios, spa, "Usa", "HTTPS")
+  Rel(spa, api, "JSON y JWT", "HTTPS")
+  Rel(api, spa, "Cambios en tiempo real, fase 5 [P]", "WebSocket STOMP (ADR-0014)")
+  Rel(api, db, "Lee y escribe", "JDBC")
+  Rel(api, tmp, "Guarda archivos subidos")
+  Rel(jobs, db, "Lee cola y vencimientos", "JDBC")
+  Rel(jobs, tmp, "Lee archivos pendientes")
+  Rel(jobs, drive, "Copia archivos", "Drive API")
+  Rel(jobs, correo, "Envía correos")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
