@@ -13,7 +13,11 @@
 | 5 | `05-secuencia-transicion.mmd` | Secuencia | Una acción de etapa (rechazo en A3), con el error 409 y la cola de correos | `arquitectura.md` 6; `openapi.yaml` |
 | 6 | `06-entidad-relacion.mmd` | Entidad-relación | Las 20 tablas, sus relaciones y las columnas clave | `modelo-datos.md` 2 y 3 |
 
-**Propuestas que aparecen en los diagramas:** monolito hexagonal (ADR-0011), outbox y transacción fuera del núcleo (ADR-0012), canal de correo (ADR-0013), WebSocket (ADR-0014), tablas `secuencia_pedido`, `feriado` y `token_renovacion`.
+**Aprobadas por el equipo (2026-10-12):** monolito hexagonal (ADR-0011), transacción fuera del núcleo (ADR-0012), tabla `token_renovacion` (ADR-0002).
+
+**Propuestas que aparecen en los diagramas:** outbox (ADR-0012), canal de correo (ADR-0013), WebSocket desde la fase 5 (ADR-0014), tablas `secuencia_pedido` y `feriado`.
+
+**Pendiente del cliente en el ER:** si la relación `rol`–`usuario` es de uno o de varios roles por usuario.
 
 **Pendientes que aparecen:** qué ve la asistente de China, destinatarios de las alertas, caso de uso de la API de Claude, plazos de Fabricación e Incidencias, documentos de Incidencias, nueva fecha en aduana, tránsito de 45 días, urgencias hábiles o corridas, rechazo durante una urgencia, si el admin crea pedidos del flujo B y el formato del número de pedido.
 

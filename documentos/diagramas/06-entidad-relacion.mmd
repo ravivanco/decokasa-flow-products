@@ -1,5 +1,6 @@
 %% Entidad-relación. Fuente: modelo-datos.md (secciones 2 y 3). [P] = propuesta; ⏸ = pendiente.
-%% secuencia_pedido: [P] ⏸ solo si se aprueba DK-EC-AAAA-NNNN. feriado: [P] ⏸. token_renovacion: [P].
+%% secuencia_pedido: [P] ⏸ solo si se aprueba DK-EC-AAAA-NNNN. feriado: [P] ⏸. token_renovacion: aprobada (ADR-0002, 2026-10-12).
+%% rol ||--o{ usuario: ⏸ uno o varios roles por usuario (pendiente del cliente; con varios, sería una tabla usuario_rol).
 erDiagram
   pais ||--o{ usuario_pais : "habilita"
   usuario ||--o{ usuario_pais : "trabaja en"

@@ -1,7 +1,7 @@
 # ADR-0010: Monorepo con frontend/ y backend/, backend con Gradle
 
 **Fecha**: 2026-10-10
-**Estado**: proposed
+**Estado**: accepted (aprobado por el equipo el 2026-10-12)
 **Decisores**: equipo de desarrollo (no viene del cliente)
 
 ## Contexto
@@ -32,7 +32,12 @@ Un solo repositorio (`ravivanco/decokasa-flow-products`) con `frontend/`, `backe
 ### Negativas
 - El CI debe distinguir qué parte cambió.
 
-## Diferencias entre fuentes (sin resolver)
+## Aprobación
 
-- `requerimientos.md` no menciona ni monorepo ni Gradle. El manual y `CLAUDE.md` los presentan como parte del "stack fijo". Por eso este ADR queda como **proposed** hasta que el equipo lo apruebe.
+- 2026-10-12: Richard aprobó mantener el monorepo y Gradle para la fase 1. Es una decisión del equipo, no del cliente.
+- **Sigue como propuesta:** el nombre del paquete base `com.decokasa.seguimiento`. Se usa como valor provisional en la fase 1.
+
+## Diferencias entre fuentes
+
+- `requerimientos.md` no menciona ni monorepo ni Gradle; el manual y `CLAUDE.md` los presentan como parte del "stack fijo". Queda resuelto por la aprobación del equipo.
 - El intento anterior del repositorio, ya vaciado (commits DKT-01 en `develop`), preparaba `.gitignore` para Maven. Queda solo como antecedente.

@@ -68,7 +68,7 @@ erDiagram
 | Columna | Tipo | Restricciones | Nota |
 | --- | --- | --- | --- |
 | `id` | `uuid` | PK | |
-| `codigo` | `text` | NOT NULL, UNIQUE | `admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china`; el admin puede crear más (requisito 4.6) |
+| `codigo` | `text` | NOT NULL, UNIQUE | `admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta` (conservado por decisión del equipo, alcance ⏸); el admin puede crear más (requisito 4.6) |
 | `nombre` | `text` | NOT NULL | |
 | `creado_en` | `timestamptz` | NOT NULL | |
 
@@ -91,16 +91,28 @@ Las "etapas que atiende" el rol (requisito 4.6) no se guardan aquí. Se derivan 
 | `usuario` | `text` | NOT NULL | Nombre de usuario; único sin distinguir mayúsculas |
 | `telefono` | `text` | NOT NULL | Único. **[P]** Se guarda normalizado (solo dígitos y el `+`) para que el login por teléfono funcione con o sin espacios |
 | `contrasena_hash` | `text` | NOT NULL | BCrypt (ADR-0002); nunca la contraseña |
-| `rol_id` | `uuid` | NOT NULL, FK → `rol.id` | Un rol por usuario, como en el contrato. ⏸ Requisito 4.6 dice "rol(es)" |
+| `rol_id` | `uuid` | NOT NULL, FK → `rol.id` | ⏸ **Sin aprobar.** Así lo describe hoy el contrato (un rol). Requisito 4.6 dice "rol(es)" y el manual menciona `usuario_rol`; si el cliente elige varios roles, esta columna se reemplaza por la tabla `usuario_rol`. En ambos casos, un usuario sin rol no puede iniciar sesión |
 | `activo` | `boolean` | NOT NULL DEFAULT true | |
-| `intentos_fallidos` | `integer` | NOT NULL DEFAULT 0, `CHECK (>= 0)` | **[P]** Bloqueo por intentos (ADR-0002) |
-| `bloqueado_hasta` | `timestamptz` | NULL | **[P]** |
+| `intentos_fallidos` | `integer` | NOT NULL DEFAULT 0, `CHECK (>= 0)` | Bloqueo tras 5 intentos fallidos (ADR-0002, decidido por el equipo el 2026-10-12) |
+| `bloqueado_hasta` | `timestamptz` | NULL | Fin del bloqueo de 15 min (ADR-0002) |
 | `creado_en`, `actualizado_en` | `timestamptz` | NOT NULL | |
 | `version` | `bigint` | NOT NULL | Bloqueo optimista |
 
 **`usuario_pais`**: `usuario_id` (FK) y `pais_codigo` (FK); PK compuesta.
 
-**`token_renovacion`** **[P]** (ADR-0002, renovación de JWT): `id` uuid PK; `usuario_id` FK; `token_hash` text NOT NULL UNIQUE (nunca el token en claro); `expira_en` timestamptz NOT NULL; `revocado_en` timestamptz NULL. Si no se aprueba la renovación, la tabla no se crea.
+**`token_renovacion`** (ADR-0002; renovación aprobada por el equipo el 2026-10-12: hasta 8 h con rotación)
+
+| Columna | Tipo | Restricciones | Nota |
+| --- | --- | --- | --- |
+| `id` | `uuid` | PK | |
+| `usuario_id` | `uuid` | NOT NULL, FK → `usuario.id` | |
+| `familia_id` | `uuid` | NOT NULL | Una familia por inicio de sesión; las rotaciones la heredan. Si se reutiliza un token revocado, se revoca toda la familia |
+| `token_hash` | `text` | NOT NULL, UNIQUE | SHA-256 del token; nunca el token en claro |
+| `creado_en` | `timestamptz` | NOT NULL | |
+| `expira_en` | `timestamptz` | NOT NULL | Vencimiento absoluto: inicio de sesión + 8 h, igual para toda la familia |
+| `revocado_en` | `timestamptz` | NULL | Al rotar, cerrar sesión, desactivar al usuario o cambiar su contraseña |
+
+Índices: (`usuario_id`) y (`familia_id`). [P] Una tarea programada borra las filas con más de 30 días desde su vencimiento.
 
 ### 3.2 Definiciones de flujo versionadas (módulo `flujos`)
 
@@ -350,7 +362,7 @@ Cómo funcionaría:
 | Pendiente | Tablas afectadas | Cómo queda el modelo hasta que se decida |
 | --- | --- | --- |
 | Formato del número de pedido | `secuencia_pedido`, `pedido.numero` | `numero` es `text` sin formato fijo |
-| ¿Un usuario puede tener varios roles? ("rol(es)" en 4.6) | `usuario.rol_id` | Un rol, como el contrato; pasar a una tabla `usuario_rol` sería una migración aditiva |
+| ¿Un usuario puede tener varios roles? ("rol(es)" en 4.6) | `usuario.rol_id` o `usuario_rol` | **Sin decidir; bloquea la relación usuario–rol de la migración de la fase 1.** Un rol: columna `rol_id NOT NULL`, como el contrato actual. Varios roles: tabla `usuario_rol` (PK `usuario_id` + `rol_id`), y cambiar `Usuario.rol` del contrato por una lista. En los dos casos, un usuario sin rol no inicia sesión |
 | Plazos de Fabricación e Incidencias; tránsito hábil o corrido | `definicion_etapa.plazo_*` | Columnas nulas o configurables por etapa |
 | Urgencias en horas hábiles o corridas | `definicion_etapa`, `pedido.urgencia_vence_en` | El tipo de plazo se configura por etapa |
 | Rechazo en Revisión durante una urgencia | `pedido.urgencia_*` | El modelo guarda la urgencia; la regla vive en el dominio |
@@ -386,6 +398,6 @@ Revisado con `ecc:jpa-patterns` y con las reglas de `arquitectura.md` (R1 a R3).
 ## 8. Siguientes pasos
 
 - **Paso 0.10:** el diagrama ER de la sección 2 pasa a `documentos/diagramas/`.
-- **Fase 1:** migración V1 con `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_pais` y, si se aprueba, `token_renovacion`.
+- **Fase 1:** migración V1 con `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_pais` y `token_renovacion`; semilla de países y de los 7 roles (ADR-0015). La relación usuario–rol espera la respuesta del cliente (sección 6). Ningún usuario real ni contraseña va en las migraciones.
 - **Fase 2:** migración V2 con flujos, pedidos, etapas, eventos y la secuencia.
 - **Fases 3 y 4:** adjuntos, notificaciones y bodegas.

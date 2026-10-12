@@ -9,7 +9,7 @@ El proyecto avanza en 9 fases (de la 0 a la 8), siempre en este orden. Cada paso
 ### Reglas que no cambian
 
 1. **Una fase a la vez.** No se adelanta trabajo de otra fase, salvo las parejas que pueden ir en paralelo: 2 con 3, y 5 con 6.
-2. **El stack no cambia:** React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query en el frontend. Spring Boot 3 + Java 21 + PostgreSQL + Flyway + Docker en el backend.
+2. **El stack no cambia:** React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query en el frontend. Spring Boot 4.1 (ADR-0016) + Java 21 + PostgreSQL + Flyway + Docker en el backend.
 3. **Primero las pruebas, después el código.** El paso Test siempre va antes de Implement.
 4. **La fuente de verdad es `documentos/requerimientos.md`.** Si un requisito cambia, primero se actualiza ese archivo y después el código.
 5. **Una rama por fase**, con el nombre `fase-N-nombre`, creada desde `develop`. Al terminar, se abre un pull request hacia `develop`. Nunca se hace commit directo en `main` ni en `develop`.
@@ -213,7 +213,7 @@ Revisa que el plan haya elegido la fase 1.
 **Paso 1.2 — Frontend en su carpeta.** Skills: `ecc:vite-patterns`, `shadcn`, `tanstack-query-best-practices`
 
 ```text
-/ecc:vite-patterns Mueve el demo a frontend/ sin perder el historial de git (git mv). Quita @google/genai, express y dotenv. Agrega React Router, TanStack Query, React Hook Form y Zod. Configura el proxy de Vite hacia el backend en http://localhost:8080 y la variable VITE_API_URL. Aplica los componentes clasificados como "descartar" en documentos/auditoria-demo.md.
+/ecc:vite-patterns El demo ya está en frontend/ (no hay que moverlo). Quita @google/genai, express y dotenv. Agrega React Router, TanStack Query, React Hook Form y Zod. Configura el proxy de Vite hacia el backend en http://localhost:8080 y la variable VITE_API_URL. Aplica los componentes clasificados como "descartar" en documentos/auditoria-demo.md.
 ```
 
 ```text
@@ -225,8 +225,10 @@ Listo cuando `npm run dev` dentro de `frontend/` levanta el demo igual que antes
 **Paso 1.3 — Esqueleto del backend.** Skills: `ecc:springboot-patterns`, `/ecc:gradle-build`
 
 ```text
-/ecc:springboot-patterns Crea backend/ con Spring Boot 3, Java 21 y Gradle. Dependencias: web, security, data-jpa, validation, flyway, postgresql, actuator, springdoc-openapi, websocket, testcontainers. Usa la estructura de paquetes de documentos/arquitectura.md. Agrega un endpoint /api/salud.
+/ecc:springboot-patterns Crea backend/ con Spring Boot 4.1 (ADR-0016), Java 21 y Gradle Wrapper. Dependencias: web, security, data-jpa, validation, flyway, postgresql, actuator, springdoc-openapi, testcontainers. Usa la estructura de paquetes de documentos/arquitectura.md. Agrega un endpoint /api/v1/salud.
 ```
+
+WebSocket no se agrega en esta fase: el equipo lo dejó para la fase 5 (ADR-0014). La ruta de salud usa la base `/api/v1` del contrato.
 
 **Paso 1.4 — Docker.** Skill: `ecc:docker-patterns`
 
@@ -234,18 +236,21 @@ Listo cuando `npm run dev` dentro de `frontend/` levanta el demo igual que antes
 /ecc:docker-patterns Crea docker-compose.yml en la raíz con PostgreSQL 17, el backend y el frontend. Usa variables en .env y crea .env.example con todas las variables sin valores reales.
 ```
 
-Listo cuando `docker compose up` levanta los 3 servicios y `/api/salud` responde.
+Listo cuando `docker compose up` levanta los 3 servicios y `/api/v1/salud` responde.
 
 **Paso 1.5 — Migración inicial.** Skill: `ecc:database-migrations`
 
 ```text
-/ecc:database-migrations Crea la migración Flyway V1 con las tablas usuario, rol, usuario_rol y pais, según documentos/modelo-datos.md. Correo, usuario y teléfono son únicos. Siembra los 6 roles y los 6 usuarios de la sección 1.2 de requerimientos.md, con contraseñas temporales.
+/ecc:database-migrations Crea la migración Flyway V1 con las tablas pais, rol, rol_permiso, usuario, usuario_pais y token_renovacion, según documentos/modelo-datos.md. Correo, usuario y teléfono son únicos. Siembra los países y los 7 roles. No siembres usuarios reales ni contraseñas.
 ```
+
+- **Usuarios reales y secretos:** se cargan fuera de git; las pruebas usan usuarios ficticios (ADR-0015).
+- **Relación usuario–rol:** espera la respuesta del cliente sobre si un usuario tiene uno o varios roles (columna `rol_id` o tabla `usuario_rol`; `modelo-datos.md`, sección 6). Mientras tanto, no se da ninguna de las dos por aprobada.
 
 **Paso 1.6 — Pruebas primero.** Skills: `ecc:tdd-workflow`, `ecc:springboot-tdd`, `/ecc:react-test`
 
 ```text
-/ecc:springboot-tdd Escribe las pruebas, antes del código, para: login con correo, con usuario y con teléfono; contraseña incorrecta; bloqueo tras 5 intentos fallidos; JWT con rol; solo el admin crea usuarios y asigna roles; un usuario sin rol no entra.
+/ecc:springboot-tdd Escribe las pruebas, antes del código, para: login con correo, con usuario y con teléfono; contraseña incorrecta; bloqueo de 15 minutos tras 5 intentos fallidos; JWT de acceso de 15 minutos con rol; renovación hasta 8 horas con rotación; solo el admin crea usuarios y asigna roles; un usuario sin rol no entra.
 ```
 
 ```text
@@ -259,7 +264,7 @@ Listo cuando `docker compose up` levanta los 3 servicios y `/api/salud` responde
 ```
 
 ```text
-/ecc:springboot-security Revisa que la configuración de Spring Security cumpla: BCrypt, JWT de vida corta con refresh, permisos revisados en el servidor, CORS solo para el frontend y cabeceras de seguridad.
+/ecc:springboot-security Revisa que la configuración de Spring Security cumpla: BCrypt, JWT de acceso de 15 minutos con renovación hasta 8 horas y rotación (ADR-0002), token de renovación fuera del alcance de JavaScript, permisos revisados en el servidor, CORS solo para el frontend y cabeceras de seguridad.
 ```
 
 **Paso 1.8 — Implementar el frontend.** Skills: `ecc:react-patterns`, `shadcn`, `tanstack-query-best-practices`

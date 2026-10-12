@@ -21,9 +21,9 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 
 - Fase 0 (solo documentación): entregables de fase 0 completos; cierre pendiente del PR hacia develop. La implementación empieza en la fase 1.
 - `frontend/` es el demo importado de Google AI Studio, todavía sin backend.
-- `backend/` está vacío; el proyecto Spring Boot se crea en la fase 1.
+- `backend/` tiene el esqueleto (paso 1.3): Spring Boot 4.1.1, Java 21, Gradle 9.7.1 (wrapper con sha256), paquete `com.decokasa.seguimiento`. Hay `compartido` (errores del contrato, `CodigoRol`, `CodigoPais`, puerto `Reloj`, manejador RFC 9457) y `configuracion` (`/api/v1/salud`, seguridad sin login todavía). Las reglas R1–R4 y R9 se verifican con ArchUnit (`arquitectura/ReglasArquitecturaTest`). Sin usuarios, login ni migraciones aún.
 - `docker-compose.yml` solo tiene PostgreSQL 17; el backend y el frontend se agregan en la fase 1.
-- No hay pruebas automatizadas todavía (ni Vitest ni Playwright ni JUnit).
+- Frontend: Vitest + Testing Library + MSW configurados (paso 1.2); TypeScript en modo `strict`; shadcn/ui inicializado con los tokens de `DESIGN.md` en `src/index.css` y componentes en `src/components/ui/`. Todavía no hay Playwright ni JUnit.
 - El repositorio de GitHub es público (comprobado el 2026-10-12) y ya contiene correos y teléfonos del demo y los logos del cliente (auditoría S5). ⏸ Pasarlo a privado lo decide el cliente. Mientras tanto, no subir secretos ni más datos del cliente.
 
 ## Comandos
@@ -32,13 +32,26 @@ Frontend (desde `frontend/`):
 
 ```bash
 npm install
-npm run dev       # Vite en http://localhost:3000 (escucha en 0.0.0.0)
+npm run dev       # Vite en http://localhost:3000 (escucha en 0.0.0.0); /api se envía a http://localhost:8080
 npm run build     # build de producción en frontend/dist
 npm run preview   # sirve el build
-npm run lint      # chequeo de tipos: tsc --noEmit (no hay ESLint)
+npm run lint      # chequeo de tipos: tsc --noEmit en modo strict (no hay ESLint)
+npm run test      # Vitest (una pasada); npm run test:watch para modo observación
+npm run coverage  # cobertura con @vitest/coverage-v8
+npm run clean     # borra dist/ (funciona en PowerShell y en Bash)
 ```
 
-`npm run clean` usa `rm -rf` y no funciona en PowerShell; en Windows usar Git Bash o borrar `dist/` a mano.
+Componentes de shadcn/ui: `npx shadcn add <componente>` (base `radix`). Revisar cada componente generado contra `DESIGN.md`: foco con `ring-ring` sin transparencia y altura mínima de 40 px (lo comprueban `src/components/ui/*.test.*`).
+
+Backend (desde `backend/`; en PowerShell usar `.\gradlew.bat`):
+
+```bash
+./gradlew test       # pruebas; AplicacionArrancaIT usa Testcontainers y necesita Docker encendido
+./gradlew check      # pruebas + ArchUnit + cobertura JaCoCo >= 80 % (informe en build/reports/jacoco)
+./gradlew bootJar    # jar ejecutable en build/libs
+```
+
+La conexión a la base sale de `DB_URL`, `DB_USUARIO` y `DB_CONTRASENA`; no hay secretos en `application.yml`.
 
 Base de datos (desde la raíz; necesita `POSTGRES_PASSWORD` en un `.env` en la raíz, si falta no arranca):
 
@@ -57,11 +70,11 @@ Toda la lógica vive en el navegador y en memoria; no hay llamadas HTTP, ni `loc
 - `utils/permissions.ts` — permisos por rol y etapa, solo en el cliente. En el sistema real se validan en el servidor.
 - `utils/dateUtils.ts` — días hábiles y semáforo de plazos. `SIMULATED_TODAY` fija "hoy" en `2026-10-09`; reemplazarlo por la fecha real al conectar el backend.
 - `utils/translations.ts` — textos es/en. `types.ts` — modelo de dominio (`Pedido`, `EtapaInstancia`, `HistorialAuditoria`, `UrgenciaDevolucion`…).
-- Alias `@/` apunta a `frontend/` (vite.config.ts y tsconfig.json).
+- Alias `@/` apunta a `frontend/src/` (vite.config.ts y tsconfig.json; cambiado en el paso 1.2, antes no lo usaba ningún archivo).
 
 ## Reglas del proyecto
 
-- Stack fijo. Frontend: React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query + React Router + React Hook Form + Zod. Backend: Spring Boot 3 + Java 21 + Gradle + Spring Security (JWT + BCrypt) + Spring Data JPA + Flyway + PostgreSQL + Docker. No cambiarlo sin un ADR.
+- Stack fijo. Frontend: React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query + React Router + React Hook Form + Zod. Backend: Spring Boot 4.1 (ADR-0016; la rama 3 quedó sin soporte gratuito el 2026-06-30) + Java 21 + Gradle + Spring Security (JWT + BCrypt) + Spring Data JPA + Flyway + PostgreSQL + Docker. No cambiarlo sin un ADR.
 - Arquitectura hexagonal en el backend: el dominio (pedidos, flujos, transiciones, plazos) no depende de Spring, JPA ni Google. Drive y Gmail son adaptadores.
 - TDD: escribir las pruebas antes del código.
 - Ramas: cada fase en `fase-N-nombre`, creada desde `develop`, con PR hacia `develop`. Nunca hacer commit directo en `main` ni en `develop`; `main` solo recibe `develop` al entregar una versión. Al pasar `develop` a `main`, confirmar con `git diff --stat develop main` que no quedan diferencias.

@@ -123,11 +123,11 @@ flowchart TD
 
 | Capa | Elementos |
 | --- | --- |
-| Dominio | `Usuario` (nombre, correo, nombre de usuario y teléfono únicos, activo, países, rol), `Rol` (nombre, permisos, etapas que atiende; es un dato que crea el admin, y los 6 roles iniciales se cargan con una migración: admin, asistente_compras, marketing, compras_china, logistica, asistente_china), `Pais` (EC activo, CO inactivo en v1), `Credencial` |
-| Puertos de entrada | `IniciarSesion` (correo, usuario o teléfono + contraseña), `CrearUsuario`, `ActualizarUsuario`, `AsignarRol`, `ActivarDesactivarUsuario`, `CrearRol`, `ActualizarRol`, `ConsultarUsuarios`, `ObtenerUsuarioActual`; ⏸ `RecuperarContrasena` |
-| Puertos de salida | `UsuarioRepositorio`, `RolRepositorio`, `CodificadorContrasena`, `EmisorTokens`, `Reloj` |
-| Adaptadores | Entrada: `AuthController`, `UsuarioController`, `RolController`. Salida: `UsuarioJpaRepositorio`, `RolJpaRepositorio`, `BCryptCodificador`, `JwtEmisor` |
-| Reglas | Solo el admin crea usuarios y roles y asigna roles (requerimientos 1.3, 4.2 #3 y 4.6). **[P]** Bloqueo temporal tras N intentos fallidos y JWT de vida corta, con N y la duración configurables (requerimientos 4.7, propuesta sin confirmar con el cliente). ⏸ Qué ve la asistente de compras en China |
+| Dominio | `Usuario` (nombre, correo, nombre de usuario y teléfono únicos, activo, países, rol; ⏸ uno o varios roles), `Rol` (nombre, permisos, etapas que atiende; es un dato que crea el admin, y los 7 roles iniciales se cargan con una migración: admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta, este último conservado por decisión del equipo con alcance ⏸), `Pais` (EC activo, CO inactivo en v1), `Credencial` |
+| Puertos de entrada | `IniciarSesion` (correo, usuario o teléfono + contraseña), `RenovarSesion`, `CerrarSesion`, `CrearUsuario`, `ActualizarUsuario`, `AsignarRol`, `ActivarDesactivarUsuario`, `CrearRol`, `ActualizarRol`, `ConsultarUsuarios`, `ObtenerUsuarioActual`; ⏸ `RecuperarContrasena` |
+| Puertos de salida | `UsuarioRepositorio`, `RolRepositorio`, `TokenRenovacionRepositorio`, `CodificadorContrasena`, `EmisorTokens`, `Reloj` |
+| Adaptadores | Entrada: `AuthController`, `UsuarioController`, `RolController`. Salida: `UsuarioJpaRepositorio`, `RolJpaRepositorio`, `TokenRenovacionJpaRepositorio`, `BCryptCodificador`, `JwtEmisor` |
+| Reglas | Solo el admin crea usuarios y roles y asigna roles (requerimientos 1.3, 4.2 #3 y 4.6). Un usuario sin rol no puede iniciar sesión. **Decidido por el equipo (2026-10-12, ADR-0002):** bloqueo de 15 min tras 5 intentos fallidos de contraseña; JWT de acceso de 15 min; renovación de la sesión hasta 8 h desde el inicio de sesión, con rotación y detección de reutilización. **[P]** Token de renovación en cookie `HttpOnly` (ADR-0002). ⏸ Qué ve la asistente de compras en China y el rol `consulta` |
 
 ### 4.2 `flujos` (motor de flujos)
 
@@ -364,6 +364,8 @@ Ninguna bloquea la arquitectura: cada una se resuelve con un valor configurable 
 | Formatos de archivo aceptados | `archivos` | `PoliticaArchivos` | PDF, Word, Excel, imágenes y ZIP; 100 MB |
 | Documentos de Incidencias ("todos los documentos") | `flujos` | Requisitos de la etapa en la definición del flujo | Sin definir |
 | Qué ve la asistente de compras en China | `usuarios`, `pedidos` | Permisos del rol `asistente_china` | Solo consulta |
+| ¿Un usuario puede tener uno o varios roles? ("rol(es)" en requerimientos 4.6) | `usuarios` | Relación usuario–rol: columna `rol_id` o tabla `usuario_rol` | Sin valor aprobado; bloquea esa parte de la migración de la fase 1 |
+| Alcance del rol `consulta` (conservado por el equipo) | `usuarios`, `pedidos` | Permisos del rol `consulta` | Dashboard de consulta, sin acciones |
 | ¿El admin crea pedidos del flujo B? | `pedidos` | Permiso de `CrearPedido` | Solo Compras China |
 | ¿Se reasigna a un usuario de otro rol? | `pedidos` | Validación de `ReasignarEtapa` | Solo usuarios con el rol responsable |
 | ¿El admin mantiene el catálogo de bodegas? | `bodegas` | Permiso de los casos de uso de bodegas | Solo Logística |
@@ -376,20 +378,23 @@ Ninguna bloquea la arquitectura: cada una se resuelve con un valor configurable 
 
 ### 8.2 Del equipo (propuestas para el ADR del paso 0.7)
 
-Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar.
+Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar. La columna "Estado" indica las que el equipo aprobó el 2026-10-12.
 
-| Propuesta | Dónde | Alternativa |
-| --- | --- | --- |
-| Monolito modular hexagonal con las reglas R1 a R9 | Secciones 1 y 2 | Capas tradicionales de Spring |
-| Verificar R1 a R4 y R9 con ArchUnit | Sección 2 | Solo revisión de código |
-| Transacción abierta por el adaptador de entrada o por un decorador en `config/` | Sección 1 | Anotaciones transaccionales en los casos de uso (rompe R2) |
-| Outbox: historial y cola de correos en la misma transacción | Sección 3.1 | Envío directo después de confirmar (puede perder correos) |
-| Gmail API con delegación limitada al buzón remitente | Sección 4.6 | SMTP de Google Workspace (requerimientos 3) |
-| Subcarpetas de Drive por año y etapa | Sección 4.5 | Solo país y pedido (requerimientos 4.7) |
-| WebSocket (STOMP) para el tiempo real, desde la fase 5 | Sección 4.9 | Consultas periódicas del frontend |
-| Bloqueo temporal tras N intentos fallidos y JWT de vida corta | Sección 4.1 | Sin bloqueo |
-| Paquete base `com.decokasa.seguimiento` | Sección 5 | Otro nombre |
-| Propuesta de 31 días para Fabricación | Sección 8.1 | El valor que fije el cliente |
+| Propuesta | Dónde | Alternativa | Estado |
+| --- | --- | --- | --- |
+| Monolito modular hexagonal con las reglas R1 a R9 | Secciones 1 y 2 | Capas tradicionales de Spring | Aprobada (ADR-0011) |
+| Verificar R1 a R4 y R9 con ArchUnit | Sección 2 | Solo revisión de código | Propuesta |
+| Transacción abierta por el adaptador de entrada o por un decorador en `config/` | Sección 1 | Anotaciones transaccionales en los casos de uso (rompe R2) | Aprobada (ADR-0012) |
+| Outbox: historial y cola de correos en la misma transacción | Sección 3.1 | Envío directo después de confirmar (puede perder correos) | Propuesta; se decide en la fase 3 |
+| Gmail API con delegación limitada al buzón remitente | Sección 4.6 | SMTP de Google Workspace (requerimientos 3) | Propuesta |
+| Subcarpetas de Drive por año y etapa | Sección 4.5 | Solo país y pedido (requerimientos 4.7) | Propuesta |
+| WebSocket (STOMP) para el tiempo real, desde la fase 5 | Sección 4.9 | Consultas periódicas del frontend | Aprobado que no entra antes de la fase 5; la tecnología se decide en esa fase (ADR-0014) |
+| Bloqueo tras intentos fallidos y JWT de vida corta | Sección 4.1 | Sin bloqueo | Aprobada: 5 intentos, 15 min; acceso de 15 min; renovación hasta 8 h con rotación (ADR-0002) |
+| Token de renovación en cookie `HttpOnly`, `Secure`, `SameSite=Strict` | Sección 4.1 | `sessionStorage` o solo en memoria | Propuesta (ADR-0002) |
+| Monorepo y Gradle | — | Dos repositorios; Maven | Aprobada (ADR-0010) |
+| Paquete base `com.decokasa.seguimiento` | Sección 5 | Otro nombre | Propuesta |
+| Países y roles en migraciones; usuarios reales y secretos fuera de git | — | Sembrar usuarios en la migración | Aprobada (ADR-0015) |
+| Propuesta de 31 días para Fabricación | Sección 8.1 | El valor que fije el cliente | Pendiente del cliente |
 
 ## 9. Correspondencia con el demo
 

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.1.0-borrador
+  version: 0.2.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -25,7 +25,13 @@ info:
     3. Formato del número de pedido: `DK-EC-AAAA-NNNN` es una propuesta pendiente de aprobación; por eso no se fija con `pattern`.
     4. ¿El admin crea pedidos del flujo B? `requerimientos.md` 4.2 #4 dice que los crea David; el
        admin "actúa en cualquier etapa". Queda pendiente; ver `POST /pedidos`.
-    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI).
+    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI). El equipo decidió que no entra antes de la fase 5.
+    6. ¿Uno o varios roles por usuario? `requerimientos.md` 4.6 dice "rol(es)"; este contrato describe un rol (`Usuario.rol`). Pendiente del cliente; si son varios, `rol` pasa a ser una lista.
+
+    **Cambios del 2026-10-12 (fase 1):** valores de sesión aprobados por el equipo (ADR-0002): bloqueo de 15 min tras
+    5 intentos fallidos, acceso de 15 min y renovación hasta 8 h con rotación. El token de renovación viaja en una
+    cookie `HttpOnly` (propuesta de ADR-0002) y ya no en el cuerpo; se agrega `POST /auth/cerrar-sesion`. El rol
+    `consulta` se suma a los roles iniciales.
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6).
     - Leer pedidos, línea de tiempo, historial, bodegas y definiciones: cualquier usuario autenticado
@@ -86,8 +92,9 @@ paths:
       description: |
         Requisito 4.2 #1 y ADR-0002 (JWT + BCrypt). El identificador puede ser el correo, el nombre
         de usuario o el teléfono. Credenciales incorrectas y usuario desactivado responden igual
-        (401), para no revelar qué cuentas existen. **Propuesta (ADR-0002):** bloqueo temporal tras
-        N intentos fallidos (respuesta 423).
+        (401), para no revelar qué cuentas existen. Un usuario sin rol tampoco inicia sesión (401).
+        **Decidido por el equipo (ADR-0002, 2026-10-12):** tras 5 intentos fallidos de contraseña, la cuenta
+        queda bloqueada 15 minutos (respuesta 423). El token de acceso dura 15 minutos.
       security: []
       requestBody:
         required: true
@@ -97,7 +104,10 @@ paths:
               $ref: '#/components/schemas/SolicitudInicioSesion'
       responses:
         '200':
-          description: Sesión iniciada.
+          description: Sesión iniciada. El token de acceso va en el cuerpo; el de renovación, en la cookie.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
           content:
             application/json:
               schema:
@@ -107,7 +117,7 @@ paths:
         '401':
           $ref: '#/components/responses/NoAutenticado'
         '423':
-          description: 'Propuesta: cuenta bloqueada temporalmente por intentos fallidos.'
+          description: 'Cuenta bloqueada 15 minutos tras 5 intentos fallidos (código CUENTA_BLOQUEADA; ADR-0002).'
           content:
             application/problem+json:
               schema:
@@ -118,28 +128,52 @@ paths:
       tags: [autenticacion]
       operationId: renovarSesion
       summary: Renovar el token de acceso
-      x-origen: propuesta
-      description: 'Propuesta (ADR-0002): JWT de vida corta con renovación. Si no se aprueba, se elimina.'
+      x-origen: requisito
+      description: |
+        ADR-0002 (decisión del equipo, 2026-10-12): la sesión se renueva hasta 8 horas desde el inicio
+        de sesión. Cada llamada entrega un token de acceso nuevo y rota el token de renovación (la cookie
+        anterior queda revocada). Si llega un token ya revocado, se revoca toda la sesión y responde 401.
+        **Propuesta (ADR-0002):** el token de renovación viaja en la cookie `decokasa_renovacion` y no en
+        el cuerpo; el servidor comprueba la cabecera `Origin`.
       security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [tokenRenovacion]
-              properties:
-                tokenRenovacion:
-                  type: string
+      parameters:
+        - $ref: '#/components/parameters/CookieRenovacion'
       responses:
         '200':
-          description: Token renovado.
+          description: Token renovado; la cookie se reemplaza por una nueva.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespuestaSesion'
         '401':
           $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /auth/cerrar-sesion:
+    post:
+      tags: [autenticacion]
+      operationId: cerrarSesion
+      summary: Cerrar la sesión
+      x-origen: propuesta
+      description: |
+        Propuesta (ADR-0002): revoca el token de renovación de esta sesión y borra la cookie. Responde
+        204 aunque la cookie falte o ya esté revocada. El token de acceso sigue válido hasta que vence
+        (como máximo 15 minutos); el frontend lo descarta de la memoria.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/CookieRenovacion'
+      responses:
+        '204':
+          description: Sesión cerrada; la cookie se borra.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
 
   /auth/yo:
     get:
@@ -1124,8 +1158,22 @@ components:
       schema:
         type: string
         format: uri-reference
+    CookieRenovacion:
+      description: |
+        Propuesta (ADR-0002). Cookie `decokasa_renovacion` con el token de renovación:
+        `HttpOnly; Secure; SameSite=Strict; Path=/api/v1/auth; Max-Age=<segundos hasta el fin de la sesión de 8 h>`.
+        Al cerrar sesión se envía vacía con `Max-Age=0`. JavaScript no puede leerla.
+      schema:
+        type: string
 
   parameters:
+    CookieRenovacion:
+      name: decokasa_renovacion
+      in: cookie
+      required: false
+      description: 'Propuesta (ADR-0002). Token de renovación; lo envía el navegador, nunca JavaScript.'
+      schema:
+        type: string
     PedidoId:
       name: pedidoId
       in: path
@@ -1265,7 +1313,7 @@ components:
       description: 'A: pedido de Ecuador (productos existentes y nuevos). B: pedido propuesto por China.'
     CodigoRol:
       type: string
-      description: 'Código del rol. Los 6 iniciales son admin, asistente_compras, marketing, compras_china, logistica y asistente_china. Es texto libre porque el admin puede crear roles (requisito 4.6).'
+      description: 'Código del rol. Los 7 iniciales son admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta (este último conservado por decisión del equipo; su alcance está pendiente del cliente). Es texto libre porque el admin puede crear roles (requisito 4.6).'
       examples: [admin, compras_china]
     NivelUrgencia:
       type: string
@@ -1313,10 +1361,7 @@ components:
           type: string
         expiraEn:
           type: integer
-          description: Segundos de vida del token.
-        tokenRenovacion:
-          type: [string, 'null']
-          description: 'Propuesta (ADR-0002). Nulo si no se aprueba la renovación.'
+          description: Segundos de vida del token de acceso (900, es decir, 15 minutos; ADR-0002).
         usuario:
           $ref: '#/components/schemas/Usuario'
 
