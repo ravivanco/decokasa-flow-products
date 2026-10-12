@@ -1,19 +1,151 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+/*
+  Tokens del sistema de diseño de Decokasa: documentos/diseno/DESIGN.md (secciones 3 a 6).
+  Los HEX de marca son aproximados (medidos en JPEG); ⏸ falta confirmar los códigos oficiales con el cliente.
+  Los componentes nuevos usan solo estos tokens, nunca HEX sueltos.
+  Las pantallas del demo que aún no tienen ruta conservan sus colores hasta su fase (plan de la fase 1, D6).
+*/
 @theme {
-  --color-brand-yellow: #FFD100;
-  --color-brand-dark: #515151;
-  --color-brand-gray: #6C6B6D;
-  --color-brand-light: #F4F4F4;
-  --color-semaforo-green: #16A34A;
-  --color-semaforo-orange: #EA580C;
-  --color-semaforo-red: #DC2626;
-  --color-semaforo-gray: #6C6B6D;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Marca */
+  --color-marca-morado: #31275B;
+  --color-marca-naranja: #FE5E00;
+  --color-marca-naranja-texto: #B23F00;
+
+  /* Escalas derivadas [P] (DESIGN.md 3.2) */
+  --color-morado-50: #F4F3F8;
+  --color-morado-100: #E6E4EF;
+  --color-morado-200: #CBC7DD;
+  --color-morado-600: #4A4078;
+  --color-morado-800: #31275B;
+  --color-morado-900: #221B40;
+  --color-naranja-50: #FFF1E8;
+  --color-naranja-500: #FE5E00;
+  --color-naranja-700: #B23F00;
+  --color-gris-50: #F8F9FB;
+  --color-gris-200: #E3E5EA;
+  --color-gris-600: #475569;
+  --color-gris-900: #1E1B2E;
+
+  /* Estados (semáforo, DESIGN.md 3.4) */
+  --color-estado-ok: #15803D;
+  --color-estado-aviso: #B45309;
+  --color-estado-vencido: #B91C1C;
+  --color-estado-neutro: #475569;
+
+  /* Tipografía [P] (DESIGN.md 4): servida localmente con @fontsource, sin Google Fonts */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-titulo: "Montserrat", var(--font-sans);
 }
 
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #FFFFFF;
-  color: #515151;
+/* Correspondencia entre las variables de shadcn/ui y las clases de Tailwind (bg-primary, ring-ring…) */
+@theme inline {
+  --font-heading: var(--font-titulo);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* Radios de DESIGN.md 5: 6 px (badges y campos), 8 px (botones), 12 px (tarjetas y diálogos) */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+}
+
+/* Variables de shadcn/ui (DESIGN.md 6). Modo oscuro: fuera de v1 [P]. */
+:root {
+  --background: #F8F9FB;
+  --foreground: #1E1B2E;
+  --card: #FFFFFF;
+  --card-foreground: #1E1B2E;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E1B2E;
+  --primary: #31275B;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4F3F8;
+  --secondary-foreground: #31275B;
+  --accent: #FFF1E8;
+  --accent-foreground: #B23F00;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --destructive: #B91C1C;
+  --border: #E3E5EA;
+  --input: #E3E5EA;
+  --ring: #B23F00; /* naranja oscuro: 5.83:1 sobre blanco. Sobre la barra morada, el foco es blanco */
+  --radius: 0.5rem;
+  --chart-1: #31275B;
+  --chart-2: #FE5E00;
+  --chart-3: #15803D;
+  --chart-4: #B45309;
+  --chart-5: #475569;
+  /* Barra lateral morada con texto y foco blancos (DESIGN.md 3.3) */
+  --sidebar: #31275B;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #FFFFFF;
+  --sidebar-primary-foreground: #31275B;
+  --sidebar-accent: #4A4078;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #4A4078;
+  --sidebar-ring: #FFFFFF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+    line-height: 1.5;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-titulo);
+    line-height: 1.25;
+  }
+}
+
+/* Movimiento reducido (auditoría Q12): las animaciones y transiciones pasan a ser inmediatas */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

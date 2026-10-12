@@ -1,6 +1,0 @@
-{
-  "name": "Decokasa Tracking",
-  "description": "Sistema de rastreo y seguimiento en tiempo real de pedidos de importación marítima China-Ecuador para Decokasa.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

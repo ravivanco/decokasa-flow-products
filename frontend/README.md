@@ -1,20 +1,20 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Frontend de Decokasa
 
-# Run and deploy your AI Studio app
+React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui, con React Router, TanStack Query, React Hook Form y Zod. Las reglas del proyecto están en `../CLAUDE.md` y el sistema de diseño en `../documentos/diseno/DESIGN.md`.
 
-This contains everything you need to run your app locally.
+## Comandos
 
-View your app in AI Studio: https://ai.studio/apps/fc43a33c-3514-4bb2-8e73-6de525d41d97
+Requiere Node.js 24.
 
-## Run Locally
+```bash
+npm install
+npm run dev        # http://localhost:3000; /api se envía al backend en http://localhost:8080
+npm run lint       # tipos con tsc (strict)
+npm run test       # pruebas con Vitest
+npm run build      # compilación de producción en dist/
+npm run clean      # borra dist/ (funciona en PowerShell y en Bash)
+```
 
-**Prerequisites:**  Node.js
+## Configuración
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Copia `.env.example` a `.env.local` solo si la API no está en la dirección por defecto. El frontend nunca guarda claves: las de Google y Claude viven solo en el backend.
