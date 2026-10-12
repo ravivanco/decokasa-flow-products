@@ -1,0 +1,36 @@
+# Configuración del backend de Decokasa. Ningún secreto vive aquí (ADR-0015): todo sale de variables de entorno.
+spring:
+  application:
+    name: seguimiento
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/decokasa}
+    username: ${DB_USUARIO:decokasa}
+    password: ${DB_CONTRASENA:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Flyway es dueño del esquema; Hibernate solo valida (modelo-datos.md, sección 1).
+      ddl-auto: validate
+  jackson:
+    time-zone: America/Guayaquil
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# Documentación de la API desactivada por defecto [P]; se habilita en desarrollo cuando exista el perfil dev.
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
