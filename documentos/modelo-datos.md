@@ -17,7 +17,7 @@ Esquema PostgreSQL 17 para el MVP de Ecuador: 21 tablas (con `usuario_rol`, agre
 | Fechas y horas | `timestamptz` (se guarda en UTC); la zona `America/Guayaquil` se aplica en el dominio y en la API. Fechas sin hora: `date` | ADR-0006 |
 | Textos | `text`, con `CHECK` de longitud donde el contrato fija un máximo | Recomendación de la skill `postgres-patterns` |
 | Valores cerrados (estado, acción, tipo de flujo) | `text` con `CHECK (... IN (...))`, sin tipos `ENUM` de PostgreSQL | **[P]** Agregar un valor es una migración simple, y en JPA se mapea con `@Enumerated(STRING)` |
-| Concurrencia | Columna `version bigint` (bloqueo optimista) en `pedido`, `usuario`, `bodega` y `secuencia_pedido` | **[P]** Respalda el error 409 `ETAPA_CAMBIO` del contrato |
+| Concurrencia | Columna `version bigint` (bloqueo optimista) en `pedido`, `usuario`, `bodega` y `secuencia_pedido` | En `usuario`: **D10, aprobado el 2026-10-13**, respalda el 409 `VERSION_DESACTUALIZADA` del contrato (`Usuario.version`). En `pedido`: **[P]** respalda el 409 `ETAPA_CAMBIO`. `rol` no tiene versión todavía (pendiente) |
 | Esquema | Flyway es dueño del esquema; Hibernate solo valida (`ddl-auto=validate`) | ADR-0001 (Flyway) y skill `jpa-patterns` |
 | Borrados | No hay borrado físico de pedidos, eventos ni adjuntos. Usuarios y bodegas se desactivan con `activo` / `activa`; las FK hacia `usuario` no usan `ON DELETE CASCADE`, así el historial de un usuario desactivado se conserva | Requisitos 4.6 y 4.7, e invariante del historial |
 
@@ -95,10 +95,10 @@ Las "etapas que atiende" el rol (requisito 4.6) no se guardan aquí. Se derivan 
 | `telefono` | `text` | NOT NULL | Único. **[P]** Se guarda normalizado (solo dígitos y el `+`) para que el login por teléfono funcione con o sin espacios |
 | `contrasena_hash` | `text` | NOT NULL | BCrypt (ADR-0002); nunca la contraseña |
 | `activo` | `boolean` | NOT NULL DEFAULT true | Desactivado: no inicia ni renueva sesión, y sus tokens de renovación se revocan. No se borra (requisito 4.7) |
-| `intentos_fallidos` | `integer` | NOT NULL DEFAULT 0, `CHECK (>= 0)` | Bloqueo tras 5 intentos fallidos (ADR-0002, decidido por el equipo el 2026-10-12) |
-| `bloqueado_hasta` | `timestamptz` | NULL | Fin del bloqueo de 15 min (ADR-0002) |
+| `intentos_fallidos` | `integer` | NOT NULL DEFAULT 0, `CHECK (>= 0)` | Bloqueo tras 5 intentos fallidos (ADR-0002, decidido por el equipo el 2026-10-12). **Fuera de la versión (D10):** solo lo escribe el inicio de sesión, con una actualización propia que no cambia `version`; una edición del admin no lo sobrescribe |
+| `bloqueado_hasta` | `timestamptz` | NULL | Fin del bloqueo de 15 min (ADR-0002). Fuera de la versión, igual que `intentos_fallidos` (D10) |
 | `creado_en`, `actualizado_en` | `timestamptz` | NOT NULL | |
-| `version` | `bigint` | NOT NULL | Bloqueo optimista |
+| `version` | `bigint` | NOT NULL | Bloqueo optimista de los datos administrativos (D10): empieza en 0, sube con cada edición del admin y se expone como `Usuario.version`. El inicio de sesión no la cambia |
 
 **Límites de campos** (aceptados por Richard el 2026-10-12). Son los mismos en la base (`CHECK` de la migración V1), en la API (`openapi.yaml`, `minLength`/`maxLength`/`pattern`) y en los formularios del frontend (esquemas Zod, tarea 22). Si uno cambia, se cambian los tres a la vez. El dominio valida primero; la base es la última barrera.
 
@@ -413,7 +413,7 @@ Revisado con `ecc:jpa-patterns` y con las reglas de `arquitectura.md` (R1 a R3).
 | JPA fuera del dominio | Las entidades JPA (`PedidoEntity`, `EtapaPedidoEntity`, `EventoPedidoEntity`, …) viven solo en `<modulo>/adapter/out/persistence/`. Un mapeador convierte cada entidad en un objeto de dominio y al revés. El dominio no tiene anotaciones `@Entity`, `@Id` ni `@Column` (R1, R3) |
 | Identificadores | `@Id UUID id`, asignado por la aplicación, sin `@GeneratedValue` |
 | Valores cerrados | `@Enumerated(EnumType.STRING)` sobre enums del adaptador que corresponden a los `CHECK` |
-| Bloqueo optimista | `@Version Long version` en `PedidoEntity`, `UsuarioEntity`, `BodegaEntity` y `SecuenciaPedidoEntity`. La excepción de bloqueo optimista se traduce a un error de dominio y luego a 409 `ETAPA_CAMBIO` |
+| Bloqueo optimista | `@Version Long version` en `PedidoEntity`, `UsuarioEntity`, `BodegaEntity` y `SecuenciaPedidoEntity`. La excepción de bloqueo optimista se traduce a un error de dominio: en usuarios, 409 `VERSION_DESACTUALIZADA` (D10, aprobado el 2026-10-13); en pedidos, 409 `ETAPA_CAMBIO` **[P]**. En `UsuarioEntity`, `intentos_fallidos` y `bloqueado_hasta` van con `updatable = false` y los escribe una actualización JPQL propia del login, que no incrementa la versión (D10) |
 | Historial inmutable | `EventoPedidoEntity` con `@org.hibernate.annotations.Immutable`, columnas `updatable = false` y sin setters. El repositorio solo expone guardar y consultar |
 | Relaciones | `@ManyToOne(fetch = LAZY)` hacia `usuario`, `bodega` y `definicion_flujo`. `PedidoEntity` → `EtapaPedidoEntity` con `@OneToMany(mappedBy, cascade = ALL, orphanRemoval = true)`, porque las etapas son parte del agregado. Nunca `EAGER` en colecciones |
 | N+1 | El detalle del pedido usa `JOIN FETCH` de sus etapas. Los listados y la bandeja usan proyecciones (interfaces o DTO), no entidades completas |

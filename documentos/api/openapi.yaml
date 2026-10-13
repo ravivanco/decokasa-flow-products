@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.3.0-borrador
+  version: 0.5.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -31,11 +31,21 @@ info:
 
     **Cambios del 2026-10-12 (fase 1):** valores de sesión aprobados por el equipo (ADR-0002): bloqueo de 15 min tras
     5 intentos fallidos, acceso de 15 min y renovación hasta 8 h con rotación. El token de renovación viaja en una
-    cookie `HttpOnly` (propuesta de ADR-0002) y ya no en el cuerpo; se agrega `POST /auth/cerrar-sesion`. El rol
+    cookie `HttpOnly` (ADR-0002, D3b, aprobado en la versión 0.4.0) y ya no en el cuerpo; se agrega `POST /auth/cerrar-sesion`. El rol
     `consulta` se suma a los roles iniciales.
 
     **Cambios del 2026-10-12 (fase 1, paso 1.5; versión 0.3.0):** `Usuario.rol` pasa a `Usuario.roles` (lista; decisión
     del equipo). Un usuario sin roles o desactivado no inicia ni renueva sesión.
+
+    **Cambios del 2026-10-12 (fase 1, paso 1.6; versión 0.4.0):** D3b aprobado: cookie de renovación `HttpOnly`,
+    `Secure`, `SameSite=Strict` en `/api/v1/auth`, acceso solo en memoria y `Origin` obligatoria en `/auth/renovar`
+    y `/auth/cerrar-sesion`. El 409 `DUPLICADO` indica el campo repetido en `errores`.
+
+    **Cambios del 2026-10-13 (fase 1, paso 1.7; versión 0.5.0; D10, aprobado por Richard):** `Usuario.version` (control
+    de concurrencia de los datos administrativos) en todas las respuestas que devuelven un usuario, incluidas las de
+    sesión. `PATCH /usuarios/{usuarioId}` exige la `version` que leyó el cliente; si ya no es la vigente, responde
+    409 `VERSION_DESACTUALIZADA` y no aplica ningún cambio. El inicio de sesión no cambia la versión. Rompe la
+    compatibilidad del `PATCH` (todavía no tiene consumidores). Los roles todavía no tienen versión (pendiente).
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6).
     - Leer pedidos, línea de tiempo, historial, bodegas y definiciones: cualquier usuario autenticado
@@ -140,14 +150,17 @@ paths:
         anterior queda revocada). Si llega un token ya revocado, se revoca toda la sesión y responde 401.
         Si la cuenta está desactivada o ya no tiene roles, también responde 401 y revoca la sesión
         (decisión del equipo, `requerimientos.md` 4.7).
-        **Propuesta (ADR-0002):** el token de renovación viaja en la cookie `decokasa_renovacion` y no en
-        el cuerpo; el servidor comprueba la cabecera `Origin`.
+        **D3b (aprobado el 2026-10-12, ADR-0002):** el token de renovación viaja en la cookie
+        `decokasa_renovacion` y nunca en el cuerpo. Sin cookie, o con una cookie desconocida, revocada o
+        vencida, responde 401. El servidor exige la cabecera `Origin` y que esté en `CORS_ORIGENES`; si falta
+        o no está, responde 403 `SIN_PERMISO` sin tocar la sesión.
       security: []
       parameters:
+        - $ref: '#/components/parameters/Origen'
         - $ref: '#/components/parameters/CookieRenovacion'
       responses:
         '200':
-          description: Token renovado; la cookie se reemplaza por una nueva.
+          description: Token renovado; la cookie se reemplaza por una nueva con el tiempo que queda de las 8 horas.
           headers:
             Set-Cookie:
               $ref: '#/components/headers/CookieRenovacion'
@@ -165,13 +178,15 @@ paths:
       tags: [autenticacion]
       operationId: cerrarSesion
       summary: Cerrar la sesión
-      x-origen: propuesta
+      x-origen: requisito
       description: |
-        Propuesta (ADR-0002): revoca el token de renovación de esta sesión y borra la cookie. Responde
-        204 aunque la cookie falte o ya esté revocada. El token de acceso sigue válido hasta que vence
-        (como máximo 15 minutos); el frontend lo descarta de la memoria.
+        D3b (aprobado el 2026-10-12, ADR-0002): revoca el token de renovación de esta sesión y borra la
+        cookie (`Max-Age=0`). Responde 204 aunque la cookie falte o ya esté revocada. El token de acceso sigue
+        válido hasta que vence (como máximo 15 minutos); el frontend lo descarta de la memoria. Exige `Origin`
+        igual que `/auth/renovar` (403 si falta o no está permitido).
       security: []
       parameters:
+        - $ref: '#/components/parameters/Origen'
         - $ref: '#/components/parameters/CookieRenovacion'
       responses:
         '204':
@@ -288,6 +303,13 @@ paths:
         Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
         `roles` reemplaza la lista completa de roles del usuario. Desactivar revoca sus sesiones abiertas;
         el usuario no se borra y su historial se conserva (`requerimientos.md` 4.7).
+
+        **Versión (D10, aprobado el 2026-10-13):** `version` es obligatoria y debe ser la que el cliente leyó en
+        `Usuario.version`. Si otra persona cambió el usuario desde entonces, la respuesta es 409
+        `VERSION_DESACTUALIZADA` y no se aplica ningún cambio (tampoco la revocación de sesiones al desactivar): hay
+        que volver a leer el usuario y repetir el cambio. Una `version` ausente, negativa, con decimales o que no sea
+        un número entero, o un cuerpo que solo trae `version`, responde 400 `VALIDACION` sin cambiar nada. La
+        respuesta 200 lleva la versión ya guardada. El inicio de sesión no cambia la versión.
       requestBody:
         required: true
         content:
@@ -1170,7 +1192,7 @@ components:
         format: uri-reference
     CookieRenovacion:
       description: |
-        Propuesta (ADR-0002). Cookie `decokasa_renovacion` con el token de renovación:
+        D3b (ADR-0002, aprobado el 2026-10-12). Cookie `decokasa_renovacion` con el token de renovación:
         `HttpOnly; Secure; SameSite=Strict; Path=/api/v1/auth; Max-Age=<segundos hasta el fin de la sesión de 8 h>`.
         Al cerrar sesión se envía vacía con `Max-Age=0`. JavaScript no puede leerla.
       schema:
@@ -1181,9 +1203,19 @@ components:
       name: decokasa_renovacion
       in: cookie
       required: false
-      description: 'Propuesta (ADR-0002). Token de renovación; lo envía el navegador, nunca JavaScript.'
+      description: 'D3b (ADR-0002). Token de renovación; lo envía el navegador, nunca JavaScript.'
       schema:
         type: string
+    Origen:
+      name: Origin
+      in: header
+      required: true
+      description: |
+        D3b (ADR-0002). Origen de la página que llama; debe estar en `CORS_ORIGENES` (en desarrollo,
+        `http://localhost:3000`). Los navegadores la envían solos. Si falta o no está permitido: 403 `SIN_PERMISO`.
+      schema:
+        type: string
+        format: uri
     PedidoId:
       name: pedidoId
       in: path
@@ -1251,8 +1283,11 @@ components:
     Conflicto:
       description: |
         Conflicto con el estado actual. Códigos: ETAPA_CAMBIO (la etapa actual no es la esperada),
-        TRANSICION_NO_PERMITIDA (la acción no existe en la etapa actual) o DUPLICADO (correo, usuario,
-        teléfono o nombre ya registrado).
+        TRANSICION_NO_PERMITIDA (la acción no existe en la etapa actual), DUPLICADO (correo, usuario,
+        teléfono o nombre ya registrado) o VERSION_DESACTUALIZADA (otra persona cambió el recurso desde que el
+        cliente lo leyó; D10). Con DUPLICADO, `errores[0].campo` indica el campo repetido. VERSION_DESACTUALIZADA
+        no lleva `errores` y no aplica ningún cambio; si además hubiera un dato repetido, se responde
+        VERSION_DESACTUALIZADA.
       content:
         application/problem+json:
           schema:
@@ -1296,9 +1331,12 @@ components:
             - TIPO_ARCHIVO_NO_ACEPTADO
             - COPIA_PENDIENTE
             - CUENTA_BLOQUEADA
+            - VERSION_DESACTUALIZADA
         errores:
           type: array
-          description: Errores por campo (solo con VALIDACION).
+          description: |
+            Errores por campo con VALIDACION, y también con DUPLICADO para indicar qué campo está repetido
+            (correo, usuario, telefono o codigo) y que el formulario lo marque (aprobado el 2026-10-12).
           items:
             type: object
             required: [campo, mensaje]
@@ -1386,8 +1424,17 @@ components:
 
     Usuario:
       type: object
-      required: [id, nombre, correo, usuario, telefono, roles, paises, activo]
+      required: [id, nombre, correo, usuario, telefono, roles, paises, activo, version]
       properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          readOnly: true
+          description: |
+            Versión de los datos administrativos del usuario (D10, aprobado el 2026-10-13). Empieza en 0 y sube con
+            cada cambio que guarda el admin. El inicio de sesión (intentos fallidos y bloqueo) no la cambia. Se
+            envía tal cual en `PATCH /usuarios/{usuarioId}` para no sobrescribir cambios de otra persona.
         id:
           type: string
           format: uuid
@@ -1481,9 +1528,20 @@ components:
             `x-max-bytes` deja el límite real escrito para el backend y los formularios.
     SolicitudActualizarUsuario:
       type: object
-      description: 'Los mismos límites que `SolicitudCrearUsuario`.'
-      minProperties: 1
+      description: |
+        Los mismos límites que `SolicitudCrearUsuario`. Lleva siempre `version` y al menos un campo que cambie
+        (por eso `minProperties: 2`); un cuerpo con solo `version` responde 400 `VALIDACION`.
+      required: [version]
+      minProperties: 2
       properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            La `Usuario.version` que leyó el cliente (D10). Si ya no es la vigente, 409 `VERSION_DESACTUALIZADA` sin
+            cambios. Ausente, negativa, con decimales o de otro tipo (por ejemplo, el texto `"3"`): 400 `VALIDACION`
+            con `errores[0].campo = version`.
         nombre:
           type: string
           minLength: 1

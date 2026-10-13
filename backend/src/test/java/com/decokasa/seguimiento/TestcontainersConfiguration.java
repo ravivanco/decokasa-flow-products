@@ -7,8 +7,9 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 // PostgreSQL de prueba con la misma versión mayor que docker-compose.yml (postgres:17), nunca "latest".
+// Pública para que la importen las pruebas de integración de cada módulo.
 @TestConfiguration(proxyBeanMethods = false)
-class TestcontainersConfiguration {
+public class TestcontainersConfiguration {
 
 	@Bean
 	@ServiceConnection

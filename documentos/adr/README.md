@@ -14,7 +14,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | ADR | Título | Estado | Fecha | Origen |
 | --- | --- | --- | --- | --- |
 | [0001](0001-stack-tecnologico.md) | Stack React + Spring Boot + PostgreSQL | accepted | 2026-10-10 | Registro de decisiones |
-| [0002](0002-autenticacion-propia-jwt.md) | Autenticación propia con JWT y BCrypt | accepted | 2026-10-10; 2026-10-12 | Registro de decisiones. Valores de bloqueo, JWT y renovación aprobados por el equipo el 2026-10-12; almacenamiento del token de renovación: propuesta |
+| [0002](0002-autenticacion-propia-jwt.md) | Autenticación propia con JWT y BCrypt | accepted | 2026-10-10; 2026-10-12; 2026-10-13 | Registro de decisiones. Valores de bloqueo, JWT y renovación aprobados por el equipo el 2026-10-12; token de renovación en cookie `HttpOnly` (D3b) aprobado el 2026-10-12; `Origin` → 403 aprobado el 2026-10-13. Correcciones de la revisión de seguridad del paso 1.7 (2026-10-13): A1 (403 aprobado), A2, A4, D10 (versión de usuarios) y N1 (orden de bloqueos). Versionado de roles: pendiente |
 | [0003](0003-drive-cuenta-servicio.md) | Archivos en Google Drive mediante cuenta de servicio | accepted | 2026-10-10 | Registro de decisiones |
 | [0004](0004-flujo-configurable-por-datos.md) | Flujo de etapas configurable por datos | proposed | 2026-10-10 | Registro de decisiones (elección del equipo) |
 | [0005](0005-alertas-gmail-admin.md) | Alertas por correo de Gmail al admin | accepted | 2026-10-10 | Registro de decisiones |
@@ -35,7 +35,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | Propuesta | Dónde quedó |
 | --- | --- |
 | Bloqueo tras N intentos fallidos y JWT de vida corta | ADR-0002, "Decisiones del equipo" (aprobado el 2026-10-12: 5 intentos, 15 min; acceso de 15 min; renovación hasta 8 h con rotación) |
-| Almacenamiento del token de renovación (cookie `HttpOnly`) | ADR-0002, propuesta pendiente de aprobación |
+| Almacenamiento del token de renovación (cookie `HttpOnly`) | ADR-0002 (aprobado por el equipo el 2026-10-12, D3b) |
 | Subcarpetas de Drive por año y etapa | ADR-0003, "Propuestas asociadas" |
 | ArchUnit para R1 a R4 y R9 | ADR-0011 |
 | Paquete base `com.decokasa.seguimiento` | ADR-0010 |

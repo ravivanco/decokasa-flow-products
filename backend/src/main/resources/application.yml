@@ -34,3 +34,24 @@ server:
   error:
     include-message: never
     include-stacktrace: never
+
+# Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
+# JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
+decokasa:
+  jwt:
+    secreto: ${JWT_SECRETO:}
+  sesion:
+    duracion-acceso: ${JWT_DURACION_ACCESO:15m}
+    duracion-renovacion: ${JWT_DURACION_RENOVACION:8h}
+  bloqueo:
+    intentos-maximos: ${BLOQUEO_INTENTOS_MAXIMOS:5}
+    duracion: ${BLOQUEO_DURACION:15m}
+  bcrypt:
+    fuerza: 12
+  cors:
+    # Orígenes del frontend; /auth/renovar y /auth/cerrar-sesion rechazan cualquier otro Origin (D3b).
+    origenes: ${CORS_ORIGENES:http://localhost:3000}
+  semilla:
+    habilitada: ${SEMILLA_HABILITADA:false}
+    archivo: ${SEMILLA_ARCHIVO:}
+    contrasena-temporal: ${SEMILLA_CONTRASENA_TEMPORAL:}

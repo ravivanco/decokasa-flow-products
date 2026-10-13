@@ -49,7 +49,9 @@ Las decisiones del equipo quedaron aprobadas por Richard el 2026-10-12 y registr
 | D1 | **WebSocket** | **No se agrega en la fase 1**; queda para la fase 5. La elección entre WebSocket y consultas periódicas se toma en esa fase | ADR-0014 y manual (paso 1.3) | T5 |
 | D2 | **Bloqueo por intentos fallidos** | **5 intentos fallidos de contraseña → 15 minutos de bloqueo** (423 `CUENTA_BLOQUEADA`). Valores configurables. La diferencia de fuentes sobre quién escribió `requerimientos.md` 4.7 queda anotada en ADR-0002, sin afectar a los valores | ADR-0002, `requerimientos.md` 4.7 | T9, T12, T14, T15 |
 | D3 | **JWT y renovación** | **Acceso de 15 minutos; renovación de la sesión hasta 8 horas** desde el inicio de sesión (límite absoluto), **con rotación** y detección de reutilización (familias de tokens) | ADR-0002, `requerimientos.md` 4.7, `modelo-datos.md` | T9, T12, T14, T17, T18 |
-| D3b | **Almacenamiento del token de renovación** (revisado) | **Propuesta pendiente de aprobación:** cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth`; acceso solo en memoria; nada en `localStorage` ni `sessionStorage`; verificación de `Origin`; nuevo `POST /auth/cerrar-sesion`. El contrato ya lo describe como propuesta | ADR-0002, `openapi.yaml` 0.2.0 | T13, T14, T17, T18 |
+| D3b | **Almacenamiento del token de renovación** | **Aprobado por Richard el 2026-10-12:** cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth`; acceso solo en memoria; nada en `localStorage` ni `sessionStorage`; `Origin` obligatoria y permitida en `/auth/renovar` y `/auth/cerrar-sesion` (si falta o no está permitido, 403; aprobado el 2026-10-13); `POST /auth/cerrar-sesion` | ADR-0002, `openapi.yaml` 0.4.0 | T13, T14, T17, T18 |
+| D9 | **Campo repetido en el 409** | **Aprobado el 2026-10-12:** un 409 `DUPLICADO` indica el campo en `errores[0].campo` | `openapi.yaml` 0.4.0, `requerimientos.md` 4.7 | T13, T14, T17, T22 |
+| D10 | **Versión del usuario** | **Aprobado por Richard el 2026-10-13:** `Usuario.version` en las respuestas de usuario y de sesión; `PATCH /usuarios/{id}` exige `version`; si no es la vigente → 409 `VERSION_DESACTUALIZADA` sin cambios; versión ausente o inválida, o cuerpo solo con `version` → 400; los contadores del login no cambian la versión ni los pisa el admin. Versionar los roles queda **pendiente** | `openapi.yaml` 0.5.0, `requerimientos.md` 4.7, ADR-0002, `modelo-datos.md` | Corrección M2 (paso 1.7) |
 | D5 | **Datos iniciales** | Las migraciones siembran **países y los 7 roles**; las pruebas usan usuarios ficticios; los usuarios reales se cargan fuera de git; ninguna contraseña real ni clave en el repositorio. [P] La forma de carga: un cargador de arranque con un archivo local ignorado por git | ADR-0015 | T10 |
 | D6 | **Pantallas del demo** | Las pantallas de pedidos se conservan **sin ruta** hasta conectarlas en su fase. El router de la fase 1 solo expone login, dashboard vacío por rol, usuarios y roles | PRD (registro de decisiones) | T19, T23 |
 | D7 | **Rol `consulta`** | **Se conserva** como 7.º rol, sin permisos de gestión. ⏸ Su alcance queda pendiente del cliente | `requerimientos.md` 5, `openapi.yaml` (`CodigoRol`), ADR-0015 | T10, T24 |
@@ -275,7 +277,7 @@ Variables obligatorias con `:?mensaje en español`; `healthcheck` en cada servic
 | `backend/settings.gradle`, `build.gradle`, `gradlew*`, `gradle/wrapper/*` | CREATE | Proyecto Gradle |
 | `backend/src/main/java/com/decokasa/seguimiento/**` | CREATE | `compartido`, `usuarios`, `configuracion` |
 | `backend/src/main/resources/application.yml` | CREATE | Configuración |
-| `backend/src/main/resources/db/migration/V1__usuarios_roles_paises.sql`, `V2__semilla_paises_roles.sql` | CREATE | Esquema y datos no personales |
+| `backend/src/main/resources/db/migration/V1__usuarios_roles_paises.sql` | CREATE | Esquema y datos no personales (países y roles). Se planeó una `V2__semilla_paises_roles.sql` aparte; al final la siembra quedó en V1 (paso 1.5) y no hay V2 |
 | `backend/semilla/usuarios.ejemplo.json` | CREATE | Ejemplo ficticio para el cargador (D5) |
 | `backend/src/test/java/com/decokasa/seguimiento/**` | CREATE | Pruebas |
 | `backend/Dockerfile`, `frontend/Dockerfile`, `frontend/nginx.conf` | CREATE | Contenedores de desarrollo |
@@ -387,13 +389,25 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 - **VALIDATE**: `./gradlew test --tests '*MigracionesIT*'`.
 
 #### Task 10: Semilla de países y roles; usuarios fuera de git (D5 confirmada)
-- **ACTION**: `V2__semilla_paises_roles.sql`: `EC` activo y `CO` inactivo; los 7 roles (`admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta`, D7) con sus nombres; permisos `usuarios.gestionar` y `roles.gestionar` solo para `admin` [P]. Después, la prueba `CargadorUsuariosInicialesTest` y el cargador.
+- **ACTION**: Siembra de países y roles, **hecha dentro de V1** (`V1__usuarios_roles_paises.sql`; no existe `V2__semilla_paises_roles.sql`): `EC` activo y `CO` inactivo; los 7 roles (`admin`, `asistente_compras`, `marketing`, `compras_china`, `logistica`, `asistente_china` y `consulta`, D7) con sus nombres; permisos `usuarios.gestionar` y `roles.gestionar` solo para `admin` [P]. Después, la prueba `CargadorUsuariosInicialesTest` y el cargador.
 - **IMPLEMENT**: `usuarios.adapter.in.arranque.CargadorUsuariosIniciales` (`ApplicationRunner`, activo solo con `decokasa.semilla.habilitada=true`): si la tabla `usuario` está vacía, lee el JSON de `SEMILLA_ARCHIVO` (lista de `{nombre, correo, usuario, telefono, rol}`), usa `SEMILLA_CONTRASENA_TEMPORAL` para todos y llama al caso de uso `CrearUsuario`, para que se apliquen las mismas validaciones. Si la tabla tiene datos, no hace nada. `backend/semilla/usuarios.ejemplo.json` con 6 usuarios **ficticios** (`admin@ejemplo.test`…). El archivo real, `usuarios.local.json`, lo prepara Richard fuera de git.
 - **MIRROR**: SERVICE_PATTERN.
 - **GOTCHA**: Ningún dato personal real, contraseña real ni clave en migraciones, código, pruebas, `application.yml` o `.env.example` (el repositorio es público). Las pruebas usan solo usuarios ficticios y contraseñas de prueba generadas en la propia prueba. La contraseña temporal no se escribe en los logs.
 - **VALIDATE**: Con el archivo de ejemplo y la semilla habilitada, al arrancar hay 6 usuarios; un segundo arranque no los duplica.
 
 ### Paso 1.6 — Pruebas primero (deben fallar)
+
+**Hecho el 2026-10-12** (totales finales más abajo). Notas para los pasos 1.7 y 1.8:
+- **Interfaces mínimas.** Para que las pruebas compilen se crearon puertos, tipos de dominio y casos de uso cuyos métodos lanzan `UnsupportedOperationException("Pendiente: paso 1.7")`. En el frontend se crearon `rutas.tsx` (lista vacía) y `SesionProvider.tsx` (solo muestra a sus hijos). Los casos de uso se llaman `<Puerto>CasoDeUso`, en `application/usecase/`.
+- **"Solo el admin"** se comprueba con el rol `admin` del solicitante (`compartido.domain.Solicitante`). `rol_permiso` sigue pendiente: los permisos se definen cuando haya casos de uso que los necesiten.
+- **D3b aprobado (2026-10-12) y probado:**
+  - `SesionHttpIT` (15) prueba los atributos de la cookie, la renovación y el cierre por HTTP, la reutilización, el límite de 8 horas, las cuentas desactivadas o sin roles y `Origin` (ajeno o ausente → 403).
+  - `SesionProvider.test.tsx` (8) prueba la recuperación de la sesión al recargar, el aviso de carga, `Authorization`, la renovación tras un 401, que no se guardan tokens y el cierre de sesión.
+- **Totales:** backend con 124 pruebas nuevas en rojo y 82 anteriores en verde; frontend con 38 nuevas en rojo y 37 anteriores en verde.
+- **Montaje mínimo del frontend:** `rutas.tsx` declara `/login`, `/inicio`, `/usuarios`, `/roles` y `*` sin pantallas. El servidor MSW responde por defecto 401 a `/auth/renovar` (sin sesión), y `abrirConSesion` simula una cookie válida. Cada prueba falla en su propia comprobación, no por el router vacío.
+- **Aprobado en el contrato (D9):** un 409 `DUPLICADO` lleva `errores[0].campo` para marcar el campo repetido.
+- **Textos que agregan las pruebas de sesión:** "Cargando…" (mientras se recupera la sesión) y "Cerrar sesión".
+- **Textos de la interfaz** que fijan las pruebas: "Correo, usuario o teléfono", "Contraseña", "Ingresar", "Ingresando…", "Credenciales incorrectas", "Sin permiso", "Usuarios", "Nuevo usuario", "Editar usuario", "Guardar", "Guardando…", "Cargando usuarios…", "Elige al menos un rol." y los mensajes de límites de campos.
 
 #### Task 11: Pruebas de dominio y de casos de uso de `usuarios`
 - **ACTION**: `usuarios/domain/UsuarioTest`, `usuarios/application/IniciarSesionTest`, `CrearUsuarioTest`, `ActualizarUsuarioTest` y `CrearRolTest`, con repositorios en memoria, `RelojFijo` y un `CodificadorContrasena` falso.
@@ -403,22 +417,134 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 
 #### Task 12: Pruebas de bloqueo y renovación (D2, D3)
 - **ACTION**: `IniciarSesionBloqueoTest` y `RenovarSesionTest`.
-- **IMPLEMENT**: Bloqueo: 5 fallos → `CuentaBloqueada` durante 15 min; un acierto antes del límite reinicia el contador; con el `RelojFijo` adelantado 15 min, vuelve a entrar. Renovación: un token válido devuelve un acceso nuevo y un token de renovación nuevo, y revoca el anterior; reutilizar uno revocado → 401 y se revoca toda la familia; pasadas 8 h desde el inicio de sesión → 401 aunque se haya rotado; desactivar al usuario o cambiar su contraseña revoca sus familias.
+- **IMPLEMENT**: Bloqueo: cada uno de los 5 fallos → `CredencialesInvalidas` (401) y el 5.º deja la cuenta bloqueada 15 min; mientras dura el bloqueo → `CuentaBloqueada` (423); un acierto antes del límite reinicia el contador; con el `RelojFijo` adelantado 15 min, vuelve a entrar. Renovación: un token válido devuelve un acceso nuevo y un token de renovación nuevo, y revoca el anterior; reutilizar uno revocado → 401 y se revoca toda la familia; pasadas 8 h desde el inicio de sesión → 401 aunque se haya rotado; desactivar al usuario o cambiar su contraseña revoca sus familias.
 - **VALIDATE**: Fallan.
 
 #### Task 13: Pruebas de la API y de la seguridad
 - **ACTION**: `AuthControllerIT` y `UsuarioControllerIT` (`@SpringBootTest` + `MockMvc` + Testcontainers).
-- **IMPLEMENT**: Login con correo, usuario y teléfono → 200 con `tokenAcceso` y `expiraEn: 900`, y la cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth` (⛔ D3b); el cuerpo no lleva el token de renovación; contraseña incorrecta, usuario inexistente, usuario desactivado y **usuario sin rol** → 401 con el mismo cuerpo (`codigo: NO_AUTENTICADO`; también sin roles o con la cuenta desactivada, D4); 5 fallos → 423; `/auth/renovar` con la cookie → 200 y cookie nueva, con `Origin` ajeno → 403; `/auth/cerrar-sesion` → 204 y la cookie se borra; el JWT lleva `sub` = id y `rol`; `GET /auth/yo` devuelve `permisos`; `GET`/`POST` de `/usuarios` y `/roles` sin token → 401, con token de `marketing` → 403 `SIN_PERMISO`, con token de `admin` → 200/201; duplicado → 409 `DUPLICADO`; datos inválidos → 400 `VALIDACION` con `errores[].campo`; CORS solo para `CORS_ORIGENES`; cabeceras de seguridad presentes.
+- **IMPLEMENT**: Login con correo, usuario y teléfono → 200 con `tokenAcceso` y `expiraEn: 900`, y la cookie `decokasa_renovacion` con `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/api/v1/auth` (D3b); el cuerpo no lleva el token de renovación; contraseña incorrecta, usuario inexistente, usuario desactivado y **usuario sin rol** → 401 con el mismo cuerpo (`codigo: NO_AUTENTICADO`; también sin roles o con la cuenta desactivada, D4); los 5 fallos → 401 y el 5.º bloquea; el siguiente intento durante el bloqueo → 423; `/auth/renovar` con la cookie → 200 y cookie nueva, con `Origin` ajeno → 403; `/auth/cerrar-sesion` → 204 y la cookie se borra; el JWT lleva `sub` = id y el claim `roles` (lista con todos los roles del usuario; D4); `GET /auth/yo` devuelve `permisos`; `GET`/`POST` de `/usuarios` y `/roles` sin token → 401, con token de `marketing` → 403 `SIN_PERMISO`, con token de `admin` → 200/201; duplicado → 409 `DUPLICADO`; datos inválidos → 400 `VALIDACION` con `errores[].campo`; CORS solo para `CORS_ORIGENES`; cabeceras de seguridad presentes.
 - **MIRROR**: ERROR_HANDLING (formas exactas del contrato).
 - **GOTCHA**: Las respuestas deben coincidir campo por campo con `openapi.yaml`. Si algo no encaja, se cambia el contrato siguiendo su protocolo; no se cambia la implementación en silencio.
 - **VALIDATE**: Fallan.
 
 #### Task 14: Pruebas del frontend con Vitest, Testing Library y MSW
 - **ACTION**: `LoginScreen.test.tsx`, `RutaProtegida.test.tsx`, `UsersManagementView.test.tsx` y `api/cliente.test.ts`.
-- **IMPLEMENT**: Un login correcto navega a `/inicio`; un 401 muestra "Credenciales incorrectas" en una región `role="alert"`; un 423 muestra el aviso de bloqueo (D2); sin sesión, `/usuarios` redirige a `/login`; con rol `marketing`, `/usuarios` muestra "Sin permiso"; el formulario de usuario valida con Zod (correo; usuario ≥ 3; teléfono ≥ 7; contraseña ≥ 8) y muestra el 409 en el campo duplicado; ante un 401, el cliente HTTP llama a `/auth/renovar` (con `credentials: 'include'`, sin leer la cookie) y repite la llamada una vez (D3); al recargar la página, la sesión se recupera llamando a `/auth/renovar`; ningún token aparece en `localStorage` ni en `sessionStorage` (⛔ D3b). Cada campo tiene su `<label>` (auditoría, sección 7).
+- **IMPLEMENT**: Un login correcto navega a `/inicio`; un 401 muestra "Credenciales incorrectas" en una región `role="alert"`; un 423 muestra el aviso de bloqueo (D2); sin sesión, `/usuarios` redirige a `/login`; con rol `marketing`, `/usuarios` muestra "Sin permiso"; el formulario de usuario valida con Zod (correo; usuario ≥ 3; teléfono ≥ 7; contraseña ≥ 8) y muestra el 409 en el campo duplicado; ante un 401, el cliente HTTP llama a `/auth/renovar` (con `credentials: 'include'`, sin leer la cookie) y repite la llamada una vez (D3); al recargar la página, la sesión se recupera llamando a `/auth/renovar`; ningún token aparece en `localStorage` ni en `sessionStorage` (D3b). Cada campo tiene su `<label>` (auditoría, sección 7).
 - **VALIDATE**: `npm run test` en rojo.
 
 ### Paso 1.7 — Implementar el backend
+
+**Hecho el 2026-10-13** (informe: `.claude/PRPs/reports/fase-1-paso-1.7-report.md`). `./gradlew check` en verde: 226 pruebas y 95,1 % de cobertura de líneas. Desvíos respecto del plan:
+- Hay 5 puertos de entrada más que en el paso 1.6 (`CerrarSesion`, `ConsultarUsuarios`, `ConsultarRoles`, `ObtenerUsuarioActual` y `ActualizarRol`), con sus pruebas, para cubrir todo el contrato.
+- CORS se aplica en un filtro propio antes de la seguridad, para que un origen rechazado responda 403 en formato `Problema`.
+- La semilla de países y roles ya estaba en V1; el cargador de usuarios iniciales lee una lista de `roles` (D4) en lugar de un solo `rol`.
+
+**Revisión de seguridad con `/ecc:springboot-security` (2026-10-13, solo lectura).** Es la revisión que el manual exige en este paso. Hallazgos: 1 alto (A1), 7 medios (A2, A3, A4 y M1 a M4), 4 bajos (B1 a B4) y 2 informativos (I1 e I2). El detalle está en el informe del paso 1.7.
+
+**Corrección A1: hecha el 2026-10-13, con TDD** (`/ecc:springboot-tdd`).
+- **Problema:** la gestión de usuarios y roles se autorizaba solo con los roles del JWT, que sigue vigente hasta 15 min. Por HTTP, un admin desactivado se reactivaba con su token anterior.
+- **Pruebas primero:** 16 pruebas nuevas, en rojo antes de implementar (14 sin `SinPermiso` y 2 que respondían 200 en lugar de 403). Más una prueba que protege la carga inicial.
+- **Implementación:** `Autorizacion` lee el estado actual del solicitante con el puerto `UsuarioRepositorio`: activo, con al menos un rol y con `admin`. La usan los 6 casos de uso de administración, sigue siendo Java puro (R2) y los roles del JWT solo filtran en la capa web. `CrearUsuarioCasoDeUso.paraCargaInicial` permite al cargador de arranque crear usuarios sin un admin en la base (ADR-0015); no es un bean y ningún controlador lo usa.
+- **Comportamiento:**
+  - un JWT anterior no administra si el solicitante está desactivado o ya no tiene `admin` (403);
+  - si la cuenta sigue activa con otros roles, renueva con esos roles;
+  - una cuenta desactivada o sin roles no renueva;
+  - un admin recién nombrado debe renovar para que su JWT incluya `admin` (sin prueba específica).
+- **Verificación:** `./gradlew cleanTest check` en verde, con 243 pruebas, 95,0 % de líneas y 72,6 % de ramas.
+- **Aprobado por Richard (2026-10-13):** 403 `SIN_PERMISO`, y no 401, para una operación administrativa con el token anterior de quien fue desactivado o perdió `admin`.
+
+**Corrección A2: hecha el 2026-10-13, con TDD** (`/ecc:springboot-tdd` y `/ecc:springboot-security`).
+- **Problema:** `/auth/renovar` leía el token y lo revocaba sin bloqueo. Dos renovaciones simultáneas con la misma cookie emitían dos sucesores válidos.
+- **Pruebas primero:**
+  - `RenovacionConcurrenteIT`: servidor real, PostgreSQL y dos hilos con la misma cookie, en 25 rondas. Comprueba que una responde 200 y la otra 401, y el estado guardado: solo el token original y un sucesor, ninguno vigente, una sola familia y el mismo `expira_en`. En rojo, la ronda 1 dio `[200, 200]`.
+  - `RenovarSesionTest`: otra renovación consume el token entre la lectura y el consumo, así que no hay sucesor y se revoca la familia. En rojo.
+- **Implementación:**
+  - el puerto `TokenRenovacionRepositorio.consumir(id, ahora)`, con `UPDATE … WHERE id = :id AND revocado_en IS NULL` (que devuelve 1 fila o ninguna) en `TokenRenovacionDatos`;
+  - `RenovarSesionCasoDeUso` rota solo si consume el token; si no, revoca la familia y responde 401;
+  - sin margen de reutilización, con el límite de 8 h heredado y la política de reutilización sin cambios.
+- **Verificación:**
+  - `RenovacionConcurrenteIT` repetida 3 veces más (75 rondas) sin fallos;
+  - `./gradlew cleanTest check` en verde, con 245 pruebas, 95,0 % de líneas y 73,0 % de ramas.
+- **Consecuencia aceptada:** dos renovaciones legítimas simultáneas (dos pestañas) cierran la sesión. Coordinarlas es A3, en el paso 1.8.
+
+**Corrección A4: hecha el 2026-10-13, con TDD** (`/ecc:springboot-tdd` y `/ecc:springboot-security`).
+- **Problema:** el login leía al usuario sin bloqueo, sumaba el fallo en memoria y lo guardaba con `@Version`. Con intentos simultáneos solo uno confirmaba; los demás chocaban al confirmar (500) y su fallo no se guardaba, así que el bloqueo de 5 intentos se podía esquivar.
+- **Pruebas primero:**
+  - `IntentosConcurrentesIT`: servidor real, PostgreSQL y 8 logins fallidos simultáneos contra la misma cuenta, en 5 rondas. Comprueba que hay 5 respuestas 401 y 3 respuestas 423, ninguna 500; que queda guardado `intentos_fallidos = 5` con `bloqueado_hasta` a 15 min; y que después ni la contraseña correcta entra (423). **En rojo, la ronda 1 dio `[500, 500, 500, 401, 500, 500, 500, 500]`: solo se contó un fallo.**
+  - `IniciarSesionTest`, 3 pruebas: el fallo se suma a lo que guardó otra solicitud simultánea; si otra solicitud bloqueó la cuenta entretanto, un fallo responde 423 sin contar de más y ni la contraseña correcta entra. En rojo.
+- **Implementación:**
+  - el puerto `UsuarioRepositorio.buscarParaActualizar(id)`, implementado en `UsuarioJpaRepositorio` con `EntityManager.refresh(entidad, PESSIMISTIC_WRITE)` (`SELECT … FOR UPDATE`), que relee lo confirmado aunque la entidad ya esté cargada;
+  - en `IniciarSesionCasoDeUso`, BCrypt compara con la lectura inicial, después se bloquea y relee la fila, se vuelve a comprobar el bloqueo de la cuenta, y el fallo o el acierto se guardan sobre ese estado;
+  - la política D2 no cambia; ningún conflicto se oculta con una respuesta correcta.
+- **Verificación:**
+  - `IntentosConcurrentesIT` repetida 3 veces más sin fallos y sin conflictos de bloqueo optimista en el log;
+  - `./gradlew cleanTest check` en verde, con 249 pruebas, 94,9 % de líneas y 73,2 % de ramas.
+- **Aclaración de D2 (confirmada por Richard el 2026-10-13; el contrato no cambia):** cada uno de los 5 fallos responde 401 y el 5.º deja la cuenta bloqueada; mientras dura el bloqueo, cualquier intento responde 423, incluso con la contraseña correcta. Es lo que comprueban, desde el paso 1.6, `AuthControllerIT.trasCincoFallosLaCuentaSeBloqueaQuinceMinutos` e `IniciarSesionTest`. A4 no lo cambió.
+- **Revalidación tras releer (2026-10-13, TDD):** sobre la fila bloqueada y releída, el login vuelve a comprobar que la cuenta esté activa y tenga roles, y emite el JWT con los roles releídos. Si el hash de la contraseña cambió entre la lectura y la relectura, compara de nuevo con el hash vigente. 5 pruebas en `IniciarSesionTest` (detalle en el informe); 254 pruebas en verde.
+- **Efecto aceptado:** los logins simultáneos de una misma cuenta se atienden uno detrás de otro mientras dura la actualización del contador, que es breve porque BCrypt se calcula antes de bloquear. Una edición del admin que coincida con un login de la misma cuenta todavía puede chocar con `@Version` y responder 500; es parte de M2.
+
+**Corrección M2, solo la parte de duplicados: hecha el 2026-10-13, con TDD** (`/ecc:springboot-tdd`, `/ecc:springboot-security` y `/ecc:jpa-patterns`).
+- **Problema:** dos altas simultáneas con el mismo correo, nombre de usuario o teléfono pasaban las dos la comprobación previa del caso de uso; la base rechazaba la segunda y la API respondía 500 en lugar de 409 `DUPLICADO` (D9).
+- **Pruebas primero:**
+  - `AltasConcurrentesIT`: servidor real, PostgreSQL y dos altas simultáneas que comparten solo el campo probado (correo, usuario o teléfono), 10 rondas por campo. Comprueba que hay un 201 y un 409; que el 409 es `application/problem+json` con `codigo: DUPLICADO` y `errores[0].campo` correcto, sin detalles de SQL; y que se guarda un solo usuario. **En rojo, la ronda 1 dio `[201, 500]` para los tres campos.**
+  - `RestriccionesUnicasUsuarioTest`: las tres restricciones conocidas (`usuario_correo_unico`, `usuario_usuario_unico` y `usuario_telefono_unico`, SQLState 23505) se traducen a su campo. Una restricción desconocida, un `23505` sin nombre, otro SQLState (por ejemplo 23503) o un error sin detalle de la base **no** se traducen. En rojo.
+- **Implementación:**
+  - `RestriccionesUnicasUsuario`, en el adaptador de persistencia, hace la traducción. El mensaje es el del dominio, sin nombres ni textos de la base.
+  - `UsuarioJpaRepositorio.guardar` usa `saveAndFlush`, para que la violación llegue al adaptador y no al confirmar la transacción. Lanza `DatoDuplicado` solo para esas tres restricciones y deja seguir cualquier otro error de integridad.
+  - Sirve igual para las ediciones (`PATCH /usuarios/{id}`) que choquen con otra alta o edición.
+  - El contrato no cambia.
+- **Verificación:**
+  - `AltasConcurrentesIT` repetida 3 veces más, sin ningún 500. El log del servidor registra las violaciones de los índices únicos: las carreras llegan a la base.
+  - `./gradlew cleanTest check` en verde, con 263 pruebas, 94,9 % de líneas y 74,0 % de ramas.
+- **Sigue pendiente de M2:** el conflicto de edición por versión (`@Version`). Una edición simultánea, o una edición del admin que coincida con un login, todavía puede responder 500. Antes hay que definir el contrato: cómo se envía la versión y qué 409 responde.
+
+**Corrección M2, parte de versión en usuarios (D10): hecha el 2026-10-13, contrato primero y TDD** (`/ecc:contract-first`, `/ecc:api-design`, `/ecc:springboot-tdd`, `/ecc:jpa-patterns` y `/ecc:springboot-security`).
+- **Contrato y documentos primero:** `openapi.yaml` 0.5.0 (validado con Redocly), `requerimientos.md` 4.7, ADR-0002, `modelo-datos.md` y la fila D10 de este plan.
+- **Pruebas primero:** 32 nuevas. En rojo fallaron 30; dos ya pasaban (el cuerpo con solo `version` y la cobertura de `ManejadorErroresTest` sobre los demás códigos).
+  - `VersionUsuarioIT` (20):
+    - la versión en las respuestas de usuario y de sesión;
+    - la respuesta del `PATCH` con la versión guardada;
+    - versión vieja: 409 sin cambios y sin `errores`;
+    - desactivar con versión vieja: no desactiva ni revoca sesiones;
+    - con versión vieja y dato repetido, gana `VERSION_DESACTUALIZADA`;
+    - versión ausente, `null`, negativa, `1.5`, `0.0`, `"0"`, `true`, `{}`, `[0]` o fuera de rango: 400 en `version` sin cambios;
+    - cuerpo con solo `version`: 400;
+    - login y edición en los dos órdenes, y una edición con un bloqueo activo, sin perder intentos ni quitar el bloqueo.
+  - `EdicionConcurrenteIT`: dos ediciones simultáneas con la misma versión dan 200 y 409, y solo queda el cambio ganador; una edición a la vez que 3 logins fallidos responde 200, cuenta todos los intentos y forma el bloqueo cuando corresponde.
+  - `UsuarioJpaRepositorioIT`: un conflicto de `@Version` se traduce a 409 de versión; `guardar` no pisa los contadores; `guardarIntentos` no sube la versión.
+  - En `ActualizarUsuarioTest` (5), `IniciarSesionTest` (1) y `ManejadorErroresTest` (1).
+  - **En rojo:** la edición a la vez que logins dio 500; dos ediciones dieron `[200, 500]`; y `guardar` **sobrescribía 4 intentos con 0** (riesgo que ya existía).
+- **Implementación:**
+  - `CodigoError.VERSION_DESACTUALIZADA` → 409 y el error `VersionDesactualizada`.
+  - `ActualizarUsuarioCasoDeUso` bloquea y relee la fila, compara la versión antes de cambiar nada y devuelve lo guardado.
+  - En el controlador, la `version` llega como nodo JSON y se valida de forma estricta; `UsuarioRespuesta` y `/auth/yo` la incluyen.
+  - En `UsuarioEntity`, los contadores pasan a `updatable = false`; `UsuarioDatos.guardarIntentos` los escribe con un JPQL sin versión; el login usa `guardarIntentos`.
+  - `UsuarioJpaRepositorio.guardar` traduce `ObjectOptimisticLockingFailureException` a `VersionDesactualizada`.
+- **Verificación:**
+  - las cuatro pruebas concurrentes repetidas 3 veces, sin ningún 500 ni conflicto optimista en el log;
+  - `./gradlew cleanTest check` en verde, con 295 pruebas, 95,3 % de líneas y 76,2 % de ramas.
+- **Se conservan** A1 (las pruebas envían la versión vigente y siguen dando 403), A2, A4 y la traducción de duplicados.
+
+**Corrección N1 (revisión final del paso 1.7): hecha el 2026-10-13, con TDD** (`/ecc:springboot-tdd`, `/ecc:jpa-patterns` y `/ecc:springboot-security`).
+- **Hipótesis:** había un interbloqueo entre desactivar (bloquea el usuario y después los tokens) y renovar (bloqueaba el token y después insertaba el sucesor con clave foránea al usuario).
+- **Prueba primero:** `DesactivarMientrasRenuevaIT`. Llama a los casos de uso reales contra PostgreSQL, con **orden forzado**: los repositorios se envuelven, solo en la prueba, con puntos de espera por hilo. Dos escenarios: (A) la renovación consume antes de que la desactivación bloquee al usuario; (B) al revés. Comprueba el resultado de cada operación, que la cuenta quede desactivada y que no quede **ningún token de renovación vigente**. Se agregó además una prueba unitaria en `RenovarSesionTest`.
+- **Resultado:**
+  - **El interbloqueo no se reprodujo:** Hibernate 7.4.5 usa `FOR NO KEY UPDATE` para `PESSIMISTIC_WRITE`, que no choca con el `FOR KEY SHARE` de la clave foránea.
+  - **Sí se reprodujo otro fallo**, por el mismo orden distinto de los bloqueos: en (A) quedaba **1 token vigente en una cuenta desactivada**; en (B) la renovación **entregaba una sesión** a un usuario que se estaba desactivando.
+  - Las dos pruebas fallaron también con la coreografía final, después de revertir la corrección de forma temporal.
+- **Corrección:** `RenovarSesionCasoDeUso` usa `buscarParaActualizar` (bloquea y relee al usuario) antes de tocar sus tokens. Desactivación, login y renovación siguen el mismo orden: primero el usuario, después los tokens.
+- **Verificación actual:**
+  - `DesactivarMientrasRenuevaIT` junto con las 4 pruebas concurrentes, repetidas 3 veces, sin interbloqueos, 500 ni conflictos en el log;
+  - `./gradlew cleanTest check` en verde, con 298 pruebas, 95,3 % de líneas y 76,2 % de ramas.
+- **Se conservan** A1, A2 (dos renovaciones simultáneas se ordenan ahora en la fila del usuario y la segunda sigue contando como reutilización), A4 y D10.
+
+**Pendientes de la revisión, sin corregir:**
+- Para el paso 1.9 o antes (lo decide Richard): M1 (límite por IP) y M3 (contraseña temporal común).
+- **Versionado de roles (pendiente explícito de D10):** `PUT /roles/{rolId}` sigue con "gana el último"; la tabla `rol` no tiene versión. No se da por corregido.
+- **Frontend (paso 1.8, contrato 0.5.0):** los datos ficticios de `apiFicticia.ts` y los `PATCH` de `UsersManagementView.test.tsx` deben llevar `version`, y la pantalla debe recargar el usuario ante un 409 `VERSION_DESACTUALIZADA`.
+- Para el paso 1.8: A3 (una sola renovación compartida entre pestañas) y M4 (CSP del frontend).
+- Bajos: B1 (último admin), B2 (registro de eventos de seguridad), B3 (`aud` y `jti` del JWT) y B4 (HSTS, fase 8).
+- Informativos: I1 e I2.
 
 #### Task 15: Dominio y casos de uso de `usuarios`
 - **ACTION**: Implementar hasta que pasen las Tasks 11 y 12.
@@ -427,7 +553,7 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
   - Puertos de entrada (`arquitectura.md` 4.1): `IniciarSesion`, `RenovarSesion` (D3), `CerrarSesion`, `ObtenerUsuarioActual`, `ConsultarUsuarios`, `CrearUsuario`, `ActualizarUsuario` (países, activo, roles y, [P], una contraseña nueva; desactivar revoca los tokens de renovación), `CrearRol`, `ActualizarRol` y `ConsultarRoles`.
   - `Usuario` expone `tieneRol(CodigoRol)` y `roles()` (D4). `puedeIniciarSesion()` y la renovación exigen activo y al menos un rol.
   - Puertos de salida: `UsuarioRepositorio`, `RolRepositorio`, `CodificadorContrasena`, `EmisorTokens`, `TokenRenovacionRepositorio` (D3) y `Reloj`.
-  - La verificación "solo admin" va **dentro del caso de uso**, con el permiso del usuario que llama (R6), además de la regla de la capa web.
+  - La verificación "solo admin" va **dentro del caso de uso**, con el estado actual del usuario que llama en la base (activo y con `admin`; corrección A1), además de la regla de la capa web, que usa los roles del token (R6).
 - **MIRROR**: SERVICE_PATTERN.
 - **GOTCHA**: Para no revelar si la cuenta existe, con un identificador inexistente se ejecuta igual un `matches` de BCrypt contra un hash fijo, para que el tiempo de respuesta sea similar.
 - **GOTCHA (contraseña de más de 72 bytes)**: BCrypt solo procesa 72 bytes; una contraseña más larga nunca se recorta en silencio. Al crear o cambiarla, `ContrasenaNueva` la rechaza (400 `VALIDACION`). Al iniciar sesión no puede coincidir con ninguna guardada: `IniciarSesion` responde `CredencialesInvalidas` y cuenta el intento fallido (D2) sin pasarla a BCrypt. El límite se mide en bytes UTF-8, no en caracteres (`String.length()` no sirve).
@@ -436,18 +562,18 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 #### Task 16: Persistencia y seguridad (adaptadores de salida)
 - **ACTION**: `UsuarioEntity`, `RolEntity` y `TokenRenovacionEntity` (D3); la relación usuario–rol como tabla de unión `usuario_rol` (D4); repositorios Spring Data y mapeadores; `BCryptCodificador` (fuerza 12 [P]; segunda barrera: si recibe más de 72 bytes en UTF-8, `codificar` lanza un error y `coincide` devuelve falso, sin depender de cómo lo trate la versión de Spring Security); `JwtEmisor` con `NimbusJwtEncoder` HS256 (claims `sub`, `roles`, `iat`, `exp`; emisor `decokasa`).
 - **MIRROR**: REPOSITORY_PATTERN.
-- **GOTCHA**: La búsqueda por identificador es una sola consulta: `where lower(correo)=:id or lower(usuario)=:id or telefono=:telefonoNormalizado`. `@Version` en `UsuarioEntity`; la excepción de bloqueo optimista se traduce a 409.
+- **GOTCHA**: La búsqueda por identificador se planeó como una sola consulta; **se implementó con hasta tres** (correo si tiene `@`; si no, nombre de usuario y después teléfono normalizado; `IniciarSesionCasoDeUso.buscar`). `@Version` en `UsuarioEntity`: la excepción de bloqueo optimista se traduce a 409 `VERSION_DESACTUALIZADA` (D10). Los contadores del login están fuera de la versión.
 - **VALIDATE**: `UsuarioJpaRepositorioIT` (Testcontainers) en verde.
 
-#### Task 17: API REST, Spring Security y composición (D3, D8; ⛔ D3b para la cookie)
-- **ACTION**: `AuthController` (`/api/v1/auth/login`, `/renovar` (D3), `/cerrar-sesion` y `/yo`), `UsuarioController` y `RolController`; DTO como `record` con Bean Validation igual al contrato. Cookie de renovación con `ResponseCookie` (`httpOnly(true)`, `secure(true)`, `sameSite("Strict")`, `path("/api/v1/auth")`, `maxAge` = tiempo restante de la sesión de 8 h; ⛔ D3b); `/renovar` y `/cerrar-sesion` rechazan con 403 un `Origin` que no esté en `CORS_ORIGENES`. `configuracion.SeguridadWebConfig`: sin sesión (`STATELESS`); CSRF de Spring desactivado (el resto de la API usa Bearer; las dos rutas con cookie se protegen con `SameSite=Strict` y la verificación de `Origin`); `permitAll` también en `/api/v1/auth/cerrar-sesion`; `oauth2ResourceServer().jwt()` con un conversor que lee `rol` y carga los permisos; `permitAll` solo en `/api/v1/auth/login`, `/api/v1/auth/renovar`, `/api/v1/salud` y `/actuator/health`; CORS con `CORS_ORIGENES`; cabeceras `X-Content-Type-Options`, `Referrer-Policy` y `frame-options DENY`. `usuarios.config.UsuariosConfig` registra los casos de uso, el decorador transaccional (ADR-0012) y la `PoliticaBloqueo` leída de las propiedades. Los 401 y 403 de Spring Security también salen con formato `Problema`.
+#### Task 17: API REST, Spring Security y composición (D3, D3b, D8)
+- **ACTION**: `AuthController` (`/api/v1/auth/login`, `/renovar` (D3), `/cerrar-sesion` y `/yo`), `UsuarioController` y `RolController`; DTO como `record` con Bean Validation igual al contrato. Cookie de renovación con `ResponseCookie` (`httpOnly(true)`, `secure(true)`, `sameSite("Strict")`, `path("/api/v1/auth")`, `maxAge` = tiempo restante de la sesión de 8 h; D3b); `/renovar` y `/cerrar-sesion` rechazan con 403 un `Origin` que no esté en `CORS_ORIGENES`. `configuracion.SeguridadWebConfig`: sin sesión (`STATELESS`); CSRF de Spring desactivado (el resto de la API usa Bearer; las dos rutas con cookie se protegen con `SameSite=Strict` y la verificación de `Origin`); `permitAll` también en `/api/v1/auth/cerrar-sesion`; `oauth2ResourceServer().jwt()` con un conversor que lee el claim `roles` (lista; D4) y lo convierte en autoridades `ROL_<código>`; `permitAll` solo en `/api/v1/auth/login`, `/api/v1/auth/renovar`, `/api/v1/salud` y `/actuator/health`; CORS con `CORS_ORIGENES`; cabeceras `X-Content-Type-Options`, `Referrer-Policy` y `frame-options DENY`. `usuarios.config.UsuariosConfig` registra los casos de uso, el decorador transaccional (ADR-0012) y la `PoliticaBloqueo` leída de las propiedades. Los 401 y 403 de Spring Security también salen con formato `Problema`.
 - **MIRROR**: ERROR_HANDLING, NAMING_CONVENTION.
 - **GOTCHA**: `springdoc` sirve `/swagger-ui` solo con el perfil `dev` [P]. Revisar con `/ecc:springboot-security` (manual, paso 1.7).
 - **VALIDATE**: `./gradlew test` completo en verde, incluido ArchUnit; `./gradlew jacocoTestCoverageVerification` ≥ 80 %.
 
 ### Paso 1.8 — Implementar el frontend
 
-#### Task 18: Cliente HTTP, esquemas y sesión (D3; ⛔ D3b)
+#### Task 18: Cliente HTTP, esquemas y sesión (D3, D3b)
 - **ACTION**: `api/esquemas.ts` (Zod de `Usuario`, `UsuarioActual`, `RespuestaSesion`, `Rol` y `Problema`, igual que el contrato). `api/cliente.ts` (`fetch` con base `import.meta.env.VITE_API_URL || '/api/v1'`; agrega `Authorization`; convierte `application/problem+json` en un `ErrorApi` con `codigo` y `errores`; ante un 401, renueva y repite una vez). `auth/SesionProvider.tsx` (token de acceso en memoria, usuario actual con `useQuery({ queryKey: ['yo'] })`, `iniciarSesion` y `cerrarSesion`).
 - **MIRROR**: NAMING_CONVENTION (frontend).
 - **GOTCHA**: El token de acceso vive solo en memoria; el de renovación, solo en la cookie `HttpOnly`, que JavaScript no puede leer. Nada en `localStorage` ni en `sessionStorage`. Al recargar la página, `SesionProvider` llama a `/auth/renovar` antes de decidir si muestra el login. `cerrarSesion` llama a `/auth/cerrar-sesion` y borra el acceso de la memoria. Las llamadas a `/auth/*` usan `credentials: 'include'`; el frontend y la API se sirven desde el mismo sitio (proxy de Vite y nginx), condición de `SameSite=Strict` (ADR-0002).
@@ -517,7 +643,7 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 | Varios roles (D4) | Usuario con `compras_china` y `logistica` | Sesión; el token lleva los dos roles y los permisos son la unión | |
 | Renovar con cuenta desactivada (D4) | Token válido, `activo = false` | 401 y la familia queda revocada | |
 | Renovar sin roles (D4) | Token válido, usuario sin roles | 401 y la familia queda revocada | |
-| Bloqueo (D2) | 5 fallos seguidos | `CuentaBloqueada` hasta `ahora + 15m` | Un acierto en el 4.º intento reinicia |
+| Bloqueo (D2) | 5 fallos seguidos y un 6.º intento | Los 5 → `CredencialesInvalidas` (401); el 5.º fija `bloqueadoHasta = ahora + 15m`; el 6.º → `CuentaBloqueada` (423) | Un acierto en el 4.º intento reinicia |
 | Desbloqueo (D2) | Reloj adelantado 15 min | Puede entrar | |
 | Renovación (D3) | Token válido / revocado / vencido | Par nuevo / 401 / 401 | Reutilización |
 | Crear usuario | Admin, datos válidos | Usuario con hash BCrypt, nunca la contraseña | |

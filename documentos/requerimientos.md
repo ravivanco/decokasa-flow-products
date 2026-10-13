@@ -459,13 +459,20 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
   - Bloqueo tras **5 intentos fallidos** de contraseña, durante **15 minutos**.
   - JWT de acceso de **15 minutos**.
   - Renovación de la sesión **hasta 8 horas** desde el inicio de sesión, con rotación del token de renovación en cada uso.
-  - El almacenamiento del token de renovación en el navegador se describe en ADR-0002 (propuesta pendiente de aprobación).
+  - **D3b, aprobado por Richard el 2026-10-12:** el token de renovación viaja en una cookie `HttpOnly`, `Secure` y `SameSite=Strict` con ruta `/api/v1/auth`; el token de acceso vive solo en memoria y ningún token se guarda en `localStorage` ni `sessionStorage`. `/auth/renovar` y `/auth/cerrar-sesion` comprueban la cabecera `Origin`: si falta o no está permitida, responden 403 (aprobado por Richard el 2026-10-13; ADR-0002).
+  - Un error 409 `DUPLICADO` indica el campo repetido (correo, usuario, teléfono o código), para marcarlo en el formulario (aprobado el 2026-10-12).
 - **Usuarios y roles — decisión de Richard (equipo) del 2026-10-12, no es respuesta del cliente:**
   - Un usuario puede tener **uno o varios roles** (tabla `usuario_rol`). Solo el admin asigna o quita roles.
   - Un usuario **sin roles no puede acceder**: no inicia sesión ni renueva la sesión. La base de datos permite guardarlo (por ejemplo, en una carga externa), pero crear o editar un usuario por la API exige **al menos un rol**; para retirar el acceso se **desactiva la cuenta**.
   - Los límites de los campos (largo del nombre, correo, usuario, teléfono y contraseña) son los mismos en la base, la API y los formularios (`modelo-datos.md` 3.1).
   - Una cuenta **desactivada** no puede iniciar ni renovar sesión; al desactivarla se revocan sus sesiones abiertas.
   - Los usuarios no se borran: se desactivan, y el historial de sus acciones se conserva.
+- **Ediciones simultáneas de un usuario — D10, decisión de Richard (equipo) del 2026-10-13, no es respuesta del cliente:**
+  - Cada usuario tiene una **versión** de sus datos administrativos, que la API devuelve en todas las respuestas con un usuario (también las de sesión).
+  - Para editarlo, el admin envía la versión que leyó. Si otra persona lo cambió entretanto, la API responde **409 `VERSION_DESACTUALIZADA`** y **no aplica ningún cambio** (tampoco revoca sesiones): hay que volver a cargar el usuario.
+  - La versión es **obligatoria** al editar; sin ella, o si no es un entero mayor o igual a 0, la respuesta es 400.
+  - Los **intentos fallidos y el bloqueo** del inicio de sesión **no cambian la versión**, y una edición del admin no los sobrescribe.
+  - **Pendiente:** los **roles** (`PUT /roles/{rolId}`) todavía no tienen versión; dos ediciones simultáneas de un rol se sobrescriben.
 - Los datos personales reales (usuarios, correos, teléfonos) y las contraseñas o claves nunca se guardan en el repositorio. Las migraciones solo cargan países y roles; los usuarios reales se cargan fuera de git, y las pruebas usan usuarios ficticios (ADR-0015).
 - Los permisos se revisan en el servidor por rol y por etapa, nunca solo en la pantalla.
 - La carpeta de Drive se organiza por país y pedido. Quién tiene acceso directo a Drive: **TBD**.

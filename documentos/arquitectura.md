@@ -389,7 +389,7 @@ Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar. La
 | Subcarpetas de Drive por año y etapa | Sección 4.5 | Solo país y pedido (requerimientos 4.7) | Propuesta |
 | WebSocket (STOMP) para el tiempo real, desde la fase 5 | Sección 4.9 | Consultas periódicas del frontend | Aprobado que no entra antes de la fase 5; la tecnología se decide en esa fase (ADR-0014) |
 | Bloqueo tras intentos fallidos y JWT de vida corta | Sección 4.1 | Sin bloqueo | Aprobada: 5 intentos, 15 min; acceso de 15 min; renovación hasta 8 h con rotación (ADR-0002) |
-| Token de renovación en cookie `HttpOnly`, `Secure`, `SameSite=Strict` | Sección 4.1 | `sessionStorage` o solo en memoria | Propuesta (ADR-0002) |
+| Token de renovación en cookie `HttpOnly`, `Secure`, `SameSite=Strict` (ruta `/api/v1/auth`), acceso solo en memoria y comprobación de `Origin` | Sección 4.1 | `sessionStorage` o solo en memoria | Aprobada por el equipo (D3b, Richard, 2026-10-12; ADR-0002) |
 | Monorepo y Gradle | — | Dos repositorios; Maven | Aprobada (ADR-0010) |
 | Paquete base `com.decokasa.seguimiento` | Sección 5 | Otro nombre | Propuesta |
 | Países y roles en migraciones; usuarios reales y secretos fuera de git | — | Sembrar usuarios en la migración | Aprobada (ADR-0015) |

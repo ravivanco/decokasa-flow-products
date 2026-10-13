@@ -1,6 +1,8 @@
 package com.decokasa.seguimiento.compartido.adapter.in.web;
 
 import com.decokasa.seguimiento.compartido.domain.CodigoError;
+import com.decokasa.seguimiento.compartido.domain.DatoDuplicado;
+import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.ErrorDeDominio;
 import java.util.EnumMap;
 import java.util.List;
@@ -40,7 +42,8 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.ARCHIVO_DEMASIADO_GRANDE, HttpStatus.CONTENT_TOO_LARGE),
             Map.entry(CodigoError.TIPO_ARCHIVO_NO_ACEPTADO, HttpStatus.UNSUPPORTED_MEDIA_TYPE),
             Map.entry(CodigoError.REQUISITO_FALTANTE, HttpStatus.UNPROCESSABLE_CONTENT),
-            Map.entry(CodigoError.CUENTA_BLOQUEADA, HttpStatus.LOCKED)));
+            Map.entry(CodigoError.CUENTA_BLOQUEADA, HttpStatus.LOCKED),
+            Map.entry(CodigoError.VERSION_DESACTUALIZADA, HttpStatus.CONFLICT)));
 
     private static final Map<CodigoError, String> TITULOS = new EnumMap<>(Map.ofEntries(
             Map.entry(CodigoError.VALIDACION, "Datos inválidos"),
@@ -54,13 +57,23 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.ARCHIVO_DEMASIADO_GRANDE, "Archivo demasiado grande"),
             Map.entry(CodigoError.TIPO_ARCHIVO_NO_ACEPTADO, "Tipo de archivo no aceptado"),
             Map.entry(CodigoError.REQUISITO_FALTANTE, "Falta un requisito"),
-            Map.entry(CodigoError.CUENTA_BLOQUEADA, "Cuenta bloqueada")));
+            Map.entry(CodigoError.CUENTA_BLOQUEADA, "Cuenta bloqueada"),
+            Map.entry(CodigoError.VERSION_DESACTUALIZADA, "Los datos cambiaron")));
 
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {
         HttpStatus estado = ESTADOS.get(error.codigo());
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(estado, error.getMessage());
         completar(problema, error.codigo());
+        // El formulario marca el campo: datos inválidos (VALIDACION) y repetidos (DUPLICADO, decisión D9).
+        String campo = switch (error) {
+            case DatoInvalido invalido -> invalido.campo();
+            case DatoDuplicado duplicado -> duplicado.campo();
+            default -> null;
+        };
+        if (campo != null) {
+            problema.setProperty("errores", List.of(Map.of("campo", campo, "mensaje", error.getMessage())));
+        }
         return ResponseEntity.status(estado).body(problema);
     }
 

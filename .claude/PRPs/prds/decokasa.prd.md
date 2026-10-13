@@ -256,7 +256,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | País inicial | Ecuador | — | Pedido del cliente |
 | Repositorio | Monorepo `frontend/` + `backend/`; ramas de fase desde `develop`, PR hacia `develop`, `main` solo para versiones | Repositorios separados | Decisión del equipo (`documentos/manual-paso-a-paso.md`) |
 | Demo de AI Studio | Reutilizar 14 componentes, reescribir 11, descartar 7 | Empezar el frontend de cero | Resultado de `auditoria-demo.md`, sección 8 |
-| Sesión (2026-10-12) | Bloqueo de 15 min tras 5 intentos fallidos; acceso de 15 min; renovación hasta 8 h con rotación | Sin bloqueo; sesión larga | Decisión del equipo (ADR-0002). Almacenamiento en cookie `HttpOnly`: propuesta |
+| Sesión (2026-10-12) | Bloqueo de 15 min tras 5 intentos fallidos; acceso de 15 min; renovación hasta 8 h con rotación | Sin bloqueo; sesión larga | Decisión del equipo (ADR-0002). Almacenamiento en cookie `HttpOnly`: aprobado el 2026-10-12 (D3b) |
 | Backend (2026-10-12) | Gradle, hexagonal, transacciones fuera del dominio | Maven; capas de Spring | Decisión del equipo (ADR-0010, 0011, 0012) |
 | Tiempo real (2026-10-12) | No entra antes de la fase 5 | WebSocket desde la fase 1 | Decisión del equipo (ADR-0014) |
 | Datos iniciales (2026-10-12) | Países y 7 roles en migraciones; usuarios reales y secretos fuera de git | Sembrar usuarios en la migración | Decisión del equipo (ADR-0015); repositorio público |
