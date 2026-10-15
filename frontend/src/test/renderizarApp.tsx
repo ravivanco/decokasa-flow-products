@@ -19,7 +19,7 @@ export function renderizarApp(rutaInicial: string) {
       </SesionProvider>
     </QueryClientProvider>,
   );
-  return { router, usuario };
+  return { router, usuario, consultas };
 }
 
 /**

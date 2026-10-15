@@ -77,6 +77,22 @@ class MigracionesIT {
     }
 
     @Test
+    void reiniciarFlywayValidaLaMigracionSinReaplicarla() {
+        Flyway flyway = Flyway.configure()
+                .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
+                .locations("classpath:db/migration").load();
+
+        assertThat(flyway.validateWithResult().validationSuccessful).isTrue();
+        MigrateResult segunda = flyway.migrate();
+
+        assertThat(segunda.success).isTrue();
+        assertThat(segunda.migrationsExecuted).isZero();
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("1");
+        assertThat(flyway.info().applied()).hasSize(1);
+        assertThat(flyway.info().pending()).isEmpty();
+    }
+
+    @Test
     void creaSoloLasTablasDeUsuariosRolesYPaises() throws SQLException {
         List<String> tablas = textos("""
                 select table_name from information_schema.tables

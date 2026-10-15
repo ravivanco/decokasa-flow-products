@@ -7,6 +7,17 @@ import { servidor } from '@/test/servidor';
 
 // Pantalla de inicio de sesión (plan, tareas 14 y 20; requisito 4.2 #1; ADR-0002). Datos ficticios.
 describe('Pantalla de inicio de sesión', () => {
+  it('sin red informa el problema, conserva el formulario y no repite el login', async () => {
+    let llamadas = 0;
+    servidor.use(http.post('*/api/v1/auth/login', () => { llamadas++; return HttpResponse.error(); }));
+    const app = renderizarApp('/login');
+    await escribirCredenciales(app, ana.correo, CLAVE);
+    expect(await screen.findByRole('alert')).toHaveTextContent('No hay conexión con el servidor.');
+    expect(screen.getByLabelText('Correo, usuario o teléfono')).toHaveValue(ana.correo);
+    expect(screen.getByRole('button', { name: 'Ingresar' })).toBeEnabled();
+    expect(llamadas).toBe(1);
+    expect(app.router.state.location.pathname).toBe('/login');
+  });
   async function escribirCredenciales(app: ReturnType<typeof renderizarApp>, identificador: string, clave: string) {
     await app.usuario.type(await screen.findByLabelText('Correo, usuario o teléfono'), identificador);
     await app.usuario.type(screen.getByLabelText('Contraseña'), clave);
@@ -48,12 +59,13 @@ describe('Pantalla de inicio de sesión', () => {
 
   it('envía el identificador y la contraseña y entra a /inicio', async () => {
     let cuerpo: unknown;
+    // MSW usa el primer manejador que coincide: el de esta prueba va antes que el login genérico de sesionDe.
     servidor.use(
-      ...sesionDe(ana),
       http.post('*/api/v1/auth/login', async ({ request }) => {
         cuerpo = await request.json();
         return HttpResponse.json({ tokenAcceso: 'token-de-prueba', expiraEn: 900, usuario: ana });
       }),
+      ...sesionDe(ana),
     );
     const app = renderizarApp('/login');
 
@@ -69,11 +81,11 @@ describe('Pantalla de inicio de sesión', () => {
       responder = resolver;
     });
     servidor.use(
-      ...sesionDe(ana),
       http.post('*/api/v1/auth/login', async () => {
         await respuesta;
         return HttpResponse.json({ tokenAcceso: 'token-de-prueba', expiraEn: 900, usuario: ana });
       }),
+      ...sesionDe(ana),
     );
     const app = renderizarApp('/login');
 

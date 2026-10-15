@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -21,6 +23,12 @@ class SaludControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/swagger-ui.html", "/swagger-ui/index.html", "/v3/api-docs", "/v3/api-docs/swagger-config"})
+    void swaggerNoEsPublicoSinPerfilDev(String ruta) throws Exception {
+        mvc.perform(get(ruta)).andExpect(status().isUnauthorized());
+    }
 
     @Test
     void laSaludRespondeSinAutenticacion() throws Exception {

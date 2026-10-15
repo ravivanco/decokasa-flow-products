@@ -259,9 +259,13 @@ describe('Gestión de usuarios', () => {
     await app.usuario.click(within(dialogo).getByRole('button', { name: 'Guardar' }));
 
     await waitFor(() => expect(cambios).toHaveLength(1));
-    const cambio = cambios[0] as { id: string; roles: string[] };
+    const cambio = cambios[0] as { id: string; roles: string[]; version: number };
     expect(cambio.id).toBe(ana.id);
     expect([...cambio.roles].sort()).toEqual(['logistica', 'marketing']);
+    // Contrato 0.5.0 (D10): la versión que se leyó, y solo los campos que cambian.
+    expect(cambio.version).toBe(0);
+    expect(cambio).not.toHaveProperty('nombre');
+    expect(cambio).not.toHaveProperty('correo');
   });
 
   it('al editar no deja quitar todos los roles; para retirar el acceso se desactiva', async () => {
@@ -299,6 +303,121 @@ describe('Gestión de usuarios', () => {
 
     await app.usuario.click(await screen.findByRole('button', { name: 'Desactivar a Ana Prueba' }));
 
-    await waitFor(() => expect(cambios).toEqual([{ id: ana.id, activo: false }]));
+    await waitFor(() => expect(cambios).toEqual([{ id: ana.id, activo: false, version: 0 }]));
+  });
+
+  it('activa una cuenta inactiva desde la lista', async () => {
+    const cambios: unknown[] = [];
+    servidor.use(
+      ...catalogos(),
+      http.patch('*/api/v1/usuarios/:id', async ({ request, params }) => {
+        cambios.push({ id: params.id, ...((await request.json()) as object) });
+        return HttpResponse.json({ ...beto, activo: true, version: 1 });
+      }),
+    );
+    const app = await abrirComoAdmin();
+
+    await app.usuario.click(await screen.findByRole('button', { name: 'Activar a Beto Prueba' }));
+
+    await waitFor(() => expect(cambios).toEqual([{ id: beto.id, activo: true, version: 0 }]));
+  });
+
+  // --- Versión desactualizada (409 VERSION_DESACTUALIZADA, D10): ni se sobrescribe ni se reenvía ---
+
+  it.each([false, true])('reaplica solo mis campos sobre la versión vigente (campo coincidente: %s)', async (coincide) => {
+    const actual = { ...ana, nombre: coincide ? 'Nombre remoto' : ana.nombre, telefono: '+593990000088', version: 3 };
+    const patches: Record<string, unknown>[] = [];
+    servidor.use(http.get('*/api/v1/usuarios', () => HttpResponse.json([admin, patches.length ? actual : ana])),
+      http.get('*/api/v1/roles', () => HttpResponse.json(rolesApi)),
+      http.patch('*/api/v1/usuarios/:id', async ({ request }) => {
+        const cuerpo = await request.json() as Record<string, unknown>;
+        patches.push(cuerpo);
+        return cuerpo.version === 3 ? HttpResponse.json({ ...actual, ...cuerpo, version: 4 })
+          : problema(409, 'VERSION_DESACTUALIZADA', 'Otra persona modificó este usuario.');
+      }));
+    const app = await abrirComoAdmin();
+    await app.usuario.click(await screen.findByRole('button', { name: 'Editar a Ana Prueba' }));
+    const dialogo = within(await screen.findByRole('dialog', { name: 'Editar usuario' }));
+    await app.usuario.clear(dialogo.getByLabelText('Nombre'));
+    await app.usuario.type(dialogo.getByLabelText('Nombre'), 'Mi nombre ficticio');
+    await app.usuario.click(dialogo.getByRole('button', { name: 'Guardar' }));
+    await app.usuario.click(await dialogo.findByRole('button', { name: 'Reaplicar mis cambios' }));
+    await waitFor(() => expect(dialogo.getByLabelText('Teléfono')).toHaveValue(actual.telefono));
+    expect(dialogo.getByLabelText('Nombre')).toHaveValue('Mi nombre ficticio');
+    expect(patches).toHaveLength(1);
+    expect(dialogo.getByRole('alert')).toHaveTextContent(coincide
+      ? 'Otra persona también cambió el nombre' : 'Tus cambios quedaron sobre los datos actuales');
+    await app.usuario.click(dialogo.getByRole('button', { name: 'Guardar' }));
+    await waitFor(() => expect(patches).toHaveLength(2));
+    expect(patches[1]).toEqual({ version: 3, nombre: 'Mi nombre ficticio' });
+  });
+
+  it('al editar con una versión vieja avisa, no reenvía y deja cargar los datos actuales', async () => {
+    let lista = [admin, ana];
+    let patches: { version: number }[] = [];
+    servidor.use(
+      http.get('*/api/v1/usuarios', () => HttpResponse.json(lista)),
+      http.get('*/api/v1/roles', () => HttpResponse.json(rolesApi)),
+      http.patch('*/api/v1/usuarios/:id', async ({ request }) => {
+        const cuerpo = (await request.json()) as { version: number };
+        patches = [...patches, cuerpo];
+        if (cuerpo.version !== 3) {
+          return problema(409, 'VERSION_DESACTUALIZADA', 'Otra persona modificó este usuario.');
+        }
+        return HttpResponse.json({ ...ana, nombre: 'Ana María Prueba', roles: ['logistica'], version: 4 });
+      }),
+    );
+    const app = await abrirComoAdmin();
+
+    await app.usuario.click(await screen.findByRole('button', { name: 'Editar a Ana Prueba' }));
+    const dialogo = await screen.findByRole('dialog', { name: 'Editar usuario' });
+    // Otra persona cambia a Ana mientras el diálogo está abierto.
+    lista = [admin, { ...ana, nombre: 'Ana María Prueba', roles: ['compras_china'], version: 3 }];
+    const grupo = within(dialogo).getByRole('group', { name: 'Roles' });
+    await app.usuario.click(within(grupo).getByRole('checkbox', { name: 'Marketing y codificación' }));
+    await app.usuario.click(within(dialogo).getByRole('button', { name: 'Guardar' }));
+
+    const aviso = await within(dialogo).findByRole('alert');
+    expect(aviso).toHaveTextContent('Otra persona modificó este usuario.');
+    expect(patches).toHaveLength(1);
+    expect(screen.getByRole('dialog', { name: 'Editar usuario' })).toBeInTheDocument();
+
+    // Cargar los datos actuales no reenvía nada: muestra lo que hay en el servidor, con su versión.
+    await app.usuario.click(within(dialogo).getByRole('button', { name: 'Cargar datos actuales' }));
+    await waitFor(() => expect(within(dialogo).getByLabelText('Nombre')).toHaveValue('Ana María Prueba'));
+    expect(within(grupo).getByRole('checkbox', { name: 'Marketing y codificación' })).not.toBeChecked();
+    expect(within(grupo).getByRole('checkbox', { name: 'Logística' })).not.toBeChecked();
+    expect(patches).toHaveLength(1);
+
+    // La persona repite el cambio a propósito: ahora va con la versión vigente.
+    await app.usuario.click(within(grupo).getByRole('checkbox', { name: 'Logística' }));
+    await app.usuario.click(within(grupo).getByRole('checkbox', { name: 'Compras China' }));
+    await app.usuario.click(within(dialogo).getByRole('button', { name: 'Guardar' }));
+    await waitFor(() => expect(patches).toHaveLength(2));
+    expect(patches[1].version).toBe(3);
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
+  it('al desactivar con una versión vieja avisa, recarga la lista y no reenvía', async () => {
+    let consultas = 0;
+    let patches = 0;
+    servidor.use(
+      http.get('*/api/v1/usuarios', () => {
+        consultas++;
+        return HttpResponse.json([admin, ana]);
+      }),
+      http.get('*/api/v1/roles', () => HttpResponse.json(rolesApi)),
+      http.patch('*/api/v1/usuarios/:id', () => {
+        patches++;
+        return problema(409, 'VERSION_DESACTUALIZADA', 'Otra persona modificó este usuario.');
+      }),
+    );
+    const app = await abrirComoAdmin();
+
+    await app.usuario.click(await screen.findByRole('button', { name: 'Desactivar a Ana Prueba' }));
+
+    expect(await screen.findByText(/La lista estaba desactualizada/)).toBeInTheDocument();
+    await waitFor(() => expect(consultas).toBeGreaterThanOrEqual(2));
+    expect(patches).toBe(1);
   });
 });

@@ -1,12 +1,37 @@
-import type { RouteObject } from 'react-router';
+import { Navigate, type RouteObject } from 'react-router';
+import App from './App';
+import { RutaProtegida, SoloAdmin } from './auth/RutaProtegida';
+import { DashboardRol } from './components/dashboards/DashboardRol';
+import { ErrorRuta } from './components/ErrorRuta';
+import { LoginScreen } from './components/LoginScreen';
+import { PaginaNoEncontrada } from './components/PaginasSimples';
+import { RolesManagementView } from './components/RolesManagementView';
+import { UsersManagementView } from './components/UsersManagementView';
 
-// Rutas de la aplicación (plan, tarea 19): /login pública; /inicio, /usuarios y /roles protegidas por sesión y rol.
-// Montaje mínimo del paso 1.6: las rutas existen para que el router arranque en las pruebas, pero todavía no tienen
-// pantallas ni protección. Las pantallas, la redirección al login y la página "Sin permiso" llegan en el paso 1.8.
+// Rutas de la aplicación (plan, tarea 19): /login pública; el resto exige sesión, y /usuarios y /roles el rol admin.
+// Las pantallas del demo de fases posteriores (pedidos, bodegas, avisos, auditoría) no tienen ruta hasta su fase.
+// Un error que ninguna pantalla atrapó muestra ErrorRuta (sin detalles técnicos) en lugar de la página de React Router.
 export const rutas: RouteObject[] = [
-  { path: '/login' },
-  { path: '/inicio' },
-  { path: '/usuarios' },
-  { path: '/roles' },
-  { path: '*' },
+  { path: '/login', element: <LoginScreen />, errorElement: <ErrorRuta /> },
+  {
+    element: <RutaProtegida />,
+    errorElement: <ErrorRuta />,
+    children: [
+      {
+        element: <App />,
+        children: [
+          { index: true, element: <Navigate to="/inicio" replace /> },
+          { path: '/inicio', element: <DashboardRol /> },
+          {
+            element: <SoloAdmin />,
+            children: [
+              { path: '/usuarios', element: <UsersManagementView /> },
+              { path: '/roles', element: <RolesManagementView /> },
+            ],
+          },
+          { path: '*', element: <PaginaNoEncontrada /> },
+        ],
+      },
+    ],
+  },
 ];

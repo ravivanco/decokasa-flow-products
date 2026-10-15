@@ -612,6 +612,20 @@ El orden sigue el manual (pasos 1.2 a 1.11). Dentro de cada paso, cuando hay có
 - **IMPLEMENT**: Según `usuario.rol`: admin, asistente_compras ("Revisión"), marketing ("Codificación"), compras_china, logistica, asistente_china y consulta (los dos con el dashboard "Consulta"; alcance ⏸). Cualquier otro rol creado por el admin usa "Consulta". Cada uno muestra el título, el nombre del usuario y el estado vacío "Aún no hay pedidos; las bandejas llegan en la fase 2". Sin datos simulados (HU 03).
 - **VALIDATE**: Una prueba comprueba que cada rol ve su título.
 
+#### Resultado del paso 1.8 (2026-10-13)
+
+`npm run test`: 132 pruebas en verde (15 archivos). `npm run lint` y `npm run build` sin errores. Pruebas actualizadas primero al contrato 0.5.0 (`version` en los datos ficticios y en cada `PATCH`) y vistas en rojo antes de implementar. Detalle en `.claude/PRPs/reports/fase-1-paso-1.8-report.md`.
+
+- **A3 (corregido):** `auth/coordinadorSesion.ts`. Dentro de una pestaña, las renovaciones simultáneas comparten una sola llamada. Entre pestañas se serializan con `navigator.locks` (`decokasa-renovacion`): la siguiente envía la cookie que dejó la anterior y nunca una ya rotada. Si mientras esperaba ya llegó otro token, no renueva. Cerrar sesión se avisa a las demás pestañas por `BroadcastChannel`, sin tokens en el mensaje. Sin Web Locks, la coordinación queda dentro de la pestaña.
+- **M4 (corregido):** CSP en `frontend/nginx.conf`: `default-src`, `script-src` y `connect-src` `'self'`, sin `eval` ni scripts en línea. `style-src` admite `'unsafe-inline'` porque sonner y Radix insertan `<style>`. También se agregó `Permissions-Policy`. Zod corre en modo `jitless` (`lib/configurarZod.ts`) para no disparar la violación de `eval`.
+- **VITE_API_URL:** documentada en `frontend/.env.example` y en `api/cliente.ts`. Vacía, la API es `/api/v1` en el mismo origen (recomendado, D3b).
+- **Desvíos del plan:**
+  - Sin consulta `['yo']`: el usuario sale de la respuesta de login o de renovación, que el backend relee de la base. Ahorra una llamada por carga.
+  - La protección por rol usa el rol `admin`, no los permisos, porque `rol_permiso` está vacío (permisos por definir).
+  - Al editar un rol, el código es de solo lectura.
+  - Dos pruebas del login del paso 1.6 registraban el manejador genérico de `sesionDe` antes que el propio; en MSW gana el primero. Se invirtió el orden sin cambiar lo que comprueban.
+  - `test/setup.ts` agrega un `ResizeObserver` vacío (jsdom no lo trae y el Checkbox de Radix lo usa).
+
 ### Paso 1.9 — Revisión
 - **Task 25**: `/code-review`; agentes `ecc:java-reviewer` sobre `backend/` y `ecc:typescript-reviewer` sobre `frontend/src/`; `/security-review`, **obligatorio** según el manual. Sin hallazgos críticos ni altos.
 

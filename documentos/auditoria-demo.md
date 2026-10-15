@@ -1,5 +1,7 @@
 # Auditoría del demo de AI Studio contra los requerimientos
 
+> **Revisión vigente: 2026-10-13, sección 11.** Las secciones 1–10 conservan la auditoría histórica del demo (9–10 de octubre); sus conteos, rutas de línea y resultados de herramientas no describen automáticamente el árbol actual. La sección 11 actualiza clasificación, seguridad, calidad y consistencia documental sin aprobar propuestas pendientes.
+
 **Fecha:** 2026-10-09 · **Fase 0, paso 0.3** · **Alcance:** `frontend/src/` contra las secciones 4.2 a 4.5 de `documentos/requerimientos.md`.
 
 **Método:**
@@ -336,3 +338,275 @@ Severidad: **Crítico** permite tomar el control del sistema; **Alto** expone da
 3. **Fase 2:** S4, con permisos y eventos validados en el servidor.
 4. **Fase 3:** S9 y la parte de S6 que corresponde a la subida de archivos.
 5. **Fase 8:** S10 y S11, más la auditoría final del paso 8.5.
+
+## 11. Reauditoría del árbol actual y consistencia documental — 2026-10-13
+
+### 11.1 Alcance, fuentes y veredicto
+
+**No apto para producción ni para dar por terminado el paso 1.8.** El frontend servido sigue siendo el demo: `main.tsx:11` monta `App`, `App.tsx:49` inicia como admin y carga pedidos, bodegas y correos en memoria. Se añadió un cliente API, esquemas y pruebas, pero no están integrados con la aplicación montada. `auth/SesionProvider.tsx:5` solo devuelve sus hijos y `rutas.tsx:7` contiene rutas sin elementos. Tener dependencias, pruebas o un backend implementado no demuestra integración frontend.
+
+Se revisó el árbol de trabajo de `fase-1-base-acceso`, HEAD `0fe8fcc`, incluyendo cambios locales preexistentes: pruebas modificadas, `src/api/`, pruebas de coordinación de sesión, roles, dashboards, CSP y limpieza del demo, y primitivas UI nuevas. No se sobrescribieron esos cambios ni se corrigió código: esta entrega modifica únicamente este informe. Los resultados son una fotografía del árbol revisado, no del commit limpio ni de una versión desplegada.
+
+Fuentes contrastadas: `requerimientos.md` completo (especialmente 4.2–4.9 y respuestas de la sección 5), `.claude/PRPs/prds/decokasa.prd.md`, los 16 ADR y su índice, `arquitectura.md`, `api/openapi.yaml` 0.5.0-borrador, las tablas de `modelo-datos.md`, los seis `.mmd` y `diseno/DESIGN.md`. La revisión de código incluye componentes, utilidades, montaje, modelos, sesión, cliente API y soporte de pruebas.
+
+Se aplicaron `/ecc:react-review` (revisión React y revisión TypeScript complementaria), `impeccable audit` y `/ecc:security-scan`. Las instrucciones se localizaron en `C:/Users/Richard/.claude/plugins/marketplaces/ecc/commands/react-review.md`, sus agentes `react-reviewer.md` y `typescript-reviewer.md`, `C:/Users/Richard/.claude/skills/impeccable/SKILL.md` y `C:/Users/Richard/.claude/plugins/marketplaces/ecc/skills/security-scan/SKILL.md`. AgentShield audita configuración de agentes; no sustituye la revisión de seguridad del TSX.
+
+**Criterio de aprobación:** una respuesta del cliente y una decisión técnica aprobada por Richard son orígenes distintos. Un ADR `proposed`, `[P]`, `⏸`, `TBD`, `x-origen: propuesta` o `x-pendiente` sigue pendiente aunque aparezca en un formulario, una tabla, un diagrama o un campo obligatorio del contrato borrador. Este informe registra diferencias; no cambia su estado.
+
+### 11.2 Comprobaciones realizadas
+
+| Comprobación | Resultado actual y límite |
+| --- | --- |
+| `npm run lint` | Falla: `SesionProvider.test.tsx:113` pasa `unknown` donde MSW exige `JsonBodyType`; `coordinadorSesion.test.ts:11` importa un módulo inexistente; líneas 59, 60 y 137 tienen parámetros `any` implícitos. Es TypeScript, no ESLint |
+| Configuración TypeScript | `strict: true` ya existe. La parte de Q7 que decía «sin strict» está resuelta; faltan ESLint y las reglas de hooks y accesibilidad |
+| `npm run test` | Reejecutado con reporte JSON fuera del sandbox: 125 pruebas, 48 pasan y 77 fallan; 15 archivos, 4 pasan y 11 fallan. Además hay un archivo que no puede recolectar pruebas por módulo ausente (incluido en los 11 fallidos). Fallos en rutas, sesión, pantallas pendientes, accesos demo, CSP y observación de credenciales auth en MSW. No se declara verde la fase 1 ni cobertura aprobada |
+| `npm run build` | Pasa fuera del sandbox; JS principal 420.24 kB (112.52 kB gzip), CSS 91.32 kB (15.83 kB gzip). Compilar el demo no implica cumplir requisitos ni pasar TypeScript, que se ejecuta aparte |
+| `npm audit --omit=dev --json` | 0 vulnerabilidades reportadas en dependencias de producción al ejecutar esta revisión. No cubre dependencias de desarrollo ni demuestra ausencia de vulnerabilidades propias |
+| Impeccable `context --target frontend/src` | Ejecutado. No encontró PRODUCT.md ni DESIGN.md en sus ubicaciones convencionales; se leyó directamente el sistema de diseño real, `documentos/diseno/DESIGN.md`. No se creó ni reemplazó contexto de producto |
+| Impeccable `detect --json frontend/src` | Un aviso `bounce-easing`, `HorizontalStatusLine.tsx:106`. Coincide con `animate-bounce-subtle`, clase propia sin definición; el patrón regex no prueba que exista una animación de rebote efectiva. No se cuenta como defecto visual demostrado |
+| AgentShield 1.6.0, `scan --path .claude --format json` | A/100, 0 hallazgos, **0 archivos escaneados**. Resultado sin cobertura; no es aval de seguridad |
+| AgentShield 1.6.0, `scan --path . --format json` | Reejecutado: B/80, 3 archivos escaneados y 12 avisos sobre defensas textuales ausentes en CLAUDE.md: 2 críticos, 3 altos, 6 medios y 1 bajo **según la herramienta**. Son avisos de configuración del agente, no 12 vulnerabilidades del producto ni los 270 hashes del escaneo histórico |
+| Referencias OpenAPI | YAML parseado correctamente: versión 3.1.0, contrato 0.5.0-borrador, 34 `operationId` sin duplicados; las 252 referencias internas se resuelven al recorrer el árbol YAML. No equivale a validar toda la semántica con un validador OpenAPI 3.1 |
+| Diagramas | Se contrastaron semánticamente los seis archivos. La validación de render del README es del 2026-10-10; no se declara un render nuevo |
+
+Los archivos temporales de evidencia de herramientas están en `.tmp/auditoria-impeccable.json`, `.tmp/auditoria-agentshield.json`, `.tmp/auditoria-agentshield-raiz.json` y `.tmp/auditoria-npm.json`; el resumen útil y sus límites quedan aquí. No se ejecutaron autofixes, instalaciones ni publicación.
+
+### 11.3 Clasificación vigente para migración
+
+**Reutilizar** significa conservar la presentación o una primitiva y adaptar su interfaz; no copiar datos, permisos ni reglas del demo como implementación real. **Reescribir** significa sustituir la responsabilidad o composición principal, aunque se aproveche el diseño visual. **Descartar** significa retirarlo del runtime MVP, conservando solo referencias de prueba ficticias si son necesarias. Esta matriz precisa la sección 8 histórica; el número «14 componentes reutilizados» del PRD no debe usarse como criterio de aceptación.
+
+| Archivo / grupo | Decisión | Qué conservar y qué debe cambiar |
+| --- | --- | --- |
+| `App.tsx` | Reescribir | Montaje de rutas, sesión y consultas; retirar estado de negocio en memoria, autoadmin, cambio de identidad y correos fabricados |
+| `main.tsx`, `rutas.tsx`, `auth/SesionProvider.tsx` | Reescribir / completar | Un solo montaje real con router, proveedor de sesión y QueryClient. Hoy producción y el helper de pruebas montan árboles diferentes |
+| `components/LoginScreen.tsx` | Reescribir | Estructura de formulario como referencia; autenticación `/auth/login`, errores 401/423, etiquetas y estados de carga. Descartar contraseña común, ingreso rápido y CO habilitado |
+| `components/UsersManagementView.tsx` | Reescribir | Gestión API: crear, editar, activar/desactivar, varios roles y PATCH con `version`; resolver 409 recargando el usuario. Retirar `onSwitchUser` |
+| Pantalla de roles y dashboards de fase 1 | Implementar, sin componente que reutilizar | `RolesManagementView.test.tsx` y `dashboards/DashboardRol.test.tsx` son pruebas, no pantallas. Los dashboards vacíos son la entrega de fase 1, no el seguimiento completo |
+| `components/Header.tsx`, `Sidebar.tsx` | Reescribir composición | Aprovechar layout; identidad de sesión, enlaces reales, autorización de opciones, menú móvil accesible y país EC. Quitar simulador |
+| `components/DashboardView.tsx` | Reescribir composición | Aprovechar jerarquía y tarjetas; bandeja API por roles, línea horizontal por pedido y estados vacíos reales. No importar pedidos demo |
+| `components/OrdersListView.tsx` | Reutilizar listado; reescribir creación | Filtros y tabla como presentación; API paginada y formulario validado. El backend genera el número; no usar `pedidos.length + 1` |
+| `components/OrderDetail.tsx` | Reutilizar presentación; reescribir coordinación | Composición de detalle y secciones; adaptar `PedidoDetalle`, acciones disponibles, Tabs/Dialog accesibles y selección de etapa sin estado obsoleto |
+| `components/StagePanel.tsx` | Reescribir | Acciones obtenidas del flujo/servidor; distinguir A/B, exigir evidencias y bodega, devolución por error separada, adjuntos y reasignación. Descartar checklist no aprobado |
+| `components/HorizontalStatusLine.tsx` | Reutilizar con ajustes | Línea horizontal requerida; adaptar `lineaDeTiempo`, estados y nombres del contrato, `aria-current="step"`, contraste y selección accesible |
+| `components/OrderHistoryTab.tsx` | Reutilizar presentación | Lista de eventos y adjuntos desde API; timestamps del servidor y títulos accesibles. La inmutabilidad se garantiza en backend, no en este componente |
+| `components/OrderScheduleTab.tsx` | Reutilizar presentación | Fechas/meta recibidas del backend, sin cálculo autoritativo local ni plazos pendientes presentados como definitivos |
+| `components/OrderDocumentsTab.tsx` | Reutilizar listado; reescribir operaciones | Carga/descarga autorizada vía backend, tamaño real, progreso y estados PENDIENTE/COPIADO/FALLIDO; quitar botones de éxito simulado |
+| `components/TrackingSearchView.tsx` | Reutilizar presentación; reescribir datos | Búsqueda API por número y línea horizontal; guardar ID o respuesta vigente, quitar pedido fijo preseleccionado y copia desactualizada |
+| `components/WarehouseCatalogView.tsx` | Reutilizar listado de tarjetas; reescribir formulario | Persistencia API, estados de carga/error y diálogo accesible. Logística mantiene el catálogo; facultad del admin sigue pendiente |
+| `components/GmailNotificationsView.tsx` | Reutilizar presentación | Registro API de enviados, fallidos e intentos; no confundir «leído» local con entrega real de correo |
+| `components/AuditTrailView.tsx` | Reutilizar presentación | Auditoría API paginada y autorizada, sin reconstruir historia global desde arrays locales |
+| `components/TimelineCalculatorView.tsx` | Reescribir | Conservar comparación cronograma/meta; fechas del backend. Retirar Slack, 12 días de Embarque y duraciones no confirmadas |
+| `components/Toast.tsx` | Descartar implementación | Sustituir por `components/ui/sonner.tsx` integrado, con feedback accesible; evitar dos sistemas de avisos |
+| `components/OrderProductsTab.tsx` | Descartar del MVP | El cliente sigue pedidos y deja el detalle de productos en archivos; cantidades recibidas e inventario no pertenecen al alcance aprobado |
+| `components/HelpView.tsx` | Descartar copia del levantamiento | Reemplazar después por manual operativo verificado; hoy afirma propuestas y plazos no aprobados como hechos (C8) |
+| `components/ui/{alert,badge,button,card,checkbox,dialog,dropdown-menu,field,input,label,select,separator,sonner,table}.tsx` | Reutilizar | Primitivas shadcn/Radix y tokens existentes; requieren composición correcta, nombres accesibles y traducción de «Close» en Dialog |
+| `api/cliente.ts`, `api/esquemas.ts` | Reutilizar endureciendo | Base HTTP, errores y Zod; aclarar política de cookies, alinear validación de contrato y conectar sesión. No son autenticación completa |
+| `types.ts` | Reescribir | El modelo de demo usa `email`, `usuarioLogin`, un `rol` y un `pais`; contrato usa `correo`, `usuario`, `roles`, `paises`, `version`. Evitar dos modelos paralelos de sesión |
+| `utils/orderState.ts` | Descartar del runtime; referencia para reescritura backend | Ninguna transición, auditoría, urgencia ni supuesto Drive local es autoridad de negocio. Convertir errores conocidos en casos de dominio |
+| `utils/permissions.ts` | Reescribir | Solo ayudas de presentación basadas en sesión/capacidades; autorización obligatoria en servidor. No conservar la unión cerrada de roles demo como catálogo |
+| `utils/dateUtils.ts` | Reutilizar formateadores; reescribir/retirar cálculos | Formatear fechas del contrato; eliminar `SIMULATED_TODAY` y dejar plazos, urgencias y arrastre en backend |
+| `data/initialData.ts`, `utils/translations.ts` | Descartar del runtime | Sin datos de empleados en bundle; etapas como referencia de migración, no configuración aprobada. Traducciones no usadas y sin requisito multidioma |
+| `index.css`, `lib/utils.ts` | Reutilizar con ajustes | Tokens de DESIGN y `cn`; aplicar tokens en pantallas antiguas y ajustar reducción de movimiento (Q24) |
+| `*.test.*`, `test/*`, `vite-env.d.ts` | Reutilizar / completar | Pruebas y MSW ficticios separados del runtime; corregir tipado, imports faltantes y montaje, sin tratar pruebas rojas como funcionalidad entregada |
+
+### 11.4 Cobertura funcional actual frente a requisitos
+
+| Requisito / decisión | Estado del frontend auditado | Evidencia y fase pertinente |
+| --- | --- | --- |
+| Login real, dashboard por rol, usuarios y roles (§4.2 #1–3; §4.7) | No integrado | `main`, `App`, sesión y rutas; Usuarios solo lista demo, Roles no tiene pantalla. Bloquea salida de fase 1 |
+| Varios roles, cuenta activa, D3b y D10 aprobados por equipo | Parcial en contrato/esquemas, ausente en UI activa | `api/esquemas.ts` incluye `roles` y `version`; `types.ts` y App usan modelo antiguo; falta renovación y edición versionada |
+| Número secuencial único (§4.2 #5) | Simulado | `OrdersListView.tsx:82–84` usa longitud local y año fijo. Formato DK sigue propuesto; fase 2 |
+| Flujos A/B y devolución por error (§4.4–4.5) | Demo parcial con errores | B3/B4 reciben botones de otras etapas; B10 Bodega se etiqueta como check final de Incidencias (`StagePanel.tsx:365`); devolución simple sin urgencia ausente; fases 2, 4 y 6 |
+| Urgencia 4/12/24 hasta A4/B5 (§4.2 #11) | Incorrecta | `orderState.ts:258` borra urgencia al primer avance; `:373–380` fija horas y hace iguales los vencimientos de Prioritario/Normal |
+| Documentos obligatorios, bodega y Fin automático | Parcial | Fin automático existe en demo; `StagePanel.tsx:99` calcula faltantes sin bloquear. Función de avance local no garantiza evidencias/bodega |
+| Drive y Gmail reales (§4.2 #15–16) | Simulados | `orderState.ts:645–646`, App y StagePanel crean enlaces/correos inventados; no hay operación real de esos servicios desde la UI. Fase 3 |
+| Hora de Ecuador, reentrada, recálculo y arrastre | Parcial e incorrecto | Día simulado, reentrada calculada desde pedido, fecha fija de demora y calculadora heredada. Fases 2/4/5; jornada, feriados y tránsito no se deciden aquí |
+| Línea horizontal por dashboard y búsqueda | Parcial | Se usa en detalle, no en todas las superficies exigidas; fase 5. No es bloqueo adicional de dashboards vacíos de fase 1 |
+| Reasignación e historial de solo inserción | No implementados de forma real | Arrays locales y controles por rol no equivalen a persistencia ni autoridad; fase 2 |
+| Ecuador primero, CO inactivo | Incumplido en demo activo | Selector CO en Login y alternancia en App; contrato/modelo indican CO inactivo en v1 |
+| Solo web, sin seguimiento individual de producto | Web sí; extras fuera de alcance presentes | OrderProductsTab, pausar/cancelar, checklist y Slack deben retirarse o esperar aprobación, no convertirse en requisitos |
+
+No se recalcula el «31 de 64 cumple» histórico: mezclaba coincidencia visual con simulación, y no es una métrica de implementación segura. Las brechas de fases 2–6 son trabajo futuro previsto; las de acceso y montaje impiden cerrar fase 1.
+
+### 11.5 Seguridad vigente y estado de S1–S11
+
+| ID histórico | Estado al 2026-10-13 | Evidencia / acción |
+| --- | --- | --- |
+| S1, crítico para producción | Sigue abierto | `initialData.ts:13`, `LoginScreen.tsx:33`: contraseña común pública y comprobación local. Eliminar la autenticación demo |
+| S2, crítico para producción | Sigue abierto | `Header.tsx:102`, modal de App y `UsersManagementView.tsx:141`: cambio de identidad sin credenciales. Eliminar entradas de simulador |
+| S3, crítico para producción | Sigue abierto | `App.tsx:49`: admin inicial. Arranque con recuperación de sesión real, nunca usuario fijo |
+| S4, crítico para producción | Sigue abierto en el motor de pedidos frontend | `permissions.ts`, `orderState.ts`: permisos, eventos y acciones locales. Trasladarlos al backend; no se demuestra un bypass del backend de usuarios con esto |
+| S5, alto | Sigue presente en código de demo | Nombres, correos y teléfonos en `initialData.ts` y destinatarios en App. Retirar datos personales del bundle; la privacidad actual del remoto y si los datos son reales no se revalidaron. La nota de repo público es histórica |
+| S6, alto | Sigue abierto | Día/hora, correos y Drive ficticios mostrados como éxito. Usar estados/respuestas oficiales; nunca afirmar subida o envío antes de confirmación |
+| S7, medio | Resuelto en package.json actual para las dependencias enumeradas | Ya no figuran `@google/genai`, `express`, `dotenv`, `motion`, `tsx`, `@types/express` ni `autoprefixer`. Mantener depuración y auditoría; no repetir el hallazgo viejo |
+| S8, medio | Configuración antigua retirada de los archivos revisados | No hay Gemini inyectado en montaje/configuración actual. `VITE_API_URL` es configuración pública de destino, nunca debe contener secretos. No se certifica todo el historial Git |
+| S9, medio | Sigue abierto en la simulación; carga real ausente | No hay selector ni carga válida de archivo. No validar contenido de negocio no exime de tamaño, nombre, formato aprobado y autorización técnica del servidor |
+| S10, bajo | Sigue como configuración de desarrollo | `package.json`, `vite --host=0.0.0.0`; no presentarlo como servidor apto para producción |
+| S11, antes bajo | Parcial: nginx tiene cabeceras, falta CSP | `nginx.conf` tiene nosniff, DENY y no-referrer para documento, sin Content-Security-Policy; 9 expectativas de CSP fallan. Endurecimiento M4 del paso 1.8 pendiente, no posponerlo automáticamente a fase 8 |
+
+**S12 — Informativo, aclaración de cookies y límite de la prueba.** `api/cliente.ts:57–62` usa `credentials: 'same-origin'` cuando `credenciales` es falso: permite cookies del mismo origen; no significa omitir todas las cookies. `cliente.test.ts:74` espera precisamente `same-origin`, por lo que no hay discrepancia estática en esa segunda llamada. La cookie de renovación aprobada tiene Path `/api/v1/auth`, lo que acota su envío; esto no demuestra CSRF ni envío de esa cookie a `/usuarios`, ni obliga a cambiar a `omit`. Aclarar el comentario «cookies solo cuando se pide». En la ejecución nueva sí falla la primera aserción (`cliente.test.ts:73`): MSW observa `same-origin` para `/auth/renovar` aunque el cliente pasa `include`. Investigar interceptación/normalización de Request y verificar la petición real antes de atribuirlo a un fallo del navegador o del servidor; no se probó envío real de cookies.
+
+**S13 — Configuración de agentes, separado del producto.** Los 12 avisos de AgentShield en CLAUDE.md piden defensas explícitas de instrucciones, filtrado de datos, rol, inyección indirecta, contenido dañino, salidas, idiomas, Unicode, contexto, ingeniería social, validación y abuso. No detectaron aquí secretos, comandos de exfiltración ni permisos peligrosos concretos. Revisar su utilidad en contexto; no copiar severidades «crítico» a la seguridad del frontend ni agregar prohibiciones genéricas para elevar una nota.
+
+Fortalezas comprobadas: no se encontró `dangerouslySetInnerHTML`, `eval` ni almacenamiento de tokens en local/sessionStorage en el código revisado; fuentes locales y proxy `/api`; cliente API centraliza errores y permite validar respuestas; `esquemaUsuario.version` refleja D10. La ausencia de tokens almacenados también se explica por la sesión aún sin implementar: no demuestra que la futura renovación sea segura. No se inspeccionó ni se imprimió `.env` con secretos.
+
+### 11.6 Calidad React, UX y sistema de diseño
+
+Los Q1–Q19 históricos siguen como lista de migración, con estas actualizaciones: Q7 tiene `strict` resuelto pero ESLint pendiente; Q12 ya tiene una regla de movimiento reducido, aunque su implementación requiere revisar feedback; Q8 tiene tokens nuevos, pero las pantallas del demo siguen usando amarillo y colores literales. No se reutilizan automáticamente los conteos antiguos de tamaños, colores ni componentes.
+
+| ID | Prioridad | Evidencia actual | Impacto y corrección concreta |
+| --- | --- | --- | --- |
+| Q1/Q2/Q3 | P1 | `StagePanel.tsx:475,189,455,492`; `DashboardView.tsx:171`; `LoginScreen.tsx:132,155` | Modales sin semántica/foco/Escape, divs clicables y campos sin nombre accesible. Impiden operar con teclado o lector; integrar Dialog, Button/Checkbox y labels asociados |
+| Q4/Q8 | P1 / P2 | `OrdersListView.tsx:291–292`, `HorizontalStatusLine.tsx:104`, App y pantallas con `#FFD100` | Semáforos/texto no adoptan colores accesibles ni identidad de DESIGN. Usar tokens apropiados de texto/fondo; no reutilizar contraste del demo como contraste de los tokens nuevos |
+| Q6 | P1 | `OrderDetail.tsx:70,303`; `StagePanel.tsx:68–86`; `TrackingSearchView.tsx:17` | El resultado de búsqueda conserva una copia y los borradores/bodega pueden cruzar etapas. Derivar datos vigentes y definir identidad/reset por pedido-etapa. Conservar seleccionada una etapa terminada puede servir para consultarla: seguir automáticamente la actual no se considera requisito aprobado |
+| Q7 | P1 | `package.json:12`, `tsconfig.json` | Chequeo de tipos no verifica hooks ni JSX accesible. Añadir ESLint react-hooks/jsx-a11y con alcance y reglas definidos; no renombrar tsc como lint suficiente |
+| Q9/Q10/Q11/Q13 | P2 | Sidebar/Header; `Toast.tsx:21`; pestañas y títulos de OrderDetail | Estado de menú/pestañas/etapa y feedback no tienen semántica adecuada. Sheet/NavLink/Tabs, nombres de iconos y región de anuncios |
+| Q14/Q15 | P2 | App y StagePanel concentran montaje, modales y negocio | Migración difícil y errores repetidos. Separar shell, consultas, formularios y acciones; no memoizar todo sin medición |
+| Q20 | P0 para cierre de fase 1 | `main.tsx`, `rutas.tsx`, `test/renderizarApp.tsx:11` | El helper afirma montar como main, pero monta router/providers que main no usa. Unificar composición; tests rojos de rutas no validan el shell demo servido |
+| Q21 | P1 para validación de la entrega | `SesionProvider.test.tsx:113`, `coordinadorSesion.test.ts:11,59,60,137` | Cinco diagnósticos TypeScript impiden avalar el árbol. Completar módulo y tipar MSW/parámetros, preservando intención de pruebas previas |
+| Q22 | P2 | `api/esquemas.ts:7–13,41–46`, `api/cliente.ts:70` | UUID/correo/códigos/países demasiado permisivos y campos de Problema opcionales pese al contrato. Validar CodigoRol por patrón `^[a-z_]{3,40}$`, nunca enum de siete roles; CodigoPais sí es EC/CO, y roles exige unicidad. La validación es opcional en llamar; el cast `as T` no valida |
+| Q23 | P2 | `App.tsx:68`, `TimelineCalculatorView.tsx:79,86` | Temporizadores sin limpieza y dos mecanismos potenciales de toast. Centralizar feedback y cancelar temporizadores al desmontar |
+| Q24 | P2 | `HorizontalStatusLine.tsx:40`, `index.css:142–150` | `scrollIntoView({behavior:'smooth'})` fuerza movimiento desde JavaScript; `scroll-behavior:auto` en CSS no anula esa elección explícita. Consultar prefers-reduced-motion y usar auto cuando corresponda. Revisar el feedback de la regla global de `0.01ms` es una recomendación técnica; sin prueba visual no se afirma que ya perjudique la comprensión |
+
+**Integridad de implementación: falla para el producto entregable.** Los tokens y componentes nuevos coexisten con una aplicación demo que simula operaciones reales y copia propuestas como hechos. No hay evidencia de rendimiento de red, Web Vitals ni accesibilidad en navegador.
+
+Puntuación Impeccable **orientativa, estática** (no certificación WCAG):
+
+| Dimensión | /4 | Evidencia |
+| --- | --- | --- |
+| Accesibilidad | 1 | Persisten diálogos manuales, divs clicables y etiquetas no asociadas; primitivas accesibles aún sin integrar |
+| Rendimiento | 3 | Build compacto para una SPA; sin medición runtime ni red. No se justifica virtualización o memoización sin datos |
+| Theming / tokens | 2 | Sistema de diseño y CSS existen, pero vistas antiguas usan otra paleta. No se exige dark mode, que no es requisito |
+| Responsive | 2 | Breakpoints y scroll de tablas presentes; menú/foco y objetivos táctiles requieren prueba real |
+| Integridad | 1 | Datos y acciones demo dominan la aplicación montada |
+| **Total** | **9/20** | **Pobre; estimación estática actual, independiente del 9/20 histórico** |
+
+Aspectos a conservar: separación visual de pestañas; línea horizontal; semáforo con texto/icono además de color; tablas con scroll; primitivas UI y fuentes locales. No se detectaron hooks condicionales ni mutación directa de estado React; la dependencia del efecto de HorizontalStatusLine es correcta. Esto no sustituye ESLint ni validación de interacción.
+
+### 11.7 Consistencia entre requisitos, PRD, ADR, OpenAPI y tablas
+
+**Resultado: consistente en el recorrido de negocio principal, no completamente consistente en estados de decisión ni diseño de autorización.** Cada fila indica una discrepancia o una confirmación; ninguna decide por el cliente.
+
+| ID | Prioridad / estado | Fuentes y contraste | Acción documental recomendada |
+| --- | --- | --- | --- |
+| C1 | P1, desactualización | PRD `Open Questions`, línea 61: «Sin valor aprobado; bloquea» varios roles. Requisitos 4.7, arquitectura 4.1, OpenAPI Usuario.roles, modelo usuario_rol y ER ya registran decisión de Richard del 2026-10-12 | Retirar bloqueo técnico del PRD y conservar origen **equipo**, no respuesta del cliente |
+| C2 | P2, estados antiguos | `arquitectura.md:62,130` mantiene transacciones y cookie como [P]; ADR-0012 aprobó transacciones (no outbox) y ADR-0002 aprobó D3b. `modelo-datos.md` §7 aún dice que ADR-0012 podría no aprobarse; secuencia 05 marca apertura [P] | Actualizar etiquetas solo para la porción ya aprobada. Outbox sigue proposed |
+| C3 | P1, propuesta presentada como definitiva | ADR-0004 sigue proposed; PRD Proposed Solution/Technical Approach/fase 2 y algunas tablas describen motor de datos/versionado sin marca local. Requisitos 4.6 también lo incluyen dentro del diseño | Mantener distinción entre contenido aprobado de A/B y mecanismo técnico propuesto; no elevar ADR-0004 a accepted |
+| C4 | P2, inventario y cobertura ER | Modelo anuncia 21 tablas. C4 contenedores dice 20; README diagramas dice 20. ER contiene usuario_rol, pero no configuracion_plazos; tampoco relación usuario→adjunto (subido_por) ni usuario→pedido para demora_reportada_por | Corregir conteo y explicitar ER resumido o incorporar relaciones faltantes. Tablas feriado y secuencia_pedido siguen condicionales; 21 es inventario de diseño, no 21 tablas aprobadas/implementadas |
+| C5 | P1, autorización ambigua | Requisitos invariante: rol responsable o admin. Arquitectura :176 y secuencia 05 validan asignado o admin; OpenAPI :53 permite asignado **o cualquiera con el rol** **o admin**. Modelo permite asignado_a de cualquier usuario | Definir si la asignación restringe al resto del rol y si puede ser de otro rol. Reasignar está aprobado, esa política concreta no; no ampliar permisos en UI por inferencia |
+| C6 | P2, semántica de fin | Requisitos: una sola etapa activa y Fin automático. OpenAPI PedidoDetalle dice etapa actual ACTUAL; modelo prevé índice de **a lo sumo una** ACTUAL; diagramas terminan en Fin | Precisar representación final: ninguna ACTUAL o Fin ACTUAL, valores de etapaActual y timestamps. Un índice parcial no garantiza exactamente una; completar invariantes del dominio sin inventar comportamiento aprobado |
+| C7 | P1, decisiones pendientes embebidas | Nueva fecha de demora requerida en AccionReportarDemora; reasignación solo actual; etapas versionadas; formatos de archivo, destinatario responsable, meta 90, 31 fabricación, 45 tránsito y urgencias hábiles son diseños/valores provisionales | Conservar x-pendiente/[P]/TBD al copiar a planes, UI, semillas y tests. Un campo required en borrador no cierra la pregunta de negocio |
+| C8 | P1, propuestas convertidas en textos de ayuda | HelpView :45 fija Incidencias 24 h, :46 consulta de asistente China, :60–62 urgencias hábiles, :94 correo admin+responsable, :107 formato DK establecido | Retirar la copia del runtime; manual futuro debe decir «pendiente/provisional» donde corresponda. Incidencias no tiene plazo aprobado |
+| C9 | P2, cronología y estado de implementación | Requisitos §3 todavía afirma repo vacío; PRD conserva notas de ADR pendiente y 14 componentes; auditoría vieja dice sin strict y sin cabeceras; CLAUDE describe frontend demo sin llamadas HTTP | Actualizar textos históricos con fecha/alcance. Hay un cliente HTTP aún no conectado, strict y nginx; ni pruebas nuevas ni build demuestran paso 1.8 completo |
+| C10 | P2, límite del diseño de concurrencia | OpenAPI etapaEsperada es propuesta; compara número de etapa, no reentrada/version. Modelo pedido.version es [P]. Recorrido A3→A2→A3 puede volver al mismo número y permitir un comando viejo | Revisar estrategia de concurrencia de pedidos antes de fase 2. D10 ya aprobado aplica a usuarios; no extenderlo por cuenta propia a pedidos o roles |
+| C11 | Consistente con límite | D3b, 5 fallos/15 min, JWT 15 min, renovación 8 h y D10 usuario.version concuerdan en requisitos 4.7, ADR-0002, OpenAPI y tablas de usuarios | Mantener decisiones del equipo. El frontend activo aún no las implementa; roles.version sigue pendiente |
+| C12 | Consistente en negocio | Tablas A/B de requisitos, arquitectura y OpenAPI: B2→B1 al rechazar, B4/B5→B3; Fin A11/B12 automático; evidencias de Embarque y Bodega | Reutilizar como trazabilidad de casos, no copiar los errores de StagePanel/orderState |
+| C13 | Consistente con pendiente | Ecuador primero, Colombia y Claude después; correo obligatorio al admin; tamaño máximo 104857600 bytes; no validación del contenido de negocio | No activar CO, destinatario extra, IA o formatos por la presencia de campos/servicios en diseño |
+| C14 | P2, documentación de casos secundarios | Arquitectura 4.2 ELEGIR_BODEGA muestra destino A10/B11 junto a Aprobar; OpenAPI y estados muestran elección en la misma etapa | Aclarar por acción: elegir mantiene A9/B10; aprobar avanza. No interpretar la tabla comprimida como avance al elegir |
+
+Tablas revisadas: `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_rol`, `usuario_pais`, `token_renovacion`, `definicion_flujo`, `definicion_etapa`, `transicion_permitida`, `documento_requerido`, `secuencia_pedido`, `pedido`, `etapa_pedido`, `evento_pedido`, `evento_adjunto`, `adjunto`, `notificacion`, `bodega`, `configuracion_plazos`, `feriado`. La fase 1 corresponde a las primeras siete; las restantes describen fases futuras, con las condiciones documentadas. La lista de permisos de rol sigue pendiente: tabla vacía, UI sin pantalla y catálogo no equivalen a permisos configurables implementados.
+
+El vínculo archivo–evento tiene correspondencia en requisito, `evento_adjunto` y `Adjunto.eventoId`; falta en el motor demo. Historial inmutable, país/flujo estables y fechas de servidor están representados en diseño, pero no se verificaron aquí sus futuras migraciones de pedidos ni garantías transaccionales.
+
+### 11.8 Revisión individual de los seis diagramas
+
+| Diagrama | Resultado del contraste semántico |
+| --- | --- |
+| `01-c4-contexto.mmd` | Actores, Drive en servidor, alertas al admin y Claude fase 7 coinciden. Marca consulta de asistente China y correo adicional como pendientes, canal Gmail/SMTP como propuesta. El rol consulta añadido por equipo no aparece: aclarar que muestra actores de negocio, no catálogo exhaustivo de roles |
+| `02-c4-contenedores.mmd` | React/backend/PostgreSQL, proxy de confianza y jobs del mismo proceso son coherentes. Corregir «20 tablas» y [P] en monolito hexagonal (ADR-0011 ya accepted); «6 roles» no refleja los 7 iniciales. Conservar outbox, canal correo y tecnología WebSocket como propuestas; no exigir STOMP en fase 1 |
+| `03-estados-flujo-a.mmd` | Las 14 transiciones de §4.4 coinciden; elección de bodega/demora permanecen en etapa y Fin es automático. Plazos de Fabricación/Incidencias, fecha de demora, tránsito y semántica de urgencia están marcados. No interpreta checklist, pausar o cancelar como estados aprobados |
+| `04-estados-flujo-b.mmd` | B2 rechazo→B1, B4/B5 devolución→B3 y B12 automático coinciden. B6–B11 son equivalentes A5–A10; 24 h B2 aparece en §4.5. Mantiene pendiente permiso de admin para crear B. Precisar por referencia que las notas de urgencia/tránsito de A también aplican a B |
+| `05-secuencia-transicion.mmd` | Rechazo A3→A2, observación, 409 ETAPA_CAMBIO, historial y correo son coherentes con REST. Apertura de transacción ya aprobada no debe llevar [P]; revisar autorización C5. Mantener escritura outbox y transporte correo como [P], y explicitar que respuesta 200 representa commit confirmado, no envío de correo confirmado |
+| `06-entidad-relacion.mmd` | Relación N:M usuario_rol coincide con decisión de equipo; eventos/adjuntos, versiones de flujo y tokens están representados. Es resumido: omite configuracion_plazos y relaciones citadas en C4; versión administrativa usuario de D10 no se dibuja. No confundir columnas omitidas con ausencia en tablas. Sus comentarios conservan las marcas de secuencia/feriados pendientes |
+
+### 11.9 Decisiones que continúan abiertas y orden de trabajo
+
+Siguen pendientes del cliente: formato de pedido, meta ajustada, feriados/jornada aplicable, horas hábiles o corridas de urgencias, rechazo durante urgencia, tránsito de 45 días, plazos Fabricación/Incidencias y documentos concretos de Incidencias, origen de nueva fecha de demora, correo al responsable, formatos admitidos, visibilidad asistente China y consulta, facultad admin para crear B/mantener bodegas, reasignación a otro rol, recuperación de contraseña, acceso directo Drive, marca, Colombia/IA y producción. El límite de 100 MB y el correo al admin sí están confirmados. No usar «sin validar documentos» para eliminar controles técnicos de carga.
+
+Siguen como propuestas técnicas: ADR-0004 (motor por datos), outbox de ADR-0012, canal de correo de ADR-0013 y tecnología de tiempo real de ADR-0014; también ArchUnit en ADR-0011, paquete base en ADR-0010 y subcarpetas Drive por año/etapa en ADR-0003. Sí están aprobados por el equipo monorepo/Gradle, hexagonal, transacciones fuera del núcleo, datos reales fuera de Git, Spring Boot 4.1, varios roles y las políticas de sesión/D10 registradas. La implementación existente de otras propuestas técnicas no constituye por sí sola un cambio de estado de ADR. Colombia y Claude están confirmados para después; sus procesos y caso de uso siguen sin definir, no su exclusión de v1.
+
+1. **Cerrar fase 1:** integrar montaje/sesión/router, retirar autoadmin y cambio de identidad, implementar Usuarios/Roles/dashboards vacíos, D3b y D10, y corregir tipos/pruebas. Resolver CSP del paso 1.8 y coordinación de renovación antes de declararlo terminado.
+2. **Sin decidir negocio nuevo:** sincronizar estados ya aprobados en PRD/arquitectura/diagramas y etiquetar propuestas/pendientes. Resolver C5 con una decisión explícita antes del motor de acciones.
+3. **Fases 2–6:** migrar listas/detalles al contrato, reglas al servidor y archivos/correos reales; priorizar B3/B4, urgencia, evidencias y reentrada. Las propuestas no aprobadas conservan alternativas y trazabilidad.
+4. **Calidad de interfaces:** `$impeccable harden` para formularios/errores/estado; `$impeccable adapt` para menú móvil, teclado, texto y tacto; `$impeccable colorize` para adoptar tokens; `$impeccable polish` como última pasada. Son recomendaciones, no comandos ejecutados ni nuevas funciones aprobadas.
+
+**Límites:** no hubo pruebas visuales en navegador, capturas desktop/móvil, lector de pantalla, touch real, red desde China, E2E contra backend, revisión exhaustiva de seguridad backend ni render nuevo de Mermaid. No se certifican WCAG, rendimiento, historial Git limpio, privacidad del remoto, ausencia total de secretos o disponibilidad de Drive/Gmail. Los resultados de tests corresponden al montaje actual de prueba, que difiere del servido; mantener Q20 visible evita una falsa aprobación.
+
+### 11.10 Revalidación tras instalar las skills en Codex
+
+Se aplicaron las skills ya instaladas en `C:/Users/Richard/.codex/skills/{ecc-react-review,impeccable,ecc-security-scan}`. React y TypeScript se revalidaron en revisiones separadas de lectura, conforme al flujo de react-review. El launcher context de Impeccable ya se había ejecutado en esta sesión; no se repitió. Su detector se volvió a ejecutar y mantiene únicamente el aviso de rebote no demostrado visualmente.
+
+**Ejecución nueva:** tipos exit 1 (los mismos cinco diagnósticos), Vitest exit 1 (48 pasan, 77 fallan), build exit 0 (mismos tamaños del bundle), AgentShield B/80 con 12 avisos y 3 archivos escaneados. El resumen JSON de Vitest cuenta 29 suites anidadas; no debe confundirse con los 15 archivos de pruebas. El cliente API pasa 6 de sus 7 pruebas; la fallida es la primera observación de credenciales auth descrita en S12. La consulta npm audit de 11.2 corresponde a la ejecución anterior de esta misma sesión; no se hizo otra consulta de vulnerabilidades en esta revalidación.
+
+Evidencia nueva: `.tmp/reauditoria-tipos.log`, `.tmp/reauditoria-vitest.json`, `.tmp/reauditoria-vitest.log`, `.tmp/reauditoria-build.log`, `.tmp/reauditoria-agentshield.json`, `.tmp/reauditoria-impeccable.json`. Se contrastaron de nuevo PRD, índice/estados ADR, OpenAPI, inventario de tablas y seis diagramas; C1–C14 y la revisión individual de 11.8 siguen vigentes. Se corrigieron referencias de montaje/cast, la descripción de tarjetas/lista, la precisión de Q6/Q24 y la interpretación de S12; se añadió el error de etiqueta en B10. El dictamen y la clasificación principal no cambian.
+
+**Precisión de S12 tras inspeccionar el harness instalado:** `frontend/node_modules/@mswjs/interceptors/src/interceptors/http/http-parser.ts:81` reconstruye la petición con `credentials: 'same-origin'` fijo. Esta normalización explica por qué observar `request.credentials` en el handler puede perder el `include` original. Verificar las opciones originales de fetch o el comportamiento en navegador; el fallo de esa aserción no se atribuye al envío real de cookies del producto.
+
+Esta revalidación actualiza únicamente `auditoria-demo.md`, sin corregir el frontend, editar requisitos/ADR/contrato ni tocar cambios locales ajenos. Ninguna propuesta pendiente se transformó en requisito aprobado.
+
+## 12. Revisión documental y del alcance de implementación
+
+**Fecha:** 2026-10-13. **Skills:** `code-review` y `ecc-quality-gate`. **Dictamen documental: requiere correcciones antes de considerar las fuentes sincronizadas.** El recorrido de negocio coincide en sus transiciones principales; persisten diferencias de estado, autorización y alcance. Este dictamen no es una aprobación del cliente ni una aprobación de implementación.
+
+Esta pasada revisa documentos y el alcance previsto. No añade funcionalidad ni ejecuta TypeScript, suites, cobertura, build, Docker o pruebas de aceptación. Los resultados de ejecución de las secciones 11.2 y 11.10 son antecedentes de otra revisión y no son puertas de salida de esta revisión documental. El árbol contiene trabajo de fase 1 y cambios locales previos: no se pretende volverlo una implementación de fase 0 ni revisar esos cambios de código como parte de este encargo.
+
+### 12.1 Diferencias que deben resolverse en las fuentes
+
+Severidad referida a claridad y riesgo de implementar un alcance incorrecto, no a vulnerabilidades de ejecución. Las filas D01–D09 precisan C1–C14; D10–D12 incorporan el contraste con el plan de fase 1.
+
+| ID | Severidad | Diferencia y evidencia | Corrección documental necesaria |
+| --- | --- | --- | --- |
+| D01 | Alta | PRD `Open Questions` dice «Sin valor aprobado; bloquea la relación usuario–rol» (`.claude/PRPs/prds/decokasa.prd.md:61`). Requisitos 4.7 y plan D4 registran varios roles aprobados por Richard como equipo | Retirar el bloqueo técnico del PRD; conservar explícitamente que no es respuesta del cliente y que una respuesta futura puede cambiarlo |
+| D02 | Media | Arquitectura mantiene transacciones [P] (`arquitectura.md:62`), y cookie de renovación [P] (`:130`). Modelo §7 todavía condiciona R2 a aprobar ADR-0012 (`modelo-datos.md:426`); secuencia 05 también marca apertura de transacción [P] | Sincronizar con ADR-0002 D3b y ADR-0012 accepted **solo en transacciones**. No aprobar outbox por arrastre |
+| D03 | Alta | ADR-0004 sigue proposed, pero PRD presenta motor por datos/versionado como solución y fase prevista sin marca local | Mantener el objetivo de A/B aprobado separado de su mecanismo propuesto. Registrar decisión técnica antes de tratar ADR-0004 como compromiso definitivo |
+| D04 | Media | Modelo anuncia 21 tablas (`modelo-datos.md:5`); C4 contenedores anuncia 20 y seis roles (`02-c4-contenedores.mmd:5,11`); README del ER anuncia 20. ER no muestra configuracion_plazos | Actualizar inventario y declarar diagrama resumido o completarlo. Hay siete roles iniciales por decisión del equipo; tablas propuestas no cuentan como aprobadas/implementadas |
+| D05 | Alta | Requisitos invariante: rol responsable o admin. Arquitectura :176 y secuencia 05 validan asignado o admin; OpenAPI :53 admite asignado o cualquier integrante del rol o admin | Decidir si asignar excluye al resto del rol y si se permite reasignar a otro rol. No extender facultades del cliente por interpretación del contrato |
+| D06 | Media | Arquitectura :155 agrupa «Elegir bodega / Aprobar» con destino A10/B11; contrato y estados distinguen elegir (se queda) y aprobar (avanza) | Separar las dos acciones y sus requisitos en la tabla; la selección por sí sola no finaliza Bodega |
+| D07 | Media | Un índice único parcial en etapa_pedido garantiza a lo sumo una ACTUAL, no exactamente una. Requisitos hablan de una activa y contrato describe ACTUAL; Fin es automático en diagramas | Especificar representación de pedido finalizado y comprobar la invariancia en diseño del dominio, sin inventar una respuesta del cliente |
+| D08 | Alta | HelpView fija 24 h de Incidencias, consulta de asistente China, urgencias hábiles, correo al responsable y formato DK como hechos; fuentes los mantienen TBD/provisionales | No usar esta copia de ayuda como requisito ni evidencia de aprobación. Mantener etiquetas pendientes al redactar el manual operativo |
+| D09 | Media | Requisitos §3 dice que el repositorio está vacío; PRD conserva notas de ADR pendiente y 14 componentes reutilizados. El plan :235 dice «Frontend: no hay pruebas todavía» | Marcar antecedentes por fecha y separar situación actual, plan y decisiones. Los conteos de componentes no son criterios de aceptación |
+| D10 | Alta | Plan :43 y :553 propone cambiar contraseña al editar; `SolicitudActualizarUsuario` (`openapi.yaml:1529`) no contiene contraseña. Recuperación sigue TBD; ADR-0002 no incorpora una función de cambio | Excluir esa propuesta del compromiso actual de fase 1 o decidirla y actualizar fuente/contrato antes de implementarla. No crear el campo unilateralmente |
+| D11 | Alta | El plan asigna M4/CSP al paso 1.8 (`:545`), pero su tabla de riesgos la pospone a fase 8 (`:744`) | Mantener una única ubicación de entrega: el endurecimiento M4 ya registrado para 1.8; fase 8 verifica producción. No reinterpretar esto como requisito nuevo del cliente |
+| D12 | Media | El plan resumen :5 afirma «ninguna credencial ni permiso vive en el navegador»; D3b del mismo plan :52 exige token de acceso en memoria y el contrato expone permisos para presentación | Decir que contraseñas/secretos no se persisten ni la autorización se decide solo en navegador. El token de acceso en memoria y permisos de UI son parte del diseño aprobado por equipo |
+
+También debe precisarse C10: `etapaEsperada` es propuesta y un número de etapa no distingue reentradas A3→A2→A3. D10 usuario.version no autoriza por sí mismo versionar pedidos, bodegas o roles. Es una decisión técnica a resolver, no una aprobación faltante atribuida al cliente.
+
+### 12.2 Decisiones pendientes y evidencia de origen
+
+**Del cliente / negocio**, sin respuesta concluyente registrada:
+
+| Grupo | Pendientes | Fuente para resolverlos |
+| --- | --- | --- |
+| Numeración y calendario | Formato DK, meta ajustada, feriados, tránsito hábil/corrido, urgencias hábiles/corridas y rechazo durante urgencia | `requerimientos.md:553`, `arquitectura.md:348`, ADR-0006 y `modelo-datos.md:379` |
+| Etapas y documentos | Plazos Fabricación/Incidencias, cuáles son todos los documentos de Incidencias, fecha de demora escrita por David o calculada, formatos aceptados | Requisitos 4.4/4.5 y sección 5; arquitectura 8.1; ADR-0003/0006 |
+| Accesos y facultades | Qué ve asistente China y consulta; admin crea B/mantiene bodegas; reasignar a otro rol; acceso directo Drive; recuperación de contraseña | Arquitectura 8.1 y requisitos 4.3/4.7/sección 5 |
+| Alertas | Si recibe correo el responsable además del admin | ADR-0005: correo al admin confirmado; adicional sigue pendiente |
+| Alcance futuro y operación | Proceso de Colombia, caso de uso Claude, marca visible, alojamiento, respaldos/operación y privacidad del repositorio | Requisitos sección 5, PRD Open Questions, DESIGN §1, ADR-0009/0015. «Después de v1» ya está registrado; sus definiciones permanecen abiertas |
+
+**Del equipo / diseño**, sin aprobación suficiente en el ADR correspondiente:
+
+- ADR-0004: mecanismo de flujos por datos/versionados.
+- ADR-0012: outbox; no reabrir la parte de transacciones ya accepted.
+- ADR-0013: Gmail API o SMTP y mecanismo de delegación.
+- ADR-0014: WebSocket/STOMP o consultas periódicas. Sí está aprobada la exclusión antes de fase 5.
+- ADR-0010/0011/0003: paquete base, ArchUnit y subcarpetas Drive por año/etapa.
+- D10: versión de roles pendiente explícita; estrategia de concurrencia de pedidos no se decide por analogía.
+- Plan T15: propuesta de cambiar contraseña; permiso/asignación por etapa y representación final requieren aclaración de diseño y, donde amplíen facultades, respuesta de negocio.
+
+**Ya registradas como decisiones del equipo**, no del cliente: varios roles, siete roles iniciales, datos reales fuera de Git, monorepo/Gradle, hexagonal, transacciones externas, Spring Boot 4.1, políticas de sesión D2/D3/D3b y versión de usuario D10. Evidencia: `requerimientos.md:455`, plan D1–D10 y ADR-0002/0010/0011/0012/0015/0016. Este informe cita el registro; no transforma esa evidencia en aceptación del cliente.
+
+### 12.3 Alcance de implementación que puede mantenerse
+
+- **Fase documental actual:** auditoría, trazabilidad de requisitos, PRD, arquitectura, ADR, OpenAPI, tablas, seis diagramas y sistema de diseño. Su validación no requiere funcionalidad nueva ni suites del frontend/backend.
+- **Fase 1 prevista:** base técnica, login/renovación/cierre, usuarios y roles, Ecuador activo, navegación protegida y dashboards vacíos según roles. El plan D6 exige mantener las pantallas demo de pedidos sin ruta hasta su fase; tenerlas en disco no las convierte en alcance funcional de acceso.
+- **Fases 2–6:** pedidos/motor A1–A4, Drive/Gmail, etapas restantes de A, seguimiento/plazos y B. Los mecanismos propuestos conservan su condición antes de fijarlos en implementación.
+- **Fase 7:** Colombia e IA solo con sus definiciones; no adelantar procesos, datos ni envío de documentos. **Fase 8:** operación de producción, según decisiones pendientes y fases previas.
+- No ampliar v1 a producto por producto/inventario, Slack, pausar/cancelar, checklist, recuperación/cambio de contraseña o nuevas facultades del admin por existir en el demo o en una propuesta. El borrador de contrato permite prepararlas, pero no aprobarlas por inferencia.
+
+### 12.4 Validación documental y puerta de calidad
+
+Validación estructural realizada sobre 26 Markdown de requisitos, PRD, plan, arquitectura, modelo, auditoría, manual, ADR/plantilla/índice y README de diagramas: **sin enlaces locales Markdown a archivos inexistentes y sin número impar de fences de código**. No se validaron enlaces web ni todos los destinos por ancla. OpenAPI parsea como YAML: **34 operaciones, 252 referencias internas resueltas, ningún operationId duplicado**. Hay exactamente seis `.mmd`, contrastados semánticamente en 11.8; no se ejecutó render de Mermaid en esta pasada. Esto no equivale a validar toda la especificación OpenAPI con un validador 3.1.
+
+`ecc-quality-gate` se aplicó en modo comprobación, sin autofix, sobre este informe. Su resolver no encuentra Prettier/Biome configurado para `documentos/`: el hook omite el formateador. **Estado del gate de formato: omitido por herramienta no configurada, no PASS de formato.** El hook comprueba formato de un archivo, no coherencia de requisitos, pruebas ni aprobación de alcance; su exit 0 no permite declarar esos resultados. La revisión semántica y `git diff --check` se registran por separado.
+
+Evidencia de estructura: `.tmp/validacion-documental.json`. **Resultado:** estructura documental comprobada, coherencia pendiente de D01–D12, sin aprobación de cliente añadida ni cambios al contrato, plan, requisitos o código. La entrega es esta lista de diferencias y decisiones; no declara completada una fase de implementación.

@@ -13,6 +13,8 @@ export interface UsuarioApi {
   roles: string[];
   paises: string[];
   activo: boolean;
+  /** Versión administrativa (contrato 0.5.0, D10): el PATCH la devuelve; si ya no es la vigente, 409. */
+  version: number;
 }
 
 function usuarioFicticio(numero: number, nombre: string, roles: string[], activo = true): UsuarioApi {
@@ -26,6 +28,7 @@ function usuarioFicticio(numero: number, nombre: string, roles: string[], activo
     roles,
     paises: ['EC'],
     activo,
+    version: 0,
   };
 }
 

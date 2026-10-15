@@ -11,6 +11,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -55,7 +57,8 @@ public class SeguridadWebConfig {
             "detail":"No tienes permiso para esta acción.","codigo":"SIN_PERMISO"}""";
 
     @Bean
-    SecurityFilterChain cadenaDeSeguridad(HttpSecurity http, JwtDecoder decodificador) throws Exception {
+    SecurityFilterChain cadenaDeSeguridad(HttpSecurity http, JwtDecoder decodificador, Environment entorno)
+            throws Exception {
         AuthenticationEntryPoint sinAutenticar = (solicitud, respuesta, error) ->
                 escribirProblema(respuesta, HttpServletResponse.SC_UNAUTHORIZED, NO_AUTENTICADO);
         AccessDeniedHandler sinPermiso = (solicitud, respuesta, error) ->
@@ -68,14 +71,20 @@ public class SeguridadWebConfig {
                 .httpBasic(basica -> basica.disable())
                 .formLogin(formulario -> formulario.disable())
                 .logout(salida -> salida.disable())
-                .authorizeHttpRequests(rutas -> rutas
-                        .requestMatchers(HttpMethod.GET, "/api/v1/salud", "/actuator/health", "/actuator/health/**")
+                .authorizeHttpRequests(rutas -> {
+                    // Solo documentación en desarrollo; los endpoints de negocio conservan su autenticación.
+                    if (entorno.acceptsProfiles(Profiles.of("dev"))) {
+                        rutas.requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**",
+                                "/v3/api-docs", "/v3/api-docs/**").permitAll();
+                    }
+                    rutas.requestMatchers(HttpMethod.GET, "/api/v1/salud", "/actuator/health", "/actuator/health/**")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/renovar",
                                 "/api/v1/auth/cerrar-sesion")
                         .permitAll()
                         .requestMatchers("/api/v1/usuarios/**", "/api/v1/roles/**").hasAuthority("ROL_admin")
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated();
+                })
                 .oauth2ResourceServer(servidor -> servidor
                         .jwt(jwt -> jwt.decoder(decodificador).jwtAuthenticationConverter(conversorDeRoles()))
                         .authenticationEntryPoint(sinAutenticar)

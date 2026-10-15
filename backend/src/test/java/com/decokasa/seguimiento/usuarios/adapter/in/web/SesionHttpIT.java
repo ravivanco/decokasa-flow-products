@@ -143,6 +143,36 @@ class SesionHttpIT {
     }
 
     @Test
+    void variasRotacionesConservanElVencimientoAbsolutoEnPostgres() throws Exception {
+        String actual = cookieDeLogin();
+        java.time.Instant limite = jdbc.queryForObject(
+                "select expira_en from token_renovacion where usuario_id = ?",
+                java.sql.Timestamp.class, ana).toInstant();
+
+        for (int i = 0; i < 3; i++) {
+            String anterior = actual;
+            actual = renovar(anterior, ORIGEN_PERMITIDO).andExpect(status().isOk())
+                    .andReturn().getResponse().getCookie(COOKIE).getValue();
+            assertThat(actual).isNotBlank().isNotEqualTo(anterior);
+            assertThat(sesionesAbiertas()).isEqualTo(1);
+            assertThat(jdbc.queryForList("select expira_en from token_renovacion where usuario_id = ?",
+                    java.sql.Timestamp.class, ana)).hasSize(i + 2)
+                    .allSatisfy(fecha -> assertThat(fecha.toInstant()).isEqualTo(limite));
+            assertThat(jdbc.queryForObject("select count(distinct familia_id) from token_renovacion "
+                    + "where usuario_id = ?", Integer.class, ana)).isEqualTo(1);
+        }
+
+        jdbc.update("update token_renovacion set creado_en = now() - interval '9 hours', "
+                + "expira_en = now() - interval '1 second' where usuario_id = ?", ana);
+        int cantidad = jdbc.queryForObject("select count(*) from token_renovacion where usuario_id = ?",
+                Integer.class, ana);
+        renovar(actual, ORIGEN_PERMITIDO).andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.codigo").value("NO_AUTENTICADO"));
+        assertThat(jdbc.queryForObject("select count(*) from token_renovacion where usuario_id = ?",
+                Integer.class, ana)).isEqualTo(cantidad);
+    }
+
+    @Test
     void pasadasLasOchoHorasNoRenuevaAunqueLaCookieNoSeHayaRotado() throws Exception {
         String inicial = cookieDeLogin();
         // Simula que el inicio de sesión fue hace más de 8 horas.

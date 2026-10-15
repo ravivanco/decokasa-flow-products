@@ -1,157 +1,156 @@
-import React from 'react';
-import { Usuario } from '../types';
-import { USUARIOS_DEMO } from '../data/initialData';
-import { ShieldCheck, MapPin, CheckCircle2, User, Phone, Mail, Sparkles } from 'lucide-react';
-import { getRoleBadgeColor, getRoleNameDisplay } from '../utils/permissions';
+import { PencilIcon, PlusIcon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { esErrorApi } from '@/api/cliente';
+import { useActualizarUsuario, useRoles, useUsuarios } from '@/api/consultas';
+import type { Usuario } from '@/api/esquemas';
+import { mensajeDeError } from '@/api/mensajes';
+import { useUsuarioActual } from '@/auth/SesionProvider';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { FormularioUsuario } from './usuarios/FormularioUsuario';
 
-interface UsersManagementViewProps {
-  currentUser: Usuario;
-  onSwitchUser: (user: Usuario) => void;
-  onShowToast: (msg: string) => void;
-}
+// Gestión de usuarios del admin (plan, tarea 22): lista, alta, edición de datos y roles, activar y desactivar. Los
+// permisos los valida el servidor con el estado actual del solicitante (A1); esta pantalla solo se muestra al admin.
 
-export const UsersManagementView: React.FC<UsersManagementViewProps> = ({
-  currentUser,
-  onSwitchUser,
-  onShowToast,
-}) => {
+type Edicion = { tipo: 'alta' } | { tipo: 'edicion'; usuario: Usuario } | null;
+
+export function UsersManagementView() {
+  const yo = useUsuarioActual();
+  const usuarios = useUsuarios();
+  const roles = useRoles();
+  const actualizar = useActualizarUsuario();
+  const [edicion, setEdicion] = useState<Edicion>(null);
+  const [aviso, setAviso] = useState<string | null>(null);
+
+  const nombreDeRol = (codigo: string) => roles.data?.find((rol) => rol.codigo === codigo)?.nombre ?? codigo;
+
+  async function recargar(id: string) {
+    const resultado = await usuarios.refetch({ throwOnError: true });
+    return resultado.data?.find((usuario) => usuario.id === id);
+  }
+
+  function cambiarEstado(usuario: Usuario) {
+    setAviso(null);
+    actualizar.mutate(
+      { id: usuario.id, version: usuario.version, activo: !usuario.activo },
+      {
+        onSuccess: (guardado) =>
+          toast.success(`${guardado.nombre} quedó ${guardado.activo ? 'activo' : 'inactivo'}.`),
+        onError: (error) =>
+          setAviso(
+            esErrorApi(error, 'VERSION_DESACTUALIZADA')
+              ? `La lista estaba desactualizada: otra persona modificó a ${usuario.nombre}. Ya se muestran los datos actuales; revísalos y vuelve a intentarlo si todavía hace falta.`
+              : mensajeDeError(error, `No se pudo cambiar el estado de ${usuario.nombre}. Intenta de nuevo.`),
+          ),
+      },
+    );
+  }
+
   return (
-    <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-200">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#2E2E2E]">
-            Gestión de Usuarios, Roles y Etapas
-          </h1>
-          <p className="text-xs sm:text-sm text-[#515151] mt-0.5">
-            Administrado por Mirian Franco. Asignación de responsabilidades operativas en Ecuador y China para Flujos A y B.
-          </p>
-        </div>
-
-        <div className="px-3.5 py-1.5 rounded-xl bg-[#FFFBEA] border border-[#FFD100] text-xs font-bold text-[#2E2E2E]">
-          Sesión actual: <span className="font-black">{currentUser.nombre}</span> ({currentUser.cargo})
-        </div>
+    <section className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="font-heading text-2xl font-bold text-primary">Usuarios</h1>
+        <Button onClick={() => setEdicion({ tipo: 'alta' })} disabled={!roles.data}>
+          <PlusIcon data-icon="inline-start" />
+          Nuevo usuario
+        </Button>
       </div>
 
-      {/* Grid of Users */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {USUARIOS_DEMO.map((u) => {
-          const isCurrent = currentUser.id === u.id;
-          return (
-            <div
-              key={u.id}
-              className={`bg-white rounded-3xl border p-5 shadow-xs transition hover:shadow-md flex flex-col justify-between ${
-                isCurrent ? 'border-2 border-[#FFD100] ring-2 ring-[#FFD100]/20' : 'border-[#6C6B6D]/20'
-              }`}
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-[#FFD100] text-[#2E2E2E] flex items-center justify-center font-black text-sm shadow-xs shrink-0">
-                      {u.avatar}
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-black text-[#2E2E2E] leading-tight">
-                        {u.nombre}
-                      </h3>
-                      <p className="text-xs font-bold text-[#515151] leading-tight mt-0.5">
-                        {u.cargo}
-                      </p>
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#6C6B6D] mt-1">
-                        <span>@{u.usuarioLogin}</span>
-                        <span>·</span>
-                        <span>{u.pais === 'China' ? '🇨🇳 China' : '🇪🇨 Ecuador'}</span>
-                      </div>
-                    </div>
-                  </div>
+      {aviso && (
+        <Alert variant="destructive">
+          <AlertDescription>{aviso}</AlertDescription>
+        </Alert>
+      )}
 
-                  <span
-                    className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full shrink-0 border ${getRoleBadgeColor(
-                      u.rol
-                    )}`}
-                  >
-                    {u.rol}
-                  </span>
-                </div>
+      {usuarios.isPending && (
+        <p role="status" className="text-muted-foreground">
+          Cargando usuarios…
+        </p>
+      )}
+      {usuarios.isError && (
+        <Alert variant="destructive">
+          <AlertDescription>{mensajeDeError(usuarios.error, 'No se pudieron cargar los usuarios.')}</AlertDescription>
+        </Alert>
+      )}
 
-                <div className="text-xs text-[#515151] space-y-1 pt-2 border-t border-slate-100">
-                  <div className="flex items-center gap-1.5 text-[11px]">
-                    <Mail className="w-3.5 h-3.5 text-[#6C6B6D]" />
-                    <span className="font-mono truncate">{u.email}</span>
+      {usuarios.data && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Correo</TableHead>
+              <TableHead>Usuario</TableHead>
+              <TableHead>Teléfono</TableHead>
+              <TableHead>Roles</TableHead>
+              <TableHead>Estado</TableHead>
+              <TableHead>
+                <span className="sr-only">Acciones</span>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {usuarios.data.map((usuario) => (
+              <TableRow key={usuario.id}>
+                <TableCell className="font-medium">{usuario.nombre}</TableCell>
+                <TableCell>{usuario.correo}</TableCell>
+                <TableCell>{usuario.usuario}</TableCell>
+                <TableCell>{usuario.telefono}</TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-1">
+                    {usuario.roles.map((codigo) => (
+                      <Badge key={codigo} variant="secondary">
+                        {nombreDeRol(codigo)}
+                      </Badge>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-1.5 text-[11px]">
-                    <Phone className="w-3.5 h-3.5 text-[#6C6B6D]" />
-                    <span className="font-mono">{u.telefono}</span>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={usuario.activo ? 'default' : 'outline'}>
+                    {usuario.activo ? 'Activo' : 'Inactivo'}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      aria-label={`Editar a ${usuario.nombre}`}
+                      disabled={!roles.data}
+                      onClick={() => setEdicion({ tipo: 'edicion', usuario })}
+                    >
+                      <PencilIcon data-icon="inline-start" />
+                      Editar
+                    </Button>
+                    {usuario.id !== yo.id && (
+                      <Button
+                        variant={usuario.activo ? 'destructive' : 'secondary'}
+                        size="sm"
+                        disabled={actualizar.isPending}
+                        aria-label={`${usuario.activo ? 'Desactivar' : 'Activar'} a ${usuario.nombre}`}
+                        onClick={() => cambiarEstado(usuario)}
+                      >
+                        {usuario.activo ? 'Desactivar' : 'Activar'}
+                      </Button>
+                    )}
                   </div>
-                </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
 
-                {/* Etapas asignadas en Flujo A y B */}
-                <div className="pt-2 border-t border-slate-100 space-y-1.5">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#6C6B6D] block">
-                      Flujo A (Ecuador · 11 etapas):
-                    </span>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {u.etapasAsignadasA.length === 0 ? (
-                        <span className="text-[11px] text-[#6C6B6D] italic">Sin etapas operativas (Consulta)</span>
-                      ) : (
-                        u.etapasAsignadasA.map((num) => (
-                          <span
-                            key={num}
-                            className="px-2 py-0.5 rounded-md bg-slate-100 text-[#2E2E2E] text-[10px] font-black font-mono"
-                          >
-                            Etapa {num}
-                          </span>
-                        ))
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#6C6B6D] block">
-                      Flujo B (China · 12 etapas):
-                    </span>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {u.etapasAsignadasB.length === 0 ? (
-                        <span className="text-[11px] text-[#6C6B6D] italic">Sin etapas operativas (Consulta)</span>
-                      ) : (
-                        u.etapasAsignadasB.map((num) => (
-                          <span
-                            key={num}
-                            className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200 text-[10px] font-black font-mono"
-                          >
-                            Etapa {num}
-                          </span>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Botón simular sesión */}
-              <div className="pt-4 mt-4 border-t border-slate-100">
-                {isCurrent ? (
-                  <div className="w-full py-2 rounded-xl bg-[#FFF6CC] text-[#2E2E2E] text-xs font-black flex items-center justify-center gap-1.5 border border-[#FFD100]">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Sesión actual activa</span>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onSwitchUser(u);
-                      onShowToast(`Sesión cambiada a ${u.nombre} (${u.cargo})`);
-                    }}
-                    className="w-full py-2 rounded-xl bg-[#FFD100] hover:bg-[#E6BC00] text-[#2E2E2E] text-xs font-black transition cursor-pointer shadow-2xs"
-                  >
-                    Simular sesión como {u.nombre.split(' ')[0]}
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+      {edicion && roles.data && (
+        <FormularioUsuario
+          usuario={edicion.tipo === 'edicion' ? edicion.usuario : null}
+          roles={roles.data}
+          recargar={recargar}
+          onCerrar={() => setEdicion(null)}
+        />
+      )}
+    </section>
   );
-};
+}

@@ -11,6 +11,7 @@ import com.decokasa.seguimiento.usuarios.application.port.in.RenovarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.out.TokenRenovacionRepositorio;
 import com.decokasa.seguimiento.usuarios.application.port.out.UsuarioRepositorio;
 import com.decokasa.seguimiento.usuarios.domain.SesionInvalida;
+import com.decokasa.seguimiento.usuarios.domain.CredencialesInvalidas;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.sql.Timestamp;
@@ -91,6 +92,63 @@ class DesactivarMientrasRenuevaIT {
     }
 
     @Test
+    void desactivarDespuesDeQueElLoginTomeLaFilaRevocaTambienSuNuevaSesion() throws Exception {
+        CountDownLatch loginTomoFila = new CountDownLatch(1);
+        CountDownLatch desactivacionLlego = new CountDownLatch(1);
+        Coreografia.despues("LOGIN", "buscarParaActualizar", () -> {
+            loginTomoFila.countDown();
+            esperarObligatoriamente(desactivacionLlego);
+        });
+        Coreografia.antes("EDITAR", "buscarParaActualizar", () -> {
+            esperarObligatoriamente(loginTomoFila);
+            desactivacionLlego.countDown();
+        });
+        long version = jdbc.queryForObject("select version from usuario where id = ?", Long.class, ana);
+        Solicitante solicitante = new Solicitante(admin, Set.of(new CodigoRol("admin")));
+        Future<Throwable> login = hilos.submit(enPapel("LOGIN", () ->
+                iniciarSesion.iniciar("ana@ejemplo.test", CLAVE)));
+        Future<Throwable> desactivar = hilos.submit(enPapel("EDITAR", () -> actualizarUsuario.actualizar(
+                solicitante, new ActualizarUsuario.Comando(ana, null, null, null, null, null, false, version))));
+
+        assertThat(login.get(30, TimeUnit.SECONDS)).isNull();
+        assertThat(desactivar.get(30, TimeUnit.SECONDS)).isNull();
+        assertThat(loginTomoFila.getCount()).isZero();
+        assertThat(desactivacionLlego.getCount()).isZero();
+        comprobarCuentaDesactivadaSinSesionesVigentes();
+        assertThat(jdbc.queryForObject("select count(*) from token_renovacion where usuario_id = ?",
+                Integer.class, ana)).isEqualTo(2);
+    }
+
+    @Test
+    void desactivarMientrasElLoginEsperaLaFilaImpideCrearUnaSesion() throws Exception {
+        CountDownLatch filaTomada = new CountDownLatch(1);
+        CountDownLatch loginLlego = new CountDownLatch(1);
+        Coreografia.despues("EDITAR", "buscarParaActualizar", () -> {
+            filaTomada.countDown();
+            esperarObligatoriamente(loginLlego);
+        });
+        Coreografia.antes("LOGIN", "buscarParaActualizar", () -> {
+            esperarObligatoriamente(filaTomada);
+            loginLlego.countDown();
+        });
+        long version = jdbc.queryForObject("select version from usuario where id = ?", Long.class, ana);
+        Solicitante solicitante = new Solicitante(admin, Set.of(new CodigoRol("admin")));
+        Future<Throwable> desactivar = hilos.submit(enPapel("EDITAR", () -> actualizarUsuario.actualizar(
+                solicitante, new ActualizarUsuario.Comando(ana, null, null, null, null, null, false, version))));
+        Future<Throwable> login = hilos.submit(enPapel("LOGIN", () ->
+                iniciarSesion.iniciar("ana@ejemplo.test", CLAVE)));
+
+        assertThat(desactivar.get(30, TimeUnit.SECONDS)).isNull();
+        assertThat(login.get(30, TimeUnit.SECONDS))
+                .isInstanceOf(CredencialesInvalidas.class);
+        assertThat(filaTomada.getCount()).isZero();
+        assertThat(loginLlego.getCount()).isZero();
+        comprobarCuentaDesactivadaSinSesionesVigentes();
+        assertThat(jdbc.queryForObject("select count(*) from token_renovacion where usuario_id = ?",
+                Integer.class, ana)).isEqualTo(1);
+    }
+
+    @Test
     void laRenovacionConsumeElTokenAntesDeQueLaDesactivacionBloqueeAlUsuario() throws Exception {
         CountDownLatch consumido = new CountDownLatch(1);
         CountDownLatch usuarioBloqueado = new CountDownLatch(1);
@@ -166,6 +224,15 @@ class DesactivarMientrasRenuevaIT {
                 Coreografia.PAPEL.remove();
             }
         };
+    }
+
+    private static void esperarObligatoriamente(CountDownLatch senal) {
+        try {
+            assertThat(senal.await(10, TimeUnit.SECONDS)).as("se alcanzó el punto de concurrencia").isTrue();
+        } catch (InterruptedException interrumpido) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError("Se interrumpió la coreografía de login y desactivación", interrumpido);
+        }
     }
 
     // Espera con límite: si la otra transacción quedó retenida por un bloqueo de la base, se sigue igual.
