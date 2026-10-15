@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.1.0-borrador
+  version: 0.5.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -25,7 +25,27 @@ info:
     3. Formato del número de pedido: `DK-EC-AAAA-NNNN` es una propuesta pendiente de aprobación; por eso no se fija con `pattern`.
     4. ¿El admin crea pedidos del flujo B? `requerimientos.md` 4.2 #4 dice que los crea David; el
        admin "actúa en cualquier etapa". Queda pendiente; ver `POST /pedidos`.
-    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI).
+    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI). El equipo decidió que no entra antes de la fase 5.
+    6. Roles por usuario: resuelto por el equipo (Richard, 2026-10-12), no por el cliente. Un usuario tiene uno o
+       varios roles (`Usuario.roles`), que solo asigna el admin (`requerimientos.md` 4.7).
+
+    **Cambios del 2026-10-12 (fase 1):** valores de sesión aprobados por el equipo (ADR-0002): bloqueo de 15 min tras
+    5 intentos fallidos, acceso de 15 min y renovación hasta 8 h con rotación. El token de renovación viaja en una
+    cookie `HttpOnly` (ADR-0002, D3b, aprobado en la versión 0.4.0) y ya no en el cuerpo; se agrega `POST /auth/cerrar-sesion`. El rol
+    `consulta` se suma a los roles iniciales.
+
+    **Cambios del 2026-10-12 (fase 1, paso 1.5; versión 0.3.0):** `Usuario.rol` pasa a `Usuario.roles` (lista; decisión
+    del equipo). Un usuario sin roles o desactivado no inicia ni renueva sesión.
+
+    **Cambios del 2026-10-12 (fase 1, paso 1.6; versión 0.4.0):** D3b aprobado: cookie de renovación `HttpOnly`,
+    `Secure`, `SameSite=Strict` en `/api/v1/auth`, acceso solo en memoria y `Origin` obligatoria en `/auth/renovar`
+    y `/auth/cerrar-sesion`. El 409 `DUPLICADO` indica el campo repetido en `errores`.
+
+    **Cambios del 2026-10-13 (fase 1, paso 1.7; versión 0.5.0; D10, aprobado por Richard):** `Usuario.version` (control
+    de concurrencia de los datos administrativos) en todas las respuestas que devuelven un usuario, incluidas las de
+    sesión. `PATCH /usuarios/{usuarioId}` exige la `version` que leyó el cliente; si ya no es la vigente, responde
+    409 `VERSION_DESACTUALIZADA` y no aplica ningún cambio. El inicio de sesión no cambia la versión. Rompe la
+    compatibilidad del `PATCH` (todavía no tiene consumidores). Los roles todavía no tienen versión (pendiente).
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6).
     - Leer pedidos, línea de tiempo, historial, bodegas y definiciones: cualquier usuario autenticado
@@ -86,8 +106,10 @@ paths:
       description: |
         Requisito 4.2 #1 y ADR-0002 (JWT + BCrypt). El identificador puede ser el correo, el nombre
         de usuario o el teléfono. Credenciales incorrectas y usuario desactivado responden igual
-        (401), para no revelar qué cuentas existen. **Propuesta (ADR-0002):** bloqueo temporal tras
-        N intentos fallidos (respuesta 423).
+        (401), para no revelar qué cuentas existen. Un usuario sin roles tampoco inicia sesión (401); un usuario
+        puede tener uno o varios roles (decisión del equipo, `requerimientos.md` 4.7).
+        **Decidido por el equipo (ADR-0002, 2026-10-12):** tras 5 intentos fallidos de contraseña, la cuenta
+        queda bloqueada 15 minutos (respuesta 423). El token de acceso dura 15 minutos.
       security: []
       requestBody:
         required: true
@@ -97,7 +119,10 @@ paths:
               $ref: '#/components/schemas/SolicitudInicioSesion'
       responses:
         '200':
-          description: Sesión iniciada.
+          description: Sesión iniciada. El token de acceso va en el cuerpo; el de renovación, en la cookie.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
           content:
             application/json:
               schema:
@@ -107,7 +132,7 @@ paths:
         '401':
           $ref: '#/components/responses/NoAutenticado'
         '423':
-          description: 'Propuesta: cuenta bloqueada temporalmente por intentos fallidos.'
+          description: 'Cuenta bloqueada 15 minutos tras 5 intentos fallidos (código CUENTA_BLOQUEADA; ADR-0002).'
           content:
             application/problem+json:
               schema:
@@ -118,34 +143,65 @@ paths:
       tags: [autenticacion]
       operationId: renovarSesion
       summary: Renovar el token de acceso
-      x-origen: propuesta
-      description: 'Propuesta (ADR-0002): JWT de vida corta con renovación. Si no se aprueba, se elimina.'
+      x-origen: requisito
+      description: |
+        ADR-0002 (decisión del equipo, 2026-10-12): la sesión se renueva hasta 8 horas desde el inicio
+        de sesión. Cada llamada entrega un token de acceso nuevo y rota el token de renovación (la cookie
+        anterior queda revocada). Si llega un token ya revocado, se revoca toda la sesión y responde 401.
+        Si la cuenta está desactivada o ya no tiene roles, también responde 401 y revoca la sesión
+        (decisión del equipo, `requerimientos.md` 4.7).
+        **D3b (aprobado el 2026-10-12, ADR-0002):** el token de renovación viaja en la cookie
+        `decokasa_renovacion` y nunca en el cuerpo. Sin cookie, o con una cookie desconocida, revocada o
+        vencida, responde 401. El servidor exige la cabecera `Origin` y que esté en `CORS_ORIGENES`; si falta
+        o no está, responde 403 `SIN_PERMISO` sin tocar la sesión.
       security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [tokenRenovacion]
-              properties:
-                tokenRenovacion:
-                  type: string
+      parameters:
+        - $ref: '#/components/parameters/Origen'
+        - $ref: '#/components/parameters/CookieRenovacion'
       responses:
         '200':
-          description: Token renovado.
+          description: Token renovado; la cookie se reemplaza por una nueva con el tiempo que queda de las 8 horas.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespuestaSesion'
         '401':
           $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /auth/cerrar-sesion:
+    post:
+      tags: [autenticacion]
+      operationId: cerrarSesion
+      summary: Cerrar la sesión
+      x-origen: requisito
+      description: |
+        D3b (aprobado el 2026-10-12, ADR-0002): revoca el token de renovación de esta sesión y borra la
+        cookie (`Max-Age=0`). Responde 204 aunque la cookie falte o ya esté revocada. El token de acceso sigue
+        válido hasta que vence (como máximo 15 minutos); el frontend lo descarta de la memoria. Exige `Origin`
+        igual que `/auth/renovar` (403 si falta o no está permitido).
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Origen'
+        - $ref: '#/components/parameters/CookieRenovacion'
+      responses:
+        '204':
+          description: Sesión cerrada; la cookie se borra.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/CookieRenovacion'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
 
   /auth/yo:
     get:
       tags: [autenticacion]
       operationId: obtenerUsuarioActual
-      summary: Usuario de la sesión actual, con su rol y permisos
+      summary: Usuario de la sesión actual, con sus roles y permisos
       x-origen: requisito
       description: 'Lo usa el frontend para mostrar el dashboard del rol (requisito 4.2 #2).'
       responses:
@@ -240,10 +296,20 @@ paths:
     patch:
       tags: [usuarios]
       operationId: actualizarUsuario
-      summary: Actualizar datos, rol o estado activo de un usuario (solo admin)
+      summary: Actualizar datos, roles o estado activo de un usuario (solo admin)
       x-origen: requisito
       x-roles: [admin]
-      description: Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
+      description: |
+        Requisito 4.2 #3 (asignar roles) y 4.6 (activar o desactivar). Solo se envían los campos que cambian.
+        `roles` reemplaza la lista completa de roles del usuario. Desactivar revoca sus sesiones abiertas;
+        el usuario no se borra y su historial se conserva (`requerimientos.md` 4.7).
+
+        **Versión (D10, aprobado el 2026-10-13):** `version` es obligatoria y debe ser la que el cliente leyó en
+        `Usuario.version`. Si otra persona cambió el usuario desde entonces, la respuesta es 409
+        `VERSION_DESACTUALIZADA` y no se aplica ningún cambio (tampoco la revocación de sesiones al desactivar): hay
+        que volver a leer el usuario y repetir el cambio. Una `version` ausente, negativa, con decimales o que no sea
+        un número entero, o un cuerpo que solo trae `version`, responde 400 `VALIDACION` sin cambiar nada. La
+        respuesta 200 lleva la versión ya guardada. El inicio de sesión no cambia la versión.
       requestBody:
         required: true
         content:
@@ -1116,7 +1182,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: ADR-0002. El token lleva el id y el rol del usuario; los permisos se validan siempre en el servidor.
+      description: ADR-0002. El token lleva el id y los roles del usuario; los permisos se validan siempre en el servidor.
 
   headers:
     Location:
@@ -1124,8 +1190,32 @@ components:
       schema:
         type: string
         format: uri-reference
+    CookieRenovacion:
+      description: |
+        D3b (ADR-0002, aprobado el 2026-10-12). Cookie `decokasa_renovacion` con el token de renovación:
+        `HttpOnly; Secure; SameSite=Strict; Path=/api/v1/auth; Max-Age=<segundos hasta el fin de la sesión de 8 h>`.
+        Al cerrar sesión se envía vacía con `Max-Age=0`. JavaScript no puede leerla.
+      schema:
+        type: string
 
   parameters:
+    CookieRenovacion:
+      name: decokasa_renovacion
+      in: cookie
+      required: false
+      description: 'D3b (ADR-0002). Token de renovación; lo envía el navegador, nunca JavaScript.'
+      schema:
+        type: string
+    Origen:
+      name: Origin
+      in: header
+      required: true
+      description: |
+        D3b (ADR-0002). Origen de la página que llama; debe estar en `CORS_ORIGENES` (en desarrollo,
+        `http://localhost:3000`). Los navegadores la envían solos. Si falta o no está permitido: 403 `SIN_PERMISO`.
+      schema:
+        type: string
+        format: uri
     PedidoId:
       name: pedidoId
       in: path
@@ -1193,8 +1283,11 @@ components:
     Conflicto:
       description: |
         Conflicto con el estado actual. Códigos: ETAPA_CAMBIO (la etapa actual no es la esperada),
-        TRANSICION_NO_PERMITIDA (la acción no existe en la etapa actual) o DUPLICADO (correo, usuario,
-        teléfono o nombre ya registrado).
+        TRANSICION_NO_PERMITIDA (la acción no existe en la etapa actual), DUPLICADO (correo, usuario,
+        teléfono o nombre ya registrado) o VERSION_DESACTUALIZADA (otra persona cambió el recurso desde que el
+        cliente lo leyó; D10). Con DUPLICADO, `errores[0].campo` indica el campo repetido. VERSION_DESACTUALIZADA
+        no lleva `errores` y no aplica ningún cambio; si además hubiera un dato repetido, se responde
+        VERSION_DESACTUALIZADA.
       content:
         application/problem+json:
           schema:
@@ -1238,9 +1331,12 @@ components:
             - TIPO_ARCHIVO_NO_ACEPTADO
             - COPIA_PENDIENTE
             - CUENTA_BLOQUEADA
+            - VERSION_DESACTUALIZADA
         errores:
           type: array
-          description: Errores por campo (solo con VALIDACION).
+          description: |
+            Errores por campo con VALIDACION, y también con DUPLICADO para indicar qué campo está repetido
+            (correo, usuario, telefono o codigo) y que el formulario lo marque (aprobado el 2026-10-12).
           items:
             type: object
             required: [campo, mensaje]
@@ -1265,7 +1361,8 @@ components:
       description: 'A: pedido de Ecuador (productos existentes y nuevos). B: pedido propuesto por China.'
     CodigoRol:
       type: string
-      description: 'Código del rol. Los 6 iniciales son admin, asistente_compras, marketing, compras_china, logistica y asistente_china. Es texto libre porque el admin puede crear roles (requisito 4.6).'
+      pattern: '^[a-z_]{3,40}$'
+      description: 'Código del rol. Los 7 iniciales son admin, asistente_compras, marketing, compras_china, logistica, asistente_china y consulta (este último conservado por decisión del equipo; su alcance está pendiente del cliente). No es una lista cerrada porque el admin puede crear roles (requisito 4.6); el formato es el mismo en la base (`rol.codigo`) y en el dominio (`CodigoRol`).'
       examples: [admin, compras_china]
     NivelUrgencia:
       type: string
@@ -1301,10 +1398,18 @@ components:
           type: string
           description: Correo, nombre de usuario o teléfono.
           minLength: 1
+          maxLength: 254
         contrasena:
           type: string
           format: password
           minLength: 1
+          maxLength: 72
+          x-max-bytes: 72
+          description: |
+            Como máximo 72 bytes en UTF-8 (límite de BCrypt). `maxLength` cuenta caracteres y solo es una cota
+            exterior: una letra con tilde ocupa 2 bytes y un emoji 4. Una contraseña de más de 72 bytes no
+            puede estar guardada, así que responde 401 igual que unas credenciales incorrectas; el servidor
+            nunca la recorta.
     RespuestaSesion:
       type: object
       required: [tokenAcceso, expiraEn, usuario]
@@ -1313,17 +1418,23 @@ components:
           type: string
         expiraEn:
           type: integer
-          description: Segundos de vida del token.
-        tokenRenovacion:
-          type: [string, 'null']
-          description: 'Propuesta (ADR-0002). Nulo si no se aprueba la renovación.'
+          description: Segundos de vida del token de acceso (900, es decir, 15 minutos; ADR-0002).
         usuario:
           $ref: '#/components/schemas/Usuario'
 
     Usuario:
       type: object
-      required: [id, nombre, correo, usuario, telefono, rol, paises, activo]
+      required: [id, nombre, correo, usuario, telefono, roles, paises, activo, version]
       properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          readOnly: true
+          description: |
+            Versión de los datos administrativos del usuario (D10, aprobado el 2026-10-13). Empieza en 0 y sube con
+            cada cambio que guarda el admin. El inicio de sesión (intentos fallidos y bloqueo) no la cambia. Se
+            envía tal cual en `PATCH /usuarios/{usuarioId}` para no sobrescribir cambios de otra persona.
         id:
           type: string
           format: uuid
@@ -1337,8 +1448,12 @@ components:
           description: Nombre de usuario para iniciar sesión.
         telefono:
           type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+        roles:
+          type: array
+          uniqueItems: true
+          description: Uno o varios roles (decisión del equipo). Una lista vacía significa que el usuario no puede acceder.
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1353,27 +1468,47 @@ components:
           properties:
             permisos:
               type: array
-              description: Permisos efectivos del rol, para que el frontend muestre u oculte opciones. El servidor los vuelve a validar en cada llamada.
+              description: Permisos efectivos (la unión de los permisos de todos sus roles), para que el frontend muestre u oculte opciones. El servidor los vuelve a validar en cada llamada.
               items:
                 type: string
+    Correo:
+      type: string
+      format: email
+      maxLength: 254
+      description: 'Único sin distinguir mayúsculas. Máximo 254 caracteres, igual que `usuario.correo` en la base.'
+    Telefono:
+      type: string
+      minLength: 7
+      maxLength: 20
+      pattern: '^\+?[0-9 ()-]{7,20}$'
+      description: |
+        Se aceptan espacios, guiones y paréntesis. El servidor los quita antes de guardar, y el resultado debe
+        tener de 7 a 15 dígitos con un `+` opcional al inicio (`^\+?[0-9]{7,15}$`, igual que `usuario.telefono`
+        en la base). Por ejemplo, `+593 99 000 0001` se guarda como `+593990000001`.
     SolicitudCrearUsuario:
       type: object
-      required: [nombre, correo, usuario, telefono, rol, contrasenaInicial]
+      description: 'Los límites son los mismos de la base de datos y de los formularios (`modelo-datos.md` 3.1, "Límites de campos").'
+      required: [nombre, correo, usuario, telefono, roles, contrasenaInicial]
       properties:
         nombre:
           type: string
           minLength: 1
+          maxLength: 200
         correo:
-          type: string
-          format: email
+          $ref: '#/components/schemas/Correo'
         usuario:
           type: string
           minLength: 3
+          maxLength: 50
         telefono:
-          type: string
-          minLength: 7
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+          $ref: '#/components/schemas/Telefono'
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: 'Al menos un rol (decisión del equipo, `requerimientos.md` 4.7).'
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1383,19 +1518,45 @@ components:
           type: string
           format: password
           minLength: 8
+          maxLength: 72
+          x-max-bytes: 72
+          description: |
+            Al menos 8 caracteres y como máximo **72 bytes en UTF-8**, que es lo que BCrypt procesa. JSON Schema
+            no puede limitar bytes: `maxLength: 72` cuenta caracteres y solo es una cota exterior (una letra con
+            tilde ocupa 2 bytes; un emoji, 4). El servidor mide los bytes en UTF-8 y, si pasan de 72, responde
+            400 `VALIDACION` con el error en este campo. Nunca recorta la contraseña en silencio. La extensión
+            `x-max-bytes` deja el límite real escrito para el backend y los formularios.
     SolicitudActualizarUsuario:
       type: object
-      minProperties: 1
+      description: |
+        Los mismos límites que `SolicitudCrearUsuario`. Lleva siempre `version` y al menos un campo que cambie
+        (por eso `minProperties: 2`); un cuerpo con solo `version` responde 400 `VALIDACION`.
+      required: [version]
+      minProperties: 2
       properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            La `Usuario.version` que leyó el cliente (D10). Si ya no es la vigente, 409 `VERSION_DESACTUALIZADA` sin
+            cambios. Ausente, negativa, con decimales o de otro tipo (por ejemplo, el texto `"3"`): 400 `VALIDACION`
+            con `errores[0].campo = version`.
         nombre:
           type: string
+          minLength: 1
+          maxLength: 200
         correo:
-          type: string
-          format: email
+          $ref: '#/components/schemas/Correo'
         telefono:
-          type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+          $ref: '#/components/schemas/Telefono'
+        roles:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: 'Reemplaza la lista completa. Al menos un rol; para retirar el acceso se desactiva la cuenta con `activo: false` (decisión del equipo, `requerimientos.md` 4.7).'
+          items:
+            $ref: '#/components/schemas/CodigoRol'
         paises:
           type: array
           items:
@@ -1414,9 +1575,10 @@ components:
           $ref: '#/components/schemas/CodigoRol'
         nombre:
           type: string
+          maxLength: 100
         permisos:
           type: array
-          description: Permisos del rol (por ejemplo, crear pedidos del flujo A o mantener bodegas). La lista exacta se define en la fase 1.
+          description: Permisos del rol (por ejemplo, crear pedidos del flujo A o mantener bodegas). Pendiente; la lista exacta se define con los casos de uso de la fase 1.
           items:
             type: string
         etapasQueAtiende:
@@ -1442,10 +1604,15 @@ components:
           $ref: '#/components/schemas/CodigoRol'
         nombre:
           type: string
+          minLength: 1
+          maxLength: 100
         permisos:
           type: array
+          description: Pendiente. La lista de permisos se define con los casos de uso de la fase 1.
           items:
             type: string
+            minLength: 1
+            maxLength: 100
 
     DefinicionFlujo:
       type: object
@@ -1657,15 +1824,18 @@ components:
           type: integer
     UsuarioResumen:
       type: object
-      required: [id, nombre, rol]
+      required: [id, nombre, roles]
       properties:
         id:
           type: string
           format: uuid
         nombre:
           type: string
-        rol:
-          $ref: '#/components/schemas/CodigoRol'
+        roles:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CodigoRol'
     EtapaEnLinea:
       type: object
       required: [numero, nombre, estado, rolResponsable]

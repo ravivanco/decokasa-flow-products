@@ -12,6 +12,8 @@ El documento del cliente incluye en su stack "WebSocket (STOMP) de Spring" para 
 
 Desde la fase 5, el backend publica los cambios de pedido por WebSocket (STOMP) mediante el puerto `PublicadorTiempoReal`. El frontend invalida las consultas afectadas al recibir un mensaje.
 
+**Aprobado por el equipo (2026-10-12):** WebSocket no se incluye en la fase 1 ni en ninguna antes de la 5; el backend de la fase 1 no lleva la dependencia `websocket`. La elección entre WebSocket y consultas periódicas sigue como propuesta y se decide en la fase 5.
+
 ## Alternativas consideradas
 
 ### Consultas periódicas del frontend (polling)

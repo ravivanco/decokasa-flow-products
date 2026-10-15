@@ -58,6 +58,8 @@ Con respuesta ambigua del cliente (`requerimientos.md`, "Por confirmar con el cl
 - [ ] Archivos ("si esta bien"): ¿qué formatos se aceptan? Propuesta: PDF, Word, Excel, imágenes y ZIP, con 100 MB por archivo.
 - [ ] Número de pedido ("uno diferente y más profesional"): ¿aprueban `DK-EC-2026-0001`?
 - [ ] Asistente de compras en China ("asistente de compras en China nada más"): ¿qué ve en el sistema? Propuesta: solo consulta, sin acciones.
+- [ ] Roles por usuario ("rol(es)" en 4.6): ¿uno o varios? Sin valor aprobado; bloquea la relación usuario–rol de la fase 1.
+- [ ] Rol `consulta` (conservado por el equipo): ¿quién lo usa y qué ve? Propuesta: dashboard de consulta, sin acciones.
 
 Sin definir en los requerimientos o detectadas en la auditoría:
 
@@ -146,7 +148,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 **Feasibility**: HIGH. Es un flujo de trabajo con estados, sin algoritmos novedosos. Lo difícil son las integraciones con Google y el acceso desde China.
 
 **Architecture Notes**
-- Stack fijo (ADR pendiente, paso 0.7): React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query + React Router + React Hook Form + Zod en el frontend; Spring Boot 3 + Java 21 + Gradle + Spring Security (JWT + BCrypt) + Spring Data JPA + Flyway + PostgreSQL + Docker en el backend.
+- Stack fijo (ADR pendiente, paso 0.7): React 19 + Vite + TypeScript + Tailwind 4 + shadcn/ui + TanStack Query + React Router + React Hook Form + Zod en el frontend; Spring Boot 4.1 (ADR-0016) + Java 21 + Gradle + Spring Security (JWT + BCrypt) + Spring Data JPA + Flyway + PostgreSQL + Docker en el backend.
 - Arquitectura hexagonal: el dominio (pedidos, flujos, transiciones, plazos) no depende de Spring, JPA ni Google. Drive y Gmail son adaptadores con versión falsa para las pruebas.
 - Motor de flujos definido por datos (país × tipo → etapas, rol responsable, plazo, transiciones permitidas), con definiciones versionadas para no romper pedidos en curso.
 - El navegador nunca llama a Google: el servidor sube a Drive y envía correos con su cuenta de servicio, con cola y reintentos.
@@ -179,14 +181,19 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 
 | # | Phase | Description | Status | Parallel | Depends | PRP Plan |
 |---|-------|-------------|--------|----------|---------|----------|
-| 1 | Base y acceso | Monorepo con frontend migrado y backend Spring Boot, Docker y PostgreSQL, login con correo, usuario o teléfono, usuarios y roles, dashboards vacíos por rol | pending | - | - | - |
-| 2 | Motor de flujo y A1-A4 | Motor de flujos por datos, pedidos con número secuencial, etapas A1 a A4 con aprobar, rechazar y devolver (por error o con urgencia), historial de solo inserción | pending | with 3 | 1 | - |
+| 1 | Base y acceso | Monorepo con frontend migrado y backend Spring Boot, Docker y PostgreSQL, login con correo, usuario o teléfono, usuarios y roles, dashboards vacíos por rol | complete (desarrollo validado por Richard, 2026-10-15; producción no autorizada) | - | - | [fase-1-base-acceso.plan.md](../plans/fase-1-base-acceso.plan.md) |
+| 2 | Motor de flujo y A1-A4 | Motor de flujos por datos, pedidos con número secuencial, etapas A1 a A4 con aprobar, rechazar y devolver (por error o con urgencia), historial de solo inserción | in-progress (plan listo; sin implementar) | with 3 | 1 | [fase-2-motor-flujo.plan.md](../plans/fase-2-motor-flujo.plan.md) |
 | 3 | Drive y Gmail | Puertos y adaptadores de archivos (Drive, 100 MB) y notificaciones (Gmail al admin), cola con reintentos, pantalla de archivos y de correos enviados | pending | with 2 | 1 | - |
 | 4 | Etapas A5-A11 | Fabricación, embarque con Packing List / BL, aduana con demora y recálculo, salida, bodega obligatoria, incidencias y Fin automático | pending | - | 2, 3 | - |
 | 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | - |
 | 6 | Flujo B | Configuración del flujo B (11 etapas + Fin) sobre el motor, creación de pedidos por Compras China, bandeja de productos propuestos | pending | with 5 | 4 | - |
 | 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujo colombiano, caso de uso de IA. Espera las definiciones del cliente; puede hacerse después de la fase 8 | pending | - | 5, 6 | - |
 | 8 | Producción | Alojamiento, CI, imágenes de producción, HTTPS, respaldos, monitoreo, auditoría final, prueba de aceptación con los 6 usuarios y documentación de entrega | pending | - | 5, 6 | - |
+
+**Estado al 2026-10-14 (nuevo manual, partes A y B):**
+
+- **Fase 1, `in-progress`:** parte A codificada (pasos 1.1 a 1.5). Siguen pendientes la parte B con Codex (incluido **1.B3**, seguridad y verificación) y el **cierre** que valida Richard.
+- **Fase 2:** solo tiene el plan. Su implementación empieza cuando Richard resuelva P-01 (rama base) y las decisiones previas al paso 2.1 del plan.
 
 ### Phase Details
 
@@ -254,8 +261,23 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | País inicial | Ecuador | — | Pedido del cliente |
 | Repositorio | Monorepo `frontend/` + `backend/`; ramas de fase desde `develop`, PR hacia `develop`, `main` solo para versiones | Repositorios separados | Decisión del equipo (`documentos/manual-paso-a-paso.md`) |
 | Demo de AI Studio | Reutilizar 14 componentes, reescribir 11, descartar 7 | Empezar el frontend de cero | Resultado de `auditoria-demo.md`, sección 8 |
+| Sesión (2026-10-12) | Bloqueo de 15 min tras 5 intentos fallidos; acceso de 15 min; renovación hasta 8 h con rotación | Sin bloqueo; sesión larga | Decisión del equipo (ADR-0002). Almacenamiento en cookie `HttpOnly`: aprobado el 2026-10-12 (D3b) |
+| Backend (2026-10-12) | Gradle, hexagonal, transacciones fuera del dominio | Maven; capas de Spring | Decisión del equipo (ADR-0010, 0011, 0012) |
+| Tiempo real (2026-10-12) | No entra antes de la fase 5 | WebSocket desde la fase 1 | Decisión del equipo (ADR-0014) |
+| Datos iniciales (2026-10-12) | Países y 7 roles en migraciones; usuarios reales y secretos fuera de git | Sembrar usuarios en la migración | Decisión del equipo (ADR-0015); repositorio público |
+| Demo en la fase 1 (2026-10-12) | Pantallas de pedidos sin ruta hasta su fase; se conserva el rol `consulta` | Borrarlas o mostrarlas con datos simulados | Decisión del equipo (plan de la fase 1) |
 
 ---
+
+## Validación de desarrollo de la fase 1 — 2026-10-15
+
+Richard validó expresamente en esta conversación: «Valido los resultados de la fase 1 para su cierre de desarrollo». Se registra únicamente la fase 1 como completa en desarrollo; el proyecto y las demás fases conservan su estado. Esta validación **no autoriza producción ni el uso de cuentas reales con contraseña temporal compartida**, ni constituye aceptación de los hallazgos como corregidos.
+
+Fuente y alcance: [informe de pruebas, secciones 1.B1, 1.B2, B2-D01, 1.B3 y validación de Richard](../../../documentos/pruebas/fase-1-informe.md). Evidencias: [seis perfiles ficticios y resultados históricos](../../../documentos/pruebas/evidencias/1-b2/resultados.json), [revalidación B2-D01](../../../documentos/pruebas/evidencias/1-b2-identidad-revalidacion/resultados.json), resultados JUnit/JaCoCo referenciados en el informe. Frontend: lint, 159 pruebas y build aprobados; backend: check con resultados vigentes reutilizados, 306 pruebas históricas y 93,52 % de cobertura de líneas; tres servicios Docker healthy en 1.B3. No se ejecutaron nuevas pruebas para registrar esta validación.
+
+Se conservan abiertos los hallazgos y su destino, detallados en el informe: **M1/M2 roles/M3 (medios)** al backlog de seguridad/identidad para Claude Code con decisiones de política y contrato pendientes; M3 debe resolverse antes de usar cuentas reales. **B1/B2/B3 (bajos)** al backlog de seguridad; **B4 (bajo)** a seguridad del despliegue de fase 8; **I1/I2 (informativos)** a seguimiento del diseño de sesión; aviso de tamaño JS al backlog de rendimiento. Estos destinos organizan trabajo pendiente, sin autorizar su implementación en este registro.
+
+Siguen pendientes **acceso real desde China**, **seguridad del despliegue remoto (HTTPS, cookies y HSTS)** y las **comprobaciones no realizadas**: auditoría CVE actual, historial exhaustivo de secretos y análisis SpotBugs/PMD/Checkstyle/OWASP no configurados. Se mantienen también los límites de cobertura y navegadores documentados. El cierre de desarrollo no declara estas verificaciones aprobadas. No hay críticos ni altos abiertos identificados en el alcance de la revisión de fase 1; no se certifica ausencia de riesgos fuera de ese alcance. La salida a producción requiere su propia validación.
 
 ## Research Summary
 

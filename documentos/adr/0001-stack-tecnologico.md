@@ -10,7 +10,7 @@ DECOKASA necesita una web interna para seguir pedidos de importación entre Ecua
 
 ## Decisión
 
-Frontend con React 19 + TypeScript + Vite, Tailwind CSS 4, shadcn/ui, TanStack Query, React Router, React Hook Form y Zod. Backend con Spring Boot 3 y Java 21, Spring Security, Spring Data JPA y Flyway. Base de datos PostgreSQL en Docker. Documentación de la API con springdoc-openapi.
+Frontend con React 19 + TypeScript + Vite, Tailwind CSS 4, shadcn/ui, TanStack Query, React Router, React Hook Form y Zod. Backend con Spring Boot 3 y Java 21 (la versión pasa a Spring Boot 4.1 por el ADR-0016, del 2026-10-12: la rama 3 quedó sin soporte gratuito), Spring Security, Spring Data JPA y Flyway. Base de datos PostgreSQL en Docker. Documentación de la API con springdoc-openapi.
 
 ## Alternativas consideradas
 

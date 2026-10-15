@@ -1,9 +1,11 @@
 %% Entidad-relación. Fuente: modelo-datos.md (secciones 2 y 3). [P] = propuesta; ⏸ = pendiente.
-%% secuencia_pedido: [P] ⏸ solo si se aprueba DK-EC-AAAA-NNNN. feriado: [P] ⏸. token_renovacion: [P].
+%% secuencia_pedido: [P] ⏸ solo si se aprueba DK-EC-AAAA-NNNN. feriado: [P] ⏸. token_renovacion: aprobada (ADR-0002, 2026-10-12).
+%% usuario_rol: uno o varios roles por usuario, asignados solo por el admin (decisión del equipo, 2026-10-12; no del cliente).
 erDiagram
   pais ||--o{ usuario_pais : "habilita"
   usuario ||--o{ usuario_pais : "trabaja en"
-  rol ||--o{ usuario : "asignado a"
+  usuario ||--o{ usuario_rol : "tiene"
+  rol ||--o{ usuario_rol : "asignado en"
   rol ||--o{ rol_permiso : "tiene"
   pais ||--o{ definicion_flujo : "define"
   definicion_flujo ||--|{ definicion_etapa : "contiene"

@@ -71,7 +71,7 @@ DECOKASA S.A.S. pide un sistema web que controle cada pedido de importación, de
 | Frontend | React 19 + TypeScript + Vite | Reutiliza la demo de AI Studio |
 | Estilos y componentes | Tailwind CSS 4 + shadcn/ui + lucide-react | Componentes accesibles con colores de la marca |
 | Estado y datos | TanStack Query + React Router + React Hook Form + Zod | Caché de API, rutas protegidas, validación |
-| Backend | Spring Boot 3.x, Java 21 LTS | Reglas de negocio, seguridad, tareas programadas |
+| Backend | Spring Boot 3.x, Java 21 LTS (el equipo usa Spring Boot 4.1 desde el 2026-10-12: la 3.x quedó sin soporte gratuito; ADR-0016) | Reglas de negocio, seguridad, tareas programadas |
 | Acceso a datos | Spring Data JPA (Hibernate) + Flyway | Migraciones versionadas |
 | Base de datos | PostgreSQL 16 o 17 en Docker | Relacional, transaccional, apta para auditoría |
 | Seguridad | Spring Security + JWT + BCrypt | Login propio con roles, sin depender de Google |
@@ -440,7 +440,7 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 
 | Entidad | Datos clave | Nota |
 | --- | --- | --- |
-| Usuario | nombre, correo, usuario, teléfono, contraseña (hash), rol(es), país(es) | Los tres identificadores son únicos |
+| Usuario | nombre, correo, usuario, teléfono, contraseña (hash), rol(es), país(es), activo | Los tres identificadores son únicos. Uno o varios roles, que solo asigna el admin (decisión del equipo, 4.7). Se desactiva, no se borra |
 | Rol | nombre, permisos, etapas que atiende | Lo crea el admin |
 | País | EC, CO, flujos habilitados | CO inactivo en v1 |
 | Definición de flujo | país, tipo (A Ecuador / B China), etapas en orden, transiciones permitidas | Versionada, para no romper pedidos en curso |
@@ -455,6 +455,25 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 ### 4.7 Seguridad y política
 
 - Contraseñas con BCrypt, JWT de vida corta y bloqueo tras varios intentos fallidos. Recuperación de contraseña por correo: **TBD**.
+- **Valores fijados por el equipo el 2026-10-12** (no son respuesta del cliente; ADR-0002):
+  - Bloqueo tras **5 intentos fallidos** de contraseña, durante **15 minutos**.
+  - JWT de acceso de **15 minutos**.
+  - Renovación de la sesión **hasta 8 horas** desde el inicio de sesión, con rotación del token de renovación en cada uso.
+  - **D3b, aprobado por Richard el 2026-10-12:** el token de renovación viaja en una cookie `HttpOnly`, `Secure` y `SameSite=Strict` con ruta `/api/v1/auth`; el token de acceso vive solo en memoria y ningún token se guarda en `localStorage` ni `sessionStorage`. `/auth/renovar` y `/auth/cerrar-sesion` comprueban la cabecera `Origin`: si falta o no está permitida, responden 403 (aprobado por Richard el 2026-10-13; ADR-0002).
+  - Un error 409 `DUPLICADO` indica el campo repetido (correo, usuario, teléfono o código), para marcarlo en el formulario (aprobado el 2026-10-12).
+- **Usuarios y roles — decisión de Richard (equipo) del 2026-10-12, no es respuesta del cliente:**
+  - Un usuario puede tener **uno o varios roles** (tabla `usuario_rol`). Solo el admin asigna o quita roles.
+  - Un usuario **sin roles no puede acceder**: no inicia sesión ni renueva la sesión. La base de datos permite guardarlo (por ejemplo, en una carga externa), pero crear o editar un usuario por la API exige **al menos un rol**; para retirar el acceso se **desactiva la cuenta**.
+  - Los límites de los campos (largo del nombre, correo, usuario, teléfono y contraseña) son los mismos en la base, la API y los formularios (`modelo-datos.md` 3.1).
+  - Una cuenta **desactivada** no puede iniciar ni renovar sesión; al desactivarla se revocan sus sesiones abiertas.
+  - Los usuarios no se borran: se desactivan, y el historial de sus acciones se conserva.
+- **Ediciones simultáneas de un usuario — D10, decisión de Richard (equipo) del 2026-10-13, no es respuesta del cliente:**
+  - Cada usuario tiene una **versión** de sus datos administrativos, que la API devuelve en todas las respuestas con un usuario (también las de sesión).
+  - Para editarlo, el admin envía la versión que leyó. Si otra persona lo cambió entretanto, la API responde **409 `VERSION_DESACTUALIZADA`** y **no aplica ningún cambio** (tampoco revoca sesiones): hay que volver a cargar el usuario.
+  - La versión es **obligatoria** al editar; sin ella, o si no es un entero mayor o igual a 0, la respuesta es 400.
+  - Los **intentos fallidos y el bloqueo** del inicio de sesión **no cambian la versión**, y una edición del admin no los sobrescribe.
+  - **Pendiente:** los **roles** (`PUT /roles/{rolId}`) todavía no tienen versión; dos ediciones simultáneas de un rol se sobrescriben.
+- Los datos personales reales (usuarios, correos, teléfonos) y las contraseñas o claves nunca se guardan en el repositorio. Las migraciones solo cargan países y roles; los usuarios reales se cargan fuera de git, y las pruebas usan usuarios ficticios (ADR-0015).
 - Los permisos se revisan en el servidor por rol y por etapa, nunca solo en la pantalla.
 - La carpeta de Drive se organiza por país y pedido. Quién tiene acceso directo a Drive: **TBD**.
 - API de Claude: se definirá más adelante; no se enviarán documentos sin aprobación del cliente.
@@ -483,7 +502,7 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 
 ## 5. Preguntas abiertas para el cliente
 
-El cliente respondió las 31 preguntas el 2026-10-09 (respuestas entre comillas). Ninguna bloquea ya el inicio. Al final de esta sección quedan 9 puntos por confirmar porque la respuesta fue ambigua o quedó incompleta.
+El cliente respondió las 31 preguntas el 2026-10-09 (respuestas entre comillas). Ninguna bloquea ya el inicio. Al final de esta sección quedan 11 puntos por confirmar: 9 porque la respuesta fue ambigua o quedó incompleta, y 2 que surgieron al preparar la fase 1 (roles por usuario y rol `consulta`).
 
 ### Contradicciones del documento
 
@@ -546,3 +565,5 @@ Mientras tanto, se usa el valor propuesto y queda configurable.
 | Archivos | "si esta bien" | ¿Qué formatos se aceptan? | PDF, Word, Excel, imágenes y ZIP; 100 MB por archivo |
 | Número de pedido | "uno diferente y más profesional" | ¿Aprueban el formato? | `DK-EC-2026-0001` |
 | Andrea Collaguazo | "Asistente de compras en China nada más" | ¿Qué ve en el sistema? | Solo consulta de pedidos, sin acciones |
+| Roles por usuario | La entidad Usuario dice "rol(es)" (4.6) | ¿Un usuario puede tener uno o varios roles? | **Decidido por el equipo (Richard, 2026-10-12), sin respuesta del cliente:** uno o varios roles, asignados solo por el admin (4.7). Si el cliente pide otra cosa, se revisa con una migración nueva |
+| Rol `consulta` | No aparece en este documento; el demo lo tenía y el equipo decidió conservarlo (2026-10-12) | ¿Quién lo usa y qué puede ver? | Dashboard de consulta, sin permisos de gestión ni acciones |

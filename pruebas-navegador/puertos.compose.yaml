@@ -1,0 +1,5 @@
+# Evita el puerto 8080 reservado del equipo; el proxy interno sigue usando backend:8080.
+services:
+  backend:
+    ports: !override
+      - "127.0.0.1:18080:8080"

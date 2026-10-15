@@ -1,0 +1,12 @@
+# Documentación interactiva solo para el arranque local con perfil dev.
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    persist-authorization: false
+
+decokasa:
+  cors:
+    # Swagger usa el backend como origen; permite también la UI de Vite.
+    origenes: ${CORS_ORIGENES:http://localhost:3000,http://localhost:8080}

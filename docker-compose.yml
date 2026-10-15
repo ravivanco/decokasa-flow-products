@@ -1,6 +1,6 @@
-# Entorno local de Decokasa.
-# Por ahora solo la base de datos; backend y frontend se agregan en la fase 1 (paso 1.4).
-# Las variables se leen de .env en la raíz (no se sube a git).
+# Entorno local de Decokasa (paso 1.4): PostgreSQL 17, backend y frontend.
+# Las variables se leen de .env en la raíz (ignorado por Git); la plantilla es .env.example.
+# Uso, desde la raíz: docker compose up -d --build
 
 services:
   postgres:
@@ -11,11 +11,62 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-decokasa}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
     ports:
-      - "5432:5432"
+      # Solo desde este equipo (herramientas de base de datos); los contenedores usan la red interna.
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-decokasa} -d ${POSTGRES_DB:-decokasa}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: decokasa-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-decokasa}
+      DB_USUARIO: ${POSTGRES_USER:-decokasa}
+      DB_CONTRASENA: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+      # Sesión (ADR-0002): el secreto es obligatorio; las duraciones por defecto son las aprobadas (D2, D3).
+      JWT_SECRETO: ${JWT_SECRETO:?Define JWT_SECRETO en .env (al menos 32 bytes al azar)}
+      JWT_DURACION_ACCESO: ${JWT_DURACION_ACCESO:-15m}
+      JWT_DURACION_RENOVACION: ${JWT_DURACION_RENOVACION:-8h}
+      BLOQUEO_INTENTOS_MAXIMOS: ${BLOQUEO_INTENTOS_MAXIMOS:-5}
+      BLOQUEO_DURACION: ${BLOQUEO_DURACION:-15m}
+      CORS_ORIGENES: ${CORS_ORIGENES:-http://localhost:3000}
+      # Usuarios iniciales fuera de Git (ADR-0015): el archivo real vive en backend/semilla/*.local.json.
+      SEMILLA_HABILITADA: ${SEMILLA_HABILITADA:-false}
+      SEMILLA_ARCHIVO: ${SEMILLA_ARCHIVO:-/aplicacion/semilla/usuarios.local.json}
+      SEMILLA_CONTRASENA_TEMPORAL: ${SEMILLA_CONTRASENA_TEMPORAL:-}
+    volumes:
+      - ./backend/semilla:/aplicacion/semilla:ro
+    ports:
+      # Acceso directo para pruebas locales (curl); el navegador entra por el frontend.
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      # /actuator/health incluye la conexión a la base de datos.
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: decokasa-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
       interval: 10s
       timeout: 5s
       retries: 5

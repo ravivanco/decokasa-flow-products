@@ -1,0 +1,60 @@
+# Configuración del backend de Decokasa. Ningún secreto vive aquí (ADR-0015): todo sale de variables de entorno.
+spring:
+  config:
+    # Arranque manual desde backend/: archivo local ignorado por Git. Docker usa sus variables de entorno.
+    import: optional:file:./.env.local[.properties]
+  application:
+    name: seguimiento
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/decokasa}
+    username: ${DB_USUARIO:decokasa}
+    password: ${DB_CONTRASENA:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Flyway es dueño del esquema; Hibernate solo valida (modelo-datos.md, sección 1).
+      ddl-auto: validate
+  jackson:
+    time-zone: America/Guayaquil
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# Documentación desactivada por defecto; application-dev.yml la habilita solo con el perfil dev.
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
+
+# Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
+# JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
+decokasa:
+  jwt:
+    secreto: ${JWT_SECRETO:}
+  sesion:
+    duracion-acceso: ${JWT_DURACION_ACCESO:15m}
+    duracion-renovacion: ${JWT_DURACION_RENOVACION:8h}
+  bloqueo:
+    intentos-maximos: ${BLOQUEO_INTENTOS_MAXIMOS:5}
+    duracion: ${BLOQUEO_DURACION:15m}
+  bcrypt:
+    fuerza: 12
+  cors:
+    # Orígenes del frontend; /auth/renovar y /auth/cerrar-sesion rechazan cualquier otro Origin (D3b).
+    origenes: ${CORS_ORIGENES:http://localhost:3000}
+  semilla:
+    habilitada: ${SEMILLA_HABILITADA:false}
+    archivo: ${SEMILLA_ARCHIVO:}
+    contrasena-temporal: ${SEMILLA_CONTRASENA_TEMPORAL:}

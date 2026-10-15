@@ -1,16 +1,18 @@
 # ADR-0011: Monolito modular con arquitectura hexagonal
 
 **Fecha**: 2026-10-10
-**Estado**: proposed
-**Decisores**: equipo de desarrollo (propuesta de `arquitectura.md`, sección 8.2)
+**Estado**: accepted (aprobado por el equipo el 2026-10-12)
+**Decisores**: equipo de desarrollo (propuesta de `arquitectura.md`, sección 8.2; aprobada por Richard)
 
 ## Contexto
 
 `CLAUDE.md` pide que el dominio no dependa de Spring, JPA ni Google. El sistema tiene 8 módulos de negocio con integraciones externas (Drive, correo) que deben poder reemplazarse por versiones falsas en las pruebas.
 
-## Decisión (propuesta)
+## Decisión
 
-Un solo backend desplegable, dividido en módulos (`usuarios`, `flujos`, `pedidos`, `historial`, `archivos`, `notificaciones`, `plazos`, `bodegas` y `compartido`), con puertos y adaptadores. Se aplican las reglas R1 a R9 de `arquitectura.md`. R1 a R4 y R9 se verifican con pruebas automáticas (ArchUnit); R5 a R8, con pruebas de dominio y de integración.
+Un solo backend desplegable, dividido en módulos (`usuarios`, `flujos`, `pedidos`, `historial`, `archivos`, `notificaciones`, `plazos`, `bodegas` y `compartido`), con puertos y adaptadores. Se aplican las reglas R1 a R9 de `arquitectura.md`. R5 a R8 se verifican con pruebas de dominio y de integración.
+
+**Propuesta asociada (no aprobada todavía):** verificar R1 a R4 y R9 con pruebas automáticas (ArchUnit). La fase 1 la incluye como propuesta; si el equipo la descarta, esas reglas quedan solo para la revisión de código.
 
 ## Alternativas consideradas
 

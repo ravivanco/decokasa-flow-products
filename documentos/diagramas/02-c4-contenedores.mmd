@@ -6,7 +6,7 @@ C4Container
 
   System_Boundary(sis, "Decokasa Seguimiento") {
     Container(spa, "Frontend web", "React 19, Vite, TypeScript, TanStack Query", "Dashboards por rol, línea de tiempo horizontal, bandejas y acciones de etapa")
-    Container(api, "Backend API", "Spring Boot 3, Java 21", "Monolito modular hexagonal [P] (ADR-0011); REST /api/v1 según openapi.yaml; JWT (ADR-0002)")
+    Container(api, "Backend API", "Spring Boot 4.1, Java 21 (ADR-0016)", "Monolito modular hexagonal [P] (ADR-0011); REST /api/v1 según openapi.yaml; JWT (ADR-0002)")
     Container(jobs, "Tareas programadas", "Spring Scheduling, mismo proceso", "Vencimientos, copia a Drive y envío de correos desde la cola outbox [P] (ADR-0012)")
     ContainerDb(db, "Base de datos", "PostgreSQL 17", "20 tablas; flujos versionados; historial de solo inserción")
     Container(tmp, "Almacén temporal", "Disco del servidor", "Archivos recibidos antes de copiarse a Drive")

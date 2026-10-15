@@ -1,0 +1,45 @@
+import { screen, within } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { admin, ana, catalogos } from '@/test/apiFicticia';
+import { abrirConSesion } from '@/test/renderizarApp';
+import { servidor } from '@/test/servidor';
+
+// Diseño de la aplicación con sesión (plan, tareas 19 y 21): encabezado con la marca, el usuario y "Cerrar sesión";
+// menú según el rol; sin cambio de usuario ni de país sin autenticación (auditoría S2). Datos ficticios.
+describe('App', () => {
+  it('con sesión muestra la marca, el nombre del usuario y "Cerrar sesión"', async () => {
+    abrirConSesion(ana, '/inicio');
+
+    const encabezado = await screen.findByRole('banner');
+    expect(within(encabezado).getAllByText(/Decokasa/i).length).toBeGreaterThan(0);
+    expect(within(encabezado).getByText('Ana Prueba')).toBeInTheDocument();
+    expect(within(encabezado).getByRole('button', { name: 'Cerrar sesión' })).toBeInTheDocument();
+  });
+
+  it('el menú de un usuario sin admin solo ofrece Inicio', async () => {
+    abrirConSesion(ana, '/inicio');
+
+    const menu = await screen.findByRole('navigation', { name: 'Menú principal' });
+    expect(within(menu).getByRole('link', { name: 'Inicio' })).toHaveAttribute('aria-current', 'page');
+    expect(within(menu).queryByRole('link', { name: 'Usuarios' })).not.toBeInTheDocument();
+    expect(within(menu).queryByRole('link', { name: 'Roles' })).not.toBeInTheDocument();
+  });
+
+  it('el menú del admin ofrece Usuarios y Roles', async () => {
+    servidor.use(...catalogos());
+
+    abrirConSesion(admin, '/inicio');
+
+    const menu = await screen.findByRole('navigation', { name: 'Menú principal' });
+    expect(within(menu).getByRole('link', { name: 'Usuarios' })).toHaveAttribute('href', '/usuarios');
+    expect(within(menu).getByRole('link', { name: 'Roles' })).toHaveAttribute('href', '/roles');
+  });
+
+  it('no ofrece cambiar de usuario, de rol ni de país sin autenticación', async () => {
+    abrirConSesion(ana, '/inicio');
+
+    await screen.findByRole('banner');
+    expect(screen.queryByText(/Simulador de Roles/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /cambiar (de )?(usuario|rol|país)/i })).not.toBeInTheDocument();
+  });
+});
