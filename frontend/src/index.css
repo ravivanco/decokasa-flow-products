@@ -34,6 +34,11 @@
   --color-estado-aviso: #B45309;
   --color-estado-vencido: #B91C1C;
   --color-estado-neutro: #475569;
+  /* Fondos de los badges de estado (DESIGN.md 3.4 y 7.6; contraste del texto sobre ellos entre 4.76:1 y 6.92:1) */
+  --color-estado-ok-fondo: #ECFDF3;
+  --color-estado-aviso-fondo: #FFFBEB;
+  --color-estado-vencido-fondo: #FEF2F2;
+  --color-estado-neutro-fondo: #F1F5F9;
 
   /* Tipografía [P] (DESIGN.md 4): servida localmente con @fontsource, sin Google Fonts */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

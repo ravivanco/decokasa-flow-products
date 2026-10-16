@@ -15,18 +15,29 @@ export function baseApi(valor: string | undefined): string {
 
 const BASE = baseApi(import.meta.env.VITE_API_URL);
 
-/** Un error de la API con el código estable del contrato (esquema Problema) y, si los hay, los campos afectados. */
+/**
+ * Un error de la API con el código estable del contrato (esquema Problema) y, si los hay, los campos afectados y los
+ * requisitos que faltan (solo con REQUISITO_FALTANTE).
+ */
 export class ErrorApi extends Error {
   readonly status: number;
   readonly codigo: string;
   readonly errores: { campo: string; mensaje: string }[];
+  readonly faltantes: string[];
 
-  constructor(status: number, codigo: string, mensaje: string, errores: { campo: string; mensaje: string }[] = []) {
+  constructor(
+    status: number,
+    codigo: string,
+    mensaje: string,
+    errores: { campo: string; mensaje: string }[] = [],
+    faltantes: string[] = [],
+  ) {
     super(mensaje);
     this.name = 'ErrorApi';
     this.status = status;
     this.codigo = codigo;
     this.errores = errores;
+    this.faltantes = faltantes;
   }
 }
 
@@ -41,6 +52,11 @@ export interface OpcionesLlamada<T> {
   esquema?: z.ZodType<T>;
   /** Cancelación de consultas o de una sesión que ya no está vigente. */
   signal?: AbortSignal;
+  /**
+   * `blob` para descargar un archivo (respuesta binaria, sin esquema). Por defecto la respuesta es JSON. Los errores
+   * siguen llegando como problema JSON en los dos casos.
+   */
+  formato?: 'json' | 'blob';
 }
 
 function url(ruta: string): string {
@@ -51,8 +67,13 @@ function url(ruta: string): string {
 
 /** Llama a la API y devuelve el cuerpo validado, o lanza un ErrorApi con el problema que respondió. */
 export async function llamar<T = unknown>(ruta: string, opciones: OpcionesLlamada<T> = {}): Promise<T> {
-  const cabeceras: Record<string, string> = { Accept: 'application/json, application/problem+json' };
-  if (opciones.cuerpo !== undefined) cabeceras['Content-Type'] = 'application/json';
+  const binario = opciones.formato === 'blob';
+  const cabeceras: Record<string, string> = {
+    Accept: binario ? 'application/octet-stream, application/problem+json' : 'application/json, application/problem+json',
+  };
+  // Un FormData (subida de archivos) lleva su propio Content-Type multipart con el separador: no se fija aquí.
+  const multipart = opciones.cuerpo instanceof FormData;
+  if (opciones.cuerpo !== undefined && !multipart) cabeceras['Content-Type'] = 'application/json';
   if (opciones.token) cabeceras.Authorization = `Bearer ${opciones.token}`;
 
   let respuesta: Response;
@@ -60,7 +81,12 @@ export async function llamar<T = unknown>(ruta: string, opciones: OpcionesLlamad
     respuesta = await fetch(url(ruta), {
       method: opciones.metodo ?? 'GET',
       headers: cabeceras,
-      body: opciones.cuerpo === undefined ? undefined : JSON.stringify(opciones.cuerpo),
+      body:
+        opciones.cuerpo === undefined
+          ? undefined
+          : multipart
+            ? (opciones.cuerpo as FormData)
+            : JSON.stringify(opciones.cuerpo),
       credentials: opciones.credenciales ? 'include' : 'same-origin',
       signal: opciones.signal,
     });
@@ -76,6 +102,12 @@ export async function llamar<T = unknown>(ruta: string, opciones: OpcionesLlamad
   }
   if (respuesta.status === 204) {
     return undefined as T;
+  }
+  if (binario) {
+    return (await respuesta.blob().catch(() => {
+      opciones.signal?.throwIfAborted();
+      throw new ErrorApi(0, CODIGO_SIN_CONEXION, 'No hay conexión con el servidor.');
+    })) as T;
   }
   const cuerpo: unknown = await respuesta.json().catch(() => {
     opciones.signal?.throwIfAborted();
@@ -104,6 +136,7 @@ async function comoErrorApi(respuesta: Response): Promise<ErrorApi> {
         problema.data.codigo ?? 'DESCONOCIDO',
         problema.data.detail ?? problema.data.title ?? 'Error de la API.',
         problema.data.errores ?? [],
+        problema.data.faltantes ?? [],
       );
     }
   }

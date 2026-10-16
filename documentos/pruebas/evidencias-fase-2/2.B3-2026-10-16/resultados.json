@@ -1,0 +1,4078 @@
+{
+  "results": [
+    {
+      "name": "login normal por seis roles y multirrol",
+      "status": "PASS",
+      "detail": [
+        "admin",
+        "marketing",
+        "revision",
+        "china",
+        "logistica",
+        "consulta",
+        "multi"
+      ]
+    },
+    {
+      "name": "crear pedido real A1 desde navegador",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002"
+      }
+    },
+    {
+      "name": "solicitud real y A1 a A2",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 2,
+        "nombreEtapaActual": "Codificación",
+        "responsableActual": null,
+        "venceEn": "2026-10-19T11:22:21.156073-05:00",
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "ACTUAL",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "25e0c6d6-080a-4829-8dc7-da01533b9657",
+            "entrada": "2026-10-16T11:22:21.156073-05:00",
+            "salida": null,
+            "venceEn": "2026-10-19T11:22:21.156073-05:00",
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": [
+          {
+            "accion": "ENVIAR",
+            "etapaDestino": 3,
+            "requiereObservacion": false,
+            "requiereUrgencia": false,
+            "requisitosDocumentales": "DEFINIDOS",
+            "documentosObligatorios": [
+              "Documentos codificados"
+            ],
+            "documentosFaltantes": [
+              "Documentos codificados"
+            ],
+            "puedeCompletarse": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "codificación real A2 a A3",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 3,
+        "nombreEtapaActual": "Revisión y aprobación",
+        "responsableActual": null,
+        "venceEn": "2026-10-19T11:22:21.841813-05:00",
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "25e0c6d6-080a-4829-8dc7-da01533b9657",
+            "entrada": "2026-10-16T11:22:21.156073-05:00",
+            "salida": "2026-10-16T11:22:21.841813-05:00",
+            "venceEn": "2026-10-19T11:22:21.156073-05:00",
+            "reentradas": 0,
+            "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "ACTUAL",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "82aaf30b-e3dd-43c3-8490-a16d2be68d70",
+            "entrada": "2026-10-16T11:22:21.841813-05:00",
+            "salida": null,
+            "venceEn": "2026-10-19T11:22:21.841813-05:00",
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": []
+      }
+    },
+    {
+      "name": "descarga revisora bajo CSP nginx conserva bytes",
+      "status": "PASS",
+      "detail": {
+        "sha256": "2900decfa6b9ad6054b1ecd4fea1c9e5d0cf855f4b3e12195f1b967a68cea87d",
+        "filename": "codificados-entrada1.txt"
+      }
+    },
+    {
+      "name": "cuenta consulta sin permiso de actuar ni descargar",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "body": {
+          "detail": "Solo el responsable de la etapa o el admin pueden actuar en ella.",
+          "instance": "/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+          "status": 403,
+          "title": "Sin permiso",
+          "codigo": "SIN_PERMISO"
+        }
+      }
+    },
+    {
+      "name": "rechazo A3 a A2 y entrada nueva exige documentos",
+      "status": "PASS",
+      "detail": {
+        "faltantes": {
+          "status": 422,
+          "body": {
+            "detail": "Faltan requisitos para esta acción: Documentos codificados.",
+            "instance": "/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+            "status": 422,
+            "title": "Falta un requisito",
+            "codigo": "REQUISITO_FALTANTE",
+            "faltantes": [
+              "Documentos codificados"
+            ]
+          }
+        },
+        "entradaAnterior": "25e0c6d6-080a-4829-8dc7-da01533b9657",
+        "nueva": "622e337f-2e06-44a2-9a12-84548c90f6d5",
+        "rechazo": {
+          "status": 400,
+          "body": {
+            "detail": "Un archivo no existe o no es de la entrada actual de esta etapa: súbelo de nuevo.",
+            "instance": "/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+            "status": 400,
+            "title": "Datos inválidos",
+            "codigo": "VALIDACION",
+            "errores": [
+              {
+                "campo": "adjuntoIds",
+                "mensaje": "Un archivo no existe o no es de la entrada actual de esta etapa: súbelo de nuevo."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "nuevo envío con documento de nueva entrada y aprobación A3 a A4",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 4,
+        "nombreEtapaActual": "Análisis y gestión",
+        "responsableActual": null,
+        "venceEn": "2026-10-21T11:22:23.866245-05:00",
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "622e337f-2e06-44a2-9a12-84548c90f6d5",
+            "entrada": "2026-10-16T11:22:22.767239-05:00",
+            "salida": "2026-10-16T11:22:23.473428-05:00",
+            "venceEn": "2026-10-19T11:22:22.767239-05:00",
+            "reentradas": 1,
+            "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "ba2ffc03-5e90-4c1d-8099-b799853f7346",
+            "entrada": "2026-10-16T11:22:23.473428-05:00",
+            "salida": "2026-10-16T11:22:23.866245-05:00",
+            "venceEn": "2026-10-19T11:22:23.473428-05:00",
+            "reentradas": 1,
+            "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "ACTUAL",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "17c19738-034f-4635-972f-f1628f7fe851",
+            "entrada": "2026-10-16T11:22:23.866245-05:00",
+            "salida": null,
+            "venceEn": "2026-10-21T11:22:23.866245-05:00",
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": []
+      }
+    },
+    {
+      "name": "devolución por error A4 a A2",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 2,
+        "nombreEtapaActual": "Codificación",
+        "responsableActual": null,
+        "venceEn": "2026-10-19T11:22:24.258385-05:00",
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "ACTUAL",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "8234cb9e-78e4-4d32-ac19-207c43a24fa9",
+            "entrada": "2026-10-16T11:22:24.258385-05:00",
+            "salida": null,
+            "venceEn": "2026-10-19T11:22:24.258385-05:00",
+            "reentradas": 2,
+            "resumen": "Entrada anterior: Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "DEVUELTA",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "ba2ffc03-5e90-4c1d-8099-b799853f7346",
+            "entrada": "2026-10-16T11:22:23.473428-05:00",
+            "salida": "2026-10-16T11:22:23.866245-05:00",
+            "venceEn": "2026-10-19T11:22:23.473428-05:00",
+            "reentradas": 1,
+            "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "DEVUELTA",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "17c19738-034f-4635-972f-f1628f7fe851",
+            "entrada": "2026-10-16T11:22:23.866245-05:00",
+            "salida": "2026-10-16T11:22:24.258385-05:00",
+            "venceEn": "2026-10-21T11:22:23.866245-05:00",
+            "reentradas": 0,
+            "resumen": "Devuelta por error por China Prueba (Compras China) el 16/10/2026 11:22 · vuelve a A2. Observación: «Error de referencia ficticio»."
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": []
+      }
+    },
+    {
+      "name": "corrección tras error retorna a A4",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 4,
+        "nombreEtapaActual": "Análisis y gestión",
+        "responsableActual": null,
+        "venceEn": "2026-10-21T11:22:25.32229-05:00",
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "8234cb9e-78e4-4d32-ac19-207c43a24fa9",
+            "entrada": "2026-10-16T11:22:24.258385-05:00",
+            "salida": "2026-10-16T11:22:24.941428-05:00",
+            "venceEn": "2026-10-19T11:22:24.258385-05:00",
+            "reentradas": 2,
+            "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "ea8539ac-b979-4947-bffc-a47ebd27729c",
+            "entrada": "2026-10-16T11:22:24.941428-05:00",
+            "salida": "2026-10-16T11:22:25.32229-05:00",
+            "venceEn": "2026-10-19T11:22:24.941428-05:00",
+            "reentradas": 2,
+            "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "ACTUAL",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "829e89e6-32d2-4461-8bab-5f3f3e1a7c38",
+            "entrada": "2026-10-16T11:22:25.32229-05:00",
+            "salida": null,
+            "venceEn": "2026-10-21T11:22:25.32229-05:00",
+            "reentradas": 1,
+            "resumen": "Entrada anterior: Devuelta por error por China Prueba (Compras China) el 16/10/2026 11:22 · vuelve a A2. Observación: «Error de referencia ficticio»."
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": []
+      }
+    },
+    {
+      "name": "devolución producto nuevo urgente 4h y retorno a Análisis",
+      "status": "PASS",
+      "detail": {
+        "b": {
+          "id": "28553ccc-753f-49a6-ae3b-797553311046",
+          "numero": "DK-EC-2026-0002",
+          "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+          "pais": "EC",
+          "tipoFlujo": "A",
+          "etapaActual": 2,
+          "nombreEtapaActual": "Codificación",
+          "responsableActual": null,
+          "venceEn": "2026-10-19T11:22:25.734189-05:00",
+          "vencida": false,
+          "motivoRetraso": null,
+          "urgencia": {
+            "nivel": "URGENTE",
+            "horas": 4,
+            "activadaEn": "2026-10-16T11:22:25.734189-05:00",
+            "venceEn": "2026-10-16T15:22:25.734189-05:00"
+          },
+          "finalizado": false,
+          "descripcion": "Solo entorno exclusivo.",
+          "incluyeProductosNuevos": false,
+          "creadoPor": {
+            "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+            "nombre": "Admin Prueba",
+            "roles": [
+              "admin"
+            ]
+          },
+          "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+          "versionFlujo": 1,
+          "bodega": null,
+          "demoraAduana": null,
+          "lineaDeTiempo": [
+            {
+              "numero": 1,
+              "nombre": "Crear solicitud de pedido",
+              "estado": "COMPLETADA",
+              "rolResponsable": "admin",
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+              "entrada": "2026-10-16T11:22:20.500995-05:00",
+              "salida": "2026-10-16T11:22:21.156073-05:00",
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 2,
+              "nombre": "Codificación",
+              "estado": "ACTUAL",
+              "rolResponsable": "marketing",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "7955f950-111c-4542-be2d-6e5654518674",
+              "entrada": "2026-10-16T11:22:25.734189-05:00",
+              "salida": null,
+              "venceEn": "2026-10-19T11:22:25.734189-05:00",
+              "reentradas": 3,
+              "resumen": "Entrada anterior: Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 3,
+              "nombre": "Revisión y aprobación",
+              "estado": "DEVUELTA",
+              "rolResponsable": "asistente_compras",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "ea8539ac-b979-4947-bffc-a47ebd27729c",
+              "entrada": "2026-10-16T11:22:24.941428-05:00",
+              "salida": "2026-10-16T11:22:25.32229-05:00",
+              "venceEn": "2026-10-19T11:22:24.941428-05:00",
+              "reentradas": 2,
+              "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+            },
+            {
+              "numero": 4,
+              "nombre": "Análisis y gestión",
+              "estado": "DEVUELTA",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "829e89e6-32d2-4461-8bab-5f3f3e1a7c38",
+              "entrada": "2026-10-16T11:22:25.32229-05:00",
+              "salida": "2026-10-16T11:22:25.734189-05:00",
+              "venceEn": "2026-10-21T11:22:25.32229-05:00",
+              "reentradas": 1,
+              "resumen": "Devuelta por producto nuevo por China Prueba (Compras China) el 16/10/2026 11:22 · vuelve a A2. Observación: «Producto adicional ficticio urgente»."
+            },
+            {
+              "numero": 5,
+              "nombre": "Fabricación",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 6,
+              "nombre": "Embarque",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 7,
+              "nombre": "Aduana Ecuador",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 8,
+              "nombre": "Autorización de salida",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 9,
+              "nombre": "Bodega",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 10,
+              "nombre": "Incidencias",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 11,
+              "nombre": "Fin",
+              "estado": "PENDIENTE",
+              "rolResponsable": null,
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            }
+          ],
+          "accionesDisponibles": []
+        },
+        "mid": {
+          "id": "28553ccc-753f-49a6-ae3b-797553311046",
+          "numero": "DK-EC-2026-0002",
+          "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+          "pais": "EC",
+          "tipoFlujo": "A",
+          "etapaActual": 3,
+          "nombreEtapaActual": "Revisión y aprobación",
+          "responsableActual": null,
+          "venceEn": "2026-10-19T11:22:26.357296-05:00",
+          "vencida": false,
+          "motivoRetraso": null,
+          "urgencia": {
+            "nivel": "URGENTE",
+            "horas": 4,
+            "activadaEn": "2026-10-16T11:22:25.734189-05:00",
+            "venceEn": "2026-10-16T15:22:25.734189-05:00"
+          },
+          "finalizado": false,
+          "descripcion": "Solo entorno exclusivo.",
+          "incluyeProductosNuevos": false,
+          "creadoPor": {
+            "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+            "nombre": "Admin Prueba",
+            "roles": [
+              "admin"
+            ]
+          },
+          "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+          "versionFlujo": 1,
+          "bodega": null,
+          "demoraAduana": null,
+          "lineaDeTiempo": [
+            {
+              "numero": 1,
+              "nombre": "Crear solicitud de pedido",
+              "estado": "COMPLETADA",
+              "rolResponsable": "admin",
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+              "entrada": "2026-10-16T11:22:20.500995-05:00",
+              "salida": "2026-10-16T11:22:21.156073-05:00",
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 2,
+              "nombre": "Codificación",
+              "estado": "COMPLETADA",
+              "rolResponsable": "marketing",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "7955f950-111c-4542-be2d-6e5654518674",
+              "entrada": "2026-10-16T11:22:25.734189-05:00",
+              "salida": "2026-10-16T11:22:26.357296-05:00",
+              "venceEn": "2026-10-19T11:22:25.734189-05:00",
+              "reentradas": 3,
+              "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 3,
+              "nombre": "Revisión y aprobación",
+              "estado": "ACTUAL",
+              "rolResponsable": "asistente_compras",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "e868b9c2-e749-4fa4-9d11-b90784c95118",
+              "entrada": "2026-10-16T11:22:26.357296-05:00",
+              "salida": null,
+              "venceEn": "2026-10-19T11:22:26.357296-05:00",
+              "reentradas": 3,
+              "resumen": "Entrada anterior: Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+            },
+            {
+              "numero": 4,
+              "nombre": "Análisis y gestión",
+              "estado": "DEVUELTA",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "829e89e6-32d2-4461-8bab-5f3f3e1a7c38",
+              "entrada": "2026-10-16T11:22:25.32229-05:00",
+              "salida": "2026-10-16T11:22:25.734189-05:00",
+              "venceEn": "2026-10-21T11:22:25.32229-05:00",
+              "reentradas": 1,
+              "resumen": "Devuelta por producto nuevo por China Prueba (Compras China) el 16/10/2026 11:22 · vuelve a A2. Observación: «Producto adicional ficticio urgente»."
+            },
+            {
+              "numero": 5,
+              "nombre": "Fabricación",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 6,
+              "nombre": "Embarque",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 7,
+              "nombre": "Aduana Ecuador",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 8,
+              "nombre": "Autorización de salida",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 9,
+              "nombre": "Bodega",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 10,
+              "nombre": "Incidencias",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 11,
+              "nombre": "Fin",
+              "estado": "PENDIENTE",
+              "rolResponsable": null,
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            }
+          ],
+          "accionesDisponibles": []
+        },
+        "end": {
+          "id": "28553ccc-753f-49a6-ae3b-797553311046",
+          "numero": "DK-EC-2026-0002",
+          "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+          "pais": "EC",
+          "tipoFlujo": "A",
+          "etapaActual": 4,
+          "nombreEtapaActual": "Análisis y gestión",
+          "responsableActual": null,
+          "venceEn": "2026-10-21T11:22:26.767594-05:00",
+          "vencida": false,
+          "motivoRetraso": null,
+          "urgencia": null,
+          "finalizado": false,
+          "descripcion": "Solo entorno exclusivo.",
+          "incluyeProductosNuevos": false,
+          "creadoPor": {
+            "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+            "nombre": "Admin Prueba",
+            "roles": [
+              "admin"
+            ]
+          },
+          "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+          "versionFlujo": 1,
+          "bodega": null,
+          "demoraAduana": null,
+          "lineaDeTiempo": [
+            {
+              "numero": 1,
+              "nombre": "Crear solicitud de pedido",
+              "estado": "COMPLETADA",
+              "rolResponsable": "admin",
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+              "entrada": "2026-10-16T11:22:20.500995-05:00",
+              "salida": "2026-10-16T11:22:21.156073-05:00",
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 2,
+              "nombre": "Codificación",
+              "estado": "COMPLETADA",
+              "rolResponsable": "marketing",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "7955f950-111c-4542-be2d-6e5654518674",
+              "entrada": "2026-10-16T11:22:25.734189-05:00",
+              "salida": "2026-10-16T11:22:26.357296-05:00",
+              "venceEn": "2026-10-19T11:22:25.734189-05:00",
+              "reentradas": 3,
+              "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 3,
+              "nombre": "Revisión y aprobación",
+              "estado": "COMPLETADA",
+              "rolResponsable": "asistente_compras",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "e868b9c2-e749-4fa4-9d11-b90784c95118",
+              "entrada": "2026-10-16T11:22:26.357296-05:00",
+              "salida": "2026-10-16T11:22:26.767594-05:00",
+              "venceEn": "2026-10-19T11:22:26.357296-05:00",
+              "reentradas": 3,
+              "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+            },
+            {
+              "numero": 4,
+              "nombre": "Análisis y gestión",
+              "estado": "ACTUAL",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "123f3072-5dff-44cd-aef8-a7be8d7e8e5e",
+              "entrada": "2026-10-16T11:22:26.767594-05:00",
+              "salida": null,
+              "venceEn": "2026-10-21T11:22:26.767594-05:00",
+              "reentradas": 2,
+              "resumen": "Entrada anterior: Devuelta por producto nuevo por China Prueba (Compras China) el 16/10/2026 11:22 · vuelve a A2. Observación: «Producto adicional ficticio urgente»."
+            },
+            {
+              "numero": 5,
+              "nombre": "Fabricación",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 6,
+              "nombre": "Embarque",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 7,
+              "nombre": "Aduana Ecuador",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 8,
+              "nombre": "Autorización de salida",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 9,
+              "nombre": "Bodega",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 10,
+              "nombre": "Incidencias",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 11,
+              "nombre": "Fin",
+              "estado": "PENDIENTE",
+              "rolResponsable": null,
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            }
+          ],
+          "accionesDisponibles": []
+        }
+      }
+    },
+    {
+      "name": "observación real e historial con actor y fecha",
+      "status": "PASS",
+      "detail": {
+        "evento": {
+          "id": "d1c7a8c4-d3ce-4268-9035-a5636cbedd6a",
+          "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+          "numeroPedido": "DK-EC-2026-0002",
+          "etapa": 4,
+          "tipo": "OBSERVACION_AGREGADA",
+          "usuario": {
+            "id": "232d18d5-b03a-4b8a-baf8-53afd537d16e",
+            "nombre": "China Prueba",
+            "roles": [
+              "compras_china"
+            ]
+          },
+          "rolIntervencion": "compras_china",
+          "detalle": {
+            "etapaDestino": null,
+            "motivoDevolucion": null,
+            "urgenciaTerminada": null,
+            "asignadoAnterior": null,
+            "asignadoA": null
+          },
+          "fecha": "2026-10-16T11:22:27.023599-05:00",
+          "observacion": "Nota ficticia recortada",
+          "nivelUrgencia": null,
+          "adjuntoIds": []
+        },
+        "historial": [
+          {
+            "id": "d1c7a8c4-d3ce-4268-9035-a5636cbedd6a",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 4,
+            "tipo": "OBSERVACION_AGREGADA",
+            "usuario": {
+              "id": "232d18d5-b03a-4b8a-baf8-53afd537d16e",
+              "nombre": "China Prueba",
+              "roles": [
+                "compras_china"
+              ]
+            },
+            "rolIntervencion": "compras_china",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:27.023599-05:00",
+            "observacion": "Nota ficticia recortada",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "db4bf4a2-db16-49d0-9a13-47d014388988",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 3,
+            "tipo": "ETAPA_APROBADA",
+            "usuario": {
+              "id": "93fd22db-0781-45e2-ab2f-6c0c1aac5fb8",
+              "nombre": "Revisión Prueba",
+              "roles": [
+                "asistente_compras"
+              ]
+            },
+            "rolIntervencion": "asistente_compras",
+            "detalle": {
+              "etapaDestino": 4,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": true,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:26.767594-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "450fec31-1cf1-4975-bdbb-1d8d2aa734fd",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ETAPA_ENVIADA",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": 3,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:26.357296-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "260e3ff8-98c7-4f20-82ae-8e46281b3ff5"
+            ]
+          },
+          {
+            "id": "a08d8ebb-4522-4f59-8752-521e34a1cd88",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ARCHIVO_SUBIDO",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:25.99468-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "260e3ff8-98c7-4f20-82ae-8e46281b3ff5"
+            ]
+          },
+          {
+            "id": "10981c5e-b4dc-4fb3-bd8d-718dc9dc1ac6",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 4,
+            "tipo": "PEDIDO_DEVUELTO",
+            "usuario": {
+              "id": "232d18d5-b03a-4b8a-baf8-53afd537d16e",
+              "nombre": "China Prueba",
+              "roles": [
+                "compras_china"
+              ]
+            },
+            "rolIntervencion": "compras_china",
+            "detalle": {
+              "etapaDestino": 2,
+              "motivoDevolucion": "PRODUCTO_NUEVO",
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:25.734189-05:00",
+            "observacion": "Producto adicional ficticio urgente",
+            "nivelUrgencia": "URGENTE",
+            "adjuntoIds": []
+          },
+          {
+            "id": "ba9e88ef-a78d-4396-9c9b-3b94e8889099",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 3,
+            "tipo": "ETAPA_APROBADA",
+            "usuario": {
+              "id": "93fd22db-0781-45e2-ab2f-6c0c1aac5fb8",
+              "nombre": "Revisión Prueba",
+              "roles": [
+                "asistente_compras"
+              ]
+            },
+            "rolIntervencion": "asistente_compras",
+            "detalle": {
+              "etapaDestino": 4,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:25.32229-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "d811c360-f0cf-407e-a34f-8942f0f5980b",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ETAPA_ENVIADA",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": 3,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:24.941428-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "09a2e686-64ee-4a02-8ed6-6688eaef4524"
+            ]
+          },
+          {
+            "id": "66972ddd-9a10-4726-90eb-6ac91e767e33",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ARCHIVO_SUBIDO",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:24.534451-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "09a2e686-64ee-4a02-8ed6-6688eaef4524"
+            ]
+          },
+          {
+            "id": "0829c7ed-6d33-4400-8889-05b02099666c",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 4,
+            "tipo": "PEDIDO_DEVUELTO",
+            "usuario": {
+              "id": "232d18d5-b03a-4b8a-baf8-53afd537d16e",
+              "nombre": "China Prueba",
+              "roles": [
+                "compras_china"
+              ]
+            },
+            "rolIntervencion": "compras_china",
+            "detalle": {
+              "etapaDestino": 2,
+              "motivoDevolucion": "ERROR",
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:24.258385-05:00",
+            "observacion": "Error de referencia ficticio",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "9e2492e7-aa40-45a6-a077-fe55d60ec883",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 3,
+            "tipo": "ETAPA_APROBADA",
+            "usuario": {
+              "id": "93fd22db-0781-45e2-ab2f-6c0c1aac5fb8",
+              "nombre": "Revisión Prueba",
+              "roles": [
+                "asistente_compras"
+              ]
+            },
+            "rolIntervencion": "asistente_compras",
+            "detalle": {
+              "etapaDestino": 4,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:23.866245-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "85c05e6d-a64c-4108-ba9c-9471e57c5f8b",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ETAPA_ENVIADA",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": 3,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:23.473428-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "94509343-6271-4a8a-a295-8d910db5e8ea"
+            ]
+          },
+          {
+            "id": "f1abad9c-28ed-4b6e-b675-03a0cdb7594e",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ARCHIVO_SUBIDO",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:23.078798-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "94509343-6271-4a8a-a295-8d910db5e8ea"
+            ]
+          },
+          {
+            "id": "f6b866fa-5108-4be8-94b6-248529383271",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 3,
+            "tipo": "ETAPA_RECHAZADA",
+            "usuario": {
+              "id": "93fd22db-0781-45e2-ab2f-6c0c1aac5fb8",
+              "nombre": "Revisión Prueba",
+              "roles": [
+                "asistente_compras"
+              ]
+            },
+            "rolIntervencion": "asistente_compras",
+            "detalle": {
+              "etapaDestino": 2,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:22.767239-05:00",
+            "observacion": "Corregir documento ficticio",
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          },
+          {
+            "id": "0ea04b0a-3a3a-4c16-aa27-f35e232dea98",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ETAPA_ENVIADA",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": 3,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:21.841813-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "46005a8e-632b-417f-aee0-51f797d94e20"
+            ]
+          },
+          {
+            "id": "75c0d0fe-b05e-4fec-8f9b-b640b6c1c445",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 2,
+            "tipo": "ARCHIVO_SUBIDO",
+            "usuario": {
+              "id": "8df20996-1a7a-42a9-8886-dd751f2f5918",
+              "nombre": "Marketing Prueba",
+              "roles": [
+                "marketing"
+              ]
+            },
+            "rolIntervencion": "marketing",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:21.448756-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "46005a8e-632b-417f-aee0-51f797d94e20"
+            ]
+          },
+          {
+            "id": "b5c1919b-8ce3-4f1a-bb16-8e6c6efffe4f",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 1,
+            "tipo": "ETAPA_ENVIADA",
+            "usuario": {
+              "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+              "nombre": "Admin Prueba",
+              "roles": [
+                "admin"
+              ]
+            },
+            "rolIntervencion": "admin",
+            "detalle": {
+              "etapaDestino": 2,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:21.156073-05:00",
+            "observacion": "Verificación real 2.B3",
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "70cfe23f-10a3-43a4-a6db-cb2f5606a2b5"
+            ]
+          },
+          {
+            "id": "81d3241f-f986-47af-8000-962b0966e050",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 1,
+            "tipo": "ARCHIVO_SUBIDO",
+            "usuario": {
+              "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+              "nombre": "Admin Prueba",
+              "roles": [
+                "admin"
+              ]
+            },
+            "rolIntervencion": "admin",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:20.779024-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": [
+              "70cfe23f-10a3-43a4-a6db-cb2f5606a2b5"
+            ]
+          },
+          {
+            "id": "20423113-7258-4f2d-ba9d-10c7690933de",
+            "pedidoId": "28553ccc-753f-49a6-ae3b-797553311046",
+            "numeroPedido": "DK-EC-2026-0002",
+            "etapa": 1,
+            "tipo": "PEDIDO_CREADO",
+            "usuario": {
+              "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+              "nombre": "Admin Prueba",
+              "roles": [
+                "admin"
+              ]
+            },
+            "rolIntervencion": "admin",
+            "detalle": {
+              "etapaDestino": null,
+              "motivoDevolucion": null,
+              "urgenciaTerminada": null,
+              "asignadoAnterior": null,
+              "asignadoA": null
+            },
+            "fecha": "2026-10-16T11:22:20.500995-05:00",
+            "observacion": null,
+            "nivelUrgencia": null,
+            "adjuntoIds": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "A4 aprueba a A5 sin continuar otra fase",
+      "status": "PASS",
+      "detail": {
+        "id": "28553ccc-753f-49a6-ae3b-797553311046",
+        "numero": "DK-EC-2026-0002",
+        "nombre": "Pedido ficticio integral 2.B3 1792167740370",
+        "pais": "EC",
+        "tipoFlujo": "A",
+        "etapaActual": 5,
+        "nombreEtapaActual": "Fabricación",
+        "responsableActual": null,
+        "venceEn": null,
+        "vencida": false,
+        "motivoRetraso": null,
+        "urgencia": null,
+        "finalizado": false,
+        "descripcion": "Solo entorno exclusivo.",
+        "incluyeProductosNuevos": false,
+        "creadoPor": {
+          "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+          "nombre": "Admin Prueba",
+          "roles": [
+            "admin"
+          ]
+        },
+        "creadoEn": "2026-10-16T11:22:20.500995-05:00",
+        "versionFlujo": 1,
+        "bodega": null,
+        "demoraAduana": null,
+        "lineaDeTiempo": [
+          {
+            "numero": 1,
+            "nombre": "Crear solicitud de pedido",
+            "estado": "COMPLETADA",
+            "rolResponsable": "admin",
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "5ad6ba16-13bf-4c51-8744-ff9bc5aa9231",
+            "entrada": "2026-10-16T11:22:20.500995-05:00",
+            "salida": "2026-10-16T11:22:21.156073-05:00",
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:22 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 2,
+            "nombre": "Codificación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "marketing",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "7955f950-111c-4542-be2d-6e5654518674",
+            "entrada": "2026-10-16T11:22:25.734189-05:00",
+            "salida": "2026-10-16T11:22:26.357296-05:00",
+            "venceEn": "2026-10-19T11:22:25.734189-05:00",
+            "reentradas": 3,
+            "resumen": "Enviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado."
+          },
+          {
+            "numero": 3,
+            "nombre": "Revisión y aprobación",
+            "estado": "COMPLETADA",
+            "rolResponsable": "asistente_compras",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "e868b9c2-e749-4fa4-9d11-b90784c95118",
+            "entrada": "2026-10-16T11:22:26.357296-05:00",
+            "salida": "2026-10-16T11:22:26.767594-05:00",
+            "venceEn": "2026-10-19T11:22:26.357296-05:00",
+            "reentradas": 3,
+            "resumen": "Aprobada por Revisión Prueba (Asistente de compras) el 16/10/2026 11:22 · pasa a A4. Observación: «Verificación real 2.B3»."
+          },
+          {
+            "numero": 4,
+            "nombre": "Análisis y gestión",
+            "estado": "COMPLETADA",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "123f3072-5dff-44cd-aef8-a7be8d7e8e5e",
+            "entrada": "2026-10-16T11:22:26.767594-05:00",
+            "salida": "2026-10-16T11:22:27.384694-05:00",
+            "venceEn": "2026-10-21T11:22:26.767594-05:00",
+            "reentradas": 2,
+            "resumen": "Aprobada por China Prueba (Compras China) el 16/10/2026 11:22 · pasa a A5. Observación: «Verificación real 2.B3»."
+          },
+          {
+            "numero": 5,
+            "nombre": "Fabricación",
+            "estado": "ACTUAL",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": "da120327-65c2-438f-90b0-3b457f23c13d",
+            "entrada": "2026-10-16T11:22:27.384694-05:00",
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 6,
+            "nombre": "Embarque",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 7,
+            "nombre": "Aduana Ecuador",
+            "estado": "PENDIENTE",
+            "rolResponsable": "compras_china",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 8,
+            "nombre": "Autorización de salida",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 9,
+            "nombre": "Bodega",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "DEFINIDO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 10,
+            "nombre": "Incidencias",
+            "estado": "PENDIENTE",
+            "rolResponsable": "logistica",
+            "estadoPlazo": "PENDIENTE",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          },
+          {
+            "numero": 11,
+            "nombre": "Fin",
+            "estado": "PENDIENTE",
+            "rolResponsable": null,
+            "estadoPlazo": "SIN_PLAZO",
+            "asignadoA": null,
+            "asignacionVigente": null,
+            "entradaId": null,
+            "entrada": null,
+            "salida": null,
+            "venceEn": null,
+            "reentradas": 0,
+            "resumen": null
+          }
+        ],
+        "accionesDisponibles": []
+      }
+    },
+    {
+      "name": "persistencia al recargar y resumen real como nota",
+      "status": "PASS",
+      "detail": {
+        "resumen": "Lo ocurrido en la etapa\nEnviada por Marketing Prueba (Marketing y codificación) el 16/10/2026 11:22 · pasa a A3. Observación: «Verificación real 2.B3». 1 archivo presentado.",
+        "local": {
+          "local": [],
+          "session": []
+        }
+      }
+    },
+    {
+      "name": "presentación escritorio y móvil con desplazamiento interno",
+      "status": "PASS",
+      "detail": [
+        {
+          "width": 1440,
+          "scroll": 1440,
+          "targets": []
+        },
+        {
+          "width": 390,
+          "scroll": 390,
+          "targets": []
+        }
+      ]
+    },
+    {
+      "name": "413 Spring y nginx contractuales con archivos reales",
+      "status": "PASS",
+      "detail": [
+        {
+          "size": 1048577,
+          "status": 413,
+          "problem": {
+            "detail": "El archivo supera el tamaño máximo permitido.",
+            "instance": "/api/v1/pedidos/1f950a9e-36f8-4993-9386-3bcf35bde4c9/etapas/1/archivos",
+            "status": 413,
+            "title": "Archivo demasiado grande",
+            "codigo": "ARCHIVO_DEMASIADO_GRANDE"
+          }
+        },
+        {
+          "size": 3145728,
+          "status": 413,
+          "problem": {
+            "title": "Archivo demasiado grande",
+            "status": 413,
+            "detail": "El archivo supera el tamaño máximo permitido.",
+            "codigo": "ARCHIVO_DEMASIADO_GRANDE"
+          }
+        }
+      ]
+    }
+  ],
+  "traffic": [
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "logistica",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "logistica",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "consulta",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos",
+      "status": 201
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 201
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 201
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/archivos/46005a8e-632b-417f-aee0-51f797d94e20/contenido",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "consulta",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 201
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 201
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 201
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "revision",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/observaciones",
+      "status": 201
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/acciones",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

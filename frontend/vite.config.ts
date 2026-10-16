@@ -18,6 +18,8 @@ export default defineConfig({
     },
   },
   test: {
+    // Las pruebas ejercitan la sesión real aunque el equipo habilite el acceso local de desarrollo.
+    env: { VITE_ACCESO_LOCAL: 'false' },
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/test/setup.ts',

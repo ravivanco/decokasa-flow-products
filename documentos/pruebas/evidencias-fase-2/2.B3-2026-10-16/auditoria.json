@@ -1,0 +1,240 @@
+{
+  "results": [
+    {
+      "name": "historial corresponde a acciones reales y errores no agregan eventos",
+      "status": "PASS",
+      "detail": {
+        "ETAPA_APROBADA": 4,
+        "OBSERVACION_AGREGADA": 1,
+        "ETAPA_ENVIADA": 5,
+        "ARCHIVO_SUBIDO": 5,
+        "PEDIDO_DEVUELTO": 2,
+        "ETAPA_RECHAZADA": 1,
+        "PEDIDO_CREADO": 1
+      }
+    },
+    {
+      "name": "admin y marketing descargan; China no hereda revisión de A2",
+      "status": "PASS",
+      "detail": {
+        "denegada": 403
+      }
+    },
+    {
+      "name": "móvil táctil: desplazamiento interno real sin mover la página",
+      "status": "PASS",
+      "detail": {
+        "box": {
+          "x": 16,
+          "y": 472,
+          "width": 358,
+          "height": 156,
+          "scroll": 0,
+          "max": 892
+        },
+        "after": {
+          "left": 260,
+          "page": 390,
+          "width": 390
+        }
+      }
+    },
+    {
+      "name": "bandeja real multirrol y logout persiste tras recarga",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "errors": []
+      }
+    }
+  ],
+  "traffic": [
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/archivos/260e3ff8-98c7-4f20-82ae-8e46281b3ff5/contenido",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/archivos/260e3ff8-98c7-4f20-82ae-8e46281b3ff5/contenido",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/bandeja?pagina=0&tamano=100",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/cerrar-sesion",
+      "status": 204
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    }
+  ],
+  "errors": []
+}

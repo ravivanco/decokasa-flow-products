@@ -44,4 +44,6 @@ export const esquemaProblema = z.object({
   detail: z.string().optional(),
   codigo: z.string().optional(),
   errores: z.array(z.object({ campo: z.string(), mensaje: z.string() })).optional(),
+  /** Requisitos que faltan, solo con REQUISITO_FALTANTE (422). */
+  faltantes: z.array(z.string()).optional(),
 });

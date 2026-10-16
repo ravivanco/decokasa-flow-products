@@ -1,6 +1,8 @@
 import { InboxIcon } from 'lucide-react';
+import { Link } from 'react-router';
 import { useUsuarioActual } from '@/auth/SesionProvider';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
@@ -12,7 +14,7 @@ import {
 } from '@/components/ui/card';
 
 // Dashboard vacío por rol (plan, tarea 24; D7; manual, fase 1, paso 1.5). Un usuario con varios roles ve un panel por
-// cada uno, sin repetir. No hay datos simulados: las bandejas de pedidos llegan en la fase 2.
+// cada uno, sin repetir. No hay datos simulados: cada panel lleva a la bandeja real (fase 2, paso 2.5).
 //
 // Alcance provisional (⏸ pendiente del cliente, requerimientos.md §5, "Puntos por confirmar"):
 //  - asistente_china (Andrea Collaguazo): "Asistente de compras en China nada más". La propuesta es solo consultar
@@ -72,9 +74,16 @@ export function DashboardRol() {
                 </CardAction>
               )}
             </CardHeader>
-            <CardContent className="flex items-center gap-3 text-muted-foreground">
-              <InboxIcon aria-hidden="true" className="size-5 shrink-0" />
-              <p>Aún no hay pedidos; las bandejas llegan en la fase 2.</p>
+            <CardContent className="flex flex-wrap items-center justify-between gap-3">
+              <p className="flex items-center gap-3 text-muted-foreground">
+                <InboxIcon aria-hidden="true" className="size-5 shrink-0" />
+                {panel.provisional ? 'Consulta el estado de los pedidos.' : 'Tus pedidos pendientes están en la bandeja.'}
+              </p>
+              <Button variant="outline" asChild>
+                <Link to={panel.provisional ? '/pedidos' : '/bandeja'}>
+                  {panel.provisional ? 'Ver pedidos' : 'Abrir mi bandeja'}
+                </Link>
+              </Button>
             </CardContent>
             {panel.provisional && (
               <CardFooter>

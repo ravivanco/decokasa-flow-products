@@ -1,0 +1,4 @@
+﻿Archivo: C:\Users\Richard\Desktop\decoWeb\backend\src\main\java\com\decokasa\seguimiento\pedidos\adapter\in\web\ObservacionController.java
+Hash actual: CFE3BF6BCBDBD3F49FBABF2BF12BC8490F98BD410C2598D43DCB1FD247CDB8CE
+Hash anterior a P-20: CFE3BF6BCBDBD3F49FBABF2BF12BC8490F98BD410C2598D43DCB1FD247CDB8CE
+Coincide: True

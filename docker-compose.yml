@@ -43,8 +43,14 @@ services:
       SEMILLA_HABILITADA: ${SEMILLA_HABILITADA:-false}
       SEMILLA_ARCHIVO: ${SEMILLA_ARCHIVO:-/aplicacion/semilla/usuarios.local.json}
       SEMILLA_CONTRASENA_TEMPORAL: ${SEMILLA_CONTRASENA_TEMPORAL:-}
+      # Archivos reales de la fase 2 (P-05 opción A): disco persistente, nunca el /tmp del contenedor.
+      ALMACEN_LOCAL_DIR: /aplicacion/archivos
+      # Límite provisional del equipo (100 MiB por archivo), pendiente del cliente. La misma variable alimenta a nginx
+      # (servicio frontend), así los dos límites no se desincronizan.
+      DECOKASA_ARCHIVOS_TAMANO_MAXIMO: ${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}MB
     volumes:
       - ./backend/semilla:/aplicacion/semilla:ro
+      - archivos-datos:/aplicacion/archivos
     ports:
       # Acceso directo para pruebas locales (curl); el navegador entra por el frontend.
       - "127.0.0.1:8080:8080"
@@ -63,6 +69,9 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    environment:
+      # nginx acepta el archivo más 1 MiB para el resto del formulario multipart (frontend/limite-archivos.envsh).
+      ARCHIVOS_TAMANO_MAXIMO_MIB: ${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}
     ports:
       - "3000:80"
     healthcheck:
@@ -73,3 +82,4 @@ services:
 
 volumes:
   postgres-data:
+  archivos-datos:

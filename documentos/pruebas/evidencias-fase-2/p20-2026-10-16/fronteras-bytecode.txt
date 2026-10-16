@@ -1,0 +1,4 @@
+﻿Clases pedidos.application inspeccionadas: 35
+Referencias a internos de historial desde pedidos.application: 0
+Referencias a pedidos desde historial: 0 (ver historial-bytecode.txt)
+Revisar ObservacionController: referencias previas a historial.adapter.in.web.EventoHistorialRespuesta en pedidos-bytecode.txt; no pertenecen a P-20.

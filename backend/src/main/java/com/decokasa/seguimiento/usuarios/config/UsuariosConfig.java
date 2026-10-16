@@ -9,6 +9,7 @@ import com.decokasa.seguimiento.usuarios.adapter.out.security.JwtEmisor;
 import com.decokasa.seguimiento.usuarios.application.port.in.ActualizarRol;
 import com.decokasa.seguimiento.usuarios.application.port.in.ActualizarUsuario;
 import com.decokasa.seguimiento.usuarios.application.port.in.CerrarSesion;
+import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarRoles;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarUsuarios;
 import com.decokasa.seguimiento.usuarios.application.port.in.CrearRol;
@@ -16,6 +17,8 @@ import com.decokasa.seguimiento.usuarios.application.port.in.CrearUsuario;
 import com.decokasa.seguimiento.usuarios.application.port.in.IniciarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.in.ObtenerUsuarioActual;
 import com.decokasa.seguimiento.usuarios.application.port.in.RenovarSesion;
+import com.decokasa.seguimiento.usuarios.application.port.in.NombrarRoles;
+import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
 import com.decokasa.seguimiento.usuarios.application.port.out.CodificadorContrasena;
 import com.decokasa.seguimiento.usuarios.application.port.out.EmisorTokens;
 import com.decokasa.seguimiento.usuarios.application.port.out.GeneradorTokenRenovacion;
@@ -25,6 +28,7 @@ import com.decokasa.seguimiento.usuarios.application.port.out.UsuarioRepositorio
 import com.decokasa.seguimiento.usuarios.application.usecase.ActualizarRolCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.ActualizarUsuarioCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.CerrarSesionCasoDeUso;
+import com.decokasa.seguimiento.usuarios.application.usecase.ConsultarResponsablesCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.ConsultarRolesCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.ConsultarUsuariosCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.CrearRolCasoDeUso;
@@ -32,6 +36,8 @@ import com.decokasa.seguimiento.usuarios.application.usecase.CrearUsuarioCasoDeU
 import com.decokasa.seguimiento.usuarios.application.usecase.IniciarSesionCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.ObtenerUsuarioActualCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.RenovarSesionCasoDeUso;
+import com.decokasa.seguimiento.usuarios.application.usecase.NombrarRolesCasoDeUso;
+import com.decokasa.seguimiento.usuarios.application.usecase.ResumirUsuariosCasoDeUso;
 import com.decokasa.seguimiento.usuarios.domain.CredencialesInvalidas;
 import com.decokasa.seguimiento.usuarios.domain.CuentaBloqueada;
 import com.decokasa.seguimiento.usuarios.domain.PoliticaBloqueo;
@@ -174,6 +180,30 @@ public class UsuariosConfig {
     ActualizarRol actualizarRol(Transacciones tx, RolRepositorio roles, UsuarioRepositorio usuarios) {
         ActualizarRol caso = new ActualizarRolCasoDeUso(roles, usuarios);
         return (solicitante, comando) -> tx.ejecutar(() -> caso.actualizar(solicitante, comando));
+    }
+
+    /**
+     * Para {@code pedidos} (paso 2.3). Si se llama dentro de la transacción de una acción, se une a ella
+     * (propagación REQUIRED): el estado se lee en la misma transacción que la acción.
+     */
+    @Bean
+    ConsultarResponsables consultarResponsables(Transacciones tx, UsuarioRepositorio usuarios) {
+        ConsultarResponsables caso = new ConsultarResponsablesCasoDeUso(usuarios);
+        return usuarioId -> tx.ejecutar(() -> caso.estado(usuarioId));
+    }
+
+    /** Para pedidos y archivos (paso 2.4): nombre, roles y estado actuales; se une a la transacción que lo llama. */
+    @Bean
+    ResumirUsuarios resumirUsuarios(Transacciones tx, UsuarioRepositorio usuarios) {
+        ResumirUsuarios caso = new ResumirUsuariosCasoDeUso(usuarios);
+        return usuarioIds -> tx.ejecutar(() -> caso.resumenes(usuarioIds));
+    }
+
+    /** Para el resumen de etapa (historial): nombres de la tabla rol; se une a la transacción que lo llama. */
+    @Bean
+    NombrarRoles nombrarRoles(Transacciones tx, RolRepositorio roles) {
+        NombrarRoles caso = new NombrarRolesCasoDeUso(roles);
+        return codigos -> tx.ejecutar(() -> caso.nombres(codigos));
     }
 
     // --- Usuarios iniciales fuera de Git (ADR-0015) ---

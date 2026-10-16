@@ -1,0 +1,280 @@
+﻿Compiled from "CrearPedidoCasoDeUso.java"
+public final class com.decokasa.seguimiento.pedidos.application.usecase.CrearPedidoCasoDeUso implements com.decokasa.seguimiento.pedidos.application.port.in.CrearPedido {
+  private final com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo flujos;
+
+  private final com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio pedidos;
+
+  private final com.decokasa.seguimiento.pedidos.application.port.out.GeneradorNumeroPedido generador;
+
+  private final com.decokasa.seguimiento.compartido.application.port.out.Reloj reloj;
+
+  private final com.decokasa.seguimiento.pedidos.application.usecase.ApoyoPedidos apoyo;
+
+  public com.decokasa.seguimiento.pedidos.application.usecase.CrearPedidoCasoDeUso(com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo, com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio, com.decokasa.seguimiento.pedidos.application.port.out.GeneradorNumeroPedido, com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables, com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento, com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos, com.decokasa.seguimiento.compartido.application.port.out.Reloj);
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #7                  // Field flujos:Lcom/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo;
+       9: aload_0
+      10: aload_2
+      11: putfield      #13                 // Field pedidos:Lcom/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio;
+      14: aload_0
+      15: aload_3
+      16: putfield      #17                 // Field generador:Lcom/decokasa/seguimiento/pedidos/application/port/out/GeneradorNumeroPedido;
+      19: aload_0
+      20: aload         7
+      22: putfield      #21                 // Field reloj:Lcom/decokasa/seguimiento/compartido/application/port/out/Reloj;
+      25: aload_0
+      26: new           #25                 // class com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos
+      29: dup
+      30: aload         4
+      32: aload         5
+      34: aload         6
+      36: invokespecial #27                 // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos."<init>":(Lcom/decokasa/seguimiento/usuarios/application/port/in/ConsultarResponsables;Lcom/decokasa/seguimiento/plazos/application/port/in/CalcularVencimiento;Lcom/decokasa/seguimiento/compartido/application/port/out/PublicadorEventos;)V
+      39: putfield      #30                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+      42: return
+
+  public com.decokasa.seguimiento.pedidos.domain.Pedido crear(com.decokasa.seguimiento.compartido.domain.Solicitante, com.decokasa.seguimiento.pedidos.application.port.in.CrearPedido$Comando);
+    Code:
+       0: aload_0
+       1: getfield      #30                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+       4: aload_1
+       5: invokevirtual #34                 // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.solicitante:(Lcom/decokasa/seguimiento/compartido/domain/Solicitante;)Lcom/decokasa/seguimiento/pedidos/domain/ActorVigente;
+       8: astore_3
+       9: aload_2
+      10: invokevirtual #38                 // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.tipoFlujo:()Lcom/decokasa/seguimiento/compartido/domain/TipoFlujo;
+      13: ifnonnull     28
+      16: new           #44                 // class com/decokasa/seguimiento/compartido/domain/DatoInvalido
+      19: dup
+      20: ldc           #46                 // String tipoFlujo
+      22: ldc           #47                 // String Elige el tipo de flujo.
+      24: invokespecial #49                 // Method com/decokasa/seguimiento/compartido/domain/DatoInvalido."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+      27: athrow
+      28: aload_2
+      29: invokevirtual #52                 // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.pais:()Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;
+      32: ifnonnull     41
+      35: getstatic     #56                 // Field com/decokasa/seguimiento/compartido/domain/CodigoPais.EC:Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;
+      38: goto          45
+      41: aload_2
+      42: invokevirtual #52                 // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.pais:()Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;
+      45: astore        4
+      47: aload         4
+      49: getstatic     #56                 // Field com/decokasa/seguimiento/compartido/domain/CodigoPais.EC:Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;
+      52: if_acmpeq     67
+      55: new           #44                 // class com/decokasa/seguimiento/compartido/domain/DatoInvalido
+      58: dup
+      59: ldc           #62                 // String pais
+      61: ldc           #63                 // String Por ahora solo se crean pedidos de Ecuador.
+      63: invokespecial #49                 // Method com/decokasa/seguimiento/compartido/domain/DatoInvalido."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+      66: athrow
+      67: aload_0
+      68: aload         4
+      70: aload_2
+      71: invokevirtual #65                 // Method definicionVigente:(Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;Lcom/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando;)Lcom/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo;
+      74: astore        5
+      76: aload         5
+      78: invokeinterface #69,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo.etapaInicial:()Lcom/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa;
+      83: astore        6
+      85: aload         6
+      87: invokeinterface #75,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.rolResponsable:()Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;
+      92: ifnonnull     105
+      95: new           #81                 // class java/lang/IllegalStateException
+      98: dup
+      99: ldc           #83                 // String La primera etapa de un flujo debe tener responsable.
+     101: invokespecial #85                 // Method java/lang/IllegalStateException."<init>":(Ljava/lang/String;)V
+     104: athrow
+     105: aload         6
+     107: invokeinterface #75,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.rolResponsable:()Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;
+     112: aload_3
+     113: invokestatic  #88                 // Method com/decokasa/seguimiento/pedidos/domain/PermisosEtapa.paraCrear:(Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;Lcom/decokasa/seguimiento/pedidos/domain/ActorVigente;)Lcom/decokasa/seguimiento/compartido/domain/eventos/Interviniente;
+     116: pop
+     117: aload_0
+     118: getfield      #21                 // Field reloj:Lcom/decokasa/seguimiento/compartido/application/port/out/Reloj;
+     121: invokeinterface #94,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/application/port/out/Reloj.ahora:()Ljava/time/Instant;
+     126: astore        7
+     128: aload_0
+     129: getfield      #17                 // Field generador:Lcom/decokasa/seguimiento/pedidos/application/port/out/GeneradorNumeroPedido;
+     132: aload         4
+     134: aload_0
+     135: getfield      #21                 // Field reloj:Lcom/decokasa/seguimiento/compartido/application/port/out/Reloj;
+     138: invokeinterface #100,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/application/port/out/Reloj.ahoraEnEcuador:()Ljava/time/ZonedDateTime;
+     143: invokevirtual #104                // Method java/time/ZonedDateTime.getYear:()I
+     146: invokeinterface #110,  3          // InterfaceMethod com/decokasa/seguimiento/pedidos/application/port/out/GeneradorNumeroPedido.siguiente:(Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;I)Lcom/decokasa/seguimiento/pedidos/domain/NumeroPedido;
+     151: astore        8
+     153: new           #116                // class com/decokasa/seguimiento/pedidos/domain/FlujoDelPedido
+     156: dup
+     157: aload         5
+     159: invokeinterface #118,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo.id:()Ljava/util/UUID;
+     164: aload         5
+     166: invokeinterface #122,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo.tipo:()Lcom/decokasa/seguimiento/compartido/domain/TipoFlujo;
+     171: aload         5
+     173: invokeinterface #125,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo.etapas:()Ljava/util/List;
+     178: invokeinterface #129,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+     183: invokedynamic #135,  0            // InvokeDynamic #0:apply:()Ljava/util/function/Function;
+     188: invokeinterface #139,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     193: invokeinterface #145,  1          // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+     198: aload         6
+     200: invokeinterface #75,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.rolResponsable:()Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;
+     205: aload         6
+     207: invokeinterface #148,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.plazo:()Lcom/decokasa/seguimiento/compartido/domain/PlazoDeEtapa;
+     212: invokespecial #152                // Method com/decokasa/seguimiento/pedidos/domain/FlujoDelPedido."<init>":(Ljava/util/UUID;Lcom/decokasa/seguimiento/compartido/domain/TipoFlujo;Ljava/util/List;Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;Lcom/decokasa/seguimiento/compartido/domain/PlazoDeEtapa;)V
+     215: astore        9
+     217: aload         8
+     219: aload         4
+     221: aload         9
+     223: aload_2
+     224: invokevirtual #155                // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.nombre:()Ljava/lang/String;
+     227: aload_2
+     228: invokevirtual #159                // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.descripcion:()Ljava/lang/String;
+     231: aload_2
+     232: invokevirtual #162                // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.incluyeProductosNuevos:()Z
+     235: aload_3
+     236: aload         7
+     238: aload_0
+     239: getfield      #30                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+     242: invokevirtual #166                // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.vencimientos:()Lcom/decokasa/seguimiento/pedidos/domain/Vencimientos;
+     245: invokestatic  #170                // Method com/decokasa/seguimiento/pedidos/domain/Pedido.crear:(Lcom/decokasa/seguimiento/pedidos/domain/NumeroPedido;Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;Lcom/decokasa/seguimiento/pedidos/domain/FlujoDelPedido;Ljava/lang/String;Ljava/lang/String;ZLcom/decokasa/seguimiento/pedidos/domain/ActorVigente;Ljava/time/Instant;Lcom/decokasa/seguimiento/pedidos/domain/Vencimientos;)Lcom/decokasa/seguimiento/pedidos/domain/Pedido;
+     248: astore        10
+     250: aload_0
+     251: getfield      #13                 // Field pedidos:Lcom/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio;
+     254: aload         10
+     256: invokeinterface #176,  2          // InterfaceMethod com/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio.insertar:(Lcom/decokasa/seguimiento/pedidos/domain/Pedido;)V
+     261: aload_0
+     262: getfield      #30                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+     265: aload         10
+     267: invokevirtual #182                // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.publicarEventos:(Lcom/decokasa/seguimiento/pedidos/domain/Pedido;)V
+     270: aload         10
+     272: areturn
+
+  private com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo definicionVigente(com.decokasa.seguimiento.compartido.domain.CodigoPais, com.decokasa.seguimiento.pedidos.application.port.in.CrearPedido$Comando);
+    Code:
+       0: aload_0
+       1: getfield      #7                  // Field flujos:Lcom/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo;
+       4: aload_1
+       5: aload_2
+       6: invokevirtual #38                 // Method com/decokasa/seguimiento/pedidos/application/port/in/CrearPedido$Comando.tipoFlujo:()Lcom/decokasa/seguimiento/compartido/domain/TipoFlujo;
+       9: invokeinterface #185,  3          // InterfaceMethod com/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo.vigente:(Lcom/decokasa/seguimiento/compartido/domain/CodigoPais;Lcom/decokasa/seguimiento/compartido/domain/TipoFlujo;)Lcom/decokasa/seguimiento/flujos/domain/DefinicionFlujo;
+      14: areturn
+      15: astore_3
+      16: new           #44                 // class com/decokasa/seguimiento/compartido/domain/DatoInvalido
+      19: dup
+      20: ldc           #46                 // String tipoFlujo
+      22: ldc           #193                // String Ese tipo de flujo todav�a no est� disponible.
+      24: invokespecial #49                 // Method com/decokasa/seguimiento/compartido/domain/DatoInvalido."<init>":(Ljava/lang/String;Ljava/lang/String;)V
+      27: athrow
+    Exception table:
+       from    to  target type
+           0    14    15   Class com/decokasa/seguimiento/compartido/domain/NoEncontrado
+}
+Compiled from "ReasignarEtapaCasoDeUso.java"
+public final class com.decokasa.seguimiento.pedidos.application.usecase.ReasignarEtapaCasoDeUso implements com.decokasa.seguimiento.pedidos.application.port.in.ReasignarEtapa {
+  private final com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio pedidos;
+
+  private final com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo flujos;
+
+  private final com.decokasa.seguimiento.compartido.application.port.out.Reloj reloj;
+
+  private final com.decokasa.seguimiento.pedidos.application.usecase.ApoyoPedidos apoyo;
+
+  public com.decokasa.seguimiento.pedidos.application.usecase.ReasignarEtapaCasoDeUso(com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio, com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo, com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables, com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento, com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos, com.decokasa.seguimiento.compartido.application.port.out.Reloj);
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #7                  // Field pedidos:Lcom/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio;
+       9: aload_0
+      10: aload_2
+      11: putfield      #13                 // Field flujos:Lcom/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo;
+      14: aload_0
+      15: aload         6
+      17: putfield      #17                 // Field reloj:Lcom/decokasa/seguimiento/compartido/application/port/out/Reloj;
+      20: aload_0
+      21: new           #21                 // class com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos
+      24: dup
+      25: aload_3
+      26: aload         4
+      28: aload         5
+      30: invokespecial #23                 // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos."<init>":(Lcom/decokasa/seguimiento/usuarios/application/port/in/ConsultarResponsables;Lcom/decokasa/seguimiento/plazos/application/port/in/CalcularVencimiento;Lcom/decokasa/seguimiento/compartido/application/port/out/PublicadorEventos;)V
+      33: putfield      #26                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+      36: return
+
+  public com.decokasa.seguimiento.pedidos.domain.Pedido reasignar(com.decokasa.seguimiento.compartido.domain.Solicitante, com.decokasa.seguimiento.pedidos.application.port.in.ReasignarEtapa$Comando);
+    Code:
+       0: aload_0
+       1: getfield      #7                  // Field pedidos:Lcom/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio;
+       4: aload_2
+       5: invokevirtual #30                 // Method com/decokasa/seguimiento/pedidos/application/port/in/ReasignarEtapa$Comando.pedidoId:()Ljava/util/UUID;
+       8: invokeinterface #36,  2           // InterfaceMethod com/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio.buscarParaActualizar:(Ljava/util/UUID;)Ljava/util/Optional;
+      13: invokedynamic #42,  0             // InvokeDynamic #0:get:()Ljava/util/function/Supplier;
+      18: invokevirtual #46                 // Method java/util/Optional.orElseThrow:(Ljava/util/function/Supplier;)Ljava/lang/Object;
+      21: checkcast     #52                 // class com/decokasa/seguimiento/pedidos/domain/Pedido
+      24: astore_3
+      25: aload_0
+      26: getfield      #26                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+      29: aload_1
+      30: invokevirtual #54                 // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.solicitante:(Lcom/decokasa/seguimiento/compartido/domain/Solicitante;)Lcom/decokasa/seguimiento/pedidos/domain/ActorVigente;
+      33: astore        4
+      35: aload_2
+      36: invokevirtual #58                 // Method com/decokasa/seguimiento/pedidos/application/port/in/ReasignarEtapa$Comando.usuarioId:()Ljava/util/UUID;
+      39: ifnonnull     46
+      42: aconst_null
+      43: goto          64
+      46: aload_0
+      47: getfield      #26                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+      50: aload_2
+      51: invokevirtual #58                 // Method com/decokasa/seguimiento/pedidos/application/port/in/ReasignarEtapa$Comando.usuarioId:()Ljava/util/UUID;
+      54: invokevirtual #61                 // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.persona:(Ljava/util/UUID;)Ljava/util/Optional;
+      57: aconst_null
+      58: invokevirtual #64                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+      61: checkcast     #68                 // class com/decokasa/seguimiento/pedidos/domain/ActorVigente
+      64: astore        5
+      66: aload_0
+      67: getfield      #13                 // Field flujos:Lcom/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo;
+      70: aload_3
+      71: invokevirtual #70                 // Method com/decokasa/seguimiento/pedidos/domain/Pedido.flujoId:()Ljava/util/UUID;
+      74: invokeinterface #73,  2           // InterfaceMethod com/decokasa/seguimiento/flujos/application/port/in/ConsultarDefinicionFlujo.porId:(Ljava/util/UUID;)Lcom/decokasa/seguimiento/flujos/domain/DefinicionFlujo;
+      79: astore        6
+      81: aload         6
+      83: aload_3
+      84: invokevirtual #79                 // Method com/decokasa/seguimiento/pedidos/domain/Pedido.etapaActual:()I
+      87: invokeinterface #83,  2           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeFlujo.etapa:(I)Lcom/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa;
+      92: invokeinterface #89,  1           // InterfaceMethod com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.rolResponsable:()Lcom/decokasa/seguimiento/compartido/domain/CodigoRol;
+      97: astore        7
+      99: aload_3
+     100: aload_2
+     101: invokevirtual #95                 // Method com/decokasa/seguimiento/pedidos/application/port/in/ReasignarEtapa$Comando.numeroEtapa:()I
+     104: aload         7
+     106: aload         4
+     108: aload         5
+     110: aload_2
+     111: invokevirtual #98                 // Method com/decokasa/seguimiento/pedidos/application/port/in/ReasignarEtapa$Comando.motivo:()Ljava/lang/String;
+     114: aload_0
+     115: getfield      #17                 // Field reloj:Lcom/decokasa/seguimiento/compartido/application/port/out/Reloj;
+     118: invokeinterface #102,  1          // InterfaceMethod com/decokasa/seguimiento/compartido/application/port/out/Reloj.ahora:()Ljava/time/Instant;
+     123: invokevirtual #108                // Method com/decokasa/seguimiento/pedidos/domain/Pedido.reasignar:(ILcom/decokasa/seguimiento/compartido/domain/CodigoRol;Lcom/decokasa/seguimiento/pedidos/domain/ActorVigente;Lcom/decokasa/seguimiento/pedidos/domain/ActorVigente;Ljava/lang/String;Ljava/time/Instant;)Ljava/util/Optional;
+     126: invokevirtual #112                // Method java/util/Optional.isPresent:()Z
+     129: istore        8
+     131: iload         8
+     133: ifeq          154
+     136: aload_0
+     137: getfield      #7                  // Field pedidos:Lcom/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio;
+     140: aload_3
+     141: invokeinterface #116,  2          // InterfaceMethod com/decokasa/seguimiento/pedidos/application/port/out/PedidoRepositorio.actualizar:(Lcom/decokasa/seguimiento/pedidos/domain/Pedido;)V
+     146: aload_0
+     147: getfield      #26                 // Field apoyo:Lcom/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos;
+     150: aload_3
+     151: invokevirtual #120                // Method com/decokasa/seguimiento/pedidos/application/usecase/ApoyoPedidos.publicarEventos:(Lcom/decokasa/seguimiento/pedidos/domain/Pedido;)V
+     154: aload_3
+     155: areturn
+
+  private static com.decokasa.seguimiento.compartido.domain.NoEncontrado lambda$reasignar$0();
+    Code:
+       0: new           #123                // class com/decokasa/seguimiento/compartido/domain/NoEncontrado
+       3: dup
+       4: ldc           #125                // String El pedido no existe.
+       6: invokespecial #127                // Method com/decokasa/seguimiento/compartido/domain/NoEncontrado."<init>":(Ljava/lang/String;)V
+       9: areturn
+}

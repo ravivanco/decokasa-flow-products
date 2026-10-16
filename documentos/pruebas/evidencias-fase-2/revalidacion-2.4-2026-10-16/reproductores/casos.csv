@@ -1,0 +1,8 @@
+clase,caso,resultado
+com.decokasa.seguimiento.V3MigracionIT,backfillConservaFechasYDaEntradasSoloAEtapasVisitadas(),PASS
+com.decokasa.seguimiento.pedidos.Backend24IT,"[1] modo = ""ausente""",PASS
+com.decokasa.seguimiento.pedidos.Backend24IT,"[2] modo = ""truncado""",PASS
+com.decokasa.seguimiento.pedidos.Backend24IT,"[3] modo = ""corrupto""",PASS
+com.decokasa.seguimiento.pedidos.Backend24IT,bandejaRespetaContratoSinErrorInterno(),PASS
+com.decokasa.seguimiento.pedidos.Backend24IT,resumenDeEtapaIncluyeLoOcurrido(),FAIL
+com.decokasa.seguimiento.pedidos.Backend24IT,multipartRealAplicaLimiteDelServletConJwtFirmado(),PASS

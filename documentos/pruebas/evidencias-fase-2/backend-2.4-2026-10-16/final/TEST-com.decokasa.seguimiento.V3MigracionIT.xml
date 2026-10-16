@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V3MigracionIT" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-16T14:20:33.596Z" hostname="DESKTOP-GKF6IVL" time="4.13">
+  <properties/>
+  <testcase name="backfillConservaFechasYDaEntradasSoloAEtapasVisitadas()" classname="com.decokasa.seguimiento.V3MigracionIT" time="1.101">
+    <failure message="org.flywaydb.core.internal.exception.FlywayMigrateException: Failed to execute script V3__archivos_y_entradas.sql&#10;----------------------------------------------------&#10;SQL State  : 55006&#10;Error Code : 0&#10;Message    : ERROR: cannot ALTER TABLE &quot;etapa_pedido&quot; because it has pending trigger events&#10;Location   : db/migration/V3__archivos_y_entradas.sql (C:\Users\Richard\Desktop\decoWeb\backend\build\resources\main\db\migration\V3__archivos_y_entradas.sql)&#10;Line       : 52&#10;Statement  : Run Flyway with -X option to see the actual statement causing the problem&#10;" type="org.flywaydb.core.internal.exception.FlywayMigrateException">org.flywaydb.core.internal.exception.FlywayMigrateException: Failed to execute script V3__archivos_y_entradas.sql
+----------------------------------------------------
+SQL State  : 55006
+Error Code : 0
+Message    : ERROR: cannot ALTER TABLE &quot;etapa_pedido&quot; because it has pending trigger events
+Location   : db/migration/V3__archivos_y_entradas.sql (C:\Users\Richard\Desktop\decoWeb\backend\build\resources\main\db\migration\V3__archivos_y_entradas.sql)
+Line       : 52
+Statement  : Run Flyway with -X option to see the actual statement causing the problem
+
+	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:399)
+	at org.flywaydb.core.internal.command.DbMigrate.lambda$applyMigrations$1(DbMigrate.java:283)
+	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:59)
+	at org.flywaydb.core.internal.command.DbMigrate.applyMigrations(DbMigrate.java:282)
+	at org.flywaydb.core.internal.command.DbMigrate.migrateGroup(DbMigrate.java:255)
+	at org.flywaydb.core.internal.command.DbMigrate.lambda$migrateAll$0(DbMigrate.java:153)
+	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:77)
+	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.lambda$execute$0(PostgreSQLAdvisoryLockTemplate.java:60)
+	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:59)
+	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:60)
+	at org.flywaydb.database.postgresql.PostgreSQLConnection.lock(PostgreSQLConnection.java:105)
+	at org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory.lock(JdbcTableSchemaHistory.java:165)
+	at org.flywaydb.core.internal.command.DbMigrate.migrateAll(DbMigrate.java:153)
+	at org.flywaydb.core.internal.command.DbMigrate.migrate(DbMigrate.java:104)
+	at org.flywaydb.core.Flyway.lambda$migrate$3(Flyway.java:231)
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:236)
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:120)
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:181)
+	at com.decokasa.seguimiento.V3MigracionIT.backfillConservaFechasYDaEntradasSoloAEtapasVisitadas(V3MigracionIT.java:33)
+Caused by: org.flywaydb.core.internal.sqlscript.FlywaySqlScriptException: Failed to execute script V3__archivos_y_entradas.sql
+----------------------------------------------------
+SQL State  : 55006
+Error Code : 0
+Message    : ERROR: cannot ALTER TABLE &quot;etapa_pedido&quot; because it has pending trigger events
+Location   : db/migration/V3__archivos_y_entradas.sql (C:\Users\Richard\Desktop\decoWeb\backend\build\resources\main\db\migration\V3__archivos_y_entradas.sql)
+Line       : 52
+Statement  : Run Flyway with -X option to see the actual statement causing the problem
+
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.handleException(DefaultSqlScriptExecutor.java:251)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:212)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.execute(DefaultSqlScriptExecutor.java:134)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.executeOnce(SqlMigrationExecutor.java:75)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.lambda$execute$0(SqlMigrationExecutor.java:66)
+	at org.flywaydb.core.internal.database.DefaultExecutionStrategy.execute(DefaultExecutionStrategy.java:31)
+	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.execute(SqlMigrationExecutor.java:65)
+	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:391)
+	... 18 more
+Caused by: org.postgresql.util.PSQLException: ERROR: cannot ALTER TABLE &quot;etapa_pedido&quot; because it has pending trigger events
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2656)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:446)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:533)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:449)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:371)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:356)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:332)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:327)
+	at org.flywaydb.core.internal.jdbc.JdbcTemplate.executeStatement(JdbcTemplate.java:229)
+	at org.flywaydb.core.internal.sqlscript.ParsedSqlStatement.execute(ParsedSqlStatement.java:88)
+	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:207)
+	... 24 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[09:20:33.632 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+09:20:33.636 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+09:20:33.650 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+09:20:34.066 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+09:20:34.537 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+09:20:34.539 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+09:20:34.558 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+09:20:34.636 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+09:20:34.838 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: e5648b5e9a29fff18b10affe28f6b5b6497898c66ec55e6447a03ca78df2a9ba
+09:20:35.131 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.4944937S
+09:20:35.139 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+09:20:35.139 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+09:20:35.140 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+09:20:35.140 [Test worker] INFO tc.postgres:17 -- Creating container for image: postgres:17
+09:20:35.223 [Test worker] INFO tc.postgres:17 -- Container postgres:17 is starting: ff92bfa439be3b9c4389c15cda873f35443d34dad1dd86f3303a0368848814e0
+09:20:36.611 [Test worker] INFO tc.postgres:17 -- Container postgres:17 started in PT1.4708175S
+09:20:36.613 [Test worker] INFO tc.postgres:17 -- Container is started (JDBC URL: jdbc:postgresql://localhost:56102/test?loggerLevel=OFF)
+09:20:37.179 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56102/test?loggerLevel=OFF (PostgreSQL 17.11)
+09:20:37.268 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Schema history table "public"."flyway_schema_history" does not exist yet
+09:20:37.273 [Test worker] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 3 migrations (execution time 00:00.031s)
+09:20:37.289 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "public"."flyway_schema_history" ...
+09:20:37.335 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": << Empty Schema >>
+09:20:37.350 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "1 - usuarios roles paises"
+09:20:37.407 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "2 - flujos pedidos historial"
+09:20:37.454 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.062s)
+09:20:37.498 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56102/test?loggerLevel=OFF (PostgreSQL 17.11)
+09:20:37.518 [Test worker] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 3 migrations (execution time 00:00.007s)
+09:20:37.532 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": 2
+09:20:37.541 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "3 - archivos y entradas"
+09:20:37.566 [Test worker] ERROR org.flywaydb.core.internal.command.DbMigrate -- Migration of schema "public" to version "3 - archivos y entradas" failed! Changes successfully rolled back.
+09:20:37.580 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56102/test?loggerLevel=OFF (PostgreSQL 17.11)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

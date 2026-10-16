@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" tests="20" skipped="0" failures="0" errors="0" timestamp="2026-10-16T16:04:16.766Z" hostname="DESKTOP-GKF6IVL" time="1.205">
+  <properties/>
+  <testcase name="unCuerpoConSoloLaVersionResponde400SinCambios()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.036"/>
+  <testcase name="losLoginsNoCambianLaVersionYLaEdicionPosteriorConservaLosIntentos()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.083"/>
+  <testcase name="conLaVersionVigenteLaRespuestaLlevaLaVersionGuardada()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.204"/>
+  <testcase name="trasUnaEdicionLosLoginsCuentanSinCambiarLaVersion()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.122"/>
+  <testcase name="unaEdicionNoQuitaUnBloqueoActivo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.111"/>
+  <testcase name="desactivarConUnaVersionViejaNoDesactivaNiRevocaSesiones()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.074"/>
+  <testcase name="unaVersionViejaGanaAUnDatoRepetido()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.048"/>
+  <testcase name="lasRespuestasDeSesionIncluyenLaVersion()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.072"/>
+  <testcase name="version = &quot;AUSENTE&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.033"/>
+  <testcase name="version = &quot;null&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.034"/>
+  <testcase name="version = &quot;-1&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.028"/>
+  <testcase name="version = &quot;1.5&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.036"/>
+  <testcase name="version = &quot;0.0&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.029"/>
+  <testcase name="version = &quot;\&quot;0\&quot;&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.028"/>
+  <testcase name="version = &quot;true&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.027"/>
+  <testcase name="version = &quot;{}&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.025"/>
+  <testcase name="version = &quot;[0]&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.029"/>
+  <testcase name="version = &quot;99999999999999999999999&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.038"/>
+  <testcase name="conUnaVersionViejaResponde409SinCambiarNada()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.052"/>
+  <testcase name="lasRespuestasDeUsuarioIncluyenLaVersion()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT" time="0.068"/>
+  <system-out><![CDATA[2026-10-16T11:04:16.768-05:00  INFO 12788 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT]: VersionUsuarioIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T11:04:16.772-05:00  INFO 12788 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT
+2026-10-16T11:04:16.772-05:00  INFO 12788 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT]: VersionUsuarioIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T11:04:16.778-05:00  INFO 12788 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

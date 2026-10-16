@@ -1,0 +1,186 @@
+import { ArrowLeftIcon, RotateCwIcon } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router';
+import { esErrorApi } from '@/api/cliente';
+import { type AccionDisponible, type Adjunto, type Persona, useDefinicionFlujo, usePedido } from '@/api/pedidos';
+import { useUsuarioActual } from '@/auth/SesionProvider';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { DialogoAccion } from './DialogoAccion';
+import { DialogoReasignar } from './DialogoReasignar';
+import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
+import { formatearFechaHora, mensajeDeErrorPedido } from './formato';
+import { HistorialPedido } from './HistorialPedido';
+import { LineaDeTiempo } from './LineaDeTiempo';
+import { PanelEtapa } from './PanelEtapa';
+
+// Detalle del pedido: encabezado, línea de tiempo, panel de la etapa elegida e historial. Todo sale del servidor; tras
+// cada acción la pantalla muestra el pedido que él devolvió (o el vigente, si respondió con un conflicto).
+
+export function DetallePedido() {
+  const { pedidoId = '' } = useParams();
+  const usuario = useUsuarioActual();
+  const pedido = usePedido(pedidoId);
+  const datos = pedido.data;
+  const flujo = useDefinicionFlujo(datos?.pais ?? 'EC', datos?.tipoFlujo ?? 'A', datos?.versionFlujo);
+
+  const [elegida, setElegida] = useState<number | null>(null);
+  const [actualVista, setActualVista] = useState<number | null>(null);
+  const [accion, setAccion] = useState<{
+    accion: AccionDisponible;
+    etapaEsperada: number;
+    adjuntos: Adjunto[];
+  } | null>(null);
+  const [reasignando, setReasignando] = useState(false);
+
+  // Si el pedido cambia de etapa (por una acción propia o ajena), el panel vuelve a la etapa actual.
+  if (datos && datos.etapaActual !== actualVista) {
+    setActualVista(datos.etapaActual);
+    setElegida(null);
+  }
+
+  if (pedido.isPending) {
+    return (
+      <section className="flex flex-col gap-6" aria-busy="true" aria-label="Cargando el pedido">
+        <Skeleton className="h-10 w-72" />
+        <Skeleton className="h-36 w-full" />
+        <Skeleton className="h-80 w-full" />
+      </section>
+    );
+  }
+
+  if (pedido.isError) {
+    const noExiste = esErrorApi(pedido.error, 'NO_ENCONTRADO');
+    return (
+      <section className="flex flex-col items-start gap-4">
+        <h1 className="font-heading text-2xl font-bold text-primary">
+          {noExiste ? 'Pedido no encontrado' : 'No se pudo cargar el pedido'}
+        </h1>
+        <p className="text-muted-foreground">
+          {noExiste
+            ? 'El pedido no existe o la dirección es incorrecta.'
+            : mensajeDeErrorPedido(pedido.error, 'Revisa tu conexión e intenta de nuevo.')}
+        </p>
+        <div className="flex gap-2">
+          {!noExiste && (
+            <Button variant="outline" onClick={() => void pedido.refetch()}>
+              <RotateCwIcon data-icon="inline-start" />
+              Reintentar
+            </Button>
+          )}
+          <Button variant="outline" asChild>
+            <Link to="/pedidos">Ver pedidos</Link>
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  const detalle = pedido.data;
+  const numeroElegido = elegida ?? detalle.etapaActual;
+  const etapa =
+    detalle.lineaDeTiempo.find((e) => e.numero === numeroElegido) ??
+    detalle.lineaDeTiempo.find((e) => e.estado === 'ACTUAL') ??
+    detalle.lineaDeTiempo[0];
+  const actual = detalle.lineaDeTiempo.find((e) => e.numero === detalle.etapaActual);
+  const automaticas = new Set((flujo.data?.etapas ?? []).filter((e) => e.automatica).map((e) => e.numero));
+
+  const personas = new Map<string, Persona>();
+  for (const conocida of [
+    detalle.creadoPor,
+    detalle.responsableActual,
+    ...detalle.lineaDeTiempo.map((e) => e.asignadoA),
+  ]) {
+    if (conocida) personas.set(conocida.id, conocida);
+  }
+
+  return (
+    <section className="flex flex-col gap-6">
+      <Button variant="ghost" asChild className="w-fit">
+        <Link to="/pedidos">
+          <ArrowLeftIcon data-icon="inline-start" />
+          Pedidos
+        </Link>
+      </Button>
+
+      <header className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h1 className="font-heading text-3xl font-bold text-primary tabular-nums">{detalle.numero}</h1>
+          <Badge variant="outline" className="h-auto rounded-sm py-0.5 text-sm">
+            {detalle.tipoFlujo === 'A' ? 'A · Ecuador' : 'B · China'}
+          </Badge>
+          <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} />
+          {detalle.urgencia && (
+            <DistintivoUrgencia nivel={detalle.urgencia.nivel} venceEn={detalle.urgencia.venceEn} />
+          )}
+          {pedido.isFetching && (
+            <span role="status" className="text-sm text-muted-foreground">
+              Actualizando…
+            </span>
+          )}
+        </div>
+        <p className="text-lg font-medium">{detalle.nombre}</p>
+        {detalle.descripcion && (
+          <p className="max-w-prose whitespace-pre-wrap text-muted-foreground">{detalle.descripcion}</p>
+        )}
+        <p className="text-sm text-muted-foreground">
+          Creado por {detalle.creadoPor.nombre} el{' '}
+          <span className="tabular-nums">{formatearFechaHora(detalle.creadoEn)}</span>
+          {detalle.incluyeProductosNuevos ? ' · incluye productos nuevos' : ''} · versión {detalle.versionFlujo} del flujo
+        </p>
+      </header>
+
+      {flujo.isError && (
+        <Alert>
+          <AlertDescription>
+            No se pudo cargar la definición del flujo: los botones de descarga y los íconos de etapa pueden quedar
+            incompletos. El servidor sigue decidiendo cada operación.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <LineaDeTiempo
+        numeroPedido={detalle.numero}
+        tipoFlujo={detalle.tipoFlujo}
+        etapas={detalle.lineaDeTiempo}
+        seleccionada={etapa.numero}
+        automaticas={automaticas}
+        onSeleccionar={setElegida}
+      />
+
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_26rem]">
+        <PanelEtapa
+          key={`${etapa.numero}-${etapa.entradaId ?? 'sin-entrada'}`}
+          pedido={detalle}
+          etapa={etapa}
+          flujo={flujo.data}
+          usuario={usuario}
+          onAccion={(elegidaAccion, adjuntos) =>
+            setAccion({ accion: elegidaAccion, etapaEsperada: detalle.etapaActual, adjuntos })
+          }
+          onReasignar={() => setReasignando(true)}
+        />
+        <aside className="rounded-lg border bg-card p-6 shadow-sm">
+          <HistorialPedido pedidoId={detalle.id} tipoFlujo={detalle.tipoFlujo} personas={personas} />
+        </aside>
+      </div>
+
+      {/* La acción queda fija mientras el diálogo está abierto: si el servidor responde 409, el aviso se ve aunque el
+          pedido ya muestre otra etapa. */}
+      {accion && (
+        <DialogoAccion
+          pedido={detalle}
+          accion={accion.accion}
+          etapaEsperada={accion.etapaEsperada}
+          adjuntos={accion.adjuntos}
+          onCerrar={() => setAccion(null)}
+        />
+      )}
+      {reasignando && actual && (
+        <DialogoReasignar pedido={detalle} etapa={actual} onCerrar={() => setReasignando(false)} />
+      )}
+    </section>
+  );
+}

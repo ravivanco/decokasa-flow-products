@@ -7,7 +7,7 @@ Cada ADR registra una decisión, su contexto, las alternativas y sus consecuenci
 - **accepted (equipo):** decisión técnica que aprobó el equipo (Richard), con fecha. No es una respuesta del cliente; la columna "Origen" lo indica.
 - **proposed:** decisión o propuesta del equipo. Se puede cambiar hasta que el equipo la apruebe.
 
-El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR — falta validar con el cliente". Por eso, de sus 9 entradas, solo 8 quedan como accepted. La del flujo configurable (ADR-0004) es una elección técnica del equipo y queda como proposed.
+El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR — falta validar con el cliente". Por eso, de sus 9 entradas, solo 8 quedan como accepted (cliente). La del flujo configurable (ADR-0004) es una elección técnica del equipo: estuvo como proposed hasta que Richard la aprobó como decisión del equipo el 2026-10-15 (accepted (equipo)).
 
 ## Índice
 
@@ -16,7 +16,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | [0001](0001-stack-tecnologico.md) | Stack React + Spring Boot + PostgreSQL | accepted | 2026-10-10 | Registro de decisiones |
 | [0002](0002-autenticacion-propia-jwt.md) | Autenticación propia con JWT y BCrypt | accepted | 2026-10-10; 2026-10-12; 2026-10-13 | Registro de decisiones. Valores de bloqueo, JWT y renovación aprobados por el equipo el 2026-10-12; token de renovación en cookie `HttpOnly` (D3b) aprobado el 2026-10-12; `Origin` → 403 aprobado el 2026-10-13. Correcciones de la revisión de seguridad del paso 1.7 (2026-10-13): A1 (403 aprobado), A2, A4, D10 (versión de usuarios) y N1 (orden de bloqueos). Versionado de roles: pendiente |
 | [0003](0003-drive-cuenta-servicio.md) | Archivos en Google Drive mediante cuenta de servicio | accepted | 2026-10-10 | Registro de decisiones |
-| [0004](0004-flujo-configurable-por-datos.md) | Flujo de etapas configurable por datos | proposed | 2026-10-10 | Registro de decisiones (elección del equipo) |
+| [0004](0004-flujo-configurable-por-datos.md) | Flujo de etapas configurable por datos | accepted (equipo) | 2026-10-10; 2026-10-15 | Registro de decisiones (elección del equipo). Aprobado por Richard el 2026-10-15 como decisión técnica del equipo (P-02 del plan de la fase 2): definiciones versionadas de flujo, etapas y transiciones en datos. No es una respuesta del cliente |
 | [0005](0005-alertas-gmail-admin.md) | Alertas por correo de Gmail al admin | accepted | 2026-10-10 | Registro de decisiones |
 | [0006](0006-plazos-dias-habiles-ecuador.md) | Plazos en días hábiles con hora de Ecuador | accepted | 2026-10-10 | Registro de decisiones |
 | [0007](0007-documentos-sin-validacion.md) | Los documentos solo se suben, sin validar su contenido | accepted | 2026-10-10 | Registro de decisiones |
