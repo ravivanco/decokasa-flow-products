@@ -147,6 +147,8 @@ Los roles del usuario están en `usuario_rol`, no en esta tabla.
 
 ### 3.2 Definiciones de flujo versionadas (módulo `flujos`)
 
+> **Implementado en `V2__flujos_pedidos_historial.sql` (fase 2, paso 2.1, 2026-10-15)** con las decisiones técnicas del equipo P-02, P-04, S-1, S-2, S-3 y los triggers (plan de la fase 2). Ninguna es una respuesta del cliente. Las tablas de esta sección y de las secciones 3.3 y 3.4 describen lo que crea V2.
+
 **`definicion_flujo`**
 
 | Columna | Tipo | Restricciones | Nota |
@@ -159,8 +161,9 @@ Los roles del usuario están en `usuario_rol`, no en esta tabla.
 | `creada_en` | `timestamptz` | NOT NULL | |
 
 - UNIQUE (`pais_codigo`, `tipo_flujo`, `version`).
+- UNIQUE (`id`, `pais_codigo`, `tipo_flujo`): permite que `pedido` apunte al flujo con su país y su tipo, y que la base compruebe que coinciden.
 - Índice único parcial (`pais_codigo`, `tipo_flujo`) `WHERE vigente`: garantiza una sola versión vigente.
-- Una versión publicada no se modifica: un cambio crea una versión nueva (ADR-0004, propuesta). Los pedidos en curso siguen apuntando a la suya.
+- Las definiciones versionadas en datos son ADR-0004, aceptado por el equipo el 2026-10-15 (no es decisión del cliente). Los pedidos siguen apuntando a la versión con la que se crearon. Que una versión publicada no se modifique y que todo cambio cree una versión nueva sigue siendo **[P]**: el plan de la fase 2 prevé completar la versión 1 en la fase 4 mientras no haya pedidos reales (S-2, S-6, S-7).
 
 **`definicion_etapa`**
 
@@ -170,41 +173,50 @@ Los roles del usuario están en `usuario_rol`, no en esta tabla.
 | `flujo_id` | `uuid` | NOT NULL, FK → `definicion_flujo` | |
 | `numero` | `smallint` | NOT NULL, `CHECK (numero BETWEEN 1 AND 30)` | A1–A11 / B1–B12 |
 | `nombre` | `text` | NOT NULL | |
-| `rol_codigo` | `text` | NOT NULL, FK → `rol.codigo` | Rol responsable |
-| `plazo_cantidad` | `integer` | NULL, `CHECK (> 0)` | Nulo si el cliente no lo definió (⏸ Fabricación, Incidencias) |
+| `rol_codigo` | `text` | NULL, FK → `rol.codigo`, `CHECK (rol_codigo IS NOT NULL OR automatica)` | Rol responsable. Nulo **solo** en etapas automáticas como Fin (S-1, decisión del equipo, 2026-10-15) |
+| `plazo_estado` | `text` | NOT NULL, `CHECK (IN ('DEFINIDO','SIN_PLAZO','PENDIENTE'))` | `PENDIENTE`: el cliente no lo definió (⏸ Fabricación, Aduana, Incidencias); no equivale a `SIN_PLAZO` (A1, Fin) |
+| `plazo_cantidad` | `integer` | NULL, `CHECK (> 0)` | Solo con `plazo_estado = 'DEFINIDO'` |
 | `plazo_tipo` | `text` | NULL, `CHECK (IN ('HORAS_HABILES','DIAS_HABILES','DIAS_CORRIDOS'))` | ⏸ Tránsito de 45 días: hábiles o corridos |
 | `automatica` | `boolean` | NOT NULL DEFAULT false | Solo Fin |
 
 - UNIQUE (`flujo_id`, `numero`).
-- `CHECK ((plazo_cantidad IS NULL) = (plazo_tipo IS NULL))`.
+- `CHECK`: `plazo_estado = 'DEFINIDO'` si y solo si `plazo_cantidad` y `plazo_tipo` tienen valor; los dos son nulos a la vez.
 
 **`transicion_permitida`** — una fila por acción permitida en una etapa (contrato: `DefinicionAccion`).
 
 | Columna | Tipo | Restricciones | Nota |
 | --- | --- | --- | --- |
 | `id` | `uuid` | PK | |
-| `etapa_id` | `uuid` | NOT NULL, FK → `definicion_etapa` | |
+| `flujo_id` | `uuid` | NOT NULL | Con `etapa_origen`, FK → `definicion_etapa (flujo_id, numero)` |
+| `etapa_origen` | `smallint` | NOT NULL | Número de la etapa de origen dentro del flujo |
 | `accion` | `text` | NOT NULL, `CHECK (IN ('ENVIAR','APROBAR','RECHAZAR','DEVOLVER_POR_ERROR','DEVOLVER_POR_PRODUCTO_NUEVO','REPORTAR_DEMORA','ELEGIR_BODEGA'))` | |
-| `etapa_destino` | `smallint` | NULL | Número de la etapa destino dentro del mismo flujo; nulo si se queda (demora, elegir bodega) |
+| `etapa_destino` | `smallint` | NULL; con `flujo_id`, FK → `definicion_etapa (flujo_id, numero)` | Nulo solo si se queda (`REPORTAR_DEMORA`, `ELEGIR_BODEGA`), con `CHECK` |
 | `requiere_observacion` | `boolean` | NOT NULL | |
-| `requiere_urgencia` | `boolean` | NOT NULL | Solo DEVOLVER_POR_PRODUCTO_NUEVO |
+| `requiere_urgencia` | `boolean` | NOT NULL, `CHECK` | Solo DEVOLVER_POR_PRODUCTO_NUEVO |
 | `requiere_bodega` | `boolean` | NOT NULL | APROBAR en A9 / B10 |
+| `requisitos_documentales` | `text` | NOT NULL, `CHECK (IN ('DEFINIDOS','PENDIENTES'))` | `PENDIENTES`: el cliente no definió los documentos; la transición no se puede ejecutar. Que no haya filas en `documento_requerido` **no** significa "sin requisitos" (S-2) |
 
-UNIQUE (`etapa_id`, `accion`).
+UNIQUE (`flujo_id`, `etapa_origen`, `accion`). En V2 la transición apunta al origen y al destino por número de etapa dentro del mismo flujo (en lugar de `etapa_id`), así la base comprueba que el destino existe en ese flujo.
 
-**`documento_requerido`**: `transicion_id` (FK) y `tipo_documento` (text); PK compuesta. Por ejemplo, Packing List y BL para APROBAR en A6 / B7. ⏸ Qué documentos son "todos" en Incidencias.
+**`documento_requerido`**: `transicion_id` (FK) y `tipo_documento` (text, de 1 a 100 caracteres); PK compuesta. Con `requisitos_documentales = 'DEFINIDOS'`, sus filas son la lista completa.
 
-Los flujos A y B de Ecuador (versión 1) se cargan con migraciones, según las tablas de transiciones de `arquitectura.md` 4.2 y del contrato.
+**Siembra del flujo A de Ecuador, versión 1 (V2; P-04, decisión del equipo):** once etapas y las transiciones de `requerimientos.md` 4.4.
+
+- **Documentos confirmados:** "Solicitud" (A1 Enviar) y "Documentos codificados" (A2 Enviar).
+- **Documentos `PENDIENTES`:** A6 Embarque ("Packing List / BL": ⏸ uno o dos documentos, S-2), A9 Bodega ("documentos") y A10 Incidencias ("todos los documentos").
+- **Plazos `PENDIENTE`:** Fabricación, Aduana (45 días de tránsito sin tipo definido) e Incidencias.
+- **`ELEGIR_BODEGA`:** no se siembra; es diseño del contrato, no está en 4.4.
+- **Habilitación:** en la fase 2 la aplicación solo habilita las acciones de A1 a A4, incluido A4 → A5. El flujo B se siembra en la fase 6.
 
 ### 3.3 Pedidos y línea de tiempo (módulo `pedidos`)
 
-**`secuencia_pedido`** **[P] ⏸** — solo existe si se aprueba el formato `DK-EC-AAAA-NNNN`.
+**`secuencia_pedido`** — creada en V2 para el formato `DK-EC-AAAA-NNNN` y la separación por país y año, que siguen **provisionales ⏸** (el manual los mantiene así mientras no se aprueben). Un trigger impide borrar filas, cambiar país o año, y hacer retroceder `ultimo_numero`.
 
 | Columna | Tipo | Restricciones |
 | --- | --- | --- |
 | `pais_codigo` | `text` | FK → `pais`, parte de la PK |
-| `anio` | `smallint` | parte de la PK, `CHECK (anio BETWEEN 2026 AND 2100)` |
-| `ultimo_numero` | `integer` | NOT NULL, `CHECK (ultimo_numero BETWEEN 0 AND 9999)` |
+| `anio` | `smallint` | parte de la PK, `CHECK (anio > 0)`: sin cotas arbitrarias del año (decisión del equipo, 2026-10-15) |
+| `ultimo_numero` | `integer` | NOT NULL, `CHECK (ultimo_numero >= 0)`: sin límite de 9 999 (decisión del equipo, 2026-10-15) |
 | `version` | `bigint` | NOT NULL |
 
 Ver la sección 5 sobre cómo se numera.
@@ -217,7 +229,7 @@ Ver la sección 5 sobre cómo se numera.
 | `numero` | `text` | NOT NULL, UNIQUE | Requisito 4.2 #5: único y no se reutiliza. ⏸ Formato |
 | `pais_codigo` | `text` | NOT NULL, FK → `pais` | No cambia (invariante) |
 | `tipo_flujo` | `text` | NOT NULL, `CHECK (IN ('A','B'))` | No cambia |
-| `flujo_id` | `uuid` | NOT NULL, FK → `definicion_flujo` | Versión del flujo que sigue el pedido |
+| `flujo_id` | `uuid` | NOT NULL; con `pais_codigo` y `tipo_flujo`, FK → `definicion_flujo (id, pais_codigo, tipo_flujo)` | Versión del flujo que sigue el pedido, del mismo país y tipo |
 | `nombre` | `text` | NOT NULL, `CHECK (char_length(nombre) BETWEEN 1 AND 200)` | |
 | `descripcion` | `text` | NULL, `CHECK (char_length(descripcion) <= 4000)` | |
 | `incluye_productos_nuevos` | `boolean` | NOT NULL DEFAULT false | Solo flujo A (requisito 4.2 #6) |
@@ -226,11 +238,11 @@ Ver la sección 5 sobre cómo se numera.
 | `etapa_actual` | `smallint` | NOT NULL | Copia de la etapa en estado ACTUAL, para listar y filtrar sin unir tablas |
 | `finalizado` | `boolean` | NOT NULL DEFAULT false | |
 | `finalizado_en` | `timestamptz` | NULL | |
-| `bodega_id` | `uuid` | NULL, FK → `bodega` | Elegida en A9 / B10 |
+| `bodega_id` | `uuid` | NULL, FK → `bodega` | Elegida en A9 / B10. **No está en V2:** se agrega en la fase 4 con `bodega` (S-3) |
 | `urgencia_nivel` | `text` | NULL, `CHECK (IN ('URGENTE','PRIORITARIO','NORMAL'))` | Urgencia activa (requisito 4.2 #11) |
 | `urgencia_activada_en` | `timestamptz` | NULL | |
 | `urgencia_vence_en` | `timestamptz` | NULL | Vencimiento propio, hasta volver a A4 / B5 |
-| `demora_motivo` | `text` | NULL | Última demora en aduana |
+| `demora_motivo` | `text` | NULL | Última demora en aduana. **Las cuatro columnas `demora_*` no están en V2:** se agregan en la fase 4 (S-3) |
 | `demora_nueva_fecha_llegada` | `date` | NULL | ⏸ La escribe David o la calcula el sistema |
 | `demora_reportada_por` | `uuid` | NULL, FK → `usuario` | |
 | `demora_reportada_en` | `timestamptz` | NULL | |
@@ -239,9 +251,10 @@ Ver la sección 5 sobre cómo se numera.
 
 Restricciones adicionales:
 - `CHECK` de urgencia completa: las tres columnas de urgencia son nulas a la vez o tienen valor a la vez.
-- `CHECK` de demora completa: igual con las cuatro columnas de demora.
+- `CHECK` de demora completa: igual con las cuatro columnas de demora (fase 4, junto con las columnas).
 - `CHECK (finalizado = (finalizado_en IS NOT NULL))`.
-- Que país y tipo de flujo no cambien lo garantiza el dominio. **[P]** Además, un trigger `BEFORE UPDATE` que rechace cambios en `pais_codigo`, `tipo_flujo` y `flujo_id`.
+- En V2, además: longitud de `numero`; `incluye_productos_nuevos` solo en el flujo A; `urgencia_vence_en > urgencia_activada_en`.
+- **Trigger aprobado por el equipo (2026-10-15), en V2:** `BEFORE UPDATE OR DELETE` rechaza cambios en `numero`, `pais_codigo`, `tipo_flujo` y `flujo_id`, y rechaza borrar un pedido (su número no queda libre). El dominio aplica la misma regla.
 
 **`etapa_pedido`** — una fila por etapa del flujo y por pedido; es la línea de tiempo.
 
@@ -262,7 +275,8 @@ Restricciones adicionales:
 
 Restricciones adicionales:
 - UNIQUE (`pedido_id`, `numero`).
-- Índice único parcial (`pedido_id`) `WHERE estado = 'ACTUAL'`: un pedido tiene una sola etapa activa (invariante).
+- Índice único parcial (`pedido_id`) `WHERE estado = 'ACTUAL'`: un pedido tiene **a lo sumo** una etapa activa. Que tenga exactamente una mientras no está finalizado lo garantiza el dominio (P-12).
+- En V2, además: una etapa `ACTUAL` tiene `entrada_en`; `motivo_retraso` de hasta 4000 caracteres.
 
 ### 3.4 Historial de solo inserción (módulo `historial`)
 
@@ -281,11 +295,13 @@ Restricciones adicionales:
 | `nivel_urgencia` | `text` | NULL | |
 | `datos` | `jsonb` | NULL | **[P]** Detalle adicional según el tipo: etapa de destino, fecha de demora, bodega |
 
-**`evento_adjunto`**: `evento_id` (FK) y `adjunto_id` (FK); PK compuesta. Liga cada archivo con el evento en que se subió; en el demo faltaba (`auditoria-demo.md`, 2.3).
+En V2, además: `usuario_id` nulo solo en `PLAZO_VENCIDO` y `PEDIDO_FINALIZADO`; `rol_codigo` existe si y solo si existe `usuario_id`; `nivel_urgencia` con los tres valores.
+
+**`evento_adjunto`** (V3): `evento_id` (FK) y `adjunto_id` (FK); PK compuesta; `relacion` `SUBIDO` (evento ARCHIVO_SUBIDO, uno por adjunto) o `PRESENTADO` (la acción que usó el archivo). Solo inserción, con los mismos triggers que `evento_pedido`. En el demo faltaba (`auditoria-demo.md`, 2.3).
 
 **Cómo se garantiza el solo inserción (R7):**
-1. El usuario de base de datos de la aplicación tiene solo `INSERT` y `SELECT` sobre `evento_pedido` y `evento_adjunto` (`REVOKE UPDATE, DELETE`).
-2. **[P]** Un trigger `BEFORE UPDATE OR DELETE` que lanza un error, como segunda barrera aunque se usen otras credenciales.
+1. El usuario de base de datos de la aplicación tiene solo `INSERT` y `SELECT` sobre `evento_pedido` y `evento_adjunto` (`REVOKE UPDATE, DELETE`). Pendiente para la fase 8: hoy la aplicación se conecta como dueña del esquema y un `REVOKE` sobre el dueño no protege.
+2. **Aprobado por el equipo (2026-10-15), en V2:** triggers `BEFORE UPDATE OR DELETE` (por fila) y `BEFORE TRUNCATE` que lanzan un error, aunque se usen otras credenciales.
 3. En JPA, la entidad es inmutable (sección 7).
 4. Las FK desde `evento_pedido` usan `ON DELETE RESTRICT`, así que no se puede borrar un pedido con historial.
 
@@ -312,6 +328,17 @@ Restricciones adicionales:
 | `copiado_en` | `timestamptz` | NULL | |
 
 `CHECK ((estado_copia = 'COPIADO') = (drive_id IS NOT NULL))`. El archivo en sí no se guarda en la base (ADR-0003).
+
+**Implementación en V3 (paso 2.4, P-05 opción A aprobada por el equipo el 2026-10-15).** La tabla anterior es el diseño de la fase 0; V3 la crea con estos ajustes:
+
+- `entrada_id` (NOT NULL, FK compuesta a `entrada_etapa (id, pedido_id, etapa)`): entrada de la etapa a la que se subió (P-18, provisional del equipo).
+- `clave_local` en lugar de `ruta_temporal`: clave relativa generada por el servidor (`{pedidoId}/{etapa}/{adjuntoId}`), nunca el nombre original.
+- `sha256` (NOT NULL, 64 hexadecimales) y `tipo_detectado` (nulo si no se reconoce) en lugar de `tipo_mime`: los calcula el servidor sobre el contenido; el tipo que declara el cliente no se guarda ni decide nada. Los formatos siguen ⏸ y no hay `CHECK` de formato.
+- `tamano_bytes > 0` **sin máximo**: el límite de 100 MB figura en 4.2 #15, pero la fuente lo deja abierto (contradicción 7 del contrato); vive en la configuración, sin valor por defecto.
+- `CHECK (clave_local IS NOT NULL OR drive_id IS NOT NULL)`: solo acredita la referencia de almacenamiento, no que el archivo exista; la aplicación comprueba tamaño (al usarlo en una acción) y tamaño y huella (al descargarlo).
+- Un adjunto no se borra (trigger).
+
+**`entrada_etapa`** (V3): `id`, `pedido_id`, `etapa`, `entrada_en`. Una fila por cada entrada o reentrada a una etapa; solo inserción (triggers). `etapa_pedido.entrada_id` apunta a la entrada actual: FK compuesta y diferible `(entrada_id, pedido_id, numero)` → `entrada_etapa (id, pedido_id, etapa)` (la entrada es del mismo pedido y de la misma etapa), índice único y `CHECK ((entrada_id IS NULL) = (entrada_en IS NULL))`, agregado después de completar los datos anteriores a V3. El CHECK protege frente a escrituras directas, que el dominio no controla; la aplicación escribe las dos columnas en la misma sentencia. **`definicion_etapa.revisa_etapa`** (V3): etapa cuyos archivos revisa; en el flujo A v1 solo A3 revisa A2 (P-17, provisional del equipo).
 
 ### 3.6 Notificaciones (módulo `notificaciones`)
 
@@ -378,13 +405,28 @@ ORDER BY e.vence_en;
 
 **Estado: propuesta pendiente de aprobación del cliente.** El requisito 4.2 #5 solo pide que el número sea secuencial, único y que no se reutilice. El cliente pidió "uno diferente y más profesional", y `DK-EC-AAAA-NNNN` es la propuesta del equipo; todavía no tiene respuesta.
 
-Cómo funcionaría:
-1. Dentro de la transacción que crea el pedido, se bloquea la fila (`pais_codigo`, `anio`) de `secuencia_pedido`, o se crea si es la primera del año, y se incrementa `ultimo_numero`.
-2. Se arma `DK-{pais}-{anio}-{numero con 4 dígitos}`. El año sale del reloj del servidor en hora de Ecuador (R5).
-3. Si la transacción falla, el incremento se revierte con ella. A diferencia de una `SEQUENCE` de PostgreSQL, que no se revierte, así no quedan huecos.
-4. `UNIQUE (numero)` en `pedido` es la última barrera.
+**Qué exige la fuente y qué decidió el equipo:**
+- **Fuente aprobada** (requerimientos 1.3 y 4.2 #5): el número es secuencial, único y no se reutiliza.
+- **Decisión técnica del equipo (Richard, 2026-10-15), no del cliente:**
+  - **Lectura A:** nunca se reutiliza el número de un pedido **confirmado**.
+  - **No se exige ausencia de huecos:** no es un requisito.
+  - **NNNN tiene como mínimo cuatro dígitos:** los números mayores se escriben completos, sin truncar ni reiniciar (`DK-EC-2026-0001` … `DK-EC-2026-9999`, `DK-EC-2026-10000`).
+  - **Sin límite de 9 999** y sin cotas arbitrarias del año.
+- **Siguen provisionales (⏸):** el formato `DK-EC-AAAA-NNNN` y la separación del contador por país y año.
 
-**Límite:** 9 999 pedidos por país y año.
+**Garantías de la migración V2 (implementadas):**
+- **El contador no retrocede:** un trigger impide que `ultimo_numero` baje, que cambien país o año, y que se borre la fila.
+- **Un pedido no se borra ni cambia su número:** otro trigger lo impide.
+- **`UNIQUE (numero)`** en `pedido` es la última barrera.
+- **Con eso**, el número de un pedido confirmado no se reutiliza.
+
+**Comportamiento previsto del generador del paso 2.4 (todavía no implementado):**
+1. **Reservar el número:** dentro de la transacción que crea el pedido, `INSERT … ON CONFLICT DO NOTHING` asegura la fila del país y el año. Después, `UPDATE … SET ultimo_numero = ultimo_numero + 1 … RETURNING ultimo_numero` la incrementa y la deja bloqueada hasta el final de la transacción.
+2. **Concurrencia:** una creación simultánea del mismo país y año espera a que la primera confirme o se revierta, y lee el valor resultante. Dos pedidos confirmados nunca comparten número.
+3. **Rollback:** el incremento se revierte con la transacción. Ese número no perteneció a ningún pedido confirmado y puede entregarse al siguiente, lo que la lectura A permite. Que este mecanismo no deje huecos es una consecuencia, no una garantía exigida.
+4. **Formato:** `DK-{pais}-{anio}-{numero}`, con el número rellenado con ceros hasta cuatro dígitos como mínimo y sin truncar (`%04d`). El año sale del reloj del servidor en hora de Ecuador (R5).
+5. **Exposición:** el número solo se expone después del commit. La respuesta de la API, los eventos del historial y los correos se emiten cuando la transacción confirmó, y el número no se escribe en registros técnicos antes de confirmar.
+6. **Orden:** en orden de texto, `…-10000` queda antes que `…-9999`. Los listados ordenan por `creado_en` (o por la parte numérica), nunca por el texto del número.
 
 **Alternativa si el formato no se aprueba:** una `SEQUENCE` global con el formato que elija el cliente. `NumeroPedido` y `GeneradorNumeroPedido` (`arquitectura.md`, 4.3) aíslan el cambio, y la tabla `secuencia_pedido` dejaría de ser necesaria.
 
@@ -392,7 +434,7 @@ Cómo funcionaría:
 
 | Pendiente | Tablas afectadas | Cómo queda el modelo hasta que se decida |
 | --- | --- | --- |
-| Formato del número de pedido | `secuencia_pedido`, `pedido.numero` | `numero` es `text` sin formato fijo |
+| Formato del número de pedido | `secuencia_pedido`, `pedido.numero` | `numero` es `text` sin formato fijo; `DK-EC-AAAA-NNNN` provisional |
 | Plazos de Fabricación e Incidencias; tránsito hábil o corrido | `definicion_etapa.plazo_*` | Columnas nulas o configurables por etapa |
 | Urgencias en horas hábiles o corridas | `definicion_etapa`, `pedido.urgencia_vence_en` | El tipo de plazo se configura por etapa |
 | Rechazo en Revisión durante una urgencia | `pedido.urgencia_*` | El modelo guarda la urgencia; la regla vive en el dominio |

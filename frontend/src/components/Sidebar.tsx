@@ -1,27 +1,37 @@
-import { HomeIcon, ShieldCheckIcon, UsersIcon, type LucideIcon } from 'lucide-react';
+import { HomeIcon, InboxIcon, PackageIcon, ShieldCheckIcon, UsersIcon, type LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
 
-// Menú principal (plan, tarea 21). Solo muestra las secciones activas de la fase 1; las pantallas del demo de fases
-// posteriores (pedidos, bodegas, avisos, auditoría) quedan fuera de las rutas hasta su fase. El servidor valida igual
-// cada permiso (R6).
+// Menú principal (plan, tarea 21). Muestra las secciones activas: inicio, bandeja y pedidos (fase 2) para todos, y
+// usuarios y roles para el admin. Las pantallas del demo de fases posteriores (bodegas, avisos, auditoría) quedan
+// fuera de las rutas hasta su fase. El servidor valida igual cada permiso (R6).
 interface Enlace {
   a: string;
   texto: string;
   icono: LucideIcon;
   soloAdmin?: boolean;
+  /** Oculto si la persona solo tiene roles de consulta (P-13; plan, tarea 17). */
+  conBandeja?: boolean;
 }
+
+/** Roles de solo consulta (alcance provisional, ⏸): no conceden bandeja, pero no quitan la que dan otros roles. */
+const ROLES_CONSULTA = new Set(['consulta', 'asistente_china']);
 
 const ENLACES: Enlace[] = [
   { a: '/inicio', texto: 'Inicio', icono: HomeIcon },
+  { a: '/bandeja', texto: 'Mi bandeja', icono: InboxIcon, conBandeja: true },
+  { a: '/pedidos', texto: 'Pedidos', icono: PackageIcon },
   { a: '/usuarios', texto: 'Usuarios', icono: UsersIcon, soloAdmin: true },
   { a: '/roles', texto: 'Roles', icono: ShieldCheckIcon, soloAdmin: true },
 ];
 
 export function Sidebar() {
   const usuario = useUsuarioActual();
-  const visibles = ENLACES.filter((enlace) => !enlace.soloAdmin || esAdmin(usuario));
+  const tieneBandeja = usuario.roles.some((rol) => !ROLES_CONSULTA.has(rol));
+  const visibles = ENLACES.filter(
+    (enlace) => (!enlace.soloAdmin || esAdmin(usuario)) && (!enlace.conBandeja || tieneBandeja),
+  );
 
   return (
     <nav aria-label="Menú principal" className="border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0">

@@ -11,7 +11,7 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 - `documentos/requerimientos.md` — requisitos, transiciones por etapa (secciones 4.4 y 4.5) y respuestas del cliente (sección 5). Si un requisito cambia, se actualiza aquí antes que el código.
 - `documentos/manual-paso-a-paso.md` — orden de trabajo por fases (0 a 8), la skill de cada paso y la puerta de salida de cada fase. Seguirlo en orden.
 - `.claude/PRPs/prds/` y `.claude/PRPs/plans/` — PRD y planes por fase (los usan `/ecc:prp-plan` y `/ecc:prp-implement`).
-- `documentos/adr/` — decisiones de arquitectura (16 ADR: 8 accepted por el cliente, 5 accepted por el equipo y 3 proposed; el estado de cada uno está en su `README.md`). `documentos/diagramas/` — diagramas Mermaid.
+- `documentos/adr/` — decisiones de arquitectura (16 ADR: 8 accepted por el cliente, 6 accepted por el equipo y 2 proposed; ADR-0004, motor por datos, se aceptó como decisión del equipo el 2026-10-15; el estado de cada uno está en su `README.md`). `documentos/diagramas/` — diagramas Mermaid.
 - `documentos/arquitectura.md` (módulos y reglas R1–R9), `documentos/api/openapi.yaml` (contrato) y `documentos/modelo-datos.md` (tablas) — diseño técnico de la fase 0. El código los sigue; si hay que apartarse, se registra en un ADR.
 - `documentos/diseno/DESIGN.md` — colores, tipografía, tokens y componentes base. `documentos/auditoria-demo.md` — qué se reutiliza del demo y hallazgos de calidad (Q) y seguridad (S).
 - `documentos/epicas-historias-jira.docx` — 8 épicas y 32 historias, ya cargadas a mano en Jira.
@@ -20,7 +20,7 @@ Web interna de DECOKASA S.A.S. para mover cada pedido de importación por etapas
 ## Estado actual
 
 - Fase 0 (documentación): integrada en `develop` mediante el PR #1. La fase 1 se trabaja en la rama `fase-1-base-acceso`.
-- `frontend/` partió del demo de Google AI Studio. Desde el paso 1.8 el acceso usa la API real; las pantallas de pedidos del demo siguen en `src/components`, sin ruta, hasta la fase 2.
+- `frontend/` partió del demo de Google AI Studio. Desde el paso 1.8 el acceso usa la API real, y desde el paso 2.5 (2026-10-15, sin verificar) también pedidos, bandeja, acciones A1–A4, archivos, observaciones, reasignación e historial (`src/components/pedidos/`, `src/api/pedidos.ts`). Las pantallas del demo de fases posteriores siguen sin ruta.
 - `backend/` tiene el esqueleto (paso 1.3): Spring Boot 4.1.1, Java 21, Gradle 9.7.1 (wrapper con sha256), paquete `com.decokasa.seguimiento`. Hay `compartido` (errores del contrato, `CodigoRol`, `CodigoPais`, puerto `Reloj`, manejador RFC 9457) y `configuracion` (`/api/v1/salud` y `SeguridadWebConfig`: JWT, CORS, `Origin` y cabeceras; el login y la gestión de usuarios están en `usuarios`, paso 1.7). Las reglas R1–R4 y R9 se verifican con ArchUnit (`arquitectura/ReglasArquitecturaTest`). Migración Flyway `V1__usuarios_roles_paises.sql` (paso 1.5): `pais`, `rol`, `rol_permiso`, `usuario`, `usuario_rol` (uno o varios roles, decisión del equipo), `usuario_pais` y `token_renovacion`; siembra EC, CO y los 7 roles, sin usuarios. La prueban `MigracionesIT` (Testcontainers). Login y gestión de usuarios y roles: paso 1.7 (ver más abajo).
 - `docker-compose.yml` levanta PostgreSQL 17, el backend (`backend/Dockerfile`, JRE 21 sin root) y el frontend (`frontend/Dockerfile`: build de Vite servido por nginx, que envía `/api` al backend con `frontend/nginx.conf`) (paso 1.4). Las variables están en `.env.example`; los valores locales, en `.env` (ignorado por Git).
 - Frontend: Vitest + Testing Library + MSW configurados (paso 1.2); TypeScript en modo `strict`; shadcn/ui inicializado con los tokens de `DESIGN.md` en `src/index.css` y componentes en `src/components/ui/`. Todavía no hay Playwright.
@@ -134,9 +134,10 @@ Acceso real desde el paso 1.8:
 - `api/` contiene el cliente, los esquemas Zod y las consultas.
 - `auth/` contiene la sesión, el coordinador A3 y las rutas protegidas.
 
-Lo que sigue es el demo de pedidos: está en memoria y no tiene ruta hasta la fase 2.
+Pedidos (paso 2.5, sin verificar): rutas `/bandeja`, `/pedidos`, `/pedidos/nuevo` (admin) y `/pedidos/:pedidoId`; datos en `api/pedidos.ts` y pantallas en `components/pedidos/`. Las pantallas de pedidos del demo (`OrdersListView`, `OrderDetail`, `StagePanel`…) se retiraron. Resultado y pendientes: plan de la fase 2, "Resultado del paso 2.5".
 
-- Pantallas de pedidos (`OrdersListView`, `OrderDetail`, `StagePanel`…): reciben datos por props; no tienen ruta.
+Lo que sigue es el demo de fases posteriores: está en memoria y no tiene ruta.
+
 - `utils/orderState.ts` — el "motor" del demo: funciones puras que reciben un `Pedido` y devuelven uno nuevo (`advanceOrderStage`, `rejectStageWithObservations`, `returnToCodingWithUrgency`, `reportCustomsDelay`, `uploadStageFile`…). Es la referencia de reglas de negocio para el motor del backend de la fase 2.
 - `data/initialData.ts` — definiciones de etapas `ETAPAS_FLUJO_A` / `ETAPAS_FLUJO_B` y `buildStagesForOrder`. Los usuarios, la contraseña demo, las bodegas, los pedidos y los avisos se retiraron en el paso 1.8.
 - `utils/permissions.ts` — permisos por rol y etapa, solo en el cliente. En el sistema real se validan en el servidor.

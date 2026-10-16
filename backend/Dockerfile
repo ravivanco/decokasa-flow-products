@@ -21,7 +21,9 @@ FROM eclipse-temurin:21-jre
 WORKDIR /aplicacion
 
 # Usuario sin privilegios: la aplicación no corre como root.
-RUN groupadd --system decokasa && useradd --system --gid decokasa --no-create-home decokasa
+# La carpeta de archivos (volumen archivos-datos) pertenece a ese usuario: el volumen nuevo hereda el dueño.
+RUN groupadd --system decokasa && useradd --system --gid decokasa --no-create-home decokasa \
+    && mkdir -p /aplicacion/archivos && chown decokasa:decokasa /aplicacion/archivos
 COPY --from=compilacion --chown=decokasa:decokasa /fuente/aplicacion.jar ./aplicacion.jar
 USER decokasa
 

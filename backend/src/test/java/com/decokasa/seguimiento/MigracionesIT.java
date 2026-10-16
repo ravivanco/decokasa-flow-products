@@ -44,11 +44,29 @@ class MigracionesIT {
     static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer(DockerImageName.parse("postgres:17"));
 
     private static MigrateResult resultado;
+    private static MigrateResult resultadoV1;
+    private static MigrateResult resultadoV2;
+    private static List<String> tablasV1;
 
     private Connection conexion;
 
     @BeforeAll
     static void migrar() {
+        resultadoV1 = Flyway.configure()
+                .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
+                .locations("classpath:db/migration").target("1").load().migrate();
+        try (Connection inicial = DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
+                Statement consulta = inicial.createStatement();
+                ResultSet filas = consulta.executeQuery("select table_name from information_schema.tables "
+                        + "where table_schema = 'public' and table_name <> 'flyway_schema_history' order by table_name")) {
+            tablasV1 = new ArrayList<>();
+            while (filas.next()) tablasV1.add(filas.getString(1));
+        } catch (SQLException error) {
+            throw new IllegalStateException("No se pudo verificar el esquema V1 antes de aplicar V2", error);
+        }
+        resultadoV2 = Flyway.configure()
+                .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
+                .locations("classpath:db/migration").target("2").load().migrate();
         resultado = Flyway.configure()
                 .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
                 .locations("classpath:db/migration")
@@ -72,8 +90,21 @@ class MigracionesIT {
 
     @Test
     void flywayAplicaLaVersionUnoSobreUnaBaseVacia() {
+        assertThat(resultadoV1.success).isTrue();
+        assertThat(resultadoV1.targetSchemaVersion).isEqualTo("1");
+        assertThat(resultadoV1.migrationsExecuted).isEqualTo(1);
+        assertThat(tablasV1).containsExactly(
+                "pais", "rol", "rol_permiso", "token_renovacion", "usuario", "usuario_pais", "usuario_rol");
+    }
+
+    @Test
+    void flywayCompletaVersionDosSinModificarLaUno() {
+        assertThat(resultadoV2.success).isTrue();
+        assertThat(resultadoV2.targetSchemaVersion).isEqualTo("2");
+        assertThat(resultadoV2.migrationsExecuted).isEqualTo(1);
         assertThat(resultado.success).isTrue();
-        assertThat(resultado.targetSchemaVersion).isEqualTo("1");
+        assertThat(resultado.targetSchemaVersion).isEqualTo("3");
+        assertThat(resultado.migrationsExecuted).isEqualTo(1);
     }
 
     @Test
@@ -87,21 +118,23 @@ class MigracionesIT {
 
         assertThat(segunda.success).isTrue();
         assertThat(segunda.migrationsExecuted).isZero();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("1");
-        assertThat(flyway.info().applied()).hasSize(1);
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("3");
+        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3");
         assertThat(flyway.info().pending()).isEmpty();
     }
 
     @Test
-    void creaSoloLasTablasDeUsuariosRolesYPaises() throws SQLException {
+    void creaLasTablasDeV1MotorYArchivosSinBodegas() throws SQLException {
         List<String> tablas = textos("""
                 select table_name from information_schema.tables
                 where table_schema = 'public' and table_name <> 'flyway_schema_history'
                 order by table_name""");
 
-        // Sin tablas de pedidos ni etapas: llegan en la fase 2.
+        // Conserva todas las tablas V1/V2 y exige las tres nuevas de V3.
         assertThat(tablas).containsExactly(
-                "pais", "rol", "rol_permiso", "token_renovacion", "usuario", "usuario_pais", "usuario_rol");
+                "adjunto", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido",
+                "pais", "pedido", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida",
+                "usuario", "usuario_pais", "usuario_rol");
     }
 
     @Test

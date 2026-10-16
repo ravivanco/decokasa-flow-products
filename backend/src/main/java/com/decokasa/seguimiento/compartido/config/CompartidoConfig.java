@@ -1,7 +1,10 @@
 package com.decokasa.seguimiento.compartido.config;
 
+import com.decokasa.seguimiento.compartido.adapter.out.PublicadorEventosSpring;
 import com.decokasa.seguimiento.compartido.adapter.out.RelojSistema;
+import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,5 +18,10 @@ public class CompartidoConfig {
     @Bean
     Reloj reloj() {
         return new RelojSistema();
+    }
+
+    @Bean
+    PublicadorEventos publicadorEventos(ApplicationEventPublisher publicador) {
+        return new PublicadorEventosSpring(publicador);
     }
 }

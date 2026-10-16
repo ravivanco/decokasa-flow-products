@@ -182,7 +182,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | # | Phase | Description | Status | Parallel | Depends | PRP Plan |
 |---|-------|-------------|--------|----------|---------|----------|
 | 1 | Base y acceso | Monorepo con frontend migrado y backend Spring Boot, Docker y PostgreSQL, login con correo, usuario o teléfono, usuarios y roles, dashboards vacíos por rol | complete (desarrollo validado por Richard, 2026-10-15; producción no autorizada) | - | - | [fase-1-base-acceso.plan.md](../plans/fase-1-base-acceso.plan.md) |
-| 2 | Motor de flujo y A1-A4 | Motor de flujos por datos, pedidos con número secuencial, etapas A1 a A4 con aprobar, rechazar y devolver (por error o con urgencia), historial de solo inserción | in-progress (plan listo; sin implementar) | with 3 | 1 | [fase-2-motor-flujo.plan.md](../plans/fase-2-motor-flujo.plan.md) |
+| 2 | Motor de flujo y A1-A4 | Motor de flujos por datos, pedidos con número secuencial, etapas A1 a A4 con aprobar, rechazar y devolver (por error o con urgencia), historial de solo inserción | complete (desarrollo con datos ficticios validado por Richard, 2026-10-16; producción no autorizada) | with 3 | 1 | [fase-2-motor-flujo.plan.md](../plans/fase-2-motor-flujo.plan.md) |
 | 3 | Drive y Gmail | Puertos y adaptadores de archivos (Drive, 100 MB) y notificaciones (Gmail al admin), cola con reintentos, pantalla de archivos y de correos enviados | pending | with 2 | 1 | - |
 | 4 | Etapas A5-A11 | Fabricación, embarque con Packing List / BL, aduana con demora y recálculo, salida, bodega obligatoria, incidencias y Fin automático | pending | - | 2, 3 | - |
 | 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | - |
@@ -190,10 +190,12 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujo colombiano, caso de uso de IA. Espera las definiciones del cliente; puede hacerse después de la fase 8 | pending | - | 5, 6 | - |
 | 8 | Producción | Alojamiento, CI, imágenes de producción, HTTPS, respaldos, monitoreo, auditoría final, prueba de aceptación con los 6 usuarios y documentación de entrega | pending | - | 5, 6 | - |
 
-**Estado al 2026-10-14 (nuevo manual, partes A y B):**
+**Estado vigente de fase 2 — 2026-10-16:** cerrada en desarrollo con datos ficticios por validación expresa de Richard. Se conservan P-11, decisiones provisionales y backlog documentado; producción no autorizada. Véase la validación específica al final de este PRD y el [informe de fase 2](../../../documentos/pruebas/fase-2-informe.md). Las demás fases no cambian de estado.
 
-- **Fase 1, `in-progress`:** parte A codificada (pasos 1.1 a 1.5). Siguen pendientes la parte B con Codex (incluido **1.B3**, seguridad y verificación) y el **cierre** que valida Richard.
-- **Fase 2:** solo tiene el plan. Su implementación empieza cuando Richard resuelva P-01 (rama base) y las decisiones previas al paso 2.1 del plan.
+**Registro histórico al 2026-10-15 (nuevo manual, partes A y B; sustituido para fase 2 por la validación del 2026-10-16):**
+
+- **Fase 1:** cerrada en desarrollo por validación de Richard (2026-10-15). Producción no autorizada; los hallazgos abiertos siguen en `documentos/pruebas/fase-1-informe.md`. Integrada en `develop` con el PR #2 (`990c35a`).
+- **Fase 2:** solo tiene el plan, en la rama `fase-2-motor-flujo` (desde `develop`). Su implementación empieza cuando Richard apruebe las decisiones previas al paso 2.1 del plan: para V3 y las migraciones siguientes, P-05, P-16 y los ajustes de `adjunto`. Paso 2.1 (parte A) codificado el 2026-10-15: `V2__flujos_pedidos_historial.sql`, con S-1, S-2, S-3 y los triggers aprobados por el equipo; sin pruebas hasta la parte B. Paso 2.2 (parte A) codificado el 2026-10-15: dominio de `flujos`, `plazos` y `pedidos`; sin verificar. Paso 2.3 (parte A) codificado el 2026-10-15: permisos con el estado vigente, reasignación, eventos en `compartido.domain.eventos` e historial de solo inserción en la transacción de la acción; sin verificar. P-06, P-07 (provisional) y P-15 aprobados como decisiones del equipo, no del cliente. Paso 2.4 (parte A) codificado parcialmente el 2026-10-15: casos de uso, JPA, transacciones, generador de números y eventos atómicos; los endpoints quedan bloqueados por P-13, P-05, P-17 y P-18 y por huecos del contrato; sin verificar. P-13 aprobado provisionalmente por el equipo el 2026-10-15 para desarrollo con datos ficticios; pendiente de confirmación del cliente antes de usar datos reales. P-05 opción A aprobada el 2026-10-15 (módulo mínimo de archivos reales en la fase 2; Drive en la fase 3; formatos y límite de 100 MB sin confirmar). P-17 (descarga por el servidor con permiso propio; revisión A3 → A2) y P-18 (requisitos solo con archivos de la entrada actual, por identificador de entrada) aprobados provisionalmente por el equipo el 2026-10-15, pendientes de confirmación del cliente. Paso 2.4 continuado el 2026-10-15: contrato 0.7.0-borrador, V3 (archivos y entradas), módulo de archivos, consultas y endpoints de pedidos y acciones; sin verificar y no completo (la subida depende del límite de tamaño, contradicción 7). Aprobados como decisiones del equipo el 2026-10-15 (no del cliente): P-02 (motor por datos, ADR-0004) y P-04 (siembra de las once etapas del flujo A versión 1; en la fase 2 solo se habilitan A1 a A4, incluido A4 → A5).
 
 ### Phase Details
 
@@ -294,3 +296,11 @@ No se hizo investigación de mercado: es una herramienta interna con un proceso 
 
 *Generated: 2026-10-10*
 *Status: DRAFT - needs validation*
+
+## Validación de desarrollo de la fase 2 — 2026-10-16
+
+Richard validó expresamente: «Valido el cierre de la fase 2 en desarrollo con datos ficticios, conservando P-11, las decisiones provisionales y el backlog documentado. No autorizo producción».
+
+Se registra la fase 2 como **complete solo en desarrollo con datos ficticios**. No se autoriza producción ni uso de datos reales, y no se alteran los estados de las demás fases. Se conservan P-11, las decisiones provisionales y el backlog del [informe de fase 2](../../../documentos/pruebas/fase-2-informe.md), incluidas coordinación P-16 y limitaciones heredadas.
+
+Evidencia: 2.B1 motor/permisos, 2.B2 persistencia/contrato con PostgreSQL Testcontainers aislado y 2.B3 navegador con API real, login normal, almacenamiento y nginx exclusivos. Se reutilizan los resultados aprobados: backend check 484 PASS, cobertura de líneas 93,00 %; frontend lint, 219 PASS, build y 91,99 % de líneas instrumentadas. El recorrido 2.B3 acredita escenarios reales, sin cobertura de código adicional. No se ejecutan pruebas nuevas para registrar la validación.

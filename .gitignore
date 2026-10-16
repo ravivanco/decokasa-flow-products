@@ -10,6 +10,9 @@ coverage/
 # Usuarios reales para la carga inicial: nunca en Git (ADR-0015). Solo se sube usuarios.ejemplo.json.
 backend/semilla/*.local.json
 
+# Archivos reales del almacenamiento local (arranque manual del backend): nunca en Git.
+backend/datos/
+
 # Enlaces simbólicos de skills (se regeneran con npx skills)
 .claude/skills/
 # Archivos temporales de Word

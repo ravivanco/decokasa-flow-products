@@ -54,6 +54,12 @@ decokasa:
   cors:
     # Orígenes del frontend; /auth/renovar y /auth/cerrar-sesion rechazan cualquier otro Origin (D3b).
     origenes: ${CORS_ORIGENES:http://localhost:3000}
+  archivos:
+    # Almacenamiento local persistente de archivos reales (P-05 opción A). En Docker es el volumen archivos-datos.
+    directorio: ${ALMACEN_LOCAL_DIR:./datos/archivos}
+    # Límite provisional del equipo (2026-10-15), pendiente del cliente: 100 MiB por archivo ("100MB" en Spring es
+    # 104857600 bytes). Configurable; en Docker sale de ARCHIVOS_TAMANO_MAXIMO_MIB, la misma variable que usa nginx.
+    tamano-maximo: ${DECOKASA_ARCHIVOS_TAMANO_MAXIMO:100MB}
   semilla:
     habilitada: ${SEMILLA_HABILITADA:false}
     archivo: ${SEMILLA_ARCHIVO:}

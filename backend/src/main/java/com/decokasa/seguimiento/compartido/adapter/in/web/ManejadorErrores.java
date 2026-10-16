@@ -4,6 +4,7 @@ import com.decokasa.seguimiento.compartido.domain.CodigoError;
 import com.decokasa.seguimiento.compartido.domain.DatoDuplicado;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.ErrorDeDominio;
+import com.decokasa.seguimiento.compartido.domain.RequisitoFaltante;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -43,7 +45,8 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.TIPO_ARCHIVO_NO_ACEPTADO, HttpStatus.UNSUPPORTED_MEDIA_TYPE),
             Map.entry(CodigoError.REQUISITO_FALTANTE, HttpStatus.UNPROCESSABLE_CONTENT),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, HttpStatus.LOCKED),
-            Map.entry(CodigoError.VERSION_DESACTUALIZADA, HttpStatus.CONFLICT)));
+            Map.entry(CodigoError.VERSION_DESACTUALIZADA, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, HttpStatus.CONFLICT)));
 
     private static final Map<CodigoError, String> TITULOS = new EnumMap<>(Map.ofEntries(
             Map.entry(CodigoError.VALIDACION, "Datos inválidos"),
@@ -58,7 +61,8 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.TIPO_ARCHIVO_NO_ACEPTADO, "Tipo de archivo no aceptado"),
             Map.entry(CodigoError.REQUISITO_FALTANTE, "Falta un requisito"),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, "Cuenta bloqueada"),
-            Map.entry(CodigoError.VERSION_DESACTUALIZADA, "Los datos cambiaron")));
+            Map.entry(CodigoError.VERSION_DESACTUALIZADA, "Los datos cambiaron"),
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, "Archivo no disponible")));
 
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {
@@ -73,6 +77,10 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
         };
         if (campo != null) {
             problema.setProperty("errores", List.of(Map.of("campo", campo, "mensaje", error.getMessage())));
+        }
+        // Contrato (Problema.faltantes): solo con REQUISITO_FALTANTE, la lista de lo que falta para la acción.
+        if (error instanceof RequisitoFaltante requisito) {
+            problema.setProperty("faltantes", requisito.faltantes());
         }
         return ResponseEntity.status(estado).body(problema);
     }
@@ -99,6 +107,16 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
                 .toList();
         problema.setProperty("errores", errores);
         return handleExceptionInternal(error, problema, cabeceras, HttpStatus.BAD_REQUEST, solicitud);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException error, HttpHeaders cabeceras, HttpStatusCode estado, WebRequest solicitud) {
+        // Spring puede delegar con cuerpo null: construirlo aquí evita perder el código contractual.
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONTENT_TOO_LARGE, "El archivo supera el tamaño máximo permitido.");
+        completar(problema, CodigoError.ARCHIVO_DEMASIADO_GRANDE);
+        return handleExceptionInternal(error, problema, cabeceras, HttpStatus.CONTENT_TOO_LARGE, solicitud);
     }
 
     // Errores propios de Spring MVC (ruta inexistente, método no permitido, JSON ilegible…): se les agrega el código.

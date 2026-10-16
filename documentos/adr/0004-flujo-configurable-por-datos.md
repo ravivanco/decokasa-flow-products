@@ -1,8 +1,8 @@
 # ADR-0004: Flujo de etapas configurable por datos
 
-**Fecha**: 2026-10-10 (registrada originalmente el 2026-10-09)
-**Estado**: proposed
-**Decisores**: equipo de desarrollo (no viene del cliente)
+**Fecha**: 2026-10-10 (registrada originalmente el 2026-10-09); aprobada por el equipo el 2026-10-15
+**Estado**: accepted (equipo)
+**Decisores**: equipo de desarrollo; aprobación de Richard el 2026-10-15. No viene del cliente ni es una respuesta del cliente
 
 ## Contexto
 
@@ -11,6 +11,19 @@ Hay dos flujos: A, pedido de Ecuador, con 11 etapas, y B, pedido propuesto por C
 ## Decisión
 
 Las etapas, los roles responsables, los plazos, las acciones permitidas, los requisitos de cada acción y las transiciones se guardan como datos versionados. Un motor de flujos los interpreta. Un pedido sigue siempre la versión con la que se creó (`arquitectura.md`, 4.2).
+
+## Aprobación (2026-10-15)
+
+Richard aprobó como **decisión técnica del equipo** (decisión P-02 del plan de la fase 2) que el motor usa **definiciones versionadas de flujo, etapas y transiciones almacenadas en datos**. Es el mecanismo que pide el manual en el paso 2.1 ("definiciones versionadas de flujo y etapa, transiciones").
+
+Alcance de la aprobación:
+
+- **Aprobado:** el mecanismo. Las definiciones viven en tablas (`modelo-datos.md`, §3.2), se cargan con migraciones y el motor las interpreta. Cada pedido sigue la versión con la que se creó.
+- **No aprobado aquí:**
+  - el **contenido** de negocio que siga pendiente del cliente: plazos de Fabricación e Incidencias, tránsito, documentos de Incidencias (ver "Pendiente del cliente");
+  - las demás decisiones abiertas de la fase 2 (archivos P-05 y migraciones P-16, entre otras);
+  - una pantalla para editar flujos: los cambios siguen entrando por migraciones revisadas.
+- **Origen:** equipo. El cliente definió las etapas y las transiciones de los flujos A y B (`requerimientos.md`, 4.4 y 4.5), no el mecanismo para guardarlas.
 
 ## Alternativas consideradas
 
