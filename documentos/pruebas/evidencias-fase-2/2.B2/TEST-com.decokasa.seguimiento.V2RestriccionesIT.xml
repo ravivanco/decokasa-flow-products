@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V2RestriccionesIT" tests="23" skipped="0" failures="1" errors="0" timestamp="2026-10-15T17:13:19.115Z" hostname="DESKTOP-GKF6IVL" time="2.118">
+  <properties/>
+  <testcase name="[1] cambio = &quot;numero='otro'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[2] cambio = &quot;pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[3] cambio = &quot;tipo_flujo='B'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[4] cambio = &quot;flujo_id='00000000-0000-0000-0000-000000000001'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.019"/>
+  <testcase name="contadorTampocoSePuedeVaciarPorTruncate()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.024">
+    <failure message="java.lang.AssertionError: &#13;&#10;Expecting code to raise a throwable." type="java.lang.AssertionError">java.lang.AssertionError: 
+Expecting code to raise a throwable.
+	at com.decokasa.seguimiento.V2RestriccionesIT.rechaza(V2RestriccionesIT.java:58)
+	at com.decokasa.seguimiento.V2RestriccionesIT.contadorTampocoSePuedeVaciarPorTruncate(V2RestriccionesIT.java:97)
+</failure>
+  </testcase>
+  <testcase name="checksDePlazoResponsableYUrgencia()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.03"/>
+  <testcase name="siembraExactaDeOnceEtapasSinInventarPlazos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.023"/>
+  <testcase name="pedidoNoSeBorra()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.025"/>
+  <testcase name="[1] cambio = &quot;estado='INEXISTENTE'&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[2] cambio = &quot;reentradas=-1&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[3] cambio = &quot;numero=31&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[4] cambio = &quot;asignado_a='00000000-0000-0000-0000-000000000001'&quot;, estado = &quot;23503&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="catorceTransicionesConRequisitosAprobadosYPendientes()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="clavesForaneasDeTransicionesDocumentosYEventos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.025"/>
+  <testcase name="numeroUnicoYReferenciasDePedido()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.023"/>
+  <testcase name="indiceUnicoRechazaDosActualesYPermiteCambioA4A2EnOrden()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.021"/>
+  <testcase name="[1] sentencia = &quot;update secuencia_pedido set ultimo_numero=6&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.019"/>
+  <testcase name="[2] sentencia = &quot;delete from secuencia_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="[3] sentencia = &quot;update secuencia_pedido set anio=2027&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="[4] sentencia = &quot;update secuencia_pedido set pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[1] sentencia = &quot;update evento_pedido set observacion='Cambio ficticio'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[2] sentencia = &quot;delete from evento_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[3] sentencia = &quot;truncate table evento_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <system-out><![CDATA[2026-10-15T12:13:19.116-05:00  INFO 16728 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T12:13:19.199-05:00  INFO 16728 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 5d60a8d800db47d24d8e759f779134e036e233dbcdda1749749a1ece291709c5
+2026-10-15T12:13:20.599-05:00  INFO 16728 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4828178S
+2026-10-15T12:13:20.600-05:00  INFO 16728 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55946/test?loggerLevel=OFF)
+2026-10-15T12:13:20.617-05:00  INFO 16728 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55946/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T12:13:20.628-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T12:13:20.629-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.003s)
+2026-10-15T12:13:20.635-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T12:13:20.658-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T12:13:20.663-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T12:13:20.704-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T12:13:20.751-05:00  INFO 16728 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.060s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

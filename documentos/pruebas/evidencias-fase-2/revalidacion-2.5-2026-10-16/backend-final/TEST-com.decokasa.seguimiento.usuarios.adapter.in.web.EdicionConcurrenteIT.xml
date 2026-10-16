@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-16T16:04:09.177Z" hostname="DESKTOP-GKF6IVL" time="0.551">
+  <properties/>
+  <testcase name="unaEdicionALaVezQueLoginsFallidosNoFallaNiPierdeIntentosNiQuitaElBloqueo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" time="0.347"/>
+  <testcase name="dosEdicionesSimultaneasConLaMismaVersionGuardanUnaYLaOtraRecibe409()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" time="0.189"/>
+  <system-out><![CDATA[2026-10-16T11:04:09.178-05:00  INFO 12788 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT]: EdicionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T11:04:09.181-05:00  INFO 12788 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT
+2026-10-16T11:04:09.182-05:00  INFO 12788 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT]: EdicionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T11:04:09.185-05:00  INFO 12788 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

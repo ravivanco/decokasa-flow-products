@@ -1,0 +1,17 @@
+﻿4:  version: 0.6.0-borrador
+431:  /flujos/{pais}/{tipoFlujo}:
+471:  /pedidos:
+547:  /pedidos/buscar:
+573:  /pedidos/bandeja:
+593:  /pedidos/vencidos:
+626:  /pedidos/{pedidoId}:
+647:  /pedidos/{pedidoId}/acciones:
+715:  /pedidos/{pedidoId}/etapas/{numeroEtapa}/asignacion:
+762:  /pedidos/{pedidoId}/observaciones:
+806:  /pedidos/{pedidoId}/historial:
+828:  /pedidos/{pedidoId}/etapas/{numeroEtapa}/archivos:
+1056:  /pedidos/{pedidoId}/cronograma:
+1639:    DefinicionEtapa:
+1666:    DefinicionAccion:
+1933:    AccionBase:
+2038:    EventoHistorial:

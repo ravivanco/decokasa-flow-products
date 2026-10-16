@@ -1,0 +1,316 @@
+﻿diff --git "a/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\compartido\\domain\\flujo\\ContratoDeFlujo.java" "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\compartido\\domain\\flujo\\ContratoDeFlujo.java"
+new file mode 100644
+index 0000000..37b0c95
+--- /dev/null
++++ "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\compartido\\domain\\flujo\\ContratoDeFlujo.java"
+@@ -0,0 +1,32 @@
++package com.decokasa.seguimiento.compartido.domain.flujo;
++
++import com.decokasa.seguimiento.compartido.domain.CodigoPais;
++import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
++import java.util.List;
++import java.util.UUID;
++
++/**
++ * Lo que otro módulo puede leer de una versión de un flujo (R4: contrato compartido, como los eventos de P-15). Lo
++ * implementa el dominio de {@code flujos} y lo entrega su puerto de entrada ConsultarDefinicionFlujo; {@code pedidos}
++ * trabaja solo con este contrato y no depende de las clases internas de {@code flujos} (2.B1-D01). Java puro (R1).
++ */
++public interface ContratoDeFlujo {
++
++    UUID id();
++
++    CodigoPais pais();
++
++    TipoFlujo tipo();
++
++    /** Versión del flujo (ADR-0004: un pedido sigue la versión con la que se creó). */
++    int version();
++
++    /** Etapas de la versión, en orden. */
++    List<? extends ContratoDeEtapa> etapas();
++
++    /** La etapa con ese número; si no existe, un error de dominio. */
++    ContratoDeEtapa etapa(int numero);
++
++    /** La primera etapa (A1 / B1), donde nace un pedido. */
++    ContratoDeEtapa etapaInicial();
++}
+diff --git "a/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\port\\in\\ConsultarDefinicionFlujo.java" "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\port\\in\\ConsultarDefinicionFlujo.java"
+new file mode 100644
+index 0000000..763537f
+--- /dev/null
++++ "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\port\\in\\ConsultarDefinicionFlujo.java"
+@@ -0,0 +1,24 @@
++package com.decokasa.seguimiento.flujos.application.port.in;
++
++import com.decokasa.seguimiento.compartido.domain.CodigoPais;
++import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
++import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
++import java.util.UUID;
++
++/**
++ * Definición de un flujo para otros módulos. Devuelve el contrato compartido {@link ContratoDeFlujo}, nunca las clases
++ * internas de {@code flujos}: la frontera del puerto no expone {@code flujos.domain} (R4; 2.B1-D01). Las transiciones
++ * se consultan con el puerto ResolverTransicion. Qué debe exponer GET /flujos/{pais}/{tipoFlujo} sigue bloqueado por
++ * las representaciones pendientes del contrato (paso 2.4).
++ *
++ * @throws com.decokasa.seguimiento.compartido.domain.NoEncontrado si no hay una versión vigente o la pedida
++ */
++public interface ConsultarDefinicionFlujo {
++
++    ContratoDeFlujo vigente(CodigoPais pais, TipoFlujo tipo);
++
++    ContratoDeFlujo version(CodigoPais pais, TipoFlujo tipo, int version);
++
++    /** La versión exacta que sigue un pedido (ADR-0004: un pedido no cambia de versión). */
++    ContratoDeFlujo porId(UUID flujoId);
++}
+diff --git "a/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\usecase\\ConsultarDefinicionFlujoCasoDeUso.java" "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\usecase\\ConsultarDefinicionFlujoCasoDeUso.java"
+new file mode 100644
+index 0000000..66cbdfa
+--- /dev/null
++++ "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\application\\usecase\\ConsultarDefinicionFlujoCasoDeUso.java"
+@@ -0,0 +1,40 @@
++package com.decokasa.seguimiento.flujos.application.usecase;
++
++import com.decokasa.seguimiento.compartido.domain.CodigoPais;
++import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
++import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
++import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
++import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
++import com.decokasa.seguimiento.flujos.application.port.out.DefinicionFlujoRepositorio;
++import java.util.UUID;
++
++/**
++ * Lectura de definiciones de flujo. Entrega la definición del dominio como {@link ContratoDeFlujo}, el contrato que
++ * puede cruzar la frontera del módulo (R4). Sin Spring (R2).
++ */
++public final class ConsultarDefinicionFlujoCasoDeUso implements ConsultarDefinicionFlujo {
++
++    private final DefinicionFlujoRepositorio definiciones;
++
++    public ConsultarDefinicionFlujoCasoDeUso(DefinicionFlujoRepositorio definiciones) {
++        this.definiciones = definiciones;
++    }
++
++    @Override
++    public ContratoDeFlujo vigente(CodigoPais pais, TipoFlujo tipo) {
++        return definiciones.buscarVigente(pais, tipo)
++                .orElseThrow(() -> new NoEncontrado("No hay un flujo vigente para ese país y tipo."));
++    }
++
++    @Override
++    public ContratoDeFlujo version(CodigoPais pais, TipoFlujo tipo, int version) {
++        return definiciones.buscarVersion(pais, tipo, version)
++                .orElseThrow(() -> new NoEncontrado("Esa versión del flujo no existe."));
++    }
++
++    @Override
++    public ContratoDeFlujo porId(UUID flujoId) {
++        return definiciones.buscarPorId(flujoId)
++                .orElseThrow(() -> new NoEncontrado("El flujo del pedido no existe."));
++    }
++}
+diff --git "a/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\config\\FlujosConfig.java" "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\config\\FlujosConfig.java"
+new file mode 100644
+index 0000000..8a85d9d
+--- /dev/null
++++ "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\config\\FlujosConfig.java"
+@@ -0,0 +1,60 @@
++package com.decokasa.seguimiento.flujos.config;
++
++import com.decokasa.seguimiento.compartido.domain.CodigoPais;
++import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
++import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
++import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
++import com.decokasa.seguimiento.flujos.application.port.in.ResolverTransicion;
++import com.decokasa.seguimiento.flujos.application.port.out.DefinicionFlujoRepositorio;
++import com.decokasa.seguimiento.flujos.application.usecase.ConsultarDefinicionFlujoCasoDeUso;
++import com.decokasa.seguimiento.flujos.application.usecase.ResolverTransicionCasoDeUso;
++import java.util.UUID;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.support.TransactionTemplate;
++
++/**
++ * Raíz de composición del módulo flujos (arquitectura.md, sección 1). Las lecturas abren una transacción de solo
++ * lectura, o se unen a la de la acción que las llama (propagación REQUIRED; ADR-0012).
++ */
++@Configuration(proxyBeanMethods = false)
++public class FlujosConfig {
++
++    @Bean
++    ResolverTransicion resolverTransicion(PlatformTransactionManager gestor, DefinicionFlujoRepositorio definiciones) {
++        TransactionTemplate tx = soloLectura(gestor);
++        ResolverTransicion caso = new ResolverTransicionCasoDeUso(definiciones);
++        return (flujoId, etapaOrigen, accion) -> tx.execute(estado -> caso.resolver(flujoId, etapaOrigen, accion));
++    }
++
++    @Bean
++    ConsultarDefinicionFlujo consultarDefinicionFlujo(PlatformTransactionManager gestor,
++            DefinicionFlujoRepositorio definiciones) {
++        TransactionTemplate tx = soloLectura(gestor);
++        ConsultarDefinicionFlujo caso = new ConsultarDefinicionFlujoCasoDeUso(definiciones);
++        return new ConsultarDefinicionFlujo() {
++            @Override
++            public ContratoDeFlujo vigente(CodigoPais pais, TipoFlujo tipo) {
++                return tx.execute(estado -> caso.vigente(pais, tipo));
++            }
++
++            @Override
++            public ContratoDeFlujo version(CodigoPais pais, TipoFlujo tipo, int version) {
++                return tx.execute(estado -> caso.version(pais, tipo, version));
++            }
++
++            @Override
++            public ContratoDeFlujo porId(UUID flujoId) {
++                return tx.execute(estado -> caso.porId(flujoId));
++            }
++        };
++    }
++
++    // Dentro de una transacción de escritura, readOnly no la cambia: solo se une a ella.
++    private static TransactionTemplate soloLectura(PlatformTransactionManager gestor) {
++        TransactionTemplate tx = new TransactionTemplate(gestor);
++        tx.setReadOnly(true);
++        return tx;
++    }
++}
+diff --git "a/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\domain\\DefinicionFlujo.java" "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\domain\\DefinicionFlujo.java"
+new file mode 100644
+index 0000000..ca8bc58
+--- /dev/null
++++ "b/C:\\Users\\Richard\\Desktop\\decoWeb\\backend\\src\\main\\java\\com\\decokasa\\seguimiento\\flujos\\domain\\DefinicionFlujo.java"
+@@ -0,0 +1,130 @@
++package com.decokasa.seguimiento.flujos.domain;
++
++import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
++import com.decokasa.seguimiento.compartido.domain.CodigoPais;
++import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
++import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
++import com.decokasa.seguimiento.compartido.domain.TransicionNoPermitida;
++import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
++import java.util.Comparator;
++import java.util.List;
++import java.util.Objects;
++import java.util.UUID;
++
++/**
++ * Una versión de un flujo con sus etapas y transiciones (ADR-0004, aceptado por el equipo el 2026-10-15). Las reglas
++ * de cada etapa salen de estos datos, no de condiciones por número de etapa en el código; así se evitan los errores
++ * 1 y 2 del demo (auditoria-demo.md §6). Un pedido sigue la versión con la que se creó. Java puro (R1).
++ *
++ * <p>Implementa {@link ContratoDeFlujo}, lo único que otros módulos pueden leer de ella (R4).
++ */
++public final class DefinicionFlujo implements ContratoDeFlujo {
++
++    private final UUID id;
++    private final CodigoPais pais;
++    private final TipoFlujo tipo;
++    private final int version;
++    private final boolean vigente;
++    private final List<DefinicionEtapa> etapas;
++    private final List<TransicionPermitida> transiciones;
++
++    public DefinicionFlujo(UUID id, CodigoPais pais, TipoFlujo tipo, int version, boolean vigente,
++            List<DefinicionEtapa> etapas, List<TransicionPermitida> transiciones) {
++        this.id = Objects.requireNonNull(id, "id");
++        this.pais = Objects.requireNonNull(pais, "pais");
++        this.tipo = Objects.requireNonNull(tipo, "tipo");
++        if (version < 1) {
++            throw new DatoInvalido("La versión de un flujo empieza en 1.");
++        }
++        this.version = version;
++        this.vigente = vigente;
++        this.etapas = etapas.stream().sorted(Comparator.comparingInt(DefinicionEtapa::numero)).toList();
++        this.transiciones = List.copyOf(transiciones);
++        if (this.etapas.isEmpty()) {
++            throw new DatoInvalido("Un flujo necesita al menos una etapa.");
++        }
++        if (this.etapas.stream().map(DefinicionEtapa::numero).distinct().count() != this.etapas.size()) {
++            throw new DatoInvalido("Dos etapas del flujo tienen el mismo número.");
++        }
++        for (TransicionPermitida transicion : this.transiciones) {
++            exigirEtapa(transicion.etapaOrigen());
++            if (transicion.etapaDestino() != null) {
++                exigirEtapa(transicion.etapaDestino());
++            }
++        }
++    }
++
++    /**
++     * La transición de la acción en la etapa de origen.
++     *
++     * @throws TransicionNoPermitida si la acción no existe en esa etapa
++     */
++    public TransicionPermitida resolver(int etapaOrigen, AccionEtapa accion) {
++        return transiciones.stream()
++                .filter(transicion -> transicion.etapaOrigen() == etapaOrigen && transicion.accion() == accion)
++                .findFirst()
++                .orElseThrow(() -> new TransicionNoPermitida("La acción no está permitida en esta etapa."));
++    }
++
++    @Override
++    public DefinicionEtapa etapa(int numero) {
++        return etapas.stream()
++                .filter(etapa -> etapa.numero() == numero)
++                .findFirst()
++                .orElseThrow(() -> new DatoInvalido("La etapa " + numero + " no existe en este flujo."));
++    }
++
++    /** La primera etapa del flujo (A1 / B1), donde nace un pedido. */
++    @Override
++    public DefinicionEtapa etapaInicial() {
++        return etapas.get(0);
++    }
++
++    /**
++     * Una etapa desde la que se devuelve por producto nuevo (A4 / B5): al volver a ella termina la urgencia
++     * (requerimientos 4.2 #11). Se deduce de los datos, no del número de etapa.
++     */
++    public boolean esRetornoDeUrgencia(int numeroEtapa) {
++        return transiciones.stream().anyMatch(transicion -> transicion.etapaOrigen() == numeroEtapa
++                && transicion.accion() == AccionEtapa.DEVOLVER_POR_PRODUCTO_NUEVO);
++    }
++
++    private void exigirEtapa(int numero) {
++        if (etapas.stream().noneMatch(etapa -> etapa.numero() == numero)) {
++            throw new DatoInvalido("Una transición apunta a la etapa " + numero + ", que no existe en el flujo.");
++        }
++    }
++
++    @Override
++    public UUID id() {
++        return id;
++    }
++
++    @Override
++    public CodigoPais pais() {
++        return pais;
++    }
++
++    @Override
++    public TipoFlujo tipo() {
++        return tipo;
++    }
++
++    @Override
++    public int version() {
++        return version;
++    }
++
++    public boolean vigente() {
++        return vigente;
++    }
++
++    @Override
++    public List<DefinicionEtapa> etapas() {
++        return etapas;
++    }
++
++    public List<TransicionPermitida> transiciones() {
++        return transiciones;
++    }
++}

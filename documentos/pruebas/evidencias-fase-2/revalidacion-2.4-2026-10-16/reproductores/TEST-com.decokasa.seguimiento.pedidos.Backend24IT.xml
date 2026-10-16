@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Backend24IT" tests="6" skipped="0" failures="1" errors="0" timestamp="2026-10-16T14:30:01.689Z" hostname="DESKTOP-GKF6IVL" time="11.997">
+  <properties/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.132"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.159"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.156"/>
+  <testcase name="bandejaRespetaContratoSinErrorInterno()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.249"/>
+  <testcase name="resumenDeEtapaIncluyeLoOcurrido()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.497">
+    <failure message="java.lang.AssertionError: &#13;&#10;Expecting not blank but was: null" type="java.lang.AssertionError">java.lang.AssertionError: 
+Expecting not blank but was: null
+	at com.decokasa.seguimiento.pedidos.Backend24IT.resumenDeEtapaIncluyeLoOcurrido(Backend24IT.java:160)
+</failure>
+  </testcase>
+  <testcase name="multipartRealAplicaLimiteDelServletConJwtFirmado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.445"/>
+  <system-out><![CDATA[09:30:01.863 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:30:02.027 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+09:30:02.119 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:30:02.126 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-16T09:30:02.621-05:00  INFO 20528 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Starting Backend24IT using Java 21.0.12.1 with PID 20528 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-16T09:30:02.623-05:00  INFO 20528 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-16T09:30:03.647-05:00  INFO 20528 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-16T09:30:03.742-05:00  INFO 20528 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 84 ms. Found 6 JPA repository interfaces.
+2026-10-16T09:30:04.556-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-16T09:30:04.571-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-16T09:30:04.571-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-16T09:30:04.641-05:00  INFO 20528 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2002 ms
+2026-10-16T09:30:04.829-05:00  INFO 20528 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-16T09:30:04.902-05:00  INFO 20528 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 49d9fd6c9814d18cd8cedd4f988344b2ffe165cc5c4f8abc9f322432914abe89
+2026-10-16T09:30:06.277-05:00  INFO 20528 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4483511S
+2026-10-16T09:30:06.278-05:00  INFO 20528 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:52472/test?loggerLevel=OFF)
+2026-10-16T09:30:06.406-05:00  INFO 20528 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:52472/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-16T09:30:06.420-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-16T09:30:06.421-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.004s)
+2026-10-16T09:30:06.428-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-16T09:30:06.447-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-16T09:30:06.453-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-16T09:30:06.488-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-16T09:30:06.534-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-16T09:30:06.568-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "public", now at version v3 (execution time 00:00.082s)
+2026-10-16T09:30:06.692-05:00  INFO 20528 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-16T09:30:06.760-05:00  INFO 20528 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-16T09:30:07.302-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-16T09:30:07.344-05:00  INFO 20528 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-16T09:30:07.366-05:00  INFO 20528 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1c35cc4a
+2026-10-16T09:30:07.368-05:00  INFO 20528 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-16T09:30:07.472-05:00  INFO 20528 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:52472/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-16T09:30:08.854-05:00  INFO 20528 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-16T09:30:08.918-05:00  INFO 20528 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-16T09:30:09.028-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-16T09:30:10.877-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2026-10-16T09:30:10.877-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-16T09:30:10.893-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-16T09:30:10.901-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 23 ms
+2026-10-16T09:30:10.969-05:00  INFO 20528 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 52486 (http) with context path '/'
+2026-10-16T09:30:10.976-05:00  INFO 20528 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Started Backend24IT in 8.771 seconds (process running for 22.779)
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"56"]
+             Body = {"tipoFlujo":"A","pais":"EC","nombre":"Pedido ficticio"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController#crear(Jwt, SolicitudCrearPedido)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Location:"/api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"418f1603-96ff-41d2-98a0-0f69473708f2","numero":"DK-EC-2026-0005","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":1,"nombreEtapaActual":"Crear solicitud de pedido","responsableActual":null,"venceEn":null,"vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-16T09:30:12.761594-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"ACTUAL","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","entrada":"2026-10-16T09:30:12.761594-05:00","salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"PENDIENTE","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"PENDIENTE","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":2,"requiereObservacion":false,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Solicitud"],"documentosFaltantes":["Solicitud"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2/etapas/1/archivos
+       Parameters = {tipoDocumento=[Solicitud], entradaEsperadaId=[a751d0ca-6b59-4f0a-b86d-e3e1a78158ea]}
+          Headers = [Content-Type:"multipart/form-data;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController
+           Method = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController#subir(Jwt, UUID, int, MultipartFile, String, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"0fbe8a9a-f132-4aa7-8801-a74650c68865","pedidoId":"418f1603-96ff-41d2-98a0-0f69473708f2","etapa":1,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","eventoId":"a679a6d4-9fda-4ce4-bc58-81e5fc20f38d","nombre":"ficticio.pdf","tipoDocumento":"Solicitud","tamanoBytes":13,"subidoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"subidoEn":"2026-10-16T09:30:12.851057-05:00","estadoCopia":"PENDIENTE"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"91"]
+             Body = {"accion":"ENVIAR","etapaEsperada":1,"adjuntoIds":["0fbe8a9a-f132-4aa7-8801-a74650c68865"]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"418f1603-96ff-41d2-98a0-0f69473708f2","numero":"DK-EC-2026-0005","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":2,"nombreEtapaActual":"Codificación","responsableActual":null,"venceEn":"2026-10-19T09:30:12.901636-05:00","vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-16T09:30:12.761594-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"COMPLETADA","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","entrada":"2026-10-16T09:30:12.761594-05:00","salida":"2026-10-16T09:30:12.901636-05:00","venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"ACTUAL","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"9d36ac63-3eb7-498f-ba52-53c05895796a","entrada":"2026-10-16T09:30:12.901636-05:00","salida":null,"venceEn":"2026-10-19T09:30:12.901636-05:00","reentradas":0,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"PENDIENTE","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":3,"requiereObservacion":false,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Documentos codificados"],"documentosFaltantes":["Documentos codificados"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2/etapas/2/archivos
+       Parameters = {tipoDocumento=[Documentos codificados], entradaEsperadaId=[9d36ac63-3eb7-498f-ba52-53c05895796a]}
+          Headers = [Content-Type:"multipart/form-data;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController
+           Method = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController#subir(Jwt, UUID, int, MultipartFile, String, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"5c2a0b12-7b59-4d38-8a74-57688d425603","pedidoId":"418f1603-96ff-41d2-98a0-0f69473708f2","etapa":2,"entradaId":"9d36ac63-3eb7-498f-ba52-53c05895796a","eventoId":"810dcb27-4d20-4db6-b102-919514a85f7c","nombre":"ficticio.pdf","tipoDocumento":"Documentos codificados","tamanoBytes":13,"subidoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"subidoEn":"2026-10-16T09:30:12.9862009-05:00","estadoCopia":"PENDIENTE"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"91"]
+             Body = {"accion":"ENVIAR","etapaEsperada":2,"adjuntoIds":["5c2a0b12-7b59-4d38-8a74-57688d425603"]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"418f1603-96ff-41d2-98a0-0f69473708f2","numero":"DK-EC-2026-0005","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":3,"nombreEtapaActual":"Revisión y aprobación","responsableActual":null,"venceEn":"2026-10-19T09:30:13.055032-05:00","vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-16T09:30:12.761594-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"COMPLETADA","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","entrada":"2026-10-16T09:30:12.761594-05:00","salida":"2026-10-16T09:30:12.901636-05:00","venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"COMPLETADA","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"9d36ac63-3eb7-498f-ba52-53c05895796a","entrada":"2026-10-16T09:30:12.901636-05:00","salida":"2026-10-16T09:30:13.055032-05:00","venceEn":"2026-10-19T09:30:12.901636-05:00","reentradas":0,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"ACTUAL","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"a692d14b-6800-4958-9856-f1e89535728f","entrada":"2026-10-16T09:30:13.055032-05:00","salida":null,"venceEn":"2026-10-19T09:30:13.055032-05:00","reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"APROBAR","etapaDestino":4,"requiereObservacion":false,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":[],"documentosFaltantes":[],"puedeCompletarse":true},{"accion":"RECHAZAR","etapaDestino":2,"requiereObservacion":true,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":[],"documentosFaltantes":[],"puedeCompletarse":true}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"83"]
+             Body = {"accion":"RECHAZAR","etapaEsperada":3,"observacion":"Corregir códigos ficticios"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"418f1603-96ff-41d2-98a0-0f69473708f2","numero":"DK-EC-2026-0005","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":2,"nombreEtapaActual":"Codificación","responsableActual":null,"venceEn":"2026-10-19T09:30:13.137206-05:00","vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-16T09:30:12.761594-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"COMPLETADA","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","entrada":"2026-10-16T09:30:12.761594-05:00","salida":"2026-10-16T09:30:12.901636-05:00","venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"ACTUAL","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"953261a1-9ff0-4107-b45f-a50873b67465","entrada":"2026-10-16T09:30:13.137206-05:00","salida":null,"venceEn":"2026-10-19T09:30:13.137206-05:00","reentradas":1,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"DEVUELTA","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"a692d14b-6800-4958-9856-f1e89535728f","entrada":"2026-10-16T09:30:13.055032-05:00","salida":"2026-10-16T09:30:13.137206-05:00","venceEn":"2026-10-19T09:30:13.055032-05:00","reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":3,"requiereObservacion":false,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Documentos codificados"],"documentosFaltantes":["Documentos codificados"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/pedidos/418f1603-96ff-41d2-98a0-0f69473708f2
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController#detalle(Jwt, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"418f1603-96ff-41d2-98a0-0f69473708f2","numero":"DK-EC-2026-0005","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":2,"nombreEtapaActual":"Codificación","responsableActual":null,"venceEn":"2026-10-19T09:30:13.137206-05:00","vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"df96bd80-32e5-43bd-8aa4-86b33cf52db1","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-16T09:30:12.761594-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"COMPLETADA","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"a751d0ca-6b59-4f0a-b86d-e3e1a78158ea","entrada":"2026-10-16T09:30:12.761594-05:00","salida":"2026-10-16T09:30:12.901636-05:00","venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"ACTUAL","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"953261a1-9ff0-4107-b45f-a50873b67465","entrada":"2026-10-16T09:30:13.137206-05:00","salida":null,"venceEn":"2026-10-19T09:30:13.137206-05:00","reentradas":1,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"DEVUELTA","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"a692d14b-6800-4958-9856-f1e89535728f","entrada":"2026-10-16T09:30:13.055032-05:00","salida":"2026-10-16T09:30:13.137206-05:00","venceEn":"2026-10-19T09:30:13.055032-05:00","reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":3,"requiereObservacion":false,"requiereUrgencia":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Documentos codificados"],"documentosFaltantes":["Documentos codificados"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2026-10-16T09:30:13.551-05:00  INFO 20528 --- [seguimiento] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-16T09:30:13.551-05:00  INFO 20528 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-16T09:30:13.553-05:00  INFO 20528 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

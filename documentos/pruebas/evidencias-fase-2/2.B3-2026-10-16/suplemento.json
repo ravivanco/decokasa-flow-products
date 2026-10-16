@@ -1,0 +1,944 @@
+{
+  "results": [
+    {
+      "name": "reasignaci?n desde UI a usuario multirrol y permiso vigente",
+      "status": "PASS",
+      "detail": {
+        "assigned": {
+          "id": "7523eac0-9bd5-450c-aaa8-21500e03eee4",
+          "numero": "DK-EC-2026-0005",
+          "nombre": "Conflicto y reasignaci?n ficticios",
+          "pais": "EC",
+          "tipoFlujo": "A",
+          "etapaActual": 2,
+          "nombreEtapaActual": "Codificación",
+          "responsableActual": {
+            "id": "8719f892-0354-4cf9-89b6-50f63d5528f5",
+            "nombre": "Multi Prueba",
+            "roles": [
+              "asistente_compras",
+              "marketing"
+            ]
+          },
+          "venceEn": "2026-10-19T11:23:38.44975-05:00",
+          "vencida": false,
+          "motivoRetraso": null,
+          "urgencia": null,
+          "finalizado": false,
+          "descripcion": null,
+          "incluyeProductosNuevos": false,
+          "creadoPor": {
+            "id": "3528b694-c96b-4a80-8bfb-7c7739aaa421",
+            "nombre": "Admin Prueba",
+            "roles": [
+              "admin"
+            ]
+          },
+          "creadoEn": "2026-10-16T11:23:37.865254-05:00",
+          "versionFlujo": 1,
+          "bodega": null,
+          "demoraAduana": null,
+          "lineaDeTiempo": [
+            {
+              "numero": 1,
+              "nombre": "Crear solicitud de pedido",
+              "estado": "COMPLETADA",
+              "rolResponsable": "admin",
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": "3f7624b4-8aaf-4952-afdc-2d4c6d91c2de",
+              "entrada": "2026-10-16T11:23:37.865254-05:00",
+              "salida": "2026-10-16T11:23:38.44975-05:00",
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": "Enviada por Admin Prueba (Administrador) el 16/10/2026 11:23 · pasa a A2. Observación: «Verificación real 2.B3». 1 archivo presentado."
+            },
+            {
+              "numero": 2,
+              "nombre": "Codificación",
+              "estado": "ACTUAL",
+              "rolResponsable": "marketing",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": {
+                "id": "8719f892-0354-4cf9-89b6-50f63d5528f5",
+                "nombre": "Multi Prueba",
+                "roles": [
+                  "asistente_compras",
+                  "marketing"
+                ]
+              },
+              "asignacionVigente": true,
+              "entradaId": "e57dcbf1-c363-49fb-ad25-2a05a8cc090c",
+              "entrada": "2026-10-16T11:23:38.44975-05:00",
+              "salida": null,
+              "venceEn": "2026-10-19T11:23:38.44975-05:00",
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 3,
+              "nombre": "Revisión y aprobación",
+              "estado": "PENDIENTE",
+              "rolResponsable": "asistente_compras",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 4,
+              "nombre": "Análisis y gestión",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 5,
+              "nombre": "Fabricación",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 6,
+              "nombre": "Embarque",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 7,
+              "nombre": "Aduana Ecuador",
+              "estado": "PENDIENTE",
+              "rolResponsable": "compras_china",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 8,
+              "nombre": "Autorización de salida",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 9,
+              "nombre": "Bodega",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "DEFINIDO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 10,
+              "nombre": "Incidencias",
+              "estado": "PENDIENTE",
+              "rolResponsable": "logistica",
+              "estadoPlazo": "PENDIENTE",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            },
+            {
+              "numero": 11,
+              "nombre": "Fin",
+              "estado": "PENDIENTE",
+              "rolResponsable": null,
+              "estadoPlazo": "SIN_PLAZO",
+              "asignadoA": null,
+              "asignacionVigente": null,
+              "entradaId": null,
+              "entrada": null,
+              "salida": null,
+              "venceEn": null,
+              "reentradas": 0,
+              "resumen": null
+            }
+          ],
+          "accionesDisponibles": [
+            {
+              "accion": "ENVIAR",
+              "etapaDestino": 3,
+              "requiereObservacion": false,
+              "requiereUrgencia": false,
+              "requisitosDocumentales": "DEFINIDOS",
+              "documentosObligatorios": [
+                "Documentos codificados"
+              ],
+              "documentosFaltantes": [
+                "Documentos codificados"
+              ],
+              "puedeCompletarse": false
+            }
+          ]
+        },
+        "denied": {
+          "status": 403,
+          "body": {
+            "detail": "Esta etapa está asignada a otra persona: solo ella o el admin pueden actuar.",
+            "instance": "/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+            "status": 403,
+            "title": "Sin permiso",
+            "codigo": "SIN_PERMISO"
+          }
+        }
+      }
+    },
+    {
+      "name": "conflicto entre dos sesiones reales: una acci?n y un 409 sin duplicado",
+      "status": "PASS",
+      "detail": {
+        "statuses": [
+          200,
+          409
+        ],
+        "conflict": {
+          "detail": "La etapa del pedido cambió. Vuelve a cargarlo antes de actuar.",
+          "instance": "/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+          "status": 409,
+          "title": "La etapa cambió",
+          "codigo": "ETAPA_CAMBIO"
+        },
+        "before": 7,
+        "after": 8
+      }
+    },
+    {
+      "name": "bandeja real de usuario multirrol y cierre de sesi?n",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Cerrar sesi?n', exact: true })\u001b[22m\n\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\pruebas-navegador\\fase-2-b3-sesiones.mjs:38:407\n    at async check (C:\\Users\\Richard\\Desktop\\decoWeb\\pruebas-navegador\\fase-2-b3-sesiones.mjs:25:48)\n    at async file:///C:/Users/Richard/Desktop/decoWeb/pruebas-navegador/fase-2-b3-sesiones.mjs:38:2"
+    }
+  ],
+  "traffic": [
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 201
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/usuarios",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "PUT",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/asignacion",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "marketing",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 201
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/3/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/acciones",
+      "status": 409
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/4/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/historial",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/2/archivos",
+      "status": 200
+    },
+    {
+      "user": "china",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/7523eac0-9bd5-450c-aaa8-21500e03eee4/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "multi",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/bandeja?pagina=0&tamano=100",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

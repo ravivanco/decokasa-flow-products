@@ -1,0 +1,1 @@
+﻿Clases inspeccionadas: 31; referencias a flujos.domain: 0

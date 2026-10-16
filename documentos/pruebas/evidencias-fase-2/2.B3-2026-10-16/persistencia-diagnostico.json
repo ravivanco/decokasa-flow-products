@@ -1,0 +1,81 @@
+{
+  "results": [
+    {
+      "name": "estado historial y bytes sobreviven reinicio de API",
+      "status": "PASS",
+      "detail": {
+        "etapa": 5,
+        "eventos": 19,
+        "archivos": 4
+      }
+    },
+    {
+      "name": "413 no deja adjuntos eventos ni avances parciales",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(data.length)\n\n    at file:///C:/Users/Richard/Desktop/decoWeb/pruebas-navegador/fase-2-b3-persistencia.mjs:31:680\n    at async check (file:///C:/Users/Richard/Desktop/decoWeb/pruebas-navegador/fase-2-b3-persistencia.mjs:25:48)\n    at async file:///C:/Users/Richard/Desktop/decoWeb/pruebas-navegador/fase-2-b3-persistencia.mjs:31:2"
+    }
+  ],
+  "traffic": [
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 401
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "POST",
+      "url": "http://localhost:13023/api/v1/auth/renovar",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/flujos/EC/A?version=1",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/5/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/historial",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/1/archivos",
+      "status": 200
+    },
+    {
+      "user": "admin",
+      "method": "GET",
+      "url": "http://localhost:13023/api/v1/pedidos/28553ccc-753f-49a6-ae3b-797553311046/etapas/2/archivos",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

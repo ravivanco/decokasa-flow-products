@@ -1,0 +1,52 @@
+[
+  {
+    "ancho": 1440,
+    "detalle": {
+      "viewport": 1440,
+      "documento": 1440,
+      "body": 1440,
+      "contenedor": 1166,
+      "contenido": 1248,
+      "overflow": "auto",
+      "scrollInicial": 0,
+      "scrollFinal": 82
+    },
+    "lista": {
+      "viewport": 1440,
+      "documento": 1440
+    },
+    "nota": {
+      "role": "note",
+      "nombre": "Lo ocurrido en la etapa",
+      "alertas": 0,
+      "htmlInterpretado": false
+    },
+    "errores": [],
+    "sinMock": []
+  },
+  {
+    "ancho": 390,
+    "detalle": {
+      "viewport": 390,
+      "documento": 390,
+      "body": 390,
+      "contenedor": 356,
+      "contenido": 1248,
+      "overflow": "auto",
+      "scrollInicial": 0,
+      "scrollFinal": 500
+    },
+    "lista": {
+      "viewport": 390,
+      "documento": 390
+    },
+    "nota": {
+      "role": "note",
+      "nombre": "Lo ocurrido en la etapa",
+      "alertas": 0,
+      "htmlInterpretado": false
+    },
+    "errores": [],
+    "sinMock": []
+  }
+]

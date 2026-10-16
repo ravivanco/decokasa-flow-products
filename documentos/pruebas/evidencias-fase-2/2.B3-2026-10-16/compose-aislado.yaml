@@ -1,0 +1,47 @@
+name: decokasa-f2b3-20261016
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: f2b3
+      POSTGRES_USER: f2b3
+      POSTGRES_PASSWORD: ficticia-f2b3-aislada
+    volumes: ["pg-propio:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U f2b3 -d f2b3"]
+      interval: 2s
+      retries: 30
+  backend:
+    image: eclipse-temurin:21-jre
+    working_dir: /aplicacion
+    command: ["java", "-jar", "/aplicacion/app.jar"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/f2b3
+      DB_USUARIO: f2b3
+      DB_CONTRASENA: ficticia-f2b3-aislada
+      JWT_SECRETO: secreto-ficticio-exclusivo-f2b3-20261016-no-produccion
+      CORS_ORIGENES: http://localhost:13023
+      SEMILLA_HABILITADA: "true"
+      SEMILLA_ARCHIVO: /aplicacion/usuarios.json
+      SEMILLA_CONTRASENA_TEMPORAL: Clave-Prueba-1
+      ALMACEN_LOCAL_DIR: /aplicacion/archivos
+      DECOKASA_ARCHIVOS_TAMANO_MAXIMO: 1MB
+    ports: ["127.0.0.1:18093:8080"]
+    volumes:
+      - "C:/Users/Richard/Desktop/decoWeb/backend/build/libs/seguimiento-0.0.1-SNAPSHOT.jar:/aplicacion/app.jar:ro"
+      - "C:/Users/Richard/Desktop/decoWeb/.tmp/f2b3-20261016/usuarios.json:/aplicacion/usuarios.json:ro"
+      - archivos-propios:/aplicacion/archivos
+  frontend:
+    image: decoweb-frontend:latest
+    environment:
+      ARCHIVOS_TAMANO_MAXIMO_MIB: "1"
+    ports: ["127.0.0.1:13023:80"]
+    volumes:
+      - "C:/Users/Richard/Desktop/decoWeb/frontend/dist:/usr/share/nginx/html:ro"
+      - "C:/Users/Richard/Desktop/decoWeb/frontend/nginx.conf:/etc/nginx/templates/default.conf.template:ro"
+      - "C:/Users/Richard/Desktop/decoWeb/frontend/limite-archivos.envsh:/docker-entrypoint.d/15-limite-archivos.envsh:ro"
+volumes:
+  pg-propio:
+  archivos-propios:

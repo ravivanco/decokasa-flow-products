@@ -1,0 +1,16 @@
+﻿backend/src/main/java/com/decokasa/seguimiento\configuracion\SaludController.java:12:@RequestMapping("/api/v1/salud")
+backend/src/main/java/com/decokasa/seguimiento\configuracion\SaludController.java:18:    @GetMapping
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\AuthController.java:38:@RequestMapping("/api/v1/auth")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\AuthController.java:85:    @PostMapping("/login")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\AuthController.java:90:    @PostMapping("/renovar")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\AuthController.java:98:    @PostMapping("/cerrar-sesion")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\AuthController.java:107:    @GetMapping("/yo")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\UsuarioController.java:40:@RequestMapping("/api/v1/usuarios")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\UsuarioController.java:83:    @GetMapping
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\UsuarioController.java:89:    @GetMapping("/{usuarioId}")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\UsuarioController.java:94:    @PostMapping
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\UsuarioController.java:104:    @PatchMapping("/{usuarioId}")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\RolController.java:33:@RequestMapping("/api/v1/roles")
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\RolController.java:61:    @GetMapping
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\RolController.java:66:    @PostMapping
+backend/src/main/java/com/decokasa/seguimiento\usuarios\adapter\in\web\RolController.java:74:    @PutMapping("/{rolId}")

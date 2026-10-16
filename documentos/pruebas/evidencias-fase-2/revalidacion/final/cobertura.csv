@@ -1,0 +1,6 @@
+"Ambito","Cubiertas","SinCubrir","Porcentaje"
+"Backend completo","1839","154","92.272955343703"
+"pedidos domain+application","353","25","93.3862433862434"
+"flujos domain+application","76","11","87.3563218390805"
+"plazos domain+application","46","0","100"
+"historial domain+application","64","5","92.7536231884058"

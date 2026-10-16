@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-16T16:04:04.983Z" hostname="DESKTOP-GKF6IVL" time="0.004">
+  <properties/>
+  <testcase name="nombreNoDisponibleUsaIdentificadorYRolHistoricoSinInventarPersona()" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.001"/>
+  <testcase name="[1] longitud = 199" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.001"/>
+  <testcase name="[2] longitud = 200" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.0"/>
+  <testcase name="[3] longitud = 201" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.001"/>
+  <testcase name="sinEventoDeCierreNoInventaResumen()" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.0"/>
+  <testcase name="sinActorNoInventaNombreNiRolYCuentaArchivosPresentados()" classname="com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
