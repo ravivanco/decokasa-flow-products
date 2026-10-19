@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.MigracionesIT" tests="40" skipped="0" failures="0" errors="0" timestamp="2026-10-19T15:57:46.084Z" hostname="DESKTOP-GKF6IVL" time="2.767">
+  <properties/>
+  <testcase name="noSeAsignaUnRolQueNoExiste()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.101"/>
+  <testcase name="elNombreDeUsuarioTieneAlMenosTresCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="elTelefonoTieneAlMenosSieteDigitos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="losRolesSembradosTienenIdentificadoresUuidVersion7Fijos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.025"/>
+  <testcase name="losIntentosFallidosNoPuedenSerNegativos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elNombreDelUsuarioNoPasaDeDoscientosCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="elCodigoDeRolTieneElFormatoDelDominio()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="noSeBorraUnRolAsignado()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="unUsuarioNuevoQuedaActivoYSinIntentosFallidos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="reiniciarFlywayValidaLaMigracionSinReaplicarla()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.229"/>
+  <testcase name="elUsuarioNoGuardaElRolEnUnaColumna()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="elCorreoDebeTenerArroba()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="noSeBorraUnUsuarioConRolesOSesiones()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="elMismoRolNoSeAsignaDosVeces()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="elCorreoEsUnicoSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="losTextosDelUsuarioAceptanSuLongitudMaxima()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elTokenDeRenovacionPerteneceAUnUsuarioExistente()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="creaLasTablasDeV1MotorYArchivosSinBodegas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.015"/>
+  <testcase name="elTokenDeRenovacionVenceDespuesDeCrearse()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="siembraLosSieteRolesAcordados()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="elTelefonoNoPasaDeQuinceDigitos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="flywayAplicaLaVersionUnoSobreUnaBaseVacia()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.008"/>
+  <testcase name="unUsuarioSinRolesSeGuardaPeroNoTieneFilasEnUsuarioRol()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="elCodigoDeRolEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="siembraEcuadorActivoYColombiaInactivo()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.017"/>
+  <testcase name="elHashDelTokenDeRenovacionEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elTelefonoSeGuardaNormalizado()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="flywayCompletaVersionDosSinModificarLaUno()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="noSiembraUsuariosContrasenasNiSesiones()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="laContrasenaEsObligatoria()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elNombreDeUsuarioNoPasaDeCincuentaCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="unUsuarioPuedeTenerVariosRoles()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.016"/>
+  <testcase name="elTelefonoEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elCorreoNoPasaDeDoscientosCincuentaYCuatroCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="unPermisoNoSeRepiteEnElMismoRol()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.015"/>
+  <testcase name="unUsuarioTrabajaEnPaisesExistentes()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="elNombreDelRolNoPasaDeCienCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="elNombreDeUsuarioEsUnicoSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elCodigoDePaisSonDosMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elMismoPaisNoSeAsignaDosVeces()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <system-out><![CDATA[2026-10-19T10:57:46.087-05:00  INFO 25612 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:57:46.179-05:00  INFO 25612 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 6649e5473cbbaa114f873d0e90839503d5d948c85f0104e796d34ea68f69a1cc
+2026-10-19T10:57:47.654-05:00  INFO 25612 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5667141S
+2026-10-19T10:57:47.654-05:00  INFO 25612 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF)
+2026-10-19T10:57:47.680-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:47.697-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:57:47.697-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.005s)
+2026-10-19T10:57:47.705-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:57:47.725-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:57:47.729-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:57:47.754-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.019s)
+2026-10-19T10:57:47.781-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:47.799-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.007s)
+2026-10-19T10:57:47.815-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2026-10-19T10:57:47.825-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:57:47.867-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v2 (execution time 00:00.036s)
+2026-10-19T10:57:47.883-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:47.898-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.005s)
+2026-10-19T10:57:47.911-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-19T10:57:47.916-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:57:47.953-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:57:47.976-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:57:47.994-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:57:48.017-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:57:48.030-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:57:48.039-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "public", now at version v8 (execution time 00:00.072s)
+2026-10-19T10:57:48.267-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:48.284-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.007s)
+2026-10-19T10:57:48.306-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:48.322-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.007s)
+2026-10-19T10:57:48.337-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 8
+2026-10-19T10:57:48.338-05:00  INFO 25612 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-19T10:57:48.349-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:48.396-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:57:48.444-05:00  INFO 25612 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61063/test?loggerLevel=OFF (PostgreSQL 17.11)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

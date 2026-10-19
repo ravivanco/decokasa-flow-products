@@ -29,8 +29,11 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | [0014](0014-tiempo-real-websocket.md) | Tiempo real con WebSocket (STOMP) | proposed (aprobado: no entra antes de la fase 5) | 2026-10-12 | `arquitectura.md`, 8.2 |
 | [0015](0015-datos-iniciales-fuera-de-git.md) | Países y roles en migraciones; usuarios reales y secretos fuera de git | accepted (equipo) | 2026-10-12 | Plan de la fase 1 (D5); repositorio público |
 | [0016](0016-spring-boot-4.md) | Spring Boot 4.1 en lugar de Spring Boot 3 | accepted (equipo) | 2026-10-12 | Paso 1.3: la rama 3.x quedó sin soporte gratuito el 2026-06-30 (API oficial de spring.io) |
+| [0017](0017-google-oauth-usuario-gmail-personal.md) | Gmail personal y Mi unidad con OAuth de usuario, cliente web local | accepted (equipo, Richard) | 2026-10-17 | Paso 3.1; sustituye la variante Workspace de 0003 y resuelve el canal de 0013 |
 
 ## Propuestas de `arquitectura.md` (8.2) incluidas dentro de otro ADR
+
+**Actualización 2026-10-17:** [ADR-0017](0017-google-oauth-usuario-gmail-personal.md), accepted (equipo, configuración acordada expresamente por Richard), establece OAuth de usuario con Gmail personal y Mi unidad para 3.1. Sustituye la variante Workspace de ADR-0003 y resuelve el canal Gmail API de ADR-0013 en este alcance. Los registros anteriores conservan su texto histórico; no se acreditan comprobaciones ni se autorizan operaciones reales.
 
 | Propuesta | Dónde quedó |
 | --- | --- |

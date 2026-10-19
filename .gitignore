@@ -21,3 +21,9 @@ backend/datos/
 # Temporales
 .tmp/
 documentos/manual-paso-a-paso.docx
+
+# Defensa adicional: OAuth Google siempre vive fuera del repositorio (paso 3.1).
+**/oauth-client*.json
+**/client_secret*.json
+**/oauth-tokens*
+**/google-aes*.key

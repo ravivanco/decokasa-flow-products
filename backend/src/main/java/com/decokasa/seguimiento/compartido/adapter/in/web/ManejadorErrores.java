@@ -46,7 +46,13 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.REQUISITO_FALTANTE, HttpStatus.UNPROCESSABLE_CONTENT),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, HttpStatus.LOCKED),
             Map.entry(CodigoError.VERSION_DESACTUALIZADA, HttpStatus.CONFLICT),
-            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, HttpStatus.CONFLICT)));
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_CONFLICTO, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_INCOMPLETA, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_OCUPADA, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_ALMACENAMIENTO, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE)));
 
     private static final Map<CodigoError, String> TITULOS = new EnumMap<>(Map.ofEntries(
             Map.entry(CodigoError.VALIDACION, "Datos inválidos"),
@@ -62,7 +68,13 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.REQUISITO_FALTANTE, "Falta un requisito"),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, "Cuenta bloqueada"),
             Map.entry(CodigoError.VERSION_DESACTUALIZADA, "Los datos cambiaron"),
-            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, "Archivo no disponible")));
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, "Archivo no disponible"),
+            Map.entry(CodigoError.CARGA_CONFLICTO, "La carga no coincide"),
+            Map.entry(CodigoError.CARGA_INCOMPLETA, "Carga incompleta"),
+            Map.entry(CodigoError.CARGA_OCUPADA, "Carga en curso"),
+            Map.entry(CodigoError.CARGA_ALMACENAMIENTO, "Carga no disponible"),
+            Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, "Cuota de almacenamiento agotada"),
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, "Conexión Google no disponible")));
 
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {

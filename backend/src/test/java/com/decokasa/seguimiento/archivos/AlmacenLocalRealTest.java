@@ -44,4 +44,33 @@ class AlmacenLocalRealTest {
         var almacen=new AlmacenLocalEnDisco(disco);
         assertThatThrownBy(() -> almacen.abrir("../fuera-ficticio")).isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test void archivoMenorConContenidoDesconocidoNoInventaRestriccionDeFormato() throws Exception {
+        var almacen=new AlmacenLocalEnDisco(disco);
+        var r=almacen.recibir(new ByteArrayInputStream(new byte[]{1,2,3,4,5}),LIMITE);
+        assertThat(r.tamanoBytes()).isEqualTo(5);
+        assertThat(r.sha256()).hasSize(64);
+        almacen.confirmar(r,"pedido/entrada/adjunto");
+        almacen.confirmar(new com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal.ArchivoRecibido(
+            "pedido/entrada/adjunto",r.tamanoBytes(),r.sha256(),r.tipoDetectado()),"pedido/entrada/adjunto");
+        try(var bytes=almacen.abrir("pedido/entrada/adjunto")) { assertThat(bytes.readAllBytes()).containsExactly(1,2,3,4,5); }
+    }
+    @Test void nombreUsaBasenameQuitaControlesYLimitaPuntosUnicode() {
+        var a=com.decokasa.seguimiento.archivos.domain.Adjunto.class;
+        assertThat(com.decokasa.seguimiento.archivos.domain.Adjunto.limpiarNombre("C:\\ficticio\\..\\ficha\u0000.pdf")).isEqualTo("ficha.pdf");
+        assertThat(com.decokasa.seguimiento.archivos.domain.Adjunto.limpiarNombre(" \n\t")).isEqualTo("archivo");
+        String limpio=com.decokasa.seguimiento.archivos.domain.Adjunto.limpiarNombre("😀".repeat(300));
+        assertThat(limpio.codePointCount(0,limpio.length())).isEqualTo(255);
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({
+        "255044462d,application/pdf","504b0304,application/zip","d0cf11e0a1b11ae1,application/x-ole-storage",
+        "89504e470d0a1a0a,image/png","ffd8ff,image/jpeg","47494638,image/gif"})
+    void firmaTecnicaSoloRegistraMetadatosSinInventarListaDeAceptacion(String hex,String tipo) throws Exception {
+        byte[] bytes=java.util.HexFormat.of().parseHex(hex);var almacen=new AlmacenLocalEnDisco(disco);
+        var recibido=almacen.recibir(new ByteArrayInputStream(bytes),LIMITE);
+        assertThat(recibido.tipoDetectado()).isEqualTo(tipo);assertThat(recibido.tamanoBytes()).isEqualTo(bytes.length);
+        assertThat(Files.readAllBytes(disco.resolve(recibido.claveTemporal()))).isEqualTo(bytes);
+    }
 }

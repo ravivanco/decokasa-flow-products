@@ -3,10 +3,10 @@ package com.decokasa.seguimiento.archivos.application.usecase;
 import com.decokasa.seguimiento.archivos.application.port.in.AdjuntoVista;
 import com.decokasa.seguimiento.archivos.application.port.in.SubirArchivo;
 import com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio;
-import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal.ArchivoRecibido;
-import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos;
+import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos.AutorizacionSubida;
+import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos;
 import com.decokasa.seguimiento.archivos.domain.Adjunto;
 import com.decokasa.seguimiento.archivos.domain.EstadoCopia;
 import com.decokasa.seguimiento.archivos.domain.LimiteDeTamano;
@@ -87,7 +87,7 @@ public final class SubirArchivoCasoDeUso {
     }
 
     /** Generada por el servidor; nunca lleva el nombre original. */
-    private static String claveFinal(SubirArchivo.Comando comando, UUID adjuntoId) {
+    public static String claveFinal(SubirArchivo.Comando comando, UUID adjuntoId) {
         return comando.pedidoId() + "/" + comando.etapa() + "/" + adjuntoId;
     }
 }

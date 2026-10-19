@@ -474,3 +474,31 @@ Revisado con `ecc:jpa-patterns` y con las reglas de `arquitectura.md` (R1 a R3).
 - **Resuelto el 2026-10-12 por el equipo (no por el cliente):** uno o varios roles por usuario, con la tabla `usuario_rol` (antes era un pendiente de la sección 6).
 - **Fase 2:** migración V2 con flujos, pedidos, etapas, eventos y la secuencia.
 - **Fases 3 y 4:** adjuntos, notificaciones y bodegas.
+
+### Esquema concretado del paso 3.2 — V4 (2026-10-17, todavía sin aplicar)
+
+V4__drive_notificaciones_outbox.sql es la siguiente migración local, aditiva; V1–V3 no cambian. `adjunto` de fase 2 conserva UUID, entrada, huella, clave local, estados e identificador definitivo. Añade drive_id_reservado único, drive_enlace, proximo_intento_en y reclamado_por/hasta. COPIADO sigue exigiendo drive_id definitivo, y nunca retira la copia local.
+
+`notificacion` concreta §3.6 como única cola/registro: pedido/evento, destinatario, plantilla/asunto, datos JSONB, estado, intentos, próxima fecha/error, creación/envío, proveedor_id, message_id, resultado_incierto y lease. La FK de evento se difiere hasta commit para compartir la transacción con las inserciones pendientes de JPA. Hay unicidad por evento y destinatario normalizado (columna generada); la plantilla no cambia esa clave. No hay backfill de correos históricos.
+
+**Ajuste técnico de la propuesta anterior:** destinatario es nullable exclusivamente mientras no se resuelva F3-D8. NULL conserva una intención por evento y NO es entregable. Nunca se reclama esa fila. Una resolución futura fijará el receptor sin alterar avisos ya enviados; múltiples receptores requieren filas distintas con clave evento/correo. Esto no aprueba una política de destinatarios ni reutiliza direcciones del demo.
+
+Reclamación con FOR UPDATE SKIP LOCKED y lease; las escrituras de resultado exigen el mismo propietario y lease vigente. Al reclamar Gmail se marca resultado incierto antes de la red: una caída no vuelve enviable automáticamente esa fila. Se almacena solo la clase de error, nunca cuerpos Google, credenciales, tokens o URI secreta de sesión. La política de reintentos/recuperación es del 3.4 y no está implementada.
+
+Los binarios siguen en el volumen local y, cuando se autorice, en Mi unidad de la cuenta Gmail personal. Las sesiones de recepción 3.3 y el almacenamiento protegido de sesiones remotas 3.4 requerirán migraciones posteriores, sin duplicar adjunto. Ver [informe](fase-3-paso-3.2.md).
+
+### Sesiones de recepción concretadas en 3.3 — V5 (2026-10-17, sin aplicar)
+
+V5__cargas_reanudables.sql añade `carga_archivo` y `carga_fragmento` en archivos, sin otro catálogo de adjuntos. Sesión: propietario, clave de inicio idempotente, pedido/etapa/entrada con FK compuesta, nombre/tipo, total/offset, estado RECIBIENDO/COMPLETADA, UUID reservado, adjunto/evento finales y fechas. Bloque: inicio, longitud y SHA-256, sin bytes. Unicidad de inicio por usuario/clave y de bloque por sesión/inicio. Bloques fijos de 4 MiB salvo el último, máximo 25 con 100 MiB; el total real se comprueba al completar.
+
+RECIBIENDO conserva adjunto_id/evento_id NULL y nunca satisface requisitos documentales. Solo la finalización enlaza ambos, junto con el registro de adjunto e historial de fase 2 en la misma transacción. La FK de evento se difiere al commit JPA/JDBC. V1–V4 no cambian y V5 no se ejecutó.
+
+Los binarios están en `.cargas/{UUID}.parte` del mismo volumen y, al preparar el final, en la clave interna existente de fase 2. Bloqueo de archivo, offset condicional y force antes de avanzar la base; tail no confirmado se reconcilia a demanda. No hay TTL ni borrado automático porque retención sigue pendiente. Tampoco se almacena URI/token Google ni se crea una carpeta Drive. Detalles y casos de parte B: [informe 3.3](fase-3-paso-3.3.md).
+
+### Recuperación de copias concretada en 3.4 — V6 (2026-10-17, sin aplicar)
+
+V6__recuperacion_copias_drive.sql amplía el mismo `adjunto` con copia_en_intento, drive_sesion_cifrada (bytea AES-GCM, no URI en claro), drive_offset y drive_carpeta_id. No crea una segunda cola ni guarda binarios. La llave del almacén 3.1 sigue externa a Git/PostgreSQL. El intento activo permite recuperar una caída sin consumir otro de los cuatro intentos de trabajo; las fechas/leases son persistentes y las escrituras están cercadas por token y vigencia.
+
+`carpeta_drive` es un índice técnico de clave país/pedido, nombre, padre, ID reservado único, confirmación y fecha. La aplicación creará país/código y pedido/número real en Mi unidad, mecanismo aprobado por Richard durante 3.4. Se persiste la reserva antes de crear, sin adopción por nombre ni otra identidad tras timeout. Sin carpetas por año/etapa ni permisos públicos.
+
+COPIADO y drive_id/enlace reales se guardan atómicamente después de conciliar contenido/identidad/destino; la URI cifrada se retira del registro completado, pero los binarios locales y parciales no se borran. Inicial+3 reintentos (1/5/15 min base), sin quinto intento nuevo o reset al reiniciar. V1–V5 intactas; V6 no ejecutada. Detalle y casos de parte B: [informe 3.4](fase-3-paso-3.4.md).

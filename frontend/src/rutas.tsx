@@ -1,5 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router';
 import App from './App';
+import { GmailNotificationsView } from './components/GmailNotificationsView';
 import { RutaProtegida, SoloAdmin } from './auth/RutaProtegida';
 import { DashboardRol } from './components/dashboards/DashboardRol';
 import { ErrorRuta } from './components/ErrorRuta';
@@ -33,6 +34,7 @@ export const rutas: RouteObject[] = [
           {
             element: <SoloAdmin />,
             children: [
+              { path: '/notificaciones', element: <GmailNotificationsView /> },
               { path: '/usuarios', element: <UsersManagementView /> },
               { path: '/roles', element: <RolesManagementView /> },
               { path: '/pedidos/nuevo', element: <NuevoPedido /> },

@@ -1,0 +1,363 @@
+﻿grupo,ruta,comando,revision
+07_documentacion_y_fuentes,.claude/PRPs/plans/fase-3-drive-gmail.plan.md,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 181,182"
+07_documentacion_y_fuentes,.claude/PRPs/reports/fase-3-paso-3.3-report.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,.claude/PRPs/reports/fase-3-paso-3.4-report.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,.claude/PRPs/reports/fase-3-paso-3.5-report.md,git add --,Sin saneamiento de secretos detectado
+01_configuracion,.env.example,git add --,Sin saneamiento de secretos detectado
+01_configuracion,.gitignore,git add --,Sin saneamiento de secretos detectado
+01_configuracion,backend/.env.example,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/in/tareas/TareaCopiaArchivos.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/in/web/CargasController.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/in/web/ConsultaDriveController.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/in/web/GoogleOAuthController.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/almacen/AlmacenCargasEnDisco.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/almacen/AlmacenLocalEnDisco.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/almacen/BloqueoCopiasEnDisco.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/drive/GoogleDriveAlmacen.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/google/AlmacenTokensGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/google/ArchivosPrivadosGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/google/GoogleOAuthUsuario.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/google/ProtectorSesionDriveAes.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/CargaSqlRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/CarpetaDriveSqlRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/ConsultaCopiasSql.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/CopiaAdjuntoSqlRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/CuotaSqlRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/in/AutorizarCuentaGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/in/ConsultarArchivosDrive.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/in/GestionarCarga.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/in/ReintentarCopiasPendientes.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/AlmacenArchivos.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/AlmacenCargas.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/BloqueoCopiaLocal.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/CargaRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/CarpetaDriveRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/ConexionOAuthGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/ConsultaCopias.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/CopiaAdjuntoRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/CuotaAlmacenamiento.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/PedidosParaCopias.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/port/out/ProtectorSesionDrive.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/usecase/AutorizarCuentaGoogleCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/usecase/ConsultarArchivosDriveCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/usecase/CopiarPendientesCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/usecase/GestionarCargaCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/application/usecase/SubirArchivoCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/ArchivosConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/CargasConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/ConsultaDriveConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/CopiaDriveAutomaticaConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/CopiaDriveConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/DriveConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/config/GoogleOAuthConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/domain/CargaArchivo.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/domain/CuotaAlmacenamientoExcedida.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/domain/GoogleNoDisponible.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/domain/PoliticaCopia.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/archivos/domain/ProblemaCarga.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/adapter/in/web/ManejadorErrores.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/application/port/out/AccesoCuentaGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/application/port/out/PublicadorEventosRegistrados.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/config/CompartidoConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/domain/CodigoError.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/domain/FalloIntegracionGoogle.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/compartido/domain/eventos/EventoPedidoRegistrado.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/configuracion/SeguridadWebConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/historial/application/usecase/RegistrarEventoPedidoCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/historial/config/HistorialConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/adapter/in/eventos/OyenteEventosNotificacion.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/adapter/in/web/NotificacionesController.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/adapter/out/gmail/GmailNotificador.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/adapter/out/persistence/NotificacionSqlRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/in/ConsultarNotificaciones.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/in/EncolarNotificacion.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/in/EnviarNotificacionesPendientes.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/out/DirectorioDestinatarios.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/out/NotificacionRepositorio.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/out/Notificador.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/out/RegistroNotificaciones.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/port/out/TrabajoCorreo.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/usecase/ConsultarNotificacionesCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/usecase/EncolarNotificacionCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/application/usecase/EnviarNotificacionesCasoDeUso.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/config/CorreoAutomaticoConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/config/CorreoConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/config/GmailConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/config/NotificacionesConfig.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/notificaciones/domain/Notificacion.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/java/com/decokasa/seguimiento/pedidos/adapter/in/archivos/PedidosParaCopiasAdaptador.java,git add --,Sin saneamiento de secretos detectado
+02_backend,backend/src/main/resources/application.yml,git add --,Sin saneamiento de secretos detectado
+03_migraciones,backend/src/main/resources/db/migration/V4__drive_notificaciones_outbox.sql,git add --,Sin saneamiento de secretos detectado
+03_migraciones,backend/src/main/resources/db/migration/V5__cargas_reanudables.sql,git add --,Sin saneamiento de secretos detectado
+03_migraciones,backend/src/main/resources/db/migration/V6__recuperacion_copias_drive.sql,git add --,Sin saneamiento de secretos detectado
+03_migraciones,backend/src/main/resources/db/migration/V7__cuotas_archivos_estructura.sql,git add --,Sin saneamiento de secretos detectado
+03_migraciones,backend/src/main/resources/db/migration/V8__cuotas_archivos_datos_existentes.sql,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/MigracionesIT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/V2RestriccionesIT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/V3MigracionIT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/AlmacenLocalRealTest.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/CargasB1IT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/CorreoB2IT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/CorreoReintentosLocalesIT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/CuotasLocalesIT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/DatosB1.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/DriveRecuperacionB1IT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/GmailProtocoloLocalTest.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/GoogleDriveProtocoloB1Test.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesArchivosB1IT.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/ParcialesB1Test.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/TareaCopiaB1Test.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/adapter/out/google/AlmacenGoogleLocalTest.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/adapter/out/google/FixtureGoogle.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/archivos/adapter/out/google/OAuthFlujoLocalTest.java,git add --,Sin saneamiento de secretos detectado
+05_pruebas,backend/src/test/java/com/decokasa/seguimiento/pedidos/Backend24IT.java,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/adr/0017-google-oauth-usuario-gmail-personal.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/adr/README.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/api/openapi.yaml,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/arquitectura.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/fase-3-paso-3.2.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/fase-3-paso-3.3.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/fase-3-paso-3.4.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/fase-3-paso-3.5.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/google-oauth-paso-3.1.md,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 25,30,43,54,55,56,137"
+07_documentacion_y_fuentes,documentos/manual-paso-a-paso.docx,git add -f --,Fuente vigente necesaria. Opcional retirar dc:creator/cp:lastModifiedBy del DOCX si no se desea atribucion personal
+07_documentacion_y_fuentes,documentos/modelo-datos.md,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/README.md,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/arnes-b3.ps1,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/b3.init.gradle,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/cancelacion-ensayo-real.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/comprobar-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/conservacion-cancelacion.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/conservacion-final.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/ejecucion-real-estado.json,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 3
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/html/index.html,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/junit/TEST-com.decokasa.ensayob3.GuardasB3Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/reinicio-tras-liberar-puerto.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/arnes-b3/evidencias/sha256.json,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/java/com/decokasa/ensayob3/ArnesGoogleB3.java,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/java/com/decokasa/ensayob3/GuardasB3.java,git add --,Sin saneamiento de secretos detectado
+06_arnes_opt_in,documentos/pruebas/arnes-b3/java/com/decokasa/ensayob3/GuardasB3Test.java,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-B3-procedimiento.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-decisiones-locales.md,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/01-baseline-test.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/02-archivos-aislados.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/03-archivos-aislados.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/04-backend-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/05-cobertura-aislada.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/06-archivos-aislados-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/07-archivos-aislados-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/08-cobertura-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/backend.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/backend.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts/.last-run.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts/pantallas-admin-ve-registr-ef198-in-envio-ni-exito-inventado/trace.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 3 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts/pantallas-enlaces-solo-par-71359-arga-se-conserva-en-backend/trace.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 3 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts/pantallas-no-admin-no-cons-00183-ro-ni-ve-el-menu-de-correos/trace.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 3 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts/pantallas-progreso-de-bloq-73091-irmado-sin-exito-anticipado/trace.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 3 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/build-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/conservacion.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/TEST-com.decokasa.seguimiento.archivos.CorreoB2IT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 161
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/TEST-com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/TEST-com.decokasa.seguimiento.pedidos.Backend24IT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 21
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/backend.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/browser-artifacts.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 1 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/playwright.json,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 5,10,11,27,35,68,111,151,191,223,225,234,238,250,255,260,264"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecucion-inicial/playwright.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/ejecutar-b2.ps1,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/jacoco-backend-b2-filtrado.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/lint-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/playwright.json,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 5,10,11,27,35,68,111,151,191,231"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/playwright.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/resultados-finales.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/test-final.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/3.B2/test-inicial.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/archivos-aislados.init.gradle,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-02/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-02/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-02/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-02/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-03/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-03/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 33,100"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-03/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-03/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-03/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-07/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-07/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 34,82"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-07/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-07/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/ejecucion-07/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/jacoco-archivos-b1-final.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/acl-local.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/auditar-local.py,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/auditoria-local.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/conservacion-final.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/sha256.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/preparacion-B3/sintaxis-procedimiento.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/reportes-b1-final.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 3 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/resumen-final.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-123328-reproductores.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-123451-arnes.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-123759-arnes.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-123944-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-124215-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-124706-arnes.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-124836-arnes.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/20261017-124937-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 40,107"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/arnes-final/TEST-com.decokasa.seguimiento.archivos.TareaCopiaB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.AplicacionArrancaIT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 22,89"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.MigracionesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.V2RestriccionesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.V3MigracionIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 40
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.archivos.TareaCopiaB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.arquitectura.FronterasP20Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.compartido.domain.CodigoRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.configuracion.SaludControllerTest.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 25
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 19
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.historial.application.HistorialFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.Backend24IT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 59
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 37
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 21
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 19
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 34
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 21
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.ActualizarRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.CerrarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.ConsultasTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.CrearRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.IniciarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.application.RenovarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 20
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.domain.TelefonoTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/check-final/TEST-com.decokasa.seguimiento.usuarios.domain.UsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/jacoco-arnes-final.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/jacoco-global-final.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/reportes-revalidacion.zip,git add --,Opcional antes de difundir: normalizar prefijo local en 14 entradas del ZIP; ver tabla del informe
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/resumen-revalidacion.json,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 10,641,648,655,662,669"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-B1/sha256-revalidacion.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-102140-baseline.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-102511-cobertura.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-103000-nuevas.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-103212-archivos.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-103920-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/20261019-105712-check.log,git add -f --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/ejecutar.ps1,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-jacoco.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.AplicacionArrancaIT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 22,91"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.MigracionesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.V2RestriccionesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.V3MigracionIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.AlmacenLocalRealTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml,git add --,"Opcional antes de difundir: normalizar prefijo del perfil local; lineas 41,100,159,218,277,336,395,454,513,572,631,690,749,808,867,926,985,1044,1103,1162,1221,1280,1339"
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.CorreoB2IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.CuotasLocalesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.ParcialesB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.TareaCopiaB1Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.arquitectura.FronterasP20Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.compartido.domain.CodigoRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.configuracion.SaludControllerTest.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 25
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 19
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.historial.application.HistorialFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.Backend24IT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 65
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 37
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 21
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 19
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 34
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 21
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.ActualizarRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.CerrarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.ConsultasTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.CrearRolTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.IniciarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.application.RenovarSesionTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT.xml,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 20
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.domain.TelefonoTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-junit/TEST-com.decokasa.seguimiento.usuarios.domain.UsuarioTest.xml,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/final-metricas.json,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidacion-local/medir.py,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/revalidar-b1.ps1,git add --,Sin saneamiento de secretos detectado
+08_evidencias_referenciadas,documentos/pruebas/fase-3-evidencias/sha256-final.json,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-informe.md,git add --,Opcional antes de difundir: normalizar prefijo del perfil local; lineas 268
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-inventario-guardado.csv,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-inventario-guardado.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-pendientes-locales-evidencia.json,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-pendientes-locales-implementacion.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-revision-retenidos.md,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-seleccion-final.csv,git add --,Sin saneamiento de secretos detectado
+07_documentacion_y_fuentes,documentos/pruebas/fase-3-seleccion-final.txt,git add --,Sin saneamiento de secretos detectado
+05_pruebas,frontend/src/App.test.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/api/cargas.ts,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/api/cliente.ts,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/api/notificaciones.ts,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/api/pedidos.ts,git add --,Sin saneamiento de secretos detectado
+05_pruebas,frontend/src/components/GmailNotificationsView.test.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/components/GmailNotificationsView.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/components/Sidebar.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/components/pedidos/ArchivosEtapa.tsx,git add --,Sin saneamiento de secretos detectado
+05_pruebas,frontend/src/components/pedidos/ArchivosYPermisos.test.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/components/pedidos/CopiasFallidas.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/components/pedidos/EnlaceDrive.tsx,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/data/initialData.ts,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/rutas.tsx,git add --,Sin saneamiento de secretos detectado
+05_pruebas,frontend/src/test/sin-demo.test.ts,git add --,Sin saneamiento de secretos detectado
+04_frontend,frontend/src/utils/orderState.ts,git add --,Sin saneamiento de secretos detectado

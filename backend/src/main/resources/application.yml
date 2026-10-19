@@ -34,6 +34,10 @@ springdoc:
     enabled: false
 
 server:
+  tomcat:
+    accesslog:
+      # El callback contiene un código de un solo uso: no registrar su query.
+      enabled: false
   error:
     include-message: never
     include-stacktrace: never
@@ -41,6 +45,34 @@ server:
 # Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
 # JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
 decokasa:
+  google:
+    # Adaptadores pasivos del 3.2. Cada llamada exige además OAuth habilitado y autorización vigente.
+    drive:
+      habilitada: ${GOOGLE_DRIVE_HABILITADA:false}
+      worker:
+        # Tres flags deben ser true para registrar la tarea. No activa OAuth ni arranca el worker por defecto.
+        automatico: ${COPIA_DRIVE_AUTOMATICA:false}
+        lote: ${COPIA_DRIVE_LOTE:5}
+        intervalo-ms: ${COPIA_DRIVE_INTERVALO_MS:30000}
+        lease: ${COPIA_DRIVE_LEASE:PT3M}
+        reintento-1: ${COPIA_DRIVE_REINTENTO_1:PT1M}
+        reintento-2: ${COPIA_DRIVE_REINTENTO_2:PT5M}
+        reintento-3: ${COPIA_DRIVE_REINTENTO_3:PT15M}
+    gmail:
+      habilitada: ${GOOGLE_GMAIL_HABILITADA:false}
+      worker:
+        automatico: ${CORREO_AUTOMATICO:false}
+        lote: ${CORREO_LOTE:5}
+        intervalo-ms: ${CORREO_INTERVALO_MS:30000}
+        lease: ${CORREO_LEASE:PT3M}
+    oauth:
+      # Paso 3.1: cliente web OAuth de usuario, Mi unidad y Gmail personal. No conecta al arrancar.
+      habilitada: ${GOOGLE_OAUTH_HABILITADA:false}
+      cliente-ruta: ${GOOGLE_OAUTH_CLIENTE_RUTA:}
+      tokens-ruta: ${GOOGLE_OAUTH_TOKENS_RUTA:}
+      llave-ruta: ${GOOGLE_OAUTH_LLAVE_RUTA:}
+      cuenta-email: ${GOOGLE_CUENTA_EMAIL:}
+      redirect-uri: http://localhost:8080/api/v1/integraciones/google/oauth2/callback
   jwt:
     secreto: ${JWT_SECRETO:}
   sesion:
@@ -60,6 +92,12 @@ decokasa:
     # Límite provisional del equipo (2026-10-15), pendiente del cliente: 100 MiB por archivo ("100MB" en Spring es
     # 104857600 bytes). Configurable; en Docker sale de ARCHIVOS_TAMANO_MAXIMO_MIB, la misma variable que usa nginx.
     tamano-maximo: ${DECOKASA_ARCHIVOS_TAMANO_MAXIMO:100MB}
+    # Provisional development decisions, 2026-10-19. Spring GB is binary GiB.
+    cuota:
+      global: ${ARCHIVOS_CUOTA_GLOBAL:10GB}
+      usuario: ${ARCHIVOS_CUOTA_USUARIO:2GB}
+      cargas-globales: ${ARCHIVOS_CARGAS_GLOBALES:10}
+      cargas-usuario: ${ARCHIVOS_CARGAS_USUARIO:2}
   semilla:
     habilitada: ${SEMILLA_HABILITADA:false}
     archivo: ${SEMILLA_ARCHIVO:}

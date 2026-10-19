@@ -1,4 +1,4 @@
-import { HomeIcon, InboxIcon, PackageIcon, ShieldCheckIcon, UsersIcon, type LucideIcon } from 'lucide-react';
+import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, UsersIcon, type LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,7 @@ const ENLACES: Enlace[] = [
   { a: '/inicio', texto: 'Inicio', icono: HomeIcon },
   { a: '/bandeja', texto: 'Mi bandeja', icono: InboxIcon, conBandeja: true },
   { a: '/pedidos', texto: 'Pedidos', icono: PackageIcon },
+  { a: '/notificaciones', texto: 'Correos', icono: MailIcon, soloAdmin: true },
   { a: '/usuarios', texto: 'Usuarios', icono: UsersIcon, soloAdmin: true },
   { a: '/roles', texto: 'Roles', icono: ShieldCheckIcon, soloAdmin: true },
 ];

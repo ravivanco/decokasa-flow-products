@@ -519,8 +519,6 @@ export function buildStagesForOrder(
               version: 1,
               nombre: `${req.tipoDoc.replace(/[\/\s]/g, '_')}_v1.pdf`,
               tamano: '12.4 MB',
-              driveId: `gdrive-${stageNum}-${docIdx}`,
-              driveUrl: `https://drive.google.com/decokasa/${req.tipoDoc}`,
               subidoPor: ov?.completadoPor || def.responsableTexto,
               subidoPorRol: def.responsableRol,
               fecha: realEnd || currentStart,

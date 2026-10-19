@@ -1,5 +1,6 @@
 import '@/test/radix';
 import { File as FileNode } from 'node:buffer';
+import { webcrypto } from 'node:crypto';
 import { screen, waitFor, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -47,30 +48,33 @@ beforeEach(() => {
 });
 
 describe('Subida de archivos', () => {
+  beforeEach(() => { vi.stubGlobal('crypto', webcrypto); sessionStorage.clear(); });
   afterEach(() => vi.unstubAllGlobals());
 
   it('sube a la entrada actual con el tipo de documento y vuelve a leer archivos y detalle', async () => {
-    // Limitación del entorno, no de la aplicación: el fetch de Node no puede enviar el FormData ni el File de jsdom
-    // ("Premature close") y, con los nativos, MSW no puede leer el cuerpo multipart (longitud distinta en undici).
-    // Se usan los nativos de Node, como los del navegador; los campos se registran al armar el formulario y el
-    // servidor simulado comprueba que la petición llega como multipart.
-    const Nativo = (
-      await new Response('', { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).formData()
-    ).constructor as typeof FormData;
-    const campos: Record<string, string> = {};
-    class FormularioRegistrado extends Nativo {
-      override set(nombre: string, valor: string | Blob, archivo?: string) {
-        campos[nombre] = typeof valor === 'string' ? valor : `archivo:${archivo ?? ''}`;
-        if (typeof valor === 'string') super.set(nombre, valor);
-        else super.set(nombre, valor, archivo);
-      }
-    }
-    vi.stubGlobal('FormData', FormularioRegistrado);
+    vi.stubGlobal('crypto', webcrypto);
     const { api, app } = await abrir(con(['marketing']), enA2());
-    const tipos: string[] = [];
+    const archivo = new FileNode(['contenido ficticio'], 'codigos.pdf', { type: 'application/pdf' });
+    const cargaId = '00000000-0000-4000-8000-000000000090';
+    const carga = { id: cargaId, pedidoId: PEDIDO_ID, etapa: 2, entradaId: entradaDe(2),
+      nombre: archivo.name, tipoDocumento: 'Documentos codificados', tamanoBytes: archivo.size,
+      offsetConfirmado: 0, fragmentoBytes: 4194304, estado: 'RECIBIENDO', adjuntoId: null, eventoId: null,
+      creadaEn: '2026-10-19T15:00:00Z', actualizadaEn: '2026-10-19T15:00:00Z', fragmentos: [] as unknown[] };
+    const inicios: unknown[] = [];
+    const rangos: string[] = [];
+    let confirmar!: () => void;
+    const acuse = new Promise<void>(resolve => { confirmar = resolve; });
     servidor.use(
-      http.post(`${api.base}/etapas/2/archivos`, ({ request }) => {
-        tipos.push(request.headers.get('content-type') ?? '');
+      http.post(`${api.base}/etapas/2/archivos/cargas`, async ({request}) => {
+        inicios.push(await request.json()); return HttpResponse.json(carga, { status: 201 });
+      }),
+      http.put(`*/api/v1/archivos/cargas/${cargaId}/fragmentos`, async ({request}) => {
+        rangos.push(request.headers.get('Content-Range') ?? '');
+        await acuse;
+        return HttpResponse.json({ ...carga, offsetConfirmado: archivo.size,
+          fragmentos: [{inicio:0,tamano:archivo.size,sha256:request.headers.get('X-Fragmento-SHA256')}] });
+      }),
+      http.post(`*/api/v1/archivos/cargas/${cargaId}/finalizacion`, () => {
         api.estado.adjuntos[2] = [adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'codigos.pdf')];
         return HttpResponse.json(api.estado.adjuntos[2][0] as Record<string, unknown>, { status: 201 });
       }),
@@ -80,17 +84,21 @@ describe('Subida de archivos', () => {
 
     await app.usuario.upload(
       screen.getByLabelText('Archivo'),
-      new FileNode(['contenido ficticio'], 'codigos.pdf', { type: 'application/pdf' }) as unknown as File,
+      archivo as unknown as File,
     );
-    await app.usuario.click(screen.getByRole('button', { name: 'Subir archivo' }));
+    await app.usuario.click(screen.getByRole('button', { name: 'Subir o reanudar' }));
 
-    await waitFor(() => expect(tipos).toHaveLength(1));
-    expect(tipos[0]).toMatch(/^multipart\/form-data; boundary=/);
-    expect(campos).toEqual({
-      archivo: 'archivo:codigos.pdf',
-      tipoDocumento: 'Documentos codificados',
-      entradaEsperadaId: entradaDe(2),
-    });
+    await waitFor(() => expect(rangos).toHaveLength(1));
+    expect(screen.getByRole('progressbar', {name:'Bytes confirmados de la carga'})).toHaveAttribute('value','0');
+    expect(avisos.exito).not.toHaveBeenCalled();
+    expect(sessionStorage.length).toBe(1);
+    const referencia = JSON.parse(sessionStorage.getItem(sessionStorage.key(0)!)!);
+    expect(Object.keys(referencia).sort()).toEqual(['cargaId', 'claveIdempotencia']);
+    expect(referencia.cargaId).toBe(cargaId);
+    expect(referencia.claveIdempotencia).toMatch(/^[0-9a-f-]{36}$/);
+    expect(rangos[0]).toBe(`bytes 0-${archivo.size-1}/${archivo.size}`);
+    expect(inicios[0]).toMatchObject({nombre:'codigos.pdf', entradaEsperadaId:entradaDe(2), tipoDocumento:'Documentos codificados',tamanoBytes:archivo.size});
+    confirmar();
     expect(await screen.findAllByText('codigos.pdf')).not.toHaveLength(0);
     await waitFor(() => expect(api.cuenta('GET', '/etapas/2/archivos')).toBeGreaterThan(archivosAntes));
     await waitFor(() => expect(api.cuenta('GET', '/detalle')).toBeGreaterThan(detalleAntes));
@@ -100,7 +108,7 @@ describe('Subida de archivos', () => {
     const { api, app } = await abrir(con(['marketing']), enA2());
     let subidas = 0;
     servidor.use(
-      http.post(`${api.base}/etapas/2/archivos`, () => {
+      http.post(`${api.base}/etapas/2/archivos/cargas`, () => {
         subidas++;
         return HttpResponse.json({});
       }),
@@ -111,7 +119,7 @@ describe('Subida de archivos', () => {
     await app.usuario.upload(screen.getByLabelText('Archivo'), grande);
 
     expect(await screen.findByText(/supera el tamaño máximo permitido/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Subir archivo' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Subir o reanudar' })).toBeDisabled();
     expect(subidas).toBe(0);
   });
 
@@ -123,14 +131,14 @@ describe('Subida de archivos', () => {
     const { api, app } = await abrir(con(['marketing']), enA2());
     let subidas = 0;
     servidor.use(
-      http.post(`${api.base}/etapas/2/archivos`, () => {
+      http.post(`${api.base}/etapas/2/archivos/cargas`, () => {
         subidas++;
         return problema(status, codigo, 'Detalle técnico');
       }),
     );
 
-    await app.usuario.upload(screen.getByLabelText('Archivo'), new File(['x'], 'doc.pdf'));
-    await app.usuario.click(screen.getByRole('button', { name: 'Subir archivo' }));
+    await app.usuario.upload(screen.getByLabelText('Archivo'), new FileNode(['x'], 'doc.pdf') as unknown as File);
+    await app.usuario.click(screen.getByRole('button', { name: 'Subir o reanudar' }));
 
     expect(await screen.findByText(mensaje)).toBeInTheDocument();
     expect(subidas).toBe(1);
@@ -306,7 +314,7 @@ describe('Permisos con varios roles', () => {
     await abrir(con(['consulta', 'marketing']), enA2());
 
     expect(screen.getByRole('button', { name: 'Enviar' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Subir archivo' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Subir o reanudar' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Publicar observación' })).toBeInTheDocument();
   });
 
@@ -316,7 +324,7 @@ describe('Permisos con varios roles', () => {
 
     expect(await screen.findByText('codigos.pdf')).toBeInTheDocument();
     expect(screen.getByText(/No tienes acciones en esta etapa/)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Subir archivo' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Subir o reanudar' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Publicar observación' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Descargar codigos.pdf' })).not.toBeInTheDocument();
   });
@@ -328,6 +336,32 @@ describe('Permisos con varios roles', () => {
     await app.usuario.click(screen.getByRole('button', { name: /^A2 Codificación, completada$/ }));
 
     expect(await screen.findByRole('button', { name: 'Descargar codigos.pdf' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Subir archivo' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Subir o reanudar' })).not.toBeInTheDocument();
+  });
+});
+
+// Copia confirmada no implica publicar una URL hasta consultar el backend con permiso vigente.
+describe('3.B2 enlaces confirmados', () => {
+  it.each([403, 409])('rechazo %i no publica enlace y conserva descarga por backend', async (estado) => {
+    const copiado = {...adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'confirmado.bin'), estadoCopia:'COPIADO'};
+    const {app} = await abrir(con(['marketing']), enA2(), {2:[copiado]});
+    let consultas = 0;
+    servidor.use(http.get(`*/api/v1/archivos/${ARCHIVO_A2}/enlace`, () => {
+      consultas++; return problema(estado, estado===403?'SIN_PERMISO':'ARCHIVO_NO_DISPONIBLE','No confirmado.');
+    }));
+    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
+    await app.usuario.click(await screen.findByRole('button', {name:'Consultar enlace de Drive'}));
+    await waitFor(() => expect(consultas).toBe(1));
+    await waitFor(() => expect(screen.getByRole('button', {name:'Consultar enlace de Drive'})).toBeEnabled());
+    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
+    expect(screen.getByRole('button', {name:'Descargar confirmado.bin'})).toBeEnabled();
+  });
+  it('una respuesta con URL ajena a Drive no se convierte en enlace', async () => {
+    const copiado = {...adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados'), estadoCopia:'COPIADO'};
+    const {app} = await abrir(con(['marketing']), enA2(), {2:[copiado]});
+    servidor.use(http.get(`*/api/v1/archivos/${ARCHIVO_A2}/enlace`, () => HttpResponse.json({url:'https://ajeno.ejemplo.test/ficticio'})));
+    await app.usuario.click(await screen.findByRole('button', {name:'Consultar enlace de Drive'}));
+    await screen.findByText(/La respuesta del servidor no tiene la forma esperada/);
+    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
   });
 });

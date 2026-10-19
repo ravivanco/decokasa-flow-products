@@ -1,0 +1,256 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "playwright.config.mjs"
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2",
+        "testIgnore": [],
+        "testMatch": [
+          "pantallas.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 43182 --strictPort --mode b2",
+      "cwd": "C:/Users/Richard/Desktop/decoWeb/frontend",
+      "url": "http://127.0.0.1:43182",
+      "reuseExistingServer": false,
+      "env": {
+        "VITE_ACCESO_LOCAL": "false",
+        "VITE_API_URL": "/api/v1"
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "pantallas.spec.mjs",
+      "file": "pantallas.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "admin ve registro persistido simulado sin envio ni exito inventado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1401,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:40:42.012Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-admin-ve-registr-ef198-in-envio-ni-exito-inventado\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-2e777f3521c43b448495",
+          "file": "pantallas.spec.mjs",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "no admin no consulta el registro ni ve el menu de correos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1158,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:40:43.722Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-no-admin-no-cons-00183-ro-ni-ve-el-menu-de-correos\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-b3dc53a6802f0a6666b9",
+          "file": "pantallas.spec.mjs",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "enlaces solo para copia confirmada; descarga se conserva en backend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1735,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:40:44.912Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-enlaces-solo-par-71359-arga-se-conserva-en-backend\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-fc33364a07de4d12acf1",
+          "file": "pantallas.spec.mjs",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "progreso de bloques pausa y reanuda desde el prefijo confirmado sin exito anticipado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2843,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:40:46.724Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-progreso-de-bloq-73091-irmado-sin-exito-anticipado\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-249519cb221663f7bf3c",
+          "file": "pantallas.spec.mjs",
+          "line": 63,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T13:40:41.040Z",
+    "duration": 9226.345000000001,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

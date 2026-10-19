@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT" tests="3" skipped="0" failures="3" errors="0" timestamp="2026-10-17T17:18:55.060Z" hostname="DESKTOP-GKF6IVL" time="2.29">
+  <properties/>
+  <testcase name="v3PobladaConservaUuidRelacionHuellaBytesEHistorialAlActualizar()" classname="com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT" time="0.172">
+    <failure message="org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values (?,'Persona B1',?,?,?,'hash-ficticio',now(),now(),0)]" type="org.springframework.jdbc.BadSqlGrammarException">org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values (?,'Persona B1',?,?,?,'hash-ficticio',now(),now(),0)]
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:134)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:966)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1010)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1020)
+	at com.decokasa.seguimiento.archivos.DatosB1.poblar(DatosB1.java:22)
+	at com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.v3PobladaConservaUuidRelacionHuellaBytesEHistorialAlActualizar(MigracionesArchivosB1IT.java:28)
+Caused by: org.postgresql.util.PSQLException: ERROR: relation &quot;usuario&quot; does not exist
+  Position: 13
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2656)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:446)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:533)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:449)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:197)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:158)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$0(JdbcTemplate.java:971)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:670)
+	... 5 more
+</failure>
+  </testcase>
+  <testcase name="restriccionesRechazanCopiaSinIdYOffsetsMayoresAlArchivo()" classname="com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT" time="0.213">
+    <failure message="org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values (?,'Persona B1',?,?,?,'hash-ficticio',now(),now(),0)]" type="org.springframework.jdbc.BadSqlGrammarException">org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values (?,'Persona B1',?,?,?,'hash-ficticio',now(),now(),0)]
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:134)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:689)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:966)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1010)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1020)
+	at com.decokasa.seguimiento.archivos.DatosB1.poblar(DatosB1.java:22)
+	at com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.restriccionesRechazanCopiaSinIdYOffsetsMayoresAlArchivo(MigracionesArchivosB1IT.java:41)
+Caused by: org.postgresql.util.PSQLException: ERROR: relation &quot;usuario&quot; does not exist
+  Position: 13
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2656)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:446)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:533)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:449)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:197)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:158)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$0(JdbcTemplate.java:971)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:670)
+	... 5 more
+</failure>
+  </testcase>
+  <testcase name="baseVaciaAplicaHastaV6SinBinariosYReaplicarNoCambiaNada()" classname="com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT" time="0.345">
+    <failure message="org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select count(*) from adjunto]" type="org.springframework.jdbc.BadSqlGrammarException">org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select count(*) from adjunto]
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:134)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:102)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:111)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:427)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:491)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:501)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:533)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:539)
+	at com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT.baseVaciaAplicaHastaV6SinBinariosYReaplicarNoCambiaNada(MigracionesArchivosB1IT.java:22)
+Caused by: org.postgresql.util.PSQLException: ERROR: relation &quot;adjunto&quot; does not exist
+  Position: 22
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2656)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:446)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:533)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:449)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:371)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:356)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:332)
+	at org.postgresql.jdbc.PgStatement.executeQuery(PgStatement.java:282)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:478)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:412)
+	... 5 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[2026-10-17T12:18:55.062-05:00  INFO 6360 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-17T12:18:55.140-05:00  INFO 6360 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 958b2eabe31d650c67fa9e9c1e127ac67ed9bd993cda8759aa2e200acea5cdf9
+2026-10-17T12:18:56.619-05:00  INFO 6360 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5569397S
+2026-10-17T12:18:56.619-05:00  INFO 6360 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF)
+2026-10-17T12:18:56.636-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_d0a830e7abf24124af09c6fcb187863c (PostgreSQL 17.11)
+2026-10-17T12:18:56.646-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.database.base.Schema   : Creating schema "b1_d0a830e7abf24124af09c6fcb187863c" ...
+2026-10-17T12:18:56.649-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "b1_d0a830e7abf24124af09c6fcb187863c"."flyway_schema_history" ...
+2026-10-17T12:18:56.672-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "b1_d0a830e7abf24124af09c6fcb187863c": null
+2026-10-17T12:18:56.676-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_d0a830e7abf24124af09c6fcb187863c" to version "1 - usuarios roles paises"
+2026-10-17T12:18:56.707-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_d0a830e7abf24124af09c6fcb187863c" to version "2 - flujos pedidos historial"
+2026-10-17T12:18:56.750-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_d0a830e7abf24124af09c6fcb187863c" to version "3 - archivos y entradas"
+2026-10-17T12:18:56.778-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "b1_d0a830e7abf24124af09c6fcb187863c", now at version v3 (execution time 00:00.075s)
+2026-10-17T12:18:56.807-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_72026c3b6d684dcfbef369509e1e8593 (PostgreSQL 17.11)
+2026-10-17T12:18:56.817-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.database.base.Schema   : Creating schema "b1_72026c3b6d684dcfbef369509e1e8593" ...
+2026-10-17T12:18:56.819-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "b1_72026c3b6d684dcfbef369509e1e8593"."flyway_schema_history" ...
+2026-10-17T12:18:56.840-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "b1_72026c3b6d684dcfbef369509e1e8593": null
+2026-10-17T12:18:56.843-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "1 - usuarios roles paises"
+2026-10-17T12:18:56.873-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "2 - flujos pedidos historial"
+2026-10-17T12:18:56.916-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "3 - archivos y entradas"
+2026-10-17T12:18:56.947-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "4 - drive notificaciones outbox"
+2026-10-17T12:18:56.965-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "5 - cargas reanudables"
+2026-10-17T12:18:56.981-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_72026c3b6d684dcfbef369509e1e8593" to version "6 - recuperacion copias drive"
+2026-10-17T12:18:56.993-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "b1_72026c3b6d684dcfbef369509e1e8593", now at version v6 (execution time 00:00.103s)
+2026-10-17T12:18:57.020-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_5d705c07888f494496e4015926555c89 (PostgreSQL 17.11)
+2026-10-17T12:18:57.031-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.database.base.Schema   : Creating schema "b1_5d705c07888f494496e4015926555c89" ...
+2026-10-17T12:18:57.034-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "b1_5d705c07888f494496e4015926555c89"."flyway_schema_history" ...
+2026-10-17T12:18:57.057-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "b1_5d705c07888f494496e4015926555c89": null
+2026-10-17T12:18:57.062-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "1 - usuarios roles paises"
+2026-10-17T12:18:57.096-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "2 - flujos pedidos historial"
+2026-10-17T12:18:57.145-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "3 - archivos y entradas"
+2026-10-17T12:18:57.178-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "4 - drive notificaciones outbox"
+2026-10-17T12:18:57.198-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "5 - cargas reanudables"
+2026-10-17T12:18:57.213-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "b1_5d705c07888f494496e4015926555c89" to version "6 - recuperacion copias drive"
+2026-10-17T12:18:57.225-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "b1_5d705c07888f494496e4015926555c89", now at version v6 (execution time 00:00.111s)
+2026-10-17T12:18:57.241-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_5d705c07888f494496e4015926555c89 (PostgreSQL 17.11)
+2026-10-17T12:18:57.279-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_5d705c07888f494496e4015926555c89 (PostgreSQL 17.11)
+2026-10-17T12:18:57.292-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.006s)
+2026-10-17T12:18:57.311-05:00  INFO 6360 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65400/test?loggerLevel=OFF?currentSchema=b1_5d705c07888f494496e4015926555c89 (PostgreSQL 17.11)
+2026-10-17T12:18:57.324-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.006s)
+2026-10-17T12:18:57.336-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "b1_5d705c07888f494496e4015926555c89": 6
+2026-10-17T12:18:57.337-05:00  INFO 6360 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Schema "b1_5d705c07888f494496e4015926555c89" is up to date. No migration necessary.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

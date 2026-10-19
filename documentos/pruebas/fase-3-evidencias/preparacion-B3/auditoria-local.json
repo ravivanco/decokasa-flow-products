@@ -1,0 +1,55 @@
+{
+  "rama": "fase-3-drive-gmail",
+  "configuracion": {
+    "flagsLocal": {
+      "GOOGLE_OAUTH_HABILITADA": "false",
+      "GOOGLE_DRIVE_HABILITADA": "AUSENTE: default false",
+      "GOOGLE_GMAIL_HABILITADA": "AUSENTE: default false",
+      "COPIA_DRIVE_AUTOMATICA": "AUSENTE: default false",
+      "CORREO_AUTOMATICO": "AUSENTE: default false"
+    },
+    "flagsProceso": {
+      "GOOGLE_OAUTH_HABILITADA": "AUSENTE",
+      "GOOGLE_DRIVE_HABILITADA": "AUSENTE",
+      "GOOGLE_GMAIL_HABILITADA": "AUSENTE",
+      "COPIA_DRIVE_AUTOMATICA": "AUSENTE",
+      "CORREO_AUTOMATICO": "AUSENTE"
+    },
+    "cuentaCoincideConAprobada": true,
+    "rutas": {
+      "GOOGLE_OAUTH_CLIENTE_RUTA": {
+        "configurada": true,
+        "absoluta": true,
+        "fueraRepo": true,
+        "existe": true,
+        "enlace": false
+      },
+      "GOOGLE_OAUTH_LLAVE_RUTA": {
+        "configurada": true,
+        "absoluta": true,
+        "fueraRepo": true,
+        "existe": true,
+        "enlace": false
+      },
+      "GOOGLE_OAUTH_TOKENS_RUTA": {
+        "configurada": true,
+        "absoluta": true,
+        "fueraRepo": true,
+        "existe": false,
+        "enlace": false
+      }
+    },
+    "cliente": {
+      "leido": true,
+      "tipoWeb": true,
+      "redirectUrisPresente": false,
+      "callbackValidoSiPresente": true
+    }
+  },
+  "nombresSensiblesRastreados": [],
+  "nombresSensiblesPreparados": [],
+  "archivosActualesRevisados": 1550,
+  "blobsHistoricosRevisados": 2035,
+  "coincidenciasSinContenido": [],
+  "alcanceSecretos": "patrones Google/llave privada y valor exacto del client_secret configurado; no prueba ausencia universal de secretos"
+}

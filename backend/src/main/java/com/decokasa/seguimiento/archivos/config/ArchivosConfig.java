@@ -7,6 +7,9 @@ import com.decokasa.seguimiento.archivos.application.port.in.ListarAdjuntosDeEta
 import com.decokasa.seguimiento.archivos.application.port.in.SubirArchivo;
 import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosParaAccion;
 import com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio;
+import com.decokasa.seguimiento.archivos.application.port.out.CuotaAlmacenamiento;
+import com.decokasa.seguimiento.archivos.adapter.out.persistence.CuotaSqlRepositorio;
+import javax.sql.DataSource;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal.ArchivoRecibido;
 import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos;
@@ -36,6 +39,15 @@ import org.springframework.util.unit.DataSize;
  */
 @Configuration(proxyBeanMethods = false)
 public class ArchivosConfig {
+
+    @Bean
+    CuotaAlmacenamiento cuotaAlmacenamiento(DataSource fuente,
+            @Value("${decokasa.archivos.cuota.global:10GB}") DataSize global,
+            @Value("${decokasa.archivos.cuota.usuario:2GB}") DataSize usuario,
+            @Value("${decokasa.archivos.cuota.cargas-globales:10}") int cargasGlobales,
+            @Value("${decokasa.archivos.cuota.cargas-usuario:2}") int cargasUsuario) {
+        return new CuotaSqlRepositorio(fuente,global.toBytes(),usuario.toBytes(),cargasGlobales,cargasUsuario);
+    }
 
     @Bean
     AlmacenLocal almacenLocal(@Value("${decokasa.archivos.directorio}") String directorio) {
@@ -97,28 +109,29 @@ public class ArchivosConfig {
         return new LimiteDeTamano(tamanoMaximo.toBytes());
     }
 
-    /**
-     * La subida recibe el archivo fuera de la transacción y lo registra dentro de otra, con el pedido bloqueado. Si
-     * el registro falla (incluida la confirmación), borra el temporal y el definitivo: no queda una fila sin archivo
-     * ni un archivo aceptado a medias.
-     */
+    /** Reserve before receiving application bytes; finalize metadata/history/quota in one short transaction.
+     * On failure, keep the durable allocation and any retained bytes for explicit recovery. */
     @Bean
     SubirArchivo subirArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos, AlmacenLocal almacen,
             AdjuntoRepositorio adjuntos, PublicadorEventos publicador, ResumirUsuarios usuarios, Reloj reloj,
-            LimiteDeTamano limite) {
+            LimiteDeTamano limite, CuotaAlmacenamiento cuota) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         SubirArchivoCasoDeUso caso = new SubirArchivoCasoDeUso(pedidos, almacen, adjuntos, publicador, usuarios, reloj,
                 limite);
         return (solicitante, comando) -> {
-            tx.executeWithoutResult(estado -> caso.prevalidar(solicitante, comando));
             UUID adjuntoId = UUID.randomUUID();
+            tx.executeWithoutResult(estado -> {
+                caso.prevalidar(solicitante, comando);
+                // Legacy multipart has no declared length: reserve the full per-file allowance.
+                cuota.reservar(adjuntoId,solicitante.usuarioId(),limite.bytes());
+            });
             ArchivoRecibido recibido = caso.recibir(comando);
-            try {
-                return tx.execute(estado -> caso.registrar(solicitante, comando, recibido, adjuntoId));
-            } catch (RuntimeException error) {
-                caso.descartar(comando, recibido, adjuntoId);
-                throw error;
-            }
+            // Keep the allocation/bytes on failure: no unapproved automatic retention policy.
+            return tx.execute(estado -> {
+                var vista=caso.registrar(solicitante,comando,recibido,adjuntoId);
+                cuota.confirmar(adjuntoId,solicitante.usuarioId(),recibido.tamanoBytes());
+                return vista;
+            });
         };
     }
 

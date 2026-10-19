@@ -416,13 +416,17 @@ class Backend24IT {
         accion(admin,p,2,"ENVIAR",",\"adjuntoIds\":[\""+propio+"\"]",400);
         assertThat(estado(p)).isEqualTo(antes);
     }
-    @Test void vacioLimiteExactoYExcesoNoDejanRegistrosParciales() throws Exception {
-        UUID p=crear(); var antes=estado(p); long f=numeroArchivos();
-        archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[0],400);
-        archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[1025],413);
-        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f);
-        UUID a=archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[1024],201);
-        assertThat(Files.size(ruta(a))).isEqualTo(1024);
+    @ParameterizedTest @ValueSource(ints={0,1024,1025})
+    void vacioLimiteExactoYExcesoSeAislanPorPropietarioSinLiberarReservasFallidas(int tamano) throws Exception {
+        UUID p=crear();var antes=estado(p);long f=numeroArchivos();
+        UUID a=archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[tamano],tamano==0?400:tamano==1024?201:413);
+        if(tamano==1024) {
+            assertThat(Files.size(ruta(a))).isEqualTo(1024);
+            assertThat(jdbc.queryForObject("select bytes_comprometidos from archivo_cuota where adjunto_id=?",Long.class,a)).isEqualTo(1024);
+        } else {
+            assertThat(estado(p)).isEqualTo(antes);assertThat(numeroArchivos()).isEqualTo(f);
+            assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
+        }
     }
     @Test void multipartRealAplicaLimiteDelServletConJwtFirmado() throws Exception {
         UUID p=crear();
@@ -482,12 +486,13 @@ class Backend24IT {
         assertThatThrownBy(() -> subir.subir(new Solicitante(admin,Set.of(new CodigoRol("admin"))),
                 new SubirArchivo.Comando(p,2,vieja,"Documentos codificados","ficticio.pdf",contenido)))
                 .isInstanceOf(EtapaCambio.class);
-        assertThat(numeroArchivos()).isEqualTo(f);
+        assertThat(numeroArchivos()).isEqualTo(f+1); // Retained preparation, not a valid attachment.
+        assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
         assertThat(jdbc.queryForObject("select count(*) from adjunto where pedido_id=?",Long.class,p)).isEqualTo(adjuntos);
         assertThat(jdbc.queryForObject("select count(*) from evento_pedido where pedido_id=? and tipo='ARCHIVO_SUBIDO'",Long.class,p)).isEqualTo(2);
         assertThat(entrada(p,2)).isNotEqualTo(vieja);
     }
-    @Test void errorAlRegistrarTrasEscribirRevierteDiscoYBase() throws Exception {
+    @Test void errorAlRegistrarRevierteMetadatosYConservaBytesYReserva() throws Exception {
         UUID p=crear(); var antes=estado(p); long f=numeroArchivos();
         // Fallo SQL real al insertar el evento, después de guardar el archivo y el adjunto.
         jdbc.execute("create function fallo_subida_b24() returns trigger language plpgsql as $$ begin raise exception 'Fallo ficticio B24'; end; $$");
@@ -500,6 +505,47 @@ class Backend24IT {
             jdbc.execute("drop trigger fallo_subida_b24 on evento_pedido");
             jdbc.execute("drop function fallo_subida_b24()");
         }
-        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f);
+        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f+1);
+        assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
+    }
+
+    @Test void b2TransicionesRealesEncolanUnaIntencionPorEventoSinInventarDestinatario() throws Exception {
+        UUID p=enEtapa(3);
+        accion(admin,p,3,"RECHAZAR",",\"observacion\":\"Correccion ficticia B2\"",200);
+        avanzar(p,2);accion(admin,p,3,"APROBAR","",200);
+        accion(admin,p,4,"DEVOLVER_POR_ERROR",",\"observacion\":\"Devolucion ficticia B2\"",200);
+        var filas=jdbc.queryForList("select n.*,e.tipo as tipo_historial from notificacion n join evento_pedido e on e.id=n.evento_id where n.pedido_id=?",p);
+        assertThat(filas).hasSize(6);
+        assertThat(filas.stream().map(f->f.get("tipo_historial")).toList()).contains("ETAPA_ENVIADA","ETAPA_RECHAZADA","ETAPA_APROBADA","PEDIDO_DEVUELTO");
+        for(var fila:filas) {assertThat(fila.get("destinatario")).isNull();assertThat(fila.get("estado")).isEqualTo("PENDIENTE");assertThat(fila.get("intentos")).isEqualTo(0);}
+        assertThat(jdbc.queryForObject("select count(distinct evento_id) from notificacion where pedido_id=?",Integer.class,p)).isEqualTo(6);
+    }
+    @Autowired org.springframework.transaction.PlatformTransactionManager transaccionesB2;
+    @Test void b2RollbackRealDeTransicionNoDejaAvisoNiHistorialNiAvance() throws Exception {
+        UUID p=crear();UUID a=archivo(p,1);var antes=estado(p);
+        var tx=new org.springframework.transaction.support.TransactionTemplate(transaccionesB2);
+        tx.executeWithoutResult(s->{try {
+            accion(admin,p,1,"ENVIAR",",\"adjuntoIds\":[\""+a+"\"]",200);
+            assertThat(jdbc.queryForObject("select count(*) from notificacion where pedido_id=?",Integer.class,p)).isEqualTo(1);
+            s.setRollbackOnly();
+        } catch(Exception e){throw new IllegalStateException(e);}});
+        assertThat(estado(p)).isEqualTo(antes);
+        assertThat(jdbc.queryForObject("select count(*) from notificacion where pedido_id=?",Integer.class,p)).isZero();
+    }
+    @Test void b2RegistroHttpExigeAdminVigenteInclusoConTokenAntiguo() throws Exception {
+        mvc.perform(get("/api/v1/notificaciones").with(token(admin))).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
+        UUID otro=persona("marketing");
+        mvc.perform(get("/api/v1/notificaciones").with(token(otro))).andExpect(status().isForbidden());
+        jdbc.update("delete from usuario_rol where usuario_id=?",admin);
+        mvc.perform(get("/api/v1/notificaciones").with(token(admin))).andExpect(status().isForbidden());
+    }
+
+    @Test void b2RegistroSanitizaErroresYPaginaSinExponerDatosPrivados() throws Exception {
+        UUID p=enEtapa(2);
+        jdbc.update("update notificacion set ultimo_error='dato-ficticio-no-publicable',estado='FALLIDA' where pedido_id=?",p);
+        String cuerpo=respuesta(get("/api/v1/notificaciones?estado=FALLIDA&pagina=0&tamano=100").with(token(admin)),200);
+        assertThat(cuerpo).contains("ERROR_NO_CLASIFICADO").doesNotContain("dato-ficticio-no-publicable","messageId","proveedorId","datos\":");
+        mvc.perform(get("/api/v1/notificaciones?pagina=-1").with(token(admin))).andExpect(status().isBadRequest());
+        mvc.perform(get("/api/v1/notificaciones?tamano=101").with(token(admin))).andExpect(status().isBadRequest());
     }
 }

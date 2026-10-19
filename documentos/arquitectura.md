@@ -195,7 +195,7 @@ flowchart TD
 | Dominio | `Adjunto` (pedido, etapa, evento, nombre, tipo, tamaño, id en el almacén, estado PENDIENTE, COPIADO o FALLIDO, intentos), `PoliticaArchivos` (máximo 100 MB por archivo; ⏸ formatos aceptados) |
 | Puertos de entrada | `SubirArchivo`, `ConsultarAdjuntosDeEtapa` (lo usa `pedidos` para revisar los requisitos), `ObtenerEnlaceArchivo`, `ReintentarCopiasPendientes` (tarea programada), `ConsultarCopiasFallidas` (admin; requerimientos 4.8) |
 | Puertos de salida | `AlmacenArchivos` (copia definitiva), `AlmacenTemporal` (archivo recibido antes de copiarlo), `AdjuntoRepositorio`, `PublicadorEventos` |
-| Adaptadores | Entrada: `ArchivoController` (subida por partes), `TareaCopiaArchivos`. Salida: `GoogleDriveAlmacen` (cuenta de servicio y unidad compartida; carpeta por país y pedido según requerimientos 4.7, con subcarpetas por año y etapa **[P]**), `AlmacenEnMemoria` (pruebas y fase 2), `DiscoLocalTemporal`, `AdjuntoJpaRepositorio` |
+| Adaptadores | Entrada: `ArchivoController` (subida por partes), `TareaCopiaArchivos`. Salida: `GoogleDriveAlmacen` (OAuth de usuario y Mi unidad del Gmail personal, ADR-0017; carpeta por país/pedido en desarrollo posterior, año/etapa **[P]**), `AlmacenEnMemoria` (pruebas y fase 2), `DiscoLocalTemporal`, `AdjuntoJpaRepositorio` |
 | Reglas | El servidor valida tipo, tamaño y nombre; el nombre nunca se usa sin codificar en enlaces (`auditoria-demo.md`, S9). El enlace lo entrega Drive. ⏸ Quién tiene acceso directo a la carpeta de Drive |
 
 ### 4.6 `notificaciones`
@@ -205,7 +205,7 @@ flowchart TD
 | Dominio | `Notificacion` (destinatario, plantilla, datos del evento, estado PENDIENTE, ENVIADA o FALLIDA, intentos), `PlantillaCorreo` |
 | Puertos de entrada | `EncolarNotificacion` (lo llama el oyente de eventos), `EnviarNotificacionesPendientes` (tarea programada), `ConsultarNotificaciones` (admin; reemplaza la vista de Gmail del demo) |
 | Puertos de salida | `Notificador` (envío de correo), `NotificacionRepositorio` (cola), `DirectorioDestinatarios` (a quién se notifica) |
-| Adaptadores | Entrada: `OyenteEventosNotificacion` (dentro de la transacción de la acción: solo inserta en la cola), `TareaEnvioCorreos`, `NotificacionController`. Salida: `GmailNotificador` **[P]** (Gmail API con cuenta de servicio y delegación limitada al buzón remitente; alternativa: SMTP de Google Workspace, como deja abierto requerimientos 3; se decide en ADR), `NotificadorEnMemoria` (pruebas), `NotificacionJpaRepositorio` |
+| Adaptadores | Entrada: `OyenteEventosNotificacion` (dentro de la transacción de la acción: solo inserta en la cola), `TareaEnvioCorreos`, `NotificacionController`. Salida: `GmailNotificador` (Gmail API con OAuth de usuario del Gmail personal, sin delegación; ADR-0017), `NotificadorEnMemoria` (pruebas), `NotificacionJpaRepositorio` |
 | Reglas | Cada etapa y cada vencimiento notifican al admin (requerimientos 4.2 #16). ⏸ Si el responsable de la etapa también recibe correo: `DirectorioDestinatarios` permite agregarlo sin tocar el resto |
 
 ### 4.7 `plazos`
@@ -417,3 +417,23 @@ Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar. La
 - **Paso 0.8:** el contrato OpenAPI sigue los puertos de entrada de la sección 4.
 - **Paso 0.9:** el modelo de datos sigue los objetos de dominio y los repositorios de la sección 4, con los roles como datos, los requisitos por etapa, el vencimiento de la urgencia y la asignación de etapas.
 - **Paso 0.10:** los diagramas C4 y de secuencia parten de las secciones 1, 3.1 y 6.
+
+### Concreción de fase 3, parte A, paso 3.2 (2026-10-17)
+
+Esta actualización prevalece para la integración sobre las alternativas Workspace/en memoria anteriores (§§4.5–4.6). OAuth de usuario/Gmail personal y Mi unidad: ADR-0017. El outbox está aprobado técnicamente por Richard (F3-D1 del plan); no es una nueva decisión del cliente. Dominio/aplicación siguen sin Spring/JPA/JSON; transacciones y SQL solo en bordes.
+
+`archivos` añade `AlmacenArchivos` → `GoogleDriveAlmacen` y `CopiaAdjuntoRepositorio` → `CopiaAdjuntoSqlRepositorio` sobre adjunto de V3 ampliado por V4; conserva AlmacenLocal y el contrato anterior. `notificaciones` añade EncolarNotificacion, NotificacionRepositorio y Notificador, con adaptadores SQL/Gmail. No existe un segundo módulo de archivos ni una segunda outbox.
+
+Historial publica `EventoPedidoRegistrado` mediante un puerto compartido después de persistir el evento; no importa notificaciones. Un listener síncrono MANDATORY en notificaciones conserva la fila en la misma transacción de acción/historial. La FK diferible admite el flush posterior de JPA. Error o rollback no deja un correo enviable. El envío futuro se realizará tras el commit, fuera de la transacción; los adaptadores remotos rechazan transacciones activas.
+
+La credencial común `AccesoCuentaGoogle` es un puerto interno de compartido; su implementación utiliza el almacén externo cifrado del 3.1. No hay dependencia de Gmail hacia archivos ni ciclos (R4/R9). Los adaptadores son pasivos y desactivados; no hay workers/controladores/pantallas nuevos. Gmail no garantiza exactamente una entrega. Mientras falte la política de receptores, los avisos sin correo se guardan pero no se reclaman.
+
+Detalles y casos pendientes de parte B: [informe 3.2](fase-3-paso-3.2.md). El límite provisional continúa en 100 MiB, no 100 MB decimales. No se ha ejecutado el nuevo código ni aplicado V4.
+
+### Concreción de copia/recuperación 3.4 (2026-10-17, sin comprobar en parte B)
+
+El módulo archivos añade `ReintentarCopiasPendientes`, caso puro de copia, protector de sesión cifrada y cerrojo del mismo volumen. `CopiaDriveConfig` decora repositorios con transacciones cortas; el caso no importa Spring/JPA/JSON. Google/refresh/lectura completa ocurren fuera de transacción. `PedidosParaCopias` es otro puerto consumidor implementado dentro de pedidos, igual al adaptador de archivos de fase 2: pedidos sigue dependiendo de archivos, nunca al revés (R4/R9).
+
+Adjunto sigue siendo cola y catálogo únicos; V6 añade checkpoints/intentos y un índice técnico de carpetas. Richard aprobó crear código-país/número-pedido en Mi unidad con IDs estables, sin año/etapa adicionales. Lease/token y cerrojo compartido separan reclamación de red; la sesión remota va cifrada con llave externa. Conciliación del mismo ID y checksum precede COPIADO/enlace real. Presupuesto: intento inicial+3 reintentos, esperas base 1/5/15 min, recuperación del mismo intento tras caída. No hay purga.
+
+OAuth/Drive y worker automático permanecen desactivados. La tarea solo se registra con sus tres flags explícitos; no hay un worker de correo ni pantallas nuevas. Código sin compilar/probar, V6 sin aplicar y sin Google real. Ver [informe 3.4](fase-3-paso-3.4.md).

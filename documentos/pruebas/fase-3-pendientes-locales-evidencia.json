@@ -1,0 +1,35 @@
+{
+  "tipo": "revision_estatica_sin_ejecucion",
+  "archivos_aplicados": 17,
+  "archivos_protegidos": 94,
+  "protegidos_modificados": [],
+  "destinos_distintos_a_preparados": [],
+  "flags": {
+    "GOOGLE_OAUTH_HABILITADA": {
+      "local_false_or_absent": true,
+      "process_false_or_absent": true
+    },
+    "GOOGLE_DRIVE_HABILITADA": {
+      "local_false_or_absent": true,
+      "process_false_or_absent": true
+    },
+    "GOOGLE_GMAIL_HABILITADA": {
+      "local_false_or_absent": true,
+      "process_false_or_absent": true
+    },
+    "COPIA_DRIVE_AUTOMATICA": {
+      "local_false_or_absent": true,
+      "process_false_or_absent": true
+    },
+    "CORREO_AUTOMATICO": {
+      "local_false_or_absent": true,
+      "process_false_or_absent": true
+    }
+  },
+  "pruebas_ejecutadas": false,
+  "builds_ejecutados": false,
+  "migraciones_ejecutadas": false,
+  "operaciones_google": false,
+  "git_escritura": false,
+  "cobertura_actual": "no medida; ultimo dato archivos historico 64.83%"
+}

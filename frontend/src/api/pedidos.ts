@@ -274,6 +274,8 @@ export function useAdjuntosDeEtapa(pedidoId: string, etapa: number) {
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, { esquema: z.array(esquemaAdjunto), signal }),
     staleTime: 10_000,
+    refetchInterval: (consulta) => consulta.state.data?.some(a => a.estadoCopia === 'PENDIENTE') ? 30_000 : false,
+    refetchIntervalInBackground: false,
   });
 }
 
@@ -339,12 +341,13 @@ export function useCrearPedido() {
 }
 
 /** Tras cualquier cambio de un pedido: su detalle, su historial, sus archivos y las listas que lo muestran. */
-function useRefrescarPedido() {
+export function useRefrescarPedido() {
   const { sesionId } = useSesion();
   const consultas = useQueryClient();
   return (pedidoId: string, detalle?: PedidoDetalle) => {
     if (detalle) consultas.setQueryData(clavesPedidos.detalle(sesionId, pedidoId), detalle);
     else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: ['notificaciones', sesionId] });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId) });

@@ -1,0 +1,13 @@
+{
+  "fuentesConfiguracionYPruebasPreviasModificadas": [],
+  "indiceIntacto": true,
+  "rama": "fase-3-drive-gmail",
+  "junit": {
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "arranqueRealNoEjecutado": true,
+  "operacionesGoogleNoEjecutadas": true
+}

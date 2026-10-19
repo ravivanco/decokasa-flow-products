@@ -1,0 +1,290 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "playwright.config.mjs"
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2/browser-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/3.B2",
+        "testIgnore": [],
+        "testMatch": [
+          "pantallas.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 43182 --strictPort --mode b2",
+      "cwd": "C:/Users/Richard/Desktop/decoWeb/frontend",
+      "url": "http://127.0.0.1:43182",
+      "reuseExistingServer": false,
+      "env": {
+        "VITE_ACCESO_LOCAL": "false",
+        "VITE_API_URL": "/api/v1"
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "pantallas.spec.mjs",
+      "file": "pantallas.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "admin ve registro persistido simulado sin envio ni exito inventado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1265,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:37:04.735Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-admin-ve-registr-ef198-in-envio-ni-exito-inventado\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-2e777f3521c43b448495",
+          "file": "pantallas.spec.mjs",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "no admin no consulta el registro ni ve el menu de correos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 803,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:37:06.333Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-no-admin-no-cons-00183-ro-ni-ve-el-menu-de-correos\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-b3dc53a6802f0a6666b9",
+          "file": "pantallas.spec.mjs",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "enlaces solo para copia confirmada; descarga se conserva en backend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1387,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:37:07.160Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-enlaces-solo-par-71359-arga-se-conserva-en-backend\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-fc33364a07de4d12acf1",
+          "file": "pantallas.spec.mjs",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "progreso de dos bloques espera ACK y finalizacion antes de mostrar exito",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6698,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText(/recibido por el servidor/)\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/recibido por el servidor/)\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText(/recibido por el servidor/)\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/recibido por el servidor/)\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\pantallas.spec.mjs:82:59",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\pantallas.spec.mjs",
+                      "column": 59,
+                      "line": 82
+                    },
+                    "snippet": "  80 |  const progress=page.getByRole('progressbar',{name:'Bytes confirmados de la carga'});\n  81 |  await expect.poll(()=>recibidos).toBe(1);await expect(progress).toHaveAttribute('value','0');expect(finales).toBe(0);\n> 82 |  await expect(page.getByText(/recibido por el servidor/)).toHaveCount(0);liberar();\n     |                                                           ^\n  83 |  await expect.poll(()=>finales).toBe(1);expect(recibidos).toBe(2);expect(offset).toBe(total);\n  84 |  await expect(page.getByText(/recibido por el servidor/)).toBeVisible();expect(i).toEqual([]);\n  85 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\pantallas.spec.mjs",
+                        "column": 59,
+                        "line": 82
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText(/recibido por el servidor/)\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/recibido por el servidor/)\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  80 |  const progress=page.getByRole('progressbar',{name:'Bytes confirmados de la carga'});\n  81 |  await expect.poll(()=>recibidos).toBe(1);await expect(progress).toHaveAttribute('value','0');expect(finales).toBe(0);\n> 82 |  await expect(page.getByText(/recibido por el servidor/)).toHaveCount(0);liberar();\n     |                                                           ^\n  83 |  await expect.poll(()=>finales).toBe(1);expect(recibidos).toBe(2);expect(offset).toBe(total);\n  84 |  await expect(page.getByText(/recibido por el servidor/)).toBeVisible();expect(i).toEqual([]);\n  85 | });\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\pantallas.spec.mjs:82:59"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T13:37:08.611Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-progreso-de-dos--6ddea-cion-antes-de-mostrar-exito\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-progreso-de-dos--6ddea-cion-antes-de-mostrar-exito\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\browser-artifacts\\pantallas-progreso-de-dos--6ddea-cion-antes-de-mostrar-exito\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-3-evidencias\\3.B2\\pantallas.spec.mjs",
+                    "column": 59,
+                    "line": 82
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f2138eb724381ac0d04b-42d11d396a49ac210c61",
+          "file": "pantallas.spec.mjs",
+          "line": 63,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T13:37:03.843Z",
+    "duration": 12132.043,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

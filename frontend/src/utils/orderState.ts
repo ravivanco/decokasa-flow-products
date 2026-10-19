@@ -642,8 +642,6 @@ export function uploadStageFile(
       const newVersion: ArchivoVersion = {
         version: nextVersion,
         nombre: fileInfo.nombre,
-        driveId: `gdrive-${Date.now()}`,
-        driveUrl: fileInfo.driveUrl || `https://drive.google.com/decokasa/${fileInfo.nombre}`,
         tamano: fileInfo.tamano,
         subidoPor: usuario.nombre,
         subidoPorRol: usuario.cargo,

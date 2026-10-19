@@ -2,6 +2,7 @@ package com.decokasa.seguimiento.archivos.adapter.out.almacen;
 
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.domain.ArchivoDemasiadoGrande;
+import com.decokasa.seguimiento.archivos.domain.ProblemaCarga;
 import com.decokasa.seguimiento.archivos.domain.TipoDetectado;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
@@ -97,10 +99,36 @@ public final class AlmacenLocalEnDisco implements AlmacenLocal {
         Path destino = ruta(claveFinal);
         try {
             Files.createDirectories(destino.getParent());
+            Path origen = ruta(recibido.claveTemporal());
+            // El flujo reanudable prepara y verifica el destino fuera de la transacción final.
+            if (origen.equals(destino)) {
+                if (!Files.isRegularFile(destino, LinkOption.NOFOLLOW_LINKS)
+                        || Files.size(destino) != recibido.tamanoBytes()) { throw ProblemaCarga.almacenamiento(); }
+                return;
+            }
+            // Recuperación bajo bloqueo de sesión tras caída entre mover y commit. Nunca sobrescribir otro contenido.
+            if (Files.exists(destino, LinkOption.NOFOLLOW_LINKS)) {
+                if (!Files.isRegularFile(destino, LinkOption.NOFOLLOW_LINKS)
+                        || Files.size(destino) != recibido.tamanoBytes() || !huella(destino).equals(recibido.sha256())) {
+                    throw ProblemaCarga.conflicto();
+                }
+                Files.deleteIfExists(origen);
+                return;
+            }
             Files.move(ruta(recibido.claveTemporal()), destino, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException error) {
             throw new UncheckedIOException("No se pudo guardar el archivo.", error);
         }
+    }
+
+    private static String huella(Path archivo) throws IOException {
+        try (InputStream entrada = Files.newInputStream(archivo, LinkOption.NOFOLLOW_LINKS)) {
+            MessageDigest resumen = MessageDigest.getInstance("SHA-256");
+            byte[] bloque = new byte[BLOQUE];
+            int leidos;
+            while ((leidos = entrada.read(bloque)) != -1) { resumen.update(bloque, 0, leidos); }
+            return HexFormat.of().formatHex(resumen.digest());
+        } catch (NoSuchAlgorithmException error) { throw new IllegalStateException("SHA-256 no disponible"); }
     }
 
     @Override

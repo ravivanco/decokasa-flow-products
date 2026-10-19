@@ -11,9 +11,16 @@ import java.util.UUID;
 public final class RegistrarEventoPedidoCasoDeUso implements RegistrarEventoPedido {
 
     private final HistorialRepositorio historial;
+    private final com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventosRegistrados publicador;
 
     public RegistrarEventoPedidoCasoDeUso(HistorialRepositorio historial) {
-        this.historial = historial;
+        this(historial, evento -> { });
+    }
+
+    public RegistrarEventoPedidoCasoDeUso(HistorialRepositorio historial,
+            com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventosRegistrados publicador) {
+        this.historial = Objects.requireNonNull(historial);
+        this.publicador = Objects.requireNonNull(publicador);
     }
 
     @Override
@@ -21,5 +28,6 @@ public final class RegistrarEventoPedidoCasoDeUso implements RegistrarEventoPedi
         Objects.requireNonNull(evento, "evento");
         UUID id = evento.eventoId() == null ? UUID.randomUUID() : evento.eventoId();
         historial.insertar(EventoPedido.desde(id, evento));
+        publicador.publicar(new com.decokasa.seguimiento.compartido.domain.eventos.EventoPedidoRegistrado(id, evento));
     }
 }

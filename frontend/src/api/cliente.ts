@@ -44,6 +44,8 @@ export class ErrorApi extends Error {
 export interface OpcionesLlamada<T> {
   metodo?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   cuerpo?: unknown;
+  /** Cuerpo binario repetible de una carga; cabeceras cerradas, sin permitir sobreescribir Authorization. */
+  fragmento?: { contenido: Blob; rango: string; sha256: string };
   /** Token de acceso en memoria; va en `Authorization: Bearer`. */
   token?: string | null;
   /** Solo las rutas de sesión (/auth/*) envían y reciben la cookie de renovación (D3b). */
@@ -72,7 +74,15 @@ export async function llamar<T = unknown>(ruta: string, opciones: OpcionesLlamad
     Accept: binario ? 'application/octet-stream, application/problem+json' : 'application/json, application/problem+json',
   };
   // Un FormData (subida de archivos) lleva su propio Content-Type multipart con el separador: no se fija aquí.
+  if (opciones.cuerpo !== undefined && opciones.fragmento) {
+    throw new ErrorApi(400, 'VALIDACION', 'La petición debe tener un único cuerpo.');
+  }
   const multipart = opciones.cuerpo instanceof FormData;
+  if (opciones.fragmento) {
+    cabeceras['Content-Type'] = 'application/octet-stream';
+    cabeceras['Content-Range'] = opciones.fragmento.rango;
+    cabeceras['X-Fragmento-SHA256'] = opciones.fragmento.sha256;
+  }
   if (opciones.cuerpo !== undefined && !multipart) cabeceras['Content-Type'] = 'application/json';
   if (opciones.token) cabeceras.Authorization = `Bearer ${opciones.token}`;
 
@@ -82,7 +92,7 @@ export async function llamar<T = unknown>(ruta: string, opciones: OpcionesLlamad
       method: opciones.metodo ?? 'GET',
       headers: cabeceras,
       body:
-        opciones.cuerpo === undefined
+        opciones.fragmento ? opciones.fragmento.contenido : opciones.cuerpo === undefined
           ? undefined
           : multipart
             ? (opciones.cuerpo as FormData)

@@ -27,8 +27,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class HistorialConfig {
 
     @Bean
-    RegistrarEventoPedido registrarEventoPedido(HistorialRepositorio historial) {
-        return new RegistrarEventoPedidoCasoDeUso(historial);
+    RegistrarEventoPedido registrarEventoPedido(HistorialRepositorio historial,
+            com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventosRegistrados publicador) {
+        return new RegistrarEventoPedidoCasoDeUso(historial, publicador);
     }
 
     /** Consulta del historial: transacción de solo lectura. El permiso (P-13) lo da el adaptador de pedidos. */

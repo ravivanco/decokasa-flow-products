@@ -11,7 +11,7 @@ describe('App', () => {
     abrirConSesion(ana, '/inicio');
 
     const encabezado = await screen.findByRole('banner');
-    expect(within(encabezado).getAllByText(/Decokasa/i).length).toBeGreaterThan(0);
+    expect(within(encabezado).getAllByText(/LATINOAM\u00c9RICA/i).length).toBeGreaterThan(0);
     expect(within(encabezado).getByText('Ana Prueba')).toBeInTheDocument();
     expect(within(encabezado).getByRole('button', { name: 'Cerrar sesión' })).toBeInTheDocument();
   });

@@ -1,0 +1,38 @@
+{
+  "produccionModificada": [],
+  "indiceIntacto": true,
+  "rama": "fase-3-drive-gmail",
+  "backend": [
+    {
+      "name": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+      "tests": "13",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "frontend": {
+    "test": 0,
+    "build": 0,
+    "lint": 0
+  },
+  "playwright": {
+    "aprobados": 4,
+    "fallidos": 0,
+    "proveedor": "dobles locales; red externa abortada"
+  }
+}

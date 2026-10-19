@@ -1,0 +1,52 @@
+﻿[
+    {
+        "existe":  true,
+        "tipo":  "archivo",
+        "etiqueta":  "GOOGLE_OAUTH_CLIENTE_RUTA",
+        "llave32Bytes":  null,
+        "permisosAllowAjenos":  0,
+        "herenciaDeshabilitada":  true,
+        "reparsePoint":  false
+    },
+    {
+        "existe":  true,
+        "tipo":  "directorio",
+        "etiqueta":  "GOOGLE_OAUTH_CLIENTE_RUTA",
+        "llave32Bytes":  null,
+        "permisosAllowAjenos":  0,
+        "herenciaDeshabilitada":  true,
+        "reparsePoint":  false
+    },
+    {
+        "existe":  true,
+        "tipo":  "archivo",
+        "etiqueta":  "GOOGLE_OAUTH_LLAVE_RUTA",
+        "llave32Bytes":  true,
+        "permisosAllowAjenos":  0,
+        "herenciaDeshabilitada":  true,
+        "reparsePoint":  false
+    },
+    {
+        "existe":  true,
+        "tipo":  "directorio",
+        "etiqueta":  "GOOGLE_OAUTH_LLAVE_RUTA",
+        "llave32Bytes":  null,
+        "permisosAllowAjenos":  0,
+        "herenciaDeshabilitada":  true,
+        "reparsePoint":  false
+    },
+    {
+        "etiqueta":  "GOOGLE_OAUTH_TOKENS_RUTA",
+        "existe":  false,
+        "tipo":  "archivo"
+    },
+    {
+        "existe":  true,
+        "tipo":  "directorio",
+        "etiqueta":  "GOOGLE_OAUTH_TOKENS_RUTA",
+        "llave32Bytes":  null,
+        "permisosAllowAjenos":  0,
+        "herenciaDeshabilitada":  true,
+        "reparsePoint":  false
+    }
+]

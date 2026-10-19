@@ -31,6 +31,8 @@ describe('Sin accesos de demostración en el código (S1, S2)', () => {
     const con = codigo
       .filter(({ fuente }) => /(localStorage|sessionStorage)\.setItem/.test(fuente))
       .map(({ ruta }) => path.relative(raiz, ruta));
-    expect(con).toEqual([]);
+    expect(con).toEqual([path.join('api', 'cargas.ts')]);
+    // El contenido real guardado se comprueba durante la carga por bloques en ArchivosYPermisos.
+    expect(codigo.filter(({fuente}) => /localStorage\.setItem/.test(fuente))).toEqual([]);
   });
 });

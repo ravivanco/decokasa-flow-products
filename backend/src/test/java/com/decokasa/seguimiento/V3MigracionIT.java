@@ -9,7 +9,9 @@ import org.testcontainers.junit.jupiter.*;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-/** Actualización V2 poblada -> V3, en un contenedor propio sin reuse ni base compartida. */
+/** Actualización V2 poblada -> V3, en un contenedor propio sin reuse ni base compartida.
+ * Target 3 explícito: conserva el reproductor del backfill y rollback de esa migración.
+ * MigracionesArchivosB1IT cubre por separado la actualización poblada V3 -> V6. */
 @Testcontainers
 class V3MigracionIT {
     @Container static final PostgreSQLContainer POSTGRES=new PostgreSQLContainer(DockerImageName.parse("postgres:17"));
@@ -28,7 +30,7 @@ class V3MigracionIT {
                     +(n<3?"'2026-10-15T12:00:00Z'":"null")+",0)");
         }
         Flyway flyway=Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
-                .locations("classpath:db/migration").load();
+                .locations("classpath:db/migration").target("3").load();
         org.flywaydb.core.api.output.MigrateResult r;
         try { r=flyway.migrate(); }
         catch(RuntimeException fallo) {

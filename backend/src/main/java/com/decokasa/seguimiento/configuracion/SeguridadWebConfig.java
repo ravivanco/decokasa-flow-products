@@ -38,7 +38,8 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * Seguridad web de la API (ADR-0002, R6). Sin sesión de servidor, formulario de login ni autenticación básica: el
  * acceso usa un JWT de 15 minutos en {@code Authorization: Bearer} con los roles del usuario. Solo la salud y las
- * rutas de sesión son públicas; la gestión de usuarios y roles exige el rol admin (y el caso de uso lo revisa de
+ * rutas de sesión son públicas, además del retorno/resultado OAuth con su protección de estado y navegador;
+ * la gestión de usuarios y roles exige el rol admin (y el caso de uso lo revisa de
  * nuevo). Los 401 y 403 usan el formato Problema del contrato. CSRF de Spring no aplica al Bearer; las dos rutas con
  * cookie (/renovar y /cerrar-sesion) se protegen con SameSite=Strict y la verificación de Origin (D3b).
  */
@@ -78,6 +79,11 @@ public class SeguridadWebConfig {
                                 "/v3/api-docs", "/v3/api-docs/**").permitAll();
                     }
                     rutas.requestMatchers(HttpMethod.GET, "/api/v1/salud", "/actuator/health", "/actuator/health/**")
+                        .permitAll()
+                        // OAuth de usuario (paso 3.1): solo el retorno y su resultado no llevan JWT.
+                        // El callback exige state de un solo uso, cookie de vínculo y admin vigente en aplicación.
+                        .requestMatchers(HttpMethod.GET, "/api/v1/integraciones/google/oauth2/callback",
+                                "/api/v1/integraciones/google/oauth2/resultado")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/renovar",
                                 "/api/v1/auth/cerrar-sesion")
@@ -126,7 +132,7 @@ public class SeguridadWebConfig {
         CorsConfiguration cors = new CorsConfiguration();
         cors.setAllowedOrigins(origenes);
         cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
-        cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        cors.setAllowedHeaders(List.of("Authorization", "Content-Type", "Content-Range", "X-Fragmento-SHA256"));
         cors.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource fuente = new UrlBasedCorsConfigurationSource();
         fuente.registerCorsConfiguration("/api/**", cors);

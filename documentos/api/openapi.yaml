@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.7.0-borrador
+  version: 0.7.3-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -12,6 +12,7 @@ info:
     **Cómo distinguir lo aprobado de lo propuesto.** Cada operación y algunos campos llevan:
     - `x-origen: requisito`: lo pide `requerimientos.md`, o sale directamente de un ADR en estado accepted.
     - `x-origen: propuesta`: decisión de diseño del equipo, no aprobada; se puede cambiar.
+    - `x-origen: decision-equipo`: configuración acordada expresamente por Richard (OAuth de usuario, paso 3.1).
     - `x-pendiente`: depende de una pregunta abierta del cliente (`requerimientos.md`, "Por confirmar con el cliente"; `arquitectura.md`, 8.1).
 
     Los nombres de rutas, campos y códigos de error son diseño del contrato y se pueden ajustar
@@ -136,6 +137,134 @@ security:
   - bearerAuth: []
 
 paths:
+  /integraciones/google/oauth2/inicio:
+    post:
+      tags: [archivos]
+      operationId: iniciarAutorizacionGoogle
+      summary: Iniciar el consentimiento OAuth de la cuenta Google de empresa
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: |
+        Paso 3.1, decisión de Richard de 2026-10-17. Solo admin activo con rol vigente en la base.
+        Cliente web OAuth de usuario, Gmail personal y Mi unidad; sin delegación Workspace.
+        Requiere GOOGLE_OAUTH_HABILITADA=true y configuración privada externa.
+        Solicita acceso offline, state de un solo uso (cinco minutos), nonce y PKCE S256.
+        Establece cookie host-only HttpOnly SameSite=Lax de vínculo de navegador, con Path restringido.
+        No intercambia códigos al iniciar, no envía correos ni crea archivos. La URL es para navegar
+        en el mismo navegador que recibió la cookie; no compartirla ni registrarla en logs.
+      responses:
+        '200':
+          description: Inicio preparado; navegar a Google desde este navegador antes de caducaEn.
+          headers:
+            Set-Cookie:
+              description: Cookie temporal de vínculo, no contiene tokens Google.
+              schema:
+                type: string
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [urlAutorizacion, caducaEn]
+                properties:
+                  urlAutorizacion:
+                    type: string
+                    format: uri
+                    description: URL de accounts.google.com con state y challenge; sin secretos ni tokens.
+                  caducaEn:
+                    $ref: '#/components/schemas/FechaHora'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '503':
+          description: GOOGLE_NO_DISPONIBLE. Configuración externa incompleta o permisos privados no admitidos.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
+  /integraciones/google/oauth2/callback:
+    get:
+      tags: [archivos]
+      operationId: completarAutorizacionGoogle
+      summary: Retorno OAuth local con estado y cookie de vínculo obligatorios
+      x-origen: decision-equipo
+      security: []
+      description: |
+        URI exacta registrada: http://localhost:8080/api/v1/integraciones/google/oauth2/callback.
+        No exige Bearer porque Google redirige el navegador; sí consume state vivo de un solo uso,
+        valida la cookie del navegador y reconsulta al admin iniciador antes del canje y del guardado.
+        El backend canjea por HTTPS y valida el ID token y los ámbitos. Cifra tokens fuera de Git.
+        Google En pruebas limita la autorización/refresh token de Gmail/Drive a siete días.
+        Siempre redirige a resultado local sin propagar códigos, state, errores del proveedor ni tokens.
+        Si la integración está deshabilitada, no existe este controlador.
+      parameters:
+        - name: state
+          in: query
+          schema:
+            type: string
+          description: Estado emitido por inicio, de un solo uso. No registrar el valor.
+        - name: code
+          in: query
+          schema:
+            type: string
+          description: Código OAuth. No registrar ni compartir; ausencia/cancelación produce resultado de error.
+        - name: error
+          in: query
+          schema:
+            type: string
+          description: Denegación del proveedor, nunca se refleja en el cuerpo ni en la URL de resultado.
+        - name: decokasa_google_inicio
+          in: cookie
+          schema:
+            type: string
+          description: Cookie HttpOnly del navegador que inició el flujo.
+      responses:
+        '303':
+          description: Borra la cookie y redirige al resultado local (200, 400, 403 o 503), sin datos sensibles.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: /api/v1/integraciones/google/oauth2/resultado?codigo=200, 400, 403 o 503.
+
+  /integraciones/google/oauth2/resultado:
+    get:
+      tags: [archivos]
+      operationId: mostrarResultadoAutorizacionGoogle
+      summary: Página local informativa sin credenciales
+      x-origen: decision-equipo
+      security: []
+      description: |
+        No consulta tokens ni cuenta y no acredita el estado actual de conexión si se abre directamente.
+        Textos constantes, Cache-Control no-store y CSP sin recursos externos. No envía ni sube contenido.
+      parameters:
+        - name: codigo
+          in: query
+          schema:
+            type: string
+            default: '400'
+      responses:
+        '200':
+          description: Mensaje del retorno satisfactorio.
+          content:
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: Estado inválido/caducado, cancelación u otro retorno inválido; HTML sin secretos.
+        '403':
+          description: El admin iniciador perdió su autorización; HTML sin secretos.
+        '503':
+          description: Configuración, proveedor o almacén no disponibles; HTML sin secretos.
+
+
   /auth/login:
     post:
       tags: [autenticacion]
@@ -955,7 +1084,7 @@ paths:
           contenido; no confía en el `Content-Type` ni en el nombre que envía el cliente. Un archivo vacío o una carga
           incompleta no crea nada.
         - Límite provisional del equipo: 100 MiB por archivo, configurable, pendiente del cliente.
-        - La subida reanudable por partes es una propuesta de la fase 3.
+        - La subida reanudable de 3.3 usa las rutas de cargas del mismo módulo; multipart se conserva.
       requestBody:
         required: true
         content:
@@ -1005,6 +1134,202 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problema'
+
+  /pedidos/{pedidoId}/etapas/{numeroEtapa}/archivos/cargas:
+    parameters:
+      - { name: pedidoId, in: path, required: true, schema: { type: string, format: uuid } }
+      - { name: numeroEtapa, in: path, required: true, schema: { type: integer, minimum: 1, maximum: 30 } }
+    post:
+      tags: [archivos]
+      operationId: iniciarCargaArchivo
+      summary: Iniciar o recuperar una carga propia por clave idempotente
+      x-origen: decision-equipo
+      description: |
+        Implementación de 3.3 encargada por Richard. Propietario y permisos vigentes sobre la entrada actual.
+        La clave UUID es única por usuario y comando saneado. Repetir devuelve la misma carga; cambiar el comando
+        con la misma clave da 409. No crea un adjunto ni satisface requisitos documentales.
+        El límite provisional es 100 MiB (104857600 bytes), no 100 MB decimales. No hay lista cerrada de formatos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/InicioCarga' }
+      responses:
+        '201':
+          description: Sesión creada o recuperada, sin registrar un adjunto válido.
+          headers:
+            Location: { schema: { type: string }, description: Ruta relativa de consulta de esta sesión. }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CargaArchivo' }
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          description: ETAPA_CAMBIO, CARGA_CONFLICTO, CARGA_INCOMPLETA o CARGA_OCUPADA; consultar progreso antes de continuar.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '413':
+          description: ARCHIVO_DEMASIADO_GRANDE, archivo mayor de 100 MiB o fragmento mayor de 4 MiB.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '503':
+          description: CARGA_ALMACENAMIENTO; no se confirma un adjunto nuevo. Conservar la sesión y contactar al administrador.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+
+  /archivos/cargas/{cargaId}:
+    parameters:
+      - { name: cargaId, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      tags: [archivos]
+      operationId: consultarCargaArchivo
+      summary: Progreso durable y huellas de los bloques confirmados de una carga propia
+      x-origen: decision-equipo
+      description: |
+        Solo propietario, con permisos vigentes. La sesión en recepción exige todavía la misma entrada actual;
+        una sesión completada exige poder consultar el pedido. Un admin no retoma cargas ajenas por su rol.
+        Sin rutas de disco o credenciales. Cache-Control no-store. No implica una copia en Drive.
+      responses:
+        '200':
+          description: Offset confirmado en PostgreSQL, no bytes meramente enviados por el navegador.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CargaArchivo' }
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          description: ETAPA_CAMBIO, CARGA_CONFLICTO, CARGA_INCOMPLETA o CARGA_OCUPADA; consultar progreso antes de continuar.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '413':
+          description: ARCHIVO_DEMASIADO_GRANDE, archivo mayor de 100 MiB o fragmento mayor de 4 MiB.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '503':
+          description: CARGA_ALMACENAMIENTO; no se confirma un adjunto nuevo. Conservar la sesión y contactar al administrador.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+
+  /archivos/cargas/{cargaId}/fragmentos:
+    parameters:
+      - { name: cargaId, in: path, required: true, schema: { type: string, format: uuid } }
+    put:
+      tags: [archivos]
+      operationId: recibirFragmentoCarga
+      summary: Conservar un bloque secuencial de hasta 4 MiB de una carga propia
+      x-origen: decision-equipo
+      description: |
+        Bloques de 4194304 bytes salvo el último. Content-Range, longitud real y SHA-256 deben coincidir.
+        Reenvío idéntico de un bloque ya confirmado devuelve el mismo progreso sin concatenar otra vez.
+        Huecos, total distinto, rango divergente o huella distinta dan 409. No se aceptan bloques en COMPLETADA.
+        Serialización por sesión y force a disco antes del commit de offset/huella. Una caída puede dejar tail
+        no confirmado: se trunca al offset de base antes de la siguiente escritura, bajo el mismo bloqueo.
+      parameters:
+        - name: Content-Range
+          in: header
+          required: true
+          schema: { type: string, pattern: '^bytes [0-9]{1,9}-[0-9]{1,9}/[0-9]{1,9}$' }
+        - name: X-Fragmento-SHA256
+          in: header
+          required: true
+          schema: { type: string, pattern: '^[0-9a-f]{64}$' }
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema: { type: string, contentMediaType: application/octet-stream }
+      responses:
+        '200':
+          description: Bloque confirmado o reenvío idéntico reconocido.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CargaArchivo' }
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          description: ETAPA_CAMBIO, CARGA_CONFLICTO, CARGA_INCOMPLETA o CARGA_OCUPADA; consultar progreso antes de continuar.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '413':
+          description: ARCHIVO_DEMASIADO_GRANDE, archivo mayor de 100 MiB o fragmento mayor de 4 MiB.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '503':
+          description: CARGA_ALMACENAMIENTO; no se confirma un adjunto nuevo. Conservar la sesión y contactar al administrador.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+
+  /archivos/cargas/{cargaId}/finalizacion:
+    parameters:
+      - { name: cargaId, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [archivos]
+      operationId: completarCargaArchivo
+      summary: Validar recepción completa y registrar el mismo adjunto/evento una sola vez
+      x-origen: decision-equipo
+      description: |
+        Revalida propietario, usuario vigente, permisos y entrada actual antes del registro. Comprueba bloques,
+        longitud completa y SHA-256; solo detecta firma técnica, sin interpretar contenido comercial ni filtrar
+        extensiones por una lista no aprobada. Adjunto y ARCHIVO_SUBIDO/SUBIDO y sesión COMPLETADA comparten
+        transacción. Una repetición ya completada devuelve el mismo Adjunto, sin otro evento, siempre que el
+        propietario mantenga acceso de consulta. Un parcial nunca satisface un requisito documental.
+        Los bytes se conservan en el volumen de fase 2, sin crear carpetas de Drive ni activar OAuth.
+      responses:
+        '200':
+          description: Adjunto registrado o resultado previo de la misma sesión completada.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Adjunto' }
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          description: ETAPA_CAMBIO, CARGA_CONFLICTO, CARGA_INCOMPLETA o CARGA_OCUPADA; consultar progreso antes de continuar.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '413':
+          description: ARCHIVO_DEMASIADO_GRANDE, archivo mayor de 100 MiB o fragmento mayor de 4 MiB.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+        '503':
+          description: CARGA_ALMACENAMIENTO; no se confirma un adjunto nuevo. Conservar la sesión y contactar al administrador.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
 
   /archivos/{adjuntoId}/contenido:
     get:
@@ -1057,7 +1382,7 @@ paths:
       operationId: obtenerEnlaceArchivo
       summary: Enlace de Drive del archivo
       x-origen: requisito
-      description: Mismo permiso que la descarga (P-17). En la fase 2 no hay copia en Drive y responde 409 COPIA_PENDIENTE.
+      description: Mismo permiso vigente que la descarga (P-17). Solo entrega el enlace persistido tras confirmar COPIADO, identificador y fecha reales. Sin enlace confirmado responde 409 COPIA_PENDIENTE; no fabrica URLs ni consulta Google en esta lectura.
       parameters:
         - name: adjuntoId
           in: path
@@ -1095,9 +1420,12 @@ paths:
       tags: [archivos]
       operationId: consultarCopiasFallidas
       summary: Archivos cuya copia a Drive falló (solo admin)
+      parameters:
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano' 
       x-origen: requisito
       x-roles: [admin]
-      description: Requisito 4.8 ("Registro de copias a Drive fallidas, visible para el admin").
+      description: Requisito 4.8. Admin activo y con rol vigente en servidor. Lista acotada por pagina/tamano; conserva la respuesta array del contrato. No reintenta ni expone sesiones privadas.
       responses:
         '200':
           description: Adjuntos con `estadoCopia` FALLIDO.
@@ -1461,6 +1789,52 @@ components:
             $ref: '#/components/schemas/Problema'
 
   schemas:
+    InicioCarga:
+      type: object
+      required: [entradaEsperadaId, claveIdempotencia, nombre, tipoDocumento, tamanoBytes]
+      properties:
+        entradaEsperadaId: { type: string, format: uuid }
+        claveIdempotencia: { type: string, format: uuid }
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 1024
+          description: Nombre original saneado por la misma política de fase 2, hasta 255 puntos de código; nunca ruta.
+        tipoDocumento: { type: string, minLength: 1, maxLength: 100 }
+        tamanoBytes: { type: integer, format: int64, minimum: 1, maximum: 104857600 }
+    FragmentoCarga:
+      type: object
+      required: [inicio, tamano, sha256]
+      properties:
+        inicio: { type: integer, format: int64, minimum: 0 }
+        tamano: { type: integer, minimum: 1, maximum: 4194304 }
+        sha256: { type: string, pattern: '^[0-9a-f]{64}$' }
+    CargaArchivo:
+      type: object
+      required: [id, pedidoId, etapa, entradaId, nombre, tipoDocumento, tamanoBytes, offsetConfirmado, fragmentoBytes, estado, adjuntoId, eventoId, creadaEn, actualizadaEn, fragmentos]
+      properties:
+        id: { type: string, format: uuid }
+        pedidoId: { type: string, format: uuid }
+        etapa: { type: integer, minimum: 1, maximum: 30 }
+        entradaId: { type: string, format: uuid }
+        nombre: { type: string }
+        tipoDocumento: { type: string }
+        tamanoBytes: { type: integer, format: int64, minimum: 1, maximum: 104857600 }
+        offsetConfirmado: { type: integer, format: int64, minimum: 0, maximum: 104857600 }
+        fragmentoBytes: { type: integer, const: 4194304 }
+        estado: { type: string, enum: [RECIBIENDO, COMPLETADA] }
+        adjuntoId: { type: [string, 'null'], format: uuid }
+        eventoId: { type: [string, 'null'], format: uuid }
+        creadaEn: { type: string, format: date-time }
+        actualizadaEn: { type: string, format: date-time }
+        fragmentos:
+          type: array
+          maxItems: 25
+          items: { $ref: '#/components/schemas/FragmentoCarga' }
+      description: |
+        Caducidad/borrado todavía no acordados: no se inventa fecha ni se eliminan parciales automáticamente.
+        RECIBIENDO, incluso con offset total, no es un adjunto válido. Solo COMPLETADA tiene adjunto/evento.
+        Los SHA-256 de los bloques permiten comprobar el prefijo al reseleccionar el archivo tras recargar.
     Problema:
       type: object
       description: Error con el formato RFC 9457 (Problem Details), más un código estable para el frontend.
@@ -1492,6 +1866,12 @@ components:
             - CUENTA_BLOQUEADA
             - VERSION_DESACTUALIZADA
             - ARCHIVO_NO_DISPONIBLE
+            - GOOGLE_NO_DISPONIBLE
+            - CARGA_CONFLICTO
+            - CARGA_INCOMPLETA
+            - CARGA_OCUPADA
+            - CARGA_ALMACENAMIENTO
+            - CUOTA_ALMACENAMIENTO
         errores:
           type: array
           description: |
@@ -2444,8 +2824,17 @@ components:
 
     Notificacion:
       type: object
-      required: [id, destinatario, asunto, estado, creadaEn, intentos]
+      required: [id, pedidoId, eventoId, destinatario, asunto, estado, creadaEn, enviadaEn, intentos, ultimoError, resultadoIncierto, bloqueo]
+      description: Una fila del outbox, sin cuerpos, tokens ni datos privados de Google. Destinatario nulo conserva la intención no entregable. ENVIADA significa aceptación del proveedor, no recepción final. Message-ID no garantiza exactamente una vez.
       properties:
+        eventoId:
+          type: string
+          format: uuid
+        resultadoIncierto:
+          type: boolean
+        bloqueo:
+          type: [string, 'null']
+          enum: [DESTINATARIO_PENDIENTE, null]
         id:
           type: string
           format: uuid
@@ -2453,7 +2842,7 @@ components:
           type: [string, 'null']
           format: uuid
         destinatario:
-          type: string
+          type: [string, 'null']
           format: email
         asunto:
           type: string

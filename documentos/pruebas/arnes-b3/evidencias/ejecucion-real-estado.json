@@ -1,0 +1,14 @@
+﻿{
+    "fecha":  "2026-10-19T09:34:08.6544071-05:00",
+    "raiz":  "C:\\Users\\Richard\\.decokasa\\ensayos\\3b3\\c465a284-f1aa-4b0f-aacd-d77cc3328147",
+    "pidConsola":  20540,
+    "archivoSha256":  "20492A4D0D84F8BEB1767F6616229F85D44C2827B64BDBFB260EE12FA1109E0E",
+    "archivoBytes":  104857600,
+    "estado":  "Detenido antes de crear entorno; puerto 8080 ocupado por backend ajeno PID 1808; esperando permiso especifico",
+    "procesosPropiosDetenidos":  [
+                                     20540,
+                                     28232
+                                 ],
+    "pidAjenoNoDetenido":  1808,
+    "consentimientoGoogleRealizado":  false
+}

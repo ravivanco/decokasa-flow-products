@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.CargasB1IT" tests="22" skipped="0" failures="0" errors="0" timestamp="2026-10-17T17:48:47.311Z" hostname="DESKTOP-GKF6IVL" time="22.205">
+  <properties/>
+  <testcase name="exactamente100MiBEn25BloquesConBytesRealesYAsociacionCompleta()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="5.659"/>
+  <testcase name="registroDeCopiasFallidasConservaAsociacionSinClavesPrivadasYExigeAdminVigente()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.318"/>
+  <testcase name="[1] rango = &quot;bytes 0-2/*&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.111"/>
+  <testcase name="[2] rango = &quot;bytes 2-0/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.091"/>
+  <testcase name="[3] rango = &quot;bytes 0-9/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.119"/>
+  <testcase name="[4] rango = &quot;bytes -1-1/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.079"/>
+  <testcase name="[5] rango = &quot;bytes 0-2/9999999999&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.086"/>
+  <testcase name="mayorA100MiBSeRechazaAntesDeCrearSesion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.074"/>
+  <testcase name="revocarPermisoAntesDeUnBloqueNoEscribeBytes()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.107"/>
+  <testcase name="falloAlRegistrarFinalRevierteMetadatosYPermiteRecuperarElArchivoPreparado()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.518"/>
+  <testcase name="cambioDeEntradaEntreRecepcionYFinalizacionNoAsociaDocumentoALaNueva()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.228"/>
+  <testcase name="pausaReanudaConIdempotenciaYParcialNoCuentaComoAdjunto()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.38"/>
+  <testcase name="fragmentoMayorA4MiBNoAdelantaOffset()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.181"/>
+  <testcase name="mismaClaveConComandoDistintoNoSobrescribeLaSesion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.114"/>
+  <testcase name="rechazaHashIncorrectoHuecoTotalDistintoYReplayAlterado()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.264"/>
+  <testcase name="nuevoCoordinadorRecuperaOffsetSqlYTruncaTailNoConfirmadoSinPerderPrefijo()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.502"/>
+  <testcase name="entradaObsoletaNoPermiteIniciar()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.084"/>
+  <testcase name="otraCuentaNoConsultaNiCompletaUnaCargaAjena()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.099"/>
+  <testcase name="permisoSeReleeAlCompletarAunqueElJwtAunDigaAdmin()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.16"/>
+  <testcase name="corrupcionDelParcialImpideFinalizarYConservaBytes()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.166"/>
+  <testcase name="consultaDeEnlaceCompruebaPermisoVigenteAunqueJwtConserveAdmin()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.255"/>
+  <testcase name="consultaNoFabricaEnlaceParaIdReservadoYSoloLoEntregaTrasConfirmacion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.288"/>
+  <system-out><![CDATA[12:48:47.482 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.archivos.CargasB1IT]: CargasB1IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:48:47.689 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.archivos.CargasB1IT
+12:48:47.797 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.archivos.CargasB1IT]: CargasB1IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:48:47.797 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.archivos.CargasB1IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-17T12:48:48.310-05:00  INFO 26300 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 26300 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-17T12:48:48.310-05:00  INFO 26300 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-17T12:48:49.694-05:00  INFO 26300 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-17T12:48:49.792-05:00  INFO 26300 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 6 JPA repository interfaces.
+2026-10-17T12:48:50.442-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-17T12:48:50.442-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-17T12:48:50.461-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.5
+2026-10-17T12:48:50.862-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-17T12:48:51.314-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-17T12:48:51.314-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-10-17T12:48:51.335-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-17T12:48:51.408-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-17T12:48:51.622-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 1578481b5bca010227fb418818b37437edfaac69ab30e2ee05808861998c701c
+2026-10-17T12:48:51.933-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.5252258S
+2026-10-17T12:48:51.940-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-17T12:48:51.940-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-10-17T12:48:51.941-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-10-17T12:48:51.943-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-17T12:48:52.016-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 5b36b742d3426c0d44fefcf24b8cda1cbd4c2d3c8870097addc05a0b266e178e
+2026-10-17T12:48:53.439-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4961719S
+2026-10-17T12:48:53.440-05:00  INFO 26300 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:50372/test?loggerLevel=OFF)
+2026-10-17T12:48:53.949-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:50372/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:48:54.015-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-17T12:48:54.023-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.025s)
+2026-10-17T12:48:54.040-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-17T12:48:54.091-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-17T12:48:54.108-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-17T12:48:54.191-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-17T12:48:54.269-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-17T12:48:54.320-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-17T12:48:54.349-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-17T12:48:54.374-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-17T12:48:54.396-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "public", now at version v6 (execution time 00:00.175s)
+2026-10-17T12:48:54.508-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-17T12:48:54.604-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-17T12:48:55.162-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-17T12:48:55.221-05:00  INFO 26300 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-17T12:48:55.254-05:00  INFO 26300 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@557565a9
+2026-10-17T12:48:55.257-05:00  INFO 26300 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-17T12:48:55.376-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:50372/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-17T12:48:56.907-05:00  INFO 26300 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-17T12:48:56.968-05:00  INFO 26300 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-17T12:48:57.079-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-17T12:48:59.414-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-17T12:48:59.414-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-17T12:48:59.435-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-17T12:48:59.440-05:00  INFO 26300 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 26 ms
+2026-10-17T12:48:59.538-05:00  INFO 26300 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 11.672 seconds (process running for 14.317)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

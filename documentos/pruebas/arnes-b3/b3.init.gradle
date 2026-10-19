@@ -1,0 +1,28 @@
+// Source set opt-in: no modifica build.gradle ni participa en test/check normales.
+allprojects { p ->
+    p.plugins.withId('java') {
+        def baseB3 = new File(p.projectDir, '../documentos/pruebas/arnes-b3')
+        def b3 = p.sourceSets.create('ensayoB3') {
+            java.srcDir(new File(baseB3, 'java'))
+            compileClasspath = p.sourceSets.main.output + p.configurations.testCompileClasspath + p.configurations.testRuntimeClasspath
+            runtimeClasspath = output + compileClasspath
+        }
+        p.tasks.register('b3ComprobarGuardas', Test) {
+            dependsOn b3.classesTaskName
+            testClassesDirs = b3.output.classesDirs
+            classpath = b3.runtimeClasspath
+            include 'com/decokasa/ensayob3/GuardasB3Test.class'
+            useJUnitPlatform()
+            reports.junitXml.outputLocation = new File(baseB3, 'evidencias/junit')
+            reports.html.outputLocation = new File(baseB3, 'evidencias/html')
+        }
+        p.tasks.register('b3Classpath') {
+            dependsOn b3.classesTaskName
+            doLast {
+                def destino = new File(baseB3, '.tmp/classpath.txt')
+                destino.parentFile.mkdirs()
+                destino.setText(b3.runtimeClasspath.asPath, 'UTF-8')
+            }
+        }
+    }
+}
