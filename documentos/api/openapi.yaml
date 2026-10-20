@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.7.3-borrador
+  version: 0.10.1-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -70,6 +70,8 @@ info:
     - `DefinicionAccion.requisitosDocumentales` (DEFINIDOS o PENDIENTES): una lista vacía con PENDIENTES no significa
       "sin documentos".
     - `DefinicionEtapa.revisaEtapa`: etapa cuyos archivos revisa esta etapa (P-17). En la fase 2 solo A3 revisa A2.
+    - `DefinicionEtapa.registraLlegada` (0.9.1, ADR-0018): etapa de llegada a aduana; su APROBAR registra
+      `PedidoDetalle.llegadaAduanaEn`. En el flujo A vigente, solo A7.
     - `EtapaEnLinea.entradaId` y `Adjunto.entradaId`: identificador estable de cada entrada a una etapa (P-18).
     - `EtapaEnLinea.asignacionVigente`: null sin persona asignada; true si la persona asignada puede actuar; false si
       ya no puede (P-06: entonces solo actúa el admin).
@@ -843,7 +845,7 @@ paths:
         | A6 / B7 | APROBAR | A7 / B8 | Packing List / BL adjuntos |
         | A7 / B8 | APROBAR / REPORTAR_DEMORA | A8 / B9 — se queda | Demora: observación y nueva fecha |
         | A8 / B9 | APROBAR | A9 / B10 | — |
-        | A9 / B10 | ELEGIR_BODEGA / APROBAR | se queda — A10 / B11 | APROBAR: bodega elegida y documentos |
+        | A9 / B10 | APROBAR | A10 / B11 | `bodegaId` de una bodega activa y documentos (F4-D2; documentos pendientes, F4-D7) |
         | A10 / B11 | APROBAR | A11 / B12 (Fin automático) | Documentos (pendiente: cuáles son "todos") |
 
         La urgencia (4, 12 o 24 h) tiene su propio vencimiento hasta volver a A4 / B5 (requisito 4.2 #11).
@@ -855,6 +857,36 @@ paths:
         almacenamiento, responde **400** (`errores[].campo = adjuntoIds`); nunca se ignora. Si los identificadores son
         válidos pero falta un tipo obligatorio, responde **422** con `faltantes`. Los archivos aceptados quedan en
         `EventoHistorial.adjuntoIds` del evento de la acción. El texto de una observación no reemplaza un documento.
+
+        **Demora y llegada en aduana (F4-D5, provisional del equipo, pendiente de confirmación del cliente; 0.9.0).**
+        `REPORTAR_DEMORA` lo pide quien puede actuar en A7 (P-06: Compras China o el admin) y exige `observacion` y
+        `nuevaFechaEstimadaLlegada` (si faltan, 422 con `faltantes`). Primero la fecha pasa al lunes si cae en sábado o
+        domingo; después la fecha efectiva no puede ser anterior a hoy en Ecuador ni, si ya había una demora, igual o
+        anterior a la estimación vigente (400 en `nuevaFechaEstimadaLlegada`). El pedido no cambia de etapa ni de
+        plazo: la fecha es una estimación (`PedidoDetalle.demoraAduana`), no un vencimiento, y A7 sigue con plazo
+        `PENDIENTE`. Cada demora queda en el historial (`DEMORA_REPORTADA`) con la estimación anterior y, si es
+        distinta, la fecha solicitada. `APROBAR` en A7 es el check de llegada: guarda `llegadaAduanaEn` con la hora
+        del servidor y pasa a A8. La etapa de llegada es la marcada con `DefinicionEtapa.registraLlegada` (ADR-0018),
+        no la que admite `REPORTAR_DEMORA`. A7 solo se alcanza si A6 avanza, y A6 sigue bloqueada mientras sus documentos estén
+        pendientes del cliente (F4-D4).
+
+        **Bodega (F4-D2, provisional del equipo, pendiente de confirmación del cliente; 0.10.0).** La bodega se elige
+        únicamente con el `APROBAR` de A9, con `bodegaId` (quien puede actuar en A9 según P-06: Logística o el admin).
+        Sin `bodegaId`, 422 con `faltantes: [bodega]`; una bodega inexistente o inactiva, también si se desactiva
+        mientras se confirma, 400 en `bodegaId`; `bodegaId` con otra acción, 400. La bodega, el avance a A10 y los
+        eventos `BODEGA_ASIGNADA` y `ETAPA_APROBADA` se guardan juntos; se asigna una sola vez y no se cambia después
+        (cambiarla queda pendiente del cliente). Mientras los documentos de A9 sigan pendientes del cliente (F4-D7),
+        `APROBAR` en A9 responde 409 y no guarda ninguna bodega. `ELEGIR_BODEGA` no se usa.
+
+        **Incidencias y Fin (paso 4.5).** A10 admite la acción APROBAR de Logística o admin vigente (P-06),
+        pero sus documentos siguen PENDIENTES (F4-D8): la confirmación responde 409 sin cerrar el pedido.
+        Su plazo también sigue PENDIENTE. Cuando se definan y cumplan los requisitos, APROBAR completa A10 y
+        Fin automáticamente en la misma transacción: pedido finalizado, ninguna etapa ACTUAL, Fin COMPLETADA
+        con entrada y salida a la hora del servidor, sin vencimiento. Además de la aprobación por la persona,
+        se registra PEDIDO_FINALIZADO como evento del sistema, sin usuario ni rol. Un pedido finalizado y A11
+        no admiten acciones manuales. Los bloqueos documentales de A6 y A9 se conservan.
+        No se agrega un aviso específico de Fin ni se definen destinatarios (F4-D9 pendiente).
+        El orden relativo de eventos con la misma hora sigue pendiente (F4-H01).
       requestBody:
         required: true
         content:
@@ -1019,9 +1051,16 @@ paths:
       description: |
         Mismo permiso que leer el pedido (P-13, provisional del equipo): persona activa con al menos un rol vigente;
         si no, 403. Cada evento conserva el actor y el rol con el que intervino en ese momento.
+
+        **Orden (F4-H01, 0.10.1):** del más reciente al más antiguo por la hora del servidor. Cuando varios eventos
+        tienen la misma hora (los de una misma acción, por ejemplo `BODEGA_ASIGNADA` y `ETAPA_APROBADA` al aprobar
+        Bodega, o `ETAPA_APROBADA` y `PEDIDO_FINALIZADO` al aprobar Incidencias), se desempatan por la secuencia de
+        inserción, que sigue el orden en que el dominio los emite: aparece primero el último evento emitido. La
+        secuencia no se expone. En eventos guardados antes de esta garantía, el orden dentro de una misma hora no se
+        conoce y no se reconstruye.
       responses:
         '200':
-          description: Eventos, del más reciente al más antiguo.
+          description: Eventos, del más reciente al más antiguo; con la misma hora, primero el último emitido.
           content:
             application/json:
               schema:
@@ -1446,6 +1485,8 @@ paths:
       operationId: listarBodegas
       summary: Catálogo de bodegas
       x-origen: requisito
+      description: |
+        Lo lee cualquier usuario autenticado. Sin `activa`, devuelve todas; con `activa`, filtra. Ordenadas por nombre.
       parameters:
         - name: activa
           in: query
@@ -1467,9 +1508,12 @@ paths:
       operationId: crearBodega
       summary: Agregar una bodega al catálogo
       x-origen: requisito
-      x-roles: [logistica]
-      x-pendiente: ¿El admin también mantiene el catálogo? (`arquitectura.md`, 8.1)
-      description: 'Requisito 4.2 #14: Anderson (Logística) mantiene la lista.'
+      x-roles: [logistica, admin]
+      x-decision: 'F4-D1, provisional del equipo (2026-10-19), no confirmada por el cliente: Logística y admin, con roles y estado vigentes comprobados en el servidor.'
+      description: |
+        Requisito 4.2 #14: Anderson (Logística) mantiene la lista. El servidor recorta los espacios sobrantes de
+        `nombre` y `ciudad`. Un nombre repetido (sin distinguir mayúsculas) responde 409 `DUPLICADO` con
+        `errores[0].campo = nombre`.
       requestBody:
         required: true
         content:
@@ -1501,8 +1545,13 @@ paths:
       operationId: actualizarBodega
       summary: Actualizar o activar o desactivar una bodega
       x-origen: requisito
-      x-roles: [logistica]
-      x-pendiente: ¿El admin también mantiene el catálogo?
+      x-roles: [logistica, admin]
+      x-decision: 'F4-D1, provisional del equipo: Logística y admin. Desactivar impide nuevas asignaciones; los pedidos que ya la tienen y su historial no cambian.'
+      description: |
+        Una bodega no se borra: se desactiva con `activa: false`. **Cambio no compatible en 0.8.0:** `version` es
+        obligatoria (la de la bodega leída). Si ya no es la vigente, 409 `VERSION_DESACTUALIZADA` sin cambios. Un
+        nombre que ya tiene otra bodega (sin distinguir mayúsculas) responde 409 `DUPLICADO` con `errores[0].campo =
+        nombre`. Sin ningún campo para cambiar, o con `version` ausente o inválida, 400.
       parameters:
         - name: bodegaId
           in: path
@@ -1531,6 +1580,8 @@ paths:
           $ref: '#/components/responses/SinPermiso'
         '404':
           $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
 
   /pedidos/{pedidoId}/cronograma:
     parameters:
@@ -2179,7 +2230,7 @@ components:
             $ref: '#/components/schemas/DefinicionEtapa'
     DefinicionEtapa:
       type: object
-      required: [numero, nombre, rolResponsable, estadoPlazo, acciones, automatica]
+      required: [numero, nombre, rolResponsable, estadoPlazo, acciones, automatica, registraLlegada]
       properties:
         numero:
           type: integer
@@ -2209,6 +2260,10 @@ components:
         automatica:
           type: boolean
           description: 'Verdadero solo en Fin (A11 / B12), que se marca sola.'
+        registraLlegada:
+          type: boolean
+          x-decision: 'ADR-0018, decisión del equipo (2026-10-19): marca explícita de la definición versionada del flujo; no se deduce de REPORTAR_DEMORA.'
+          description: 'Etapa de llegada a aduana: al aprobarla, el pedido guarda `llegadaAduanaEn` con la hora del servidor. Como máximo una por versión de flujo y nunca automática. En el flujo A vigente, solo A7. Agregado en 0.9.1.'
     DefinicionAccion:
       type: object
       required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios]
@@ -2321,12 +2376,18 @@ components:
             versionFlujo:
               type: integer
             bodega:
+              description: 'Bodega de destino (F4-D2): nula hasta aprobar Bodega; después no cambia y se muestra aunque se haya desactivado.'
               oneOf:
                 - $ref: '#/components/schemas/Bodega'
                 - type: 'null'
             demoraAduana:
               oneOf:
                 - $ref: '#/components/schemas/DemoraAduana'
+                - type: 'null'
+            llegadaAduanaEn:
+              description: 'Check de llegada de A7 (APROBAR), con la hora del servidor. Nulo si todavía no llegó. Agregado en 0.9.0.'
+              oneOf:
+                - $ref: '#/components/schemas/FechaHora'
                 - type: 'null'
             lineaDeTiempo:
               type: array
@@ -2399,7 +2460,7 @@ components:
             $ref: '#/components/schemas/CodigoRol'
     AccionDisponible:
       type: object
-      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requisitosDocumentales, documentosObligatorios, documentosFaltantes, puedeCompletarse]
+      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios, documentosFaltantes, puedeCompletarse]
       properties:
         accion:
           $ref: '#/components/schemas/AccionEtapa'
@@ -2409,6 +2470,9 @@ components:
           type: boolean
         requiereUrgencia:
           type: boolean
+        requiereBodega:
+          type: boolean
+          description: 'La acción se envía con `bodegaId` (APROBAR de Bodega, F4-D2). Agregado en 0.10.0.'
         requisitosDocumentales:
           $ref: '#/components/schemas/RequisitosDocumentales'
         documentosObligatorios:
@@ -2422,7 +2486,7 @@ components:
             type: string
         puedeCompletarse:
           type: boolean
-          description: Falso si los documentos están PENDIENTES de definir, si falta algún documento o si la acción todavía no está implementada. La observación y la urgencia se envían con la acción y no cuentan aquí.
+          description: Falso si los documentos están PENDIENTES de definir, si falta algún documento o si la acción todavía no está implementada. La observación, la urgencia, la fecha de una demora y la bodega se envían con la acción y no cuentan aquí.
     EtapaEnLinea:
       type: object
       required: [numero, nombre, estado, rolResponsable, estadoPlazo]
@@ -2492,6 +2556,10 @@ components:
           description: 'Vencimiento propio de la urgencia, desde la devolución hasta volver a A4 / B5.'
     DemoraAduana:
       type: object
+      description: |
+        Demora vigente en aduana (la última; las anteriores están en el historial). F4-D5, provisional. La fecha es una
+        estimación de llegada, no un vencimiento: no cambia `venceEn` ni `vencida`. Es el dato que usará el cronograma
+        de la fase 5 para recalcular las etapas siguientes (todavía no implementado).
       required: [reportadaPor, reportadaEn, motivo, nuevaFechaEstimadaLlegada]
       properties:
         reportadaPor:
@@ -2561,6 +2629,11 @@ components:
               type: string
               maxLength: 4000
               description: 'Obligatoria en Fabricación (A5 / B6), según el requisito 4.4.'
+            bodegaId:
+              type: string
+              format: uuid
+              x-decision: 'F4-D2, provisional del equipo (2026-10-19): obligatoria al aprobar Bodega (A9 / B10) y prohibida en las demás etapas. Agregado en 0.10.0.'
+              description: 'Bodega activa de destino. Solo al aprobar Bodega; se asigna una sola vez.'
     AccionRechazar:
       allOf:
         - $ref: '#/components/schemas/AccionBase'
@@ -2614,9 +2687,12 @@ components:
             nuevaFechaEstimadaLlegada:
               type: string
               format: date
-              description: 'Pendiente: ¿la escribe David o la calcula el sistema? El valor provisional es que la escribe David; si se decide calcularla, el campo pasa a opcional.'
-              x-pendiente: Recálculo en aduana.
+              x-decision: 'F4-D5, provisional del equipo (2026-10-19), pendiente de confirmación del cliente: la escribe quien actúa en A7. Si cae en fin de semana se guarda el lunes; la fecha efectiva no es anterior a hoy en Ecuador y es posterior a la estimación vigente.'
+              description: 'Fecha estimada de llegada en formato estricto `AAAA-MM-DD`, sin hora ni zona. Otro formato (fecha con hora, número, arreglo, texto) responde 400. Si el cliente decide que la calcule el sistema, el campo pasa a opcional.'
+              x-pendiente: Recálculo en aduana (¿la escribe David o la calcula el sistema?).
     AccionElegirBodega:
+      description: 'No se usa (F4-D2): la bodega se elige con el APROBAR de Bodega. No está en los datos del flujo; responde 409 TRANSICION_NO_PERMITIDA.'
+      deprecated: true
       allOf:
         - $ref: '#/components/schemas/AccionBase'
         - type: object
@@ -2689,6 +2765,22 @@ components:
         asignadoA:
           type: [string, 'null']
           format: uuid
+        fechaEstimadaAnterior:
+          type: [string, 'null']
+          format: date
+          description: 'DEMORA_REPORTADA: estimación vigente antes de la demora; nula si es la primera. Agregado en 0.9.0.'
+        fechaEstimadaSolicitada:
+          type: [string, 'null']
+          format: date
+          description: 'DEMORA_REPORTADA: la fecha que escribió la persona, solo si es distinta de la guardada (caía en fin de semana).'
+        nuevaFechaEstimadaLlegada:
+          type: [string, 'null']
+          format: date
+          description: 'DEMORA_REPORTADA: la fecha guardada (ya en día hábil).'
+        bodegaId:
+          type: [string, 'null']
+          format: uuid
+          description: 'BODEGA_ASIGNADA: la bodega elegida al aprobar Bodega. Agregado en 0.10.0.'
     Adjunto:
       type: object
       required: [id, pedidoId, etapa, entradaId, nombre, tipoDocumento, tamanoBytes, subidoPor, subidoEn, estadoCopia]
@@ -2727,7 +2819,7 @@ components:
 
     Bodega:
       type: object
-      required: [id, nombre, ciudad, activa]
+      required: [id, nombre, ciudad, activa, version]
       properties:
         id:
           type: string
@@ -2738,6 +2830,11 @@ components:
           type: string
         activa:
           type: boolean
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Versión de la bodega; se envía tal cual en el PATCH para no sobrescribir cambios de otra persona.
     SolicitudBodega:
       type: object
       required: [nombre, ciudad]
@@ -2745,23 +2842,33 @@ components:
         nombre:
           type: string
           minLength: 1
+          maxLength: 100
         ciudad:
           type: string
           minLength: 1
+          maxLength: 100
         activa:
           type: boolean
           default: true
     SolicitudActualizarBodega:
       type: object
-      minProperties: 1
-      description: Solo se envían los campos que cambian (por ejemplo, `activa` para desactivarla).
+      required: [version]
+      minProperties: 2
+      description: Solo se envían los campos que cambian (por ejemplo, `activa` para desactivarla), más `version`.
       properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+          description: La versión de la bodega que leyó el cliente.
         nombre:
           type: string
           minLength: 1
+          maxLength: 100
         ciudad:
           type: string
           minLength: 1
+          maxLength: 100
         activa:
           type: boolean
 

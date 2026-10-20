@@ -13,7 +13,8 @@ import java.util.UUID;
 
 /**
  * Busca, para cada etapa, el último evento que cerró una entrada suya. El historial es de solo inserción y se lee en
- * orden de inserción, así que el último de cada etapa es el de su entrada cerrada más reciente. No se crean ni se
+ * orden de inserción (hora y, en empate, secuencia de la base; F4-H01), así que el último de cada etapa es el de su
+ * entrada cerrada más reciente. No se crean ni se
  * reparten eventos: si una etapa no tiene uno propio, no tiene resumen. Sin Spring (R2).
  */
 public final class ResumirEtapasDePedidoCasoDeUso implements ResumirEtapasDePedido {

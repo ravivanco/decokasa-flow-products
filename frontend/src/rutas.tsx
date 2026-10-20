@@ -1,5 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router';
 import App from './App';
+import { CatalogoBodegas } from './components/CatalogoBodegas';
 import { GmailNotificationsView } from './components/GmailNotificationsView';
 import { RutaProtegida, SoloAdmin } from './auth/RutaProtegida';
 import { DashboardRol } from './components/dashboards/DashboardRol';
@@ -15,7 +16,7 @@ import { UsersManagementView } from './components/UsersManagementView';
 
 // Rutas de la aplicación (plan, tarea 19): /login pública; el resto exige sesión, y /usuarios, /roles y la creación de
 // pedidos el rol admin. Pedidos y bandeja (fase 2, paso 2.5) leen la API real; el servidor valida cada permiso (R6).
-// Las pantallas del demo de fases posteriores (bodegas, avisos, auditoría) no tienen ruta hasta su fase.
+// Bodegas usa la API y limita el mantenimiento a admin/Logística; Correos sigue limitado al admin.
 // Un error que ninguna pantalla atrapó muestra ErrorRuta (sin detalles técnicos) en lugar de la página de React Router.
 export const rutas: RouteObject[] = [
   { path: '/login', element: <LoginScreen />, errorElement: <ErrorRuta /> },
@@ -29,6 +30,7 @@ export const rutas: RouteObject[] = [
           { index: true, element: <Navigate to="/inicio" replace /> },
           { path: '/inicio', element: <DashboardRol /> },
           { path: '/bandeja', element: <BandejaPedidos /> },
+          { path: '/bodegas', element: <CatalogoBodegas /> },
           { path: '/pedidos', element: <ListaPedidos /> },
           { path: '/pedidos/:pedidoId', element: <DetallePedido /> },
           {

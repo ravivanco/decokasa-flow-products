@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.pedidos.adapter.in.web;
 import com.decokasa.seguimiento.compartido.adapter.in.web.FechasWeb;
 import com.decokasa.seguimiento.compartido.adapter.in.web.UsuarioResumenRespuesta;
 import com.decokasa.seguimiento.historial.application.port.in.ConsultarHistorialPedido;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,8 @@ public record ObservacionRespuesta(UUID id, UUID pedidoId, String numeroPedido, 
 
     /** Esquema DetalleEvento: cada campo es nulo cuando no aplica. */
     public record Detalle(Integer etapaDestino, String motivoDevolucion, Boolean urgenciaTerminada,
-            UUID asignadoAnterior, UUID asignadoA) {
+            UUID asignadoAnterior, UUID asignadoA, String fechaEstimadaAnterior, String fechaEstimadaSolicitada,
+            String nuevaFechaEstimadaLlegada, UUID bodegaId) {
     }
 
     static ObservacionRespuesta de(ConsultarHistorialPedido.Entrada entrada) {
@@ -28,8 +30,14 @@ public record ObservacionRespuesta(UUID id, UUID pedidoId, String numeroPedido, 
                 evento.rolIntervencion() == null ? null : evento.rolIntervencion().valor(),
                 new Detalle(evento.etapaDestino(),
                         evento.motivoDevolucion() == null ? null : evento.motivoDevolucion().name(),
-                        evento.urgenciaTerminada(), evento.asignadoAnterior(), evento.asignadoA()),
+                        evento.urgenciaTerminada(), evento.asignadoAnterior(), evento.asignadoA(),
+                        texto(evento.fechaEstimadaAnterior()), texto(evento.fechaEstimadaSolicitada()),
+                        texto(evento.nuevaFechaEstimadaLlegada()), evento.bodegaId()),
                 FechasWeb.texto(evento.ocurridoEn()), evento.observacion(),
                 evento.nivelUrgencia() == null ? null : evento.nivelUrgencia().name(), evento.adjuntoIds());
+    }
+
+    private static String texto(LocalDate fecha) {
+        return fecha == null ? null : fecha.toString();
     }
 }

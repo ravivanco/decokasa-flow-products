@@ -1,0 +1,7 @@
+﻿{
+    "comando":  ".\\gradlew.bat test --tests *Fase4* --tests *Backend24IT --tests *MigracionesIT --tests *MigracionesArchivosB1IT --tests *arquitectura.* --console=plain --no-daemon",
+    "etapa":  "fase4",
+    "fecha":  "20261019-145328",
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-fase4-0144e52b0f9743b1bcde8d0a53a417b4",
+    "salida":  1
+}

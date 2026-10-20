@@ -38,7 +38,8 @@ public class AccionEtapaController {
             @Valid @RequestBody SolicitudAccion solicitud) {
         Solicitante solicitante = SolicitantesWeb.de(token);
         ejecutar.ejecutar(solicitante, new EjecutarAccionEtapa.Comando(pedidoId, solicitud.accion(),
-                solicitud.etapaEsperada(), solicitud.observacion(), solicitud.nivelUrgencia(), solicitud.adjuntoIds()));
+                solicitud.etapaEsperada(), solicitud.observacion(), solicitud.nivelUrgencia(), solicitud.adjuntoIds(),
+                solicitud.nuevaFechaEstimadaLlegada(), solicitud.bodegaId()));
         return PedidoRespuestas.de(consultar.detalle(solicitante, pedidoId));
     }
 

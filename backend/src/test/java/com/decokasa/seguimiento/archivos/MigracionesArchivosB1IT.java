@@ -14,8 +14,8 @@ class MigracionesArchivosB1IT {
     @Container static final PostgreSQLContainer PG=new PostgreSQLContainer("postgres:17");
     @TempDir Path disco;
     @Test void baseVaciaAplicaHastaV8SinBinariosYReaplicarNoCambiaNada() {
-        var d=new DatosB1(PG,null);
-        var f=Flyway.configure().dataSource(d.ds).locations("classpath:db/migration").schemas(d.esquema).load();
+        var d=new DatosB1(PG,"8");
+        var f=Flyway.configure().dataSource(d.ds).locations("classpath:db/migration").schemas(d.esquema).target("8").load();
         assertThat(f.info().current().getVersion().toString()).isEqualTo("8");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();
         assertThat(f.migrate().migrationsExecuted).isZero();
@@ -31,7 +31,8 @@ class MigracionesArchivosB1IT {
         d.actualizar();
         var despues=d.sql.queryForMap("select * from adjunto where id=?",d.adjunto);
         antes.forEach((k,v)->assertThat(despues.get(k)).as(k).isEqualTo(v));
-        assertThat(d.sql.queryForMap("select * from evento_pedido where id=?",d.evento)).isEqualTo(evento);
+        var eventoEsperado=new LinkedHashMap<>(evento);eventoEsperado.put("secuencia",null);
+        assertThat(d.sql.queryForMap("select * from evento_pedido where id=?",d.evento)).isEqualTo(eventoEsperado);
         assertThat(d.sql.queryForObject("select evento_id from evento_adjunto where adjunto_id=?",UUID.class,d.adjunto)).isEqualTo(d.evento);
         assertThat(despues).containsEntry("drive_offset",0L).containsEntry("copia_en_intento",false);
         assertThat(d.sql.queryForObject("select count(*) from notificacion",Long.class)).isZero();

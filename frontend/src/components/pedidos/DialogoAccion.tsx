@@ -2,6 +2,7 @@ import { CircleAlertIcon, CircleCheckIcon, LoaderIcon } from 'lucide-react';
 import { type FormEvent, useId, useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
+import { useBodegas } from '@/api/bodegas';
 import {
   type AccionDisponible,
   type Adjunto,
@@ -24,6 +25,8 @@ import {
 import { Field, FieldDescription, FieldError, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { codigoEtapa, HORAS_URGENCIA, mensajeDeErrorPedido, NOMBRE_ACCION, NOMBRE_URGENCIA } from './formato';
 
 // Diálogo de una acción de la etapa actual (DESIGN.md 7.3). Lo que exige cada acción lo dice el servidor
@@ -39,18 +42,23 @@ interface Props {
   /** Archivos de la entrada actual de la etapa actual. */
   adjuntos: Adjunto[];
   onCerrar: () => void;
+  registraLlegada?: boolean;
+  destinoAutomatico?: boolean;
 }
 
 /** Observación obligatoria por contrato (AccionRechazar y las devoluciones), aunque el flujo no la marque. */
-const OBSERVACION_OBLIGATORIA = new Set(['RECHAZAR', 'DEVOLVER_POR_ERROR', 'DEVOLVER_POR_PRODUCTO_NUEVO']);
+const OBSERVACION_OBLIGATORIA = new Set(['RECHAZAR', 'DEVOLVER_POR_ERROR', 'DEVOLVER_POR_PRODUCTO_NUEVO', 'REPORTAR_DEMORA']);
 
-export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerrar }: Props) {
+export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerrar, registraLlegada = false, destinoAutomatico = false }: Props) {
   const ids = useId();
   const ejecutar = useEjecutarAccion();
   const [observacion, setObservacion] = useState('');
   const [nivel, setNivel] = useState<NivelUrgencia | ''>('');
+  const [fecha, setFecha] = useState('');
+  const [bodegaId, setBodegaId] = useState('');
+  const bodegas = useBodegas(true, accion.requiereBodega);
   const [elegidos, setElegidos] = useState<Set<string>>(() => new Set(adjuntos.map((adjunto) => adjunto.id)));
-  const [errores, setErrores] = useState<{ observacion?: string; nivel?: string }>({});
+  const [errores, setErrores] = useState<{ observacion?: string; nivel?: string; fecha?: string; bodega?: string }>({});
   const [fallo, setFallo] = useState<unknown>(null);
 
   const pideObservacion = accion.requiereObservacion || OBSERVACION_OBLIGATORIA.has(accion.accion);
@@ -60,7 +68,11 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
     : undefined;
   const tiposPresentados = new Set(adjuntos.filter((a) => elegidos.has(a.id)).map((a) => a.tipoDocumento));
   const documentosPendientes = accion.requisitosDocumentales === 'PENDIENTES';
-  const etapaCambio = esErrorApi(fallo, 'ETAPA_CAMBIO');
+  const etapaCambio = esErrorApi(fallo, 'ETAPA_CAMBIO') || pedido.etapaActual !== etapaEsperada || pedido.finalizado;
+  const bodegaVigente = bodegas.data?.some((bodega) => bodega.id === bodegaId && bodega.activa) ?? false;
+  const faltanDocumentos = accion.documentosObligatorios.some((tipo) => !tiposPresentados.has(tipo));
+  const sinPermiso = esErrorApi(fallo) && fallo.status === 403;
+  const nombreAccion = destinoAutomatico ? 'Confirmar y finalizar' : registraLlegada ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion];
 
   function alternar(id: string, marcado: boolean) {
     setElegidos((actuales) => {
@@ -73,11 +85,16 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
 
   function confirmar(evento: FormEvent) {
     evento.preventDefault();
+    // Aunque se envíe el formulario con Enter, estos bloqueos del servidor no se pueden omitir.
+    if (ejecutar.isPending || etapaCambio || sinPermiso || documentosPendientes || !accion.puedeCompletarse || faltanDocumentos
+      || (accion.requiereBodega && (bodegas.isFetching || bodegas.isError))) return;
     const texto = observacion.trim();
     const nuevos: typeof errores = {};
     if (pideObservacion && !texto) nuevos.observacion = 'Escribe la observación: esta acción la exige.';
     if (texto.length > 4000) nuevos.observacion = 'Hasta 4000 caracteres.';
     if (accion.requiereUrgencia && !nivel) nuevos.nivel = 'Elige la urgencia.';
+    if (accion.accion === 'REPORTAR_DEMORA' && !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) nuevos.fecha = 'Indica la fecha estimada de llegada.';
+    if (accion.requiereBodega && !bodegaVigente) nuevos.bodega = 'Elige una bodega activa de la lista vigente.';
     setErrores(nuevos);
     if (Object.keys(nuevos).length > 0) return;
     setFallo(null);
@@ -88,16 +105,20 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
         etapaEsperada,
         observacion: texto || undefined,
         nivelUrgencia: accion.requiereUrgencia && nivel ? nivel : undefined,
+        nuevaFechaEstimadaLlegada: accion.accion === 'REPORTAR_DEMORA' ? fecha : undefined,
+        bodegaId: accion.requiereBodega ? bodegaId : undefined,
         adjuntoIds: [...elegidos],
       },
       {
         onSuccess: (actualizado) => {
-          toast.success(
-            `${NOMBRE_ACCION[accion.accion]}: el pedido ${actualizado.numero} quedó en ${codigoEtapa(actualizado.tipoFlujo, actualizado.etapaActual)} · ${actualizado.nombreEtapaActual}.`,
-          );
+          toast.success(actualizado.finalizado
+            ? `El servidor confirmó el cierre de ${actualizado.numero}.`
+            : accion.accion === 'REPORTAR_DEMORA'
+              ? 'Demora registrada. La fecha confirmada aparece en el pedido.'
+              : `${NOMBRE_ACCION[accion.accion]}: ${actualizado.numero} quedó en ${codigoEtapa(actualizado.tipoFlujo, actualizado.etapaActual)} · ${actualizado.nombreEtapaActual}.`);
           onCerrar();
         },
-        onError: setFallo,
+        onError: (error) => { setFallo(error); if (accion.requiereBodega) void bodegas.refetch(); },
       },
     );
   }
@@ -106,7 +127,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
     <Dialog open onOpenChange={(abierto) => !abierto && !ejecutar.isPending && onCerrar()}>
       <DialogContent className="max-h-[90svh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{NOMBRE_ACCION[accion.accion]}</DialogTitle>
+          <DialogTitle>{nombreAccion}</DialogTitle>
           <DialogDescription>
             {codigoEtapa(pedido.tipoFlujo, etapaEsperada)} · {origen?.nombre}
             {destino && ` → ${codigoEtapa(pedido.tipoFlujo, destino.numero)} · ${destino.nombre}`}
@@ -119,7 +140,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               <CircleAlertIcon />
               <AlertTitle>Otro usuario actualizó este pedido</AlertTitle>
               <AlertDescription>
-                La acción no se ejecutó. El pedido ya muestra su estado actual; revísalo antes de volver a actuar.
+                No se reenviará la acción. Revisa el estado actual del pedido antes de volver a actuar.
               </AlertDescription>
             </Alert>
             <DialogFooter>
@@ -175,6 +196,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
                       <Checkbox
                         id={`${ids}-${adjunto.id}`}
                         checked={elegidos.has(adjunto.id)}
+                        disabled={ejecutar.isPending}
                         onCheckedChange={(marcado) => alternar(adjunto.id, marcado === true)}
                       />
                       <FieldLabel htmlFor={`${ids}-${adjunto.id}`} className="min-w-0 font-normal">
@@ -187,6 +209,39 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               </FieldSet>
             )}
 
+            {accion.accion === 'REPORTAR_DEMORA' && (
+              <Field data-invalid={errores.fecha ? true : undefined}>
+                <FieldLabel htmlFor={`${ids}-fecha`}>Nueva fecha estimada de llegada</FieldLabel>
+                <Input id={`${ids}-fecha`} type="date" value={fecha} onChange={(e) => setFecha(e.target.value)}
+                  disabled={ejecutar.isPending} aria-invalid={errores.fecha ? true : undefined} aria-describedby={`${ids}-fecha-ayuda`} />
+                <FieldDescription id={`${ids}-fecha-ayuda`}>
+                  El servidor comprueba la fecha y ajusta los fines de semana al lunes. Es una estimación, no un vencimiento.
+                </FieldDescription>
+                <FieldError>{errores.fecha}</FieldError>
+              </Field>
+            )}
+
+            {accion.requiereBodega && (
+              <Field data-invalid={errores.bodega ? true : undefined}>
+                <FieldLabel htmlFor={`${ids}-bodega`}>Bodega de destino</FieldLabel>
+                {bodegas.isPending ? <p role="status" className="text-sm text-muted-foreground">Cargando bodegas activas…</p>
+                  : bodegas.isError ? <Alert variant="destructive"><AlertDescription>
+                    No se pudieron cargar las bodegas. <Button type="button" variant="outline" size="sm" onClick={() => void bodegas.refetch()}>Reintentar</Button>
+                  </AlertDescription></Alert>
+                  : <Select value={bodegaVigente ? bodegaId : ''} onValueChange={setBodegaId} disabled={ejecutar.isPending}>
+                    <SelectTrigger id={`${ids}-bodega`} className="w-full" aria-invalid={errores.bodega ? true : undefined} aria-describedby={`${ids}-bodega-ayuda`}>
+                      <SelectValue placeholder={bodegas.data?.length ? 'Elige una bodega activa' : 'No hay bodegas activas'} />
+                    </SelectTrigger>
+                    <SelectContent><SelectGroup>{bodegas.data?.map((bodega) => (
+                      <SelectItem key={bodega.id} value={bodega.id}>{bodega.nombre} · {bodega.ciudad}</SelectItem>
+                    ))}</SelectGroup></SelectContent>
+                  </Select>}
+                <FieldDescription id={`${ids}-bodega-ayuda`}>Se asigna una sola vez al confirmar. El servidor vuelve a comprobar que esté activa.</FieldDescription>
+                {bodegaId && !bodegaVigente && !bodegas.isFetching && <p role="status" className="text-sm text-estado-aviso">La selección ya no está disponible. Elige otra bodega activa.</p>}
+                <FieldError>{errores.bodega}</FieldError>
+              </Field>
+            )}
+
             {accion.requiereUrgencia && (
               <FieldSet data-invalid={errores.nivel ? true : undefined}>
                 <FieldLegend variant="label">Urgencia</FieldLegend>
@@ -195,6 +250,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
                   corridas sigue pendiente del cliente.
                 </FieldDescription>
                 <RadioGroup
+                  disabled={ejecutar.isPending}
                   value={nivel}
                   onValueChange={(valor) => setNivel(valor as NivelUrgencia)}
                   aria-invalid={errores.nivel ? true : undefined}
@@ -224,6 +280,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               <Textarea
                 id={`${ids}-observacion`}
                 value={observacion}
+                disabled={ejecutar.isPending}
                 maxLength={4000}
                 onChange={(evento) => setObservacion(evento.target.value)}
                 aria-invalid={errores.observacion ? true : undefined}
@@ -251,10 +308,10 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               <Button
                 type="submit"
                 variant={accion.accion === 'RECHAZAR' ? 'destructive' : 'default'}
-                disabled={ejecutar.isPending || !accion.puedeCompletarse}
+                disabled={ejecutar.isPending || sinPermiso || documentosPendientes || !accion.puedeCompletarse || faltanDocumentos || (accion.requiereBodega && (!bodegaVigente || bodegas.isFetching || bodegas.isError))}
               >
                 {ejecutar.isPending && <LoaderIcon data-icon="inline-start" className="animate-spin" />}
-                {NOMBRE_ACCION[accion.accion]}
+                {nombreAccion}
               </Button>
             </DialogFooter>
             {!accion.puedeCompletarse && !documentosPendientes && (

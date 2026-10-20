@@ -4,7 +4,7 @@ import { Sidebar } from './components/Sidebar';
 
 // Diseño de la aplicación con sesión (plan, tareas 19 y 21): encabezado, menú y la pantalla de la ruta activa.
 // El estado vive en la sesión (SesionProvider) y en TanStack Query; las pantallas del demo de fases posteriores
-// (bodegas, avisos, auditoría, cronograma) siguen en src/components, fuera de las rutas activas.
+// (auditoría y cronograma) siguen fuera de las rutas activas. Bodegas y avisos ya consumen la API real.
 export default function App() {
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">

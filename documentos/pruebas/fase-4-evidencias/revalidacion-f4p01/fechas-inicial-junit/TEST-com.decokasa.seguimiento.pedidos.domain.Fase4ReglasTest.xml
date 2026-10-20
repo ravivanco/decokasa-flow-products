@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-19T20:13:33.244Z" hostname="DESKTOP-GKF6IVL" time="0.01">
+  <properties/>
+  <testcase name="ecuadorCercaDeMedianocheUsaHoyLocalYPrimeroAjustaAlLunes()" classname="com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest" time="0.004"/>
+  <testcase name="fechaEntreSemanaNoAgregaFechaSolicitadaDistinta()" classname="com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest" time="0.002"/>
+  <testcase name="definicionNoPermiteLlegadaAutomaticaNiDosMarcas()" classname="com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest" time="0.002"/>
+  <testcase name="marcaDeLlegadaExigeTransicionQueAvance()" classname="com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

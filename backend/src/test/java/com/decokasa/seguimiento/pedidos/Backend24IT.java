@@ -150,7 +150,23 @@ class Backend24IT {
         accion(admin,p,4,"DEVOLVER_POR_ERROR",",\"observacion\":\"Error ficticio\"",200);
         avanzar(p,2); accion(admin,p,3,"APROBAR","",200);
         accion(admin,p,4,"APROBAR","",200); antes=estado(p);
-        accion(admin,p,5,"APROBAR",",\"observacion\":\"Fuera de fase\"",409);
+        accion(admin,p,5,"APROBAR",",\"observacion\":\"Fabricacion ficticia terminada\"",200);
+        assertThat(jdbc.queryForObject("select etapa_actual from pedido where id=?",Integer.class,p)).isEqualTo(6);
+        antes=estado(p);
+        accion(admin,p,6,"APROBAR","",409); // Bloqueo documental vigente, no bloqueo de fase en A5.
+        assertThat(estado(p)).isEqualTo(antes);
+    }
+    @Test void fase4IncidenciasHabilitadaConservaBloqueoDocumental() throws Exception {
+        // Fixture SQL explícito en A10: no es un recorrido desde A1 ni omite A6/A9 en producción.
+        UUID p=crear(),e=UUID.randomUUID();
+        new org.springframework.transaction.support.TransactionTemplate(transaccionesB2).executeWithoutResult(tx->{
+            jdbc.update("update etapa_pedido set estado='COMPLETADA',salida_en=now() where pedido_id=? and numero=1",p);
+            jdbc.update("insert into entrada_etapa(id,pedido_id,etapa,entrada_en) values(?,?,10,now())",e,p);
+            jdbc.update("update etapa_pedido set estado='ACTUAL',entrada_en=now(),entrada_id=? where pedido_id=? and numero=10",e,p);
+            jdbc.update("update pedido set etapa_actual=10 where id=?",p);
+        });
+        var antes=estado(p);
+        assertThat(accion(admin,p,10,"APROBAR","",409)).contains("documentos");
         assertThat(estado(p)).isEqualTo(antes);
     }
     @Test void resumenDeEtapaIncluyeLoOcurrido() throws Exception {
@@ -179,7 +195,7 @@ class Backend24IT {
         assertThat(persona).containsEntry("id",admin.toString()).containsEntry("nombre","Persona ficticia")
                 .containsEntry("roles",List.of("admin"));
         Map<String,Object> detalle=JsonPath.read(creado,"$.detalle");
-        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA");
+        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA","fechaEstimadaAnterior","fechaEstimadaSolicitada","nuevaFechaEstimadaLlegada","bodegaId");
         assertThat(detalle.values()).containsOnlyNulls();
         var antes=estado(p);
         List<Map<String,Object>> eventos=JsonPath.read(respuesta(get(base(p)+"/historial").with(token(admin)),200),"$");

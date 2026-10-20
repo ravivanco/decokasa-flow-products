@@ -1,11 +1,10 @@
-import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, UsersIcon, type LucideIcon } from 'lucide-react';
+import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, UsersIcon, WarehouseIcon, type LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
 
 // Menú principal (plan, tarea 21). Muestra las secciones activas: inicio, bandeja y pedidos (fase 2) para todos, y
-// usuarios y roles para el admin. Las pantallas del demo de fases posteriores (bodegas, avisos, auditoría) quedan
-// fuera de las rutas hasta su fase. El servidor valida igual cada permiso (R6).
+// usuarios, roles y correos para el admin; bodegas para admin o Logística. El servidor valida cada permiso (R6).
 interface Enlace {
   a: string;
   texto: string;
@@ -13,6 +12,7 @@ interface Enlace {
   soloAdmin?: boolean;
   /** Oculto si la persona solo tiene roles de consulta (P-13; plan, tarea 17). */
   conBandeja?: boolean;
+  soloBodegas?: boolean;
 }
 
 /** Roles de solo consulta (alcance provisional, ⏸): no conceden bandeja, pero no quitan la que dan otros roles. */
@@ -22,6 +22,7 @@ const ENLACES: Enlace[] = [
   { a: '/inicio', texto: 'Inicio', icono: HomeIcon },
   { a: '/bandeja', texto: 'Mi bandeja', icono: InboxIcon, conBandeja: true },
   { a: '/pedidos', texto: 'Pedidos', icono: PackageIcon },
+  { a: '/bodegas', texto: 'Bodegas', icono: WarehouseIcon, soloBodegas: true },
   { a: '/notificaciones', texto: 'Correos', icono: MailIcon, soloAdmin: true },
   { a: '/usuarios', texto: 'Usuarios', icono: UsersIcon, soloAdmin: true },
   { a: '/roles', texto: 'Roles', icono: ShieldCheckIcon, soloAdmin: true },
@@ -31,7 +32,8 @@ export function Sidebar() {
   const usuario = useUsuarioActual();
   const tieneBandeja = usuario.roles.some((rol) => !ROLES_CONSULTA.has(rol));
   const visibles = ENLACES.filter(
-    (enlace) => (!enlace.soloAdmin || esAdmin(usuario)) && (!enlace.conBandeja || tieneBandeja),
+    (enlace) => (!enlace.soloAdmin || esAdmin(usuario)) && (!enlace.conBandeja || tieneBandeja)
+      && (!enlace.soloBodegas || usuario.roles.some((rol) => rol === 'admin' || rol === 'logistica')),
   );
 
   return (

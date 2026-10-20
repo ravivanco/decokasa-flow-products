@@ -41,8 +41,8 @@ const PANELES: Record<string, Panel> = {
   admin: { titulo: 'Administración', descripcion: 'Usuarios, roles y visión general de los pedidos.' },
   asistente_compras: { titulo: 'Revisión', descripcion: 'Pedidos pendientes de revisión en Ecuador.' },
   marketing: { titulo: 'Codificación', descripcion: 'Pedidos pendientes de codificación y fotos.' },
-  compras_china: { titulo: 'Compras China', descripcion: 'Pedidos en negociación y compra con los proveedores.' },
-  logistica: { titulo: 'Logística', descripcion: 'Embarques, aduana y llegada a bodega.' },
+  compras_china: { titulo: 'Compras China', descripcion: 'Análisis, fabricación, embarque y aduana.' },
+  logistica: { titulo: 'Logística', descripcion: 'Autorización de salida, bodega e incidencias.' },
   asistente_china: CONSULTA,
   consulta: CONSULTA,
 };

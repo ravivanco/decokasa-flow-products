@@ -1,0 +1,7 @@
+﻿{
+    "comando":  "node playwright/cli.js test --config=playwright.config.mjs",
+    "recorridoA1Fin":  false,
+    "googleReal":  false,
+    "api":  "simulada",
+    "salida":  1
+}

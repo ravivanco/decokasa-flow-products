@@ -43,6 +43,10 @@ public class DefinicionEtapaEntity {
     @Column(name = "revisa_etapa")
     private Short revisaEtapa;
 
+    // V11 (ADR-0018): etapa de llegada a aduana.
+    @Column(name = "registra_llegada")
+    private boolean registraLlegada;
+
     protected DefinicionEtapaEntity() {
     }
 
@@ -80,5 +84,9 @@ public class DefinicionEtapaEntity {
 
     Short getRevisaEtapa() {
         return revisaEtapa;
+    }
+
+    boolean isRegistraLlegada() {
+        return registraLlegada;
     }
 }

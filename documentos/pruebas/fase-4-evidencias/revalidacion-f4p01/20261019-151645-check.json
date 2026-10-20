@@ -1,0 +1,7 @@
+﻿{
+    "comando":  ".\\gradlew.bat check --console=plain --no-daemon",
+    "etapa":  "check",
+    "fecha":  "20261019-151645",
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-fase4-0a9fda27b7d84e939870a4304b67a2a9",
+    "salida":  0
+}

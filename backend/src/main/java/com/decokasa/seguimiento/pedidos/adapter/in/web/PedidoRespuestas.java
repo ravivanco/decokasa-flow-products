@@ -26,16 +26,25 @@ public final class PedidoRespuestas {
     }
 
     public record AccionDisponible(String accion, Integer etapaDestino, boolean requiereObservacion,
-            boolean requiereUrgencia, String requisitosDocumentales, List<String> documentosObligatorios,
-            List<String> documentosFaltantes, boolean puedeCompletarse) {
+            boolean requiereUrgencia, boolean requiereBodega, String requisitosDocumentales,
+            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
     }
 
-    /** PedidoDetalle: PedidoResumen más su detalle. Bodega y demora en aduana son de la fase 4 (nulos). */
+    /** Esquema Bodega: la asignada al pedido, aunque después se haya desactivado. */
+    public record Bodega(UUID id, String nombre, String ciudad, boolean activa, long version) {
+    }
+
+    /** Esquema DemoraAduana (F4-D5): la fecha es una estimación de llegada, no un vencimiento. */
+    public record DemoraAduana(UsuarioResumenRespuesta reportadaPor, String reportadaEn, String motivo,
+            String nuevaFechaEstimadaLlegada) {
+    }
+
+    /** PedidoDetalle: PedidoResumen más su detalle. La bodega es nula hasta aprobar Bodega (F4-D2). */
     public record Detalle(UUID id, String numero, String nombre, String pais, String tipoFlujo, int etapaActual,
             String nombreEtapaActual, UsuarioResumenRespuesta responsableActual, String venceEn, boolean vencida,
             String motivoRetraso, Urgencia urgencia, boolean finalizado, String descripcion,
             boolean incluyeProductosNuevos, UsuarioResumenRespuesta creadoPor, String creadoEn, int versionFlujo,
-            Object bodega, Object demoraAduana, List<Etapa> lineaDeTiempo,
+            Bodega bodega, DemoraAduana demoraAduana, String llegadaAduanaEn, List<Etapa> lineaDeTiempo,
             List<AccionDisponible> accionesDisponibles) {
     }
 
@@ -59,7 +68,8 @@ public final class PedidoRespuestas {
         return new Detalle(r.id(), r.numero(), r.nombre(), r.pais().name(), r.tipoFlujo().name(), r.etapaActual(),
                 r.nombreEtapaActual(), persona(r.responsableActual()), FechasWeb.texto(r.venceEn()), r.vencida(), null,
                 urgencia(r.urgencia()), r.finalizado(), detalle.descripcion(), detalle.incluyeProductosNuevos(),
-                persona(detalle.creadoPor()), FechasWeb.texto(detalle.creadoEn()), detalle.versionFlujo(), null, null,
+                persona(detalle.creadoPor()), FechasWeb.texto(detalle.creadoEn()), detalle.versionFlujo(),
+                bodega(detalle.bodega()), demora(detalle.demoraAduana()), FechasWeb.texto(detalle.llegadaAduanaEn()),
                 detalle.lineaDeTiempo().stream().map(etapa -> etapa(r.tipoFlujo().name(), etapa)).toList(),
                 detalle.accionesDisponibles().stream().map(PedidoRespuestas::accion).toList());
     }
@@ -74,8 +84,19 @@ public final class PedidoRespuestas {
 
     private static AccionDisponible accion(VistasDePedido.AccionDisponible accion) {
         return new AccionDisponible(accion.accion().name(), accion.etapaDestino(), accion.requiereObservacion(),
-                accion.requiereUrgencia(), accion.documentosPendientes() ? "PENDIENTES" : "DEFINIDOS",
+                accion.requiereUrgencia(), accion.requiereBodega(),
+                accion.documentosPendientes() ? "PENDIENTES" : "DEFINIDOS",
                 accion.documentosObligatorios(), accion.documentosFaltantes(), accion.puedeCompletarse());
+    }
+
+    private static Bodega bodega(VistasDePedido.Bodega bodega) {
+        return bodega == null ? null
+                : new Bodega(bodega.id(), bodega.nombre(), bodega.ciudad(), bodega.activa(), bodega.version());
+    }
+
+    private static DemoraAduana demora(VistasDePedido.Demora demora) {
+        return demora == null ? null : new DemoraAduana(persona(demora.reportadaPor()),
+                FechasWeb.texto(demora.reportadaEn()), demora.motivo(), demora.nuevaFechaEstimadaLlegada().toString());
     }
 
     private static Urgencia urgencia(VistasDePedido.Urgencia urgencia) {

@@ -1,6 +1,7 @@
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { useSesion } from '@/auth/SesionProvider';
+import { esquemaBodega } from './esquemas';
 
 // Pedidos, historial, archivos y flujos (contrato documentos/api/openapi.yaml 0.7.0-borrador). Las respuestas se
 // validan con estos esquemas: si el backend cambia la forma sin cambiar el contrato, falla aquí y no en la pantalla.
@@ -81,6 +82,7 @@ const esquemaAccionDisponible = z.object({
   etapaDestino: z.number().int().nullable(),
   requiereObservacion: z.boolean(),
   requiereUrgencia: z.boolean(),
+  requiereBodega: z.boolean(),
   requisitosDocumentales: z.enum(['DEFINIDOS', 'PENDIENTES']),
   documentosObligatorios: z.array(z.string()),
   documentosFaltantes: z.array(z.string()),
@@ -94,6 +96,14 @@ export const esquemaPedidoDetalle = esquemaResumen.extend({
   creadoPor: esquemaPersona,
   creadoEn: z.string(),
   versionFlujo: z.number().int(),
+  bodega: esquemaBodega.nullish(),
+  llegadaAduanaEn: z.string().nullish(),
+  demoraAduana: z.object({
+    reportadaPor: esquemaPersona,
+    reportadaEn: z.string(),
+    motivo: z.string(),
+    nuevaFechaEstimadaLlegada: z.string(),
+  }).nullish(),
   lineaDeTiempo: z.array(esquemaEtapaEnLinea),
   accionesDisponibles: z.array(esquemaAccionDisponible),
 });
@@ -138,6 +148,10 @@ export const esquemaEvento = z.object({
       urgenciaTerminada: z.boolean().nullish(),
       asignadoAnterior: z.string().nullish(),
       asignadoA: z.string().nullish(),
+      fechaEstimadaAnterior: z.string().nullish(),
+      fechaEstimadaSolicitada: z.string().nullish(),
+      nuevaFechaEstimadaLlegada: z.string().nullish(),
+      bodegaId: z.string().nullish(),
     })
     .nullish(),
   fecha: z.string(),
@@ -186,6 +200,7 @@ const esquemaDefinicionFlujo = z.object({
         }),
       ),
       automatica: z.boolean(),
+      registraLlegada: z.boolean(),
     }),
   ),
 });
@@ -361,6 +376,8 @@ export interface DatosAccion {
   etapaEsperada: number;
   observacion?: string;
   nivelUrgencia?: NivelUrgencia;
+  nuevaFechaEstimadaLlegada?: string;
+  bodegaId?: string;
   adjuntoIds: string[];
 }
 
@@ -407,15 +424,13 @@ export interface DatosObservacion {
 }
 
 export function useAgregarObservacion() {
-  const { pedir, sesionId } = useSesion();
-  const consultas = useQueryClient();
+  const { pedir } = useSesion();
   const refrescar = useRefrescarPedido();
   return useMutation({
     mutationFn: ({ pedidoId, ...cuerpo }: DatosObservacion) =>
       pedir(`/pedidos/${id(pedidoId)}/observaciones`, { metodo: 'POST', cuerpo, esquema: esquemaEvento }),
-    // Una observación no mueve el pedido (P-19): solo cambia su historial.
-    onSuccess: (_evento, { pedidoId }) =>
-      consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pedidoId) }),
+    // Se recargan también detalle y bandejas; no se deriva ningún estado en el navegador.
+    onSuccess: (_evento, { pedidoId }) => refrescar(pedidoId),
     onError: (_error, { pedidoId }) => refrescar(pedidoId),
   });
 }

@@ -42,6 +42,6 @@ public final class DescribirFlujoCasoDeUso implements DescribirFlujo {
                         transicion.documentosObligatorios().stream().sorted().toList()))
                 .toList();
         return new Etapa(etapa.numero(), etapa.nombre(), etapa.rolResponsable(), etapa.plazo(), etapa.revisaEtapa(),
-                etapa.automatica(), acciones);
+                etapa.automatica(), etapa.registraLlegada(), acciones);
     }
 }

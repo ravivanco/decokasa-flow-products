@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-19T21:32:51.830Z" hostname="DESKTOP-GKF6IVL" time="0.343">
+  <properties/>
+  <testcase name="sustitucionDeCuentaYRenovacionQueExtiendeGrantSonRechazadas()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.086"/>
+  <testcase name="corrupcionOClaveDistintaNoDevuelvenCredencial()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.054"/>
+  <testcase name="sesionDriveCifradaEstaVinculadaAlAdjuntoYConservaUriSoloEnMemoria()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.04"/>
+  <testcase name="nuevaAutorizacionSinRefreshConservaGrantAnteriorPeroNoLoInventa()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.042"/>
+  <testcase name="cifradoPersistenteSobreviveReinicioSinExponerTokensEnDiscoOToString()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.034"/>
+  <testcase name="renovacionPersisteSinExtenderCaducidadNiCambiarCuenta()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.055"/>
+  <testcase name="rutasRelativasDentroDeGitYArchivosDemasiadoGrandesSeRechazan()" classname="com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

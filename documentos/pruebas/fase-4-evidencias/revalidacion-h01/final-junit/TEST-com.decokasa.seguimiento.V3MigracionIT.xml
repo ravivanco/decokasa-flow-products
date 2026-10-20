@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V3MigracionIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-20T14:59:07.478Z" hostname="DESKTOP-GKF6IVL" time="2.215">
+  <properties/>
+  <testcase name="backfillConservaFechasYDaEntradasSoloAEtapasVisitadas()" classname="com.decokasa.seguimiento.V3MigracionIT" time="0.325"/>
+  <system-out><![CDATA[2026-10-20T09:59:07.480-05:00  INFO 10564 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-20T09:59:07.572-05:00  INFO 10564 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: f1cef0b5a2f674b1176573c4700b1a9acc7707dc1232827d7c74e0ceb5df20bb
+2026-10-20T09:59:09.368-05:00  INFO 10564 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.8880071S
+2026-10-20T09:59:09.368-05:00  INFO 10564 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:49913/test?loggerLevel=OFF)
+2026-10-20T09:59:09.389-05:00  INFO 10564 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49913/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T09:59:09.410-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-20T09:59:09.411-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.013s)
+2026-10-20T09:59:09.418-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-20T09:59:09.434-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-20T09:59:09.436-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-20T09:59:09.464-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-20T09:59:09.504-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.051s)
+2026-10-20T09:59:09.533-05:00  INFO 10564 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49913/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T09:59:09.549-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.005s)
+2026-10-20T09:59:09.561-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-20T09:59:09.565-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-20T09:59:09.596-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v3 (execution time 00:00.025s)
+2026-10-20T09:59:09.616-05:00  INFO 10564 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49913/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T09:59:09.634-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.007s)
+2026-10-20T09:59:09.654-05:00  INFO 10564 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49913/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T09:59:09.672-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.007s)
+2026-10-20T09:59:09.687-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2026-10-20T09:59:09.689-05:00  INFO 10564 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

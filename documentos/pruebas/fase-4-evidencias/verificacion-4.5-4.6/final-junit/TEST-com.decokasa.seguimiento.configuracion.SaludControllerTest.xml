@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.configuracion.SaludControllerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-19T21:33:03.753Z" hostname="DESKTOP-GKF6IVL" time="1.782">
+  <properties/>
+  <testcase name="otraRutaDeLaApiSinTokenRespondeNoAutenticado()" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.031"/>
+  <testcase name="laSaludRespondeSinAutenticacion()" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.025"/>
+  <testcase name="[1] ruta = &quot;/swagger-ui.html&quot;" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.023"/>
+  <testcase name="[2] ruta = &quot;/swagger-ui/index.html&quot;" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.014"/>
+  <testcase name="[3] ruta = &quot;/v3/api-docs&quot;" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.015"/>
+  <testcase name="[4] ruta = &quot;/v3/api-docs/swagger-config&quot;" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.015"/>
+  <testcase name="laRespuestaLlevaCabecerasDeSeguridad()" classname="com.decokasa.seguimiento.configuracion.SaludControllerTest" time="0.029"/>
+  <system-out><![CDATA[2026-10-19T16:33:03.765-05:00  INFO 24468 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.configuracion.SaludControllerTest]: SaludControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-19T16:33:03.913-05:00  INFO 24468 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.configuracion.SaludControllerTest
+2026-10-19T16:33:03.916-05:00  INFO 24468 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.configuracion.SaludControllerTest]: SaludControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-19T16:33:03.948-05:00  INFO 24468 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.configuracion.SaludControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T16:33:04.098-05:00  INFO 24468 --- [seguimiento] [    Test worker] c.d.s.configuracion.SaludControllerTest  : Starting SaludControllerTest using Java 21.0.12.1 with PID 24468 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T16:33:04.099-05:00  INFO 24468 --- [seguimiento] [    Test worker] c.d.s.configuracion.SaludControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T16:33:05.316-05:00  INFO 24468 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T16:33:05.317-05:00  INFO 24468 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T16:33:05.322-05:00  INFO 24468 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T16:33:05.345-05:00  INFO 24468 --- [seguimiento] [    Test worker] c.d.s.configuracion.SaludControllerTest  : Started SaludControllerTest in 1.384 seconds (process running for 203.782)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -65,7 +65,7 @@ public class DefinicionFlujoJpaRepositorio implements DefinicionFlujoRepositorio
         };
         return new DefinicionEtapa(fila.getNumero(), fila.getNombre(),
                 fila.getRolCodigo() == null ? null : new CodigoRol(fila.getRolCodigo()), plazo, fila.isAutomatica(),
-                fila.getRevisaEtapa() == null ? null : fila.getRevisaEtapa().intValue());
+                fila.getRevisaEtapa() == null ? null : fila.getRevisaEtapa().intValue(), fila.isRegistraLlegada());
     }
 
     private static TransicionPermitida transicion(TransicionPermitidaEntity fila) {

@@ -49,6 +49,8 @@ public final class ResolverTransicionCasoDeUso implements ResolverTransicion, Co
         return new Resolucion(transicion.etapaOrigen(), transicion.accion(), destino, transicion.requiereObservacion(),
                 transicion.requiereUrgencia(), transicion.requiereBodega(), transicion.documentosPendientes(),
                 transicion.documentosObligatorios(), plazoDestino, retornoDeUrgencia,
-                flujo.etapa(transicion.etapaOrigen()).rolResponsable());
+                flujo.etapa(transicion.etapaOrigen()).rolResponsable(),
+                flujo.etapa(transicion.etapaOrigen()).registraLlegada(),
+                destino != null && flujo.etapa(destino).automatica());
     }
 }

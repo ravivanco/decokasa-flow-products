@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-20T14:51:53.191Z" hostname="DESKTOP-GKF6IVL" time="2.747">
+  <properties/>
+  <testcase name="r4BodegasSoloUsaPuertosDeEntradaDeUsuariosYSinDependenciaDePedidos()" classname="com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest" time="1.752"/>
+  <testcase name="r4PedidosSoloUsaOtrosModulosPorPuertosDeEntradaOEventosCompartidos()" classname="com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest" time="0.995"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

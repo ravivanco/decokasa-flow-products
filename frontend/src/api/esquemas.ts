@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+/** Catálogo real (F4-D1): el PATCH devuelve la versión que debe conservar la siguiente edición. */
+export const esquemaBodega = z.object({
+  id: z.string(), nombre: z.string(), ciudad: z.string(), activa: z.boolean(), version: z.number().int().nonnegative(),
+});
+export type Bodega = z.infer<typeof esquemaBodega>;
+
 // Esquemas de las respuestas de la API, iguales al contrato (documentos/api/openapi.yaml 0.5.0). El cliente valida
 // cada respuesta con ellos: si el backend cambia la forma sin cambiar el contrato, falla aquí y no en la pantalla.
 

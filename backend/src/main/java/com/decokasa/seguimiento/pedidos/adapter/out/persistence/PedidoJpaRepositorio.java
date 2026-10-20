@@ -2,11 +2,13 @@ package com.decokasa.seguimiento.pedidos.adapter.out.persistence;
 
 import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
+import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.EtapaCambio;
 import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
 import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.pedidos.application.port.out.ConsultaDePedidos;
 import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
+import com.decokasa.seguimiento.pedidos.domain.DemoraAduana;
 import com.decokasa.seguimiento.pedidos.domain.EstadoEtapa;
 import com.decokasa.seguimiento.pedidos.domain.EtapaDePedido;
 import com.decokasa.seguimiento.pedidos.domain.NumeroPedido;
@@ -16,6 +18,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     private static final String VIOLACION_DE_UNICIDAD = "23505";
     private static final String UNA_ACTUAL = "etapa_pedido_una_actual";
     private static final String CAMBIO_SIMULTANEO = "El pedido cambió mientras se guardaba. Vuelve a cargarlo.";
+    // SQLSTATE propio del trigger pedido_bodega_activa (V12): la bodega no existe o se desactivó a la vez (F4-D2).
+    private static final String BODEGA_INACTIVA = "UB001";
 
     private final EntityManager entityManager;
 
@@ -250,8 +255,21 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
             if (esViolacionDe(error, UNA_ACTUAL)) {
                 throw new EtapaCambio(CAMBIO_SIMULTANEO);
             }
+            if (tieneEstadoSql(error, BODEGA_INACTIVA)) {
+                // Solo este rechazo: la bodega se desactivó entre la comprobación y el guardado. Nada se guarda.
+                throw new DatoInvalido("bodegaId", "La bodega no existe o está inactiva; elige una bodega activa.");
+            }
             throw error;
         }
+    }
+
+    private static boolean tieneEstadoSql(Throwable error, String estado) {
+        for (Throwable causa = error; causa != null; causa = causa.getCause()) {
+            if (causa instanceof SQLException sql && estado.equals(sql.getSQLState())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean esViolacionDe(Throwable error, String restriccion) {
@@ -270,6 +288,11 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
                 pedido.finalizadoEn(), urgencia == null ? null : urgencia.nivel().name(),
                 urgencia == null ? null : urgencia.activadaEn(), urgencia == null ? null : urgencia.venceEn(),
                 pedido.actualizadoEn());
+        entidad.asignarBodega(pedido.bodegaId().orElse(null));
+        DemoraAduana demora = pedido.demora().orElse(null);
+        entidad.cambiarLlegadaYDemora(pedido.llegadaAduanaEn().orElse(null),
+                demora == null ? null : demora.motivo(), demora == null ? null : demora.nuevaFechaEstimadaLlegada(),
+                demora == null ? null : demora.reportadaPor(), demora == null ? null : demora.reportadaEn());
     }
 
     private static void copiarEtapa(EtapaDePedido etapa, EtapaPedidoEntity fila) {
@@ -281,13 +304,17 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
         UrgenciaActiva urgencia = entidad.getUrgenciaNivel() == null ? null
                 : new UrgenciaActiva(NivelUrgencia.valueOf(entidad.getUrgenciaNivel()),
                         entidad.getUrgenciaActivadaEn(), entidad.getUrgenciaVenceEn());
+        DemoraAduana demora = entidad.getDemoraMotivo() == null ? null
+                : new DemoraAduana(entidad.getDemoraMotivo(), entidad.getDemoraNuevaFechaLlegada(),
+                        entidad.getDemoraReportadaPor(), entidad.getDemoraReportadaEn());
         return new Pedido(entidad.getId(), new NumeroPedido(entidad.getNumero()),
                 CodigoPais.valueOf(entidad.getPaisCodigo()), TipoFlujo.valueOf(entidad.getTipoFlujo()),
                 entidad.getFlujoId(), entidad.getNombre(), entidad.getDescripcion(),
                 entidad.isIncluyeProductosNuevos(), entidad.getCreadoPor(), entidad.getCreadoEn(),
                 entidad.getEtapas().stream().map(PedidoJpaRepositorio::etapaADominio).toList(),
                 entidad.getEtapaActual(), entidad.isFinalizado(), entidad.getFinalizadoEn(), urgencia,
-                entidad.getActualizadoEn(), entidad.getVersion());
+                entidad.getLlegadaAduanaEn(), demora, entidad.getBodegaId(), entidad.getActualizadoEn(),
+                entidad.getVersion());
     }
 
     private static EtapaDePedido etapaADominio(EtapaPedidoEntity fila) {

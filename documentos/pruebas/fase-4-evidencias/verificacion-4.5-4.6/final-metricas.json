@@ -1,0 +1,1250 @@
+{
+  "backend": {
+    "casos": 776,
+    "fallos": 0,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.AplicacionArrancaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CargasB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": "48",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+        "tests": "24",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "95",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+        "tests": "21",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+        "tests": "20",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": "42",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V3MigracionIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "baseline_dirigido": {
+    "casos": 146,
+    "fallos": 0,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": "48",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "80",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "dirigido": {
+    "casos": 161,
+    "fallos": 0,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": "48",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "95",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "cobertura_backend_global": {
+    "INSTRUCTION": {
+      "covered": 27998,
+      "missed": 3134,
+      "pct": 89.93318771681871
+    },
+    "BRANCH": {
+      "covered": 1806,
+      "missed": 702,
+      "pct": 72.00956937799043
+    },
+    "LINE": {
+      "covered": 4704,
+      "missed": 466,
+      "pct": 90.98646034816248
+    },
+    "COMPLEXITY": {
+      "covered": 2033,
+      "missed": 796,
+      "pct": 71.86284906327325
+    },
+    "METHOD": {
+      "covered": 1396,
+      "missed": 162,
+      "pct": 89.60205391527599
+    },
+    "CLASS": {
+      "covered": 348,
+      "missed": 9,
+      "pct": 97.47899159663865
+    }
+  },
+  "cobertura_backend_modulos": {
+    "archivos": {
+      "INSTRUCTION": {
+        "covered": 9229,
+        "missed": 1653,
+        "pct": 84.80977761440911
+      },
+      "BRANCH": {
+        "covered": 669,
+        "missed": 379,
+        "pct": 63.83587786259542
+      },
+      "LINE": {
+        "covered": 1391,
+        "missed": 220,
+        "pct": 86.34388578522656
+      },
+      "COMPLEXITY": {
+        "covered": 524,
+        "missed": 404,
+        "pct": 56.46551724137931
+      },
+      "METHOD": {
+        "covered": 336,
+        "missed": 68,
+        "pct": 83.16831683168317
+      },
+      "CLASS": {
+        "covered": 83,
+        "missed": 3,
+        "pct": 96.51162790697674
+      }
+    },
+    "pedidos": {
+      "INSTRUCTION": {
+        "covered": 6632,
+        "missed": 488,
+        "pct": 93.14606741573034
+      },
+      "BRANCH": {
+        "covered": 449,
+        "missed": 119,
+        "pct": 79.04929577464789
+      },
+      "LINE": {
+        "covered": 1162,
+        "missed": 65,
+        "pct": 94.70252648736756
+      },
+      "COMPLEXITY": {
+        "covered": 494,
+        "missed": 131,
+        "pct": 79.04
+      },
+      "METHOD": {
+        "covered": 317,
+        "missed": 20,
+        "pct": 94.06528189910979
+      },
+      "CLASS": {
+        "covered": 69,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "bodegas": {
+      "INSTRUCTION": {
+        "covered": 884,
+        "missed": 40,
+        "pct": 95.67099567099567
+      },
+      "BRANCH": {
+        "covered": 50,
+        "missed": 12,
+        "pct": 80.64516129032258
+      },
+      "LINE": {
+        "covered": 148,
+        "missed": 7,
+        "pct": 95.48387096774194
+      },
+      "COMPLEXITY": {
+        "covered": 88,
+        "missed": 13,
+        "pct": 87.12871287128714
+      },
+      "METHOD": {
+        "covered": 68,
+        "missed": 2,
+        "pct": 97.14285714285714
+      },
+      "CLASS": {
+        "covered": 16,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "historial": {
+      "INSTRUCTION": {
+        "covered": 1716,
+        "missed": 90,
+        "pct": 95.01661129568106
+      },
+      "BRANCH": {
+        "covered": 100,
+        "missed": 16,
+        "pct": 86.20689655172414
+      },
+      "LINE": {
+        "covered": 319,
+        "missed": 8,
+        "pct": 97.55351681957187
+      },
+      "COMPLEXITY": {
+        "covered": 127,
+        "missed": 17,
+        "pct": 88.19444444444444
+      },
+      "METHOD": {
+        "covered": 76,
+        "missed": 4,
+        "pct": 95.0
+      },
+      "CLASS": {
+        "covered": 21,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "flujos": {
+      "INSTRUCTION": {
+        "covered": 1412,
+        "missed": 100,
+        "pct": 93.3862433862434
+      },
+      "BRANCH": {
+        "covered": 86,
+        "missed": 17,
+        "pct": 83.49514563106796
+      },
+      "LINE": {
+        "covered": 227,
+        "missed": 16,
+        "pct": 93.4156378600823
+      },
+      "COMPLEXITY": {
+        "covered": 144,
+        "missed": 24,
+        "pct": 85.71428571428571
+      },
+      "METHOD": {
+        "covered": 108,
+        "missed": 7,
+        "pct": 93.91304347826087
+      },
+      "CLASS": {
+        "covered": 22,
+        "missed": 0,
+        "pct": 100.0
+      }
+    }
+  },
+  "cobertura_frontend_global": {
+    "lines": {
+      "total": 1826,
+      "covered": 1176,
+      "skipped": 0,
+      "pct": 64.4
+    },
+    "statements": {
+      "total": 2014,
+      "covered": 1289,
+      "skipped": 0,
+      "pct": 64
+    },
+    "functions": {
+      "total": 653,
+      "covered": 447,
+      "skipped": 0,
+      "pct": 68.45
+    },
+    "branches": {
+      "total": 1925,
+      "covered": 1149,
+      "skipped": 0,
+      "pct": 59.68
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "cobertura_frontend_pedidos_y_bodegas": {
+    "bodegas.ts": {
+      "lines": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "pedidos.ts": {
+      "lines": {
+        "total": 111,
+        "covered": 99,
+        "skipped": 0,
+        "pct": 89.18
+      },
+      "functions": {
+        "total": 51,
+        "covered": 44,
+        "skipped": 0,
+        "pct": 86.27
+      },
+      "statements": {
+        "total": 120,
+        "covered": 104,
+        "skipped": 0,
+        "pct": 86.66
+      },
+      "branches": {
+        "total": 18,
+        "covered": 15,
+        "skipped": 0,
+        "pct": 83.33
+      }
+    },
+    "CatalogoBodegas.tsx": {
+      "lines": {
+        "total": 43,
+        "covered": 38,
+        "skipped": 0,
+        "pct": 88.37
+      },
+      "functions": {
+        "total": 19,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 73.68
+      },
+      "statements": {
+        "total": 53,
+        "covered": 44,
+        "skipped": 0,
+        "pct": 83.01
+      },
+      "branches": {
+        "total": 94,
+        "covered": 72,
+        "skipped": 0,
+        "pct": 76.59
+      }
+    },
+    "ArchivosEtapa.tsx": {
+      "lines": {
+        "total": 78,
+        "covered": 62,
+        "skipped": 0,
+        "pct": 79.48
+      },
+      "functions": {
+        "total": 22,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 86.36
+      },
+      "statements": {
+        "total": 85,
+        "covered": 68,
+        "skipped": 0,
+        "pct": 80
+      },
+      "branches": {
+        "total": 88,
+        "covered": 70,
+        "skipped": 0,
+        "pct": 79.54
+      }
+    },
+    "BandejaPedidos.tsx": {
+      "lines": {
+        "total": 19,
+        "covered": 15,
+        "skipped": 0,
+        "pct": 78.94
+      },
+      "functions": {
+        "total": 11,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 63.63
+      },
+      "statements": {
+        "total": 23,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 82.6
+      },
+      "branches": {
+        "total": 26,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 80.76
+      }
+    },
+    "CopiasFallidas.tsx": {
+      "lines": {
+        "total": 9,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 55.55
+      },
+      "functions": {
+        "total": 8,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 25
+      },
+      "statements": {
+        "total": 11,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 45.45
+      },
+      "branches": {
+        "total": 10,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 60
+      }
+    },
+    "DetallePedido.tsx": {
+      "lines": {
+        "total": 34,
+        "covered": 32,
+        "skipped": 0,
+        "pct": 94.11
+      },
+      "functions": {
+        "total": 13,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 84.61
+      },
+      "statements": {
+        "total": 39,
+        "covered": 37,
+        "skipped": 0,
+        "pct": 94.87
+      },
+      "branches": {
+        "total": 63,
+        "covered": 56,
+        "skipped": 0,
+        "pct": 88.88
+      }
+    },
+    "DialogoAccion.tsx": {
+      "lines": {
+        "total": 56,
+        "covered": 48,
+        "skipped": 0,
+        "pct": 85.71
+      },
+      "functions": {
+        "total": 24,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 79.16
+      },
+      "statements": {
+        "total": 72,
+        "covered": 61,
+        "skipped": 0,
+        "pct": 84.72
+      },
+      "branches": {
+        "total": 145,
+        "covered": 132,
+        "skipped": 0,
+        "pct": 91.03
+      }
+    },
+    "DialogoReasignar.tsx": {
+      "lines": {
+        "total": 28,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 75
+      },
+      "functions": {
+        "total": 10,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 70
+      },
+      "statements": {
+        "total": 32,
+        "covered": 23,
+        "skipped": 0,
+        "pct": 71.87
+      },
+      "branches": {
+        "total": 37,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 56.75
+      }
+    },
+    "Distintivos.tsx": {
+      "lines": {
+        "total": 14,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 14,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 18,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 61.11
+      }
+    },
+    "EnlaceDrive.tsx": {
+      "lines": {
+        "total": 15,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 93.33
+      },
+      "functions": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 17,
+        "covered": 16,
+        "skipped": 0,
+        "pct": 94.11
+      },
+      "branches": {
+        "total": 11,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 63.63
+      }
+    },
+    "HistorialPedido.tsx": {
+      "lines": {
+        "total": 20,
+        "covered": 16,
+        "skipped": 0,
+        "pct": 80
+      },
+      "functions": {
+        "total": 11,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 54.54
+      },
+      "statements": {
+        "total": 22,
+        "covered": 17,
+        "skipped": 0,
+        "pct": 77.27
+      },
+      "branches": {
+        "total": 64,
+        "covered": 32,
+        "skipped": 0,
+        "pct": 50
+      }
+    },
+    "LineaDeTiempo.tsx": {
+      "lines": {
+        "total": 12,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 12,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 39,
+        "covered": 36,
+        "skipped": 0,
+        "pct": 92.3
+      }
+    },
+    "ListaPedidos.tsx": {
+      "lines": {
+        "total": 28,
+        "covered": 26,
+        "skipped": 0,
+        "pct": 92.85
+      },
+      "functions": {
+        "total": 10,
+        "covered": 9,
+        "skipped": 0,
+        "pct": 90
+      },
+      "statements": {
+        "total": 30,
+        "covered": 28,
+        "skipped": 0,
+        "pct": 93.33
+      },
+      "branches": {
+        "total": 33,
+        "covered": 26,
+        "skipped": 0,
+        "pct": 78.78
+      }
+    },
+    "NuevaObservacion.tsx": {
+      "lines": {
+        "total": 26,
+        "covered": 20,
+        "skipped": 0,
+        "pct": 76.92
+      },
+      "functions": {
+        "total": 9,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 66.66
+      },
+      "statements": {
+        "total": 28,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 75
+      },
+      "branches": {
+        "total": 14,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 85.71
+      }
+    },
+    "NuevoPedido.tsx": {
+      "lines": {
+        "total": 17,
+        "covered": 17,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 6,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 18,
+        "covered": 18,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 20,
+        "covered": 16,
+        "skipped": 0,
+        "pct": 80
+      }
+    },
+    "PanelEtapa.tsx": {
+      "lines": {
+        "total": 25,
+        "covered": 23,
+        "skipped": 0,
+        "pct": 92
+      },
+      "functions": {
+        "total": 17,
+        "covered": 15,
+        "skipped": 0,
+        "pct": 88.23
+      },
+      "statements": {
+        "total": 31,
+        "covered": 29,
+        "skipped": 0,
+        "pct": 93.54
+      },
+      "branches": {
+        "total": 80,
+        "covered": 76,
+        "skipped": 0,
+        "pct": 95
+      }
+    },
+    "TablaPedidos.tsx": {
+      "lines": {
+        "total": 14,
+        "covered": 13,
+        "skipped": 0,
+        "pct": 92.85
+      },
+      "functions": {
+        "total": 7,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 85.71
+      },
+      "statements": {
+        "total": 15,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 93.33
+      },
+      "branches": {
+        "total": 22,
+        "covered": 20,
+        "skipped": 0,
+        "pct": 90.9
+      }
+    },
+    "formato.ts": {
+      "lines": {
+        "total": 47,
+        "covered": 42,
+        "skipped": 0,
+        "pct": 89.36
+      },
+      "functions": {
+        "total": 9,
+        "covered": 9,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 56,
+        "covered": 48,
+        "skipped": 0,
+        "pct": 85.71
+      },
+      "branches": {
+        "total": 50,
+        "covered": 35,
+        "skipped": 0,
+        "pct": 70
+      }
+    }
+  },
+  "produccion_cambios": [],
+  "protegidos": 420,
+  "header_conservado": true,
+  "indice_conservado": true,
+  "nota": "Los fixtures no son un recorrido aprobado A1-Fin; Google no se integra; fases 3 y 4 abiertas."
+}

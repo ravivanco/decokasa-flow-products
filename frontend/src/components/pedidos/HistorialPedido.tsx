@@ -12,12 +12,13 @@ import {
   XIcon,
 } from 'lucide-react';
 import { type EventoHistorial, type Persona, type TipoEvento, useAdjuntosDeEtapas, useHistorial } from '@/api/pedidos';
+import type { Bodega } from '@/api/esquemas';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { DistintivoUrgencia } from './Distintivos';
-import { codigoEtapa, formatearFechaHora, mensajeDeErrorPedido, NOMBRE_EVENTO, nombreRol } from './formato';
+import { codigoEtapa, formatearFecha, formatearFechaHora, mensajeDeErrorPedido, NOMBRE_EVENTO, nombreRol } from './formato';
 
 // Historial del pedido (requisito 4.2: solo inserción). Del más reciente al más antiguo, como lo devuelve el servidor,
 // con el actor y el rol con el que intervino en ese momento (aunque después cambien sus roles). Los archivos de cada
@@ -47,9 +48,10 @@ interface Props {
   tipoFlujo: string;
   /** Personas conocidas (asignadas en la línea de tiempo) para nombrar las reasignaciones. */
   personas: Map<string, Persona>;
+  bodega?: Bodega | null;
 }
 
-export function HistorialPedido({ pedidoId, tipoFlujo, personas }: Props) {
+export function HistorialPedido({ pedidoId, tipoFlujo, personas, bodega }: Props) {
   const historial = useHistorial(pedidoId);
   const etapasConArchivos = [
     ...new Set((historial.data ?? []).filter((e) => (e.adjuntoIds?.length ?? 0) > 0).map((e) => e.etapa)),
@@ -88,6 +90,7 @@ export function HistorialPedido({ pedidoId, tipoFlujo, personas }: Props) {
               ultimo={indice === historial.data.length - 1}
               nombreArchivo={(id) => adjuntos.get(id)?.nombre}
               personas={personas}
+              bodega={bodega}
             />
           ))}
         </ol>
@@ -102,12 +105,14 @@ function Evento({
   ultimo,
   nombreArchivo,
   personas,
+  bodega,
 }: {
   evento: EventoHistorial;
   tipoFlujo: string;
   ultimo: boolean;
   nombreArchivo: (id: string) => string | undefined;
   personas: Map<string, Persona>;
+  bodega?: Bodega | null;
 }) {
   const Icono = ICONO[evento.tipo] ?? MessageSquareTextIcon;
   const detalle = evento.detalle;
@@ -159,6 +164,16 @@ function Evento({
         {evento.tipo === 'ETAPA_REASIGNADA' && (
           <p className="text-sm">{anterior ? `De ${anterior} a ${nueva}` : `Asignada a ${nueva}`}</p>
         )}
+        {evento.tipo === 'DEMORA_REPORTADA' && detalle?.nuevaFechaEstimadaLlegada && (
+          <dl className="grid gap-1 text-sm">
+            {detalle.fechaEstimadaAnterior && <div><dt className="inline text-muted-foreground">Estimación anterior: </dt><dd className="inline tabular-nums">{formatearFecha(detalle.fechaEstimadaAnterior)}</dd></div>}
+            {detalle.fechaEstimadaSolicitada && <div><dt className="inline text-muted-foreground">Fecha solicitada: </dt><dd className="inline tabular-nums">{formatearFecha(detalle.fechaEstimadaSolicitada)}</dd></div>}
+            <div><dt className="inline text-muted-foreground">Llegada estimada confirmada: </dt><dd className="inline font-medium tabular-nums">{formatearFecha(detalle.nuevaFechaEstimadaLlegada)}</dd></div>
+          </dl>
+        )}
+        {evento.tipo === 'BODEGA_ASIGNADA' && detalle?.bodegaId && <p className="text-sm text-muted-foreground">
+          {bodega && bodega.id === detalle.bodegaId ? `Bodega: ${bodega.nombre} · ${bodega.ciudad} (nombre vigente)` : 'Asignación de bodega registrada por el servidor.'}
+        </p>}
         {evento.observacion && (
           <p className="max-w-prose rounded-md bg-muted/60 px-3 py-2 text-sm whitespace-pre-wrap">{evento.observacion}</p>
         )}

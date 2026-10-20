@@ -11,12 +11,13 @@ import java.util.UUID;
  * {@code compartido.domain.eventos} para que {@code pedidos} los produzca y {@code historial} (fase 2) y
  * {@code notificaciones} (fase 3) los escuchen sin depender entre sí (R4, R9). Son registros inmutables en Java puro.
  *
- * <p>Todos llevan el país y el tipo de flujo del pedido, que no cambian, el actor con su rol de intervención y la hora
- * del servidor ({@code Reloj}, R5). No llevan tokens ni datos personales: solo identificadores.
+ * <p>Todos llevan el país y el tipo de flujo del pedido, que no cambian, y la hora del servidor ({@code Reloj}, R5).
+ * Las acciones llevan actor y rol de intervención; los eventos del sistema no tienen actor. No llevan tokens ni
+ * datos personales: solo identificadores.
  */
 public sealed interface EventoDePedido
         permits PedidoCreado, EtapaEnviada, EtapaAprobada, EtapaRechazada, PedidoDevuelto, EtapaReasignada,
-        ObservacionAgregada, ArchivoSubido {
+        ObservacionAgregada, ArchivoSubido, DemoraReportada, BodegaAsignada, PedidoFinalizado {
 
     UUID pedidoId();
 
@@ -29,6 +30,7 @@ public sealed interface EventoDePedido
     /** Etapa en la que ocurrió (la de origen, en un movimiento). */
     int etapa();
 
+    /** Nulo exclusivamente en eventos del sistema, como el cierre automático del pedido. */
     Interviniente actor();
 
     Instant ocurridoEn();

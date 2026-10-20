@@ -1,5 +1,7 @@
 package com.decokasa.seguimiento.pedidos.config;
 
+import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegaActiva;
+import com.decokasa.seguimiento.bodegas.application.port.in.DescribirBodega;
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
 import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosParaAccion;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
@@ -51,8 +53,8 @@ public class PedidosConfig {
 
     @Bean
     EtapasHabilitadas etapasHabilitadas() {
-        // P-04: en la fase 2 solo hay acciones con origen en A1 a A4.
-        return EtapasHabilitadas.faseDos();
+        // Paso 4.5: A10 se habilita, pero no avanza con documentos pendientes. A11 nunca admite acciones manuales.
+        return EtapasHabilitadas.faseCuatroHastaIncidencias();
     }
 
     @Bean
@@ -69,10 +71,10 @@ public class PedidosConfig {
     EjecutarAccionEtapa ejecutarAccionEtapa(PlatformTransactionManager gestor, PedidoRepositorio pedidos,
             ResolverTransicion transiciones, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
             CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj,
-            ValidarAdjuntosParaAccion adjuntos) {
+            ValidarAdjuntosParaAccion adjuntos, ConsultarBodegaActiva bodegas) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         EjecutarAccionEtapa caso = new EjecutarAccionEtapaCasoDeUso(pedidos, transiciones, habilitadas, responsables,
-                vencimientos, publicador, reloj, adjuntos);
+                vencimientos, publicador, reloj, adjuntos, bodegas);
         return (solicitante, comando) -> tx.execute(estado -> caso.ejecutar(solicitante, comando));
     }
 
@@ -92,11 +94,11 @@ public class PedidosConfig {
             ConsultarDefinicionFlujo flujos, ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos,
             ResumirUsuarios usuarios, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
             CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj,
-            ResumirEtapasDePedido cierres) {
+            ResumirEtapasDePedido cierres, DescribirBodega bodegas) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         tx.setReadOnly(true);
         ConsultarPedidos caso = new ConsultarPedidosCasoDeUso(consultas, flujos, acciones, adjuntos, usuarios,
-                habilitadas, responsables, vencimientos, publicador, reloj, cierres);
+                habilitadas, responsables, vencimientos, publicador, reloj, cierres, bodegas);
         return new ConsultarPedidos() {
             @Override
             public VistasDePedido.Detalle detalle(Solicitante solicitante, UUID pedidoId) {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2026-10-19T19:59:25.279Z" hostname="DESKTOP-GKF6IVL" time="0.517">
+  <properties/>
+  <testcase name="respuestaAceptadaRequiereIdRealYNoDemuestraRecepcionHumana()" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.107"/>
+  <testcase name="[1] status = &quot;403&quot;, motivo = &quot;rateLimitExceeded&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.007"/>
+  <testcase name="[2] status = &quot;403&quot;, motivo = &quot;userRateLimitExceeded&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[3] status = &quot;429&quot;, motivo = &quot;rateLimitExceeded&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[4] status = &quot;429&quot;, motivo = &quot;userRateLimitExceeded&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[1] status = &quot;401&quot;, causa = &quot;AUTORIZACION_REQUERIDA&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.005"/>
+  <testcase name="[2] status = &quot;400&quot;, causa = &quot;PERMANENTE&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.005"/>
+  <testcase name="[3] status = &quot;408&quot;, causa = &quot;RESULTADO_INCIERTO&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.005"/>
+  <testcase name="[4] status = &quot;500&quot;, causa = &quot;RESULTADO_INCIERTO&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[5] status = &quot;503&quot;, causa = &quot;RESULTADO_INCIERTO&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[1] valor = &quot;invalida&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.004"/>
+  <testcase name="[2] valor = &quot;99999999999999999999999999999999&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[3] valor = &quot;-2&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.004"/>
+  <testcase name="fechaHttpFuturaYPasadaYAusenciaDeCabecera()" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.004"/>
+  <testcase name="falloDeCredencialAntesDelPostPuedeDemostrarNoAceptacion()" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.002"/>
+  <testcase name="falloDeTransporteNoSeReclasificaComoRechazoSeguro()" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[1] valor = &quot;0&quot;, segundos = &quot;0&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.005"/>
+  <testcase name="[2] valor = &quot;30&quot;, segundos = &quot;30&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="[3] valor = &quot;1200&quot;, segundos = &quot;1200&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.003"/>
+  <testcase name="mezclaDeMotivosConUnoDesconocidoNoAcreditaRechazoSeguro()" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.002"/>
+  <testcase name="[1] body = &quot;{}&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.004"/>
+  <testcase name="[2] body = &quot;{&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.002"/>
+  <testcase name="[3] body = &quot;{\&quot;error\&quot;:{\&quot;code\&quot;:403}}&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.005"/>
+  <testcase name="[4] body = &quot;{\&quot;error\&quot;:{\&quot;code\&quot;:429,\&quot;errors\&quot;:[{\&quot;domain\&quot;:\&quot;global\&quot;,\&quot;reason\&quot;:\&quot;rateLimitExceeded\&quot;}]}}&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.002"/>
+  <testcase name="[5] body = &quot;{\&quot;id\&quot;:\&quot;posible-envio\&quot;,\&quot;error\&quot;:{\&quot;code\&quot;:429}}&quot;" classname="com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

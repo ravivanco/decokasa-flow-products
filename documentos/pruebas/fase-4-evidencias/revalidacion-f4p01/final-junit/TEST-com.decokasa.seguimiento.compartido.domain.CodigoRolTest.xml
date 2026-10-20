@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-19T20:19:32.584Z" hostname="DESKTOP-GKF6IVL" time="0.009">
+  <properties/>
+  <testcase name="[1] valor = &quot;admin&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[2] valor = &quot;asistente_compras&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.0"/>
+  <testcase name="[3] valor = &quot;compras_china&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[4] valor = &quot;consulta&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.0"/>
+  <testcase name="rechazaElValorNulo()" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[1] valor = &quot;&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[2] valor = &quot;ab&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.0"/>
+  <testcase name="[3] valor = &quot;Admin&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[4] valor = &quot;compras-china&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.0"/>
+  <testcase name="[5] valor = &quot;rol con espacios&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.001"/>
+  <testcase name="[6] valor = &quot;rol_demasiado_largo_para_el_formato_permitido&quot;" classname="com.decokasa.seguimiento.compartido.domain.CodigoRolTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

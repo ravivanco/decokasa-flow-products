@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Fase4IT" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-20T14:44:18.238Z" hostname="DESKTOP-GKF6IVL" time="11.781">
+  <properties/>
+  <testcase name="historialPuedeInvertirElOrdenCausalPorDesempateUuid()" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.794">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;Expecting actual:&#13;&#10;  [&quot;ETAPA_APROBADA&quot;, &quot;BODEGA_ASIGNADA&quot;]&#13;&#10;to contain exactly (and in same order):&#13;&#10;  [&quot;BODEGA_ASIGNADA&quot;, &quot;ETAPA_APROBADA&quot;]&#13;&#10;but there were differences at these indexes:&#13;&#10;  - element at index 0: expected &quot;BODEGA_ASIGNADA&quot; but was &quot;ETAPA_APROBADA&quot;&#13;&#10;  - element at index 1: expected &quot;ETAPA_APROBADA&quot; but was &quot;BODEGA_ASIGNADA&quot;&#13;&#10;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+Expecting actual:
+  [&quot;ETAPA_APROBADA&quot;, &quot;BODEGA_ASIGNADA&quot;]
+to contain exactly (and in same order):
+  [&quot;BODEGA_ASIGNADA&quot;, &quot;ETAPA_APROBADA&quot;]
+but there were differences at these indexes:
+  - element at index 0: expected &quot;BODEGA_ASIGNADA&quot; but was &quot;ETAPA_APROBADA&quot;
+  - element at index 1: expected &quot;ETAPA_APROBADA&quot; but was &quot;BODEGA_ASIGNADA&quot;
+
+	at com.decokasa.seguimiento.pedidos.Fase4IT.historialPuedeInvertirElOrdenCausalPorDesempateUuid(Fase4IT.java:382)
+</failure>
+  </testcase>
+  <system-out><![CDATA[09:44:18.513 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Fase4IT
+09:44:18.606 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Fase4IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-20T09:44:19.132-05:00  INFO 28820 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : Starting Fase4IT using Java 21.0.12.1 with PID 28820 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-20T09:44:19.134-05:00  INFO 28820 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : No active profile set, falling back to 1 default profile: "default"
+2026-10-20T09:44:20.709-05:00  INFO 28820 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-20T09:44:20.839-05:00  INFO 28820 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 7 JPA repository interfaces.
+2026-10-20T09:44:21.470-05:00  INFO 28820 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-20T09:44:21.553-05:00  INFO 28820 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 3fa43a83b0141a4b7880484ff652bc65477737bf835c58733f6879caa5b73b71
+2026-10-20T09:44:22.933-05:00  INFO 28820 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4635343S
+2026-10-20T09:44:22.934-05:00  INFO 28820 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:50456/test?loggerLevel=OFF)
+2026-10-20T09:44:23.079-05:00  INFO 28820 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:50456/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T09:44:23.092-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-20T09:44:23.093-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.006s)
+2026-10-20T09:44:23.099-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-20T09:44:23.116-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-20T09:44:23.119-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-20T09:44:23.145-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-20T09:44:23.187-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-20T09:44:23.216-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-20T09:44:23.234-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-20T09:44:23.249-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-20T09:44:23.264-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-20T09:44:23.276-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-20T09:44:23.287-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-20T09:44:23.302-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-20T09:44:23.316-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-20T09:44:23.327-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-20T09:44:23.336-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - historial secuencia"
+2026-10-20T09:44:23.348-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 13 migrations to schema "public", now at version v13 (execution time 00:00.137s)
+2026-10-20T09:44:23.491-05:00  INFO 28820 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-20T09:44:23.583-05:00  INFO 28820 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-20T09:44:24.217-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-20T09:44:24.270-05:00  INFO 28820 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-20T09:44:24.291-05:00  INFO 28820 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@288c56e6
+2026-10-20T09:44:24.294-05:00  INFO 28820 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-20T09:44:24.403-05:00  INFO 28820 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:50456/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-20T09:44:26.111-05:00  INFO 28820 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-20T09:44:26.181-05:00  INFO 28820 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T09:44:26.313-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-20T09:44:28.976-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-20T09:44:28.976-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-20T09:44:28.992-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-20T09:44:28.999-05:00  INFO 28820 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 22 ms
+2026-10-20T09:44:29.137-05:00  INFO 28820 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : Started Fase4IT in 10.461 seconds (process running for 39.132)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/pedidos/88b2e46f-9a4e-47a2-a5a2-e7373fd2346d/historial
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8"]
+             Body = 
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.historial.adapter.in.web.HistorialController
+           Method = com.decokasa.seguimiento.historial.adapter.in.web.HistorialController#historial(Jwt, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = [{"id":"00000000-0000-4000-8000-000000000001","pedidoId":"88b2e46f-9a4e-47a2-a5a2-e7373fd2346d","numeroPedido":"DK-EC-2026-100001","etapa":9,"tipo":"ETAPA_APROBADA","usuario":{"id":"136e5ccf-95cc-42f4-bada-3055e8452a1a","nombre":"Ficticio F4","roles":["admin"]},"rolIntervencion":"admin","detalle":{"etapaDestino":null,"motivoDevolucion":null,"urgenciaTerminada":null,"asignadoAnterior":null,"asignadoA":null,"fechaEstimadaAnterior":null,"fechaEstimadaSolicitada":null,"nuevaFechaEstimadaLlegada":null,"bodegaId":null},"fecha":"2026-10-16T17:00:00-05:00","observacion":null,"nivelUrgencia":null,"adjuntoIds":[]},{"id":"ffffffff-ffff-4fff-8fff-ffffffffffff","pedidoId":"88b2e46f-9a4e-47a2-a5a2-e7373fd2346d","numeroPedido":"DK-EC-2026-100001","etapa":9,"tipo":"BODEGA_ASIGNADA","usuario":{"id":"136e5ccf-95cc-42f4-bada-3055e8452a1a","nombre":"Ficticio F4","roles":["admin"]},"rolIntervencion":"admin","detalle":{"etapaDestino":null,"motivoDevolucion":null,"urgenciaTerminada":null,"asignadoAnterior":null,"asignadoA":null,"fechaEstimadaAnterior":null,"fechaEstimadaSolicitada":null,"nuevaFechaEstimadaLlegada":null,"bodegaId":null},"fecha":"2026-10-16T17:00:00-05:00","observacion":null,"nivelUrgencia":null,"adjuntoIds":[]}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

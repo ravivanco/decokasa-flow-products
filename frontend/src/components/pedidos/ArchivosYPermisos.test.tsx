@@ -193,7 +193,7 @@ describe('Descarga de archivos', () => {
 });
 
 describe('Observaciones', () => {
-  it('publica en la entrada actual sin mover el pedido: solo vuelve a leer el historial', async () => {
+  it('publica en la entrada actual y recarga detalle e historial sin mover el pedido', async () => {
     const { api, app } = await abrir(con(['marketing']), enA2());
     const cuerpos: unknown[] = [];
     servidor.use(
@@ -228,7 +228,8 @@ describe('Observaciones', () => {
       adjuntoIds: [],
     });
     await waitFor(() => expect(api.cuenta('GET', '/historial')).toBeGreaterThan(historialAntes));
-    expect(api.cuenta('GET', '/detalle')).toBe(detalleAntes);
+    await waitFor(() => expect(api.cuenta('GET', '/detalle')).toBeGreaterThan(detalleAntes));
+    expect(screen.getByRole('button', { name: /^A2 .*, etapa actual$/ })).toHaveAttribute('aria-current', 'step');
     expect(screen.getByLabelText('Nueva observación')).toHaveValue('');
   });
 

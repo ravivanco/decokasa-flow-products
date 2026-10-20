@@ -1,0 +1,7 @@
+﻿{
+    "comando":  "npm.cmd run test -- src/components/pedidos/Fase4Pantallas.test.tsx src/components/pedidos/Fase4Ramas.test.tsx src/components/pedidos/formato.test.ts --maxWorkers=2",
+    "backendEjecutado":  false,
+    "fecha":  "20261020-102641",
+    "googleReal":  false,
+    "salida":  1
+}

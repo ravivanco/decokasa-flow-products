@@ -1,0 +1,1450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Fase4IT" tests="30" skipped="0" failures="23" errors="0" timestamp="2026-10-19T20:13:11.158Z" hostname="DESKTOP-GKF6IVL" time="22.082">
+  <properties/>
+  <testcase name="demoraAjustaFinDeSemanaConservaHistorialYNoTocaPlazoNiLlegada()" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="1.422"/>
+  <testcase name="fechaAusenteConservaRequisitoDeDemoraYSigueOpcionalEnOtrasAcciones()" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.17"/>
+  <testcase name="[1] fecha = &quot;\&quot;2026-02-30\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.074">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[2] fecha = &quot;\&quot;2026-10-17T00:00:00Z\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.029">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[3] fecha = &quot;123&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.025">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[4] fecha = &quot;[2026,10,17]&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.022">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[5] fecha = &quot;\&quot;17/10/2026\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.022">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[6] fecha = &quot;\&quot;2026-1-2\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.024">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[7] fecha = &quot;[]&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.021">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[8] fecha = &quot;[\&quot;2026-10-19\&quot;]&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[9] fecha = &quot;[[2026,10,17]]&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.019">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[10] fecha = &quot;123.5&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[11] fecha = &quot;{}&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.021">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[12] fecha = &quot;{\&quot;year\&quot;:2026,\&quot;month\&quot;:10,\&quot;day\&quot;:17}&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[13] fecha = &quot;true&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.018">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[14] fecha = &quot;false&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[15] fecha = &quot;null&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.019">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[16] fecha = &quot;\&quot;\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[17] fecha = &quot;\&quot; 2026-10-19\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.023">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[18] fecha = &quot;\&quot;2026-10-19 \&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.02">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[19] fecha = &quot;\&quot;2026-02-29\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.022">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[20] fecha = &quot;\&quot;2026-13-01\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.019">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[21] fecha = &quot;\&quot;2026-10-00\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.016">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[22] fecha = &quot;\&quot;2026-10-19T12:30:00\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.017">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[23] fecha = &quot;\&quot;2026-10-19Z\&quot;&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.017">
+    <failure message="java.lang.AssertionError: No value at JSON path &quot;$.type&quot;" type="java.lang.AssertionError">java.lang.AssertionError: No value at JSON path &quot;$.type&quot;
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:350)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsNotEmpty(JsonPathExpectationsHelper.java:287)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isNotEmpty$0(JsonPathResultMatchers.java:162)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRechazaFechasNoIsoEstrictas(Fase4IT.java:202)
+Caused by: com.jayway.jsonpath.PathNotFoundException: No results for path: $['type']
+</failure>
+  </testcase>
+  <testcase name="[1] solicitada = &quot;2026-10-19&quot;, efectiva = &quot;2026-10-19&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.243"/>
+  <testcase name="[2] solicitada = &quot;2026-10-17&quot;, efectiva = &quot;2026-10-19&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.246"/>
+  <testcase name="[3] solicitada = &quot;2026-10-18&quot;, efectiva = &quot;2026-10-19&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.261"/>
+  <testcase name="[4] solicitada = &quot;2028-02-29&quot;, efectiva = &quot;2028-02-29&quot;" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.226"/>
+  <testcase name="demoraRevierteSiHistorialFalla()" classname="com.decokasa.seguimiento.pedidos.Fase4IT" time="0.07"/>
+  <system-out><![CDATA[15:13:11.551 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Fase4IT
+15:13:11.678 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Fase4IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T15:13:12.221-05:00  INFO 24132 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : Starting Fase4IT using Java 21.0.12.1 with PID 24132 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T15:13:12.221-05:00  INFO 24132 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T15:13:13.566-05:00  INFO 24132 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T15:13:13.698-05:00  INFO 24132 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 117 ms. Found 7 JPA repository interfaces.
+2026-10-19T15:13:14.291-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-19T15:13:14.296-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-19T15:13:14.333-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.5
+2026-10-19T15:13:14.724-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-19T15:13:21.052-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-19T15:13:21.052-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-10-19T15:13:21.077-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-19T15:13:21.188-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-19T15:13:21.438-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 9c527233feb61bb32f956c75d4dea4cc4b03ea5d873d6cbbdd75f1bdb15dea19
+2026-10-19T15:13:21.792-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.603948S
+2026-10-19T15:13:21.805-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-19T15:13:21.805-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-10-19T15:13:21.807-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-10-19T15:13:21.808-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T15:13:21.901-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 8267a05b16fe4bad546a1d27ea4338eabcba095f5fb0464c345a0cf954d5e0e7
+2026-10-19T15:13:23.561-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.7530103S
+2026-10-19T15:13:23.562-05:00  INFO 24132 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:53004/test?loggerLevel=OFF)
+2026-10-19T15:13:24.060-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:53004/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T15:13:24.137-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T15:13:24.141-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 12 migrations (execution time 00:00.029s)
+2026-10-19T15:13:24.156-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T15:13:24.202-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T15:13:24.228-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T15:13:24.290-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T15:13:24.349-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T15:13:24.390-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T15:13:24.418-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T15:13:24.444-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T15:13:24.466-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T15:13:24.484-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T15:13:24.499-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-19T15:13:24.521-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-19T15:13:24.539-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-19T15:13:24.552-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-19T15:13:24.566-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 12 migrations to schema "public", now at version v12 (execution time 00:00.187s)
+2026-10-19T15:13:24.700-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T15:13:24.780-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-19T15:13:25.364-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T15:13:25.415-05:00  INFO 24132 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-19T15:13:25.448-05:00  INFO 24132 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@403c29fc
+2026-10-19T15:13:25.452-05:00  INFO 24132 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-19T15:13:25.545-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:53004/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T15:13:27.183-05:00  INFO 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T15:13:27.248-05:00  INFO 24132 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T15:13:27.365-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-19T15:13:29.775-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T15:13:29.775-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T15:13:29.790-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T15:13:29.790-05:00  INFO 24132 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 15 ms
+2026-10-19T15:13:29.925-05:00  INFO 24132 --- [seguimiento] [    Test worker] c.decokasa.seguimiento.pedidos.Fase4IT   : Started Fase4IT in 18.163 seconds (process running for 23.498)
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/a0966558-6124-42c7-bdd0-58fe965e07e6/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-02-30"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/a0966558-6124-42c7-bdd0-58fe965e07e6/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/8f23e11c-cffd-4f64-b9a5-f03baa480fdb/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"120"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-10-17T00:00:00Z"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/8f23e11c-cffd-4f64-b9a5-f03baa480fdb/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/bd3f0ef0-3cdf-4930-ae36-7da2877c54ce/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"101"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":123}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/bd3f0ef0-3cdf-4930-ae36-7da2877c54ce/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/4ba72da3-d8e6-44f9-95ab-fb7ffdc08bde/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":[2026,10,17]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/4ba72da3-d8e6-44f9-95ab-fb7ffdc08bde/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/87097475-2b56-4575-a842-e55a3e5c93a0/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"17/10/2026"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/87097475-2b56-4575-a842-e55a3e5c93a0/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/1abd370d-fe56-49af-ac71-5643c696bbe7/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"108"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-1-2"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/1abd370d-fe56-49af-ac71-5643c696bbe7/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/dc68ec7c-1177-4452-a408-d1f5bb530479/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"100"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":[]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/dc68ec7c-1177-4452-a408-d1f5bb530479/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/d6ee982c-1499-4145-b489-ab20dfa6502b/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"112"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":["2026-10-19"]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/d6ee982c-1499-4145-b489-ab20dfa6502b/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/22ef880a-e02c-4945-848e-430b378152af/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"112"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":[[2026,10,17]]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/22ef880a-e02c-4945-848e-430b378152af/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/1f5c7282-335b-4450-b717-92888224e134/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"103"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":123.5}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/1f5c7282-335b-4450-b717-92888224e134/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/cc6972af-6d8b-48e4-9f14-52c026b9044a/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"100"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":{}}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/cc6972af-6d8b-48e4-9f14-52c026b9044a/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/6821dbcb-54c2-4f10-a97a-ee992bf6eb7a/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"131"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":{"year":2026,"month":10,"day":17}}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/6821dbcb-54c2-4f10-a97a-ee992bf6eb7a/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/062a0f09-7773-4fd0-b0c6-3281d9da681b/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"102"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":true}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/062a0f09-7773-4fd0-b0c6-3281d9da681b/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/55a0aa23-4c82-4a41-bc05-56f19d04839d/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"103"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":false}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/55a0aa23-4c82-4a41-bc05-56f19d04839d/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/efc24f5d-e6fd-40da-aaf7-830679a9c5de/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"102"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":null}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/efc24f5d-e6fd-40da-aaf7-830679a9c5de/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/f2d38a3d-dd4a-4cc2-ba66-a9ccc4f91d7f/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"100"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":""}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/f2d38a3d-dd4a-4cc2-ba66-a9ccc4f91d7f/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/c2a8eb65-ca38-402f-b98c-7f5f2f177b5c/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"111"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":" 2026-10-19"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/c2a8eb65-ca38-402f-b98c-7f5f2f177b5c/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/e79746e7-ad32-49c7-9ee8-bf39fb4b0631/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"111"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-10-19 "}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/e79746e7-ad32-49c7-9ee8-bf39fb4b0631/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/f845db2a-d828-4e17-9735-f1f92110c709/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-02-29"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/f845db2a-d828-4e17-9735-f1f92110c709/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/b854dc2e-b359-4cdd-8438-5d0879600b0f/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-13-01"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/b854dc2e-b359-4cdd-8438-5d0879600b0f/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/6e2461c5-75f6-42e0-8a43-bfdcfad18fce/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"110"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-10-00"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/6e2461c5-75f6-42e0-8a43-bfdcfad18fce/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/dd045d93-4ebb-45af-baec-ae8f0fbc234c/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"119"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-10-19T12:30:00"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/dd045d93-4ebb-45af-baec-ae8f0fbc234c/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/9d90ec4d-cec2-44cf-8450-b812907a5aab/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"111"]
+             Body = {"accion":"REPORTAR_DEMORA","etapaEsperada":7,"observacion":"Demora","nuevaFechaEstimadaLlegada":"2026-10-19Z"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/problem+json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/problem+json
+             Body = {"detail":"Failed to read request","instance":"/api/v1/pedidos/9d90ec4d-cec2-44cf-8450-b812907a5aab/acciones","status":400,"title":"Datos inválidos","codigo":"VALIDACION"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2026-10-19T15:13:33.211-05:00  WARN 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: P0001
+2026-10-19T15:13:33.211-05:00  WARN 24132 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: Fallo demora F4
+  Where: PL/pgSQL function demora_f4_a8149a76966344aa9233e956b1093add() line 1 at RAISE
+2026-10-19T15:13:33.220-05:00 ERROR 24132 --- [seguimiento] [    Test worker] c.d.s.c.adapter.in.web.ManejadorErrores  : Error inesperado al atender la solicitud
+
+org.springframework.orm.jpa.JpaSystemException: could not execute statement [ERROR: Fallo demora F4
+  Where: PL/pgSQL function demora_f4_a8149a76966344aa9233e956b1093add() line 1 at RAISE] [insert into evento_pedido (datos,etapa,nivel_urgencia,observacion,ocurrido_en,pedido_id,rol_codigo,tipo,usuario_id,id) values (?::jsonb,?,?,?,?,?,?,?,?,?)]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:223) ~[spring-orm-7.0.9.jar:7.0.9]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:131) ~[spring-orm-7.0.9.jar:7.0.9]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.translateExceptionIfPossible(HibernateExceptionTranslator.java:105) ~[spring-orm-7.0.9.jar:7.0.9]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:223) ~[spring-orm-7.0.9.jar:7.0.9]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:556) ~[spring-orm-7.0.9.jar:7.0.9]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:794) ~[spring-tx-7.0.9.jar:7.0.9]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:757) ~[spring-tx-7.0.9.jar:7.0.9]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:149) ~[spring-tx-7.0.9.jar:7.0.9]
+	at com.decokasa.seguimiento.pedidos.config.PedidosConfig.lambda$ejecutarAccionEtapa$3(PedidosConfig.java:78) ~[main/:na]
+	at com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController.ejecutar(AccionEtapaController.java:40) ~[main/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.24.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-7.0.9.jar:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.24.jar:6.1]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$2(FilterChainProxy.java:235) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:491) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:353) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:84) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:131) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:132) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:86) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:174) ~[spring-security-oauth2-resource-server-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.oauth2.server.resource.web.OAuth2ProtectedResourceMetadataFilter.doFilterInternal(OAuth2ProtectedResourceMetadataFilter.java:98) ~[spring-security-oauth2-resource-server-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:336) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317) ~[spring-security-config-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:160) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127) ~[spring-test-7.0.9.jar:7.0.9]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:199) ~[spring-test-7.0.9.jar:7.0.9]
+	at com.decokasa.seguimiento.pedidos.Fase4IT.http(Fase4IT.java:61) ~[test/:na]
+	at com.decokasa.seguimiento.pedidos.Fase4IT.accion(Fase4IT.java:97) ~[test/:na]
+	at com.decokasa.seguimiento.pedidos.Fase4IT.demoraRevierteSiHistorialFalla(Fase4IT.java:347) ~[test/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701) ~[junit-platform-commons-6.0.3.jar:6.0.3]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502) ~[junit-platform-commons-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70) ~[junit-jupiter-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58) ~[junit-platform-engine-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:93) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:48) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$0(InterceptingLauncher.java:41) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:40) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:48) ~[junit-platform-launcher-6.0.3.jar:6.0.3]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestDefinitionProcessor$CollectThenExecuteTestDefinitionConsumer.processAllTestDefinitions(JUnitPlatformTestDefinitionProcessor.java:206) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestDefinitionProcessor$CollectThenExecuteTestDefinitionConsumer.access$000(JUnitPlatformTestDefinitionProcessor.java:123) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestDefinitionProcessor.stop(JUnitPlatformTestDefinitionProcessor.java:117) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.SuiteTestDefinitionProcessor.stop(SuiteTestDefinitionProcessor.java:63) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.gradle.internal.dispatch.MethodInvocation.invokeOn(MethodInvocation.java:77) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:28) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:19) ~[na:na]
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33) ~[na:na]
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:88) ~[na:na]
+	at jdk.proxy2/jdk.proxy2.$Proxy6.stop(Unknown Source) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:195) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63) ~[na:na]
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
+Caused by: org.hibernate.exception.GenericJDBCException: could not execute statement [ERROR: Fallo demora F4
+  Where: PL/pgSQL function demora_f4_a8149a76966344aa9233e956b1093add() line 1 at RAISE] [insert into evento_pedido (datos,etapa,nivel_urgencia,observacion,ocurrido_en,pedido_id,rol_codigo,tipo,usuario_id,id) values (?::jsonb,?,?,?,?,?,?,?,?,?)]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:39) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:115) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:189) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.performNonBatchedMutation(AbstractMutationExecutor.java:145) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.MutationExecutorSingleNonBatched.performNonBatchedOperations(MutationExecutorSingleNonBatched.java:53) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:65) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:54) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.doStaticInserts(InsertCoordinatorStandard.java:183) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.coordinateInsert(InsertCoordinatorStandard.java:123) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.insert(InsertCoordinatorStandard.java:96) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:108) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:634) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:505) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:386) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:40) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.internal.SessionImpl.fireFlush(SessionImpl.java:1472) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:498) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:2100) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2021) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:426) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:167) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commitNoRollbackOnly(JdbcResourceLocalTransactionCoordinatorImpl.java:252) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:242) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:89) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:552) ~[spring-orm-7.0.9.jar:7.0.9]
+	... 213 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: Fallo demora F4
+  Where: PL/pgSQL function demora_f4_a8149a76966344aa9233e956b1093add() line 1 at RAISE
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2993) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2656) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:446) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:533) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:449) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:197) ~[postgresql-42.7.13.jar:42.7.13]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:158) ~[postgresql-42.7.13.jar:42.7.13]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-7.0.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-7.0.2.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:185) ~[hibernate-core-7.4.5.Final.jar:7.4.5.Final]
+	... 236 common frames omitted
+
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

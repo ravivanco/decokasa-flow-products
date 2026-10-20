@@ -293,6 +293,7 @@ describe('Acciones de la etapa actual', () => {
     });
     await abrir(admin, enA1);
 
-    expect(await screen.findByText(/los documentos de esta etapa siguen pendientes del cliente/)).toBeInTheDocument();
+    expect(await screen.findByText('Documentos pendientes de definición')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Enviar' })).toBeDisabled();
   });
 });

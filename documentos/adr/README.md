@@ -30,6 +30,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | [0015](0015-datos-iniciales-fuera-de-git.md) | Países y roles en migraciones; usuarios reales y secretos fuera de git | accepted (equipo) | 2026-10-12 | Plan de la fase 1 (D5); repositorio público |
 | [0016](0016-spring-boot-4.md) | Spring Boot 4.1 en lugar de Spring Boot 3 | accepted (equipo) | 2026-10-12 | Paso 1.3: la rama 3.x quedó sin soporte gratuito el 2026-06-30 (API oficial de spring.io) |
 | [0017](0017-google-oauth-usuario-gmail-personal.md) | Gmail personal y Mi unidad con OAuth de usuario, cliente web local | accepted (equipo, Richard) | 2026-10-17 | Paso 3.1; sustituye la variante Workspace de 0003 y resuelve el canal de 0013 |
+| [0018](0018-etapa-de-llegada-explicita.md) | La etapa de llegada a aduana se marca de forma explícita en la definición del flujo | accepted (equipo) | 2026-10-19 | Paso 4.3 (fase 4): pedido por Richard tras la revisión del paso; marca `definicion_etapa.registra_llegada` (V11), solo A7 en el flujo A vigente. No es una respuesta del cliente |
 
 ## Propuestas de `arquitectura.md` (8.2) incluidas dentro de otro ADR
 

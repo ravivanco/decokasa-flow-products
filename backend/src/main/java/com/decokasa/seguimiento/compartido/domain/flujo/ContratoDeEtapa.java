@@ -20,4 +20,12 @@ public interface ContratoDeEtapa {
 
     /** Etapa cuyos archivos revisa esta etapa (P-17); nula si no revisa ninguna. Se declara en los datos del flujo. */
     Integer revisaEtapa();
+
+    /**
+     * Etapa de llegada a aduana (ADR-0018): al aprobarla, el pedido registra la llegada. Se declara en los datos del
+     * flujo; no se deduce de otras reglas.
+     */
+    default boolean registraLlegada() {
+        return false;
+    }
 }

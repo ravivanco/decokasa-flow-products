@@ -63,7 +63,9 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
     ? acciones.flatMap((accion) => accion.documentosObligatorios)
     : (definicion?.acciones ?? []).flatMap((accion) => accion.documentosObligatorios);
   const tiposSugeridos = [...new Set(documentos)];
-  const incompletas = acciones.filter((accion) => !accion.puedeCompletarse);
+  const incompletas = acciones.filter((accion) => !accion.puedeCompletarse && accion.requisitosDocumentales !== 'PENDIENTES');
+  const documentosPendientes = acciones.some((a) => a.requisitosDocumentales === 'PENDIENTES')
+    || (definicion?.acciones ?? []).some((a) => a.requisitosDocumentales === 'PENDIENTES');
 
   return (
     <Card>
@@ -93,7 +95,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
                 )}
               </>
             ) : (
-              <span className="font-normal text-muted-foreground">Cualquiera con el rol</span>
+              <span className="font-normal text-muted-foreground">{etapa.rolResponsable ? 'Cualquiera con el rol' : 'Sin intervención manual'}</span>
             )}
           </Dato>
           <Dato termino="Entrada">{formatearFechaHora(etapa.entrada)}</Dato>
@@ -124,6 +126,15 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
       </CardHeader>
 
       <CardContent className="flex flex-col gap-6">
+        {documentosPendientes && <Alert role="note"><CircleAlertIcon />
+          <AlertTitle>Documentos pendientes de definición</AlertTitle>
+          <AlertDescription>Los requisitos de esta etapa todavía no están definidos. Los archivos conservados no eliminan este bloqueo y no se puede confirmar el avance.</AlertDescription>
+        </Alert>}
+        {definicion?.automatica && <Alert role="note"><AlertTitle>Etapa automática</AlertTitle>
+          <AlertDescription>{pedido.finalizado && etapa.estado === 'COMPLETADA'
+            ? 'El servidor registró Fin al confirmar el cierre. No requiere otra acción.'
+            : 'El servidor registrará esta etapa cuando se confirme el cierre y se cumplan sus requisitos. No admite acciones manuales.'}</AlertDescription>
+        </Alert>}
         {esActual && (
           <section aria-labelledby={`acciones-${etapa.numero}`} className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -156,9 +167,9 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
                           : 'default'
                     }
                     onClick={() => onAccion(accion, actuales)}
-                    disabled={adjuntos.isPending}
+                    disabled={adjuntos.isPending || adjuntos.isError || accion.requisitosDocumentales === 'PENDIENTES'}
                   >
-                    {NOMBRE_ACCION[accion.accion]}
+                    {definicion?.registraLlegada && accion.accion === 'APROBAR' ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion]}
                   </Button>
                 ))}
               </div>

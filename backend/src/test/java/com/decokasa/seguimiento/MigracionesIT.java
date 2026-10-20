@@ -103,8 +103,8 @@ class MigracionesIT {
         assertThat(resultadoV2.targetSchemaVersion).isEqualTo("2");
         assertThat(resultadoV2.migrationsExecuted).isEqualTo(1);
         assertThat(resultado.success).isTrue();
-        assertThat(resultado.targetSchemaVersion).isEqualTo("8");
-        assertThat(resultado.migrationsExecuted).isEqualTo(6);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("13");
+        assertThat(resultado.migrationsExecuted).isEqualTo(11);
     }
 
     @Test
@@ -118,13 +118,13 @@ class MigracionesIT {
 
         assertThat(segunda.success).isTrue();
         assertThat(segunda.migrationsExecuted).isZero();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("8");
-        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8");
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("13");
+        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13");
         assertThat(flyway.info().pending()).isEmpty();
     }
 
     @Test
-    void creaLasTablasDeV1MotorYArchivosSinBodegas() throws SQLException {
+    void creaLasTablasDeV1MotorArchivosYBodegasHastaV13() throws SQLException {
         List<String> tablas = textos("""
                 select table_name from information_schema.tables
                 where table_schema = 'public' and table_name <> 'flyway_schema_history'
@@ -132,7 +132,7 @@ class MigracionesIT {
 
         // Conserva V1–V3 y exige también las tablas nuevas de V4–V6; no acepta tablas inesperadas.
         assertThat(tablas).containsExactly(
-                "adjunto", "archivo_cuota", "archivo_cuota_cerrojo", "carga_archivo", "carga_fragmento", "carpeta_drive", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido",
+                "adjunto", "archivo_cuota", "archivo_cuota_cerrojo", "bodega", "carga_archivo", "carga_fragmento", "carpeta_drive", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido",
                 "notificacion", "pais", "pedido", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida",
                 "usuario", "usuario_pais", "usuario_rol");
     }

@@ -8,6 +8,12 @@ import type { AccionEtapa, EtapaEnLinea, NivelUrgencia, TipoEvento } from '@/api
 
 const ZONA = 'America/Guayaquil';
 
+/** Fecha civil que devuelve el servidor: se presenta sin convertirla a UTC ni recalcularla. */
+export function formatearFecha(valor: string | null | undefined): string {
+  const partes = valor?.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return partes ? `${partes[3]}/${partes[2]}/${partes[1]}` : '—';
+}
+
 const fechaHora = new Intl.DateTimeFormat('es-EC', {
   timeZone: ZONA,
   day: '2-digit',

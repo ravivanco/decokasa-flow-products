@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-19T20:00:21.243Z" hostname="DESKTOP-GKF6IVL" time="0.006">
+  <properties/>
+  <testcase name="unUsuarioDesactivadoNoRenuevaYSeRevocaLaFamilia()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.001"/>
+  <testcase name="unTokenValidoEntregaUnAccesoNuevoYRotaElTokenDeRenovacion()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="rotarNoExtiendeElLimiteDeOchoHoras()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.001"/>
+  <testcase name="siLaCuentaSeDesactivaAntesDeBloquearSuFilaNoRenuevaYRevocaLaFamilia()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="unTokenDesconocidoNoRenueva()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="elAccesoRenovadoLlevaLosRolesActualesDelUsuario()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="reutilizarUnTokenRevocadoRevocaTodaLaFamilia()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="pasadasOchoHorasDesdeElInicioDeSesionYaNoRenuevaAunqueSeHayaRotado()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="unUsuarioSinRolesNoRenuevaYSeRevocaLaFamilia()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <testcase name="siOtraRenovacionConsumeElTokenAntesEsReutilizacionYNoEmiteSucesor()" classname="com.decokasa.seguimiento.usuarios.application.RenovarSesionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

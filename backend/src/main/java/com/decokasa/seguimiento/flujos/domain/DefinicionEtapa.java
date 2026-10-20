@@ -12,7 +12,7 @@ import java.util.Objects;
  * Java puro (R1).
  */
 public record DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo,
-        boolean automatica, Integer revisaEtapa) implements ContratoDeEtapa {
+        boolean automatica, Integer revisaEtapa, boolean registraLlegada) implements ContratoDeEtapa {
 
     public DefinicionEtapa {
         if (numero < 1 || numero > 30) {
@@ -28,11 +28,20 @@ public record DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsabl
         if (revisaEtapa != null && (revisaEtapa < 1 || revisaEtapa > 30 || revisaEtapa == numero)) {
             throw new DatoInvalido("Una etapa solo revisa otra etapa existente del mismo flujo.");
         }
+        if (registraLlegada && automatica) {
+            throw new DatoInvalido("Una etapa automática no registra la llegada: nadie da su check.");
+        }
+    }
+
+    /** Etapa que no registra la llegada a aduana (ADR-0018). */
+    public DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo,
+            boolean automatica, Integer revisaEtapa) {
+        this(numero, nombre, rolResponsable, plazo, automatica, revisaEtapa, false);
     }
 
     /** Etapa que no revisa los archivos de otra. */
     public DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo,
             boolean automatica) {
-        this(numero, nombre, rolResponsable, plazo, automatica, null);
+        this(numero, nombre, rolResponsable, plazo, automatica, null, false);
     }
 }

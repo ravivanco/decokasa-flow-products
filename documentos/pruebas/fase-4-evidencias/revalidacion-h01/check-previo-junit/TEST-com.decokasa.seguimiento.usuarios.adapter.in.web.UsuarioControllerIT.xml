@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-10-20T14:53:03.542Z" hostname="DESKTOP-GKF6IVL" time="0.797">
+  <properties/>
+  <testcase name="unUsuarioConVariosRolesQueIncluyenAdminTambienGestiona()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.046"/>
+  <testcase name="unaContrasenaInicialDeSetentaYDosBytesSirveSinRecortes()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.068"/>
+  <testcase name="quienNoEsAdminNoGestionaUsuariosNiRoles()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.032"/>
+  <testcase name="unaContrasenaInicialDeSetentaYTresBytesSeRechazaEnSuCampo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.031"/>
+  <testcase name="elAdminActualizaUnRol()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.05"/>
+  <testcase name="elAdminCreaUnRolYLoVeEnLaLista()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.041"/>
+  <testcase name="elAdminConsultaUnUsuarioYUnoInexistenteDa404()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.035"/>
+  <testcase name="elAdminReemplazaLosRolesPorVarios()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.04"/>
+  <testcase name="unAdminDesactivadoNoAdministraNiSeReactivaConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.099"/>
+  <testcase name="crearSinRolesEsUnErrorDeValidacion()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.025"/>
+  <testcase name="elCorreoDuplicadoRespondeConflictoEnElCampoCorreo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.036"/>
+  <testcase name="desactivarImpideEntrarYConservaAlUsuario()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.052"/>
+  <testcase name="unAdminSinElRolAdminNoAdministraNiLoRecuperaConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.096"/>
+  <testcase name="elAdminListaLosUsuariosConSusRoles()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.053"/>
+  <testcase name="noSePuedeDejarAUnUsuarioSinRoles()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.03"/>
+  <testcase name="elAdminCreaUnUsuarioConVariosRolesQueLuegoPuedeEntrar()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT" time="0.047"/>
+  <system-out><![CDATA[2026-10-20T09:53:03.543-05:00  INFO 25584 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT]: UsuarioControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-20T09:53:03.547-05:00  INFO 25584 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT
+2026-10-20T09:53:03.548-05:00  INFO 25584 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT]: UsuarioControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-20T09:53:03.551-05:00  INFO 25584 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

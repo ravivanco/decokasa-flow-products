@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { DialogoAccion } from './DialogoAccion';
 import { DialogoReasignar } from './DialogoReasignar';
 import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
-import { formatearFechaHora, mensajeDeErrorPedido } from './formato';
+import { formatearFecha, formatearFechaHora, mensajeDeErrorPedido } from './formato';
 import { HistorialPedido } from './HistorialPedido';
 import { LineaDeTiempo } from './LineaDeTiempo';
 import { PanelEtapa } from './PanelEtapa';
@@ -111,7 +111,7 @@ export function DetallePedido() {
           <Badge variant="outline" className="h-auto rounded-sm py-0.5 text-sm">
             {detalle.tipoFlujo === 'A' ? 'A · Ecuador' : 'B · China'}
           </Badge>
-          <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} />
+          <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} estadoPlazo={actual?.estadoPlazo} />
           {detalle.urgencia && (
             <DistintivoUrgencia nivel={detalle.urgencia.nivel} venceEn={detalle.urgencia.venceEn} />
           )}
@@ -131,6 +131,21 @@ export function DetallePedido() {
           {detalle.incluyeProductosNuevos ? ' · incluye productos nuevos' : ''} · versión {detalle.versionFlujo} del flujo
         </p>
       </header>
+
+      {detalle.tipoFlujo === 'A' && <section aria-label="Llegada y bodega" className="flex flex-col gap-4 rounded-lg border bg-card p-4 sm:p-6">
+        <dl className="grid gap-4 text-sm sm:grid-cols-2">
+          <div className="flex flex-col gap-1"><dt className="text-muted-foreground">Llegada a aduana confirmada</dt>
+            <dd className="font-medium tabular-nums">{detalle.llegadaAduanaEn ? formatearFechaHora(detalle.llegadaAduanaEn) : 'Sin llegada confirmada'}</dd></div>
+          <div className="flex flex-col gap-1"><dt className="text-muted-foreground">Bodega asignada</dt>
+            <dd className="font-medium">{detalle.bodega ? `${detalle.bodega.nombre} · ${detalle.bodega.ciudad}${detalle.bodega.activa ? '' : ' · inactiva para nuevas asignaciones'}` : 'Sin bodega asignada'}</dd></div>
+        </dl>
+        {detalle.demoraAduana && <Alert role="note"><AlertDescription className="flex flex-col gap-2">
+          <p className="font-medium">Última demora · llegada estimada {formatearFecha(detalle.demoraAduana.nuevaFechaEstimadaLlegada)}</p>
+          <p className="max-w-prose whitespace-pre-wrap">{detalle.demoraAduana.motivo}</p>
+          <p className="text-sm">Reportada por {detalle.demoraAduana.reportadaPor.nombre} · {formatearFechaHora(detalle.demoraAduana.reportadaEn)} (Ecuador). La estimación no sustituye el plazo pendiente.</p>
+        </AlertDescription></Alert>}
+        {detalle.finalizado && <Alert role="note"><AlertDescription>Pedido finalizado por el servidor. Fin es automático y no admite acciones manuales.</AlertDescription></Alert>}
+      </section>}
 
       {flujo.isError && (
         <Alert>
@@ -163,7 +178,7 @@ export function DetallePedido() {
           onReasignar={() => setReasignando(true)}
         />
         <aside className="rounded-lg border bg-card p-6 shadow-sm">
-          <HistorialPedido pedidoId={detalle.id} tipoFlujo={detalle.tipoFlujo} personas={personas} />
+          <HistorialPedido pedidoId={detalle.id} tipoFlujo={detalle.tipoFlujo} personas={personas} bodega={detalle.bodega} />
         </aside>
       </div>
 
@@ -175,6 +190,8 @@ export function DetallePedido() {
           accion={accion.accion}
           etapaEsperada={accion.etapaEsperada}
           adjuntos={accion.adjuntos}
+          registraLlegada={accion.accion.accion === 'APROBAR' && Boolean(flujo.data?.etapas.find((e) => e.numero === accion.etapaEsperada)?.registraLlegada)}
+          destinoAutomatico={accion.accion.etapaDestino !== null && automaticas.has(accion.accion.etapaDestino)}
           onCerrar={() => setAccion(null)}
         />
       )}

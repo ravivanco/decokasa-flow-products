@@ -1,0 +1,23 @@
+{
+  "alcance": "Revision estatica de entrega 4.6; no es prueba de comportamiento ni compilacion",
+  "frontend_publicados": 15,
+  "plan_actualizado": true,
+  "cambios_ajenos_a_lista_permitida": [],
+  "header_conservado": true,
+  "backend_y_pruebas_conservados": true,
+  "indice_conservado": true,
+  "design_y_paquetes_conservados": true,
+  "patrones_de_secreto_detectados": 0,
+  "limite_revision_secretos": "Patrones acotados en archivos de esta entrega; no certifica ausencia absoluta.",
+  "impeccable_detect": {
+    "exit_code": 0,
+    "resultado": []
+  },
+  "diff_check": {
+    "exit_code": 0,
+    "avisos": "LF sera reemplazado por CRLF en api/pedidos.ts, Sidebar.tsx y rutas.tsx; sin normalizar archivos."
+  },
+  "pruebas_builds_migraciones_ejecutados": false,
+  "google_real": false,
+  "fase_abierta": true
+}

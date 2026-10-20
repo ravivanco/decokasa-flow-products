@@ -51,6 +51,9 @@ public final class DefinicionFlujo implements ContratoDeFlujo {
                 exigirEtapa(etapa.revisaEtapa());
             }
         }
+        if (this.etapas.stream().filter(DefinicionEtapa::registraLlegada).count() > 1) {
+            throw new DatoInvalido("Un flujo tiene como máximo una etapa de llegada (ADR-0018).");
+        }
         for (TransicionPermitida transicion : this.transiciones) {
             exigirEtapa(transicion.etapaOrigen());
             if (transicion.etapaDestino() != null) {

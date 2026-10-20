@@ -25,10 +25,32 @@ public interface ResolverTransicion {
      * @param plazoDestino plazo de la etapa de destino; nulo si no hay destino
      * @param destinoEsRetornoDeUrgencia al entrar en el destino termina la urgencia (A4 / B5)
      * @param rolResponsableOrigen rol responsable de la etapa de origen; nulo si la etapa es automática (S-1)
+     * @param origenRegistraLlegada la etapa de origen es la de llegada a aduana (ADR-0018, marca de los datos)
+     * @param destinoEsAutomatico al entrar se completa Fin y se cierra el pedido, sin acción manual
      */
     record Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
             Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
-            CodigoRol rolResponsableOrigen) {
+            CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico) {
+
+        /** Compatibilidad con resoluciones anteriores al cierre automático. */
+        public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
+                CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada) {
+            this(etapaOrigen, accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega,
+                    documentosPendientes, documentosObligatorios, plazoDestino, destinoEsRetornoDeUrgencia,
+                    rolResponsableOrigen, origenRegistraLlegada, false);
+        }
+
+        /** Desde una etapa que no es la de llegada a aduana. */
+        public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
+                CodigoRol rolResponsableOrigen) {
+            this(etapaOrigen, accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega,
+                    documentosPendientes, documentosObligatorios, plazoDestino, destinoEsRetornoDeUrgencia,
+                    rolResponsableOrigen, false);
+        }
     }
 }

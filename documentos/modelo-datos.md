@@ -238,20 +238,21 @@ Ver la sección 5 sobre cómo se numera.
 | `etapa_actual` | `smallint` | NOT NULL | Copia de la etapa en estado ACTUAL, para listar y filtrar sin unir tablas |
 | `finalizado` | `boolean` | NOT NULL DEFAULT false | |
 | `finalizado_en` | `timestamptz` | NULL | |
-| `bodega_id` | `uuid` | NULL, FK → `bodega` | Elegida en A9 / B10. **No está en V2:** se agrega en la fase 4 con `bodega` (S-3) |
+| `bodega_id` | `uuid` | NULL, FK → `bodega` | Elegida en A9 / B10. **Agregada en V9 (fase 4, paso 4.1).** Un trigger impide asignar una bodega inactiva; desactivarla no cambia los pedidos que ya la tienen. **F4-D2 (provisional del equipo, 2026-10-19):** se asigna solo con el APROBAR de A9, una sola vez. **V12** reemplaza la función del trigger: SQLSTATE propio `UB001` (bodega inexistente o inactiva, que la aplicación traduce a 400 en `bodegaId`) y `UB002` (una bodega asignada no se cambia ni se quita) |
+| `llegada_aduana_en` | `timestamptz` | NULL, `CHECK (>= creado_en)` | **V9:** momento del check de A7 (llegada a aduana), con la hora del servidor. No es la fecha estimada de una demora |
 | `urgencia_nivel` | `text` | NULL, `CHECK (IN ('URGENTE','PRIORITARIO','NORMAL'))` | Urgencia activa (requisito 4.2 #11) |
 | `urgencia_activada_en` | `timestamptz` | NULL | |
 | `urgencia_vence_en` | `timestamptz` | NULL | Vencimiento propio, hasta volver a A4 / B5 |
-| `demora_motivo` | `text` | NULL | Última demora en aduana. **Las cuatro columnas `demora_*` no están en V2:** se agregan en la fase 4 (S-3) |
-| `demora_nueva_fecha_llegada` | `date` | NULL | ⏸ La escribe David o la calcula el sistema |
-| `demora_reportada_por` | `uuid` | NULL, FK → `usuario` | |
-| `demora_reportada_en` | `timestamptz` | NULL | |
+| `demora_motivo` | `text` | NULL, `CHECK` 1–4000 caracteres | **V10:** demora vigente en aduana (la última; las anteriores están en el historial como `DEMORA_REPORTADA`). F4-D5, provisional del equipo, pendiente de confirmación del cliente |
+| `demora_nueva_fecha_llegada` | `date` | NULL, `CHECK` día de lunes a viernes y no anterior al día del reporte en Ecuador | **V10:** fecha efectiva (si la solicitada caía en fin de semana, el lunes siguiente). Es una estimación, no un vencimiento: A7 sigue con plazo `PENDIENTE`. Es el dato de partida del cronograma de la fase 5 (recálculo todavía no implementado). ⏸ Quién la escribe: provisionalmente quien actúa en A7 |
+| `demora_reportada_por` | `uuid` | NULL, FK → `usuario` (sin cascada), índice parcial | **V10** |
+| `demora_reportada_en` | `timestamptz` | NULL, `CHECK (>= creado_en)` | **V10:** hora del servidor |
 | `actualizado_en` | `timestamptz` | NOT NULL | |
 | `version` | `bigint` | NOT NULL | Bloqueo optimista |
 
 Restricciones adicionales:
 - `CHECK` de urgencia completa: las tres columnas de urgencia son nulas a la vez o tienen valor a la vez.
-- `CHECK` de demora completa: igual con las cuatro columnas de demora (fase 4, junto con las columnas).
+- `CHECK` de demora completa (`pedido_demora_completa`, V10): las cuatro columnas de demora son nulas a la vez o tienen valor a la vez.
 - `CHECK (finalizado = (finalizado_en IS NOT NULL))`.
 - En V2, además: longitud de `numero`; `incluye_productos_nuevos` solo en el flujo A; `urgencia_vence_en > urgencia_activada_en`.
 - **Trigger aprobado por el equipo (2026-10-15), en V2:** `BEFORE UPDATE OR DELETE` rechaza cambios en `numero`, `pais_codigo`, `tipo_flujo` y `flujo_id`, y rechaza borrar un pedido (su número no queda libre). El dominio aplica la misma regla.
@@ -293,7 +294,8 @@ Restricciones adicionales:
 | `ocurrido_en` | `timestamptz` | NOT NULL | Hora del servidor (R5) |
 | `observacion` | `text` | NULL, `CHECK (char_length(observacion) <= 4000)` | |
 | `nivel_urgencia` | `text` | NULL | |
-| `datos` | `jsonb` | NULL | **[P]** Detalle adicional según el tipo: etapa de destino, fecha de demora, bodega |
+| `secuencia` | `bigint` | NULL en eventos anteriores a V13; `DEFAULT nextval('evento_pedido_secuencia')`, `CHECK (secuencia IS NOT NULL) NOT VALID`, único | **V13 (F4-H01):** orden de inserción que asigna la base; desempata eventos con la misma hora en el orden en que el dominio los emite. No se expone en la API |
+| `datos` | `jsonb` | NULL | **[P]** Detalle adicional según el tipo: etapa de destino, bodega. En `DEMORA_REPORTADA` (paso 4.3): `fechaEstimadaAnterior` (si había), `fechaEstimadaSolicitada` (solo si es distinta de la guardada) y `nuevaFechaEstimadaLlegada`, en ISO |
 
 En V2, además: `usuario_id` nulo solo en `PLAZO_VENCIDO` y `PEDIDO_FINALIZADO`; `rol_codigo` existe si y solo si existe `usuario_id`; `nivel_urgencia` con los tres valores.
 
@@ -338,7 +340,7 @@ En V2, además: `usuario_id` nulo solo en `PLAZO_VENCIDO` y `PEDIDO_FINALIZADO`;
 - `CHECK (clave_local IS NOT NULL OR drive_id IS NOT NULL)`: solo acredita la referencia de almacenamiento, no que el archivo exista; la aplicación comprueba tamaño (al usarlo en una acción) y tamaño y huella (al descargarlo).
 - Un adjunto no se borra (trigger).
 
-**`entrada_etapa`** (V3): `id`, `pedido_id`, `etapa`, `entrada_en`. Una fila por cada entrada o reentrada a una etapa; solo inserción (triggers). `etapa_pedido.entrada_id` apunta a la entrada actual: FK compuesta y diferible `(entrada_id, pedido_id, numero)` → `entrada_etapa (id, pedido_id, etapa)` (la entrada es del mismo pedido y de la misma etapa), índice único y `CHECK ((entrada_id IS NULL) = (entrada_en IS NULL))`, agregado después de completar los datos anteriores a V3. El CHECK protege frente a escrituras directas, que el dominio no controla; la aplicación escribe las dos columnas en la misma sentencia. **`definicion_etapa.revisa_etapa`** (V3): etapa cuyos archivos revisa; en el flujo A v1 solo A3 revisa A2 (P-17, provisional del equipo).
+**`entrada_etapa`** (V3): `id`, `pedido_id`, `etapa`, `entrada_en`. Una fila por cada entrada o reentrada a una etapa; solo inserción (triggers). `etapa_pedido.entrada_id` apunta a la entrada actual: FK compuesta y diferible `(entrada_id, pedido_id, numero)` → `entrada_etapa (id, pedido_id, etapa)` (la entrada es del mismo pedido y de la misma etapa), índice único y `CHECK ((entrada_id IS NULL) = (entrada_en IS NULL))`, agregado después de completar los datos anteriores a V3. El CHECK protege frente a escrituras directas, que el dominio no controla; la aplicación escribe las dos columnas en la misma sentencia. **`definicion_etapa.revisa_etapa`** (V3): etapa cuyos archivos revisa; en el flujo A v1 solo A3 revisa A2 (P-17, provisional del equipo). **`definicion_etapa.registra_llegada`** (V11, ADR-0018, decisión del equipo): `boolean NOT NULL DEFAULT false`; etapa de llegada a aduana, cuyo APROBAR guarda `pedido.llegada_aduana_en`. `CHECK` que no sea automática e índice único parcial por `flujo_id` (como máximo una por versión de flujo). En el flujo A v1 solo A7.
 
 ### 3.6 Notificaciones (módulo `notificaciones`)
 
@@ -363,7 +365,7 @@ La tarea de envío toma lotes con `SELECT … FOR UPDATE SKIP LOCKED`, así dos 
 
 ### 3.7 Bodegas y plazos (módulos `bodegas` y `plazos`)
 
-**`bodega`**: `id` uuid PK; `nombre` text NOT NULL; `ciudad` text NOT NULL; `activa` boolean NOT NULL DEFAULT true; `creada_en` timestamptz; `version` bigint. Índice único `lower(nombre)`. Carga inicial: Quito, Guayaquil e Ibarra.
+**`bodega`** (**implementada en V9, fase 4, paso 4.1**): `id` uuid PK; `nombre` text NOT NULL y `ciudad` text NOT NULL, de 1 a 100 caracteres y sin espacios sobrantes; `activa` boolean NOT NULL DEFAULT true; `creada_en` y `actualizada_en` timestamptz; `version` bigint (bloqueo optimista). Índice único `lower(nombre)`. Sin borrado físico (trigger): se desactiva. Carga inicial: Quito, Guayaquil e Ibarra, activas, con el nombre igual a la ciudad. **F4-D1, provisional del equipo (2026-10-19), no confirmada por el cliente:** la mantienen Logística y admin, con roles y estado vigentes comprobados en el servidor.
 
 **`configuracion_plazos`**: una sola fila (`id smallint PK CHECK (id = 1)`); `meta_dias` integer NOT NULL `CHECK (> 0)`; `actualizado_en`; `actualizado_por` FK → `usuario`. ⏸ Valor provisional 90.
 

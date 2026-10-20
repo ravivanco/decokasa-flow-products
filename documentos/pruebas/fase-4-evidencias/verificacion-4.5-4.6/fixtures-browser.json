@@ -1,0 +1,411 @@
+{
+  "admin": {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "nombre": "Admin Prueba",
+    "correo": "admin@ejemplo.test",
+    "usuario": "adminprueba",
+    "telefono": "+593990000010",
+    "roles": [
+      "admin"
+    ],
+    "paises": [
+      "EC"
+    ],
+    "activo": true,
+    "version": 0
+  },
+  "ana": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "nombre": "Ana Prueba",
+    "correo": "ana@ejemplo.test",
+    "usuario": "anaprueba",
+    "telefono": "+593990000001",
+    "roles": [
+      "compras_china",
+      "logistica"
+    ],
+    "paises": [
+      "EC"
+    ],
+    "activo": true,
+    "version": 0
+  },
+  "mario": {
+    "id": "00000000-0000-4000-8000-000000000011",
+    "nombre": "Mario Prueba",
+    "correo": "mario@ejemplo.test",
+    "usuario": "marioprueba",
+    "telefono": "+593990000011",
+    "roles": [
+      "marketing"
+    ],
+    "paises": [
+      "EC"
+    ],
+    "activo": true,
+    "version": 0
+  },
+  "flujo": {
+    "pais": "EC",
+    "tipoFlujo": "A",
+    "version": 1,
+    "etapas": [
+      {
+        "numero": 1,
+        "nombre": "Crear solicitud de pedido",
+        "rolResponsable": "admin",
+        "estadoPlazo": "SIN_PLAZO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 2,
+        "nombre": "Codificación",
+        "rolResponsable": "marketing",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 3,
+        "nombre": "Revisión y aprobación",
+        "rolResponsable": "asistente_compras",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": 2,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 4,
+        "nombre": "Análisis y gestión",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 5,
+        "nombre": "Fabricación",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 6,
+        "nombre": "Embarque",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 7,
+        "nombre": "Aduana",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": true
+      },
+      {
+        "numero": 8,
+        "nombre": "Autorización de salida",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 9,
+        "nombre": "Bodega",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 10,
+        "nombre": "Incidencias",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "PENDIENTE",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": false,
+        "registraLlegada": false
+      },
+      {
+        "numero": 11,
+        "nombre": "Fin",
+        "rolResponsable": null,
+        "estadoPlazo": "SIN_PLAZO",
+        "revisaEtapa": null,
+        "plazo": null,
+        "acciones": [],
+        "automatica": true,
+        "registraLlegada": false
+      }
+    ]
+  },
+  "detalle": {
+    "id": "0193f0a0-0000-7000-8000-000000000001",
+    "numero": "DK-EC-2026-0001",
+    "nombre": "Pedido ficticio de lámparas",
+    "pais": "EC",
+    "tipoFlujo": "A",
+    "etapaActual": 2,
+    "nombreEtapaActual": "Codificación",
+    "responsableActual": null,
+    "venceEn": "2026-10-20T16:00:00-05:00",
+    "vencida": false,
+    "motivoRetraso": null,
+    "urgencia": null,
+    "finalizado": false,
+    "descripcion": "Descripción ficticia",
+    "incluyeProductosNuevos": false,
+    "creadoPor": {
+      "id": "00000000-0000-4000-8000-000000000010",
+      "nombre": "Admin Prueba",
+      "roles": [
+        "admin"
+      ]
+    },
+    "creadoEn": "2026-10-14T09:00:00-05:00",
+    "versionFlujo": 1,
+    "bodega": null,
+    "demoraAduana": null,
+    "lineaDeTiempo": [
+      {
+        "numero": 1,
+        "nombre": "Crear solicitud de pedido",
+        "estado": "COMPLETADA",
+        "rolResponsable": "admin",
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "0193f0a0-0000-7000-9000-000000000100",
+        "entrada": "2026-10-15T09:00:00-05:00",
+        "salida": "2026-10-15T10:00:00-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 2,
+        "nombre": "Codificación",
+        "estado": "ACTUAL",
+        "rolResponsable": "marketing",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "0193f0a0-0000-7000-9000-000000000200",
+        "entrada": "2026-10-15T09:00:00-05:00",
+        "salida": null,
+        "venceEn": "2026-10-20T16:00:00-05:00",
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 3,
+        "nombre": "Revisión y aprobación",
+        "estado": "PENDIENTE",
+        "rolResponsable": "asistente_compras",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 4,
+        "nombre": "Análisis y gestión",
+        "estado": "PENDIENTE",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 5,
+        "nombre": "Fabricación",
+        "estado": "PENDIENTE",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 6,
+        "nombre": "Embarque",
+        "estado": "PENDIENTE",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 7,
+        "nombre": "Tránsito",
+        "estado": "PENDIENTE",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 8,
+        "nombre": "Aduana",
+        "estado": "PENDIENTE",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 9,
+        "nombre": "Bodega",
+        "estado": "PENDIENTE",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 10,
+        "nombre": "Recepción",
+        "estado": "PENDIENTE",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      },
+      {
+        "numero": 11,
+        "nombre": "Fin",
+        "estado": "PENDIENTE",
+        "rolResponsable": null,
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": null,
+        "entrada": null,
+        "salida": null,
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      }
+    ],
+    "accionesDisponibles": [
+      {
+        "accion": "ENVIAR",
+        "etapaDestino": 3,
+        "requiereObservacion": false,
+        "requiereUrgencia": false,
+        "requisitosDocumentales": "DEFINIDOS",
+        "documentosObligatorios": [
+          "Documentos codificados"
+        ],
+        "documentosFaltantes": [],
+        "puedeCompletarse": true
+      }
+    ]
+  },
+  "adjunto": {
+    "id": "00000000-0000-4000-8000-000000000091",
+    "pedidoId": "0193f0a0-0000-7000-8000-000000000001",
+    "etapa": 2,
+    "entradaId": "0193f0a0-0000-7000-9000-000000000200",
+    "eventoId": null,
+    "nombre": "ficticio.bin",
+    "tipoDocumento": "Documentos codificados",
+    "tamanoBytes": 2048,
+    "subidoPor": {
+      "id": "00000000-0000-4000-8000-000000000010",
+      "nombre": "Admin Prueba",
+      "roles": [
+        "admin"
+      ]
+    },
+    "subidoEn": "2026-10-15T09:30:00-05:00",
+    "estadoCopia": "PENDIENTE"
+  },
+  "bodega": {
+    "id": "00000000-0000-4000-8000-000000000077",
+    "nombre": "Bodega ficticia F4",
+    "ciudad": "Ciudad ficticia",
+    "activa": true,
+    "version": 0
+  }
+}

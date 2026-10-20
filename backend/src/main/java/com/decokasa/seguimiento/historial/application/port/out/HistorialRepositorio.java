@@ -12,6 +12,9 @@ public interface HistorialRepositorio {
 
     void insertar(EventoPedido evento);
 
-    /** Eventos del pedido del más antiguo al más reciente. Lo usará la consulta del historial (paso 2.4). */
+    /**
+     * Eventos del pedido del más antiguo al más reciente, en orden de inserción: hora y, en empate, la secuencia que
+     * asigna la base (F4-H01). Lo usan la consulta del historial y el resumen de etapas.
+     */
     List<EventoPedido> listarPorPedido(UUID pedidoId);
 }

@@ -27,9 +27,10 @@ public interface DescribirFlujo {
     /**
      * @param rolResponsable nulo solo en etapas automáticas
      * @param revisaEtapa etapa cuyos archivos revisa (P-17); nula si ninguna
+     * @param registraLlegada etapa de llegada a aduana (ADR-0018)
      */
     record Etapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo, Integer revisaEtapa,
-            boolean automatica, List<Accion> acciones) {
+            boolean automatica, boolean registraLlegada, List<Accion> acciones) {
     }
 
     /** @param documentosPendientes el cliente no definió los documentos de la acción */

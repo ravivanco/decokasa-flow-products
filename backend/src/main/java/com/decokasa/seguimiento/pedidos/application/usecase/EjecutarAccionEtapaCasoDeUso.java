@@ -1,8 +1,10 @@
 package com.decokasa.seguimiento.pedidos.application.usecase;
 
 import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosParaAccion;
+import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegaActiva;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.EtapaCambio;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
@@ -20,6 +22,8 @@ import com.decokasa.seguimiento.pedidos.domain.PermisosEtapa;
 import com.decokasa.seguimiento.pedidos.domain.ReglaDeTransicion;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
+import java.time.Instant;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -39,16 +43,28 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
     private final Reloj reloj;
     private final ApoyoPedidos apoyo;
     private final ValidarAdjuntosParaAccion adjuntos;
+    private final ConsultarBodegaActiva bodegas;
 
+    /** @param bodegas bodegas activas (F4-D2): la bodega elegida al aprobar Bodega debe existir y estar activa */
     public EjecutarAccionEtapaCasoDeUso(PedidoRepositorio pedidos, ResolverTransicion transiciones,
             EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
-            PublicadorEventos publicador, Reloj reloj, ValidarAdjuntosParaAccion adjuntos) {
+            PublicadorEventos publicador, Reloj reloj, ValidarAdjuntosParaAccion adjuntos,
+            ConsultarBodegaActiva bodegas) {
         this.pedidos = pedidos;
         this.transiciones = transiciones;
         this.habilitadas = habilitadas;
         this.reloj = reloj;
         this.apoyo = new ApoyoPedidos(responsables, vencimientos, publicador);
         this.adjuntos = adjuntos;
+        this.bodegas = bodegas;
+    }
+
+    /** Sin módulo de bodegas: cualquier {@code bodegaId} se rechaza (400 en bodegaId); nunca se ignora. */
+    public EjecutarAccionEtapaCasoDeUso(PedidoRepositorio pedidos, ResolverTransicion transiciones,
+            EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj, ValidarAdjuntosParaAccion adjuntos) {
+        this(pedidos, transiciones, habilitadas, responsables, vencimientos, publicador, reloj, adjuntos,
+                bodegaId -> Optional.empty());
     }
 
     /** Sin módulo de archivos: cualquier {@code adjuntoIds} se rechaza (400); nunca se ignora. */
@@ -78,26 +94,50 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         ActorVigente actor = apoyo.solicitante(solicitante);
         ResolverTransicion.Resolucion resolucion = transiciones.resolver(pedido.flujoId(), pedido.etapaActual(),
                 comando.accion());
+        // ADR-0018: la etapa de llegada está marcada en la definición del flujo; su APROBAR es el check de llegada.
+        boolean registraLlegada = resolucion.origenRegistraLlegada() && resolucion.accion() == AccionEtapa.APROBAR
+                && resolucion.etapaDestino() != null && resolucion.etapaDestino() > resolucion.etapaOrigen();
         ReglaDeTransicion regla = new ReglaDeTransicion(resolucion.etapaOrigen(), resolucion.accion(),
                 resolucion.etapaDestino(), resolucion.requiereObservacion(), resolucion.requiereUrgencia(),
                 resolucion.requiereBodega(), resolucion.documentosPendientes(), resolucion.documentosObligatorios(),
-                resolucion.plazoDestino(), resolucion.destinoEsRetornoDeUrgencia(), resolucion.rolResponsableOrigen());
+                resolucion.plazoDestino(), resolucion.destinoEsRetornoDeUrgencia(), resolucion.rolResponsableOrigen(),
+                registraLlegada, resolucion.destinoEsAutomatico());
         Set<String> presentes = Set.of();
         if (!comando.adjuntoIds().isEmpty()) {
-            EtapaDePedido actual = pedido.etapas().stream()
-                    .filter(etapa -> etapa.numero() == pedido.etapaActual())
-                    .findFirst()
-                    .orElseThrow();
+            EtapaDePedido actual = etapaActual(pedido);
             // Antes de revisar archivos, el permiso: quien no puede actuar no aprende nada de los identificadores.
             PermisosEtapa.paraActuar(actual, resolucion.rolResponsableOrigen(), actor);
             presentes = adjuntos.tiposValidos(pedido.id(), pedido.etapaActual(), actual.entradaId(),
                     comando.adjuntoIds());
         }
+        // F4-D2: la bodega elegida debe existir y estar activa. Solo se consulta si la acción la usa y podría
+        // completarse; si no, el dominio responde antes (bodega no admitida o documentos pendientes, F4-D7). Primero el
+        // permiso, como con los archivos. El trigger de la base (V9, V12) es la última barrera ante una desactivación
+        // simultánea.
+        // Si el pedido ya tiene bodega no se consulta: el dominio responde 409 (se asigna una sola vez).
+        if (comando.bodegaId() != null && resolucion.requiereBodega() && !resolucion.documentosPendientes()
+                && habilitadas.incluye(pedido.etapaActual()) && pedido.bodegaId().isEmpty()) {
+            PermisosEtapa.paraActuar(etapaActual(pedido), resolucion.rolResponsableOrigen(), actor);
+            if (bodegas.activa(comando.bodegaId()).isEmpty()) {
+                throw new DatoInvalido("bodegaId", "La bodega no existe o está inactiva; elige una bodega activa.");
+            }
+        }
         AccionSolicitada solicitud = new AccionSolicitada(comando.accion(), comando.etapaEsperada(),
-                comando.observacion(), comando.nivelUrgencia(), presentes, comando.adjuntoIds());
-        pedido.ejecutar(solicitud, regla, habilitadas, actor, reloj.ahora(), apoyo.vencimientos());
+                comando.observacion(), comando.nivelUrgencia(), presentes, comando.adjuntoIds(),
+                comando.nuevaFechaEstimadaLlegada(), comando.bodegaId());
+        Instant ahora = reloj.ahora();
+        // Una sola lectura del reloj: la hora del evento y el "hoy" de la demora son del mismo instante.
+        pedido.ejecutar(solicitud, regla, habilitadas, actor, ahora, apoyo.vencimientos(),
+                ahora.atZone(reloj.zona()).toLocalDate());
         pedidos.actualizar(pedido);
         apoyo.publicarEventos(pedido);
         return pedido;
+    }
+
+    private static EtapaDePedido etapaActual(Pedido pedido) {
+        return pedido.etapas().stream()
+                .filter(etapa -> etapa.numero() == pedido.etapaActual())
+                .findFirst()
+                .orElseThrow();
     }
 }

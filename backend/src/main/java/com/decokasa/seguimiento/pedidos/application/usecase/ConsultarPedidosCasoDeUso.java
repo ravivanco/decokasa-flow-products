@@ -1,8 +1,10 @@
 package com.decokasa.seguimiento.pedidos.application.usecase;
 
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
+import com.decokasa.seguimiento.bodegas.application.port.in.DescribirBodega;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
@@ -18,6 +20,7 @@ import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarPedidos;
 import com.decokasa.seguimiento.pedidos.application.port.in.VistasDePedido;
 import com.decokasa.seguimiento.pedidos.application.port.out.ConsultaDePedidos;
 import com.decokasa.seguimiento.pedidos.domain.ActorVigente;
+import com.decokasa.seguimiento.pedidos.domain.DemoraAduana;
 import com.decokasa.seguimiento.pedidos.domain.EtapaDePedido;
 import com.decokasa.seguimiento.pedidos.domain.EtapasHabilitadas;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
@@ -53,11 +56,13 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     private final EtapasHabilitadas habilitadas;
     private final Reloj reloj;
     private final ApoyoPedidos apoyo;
+    private final DescribirBodega bodegas;
 
     public ConsultarPedidosCasoDeUso(ConsultaDePedidos consultas, ConsultarDefinicionFlujo flujos,
             ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos, ResumirUsuarios usuarios,
             EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
-            PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres) {
+            PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres, DescribirBodega bodegas) {
+        this.bodegas = bodegas;
         this.consultas = consultas;
         this.cierres = cierres;
         this.flujos = flujos;
@@ -142,9 +147,19 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
                     etapa.entradaId(), etapa.entradaEn(), etapa.salidaEn(), etapa.venceEn(), etapa.reentradas(),
                     ultimosCierres.get(definicion.numero())));
         }
+        VistasDePedido.Bodega bodega = pedido.bodegaId()
+                .flatMap(bodegas::describir)
+                .map(vista -> new VistasDePedido.Bodega(vista.id(), vista.nombre(), vista.ciudad(), vista.activa(),
+                        vista.version()))
+                .orElse(null);
+        DemoraAduana demora = pedido.demora().orElse(null);
+        VistasDePedido.Demora demoraAduana = demora == null ? null
+                : new VistasDePedido.Demora(persona(demora.reportadaPor(), personas), demora.reportadaEn(),
+                        demora.motivo(), demora.nuevaFechaEstimadaLlegada());
         return new VistasDePedido.Detalle(resumen(pedido, flujo, personas, ahora), pedido.descripcion(),
                 pedido.incluyeProductosNuevos(), persona(pedido.creadoPor(), personas), pedido.creadoEn(),
-                flujo.version(), List.copyOf(linea), accionesDisponibles(pedido, flujo, actor));
+                flujo.version(), bodega, demoraAduana, pedido.llegadaAduanaEn().orElse(null), List.copyOf(linea),
+                accionesDisponibles(pedido, flujo, actor));
     }
 
     private VistasDePedido.Resumen resumen(Pedido pedido, ContratoDeFlujo flujo,
@@ -181,11 +196,14 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         for (ResolverTransicion.Resolucion resolucion : acciones.accionesDe(pedido.flujoId(), pedido.etapaActual())) {
             List<String> obligatorios = resolucion.documentosObligatorios().stream().sorted().toList();
             List<String> faltantes = obligatorios.stream().filter(tipo -> !subidos.contains(tipo)).toList();
-            boolean puedeCompletarse = !resolucion.documentosPendientes() && resolucion.etapaDestino() != null
-                    && !resolucion.requiereBodega() && faltantes.isEmpty();
+            // REPORTAR_DEMORA no mueve el pedido y sí está implementada (F4-D5); ELEGIR_BODEGA no se usa (F4-D2). La
+            // bodega, como la observación, se envía con la acción y no cuenta aquí.
+            boolean implementada = resolucion.etapaDestino() != null
+                    || resolucion.accion() == AccionEtapa.REPORTAR_DEMORA;
+            boolean puedeCompletarse = !resolucion.documentosPendientes() && implementada && faltantes.isEmpty();
             lista.add(new VistasDePedido.AccionDisponible(resolucion.accion(), resolucion.etapaDestino(),
-                    resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.documentosPendientes(),
-                    obligatorios, faltantes, puedeCompletarse));
+                    resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.requiereBodega(),
+                    resolucion.documentosPendientes(), obligatorios, faltantes, puedeCompletarse));
         }
         return List.copyOf(lista);
     }
@@ -198,6 +216,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         Set<UUID> ids = new HashSet<>();
         for (Pedido pedido : pedidos) {
             ids.add(pedido.creadoPor());
+            pedido.demora().ifPresent(demora -> ids.add(demora.reportadaPor()));
             for (EtapaDePedido etapa : pedido.etapas()) {
                 if (etapa.asignadoA() != null) {
                     ids.add(etapa.asignadoA());

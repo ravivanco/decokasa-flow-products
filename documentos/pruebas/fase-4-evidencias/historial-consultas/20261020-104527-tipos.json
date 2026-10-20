@@ -1,0 +1,8 @@
+﻿{
+    "coberturaEjecutada":  false,
+    "fecha":  "20261020-104527",
+    "comando":  "npm.cmd run lint",
+    "googleReal":  false,
+    "salida":  0,
+    "backendEjecutado":  false
+}

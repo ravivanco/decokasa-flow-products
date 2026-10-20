@@ -8,6 +8,7 @@ import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.historial.application.port.in.ResumirEtapasDePedido;
 import com.decokasa.seguimiento.pedidos.domain.EstadoEtapa;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -48,15 +49,35 @@ public final class VistasDePedido {
             Instant salida, Instant venceEn, int reentradas, ResumirEtapasDePedido.Cierre ultimoCierre) {
     }
 
-    /** @param documentosPendientes el cliente no definió los documentos (S-2): no se puede completar */
+    /**
+     * @param requiereBodega la acción se envía con {@code bodegaId} (APROBAR de Bodega, F4-D2)
+     * @param documentosPendientes el cliente no definió los documentos (S-2): no se puede completar
+     */
     public record AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
-            boolean requiereUrgencia, boolean documentosPendientes, List<String> documentosObligatorios,
-            List<String> documentosFaltantes, boolean puedeCompletarse) {
+            boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
     }
 
+    /** Esquema Bodega del contrato: la bodega asignada, aunque después se haya desactivado (F4-D1). */
+    public record Bodega(UUID id, String nombre, String ciudad, boolean activa, long version) {
+    }
+
+    /**
+     * Demora vigente en aduana (F4-D5, provisional). La fecha es una estimación, no un vencimiento; es el dato que usará
+     * el cronograma de la fase 5 para recalcular las etapas siguientes (todavía no implementado).
+     */
+    public record Demora(Persona reportadaPor, Instant reportadaEn, String motivo,
+            LocalDate nuevaFechaEstimadaLlegada) {
+    }
+
+    /**
+     * @param bodega bodega de destino; nula hasta aprobar Bodega (F4-D2)
+     * @param demoraAduana nula si no se reportó ninguna demora
+     * @param llegadaAduanaEn check de llegada de A7; nulo si todavía no llegó
+     */
     public record Detalle(Resumen resumen, String descripcion, boolean incluyeProductosNuevos, Persona creadoPor,
-            Instant creadoEn, int versionFlujo, List<Etapa> lineaDeTiempo,
-            List<AccionDisponible> accionesDisponibles) {
+            Instant creadoEn, int versionFlujo, Bodega bodega, Demora demoraAduana, Instant llegadaAduanaEn,
+            List<Etapa> lineaDeTiempo, List<AccionDisponible> accionesDisponibles) {
     }
 
     public record Pagina(List<Resumen> elementos, int pagina, int tamano, long total) {

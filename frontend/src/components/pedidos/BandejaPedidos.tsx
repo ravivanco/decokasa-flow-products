@@ -5,11 +5,12 @@ import { type PedidoResumen, useBandeja, useDefinicionFlujo } from '@/api/pedido
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { codigoEtapa, mensajeDeErrorPedido, nombreRol } from './formato';
 import { Paginacion, TablaPedidos } from './TablaPedidos';
 
 // Bandeja de trabajo (P-06; requisitos 4.2 #2 y 4.3): lo que la persona puede atender ahora, agrupado por etapa. Así
-// Marketing ve Codificación (A2), Asistente de compras ve Revisión (A3) y Compras China ve Análisis (A4); con varios
+// Compras China ve Análisis, Fabricación, Embarque y Aduana; Logística, Salida, Bodega e Incidencias. Con varios
 // roles se ven varias secciones, y el admin ve todo lo que está en curso. El servidor decide qué entra en la bandeja.
 
 export function BandejaPedidos() {
@@ -20,6 +21,9 @@ export function BandejaPedidos() {
 
   const grupos = agrupar(bandeja.data?.elementos ?? []);
   const definicionDe = (numero: number) => flujo.data?.etapas.find((etapa) => etapa.numero === numero);
+  const documentacionPendiente = flujo.data?.etapas.filter((etapa) =>
+    (esAdmin(usuario) || (etapa.rolResponsable !== null && usuario.roles.includes(etapa.rolResponsable)))
+    && etapa.acciones.some((accion) => accion.requisitosDocumentales === 'PENDIENTES')) ?? [];
 
   return (
     <section className="flex flex-col gap-6">
@@ -31,6 +35,13 @@ export function BandejaPedidos() {
             : 'Pedidos cuya etapa actual te corresponde: asignada a ti o, sin persona asignada, a uno de tus roles.'}
         </p>
       </div>
+
+      {documentacionPendiente.length > 0 && <Alert role="note">
+        <AlertTitle>Requisitos documentales pendientes en la definición vigente</AlertTitle>
+        <AlertDescription>{documentacionPendiente.map((e) => `${codigoEtapa('A', e.numero)} · ${e.nombre}`).join('; ')}.
+          {' '}Estas etapas no pueden confirmarse hasta definir sus documentos. Los permisos y el estado de cada pedido los decide el servidor.
+        </AlertDescription>
+      </Alert>}
 
       {bandeja.isPending ? (
         <div className="flex flex-col gap-3" aria-busy="true" aria-label="Cargando la bandeja">
@@ -57,7 +68,7 @@ export function BandejaPedidos() {
       ) : (
         grupos.map(([numero, pedidos]) => {
           const definicion = definicionDe(numero);
-          const encabezado = `${codigoEtapa('A', numero)} · ${definicion?.nombre ?? pedidos[0].nombreEtapaActual}`;
+          const encabezado = `${codigoEtapa(pedidos[0].tipoFlujo, numero)} · ${pedidos[0].nombreEtapaActual}`;
           return (
             <section key={numero} aria-labelledby={`bandeja-etapa-${numero}`} className="flex flex-col gap-3">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">

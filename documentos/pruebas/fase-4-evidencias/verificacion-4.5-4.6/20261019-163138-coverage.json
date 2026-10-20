@@ -1,0 +1,7 @@
+﻿{
+    "comando":  "npm.cmd run coverage -- --maxWorkers=2 --coverage.include=src/**/*.{ts,tsx} --coverage.reporter=text --coverage.reporter=json --coverage.reporter=json-summary --coverage.reporter=html",
+    "fecha":  "20261019-163138",
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-f4b-a22b9c69d2b94bec94e671600f84398e",
+    "googleReal":  false,
+    "salida":  0
+}

@@ -1,5 +1,5 @@
 import { ArrowUpIcon, CircleAlertIcon, CircleCheckIcon, CircleMinusIcon, ClockIcon, FlagIcon, ZapIcon } from 'lucide-react';
-import type { NivelUrgencia } from '@/api/pedidos';
+import type { EstadoPlazo, NivelUrgencia } from '@/api/pedidos';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { formatearFechaHora, HORAS_URGENCIA, NOMBRE_URGENCIA } from './formato';
@@ -42,10 +42,12 @@ export function DistintivoVencimiento({
   venceEn,
   vencida,
   finalizado,
+  estadoPlazo,
 }: {
   venceEn: string | null | undefined;
   vencida: boolean;
   finalizado: boolean;
+  estadoPlazo?: EstadoPlazo;
 }) {
   if (finalizado) {
     return (
@@ -54,6 +56,9 @@ export function DistintivoVencimiento({
         Finalizado
       </Badge>
     );
+  }
+  if (estadoPlazo === 'PENDIENTE') {
+    return <Badge variant="outline" className={cn(BASE, TONOS.aviso)}><ClockIcon aria-hidden="true" />Plazo pendiente del cliente</Badge>;
   }
   if (vencida) {
     return (

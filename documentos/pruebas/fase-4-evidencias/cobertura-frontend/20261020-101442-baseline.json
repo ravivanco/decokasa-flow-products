@@ -1,0 +1,7 @@
+﻿{
+    "comando":  "npm.cmd run coverage -- --maxWorkers=2 --coverage.include=src/**/*.{ts,tsx} --coverage.reporter=text --coverage.reporter=json --coverage.reporter=json-summary",
+    "backendEjecutado":  false,
+    "fecha":  "20261020-101442",
+    "googleReal":  false,
+    "salida":  0
+}

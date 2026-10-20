@@ -1,0 +1,1188 @@
+{
+  "baseline": {
+    "casos": 56,
+    "fallos": 7,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "7",
+        "failures": "3",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": "40",
+        "failures": "2",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "1",
+        "failures": "1",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": "1",
+        "failures": "1",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "dirigido": {
+    "casos": 198,
+    "fallos": 0,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.archivos.HistorialSecuenciaH01IT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "97",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": "42",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "check_previo": {
+    "casos": 783,
+    "fallos": 1,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.AplicacionArrancaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CargasB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.HistorialSecuenciaH01IT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+        "tests": "5",
+        "failures": "1",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": "48",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+        "tests": "24",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "97",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+        "tests": "21",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+        "tests": "20",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": "42",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V3MigracionIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "check": {
+    "casos": 783,
+    "fallos": 0,
+    "errores": 0,
+    "omitidos": 0,
+    "suites": [
+      {
+        "name": "com.decokasa.seguimiento.AplicacionArrancaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+        "tests": "14",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CargasB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+        "tests": "23",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+        "tests": "19",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.HistorialSecuenciaH01IT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": "40",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": "48",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+        "tests": "24",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": "97",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+        "tests": "21",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+        "tests": "11",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+        "tests": "20",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": "42",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.decokasa.seguimiento.V3MigracionIT",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "check_metadatos": "20261020-095818-check.json",
+  "jacoco_sessioninfo": [
+    {
+      "id": "DESKTOP-GKF6IVL-2e5a8398",
+      "start": "1792508309196",
+      "dump": "1792508567054"
+    }
+  ],
+  "cobertura_global": {
+    "INSTRUCTION": {
+      "covered": 27999,
+      "missed": 3133,
+      "pct": 89.9363998458178
+    },
+    "BRANCH": {
+      "covered": 1807,
+      "missed": 701,
+      "pct": 72.0494417862839
+    },
+    "LINE": {
+      "covered": 4704,
+      "missed": 466,
+      "pct": 90.98646034816248
+    },
+    "COMPLEXITY": {
+      "covered": 2034,
+      "missed": 795,
+      "pct": 71.89819724284199
+    },
+    "METHOD": {
+      "covered": 1396,
+      "missed": 162,
+      "pct": 89.60205391527599
+    },
+    "CLASS": {
+      "covered": 348,
+      "missed": 9,
+      "pct": 97.47899159663865
+    }
+  },
+  "cobertura_modulos": {
+    "historial": {
+      "INSTRUCTION": {
+        "covered": 1716,
+        "missed": 90,
+        "pct": 95.01661129568106
+      },
+      "BRANCH": {
+        "covered": 100,
+        "missed": 16,
+        "pct": 86.20689655172414
+      },
+      "LINE": {
+        "covered": 319,
+        "missed": 8,
+        "pct": 97.55351681957187
+      },
+      "COMPLEXITY": {
+        "covered": 127,
+        "missed": 17,
+        "pct": 88.19444444444444
+      },
+      "METHOD": {
+        "covered": 76,
+        "missed": 4,
+        "pct": 95.0
+      },
+      "CLASS": {
+        "covered": 21,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "pedidos": {
+      "INSTRUCTION": {
+        "covered": 6632,
+        "missed": 488,
+        "pct": 93.14606741573034
+      },
+      "BRANCH": {
+        "covered": 449,
+        "missed": 119,
+        "pct": 79.04929577464789
+      },
+      "LINE": {
+        "covered": 1162,
+        "missed": 65,
+        "pct": 94.70252648736756
+      },
+      "COMPLEXITY": {
+        "covered": 494,
+        "missed": 131,
+        "pct": 79.04
+      },
+      "METHOD": {
+        "covered": 317,
+        "missed": 20,
+        "pct": 94.06528189910979
+      },
+      "CLASS": {
+        "covered": 69,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "archivos": {
+      "INSTRUCTION": {
+        "covered": 9230,
+        "missed": 1652,
+        "pct": 84.81896710163574
+      },
+      "BRANCH": {
+        "covered": 670,
+        "missed": 378,
+        "pct": 63.93129770992366
+      },
+      "LINE": {
+        "covered": 1391,
+        "missed": 220,
+        "pct": 86.34388578522656
+      },
+      "COMPLEXITY": {
+        "covered": 525,
+        "missed": 403,
+        "pct": 56.57327586206897
+      },
+      "METHOD": {
+        "covered": 336,
+        "missed": 68,
+        "pct": 83.16831683168317
+      },
+      "CLASS": {
+        "covered": 83,
+        "missed": 3,
+        "pct": 96.51162790697674
+      }
+    },
+    "bodegas": {
+      "INSTRUCTION": {
+        "covered": 884,
+        "missed": 40,
+        "pct": 95.67099567099567
+      },
+      "BRANCH": {
+        "covered": 50,
+        "missed": 12,
+        "pct": 80.64516129032258
+      },
+      "LINE": {
+        "covered": 148,
+        "missed": 7,
+        "pct": 95.48387096774194
+      },
+      "COMPLEXITY": {
+        "covered": 88,
+        "missed": 13,
+        "pct": 87.12871287128714
+      },
+      "METHOD": {
+        "covered": 68,
+        "missed": 2,
+        "pct": 97.14285714285714
+      },
+      "CLASS": {
+        "covered": 16,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "flujos": {
+      "INSTRUCTION": {
+        "covered": 1412,
+        "missed": 100,
+        "pct": 93.3862433862434
+      },
+      "BRANCH": {
+        "covered": 86,
+        "missed": 17,
+        "pct": 83.49514563106796
+      },
+      "LINE": {
+        "covered": 227,
+        "missed": 16,
+        "pct": 93.4156378600823
+      },
+      "COMPLEXITY": {
+        "covered": 144,
+        "missed": 24,
+        "pct": 85.71428571428571
+      },
+      "METHOD": {
+        "covered": 108,
+        "missed": 7,
+        "pct": 93.91304347826087
+      },
+      "CLASS": {
+        "covered": 22,
+        "missed": 0,
+        "pct": 100.0
+      }
+    }
+  },
+  "protegidos": 451,
+  "produccion_frontend_header_indice_cambios": [],
+  "google_real": false,
+  "fases_abiertas": [
+    3,
+    4
+  ]
+}

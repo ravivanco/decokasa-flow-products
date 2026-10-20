@@ -1,0 +1,15 @@
+{
+  "original_suite_preservada": true,
+  "nuevos_casos": 12,
+  "casos_ejecutados": 66,
+  "suites_ejecutadas": 2,
+  "protegidos": 491,
+  "alterados": [],
+  "sha256_suite_final": "980865c2f0f1ef86bf25d090620e57863f80851c02b8ddfa403c1c6d6176f487",
+  "cobertura_nueva": false,
+  "objetivo_global_80": "PENDIENTE",
+  "Google_real": false,
+  "backend_ejecutado": false,
+  "fases_3_y_4": "ABIERTAS",
+  "3.B3": "POSPUESTO"
+}
