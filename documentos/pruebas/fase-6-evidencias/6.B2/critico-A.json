@@ -1,0 +1,898 @@
+{
+  "id": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+  "final": {
+    "id": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+    "numero": "DK-EC-2026-0009",
+    "nombre": "Critico A ficticio F6",
+    "pais": "EC",
+    "tipoFlujo": "A",
+    "etapaActual": 11,
+    "nombreEtapaActual": "Fin",
+    "responsableActual": null,
+    "venceEn": null,
+    "vencida": false,
+    "motivoRetraso": null,
+    "urgencia": null,
+    "finalizado": true,
+    "descripcion": null,
+    "incluyeProductosNuevos": false,
+    "creadoPor": {
+      "id": "98d93573-1a79-3275-86aa-828e424c0e03",
+      "nombre": "Ficticio F6 admin",
+      "roles": [
+        "admin"
+      ]
+    },
+    "creadoEn": "2026-10-21T16:28:43.024267-05:00",
+    "versionFlujo": 1,
+    "bodega": {
+      "id": "01a13cdb-cc00-7000-8000-000000000401",
+      "nombre": "Quito",
+      "ciudad": "Quito",
+      "activa": true,
+      "version": 0
+    },
+    "demoraAduana": null,
+    "llegadaAduanaEn": "2026-10-21T16:28:51.535709-05:00",
+    "lineaDeTiempo": [
+      {
+        "numero": 1,
+        "nombre": "Crear solicitud de pedido",
+        "estado": "COMPLETADA",
+        "rolResponsable": "admin",
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "786b427e-cbff-46b4-9ae4-0d388b401ab2",
+        "entrada": "2026-10-21T16:28:43.024267-05:00",
+        "salida": "2026-10-21T16:28:44.270392-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Enviada por Ficticio F6 admin (Administrador) el 21/10/2026 16:28 · pasa a A2. 1 archivo presentado."
+      },
+      {
+        "numero": 2,
+        "nombre": "Codificación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "marketing",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "7d53f5b6-d185-4790-a00d-d1adfe769a5c",
+        "entrada": "2026-10-21T16:28:47.023362-05:00",
+        "salida": "2026-10-21T16:28:48.040971-05:00",
+        "venceEn": "2026-10-22T16:28:47.023362-05:00",
+        "reentradas": 1,
+        "resumen": "Enviada por Ficticio F6 marketing (Marketing y codificación) el 21/10/2026 16:28 · pasa a A3. 1 archivo presentado."
+      },
+      {
+        "numero": 3,
+        "nombre": "Revisión y aprobación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "asistente_compras",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "b7c9f98f-8bba-4433-9982-a4bf2f9db683",
+        "entrada": "2026-10-21T16:28:48.040971-05:00",
+        "salida": "2026-10-21T16:28:48.51077-05:00",
+        "venceEn": "2026-10-22T16:28:48.040971-05:00",
+        "reentradas": 1,
+        "resumen": "Aprobada por Ficticio F6 asistente_compras (Asistente de compras) el 21/10/2026 16:28 · pasa a A4."
+      },
+      {
+        "numero": 4,
+        "nombre": "Análisis y gestión",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "0dcd916c-6a6a-4351-afb5-f0cb5047df6c",
+        "entrada": "2026-10-21T16:28:48.51077-05:00",
+        "salida": "2026-10-21T16:28:49.655405-05:00",
+        "venceEn": "2026-10-26T16:28:48.51077-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 compras_china (Compras China) el 21/10/2026 16:28 · pasa a A5."
+      },
+      {
+        "numero": 5,
+        "nombre": "Fabricación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "d630cdd8-a378-4af1-907b-8dba221c3f37",
+        "entrada": "2026-10-21T16:28:49.655405-05:00",
+        "salida": "2026-10-21T16:28:50.129236-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 compras_china (Compras China) el 21/10/2026 16:28 · pasa a A6. Observación: «Fabricacion A ficticia»."
+      },
+      {
+        "numero": 6,
+        "nombre": "Embarque",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "4e62d4f2-6b6e-4149-a3c7-74854c655eef",
+        "entrada": "2026-10-21T16:28:50.129236-05:00",
+        "salida": "2026-10-21T16:28:51.073832-05:00",
+        "venceEn": "2026-11-04T16:28:50.129236-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 compras_china (Compras China) el 21/10/2026 16:28 · pasa a A7. 1 archivo presentado."
+      },
+      {
+        "numero": 7,
+        "nombre": "Aduana Ecuador",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "7204503e-7917-4a75-8ead-e4e9ab007bd3",
+        "entrada": "2026-10-21T16:28:51.073832-05:00",
+        "salida": "2026-10-21T16:28:51.535709-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 compras_china (Compras China) el 21/10/2026 16:28 · pasa a A8."
+      },
+      {
+        "numero": 8,
+        "nombre": "Autorización de salida",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "b015c964-8847-4626-aef2-0b8ab5c00f40",
+        "entrada": "2026-10-21T16:28:51.535709-05:00",
+        "salida": "2026-10-21T16:28:52.673277-05:00",
+        "venceEn": "2026-10-22T16:28:51.535709-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 logistica (Logística) el 21/10/2026 16:28 · pasa a A9."
+      },
+      {
+        "numero": 9,
+        "nombre": "Bodega",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "19c2420b-ec9a-46c0-a979-42c6cbb98a13",
+        "entrada": "2026-10-21T16:28:52.673277-05:00",
+        "salida": "2026-10-21T16:28:53.755576-05:00",
+        "venceEn": "2026-10-22T16:28:52.673277-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 logistica (Logística) el 21/10/2026 16:28 · pasa a A10. 1 archivo presentado."
+      },
+      {
+        "numero": 10,
+        "nombre": "Incidencias",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "cd829ef3-ad55-4ac2-bf29-facefda345a4",
+        "entrada": "2026-10-21T16:28:53.755576-05:00",
+        "salida": "2026-10-21T16:28:54.712615-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio F6 logistica (Logística) el 21/10/2026 16:28 · pasa a A11. 1 archivo presentado."
+      },
+      {
+        "numero": 11,
+        "nombre": "Fin",
+        "estado": "COMPLETADA",
+        "rolResponsable": null,
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "15f1e3f9-ebe7-4228-8a3b-985b434e2cbf",
+        "entrada": "2026-10-21T16:28:54.712615-05:00",
+        "salida": "2026-10-21T16:28:54.712615-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      }
+    ],
+    "accionesDisponibles": []
+  },
+  "historial": [
+    {
+      "id": "5995e01d-25f4-409c-8a31-8f7dd166612d",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 11,
+      "tipo": "PEDIDO_FINALIZADO",
+      "usuario": null,
+      "rolIntervencion": null,
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:54.712615-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "3ea05794-8ef7-4977-97b0-da28aea147a0",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 10,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 11,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:54.712615-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "f90d0b22-8593-41fc-9642-3da8086d7610"
+      ]
+    },
+    {
+      "id": "c7b7461a-f506-456c-8c6a-97b5d7a4e4c8",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 10,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:54.284321-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "f90d0b22-8593-41fc-9642-3da8086d7610"
+      ]
+    },
+    {
+      "id": "0eebb2e5-80c9-49c3-9ebd-775a4f5af2bf",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 9,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 10,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:53.755576-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "28373d71-68b3-4c70-a4bd-61234ca13f0e"
+      ]
+    },
+    {
+      "id": "322ef583-ab4e-4a19-acbf-d88a844811f2",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 9,
+      "tipo": "BODEGA_ASIGNADA",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": "01a13cdb-cc00-7000-8000-000000000401",
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:53.755576-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "f657ec5f-09e2-40d1-9b26-cc0aa306152e",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 9,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:53.242593-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "28373d71-68b3-4c70-a4bd-61234ca13f0e"
+      ]
+    },
+    {
+      "id": "c50f8d4a-7e92-48a6-98cf-8b6cc855a7e8",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 8,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "69ab8cb0-c6b8-3589-ae6c-4701b026dca9",
+        "nombre": "Ficticio F6 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 9,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:52.673277-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "d6ff0cc4-4256-4484-9fa2-917e935df12c",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 7,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "8567720e-f99a-3560-89f2-3c1d0d2b1f1c",
+        "nombre": "Ficticio F6 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 8,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:51.535709-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "f6964528-690f-4878-8f94-3fdf4c355c97",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 6,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "8567720e-f99a-3560-89f2-3c1d0d2b1f1c",
+        "nombre": "Ficticio F6 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 7,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:51.073832-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "581c50b5-2c8b-43da-8e49-b952b384e772"
+      ]
+    },
+    {
+      "id": "6ba669a3-9f92-4453-b74f-b3fbb29298f4",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 6,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "8567720e-f99a-3560-89f2-3c1d0d2b1f1c",
+        "nombre": "Ficticio F6 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:50.65331-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "581c50b5-2c8b-43da-8e49-b952b384e772"
+      ]
+    },
+    {
+      "id": "197ae6dd-9738-4abb-a373-0f09674e5e94",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 5,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "8567720e-f99a-3560-89f2-3c1d0d2b1f1c",
+        "nombre": "Ficticio F6 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 6,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:50.129236-05:00",
+      "observacion": "Fabricacion A ficticia",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "6f0f9f87-95c0-4635-9d98-2c71676bbd26",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 4,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "8567720e-f99a-3560-89f2-3c1d0d2b1f1c",
+        "nombre": "Ficticio F6 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 5,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:49.655405-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "df443241-9712-49ff-be5b-26ae3071c9af",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 3,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "2c8d9e13-e268-389c-be74-f441d9cffb8d",
+        "nombre": "Ficticio F6 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 4,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:48.51077-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "befe218d-a675-4697-a516-9ac37f5ec935",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "813be8be-1435-3f8d-9e68-a5b8fb194b60",
+        "nombre": "Ficticio F6 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:48.040971-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "d75fa183-d147-4c0b-9b90-1bef20970200"
+      ]
+    },
+    {
+      "id": "d00376a7-42fe-4be4-bde3-b5035d3520e4",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "813be8be-1435-3f8d-9e68-a5b8fb194b60",
+        "nombre": "Ficticio F6 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:47.553725-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "d75fa183-d147-4c0b-9b90-1bef20970200"
+      ]
+    },
+    {
+      "id": "37f4590b-1aac-4ba5-8067-d0d48432d272",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 3,
+      "tipo": "ETAPA_RECHAZADA",
+      "usuario": {
+        "id": "2c8d9e13-e268-389c-be74-f441d9cffb8d",
+        "nombre": "Ficticio F6 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:47.023362-05:00",
+      "observacion": "Rechazo A ficticio",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "a4e620e6-948b-42da-97eb-5ca82b337d9c",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "813be8be-1435-3f8d-9e68-a5b8fb194b60",
+        "nombre": "Ficticio F6 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:45.85504-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "9b0b7cea-b8bd-4169-87e6-e85830a37ea9"
+      ]
+    },
+    {
+      "id": "d1c8f201-502a-4bba-8a37-efbce6075c95",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "813be8be-1435-3f8d-9e68-a5b8fb194b60",
+        "nombre": "Ficticio F6 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:45.400822-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "9b0b7cea-b8bd-4169-87e6-e85830a37ea9"
+      ]
+    },
+    {
+      "id": "df58a705-6b83-45d3-bd4d-d1a4bf660f69",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 1,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "98d93573-1a79-3275-86aa-828e424c0e03",
+        "nombre": "Ficticio F6 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:44.270392-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "136333ae-d65b-4b2c-b637-fa3f3c8b9253"
+      ]
+    },
+    {
+      "id": "94dadc4c-29a5-40a3-a82b-ee86dbf3c238",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 1,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "98d93573-1a79-3275-86aa-828e424c0e03",
+        "nombre": "Ficticio F6 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:43.852511-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "136333ae-d65b-4b2c-b637-fa3f3c8b9253"
+      ]
+    },
+    {
+      "id": "d6a05773-7929-4bee-9f99-54f177e7ca40",
+      "pedidoId": "8b8eceda-c021-4109-9588-9c5ac5d98870",
+      "numeroPedido": "DK-EC-2026-0009",
+      "etapa": 1,
+      "tipo": "PEDIDO_CREADO",
+      "usuario": {
+        "id": "98d93573-1a79-3275-86aa-828e424c0e03",
+        "nombre": "Ficticio F6 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T16:28:43.024267-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    }
+  ]
+}

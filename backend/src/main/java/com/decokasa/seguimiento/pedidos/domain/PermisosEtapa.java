@@ -65,18 +65,18 @@ public final class PermisosEtapa {
     }
 
     /**
-     * Quién crea un pedido: la misma regla de una etapa sin asignar, con el rol responsable de la primera etapa (en el
-     * flujo A sembrado es {@code admin}).
+     * Quién crea un pedido: solo quien tiene, vigente en la base, el rol responsable de la primera etapa de la
+     * definición del flujo (requisito 4.2 #4). En el flujo A sembrado ese rol es {@code admin} (A1); en el B,
+     * {@code compras_china} (B1). A diferencia de actuar en una etapa, el admin no crea por ser admin: si también lo
+     * hace en el flujo B sigue pendiente del cliente (P-14, F6-D2). Un admin que además tenga Compras China crea B por
+     * ese rol. La regla sale de los datos del flujo, no del tipo A o B.
      */
     public static Interviniente paraCrear(CodigoRol rolResponsableInicial, ActorVigente actor) {
         exigirCuentaVigente(actor);
         if (actor.tieneRol(rolResponsableInicial)) {
             return new Interviniente(actor.usuarioId(), rolResponsableInicial);
         }
-        if (actor.tieneRol(ADMIN)) {
-            return new Interviniente(actor.usuarioId(), ADMIN);
-        }
-        throw new SinPermiso("Solo el responsable de la primera etapa o el admin crean pedidos.");
+        throw new SinPermiso("Solo el responsable de la primera etapa del flujo crea pedidos de ese flujo.");
     }
 
     /**

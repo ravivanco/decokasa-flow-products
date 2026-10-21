@@ -78,8 +78,9 @@ public final class CrearPedidoCasoDeUso implements CrearPedido {
     }
 
     /**
-     * En la fase 2 solo hay flujo A sembrado; el flujo B llega en la fase 6, y si el admin también lo crea sigue
-     * pendiente del cliente (P-14, ⏸). Sin definición vigente la respuesta es 400, no 404.
+     * Flujos A (V2) y B (V17) de Ecuador. Crea quien tiene el rol de la primera etapa de esa definición: el admin el A
+     * y Compras China el B; si el admin también crea el B sigue pendiente del cliente (P-14, ⏸), así que hoy no lo
+     * hace. Sin definición vigente la respuesta es 400, no 404.
      */
     private ContratoDeFlujo definicionVigente(CodigoPais pais, Comando comando) {
         try {

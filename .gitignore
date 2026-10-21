@@ -13,8 +13,13 @@ backend/semilla/*.local.json
 # Archivos reales del almacenamiento local (arranque manual del backend): nunca en Git.
 backend/datos/
 
-# Enlaces simbólicos de skills (se regeneran con npx skills)
-.claude/skills/
+# Enlaces simbólicos de skills (se regeneran con npx skills). Excepción: solo el SKILL.md de agregar-flujo-decokasa,
+# skill propia del proyecto (fase 6, 6.B3-H02). Git no entra en un directorio excluido, por eso se abre la carpeta y
+# se vuelve a excluir su contenido salvo ese archivo.
+/.claude/skills/*
+!/.claude/skills/agregar-flujo-decokasa/
+/.claude/skills/agregar-flujo-decokasa/*
+!/.claude/skills/agregar-flujo-decokasa/SKILL.md
 # Archivos temporales de Word
 ~$*.docx
 

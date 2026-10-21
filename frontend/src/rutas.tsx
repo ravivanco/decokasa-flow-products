@@ -15,8 +15,9 @@ import { NuevoPedido } from './components/pedidos/NuevoPedido';
 import { RolesManagementView } from './components/RolesManagementView';
 import { UsersManagementView } from './components/UsersManagementView';
 
-// Rutas de la aplicación (plan, tarea 19): /login pública; el resto exige sesión, y /usuarios, /roles y la creación de
-// pedidos el rol admin. Pedidos y bandeja (fase 2, paso 2.5) leen la API real; el servidor valida cada permiso (R6).
+// Rutas de la aplicación (plan, tarea 19): /login pública; el resto exige sesión, y /usuarios, /roles y la meta el rol
+// admin. Crear pedidos (fase 6): A el admin y B Compras China; la pantalla lo deduce de las definiciones y el servidor
+// lo decide. Pedidos y bandeja (fase 2, paso 2.5) leen la API real; el servidor valida cada permiso (R6).
 // Bodegas usa la API y limita el mantenimiento a admin/Logística; Correos sigue limitado al admin.
 // Un error que ninguna pantalla atrapó muestra ErrorRuta (sin detalles técnicos) en lugar de la página de React Router.
 export const rutas: RouteObject[] = [
@@ -33,6 +34,7 @@ export const rutas: RouteObject[] = [
           { path: '/bandeja', element: <BandejaPedidos /> },
           { path: '/bodegas', element: <CatalogoBodegas /> },
           { path: '/pedidos', element: <ListaPedidos /> },
+          { path: '/pedidos/nuevo', element: <NuevoPedido /> },
           { path: '/pedidos/:pedidoId', element: <DetallePedido /> },
           {
             element: <SoloAdmin />,
@@ -40,7 +42,6 @@ export const rutas: RouteObject[] = [
               { path: '/notificaciones', element: <GmailNotificationsView /> },
               { path: '/usuarios', element: <UsersManagementView /> },
               { path: '/roles', element: <RolesManagementView /> },
-              { path: '/pedidos/nuevo', element: <NuevoPedido /> },
               { path: '/configuracion/plazos', element: <ConfiguracionPlazos /> },
             ],
           },

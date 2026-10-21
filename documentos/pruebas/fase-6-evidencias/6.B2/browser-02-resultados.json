@@ -1,0 +1,231 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "pruebas/fase-6-evidencias/6.B2/playwright.config.mjs",
+      "--grep",
+      "@critico"
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-6-evidencias/6.B2",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-6-evidencias/6.B2/.tmp/browser",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-6-evidencias/6.B2",
+        "testIgnore": [],
+        "testMatch": [
+          "criticos.spec.mjs"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./browser-resultados.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "criticos.spec.mjs",
+      "file": "criticos.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@critico A: regresión completa por pantallas hasta Fin",
+          "ok": false,
+          "tags": [
+            "critico"
+          ],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3122,
+                  "error": {
+                    "message": "Error: {\"id\":\"68b4151a-e4de-4431-b149-1467cabb986c\",\"pedidoId\":\"67f0e4d8-0dd8-4fb0-ba2d-2c6bbb96156e\",\"etapa\":1,\"entradaId\":\"0ee1f2f4-7e02-4024-b544-1b0fc619cc93\",\"eventoId\":\"9cd8f355-54b0-40fe-a251-1de4e997ba3b\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"98d93573-1a79-3275-86aa-828e424c0e03\",\"nombre\":\"Ficticio F6 admin\",\"roles\":[\"admin\"]},\"subidoEn\":\"2026-10-21T16:22:58.2733008-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m",
+                    "stack": "Error: {\"id\":\"68b4151a-e4de-4431-b149-1467cabb986c\",\"pedidoId\":\"67f0e4d8-0dd8-4fb0-ba2d-2c6bbb96156e\",\"etapa\":1,\"entradaId\":\"0ee1f2f4-7e02-4024-b544-1b0fc619cc93\",\"eventoId\":\"9cd8f355-54b0-40fe-a251-1de4e997ba3b\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"98d93573-1a79-3275-86aa-828e424c0e03\",\"nombre\":\"Ficticio F6 admin\",\"roles\":[\"admin\"]},\"subidoEn\":\"2026-10-21T16:22:58.2733008-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at subirUI (C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:21:234)\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:31:89",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                      "column": 234,
+                      "line": 21
+                    },
+                    "snippet": "  19 |  await page.getByLabel('Tipo de documento',{exact:true}).click();const opcion=page.getByRole('option',{name:tipo,exact:true});if(await opcion.count())await opcion.click();else{await page.getByRole('option',{name:'Otro…',exact:true}).click();await page.getByLabel('Nombre del tipo de documento').fill(tipo)}\n  20 |  await page.getByLabel('Archivo',{exact:true}).setInputFiles({name:nombre,mimeType:'text/plain',buffer:Buffer.from('Solo datos ficticios F6 '+nombre)});\n> 21 |  const final=page.waitForResponse(r=>r.url().endsWith('/finalizacion')&&r.request().method()==='POST');await page.getByRole('button',{name:'Subir o reanudar',exact:true}).click();const r=await final;expect(r.status(),await r.text()).toBe(201);const a=await r.json();expect(a.pedidoId).toBe(p);expect(a.etapa).toBe(d.etapaActual);await expect(page.getByRole('button',{name:'Descargar '+nombre,exact:true})).toBeVisible();return a}\n     |                                                                                                                                                                                                                                          ^\n  22 | const nombres={ENVIAR:'Enviar',APROBAR:'Aprobar',RECHAZAR:'Rechazar',DEVOLVER_POR_ERROR:'Devolver por error',DEVOLVER_POR_PRODUCTO_NUEVO:'Devolver por producto nuevo',REPORTAR_DEMORA:'Reportar demora'};\n  23 | async function abrirAccion(rol,p,accion){const page=await ver(rol,p),d=await detalle(p),f=await api('GET','/flujos/EC/'+d.tipoFlujo);const llegada=f.etapas.find(e=>e.numero===d.etapaActual).registraLlegada&&accion==='APROBAR';await page.getByRole('button',{name:llegada?'Confirmar llegada':nombres[accion],exact:true}).click();await expect(page.getByRole('dialog')).toBeVisible();return page}\n  24 | async function completarDialogo(page,extra={}){const dialogo=page.getByRole('dialog');if(extra.observacion)await dialogo.getByLabel('Observación',{exact:true}).fill(extra.observacion);if(extra.fecha)await dialogo.getByLabel('Nueva fecha estimada de llegada').fill(extra.fecha);if(extra.urgencia){await expect(dialogo.getByText(/hasta que el pedido vuelva a/)).toContainText('B5');await dialogo.getByRole('radio',{name:'Prioritario · 12 h',exact:true}).check()}if(extra.bodega){await dialogo.getByLabel('Bodega de destino').click();await page.getByRole('option',{name:extra.bodega,exact:true}).click()}}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                        "column": 234,
+                        "line": 21
+                      },
+                      "message": "Error: {\"id\":\"68b4151a-e4de-4431-b149-1467cabb986c\",\"pedidoId\":\"67f0e4d8-0dd8-4fb0-ba2d-2c6bbb96156e\",\"etapa\":1,\"entradaId\":\"0ee1f2f4-7e02-4024-b544-1b0fc619cc93\",\"eventoId\":\"9cd8f355-54b0-40fe-a251-1de4e997ba3b\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"98d93573-1a79-3275-86aa-828e424c0e03\",\"nombre\":\"Ficticio F6 admin\",\"roles\":[\"admin\"]},\"subidoEn\":\"2026-10-21T16:22:58.2733008-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n\n  19 |  await page.getByLabel('Tipo de documento',{exact:true}).click();const opcion=page.getByRole('option',{name:tipo,exact:true});if(await opcion.count())await opcion.click();else{await page.getByRole('option',{name:'Otro…',exact:true}).click();await page.getByLabel('Nombre del tipo de documento').fill(tipo)}\n  20 |  await page.getByLabel('Archivo',{exact:true}).setInputFiles({name:nombre,mimeType:'text/plain',buffer:Buffer.from('Solo datos ficticios F6 '+nombre)});\n> 21 |  const final=page.waitForResponse(r=>r.url().endsWith('/finalizacion')&&r.request().method()==='POST');await page.getByRole('button',{name:'Subir o reanudar',exact:true}).click();const r=await final;expect(r.status(),await r.text()).toBe(201);const a=await r.json();expect(a.pedidoId).toBe(p);expect(a.etapa).toBe(d.etapaActual);await expect(page.getByRole('button',{name:'Descargar '+nombre,exact:true})).toBeVisible();return a}\n     |                                                                                                                                                                                                                                          ^\n  22 | const nombres={ENVIAR:'Enviar',APROBAR:'Aprobar',RECHAZAR:'Rechazar',DEVOLVER_POR_ERROR:'Devolver por error',DEVOLVER_POR_PRODUCTO_NUEVO:'Devolver por producto nuevo',REPORTAR_DEMORA:'Reportar demora'};\n  23 | async function abrirAccion(rol,p,accion){const page=await ver(rol,p),d=await detalle(p),f=await api('GET','/flujos/EC/'+d.tipoFlujo);const llegada=f.etapas.find(e=>e.numero===d.etapaActual).registraLlegada&&accion==='APROBAR';await page.getByRole('button',{name:llegada?'Confirmar llegada':nombres[accion],exact:true}).click();await expect(page.getByRole('dialog')).toBeVisible();return page}\n  24 | async function completarDialogo(page,extra={}){const dialogo=page.getByRole('dialog');if(extra.observacion)await dialogo.getByLabel('Observación',{exact:true}).fill(extra.observacion);if(extra.fecha)await dialogo.getByLabel('Nueva fecha estimada de llegada').fill(extra.fecha);if(extra.urgencia){await expect(dialogo.getByText(/hasta que el pedido vuelva a/)).toContainText('B5');await dialogo.getByRole('radio',{name:'Prioritario · 12 h',exact:true}).check()}if(extra.bodega){await dialogo.getByLabel('Bodega de destino').click();await page.getByRole('option',{name:extra.bodega,exact:true}).click()}}\n    at subirUI (C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:21:234)\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:31:89"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-21T21:22:54.788Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\.tmp\\browser\\criticos--critico-A-regres-8f9b2-eta-por-pantallas-hasta-Fin\\error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\.tmp\\browser\\criticos--critico-A-regres-8f9b2-eta-por-pantallas-hasta-Fin\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                    "column": 234,
+                    "line": 21
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0fffc6e9871b856aa803-958db9cde573facdf81d",
+          "file": "criticos.spec.mjs",
+          "line": 30,
+          "column": 1
+        },
+        {
+          "title": "@critico B: propuesta, rechazos, urgencia, revisión, polling y Fin",
+          "ok": false,
+          "tags": [
+            "critico"
+          ],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3486,
+                  "error": {
+                    "message": "Error: {\"id\":\"bb08f8d6-6f72-436a-b606-865d23a6c005\",\"pedidoId\":\"d06b05ac-748f-4c78-91bb-f6d1ade50025\",\"etapa\":1,\"entradaId\":\"e47292a1-4717-4c75-9de8-65883d883e4b\",\"eventoId\":\"85739e82-3a2e-41ac-936e-1da6c10dc37f\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"8567720e-f99a-3560-89f2-3c1d0d2b1f1c\",\"nombre\":\"Ficticio F6 compras_china\",\"roles\":[\"compras_china\"]},\"subidoEn\":\"2026-10-21T16:23:02.6869542-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m",
+                    "stack": "Error: {\"id\":\"bb08f8d6-6f72-436a-b606-865d23a6c005\",\"pedidoId\":\"d06b05ac-748f-4c78-91bb-f6d1ade50025\",\"etapa\":1,\"entradaId\":\"e47292a1-4717-4c75-9de8-65883d883e4b\",\"eventoId\":\"85739e82-3a2e-41ac-936e-1da6c10dc37f\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"8567720e-f99a-3560-89f2-3c1d0d2b1f1c\",\"nombre\":\"Ficticio F6 compras_china\",\"roles\":[\"compras_china\"]},\"subidoEn\":\"2026-10-21T16:23:02.6869542-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at subirUI (C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:21:234)\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:39:159",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                      "column": 234,
+                      "line": 21
+                    },
+                    "snippet": "  19 |  await page.getByLabel('Tipo de documento',{exact:true}).click();const opcion=page.getByRole('option',{name:tipo,exact:true});if(await opcion.count())await opcion.click();else{await page.getByRole('option',{name:'Otro…',exact:true}).click();await page.getByLabel('Nombre del tipo de documento').fill(tipo)}\n  20 |  await page.getByLabel('Archivo',{exact:true}).setInputFiles({name:nombre,mimeType:'text/plain',buffer:Buffer.from('Solo datos ficticios F6 '+nombre)});\n> 21 |  const final=page.waitForResponse(r=>r.url().endsWith('/finalizacion')&&r.request().method()==='POST');await page.getByRole('button',{name:'Subir o reanudar',exact:true}).click();const r=await final;expect(r.status(),await r.text()).toBe(201);const a=await r.json();expect(a.pedidoId).toBe(p);expect(a.etapa).toBe(d.etapaActual);await expect(page.getByRole('button',{name:'Descargar '+nombre,exact:true})).toBeVisible();return a}\n     |                                                                                                                                                                                                                                          ^\n  22 | const nombres={ENVIAR:'Enviar',APROBAR:'Aprobar',RECHAZAR:'Rechazar',DEVOLVER_POR_ERROR:'Devolver por error',DEVOLVER_POR_PRODUCTO_NUEVO:'Devolver por producto nuevo',REPORTAR_DEMORA:'Reportar demora'};\n  23 | async function abrirAccion(rol,p,accion){const page=await ver(rol,p),d=await detalle(p),f=await api('GET','/flujos/EC/'+d.tipoFlujo);const llegada=f.etapas.find(e=>e.numero===d.etapaActual).registraLlegada&&accion==='APROBAR';await page.getByRole('button',{name:llegada?'Confirmar llegada':nombres[accion],exact:true}).click();await expect(page.getByRole('dialog')).toBeVisible();return page}\n  24 | async function completarDialogo(page,extra={}){const dialogo=page.getByRole('dialog');if(extra.observacion)await dialogo.getByLabel('Observación',{exact:true}).fill(extra.observacion);if(extra.fecha)await dialogo.getByLabel('Nueva fecha estimada de llegada').fill(extra.fecha);if(extra.urgencia){await expect(dialogo.getByText(/hasta que el pedido vuelva a/)).toContainText('B5');await dialogo.getByRole('radio',{name:'Prioritario · 12 h',exact:true}).check()}if(extra.bodega){await dialogo.getByLabel('Bodega de destino').click();await page.getByRole('option',{name:extra.bodega,exact:true}).click()}}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                        "column": 234,
+                        "line": 21
+                      },
+                      "message": "Error: {\"id\":\"bb08f8d6-6f72-436a-b606-865d23a6c005\",\"pedidoId\":\"d06b05ac-748f-4c78-91bb-f6d1ade50025\",\"etapa\":1,\"entradaId\":\"e47292a1-4717-4c75-9de8-65883d883e4b\",\"eventoId\":\"85739e82-3a2e-41ac-936e-1da6c10dc37f\",\"nombre\":\"ficticio-f6-1.txt\",\"tipoDocumento\":\"Solicitud\",\"tamanoBytes\":41,\"subidoPor\":{\"id\":\"8567720e-f99a-3560-89f2-3c1d0d2b1f1c\",\"nombre\":\"Ficticio F6 compras_china\",\"roles\":[\"compras_china\"]},\"subidoEn\":\"2026-10-21T16:23:02.6869542-05:00\",\"estadoCopia\":\"PENDIENTE\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n\n  19 |  await page.getByLabel('Tipo de documento',{exact:true}).click();const opcion=page.getByRole('option',{name:tipo,exact:true});if(await opcion.count())await opcion.click();else{await page.getByRole('option',{name:'Otro…',exact:true}).click();await page.getByLabel('Nombre del tipo de documento').fill(tipo)}\n  20 |  await page.getByLabel('Archivo',{exact:true}).setInputFiles({name:nombre,mimeType:'text/plain',buffer:Buffer.from('Solo datos ficticios F6 '+nombre)});\n> 21 |  const final=page.waitForResponse(r=>r.url().endsWith('/finalizacion')&&r.request().method()==='POST');await page.getByRole('button',{name:'Subir o reanudar',exact:true}).click();const r=await final;expect(r.status(),await r.text()).toBe(201);const a=await r.json();expect(a.pedidoId).toBe(p);expect(a.etapa).toBe(d.etapaActual);await expect(page.getByRole('button',{name:'Descargar '+nombre,exact:true})).toBeVisible();return a}\n     |                                                                                                                                                                                                                                          ^\n  22 | const nombres={ENVIAR:'Enviar',APROBAR:'Aprobar',RECHAZAR:'Rechazar',DEVOLVER_POR_ERROR:'Devolver por error',DEVOLVER_POR_PRODUCTO_NUEVO:'Devolver por producto nuevo',REPORTAR_DEMORA:'Reportar demora'};\n  23 | async function abrirAccion(rol,p,accion){const page=await ver(rol,p),d=await detalle(p),f=await api('GET','/flujos/EC/'+d.tipoFlujo);const llegada=f.etapas.find(e=>e.numero===d.etapaActual).registraLlegada&&accion==='APROBAR';await page.getByRole('button',{name:llegada?'Confirmar llegada':nombres[accion],exact:true}).click();await expect(page.getByRole('dialog')).toBeVisible();return page}\n  24 | async function completarDialogo(page,extra={}){const dialogo=page.getByRole('dialog');if(extra.observacion)await dialogo.getByLabel('Observación',{exact:true}).fill(extra.observacion);if(extra.fecha)await dialogo.getByLabel('Nueva fecha estimada de llegada').fill(extra.fecha);if(extra.urgencia){await expect(dialogo.getByText(/hasta que el pedido vuelva a/)).toContainText('B5');await dialogo.getByRole('radio',{name:'Prioritario · 12 h',exact:true}).check()}if(extra.bodega){await dialogo.getByLabel('Bodega de destino').click();await page.getByRole('option',{name:extra.bodega,exact:true}).click()}}\n    at subirUI (C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:21:234)\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs:39:159"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-21T21:22:59.007Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\.tmp\\browser\\criticos--critico-B-propue-3e88e-ncia-revisión-polling-y-Fin\\error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\.tmp\\browser\\criticos--critico-B-propue-3e88e-ncia-revisión-polling-y-Fin\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-6-evidencias\\6.B2\\criticos.spec.mjs",
+                    "column": 234,
+                    "line": 21
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0fffc6e9871b856aa803-4941aa39d13705346bd3",
+          "file": "criticos.spec.mjs",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-21T21:22:54.358Z",
+    "duration": 8720.694000000001,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

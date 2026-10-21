@@ -220,6 +220,8 @@ export type DefinicionFlujo = z.infer<typeof esquemaDefinicionFlujo>;
 
 export interface FiltrosPedidos {
   texto?: string;
+  /** Fase 6: el servidor filtra por flujo; con `etapa`, el número es de ese flujo (B2 no es A2). */
+  tipoFlujo?: 'A' | 'B';
   etapa?: number;
   vencido?: boolean;
   pagina: number;
@@ -258,13 +260,15 @@ const id = (valor: string) => encodeURIComponent(valor);
 
 // --- Consultas -------------------------------------------------------------------------------------------------------
 
-export function usePedidos(filtros: FiltrosPedidos) {
+export function usePedidos(filtros: FiltrosPedidos, habilitada = true) {
   const { pedir, sesionId } = useSesion();
   return useQuery({
     queryKey: clavesPedidos.lista(sesionId, filtros),
+    enabled: habilitada,
     queryFn: ({ signal }) => {
       const parametros = new URLSearchParams({ pagina: String(filtros.pagina), tamano: String(filtros.tamano) });
       if (filtros.texto) parametros.set('texto', filtros.texto);
+      if (filtros.tipoFlujo) parametros.set('tipoFlujo', filtros.tipoFlujo);
       if (filtros.etapa) parametros.set('etapa', String(filtros.etapa));
       if (filtros.vencido) parametros.set('vencido', 'true');
       return pedir(`/pedidos?${parametros}`, { esquema: esquemaPagina, signal });
@@ -440,12 +444,38 @@ export function useDefinicionFlujo(pais: string, tipo: string, version: number |
   });
 }
 
+const TIPOS_DE_FLUJO = ['A', 'B'] as const;
+
+/**
+ * Definiciones vigentes de Ecuador de los flujos A y B (fase 6), con la misma clave que {@link useDefinicionFlujo}: una
+ * consulta por flujo, compartida por todas las pantallas. Las tablas eligen la de cada pedido por su `tipoFlujo`, así
+ * B se dibuja con sus doce etapas y A con sus once. Indefinida mientras no llega o si falló.
+ */
+export function useDefinicionesVigentes() {
+  const { pedir, sesionId } = useSesion();
+  return useQueries({
+    queries: TIPOS_DE_FLUJO.map((tipo) => ({
+      queryKey: clavesPedidos.flujo(sesionId, 'EC', tipo, 0),
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        pedir(`/flujos/EC/${tipo}`, { esquema: esquemaDefinicionFlujo, signal }),
+      staleTime: 5 * 60 * 1000,
+    })),
+    combine: (resultados) => ({
+      A: resultados[0].data,
+      B: resultados[1].data,
+      cargando: resultados.some((resultado) => resultado.isPending),
+      error: resultados.some((resultado) => resultado.isError),
+    }),
+  });
+}
+
 // --- Mutaciones ------------------------------------------------------------------------------------------------------
 // Ninguna se reintenta sola (main.tsx) ni cambia la pantalla antes de que responda el servidor: un 409 o un 422 lo
 // resuelve la persona con el estado vigente.
 
 export interface DatosNuevoPedido {
-  tipoFlujo: 'A';
+  /** A lo crea el admin y B Compras China (paso 6.2): decide el servidor con el rol de la primera etapa. */
+  tipoFlujo: 'A' | 'B';
   nombre: string;
   descripcion?: string;
   incluyeProductosNuevos: boolean;

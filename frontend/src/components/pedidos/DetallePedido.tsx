@@ -14,7 +14,7 @@ import { CronogramaPedido } from './CronogramaPedido';
 import { DialogoAccion } from './DialogoAccion';
 import { DialogoReasignar } from './DialogoReasignar';
 import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
-import { formatearFecha, formatearFechaHora, mensajeDeErrorPedido } from './formato';
+import { formatearFecha, formatearFechaHora, mensajeDeErrorPedido, nombreFlujo } from './formato';
 import { HistorialPedido } from './HistorialPedido';
 import { LineaDeTiempo } from './LineaDeTiempo';
 import { PanelEtapa } from './PanelEtapa';
@@ -125,7 +125,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 className="font-heading text-3xl font-bold text-primary tabular-nums">{detalle.numero}</h1>
           <Badge variant="outline" className="h-auto rounded-sm py-0.5 text-sm">
-            {detalle.tipoFlujo === 'A' ? 'A · Ecuador' : 'B · China'}
+            {nombreFlujo(detalle.tipoFlujo)}
           </Badge>
           <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} estadoPlazo={actual?.estadoPlazo} />
           {detalle.urgencia && (
@@ -152,7 +152,8 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
         </p>
       </header>
 
-      {detalle.tipoFlujo === 'A' && <section aria-label="Llegada y bodega" className="flex flex-col gap-4 rounded-lg border bg-card p-4 sm:p-6">
+      {/* Fase 6: la sección existe si la definición del flujo del pedido tiene etapa de llegada o elige bodega. */}
+      {flujo.data?.etapas.some((e) => e.registraLlegada || e.acciones.some((a) => a.requiereBodega)) && <section aria-label="Llegada y bodega" className="flex flex-col gap-4 rounded-lg border bg-card p-4 sm:p-6">
         <dl className="grid gap-4 text-sm sm:grid-cols-2">
           <div className="flex flex-col gap-1"><dt className="text-muted-foreground">Llegada a aduana confirmada</dt>
             <dd className="font-medium tabular-nums">{detalle.llegadaAduanaEn ? formatearFechaHora(detalle.llegadaAduanaEn) : 'Sin llegada confirmada'}</dd></div>

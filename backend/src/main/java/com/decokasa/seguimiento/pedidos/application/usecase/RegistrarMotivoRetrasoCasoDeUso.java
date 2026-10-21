@@ -5,6 +5,7 @@ import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
+import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
 import com.decokasa.seguimiento.pedidos.application.port.in.RegistrarMotivoRetraso;
 import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
@@ -43,9 +44,10 @@ public final class RegistrarMotivoRetrasoCasoDeUso implements RegistrarMotivoRet
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
-        CodigoRol rol = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
+        ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
+        CodigoRol rol = flujo.etapa(pedido.etapaActual()).rolResponsable();
         UUID eventoId = pedido.registrarMotivoRetraso(comando.etapaEsperada(), comando.entradaEsperadaId(),
-                comando.motivo(), rol, habilitadas, actor, reloj.ahora()).eventoId();
+                comando.motivo(), rol, habilitadas.para(flujo.etapas()), actor, reloj.ahora()).eventoId();
         pedidos.actualizar(pedido);
         apoyo.publicarEventos(pedido);
         return eventoId;

@@ -580,3 +580,11 @@ Confirmadas por Richard para desbloquear el flujo A. No son respuestas nuevas de
 - **En las tres:** se admiten documentos adicionales. Los documentos cuentan solo si son del pedido, de la etapa y de la entrada actual.
 - **Actualización de pantallas (ADR-0014):** Richard acepta el intervalo de 30 segundos. Un cambio de otra persona puede tardar hasta el intervalo más la petición.
 - **Sigue pendiente:** la meta de días. 90 es una propuesta configurable, no un valor aprobado.
+- **Documentos del flujo B (F6-D1; implementado en V17):** Richard extiende al flujo B estas reglas:
+  - **B1:** "Solicitud" obligatoria.
+  - **B3:** "Documentos codificados" obligatorios.
+  - **B7:** al menos un "Packing List"; el BL y otros adjuntos son opcionales.
+  - **B10:** bodega activa y al menos un documento de cualquier tipo.
+  - **B11:** al menos un documento de cualquier tipo, sin excepción "sin incidencias".
+  
+  En todas se admiten adjuntos adicionales, y solo cuentan los documentos válidos del pedido, de la etapa y de la entrada actual. No se extienden por analogía otras decisiones pendientes del flujo B: plazo de B2, etapas revisoras y creación de B por el admin (P-14).

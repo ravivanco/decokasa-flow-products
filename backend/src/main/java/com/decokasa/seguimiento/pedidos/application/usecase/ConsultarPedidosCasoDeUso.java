@@ -187,7 +187,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
      */
     private List<VistasDePedido.AccionDisponible> accionesDisponibles(Pedido pedido, ContratoDeFlujo flujo,
             ActorVigente actor) {
-        if (pedido.finalizado() || !habilitadas.incluye(pedido.etapaActual())) {
+        if (pedido.finalizado() || !habilitadas.para(flujo.etapas()).incluye(pedido.etapaActual())) {
             return List.of();
         }
         EtapaDePedido actual = etapaDe(pedido, pedido.etapaActual());

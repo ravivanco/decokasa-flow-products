@@ -59,6 +59,11 @@ public final class DefinicionFlujo implements ContratoDeFlujo {
             if (transicion.etapaDestino() != null) {
                 exigirEtapa(transicion.etapaDestino());
             }
+            // Fase 6, paso 6.4: ninguna etapa automática (Fin) admite acciones manuales, en ningún flujo.
+            if (etapa(transicion.etapaOrigen()).automatica()) {
+                throw new DatoInvalido("La etapa " + transicion.etapaOrigen()
+                        + " es automática: no admite acciones manuales.");
+            }
         }
     }
 

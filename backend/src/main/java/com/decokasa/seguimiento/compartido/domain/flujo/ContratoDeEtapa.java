@@ -28,4 +28,12 @@ public interface ContratoDeEtapa {
     default boolean registraLlegada() {
         return false;
     }
+
+    /**
+     * Etapa automática, como Fin (A11 / B12): se completa sola y nadie actúa en ella. Se declara en los datos del
+     * flujo.
+     */
+    default boolean automatica() {
+        return false;
+    }
 }

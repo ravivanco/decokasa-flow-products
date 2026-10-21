@@ -170,7 +170,7 @@ flowchart TD
 
 **Reglas de `pedidos`:**
 
-- **Quién crea:** el flujo A lo crea el admin y el flujo B, Compras China (requerimientos 4.2 #4). ⏸ Si el admin también puede crear pedidos del flujo B, por interpretar que "actuar en cualquier etapa" incluye B1.
+- **Quién crea:** el flujo A lo crea el admin y el flujo B, Compras China (requerimientos 4.2 #4). Crea quien tiene, vigente en la base, el rol responsable de la primera etapa de la definición (A1 `admin`, B1 `compras_china`; paso 6.2). ⏸ Si el admin también puede crear pedidos del flujo B, por interpretar que "actuar en cualquier etapa" incluye B1. Mientras tanto no los crea, salvo que también tenga `compras_china`.
 - **Número:** secuencial, único y no se reutiliza (requerimientos 4.2 #5). ⏸ Formato propuesto `DK-EC-AAAA-NNNN`, con reinicio por país y año, pendiente de aprobación.
 - **Una sola etapa activa.** País y tipo de flujo no cambian después de crear el pedido.
 - **Quién actúa (R6):** el usuario asignado a la etapa o un admin. Por defecto está asignado cualquier usuario con el rol responsable. El admin puede reasignar la etapa (requerimientos 5). ⏸ Si se puede reasignar a un usuario de otro rol.

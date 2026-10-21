@@ -2,7 +2,7 @@ import { CircleAlertIcon, InboxIcon, type LucideIcon, ZapIcon } from 'lucide-rea
 import { type KeyboardEvent, useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { INTERVALO_ACTUALIZACION_MS } from '@/api/actualizacion';
-import { type FiltroBandeja, useBandeja, useConteosBandeja, useDefinicionFlujo } from '@/api/pedidos';
+import { type FiltroBandeja, useBandeja, useConteosBandeja, useDefinicionesVigentes } from '@/api/pedidos';
 import { Button } from '@/components/ui/button';
 import { mensajeDeErrorPedido } from '@/components/pedidos/formato';
 import { Paginacion, TablaPedidos } from '@/components/pedidos/TablaPedidos';
@@ -43,8 +43,8 @@ export function TableroTrabajo({ admin }: { admin: boolean }) {
   const conteos = useConteosBandeja();
   const pestana = PESTANAS.find((candidata) => candidata.id === elegida) ?? PESTANAS[0];
   const bandeja = useBandeja(pagina, pestana.filtro, TAMANO);
-  // Solo el flujo A de Ecuador está sembrado; la línea usa su versión vigente (una consulta para toda la tabla).
-  const flujo = useDefinicionFlujo('EC', 'A', undefined);
+  // Fase 6: A y B de Ecuador; cada línea usa la versión vigente de su flujo (una consulta por flujo para toda la tabla).
+  const definiciones = useDefinicionesVigentes();
   const totales: Record<IdPestana, number | undefined> = {
     pendientes: conteos.pendientes,
     vencidos: conteos.vencidos,
@@ -192,7 +192,7 @@ export function TableroTrabajo({ admin }: { admin: boolean }) {
           error={bandeja.isError ? mensajeDeErrorPedido(bandeja.error, 'No se pudo cargar la lista.') : null}
           onReintentar={() => void bandeja.refetch()}
           vacio={<p className="text-muted-foreground">{pestana.vacio}</p>}
-          recorrido={{ A: flujo.data?.etapas }}
+          recorrido={{ A: definiciones.A?.etapas, B: definiciones.B?.etapas }}
         />
         <div className="min-h-10">{bandeja.data && !bandeja.isPlaceholderData && (
           <Paginacion

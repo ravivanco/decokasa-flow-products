@@ -1,0 +1,9 @@
+﻿{
+    "notaFrontend":  "El lanzador PowerShell devolvio 1; el log solo contiene avisos Vite y no excepciones JavaScript. Build separado y recorridos aprobaron. Puerto cerrado comprobado.",
+    "frontendLanzadorSalida":  1,
+    "credencialTemporalPresente":  false,
+    "backendSalida":  0,
+    "puertosEnEscucha":  [
+
+                         ]
+}

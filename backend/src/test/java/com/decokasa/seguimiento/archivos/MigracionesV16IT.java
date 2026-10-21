@@ -13,7 +13,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 class MigracionesV16IT {
     @Container static final PostgreSQLContainer PG = new PostgreSQLContainer("postgres:17");
     static final UUID FLUJO=UUID.fromString("01a13cdb-cc00-7000-8000-000000000001");
-    Flyway fly(DatosB1 d){return Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration").load();}
+    Flyway fly(DatosB1 d){return Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration").target("16").load();}
     void reglas(DatosB1 d){
         assertThat(d.sql.queryForList("select etapa_origen from transicion_permitida where exige_algun_documento order by etapa_origen",Integer.class)).containsExactly(9,10);
         assertThat(d.sql.queryForObject("select count(*) from transicion_permitida where requisitos_documentales='PENDIENTES' and flujo_id=?",Integer.class,FLUJO)).isZero();
@@ -22,7 +22,7 @@ class MigracionesV16IT {
         assertThat(d.sql.queryForList("select numero from definicion_etapa where flujo_id=? and plazo_estado='PENDIENTE' order by numero",Integer.class,FLUJO)).containsExactly(5,7,10);
     }
     @Test void vaciaConservaEsquemaMetaPendienteYValidaV16(){
-        var d=new DatosB1(PG,null);var f=fly(d);assertThat(f.info().current().getVersion().toString()).isEqualTo("16");
+        var d=new DatosB1(PG,"16");var f=fly(d);assertThat(f.info().current().getVersion().toString()).isEqualTo("16");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();reglas(d);
         assertThat(d.sql.queryForMap("select meta_dias,meta_origen from configuracion_plazos")).containsEntry("meta_dias",90).containsEntry("meta_origen","PROPUESTA");
         assertThat(d.sql.queryForObject("select count(*) from information_schema.columns where table_schema=? and table_name='transicion_permitida' and column_name='exige_algun_documento' and is_nullable='NO'",Integer.class,d.esquema)).isEqualTo(1);

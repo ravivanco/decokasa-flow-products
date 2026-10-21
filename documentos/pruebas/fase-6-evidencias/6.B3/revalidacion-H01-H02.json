@@ -1,0 +1,198 @@
+{
+  "branch": "fase-6-flujo-b",
+  "files": {
+    ".claude/skills/agregar-flujo-decokasa/SKILL.md": "3bc773661055c165d01bc9ec2be95a4969f9ed00fa630f89e1df50dc6a4f2041",
+    "documentos/agregar-flujo.md": "d288960398f24df5195f5b69fec61f828248d092cba7812337a8339669da7333",
+    "documentos/adr/0019-habilitacion-por-definicion.md": "4403c60f90b6c2c6be2e81c764952d258a2b05a6613b7b4ad7bb02400006053f",
+    "documentos/adr/README.md": "d30050de77b5f9d6281fc24bf8e4c98f7bcb1dc28e7850e2ec05dda52ec12d62"
+  },
+  "links": [
+    {
+      "from": ".claude/skills/agregar-flujo-decokasa/SKILL.md",
+      "target": "../../../documentos/agregar-flujo.md",
+      "exists": true
+    },
+    {
+      "from": ".claude/skills/agregar-flujo-decokasa/SKILL.md",
+      "target": "../../../documentos/adr/0019-habilitacion-por-definicion.md",
+      "exists": true
+    },
+    {
+      "from": ".claude/skills/agregar-flujo-decokasa/SKILL.md",
+      "target": "../../../documentos/agregar-flujo.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "../.claude/skills/agregar-flujo-decokasa/SKILL.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "adr/0004-flujo-configurable-por-datos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "adr/0019-habilitacion-por-definicion.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "../.claude/skills/agregar-flujo-decokasa/SKILL.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "adr/0004-flujo-configurable-por-datos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "adr/0018-etapa-de-llegada-explicita.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "adr/0019-habilitacion-por-definicion.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "requerimientos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/agregar-flujo.md",
+      "target": "modelo-datos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/0019-habilitacion-por-definicion.md",
+      "target": "0004-flujo-configurable-por-datos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/0019-habilitacion-por-definicion.md",
+      "target": "0011-monolito-modular-hexagonal.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/0019-habilitacion-por-definicion.md",
+      "target": "0012-transacciones-y-outbox.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/0019-habilitacion-por-definicion.md",
+      "target": "0018-etapa-de-llegada-explicita.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0001-stack-tecnologico.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0002-autenticacion-propia-jwt.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0003-drive-cuenta-servicio.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0004-flujo-configurable-por-datos.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0005-alertas-gmail-admin.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0006-plazos-dias-habiles-ecuador.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0007-documentos-sin-validacion.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0008-solo-web.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0009-ecuador-primero.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0010-monorepo-gradle.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0011-monolito-modular-hexagonal.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0012-transacciones-y-outbox.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0013-canal-de-correo.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0014-tiempo-real-websocket.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0015-datos-iniciales-fuera-de-git.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0016-spring-boot-4.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0017-google-oauth-usuario-gmail-personal.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0018-etapa-de-llegada-explicita.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0019-habilitacion-por-definicion.md",
+      "exists": true
+    },
+    {
+      "from": "documentos/adr/README.md",
+      "target": "0017-google-oauth-usuario-gmail-personal.md",
+      "exists": true
+    }
+  ],
+  "ignoredSkill": ".gitignore:17:.claude/skills/\t.claude/skills/agregar-flujo-decokasa/SKILL.md",
+  "stagedPaths": [],
+  "headerSHA256": "F88B6F8FF0B15DE6E798344515C8085D131680C188FDA78C7FA7D5496FF5E0FB",
+  "brokenLinks": [],
+  "missingReportReferences": [],
+  "reviewedFilesUnchangedDuringReview": true,
+  "stagedPathsFinal": []
+}

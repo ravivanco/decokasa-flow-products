@@ -97,6 +97,9 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         // ADR-0018: la etapa de llegada está marcada en la definición del flujo; su APROBAR es el check de llegada.
         boolean registraLlegada = resolucion.origenRegistraLlegada() && resolucion.accion() == AccionEtapa.APROBAR
                 && resolucion.etapaDestino() != null && resolucion.etapaDestino() > resolucion.etapaOrigen();
+        // F6-D3: la etapa se habilita si es manual en la definición del pedido (la acción ya se resolvió con ella).
+        EtapasHabilitadas efectivas = habilitadas.paraEtapa(pedido.etapaActual(),
+                resolucion.rolResponsableOrigen() != null);
         ReglaDeTransicion regla = new ReglaDeTransicion(resolucion.etapaOrigen(), resolucion.accion(),
                 resolucion.etapaDestino(), resolucion.requiereObservacion(), resolucion.requiereUrgencia(),
                 resolucion.requiereBodega(), resolucion.documentosPendientes(), resolucion.documentosObligatorios(),
@@ -116,7 +119,7 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         // simultánea.
         // Si el pedido ya tiene bodega no se consulta: el dominio responde 409 (se asigna una sola vez).
         if (comando.bodegaId() != null && resolucion.requiereBodega() && !resolucion.documentosPendientes()
-                && habilitadas.incluye(pedido.etapaActual()) && pedido.bodegaId().isEmpty()) {
+                && efectivas.incluye(pedido.etapaActual()) && pedido.bodegaId().isEmpty()) {
             PermisosEtapa.paraActuar(etapaActual(pedido), resolucion.rolResponsableOrigen(), actor);
             if (bodegas.activa(comando.bodegaId()).isEmpty()) {
                 throw new DatoInvalido("bodegaId", "La bodega no existe o está inactiva; elige una bodega activa.");
@@ -127,7 +130,7 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
                 comando.nuevaFechaEstimadaLlegada(), comando.bodegaId());
         Instant ahora = reloj.ahora();
         // Una sola lectura del reloj: la hora del evento y el "hoy" de la demora son del mismo instante.
-        pedido.ejecutar(solicitud, regla, habilitadas, actor, ahora, apoyo.vencimientos(),
+        pedido.ejecutar(solicitud, regla, efectivas, actor, ahora, apoyo.vencimientos(),
                 ahora.atZone(reloj.zona()).toLocalDate());
         pedidos.actualizar(pedido);
         apoyo.publicarEventos(pedido);

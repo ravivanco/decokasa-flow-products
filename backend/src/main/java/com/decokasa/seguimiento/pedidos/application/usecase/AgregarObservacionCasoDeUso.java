@@ -6,6 +6,7 @@ import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
+import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
 import com.decokasa.seguimiento.pedidos.application.port.in.AgregarObservacion;
 import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
@@ -48,10 +49,12 @@ public final class AgregarObservacionCasoDeUso implements AgregarObservacion {
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
-        CodigoRol rol = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
+        ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
+        CodigoRol rol = flujo.etapa(pedido.etapaActual()).rolResponsable();
+        EtapasHabilitadas efectivas = habilitadas.para(flujo.etapas());
         // Antes de revisar archivos, el permiso y la entrada: quien no puede actuar no aprende nada de los
         // identificadores, y un archivo solo cuenta si es de la entrada actual.
-        pedido.autorizarObservacion(comando.etapaEsperada(), comando.entradaEsperadaId(), rol, habilitadas, actor);
+        pedido.autorizarObservacion(comando.etapaEsperada(), comando.entradaEsperadaId(), rol, efectivas, actor);
         if (!comando.adjuntoIds().isEmpty()) {
             UUID entradaId = pedido.etapas().stream()
                     .filter(etapa -> etapa.numero() == pedido.etapaActual())
@@ -61,7 +64,7 @@ public final class AgregarObservacionCasoDeUso implements AgregarObservacion {
             adjuntos.tiposValidos(pedido.id(), pedido.etapaActual(), entradaId, comando.adjuntoIds());
         }
         UUID eventoId = pedido.agregarObservacion(comando.etapaEsperada(), comando.entradaEsperadaId(),
-                comando.texto(), comando.adjuntoIds(), rol, habilitadas, actor, reloj.ahora()).eventoId();
+                comando.texto(), comando.adjuntoIds(), rol, efectivas, actor, reloj.ahora()).eventoId();
         apoyo.publicarEventos(pedido);
         return eventoId;
     }

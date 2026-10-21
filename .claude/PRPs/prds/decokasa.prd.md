@@ -186,7 +186,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | 3 | Drive y Gmail | Puertos y adaptadores de archivos (Drive, 100 MB) y notificaciones (Gmail al admin), cola con reintentos, pantalla de archivos y de correos enviados | pending | with 2 | 1 | - |
 | 4 | Etapas A5-A11 | Fabricación, embarque con Packing List / BL, aduana con demora y recálculo, salida, bodega obligatoria, incidencias y Fin automático | pending | - | 2, 3 | - |
 | 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | [fase-5-seguimiento.plan.md](../plans/fase-5-seguimiento.plan.md) (solo plan, 2026-10-20) |
-| 6 | Flujo B | Configuración del flujo B (11 etapas + Fin) sobre el motor, creación de pedidos por Compras China, bandeja de productos propuestos | pending | with 5 | 4 | - |
+| 6 | Flujo B | Configuración del flujo B (11 etapas + Fin) sobre el motor, creación de pedidos por Compras China, bandeja de productos propuestos | in-progress (plan; F6-D1 abierta) | with 5 | 4 | [fase-6-flujo-b.plan.md](../plans/fase-6-flujo-b.plan.md) |
 | 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujo colombiano, caso de uso de IA. Espera las definiciones del cliente; puede hacerse después de la fase 8 | pending | - | 5, 6 | - |
 | 8 | Producción | Alojamiento, CI, imágenes de producción, HTTPS, respaldos, monitoreo, auditoría final, prueba de aceptación con los 6 usuarios y documentación de entrega | pending | - | 5, 6 | - |
 

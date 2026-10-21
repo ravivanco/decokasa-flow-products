@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.application.ConsultasTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-21T20:50:10.116Z" hostname="DESKTOP-GKF6IVL" time="0.006">
+  <properties/>
+  <testcase name="consultarUnUsuarioInexistenteNoSeEncuentra()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.0"/>
+  <testcase name="elAdminListaLosRoles()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.0"/>
+  <testcase name="quienNoEsAdminNoConsultaUsuariosNiRoles()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.001"/>
+  <testcase name="unAdminDesactivadoNoConsultaUsuariosNiRolesConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.0"/>
+  <testcase name="unUsuarioDesactivadoOSinRolesNoTieneSesion()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.001"/>
+  <testcase name="elAdminListaYConsultaUsuarios()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.0"/>
+  <testcase name="unSolicitanteQueNoExisteEnLaBaseNoConsultaAunqueSuTokenDigaAdmin()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.001"/>
+  <testcase name="unAdminSinElRolAdminNoConsultaUsuariosNiRolesConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.001"/>
+  <testcase name="elUsuarioActualTieneLaUnionDeLosPermisosDeSusRoles()" classname="com.decokasa.seguimiento.usuarios.application.ConsultasTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

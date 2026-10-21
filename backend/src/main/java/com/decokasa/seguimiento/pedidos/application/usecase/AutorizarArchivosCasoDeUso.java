@@ -52,8 +52,10 @@ public final class AutorizarArchivosCasoDeUso implements AutorizarArchivosDePedi
         Pedido pedido = pedidos.buscarParaActualizar(pedidoId)
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
-        CodigoRol rol = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
-        Interviniente interviniente = pedido.autorizarSubida(etapa, entradaEsperadaId, rol, habilitadas, actor);
+        ContratoDeFlujo flujoDelPedido = flujos.porId(pedido.flujoId());
+        CodigoRol rol = flujoDelPedido.etapa(pedido.etapaActual()).rolResponsable();
+        Interviniente interviniente = pedido.autorizarSubida(etapa, entradaEsperadaId, rol,
+                habilitadas.para(flujoDelPedido.etapas()), actor);
         UUID entradaId = pedido.etapas().stream()
                 .filter(etapaDePedido -> etapaDePedido.numero() == pedido.etapaActual())
                 .map(EtapaDePedido::entradaId)

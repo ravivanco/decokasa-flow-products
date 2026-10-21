@@ -1,6 +1,8 @@
-import { InboxIcon } from 'lucide-react';
+import { InboxIcon, PlusIcon } from 'lucide-react';
 import { Link } from 'react-router';
+import { useDefinicionesVigentes } from '@/api/pedidos';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
+import { flujosQuePuedeCrear } from '@/components/pedidos/formato';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +16,7 @@ import {
 } from '@/components/ui/card';
 import { BuscarPorNumero } from './BuscarPorNumero';
 import { PanelVencidos } from './PanelVencidos';
+import { ProductosPropuestos } from './ProductosPropuestos';
 import { TableroTrabajo } from './TableroTrabajo';
 
 // Dashboard vacío por rol (plan, tarea 24; D7; manual, fase 1, paso 1.5). Un usuario con varios roles ve un panel por
@@ -42,9 +45,15 @@ const CONSULTA: Panel = {
 
 const PANELES: Record<string, Panel> = {
   admin: { titulo: 'Administración', descripcion: 'Usuarios, roles y visión general de los pedidos.' },
-  asistente_compras: { titulo: 'Revisión', descripcion: 'Pedidos pendientes de revisión en Ecuador.' },
+  asistente_compras: {
+    titulo: 'Revisión',
+    descripcion: 'Productos propuestos por China y pedidos pendientes de revisión en Ecuador.',
+  },
   marketing: { titulo: 'Codificación', descripcion: 'Pedidos pendientes de codificación y fotos.' },
-  compras_china: { titulo: 'Compras China', descripcion: 'Análisis, fabricación, embarque y aduana.' },
+  compras_china: {
+    titulo: 'Compras China',
+    descripcion: 'Pedidos propuestos, análisis, fabricación, embarque y aduana.',
+  },
   logistica: { titulo: 'Logística', descripcion: 'Autorización de salida, bodega e incidencias.' },
   asistente_china: CONSULTA,
   consulta: CONSULTA,
@@ -65,12 +74,29 @@ export function DashboardRol() {
   const admin = esAdmin(usuario);
   const paneles = panelesDe(usuario.roles);
   const conTrabajo = admin || paneles.some((panel) => !panel.provisional);
+  // Fase 6: crear según las definiciones (A el admin, B Compras China; P-14). El servidor lo vuelve a decidir.
+  const creables = flujosQuePuedeCrear(useDefinicionesVigentes(), usuario.roles);
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="font-heading text-2xl font-bold text-primary">Hola, {usuario.nombre}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-heading text-2xl font-bold text-primary">Hola, {usuario.nombre}</h1>
+        {creables.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {creables.map((tipo) => (
+              <Button key={tipo} variant="outline" asChild>
+                <Link to={`/pedidos/nuevo?flujo=${tipo}`}>
+                  <PlusIcon data-icon="inline-start" />
+                  {tipo === 'B' ? 'Crear pedido propuesto' : 'Nuevo pedido'}
+                </Link>
+              </Button>
+            ))}
+          </div>
+        )}
+      </div>
       <BuscarPorNumero />
       {conTrabajo && <TableroTrabajo admin={admin} />}
+      <ProductosPropuestos />
       {admin && <PanelVencidos />}
       <div className="grid gap-4 lg:grid-cols-2">
         {paneles.map((panel) => (

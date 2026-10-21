@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-21T20:23:59.895Z" hostname="DESKTOP-GKF6IVL" time="0.011">
+  <properties/>
+  <testcase name="conLaBaseVaciaCreaCadaUsuarioDelArchivoConSusRoles()" classname="com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest" time="0.005"/>
+  <testcase name="sinContrasenaTemporalNoArranca()" classname="com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest" time="0.002"/>
+  <testcase name="siYaHayUsuariosNoCargaNada()" classname="com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest" time="0.001"/>
+  <testcase name="unArchivoQueNoExisteDetieneElArranqueConUnMensajeClaro()" classname="com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest" time="0.002"/>
+  <system-out><![CDATA[2026-10-21T15:23:59.900-05:00  INFO 8820 --- [seguimiento] [    Test worker] c.d.s.u.a.i.a.CargadorUsuariosIniciales  : Se cargaron 2 usuarios iniciales.
+2026-10-21T15:23:59.904-05:00  INFO 8820 --- [seguimiento] [    Test worker] c.d.s.u.a.i.a.CargadorUsuariosIniciales  : Ya hay usuarios: no se cargan los usuarios iniciales.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,102 @@
+[
+  {
+    "rol": "admin",
+    "ruta": "/api/v1/archivos/cargas/22642883-8b14-4433-9e5e-4c7fd7d06473/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "marketing",
+    "ruta": "/api/v1/archivos/cargas/16869979-cb09-4f4a-bf7e-33c2dc6ffd78/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "marketing",
+    "ruta": "/api/v1/archivos/cargas/03a1e448-ed30-4e38-b69a-da5d0277d9e4/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/096c6fbb-7471-4f1b-82e0-11ad1196e4fe/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "logistica",
+    "ruta": "/api/v1/archivos/cargas/28afa7df-c1e2-4fae-a294-7a2a265f2e2c/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "logistica",
+    "ruta": "/api/v1/archivos/cargas/f81cb76e-70f6-440c-9ccb-fc3bb6d5605b/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/e604cb4c-1fba-401e-a3a2-9a6db679d017/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/ee370b6a-1f8a-4a7a-8def-ac0f00a3b3c2/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/255d05cd-6dc2-4336-b672-17e7f94b3925/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "admin",
+    "ruta": "/api/v1/archivos/cargas/fdcfa6d5-4f5d-4778-aa59-56afd87318a9/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "marketing",
+    "ruta": "/api/v1/archivos/cargas/d35ad25a-bb22-4d1f-8ee8-b7a6c6ad60b3/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "mixto",
+    "ruta": "/api/v1/archivos/cargas/41d8744b-f984-4fd5-be1e-6def59a82f1d/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "mixto",
+    "ruta": "/api/v1/archivos/cargas/7079bf95-c004-4051-bba2-9f8e92570e4e/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "mixto",
+    "ruta": "/api/v1/archivos/cargas/32f645c2-2ed8-4c25-920a-c36e8b8aa32d/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "mixto",
+    "ruta": "/api/v1/archivos/cargas/74f63e1f-86f9-41cf-9d1e-e0ce4730c521/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/5cf0d0ea-7c31-4ad7-9bcf-989d74ded690/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "compras_china",
+    "ruta": "/api/v1/archivos/cargas/dbac3372-c2a9-41bb-b729-74ed588e726d/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "logistica",
+    "ruta": "/api/v1/archivos/cargas/ef3e571d-8cd7-427f-9e28-6767e96c923a/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "logistica",
+    "ruta": "/api/v1/archivos/cargas/9ef08199-8f03-4aa9-a5ac-727683a7a198/fragmentos",
+    "status": 200
+  },
+  {
+    "rol": "doble",
+    "ruta": "/api/v1/archivos/cargas/e8ed7019-dc4f-4d33-b504-9c5e324f227e/fragmentos",
+    "status": 200
+  }
+]

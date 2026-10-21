@@ -151,7 +151,8 @@ public final class Pedido {
      * lo reserva el generador (paso 2.4).
      *
      * @param creador estado vigente de quien crea el pedido
-     * @throws SinPermiso si el creador no es el responsable de la primera etapa ni el admin
+     * @throws SinPermiso si el creador no tiene el rol responsable de la primera etapa (el admin solo crea los flujos
+     *         cuya primera etapa es suya, como A1; P-14)
      * @throws DatoInvalido si un dato está fuera de sus límites
      */
     public static Pedido crear(NumeroPedido numero, CodigoPais pais, FlujoDelPedido flujo, String nombre,
@@ -288,7 +289,8 @@ public final class Pedido {
             urgenciaTerminada = true;
         }
         // PROVISIONAL mientras P-10 siga pendiente del cliente (⏸): un rechazo de Revisión durante una urgencia
-        // (A3 → A2) no la cambia y su vencimiento sigue contando hasta volver a Análisis. No es una regla aprobada.
+        // (A3 → A2, B4 → B3) no la cambia y su vencimiento sigue contando hasta volver a Análisis (A4 / B5). No es una
+        // regla aprobada.
 
         EtapaDePedido etapaDestino = etapa(destino);
         etapaDestino.entrar(ahora, regla.destinoEsAutomatico() ? null

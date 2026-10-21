@@ -58,8 +58,9 @@ public class PedidosConfig {
 
     @Bean
     EtapasHabilitadas etapasHabilitadas() {
-        // Paso 4.5: A10 se habilita, pero no avanza con documentos pendientes. A11 nunca admite acciones manuales.
-        return EtapasHabilitadas.faseCuatroHastaIncidencias();
+        // Paso 6.4 (F6-D3): las etapas manuales de la definición del flujo de cada pedido (A1–A10, B1–B11). Las
+        // automáticas (A11, B12) nunca admiten acciones manuales.
+        return EtapasHabilitadas.segunDefinicion();
     }
 
     @Bean

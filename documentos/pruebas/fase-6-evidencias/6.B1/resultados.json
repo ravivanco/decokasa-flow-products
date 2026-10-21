@@ -1,0 +1,1248 @@
+{
+  "baseline-junit": {
+    "totales": {
+      "tests": 810,
+      "failures": 7,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "clase": "com.decokasa.seguimiento.AplicacionArrancaIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CargasB1IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.HistorialSecuenciaH01IT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": 9,
+        "failures": 1,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase5IT",
+        "tests": 8,
+        "failures": 1,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesV16IT",
+        "tests": 2,
+        "failures": 2,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": 40,
+        "failures": 2,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": 48,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.Fase5ReentradaTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+        "tests": 24,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": 97,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase5IT",
+        "tests": 35,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+        "tests": 21,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.adapter.out.diagnostico.Fase5DiagnosticoTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+        "tests": 20,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": 1,
+        "failures": 1,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V3MigracionIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      }
+    ],
+    "fallos": [
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "caso": "vaciaAplicaExactamenteV1AV16ValidaYNoReaplica()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nExpecting actual:\r\n  [\"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\",\r\n    \"6\",\r\n    \"7\",\r\n    \"8\",\r\n    \"9\",\r\n    \"10\",\r\n    \"11\",\r\n    \"12\",\r\n    \"13\",\r\n    \"14\",\r\n    \"15\",\r\n    \"16\",\r\n    \"17\",\r\n    \"18\"]\r\nto contain exactly (and in same order):\r\n  [\"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\",\r\n    \"6\",\r\n    \"7\",\r\n    \"8\",\r\n    \"9\",\r\n    \"10\",\r\n    \"11\",\r\n    \"12\",\r\n    \"13\",\r\n    \"14\",\r\n    \"15\",\r\n    \"16\"]\r\nbut some elements were not expected:\r\n  [\"17\", \"18\"]\r\n"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase5IT",
+        "caso": "vaciaTieneV16ConfiguracionPropuestaYEsquemaSinFeriados()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"16\"\r\n but was: \"18\""
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesV16IT",
+        "caso": "vaciaConservaEsquemaMetaPendienteYValidaV16()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"16\"\r\n but was: \"18\""
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesV16IT",
+        "caso": "v15ConPedidoEnA6ConservaDatosHistorialArchivosYVersion()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: 1\r\n but was: 3"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.MigracionesIT",
+        "caso": "reiniciarFlywayValidaLaMigracionSinReaplicarla()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"16\"\r\n but was: \"18\""
+      },
+      {
+        "clase": "com.decokasa.seguimiento.MigracionesIT",
+        "caso": "flywayCompletaVersionDosSinModificarLaUno()",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"16\"\r\n but was: \"18\""
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "caso": "initializationError",
+        "tipo": "failure",
+        "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: 16\r\n but was: 18"
+      }
+    ]
+  },
+  "dirigido-01-junit": {
+    "totales": {
+      "tests": 134,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase5IT",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase6IT",
+        "tests": 2,
+        "failures": 1,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesV16IT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": 40,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.HabilitacionFase6Test",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "tests": 22,
+        "failures": 5,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": 42,
+        "failures": 0,
+        "errors": 0
+      }
+    ],
+    "fallos": [
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase6IT",
+        "caso": "vaciaAplicaV1AV18ConEsquemaYReglasAprobadas()",
+        "tipo": "failure",
+        "mensaje": "java.lang.NullPointerException: Cannot invoke \"org.flywaydb.core.api.MigrationVersion.toString()\" because the return value of \"org.flywaydb.core.api.MigrationInfo.getVersion()\" is null"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "caso": "[1] nivel = \"URGENTE\", horas = \"4\"",
+        "tipo": "failure",
+        "mensaje": "java.lang.AssertionError: Response status expected:<200> but was:<422>"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "caso": "[2] nivel = \"PRIORITARIO\", horas = \"12\"",
+        "tipo": "failure",
+        "mensaje": "java.lang.AssertionError: Response status expected:<200> but was:<422>"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "caso": "[3] nivel = \"NORMAL\", horas = \"24\"",
+        "tipo": "failure",
+        "mensaje": "java.lang.AssertionError: Response status expected:<200> but was:<422>"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "caso": "[1] origen = \"1\", revisora = \"2\", tipo = \"Solicitud\"",
+        "tipo": "failure",
+        "mensaje": "java.lang.AssertionError: Response status expected:<200> but was:<409>"
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "caso": "[2] origen = \"3\", revisora = \"4\", tipo = \"Documentos codificados\"",
+        "tipo": "failure",
+        "mensaje": "java.lang.AssertionError: Response status expected:<200> but was:<409>"
+      }
+    ]
+  },
+  "dirigido-02-junit": {
+    "totales": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase6IT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.HabilitacionFase6Test",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      }
+    ],
+    "fallos": []
+  },
+  "final-junit": {
+    "totales": {
+      "tests": 878,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "clase": "com.decokasa.seguimiento.AplicacionArrancaIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CargasB1IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.HistorialSecuenciaH01IT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase5IT",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesFase6IT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.MigracionesV16IT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.MigracionesIT",
+        "tests": 40,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Backend24IT",
+        "tests": 48,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.Fase4ReglasTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.Fase5ReentradaTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.HabilitacionFase6Test",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+        "tests": 24,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase4IT",
+        "tests": 97,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase5IT",
+        "tests": 35,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.Fase6IT",
+        "tests": 23,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+        "tests": 21,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.adapter.out.diagnostico.Fase5DiagnosticoTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+        "tests": 20,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+        "tests": 17,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V2RestriccionesIT",
+        "tests": 42,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "clase": "com.decokasa.seguimiento.V3MigracionIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0
+      }
+    ],
+    "fallos": []
+  },
+  "coberturaGlobal": {
+    "INSTRUCTION": {
+      "covered": 31956,
+      "missed": 3475,
+      "total": 35431,
+      "pct": 90.19
+    },
+    "BRANCH": {
+      "covered": 2087,
+      "missed": 778,
+      "total": 2865,
+      "pct": 72.84
+    },
+    "LINE": {
+      "covered": 5382,
+      "missed": 513,
+      "total": 5895,
+      "pct": 91.3
+    },
+    "COMPLEXITY": {
+      "covered": 2320,
+      "missed": 881,
+      "total": 3201,
+      "pct": 72.48
+    },
+    "METHOD": {
+      "covered": 1572,
+      "missed": 178,
+      "total": 1750,
+      "pct": 89.83
+    },
+    "CLASS": {
+      "covered": 401,
+      "missed": 12,
+      "total": 413,
+      "pct": 97.09
+    }
+  },
+  "coberturaModulos": {
+    "pedidos": {
+      "INSTRUCTION": {
+        "covered": 7688,
+        "missed": 593,
+        "total": 8281,
+        "pct": 92.84
+      },
+      "BRANCH": {
+        "covered": 517,
+        "missed": 145,
+        "total": 662,
+        "pct": 78.1
+      },
+      "LINE": {
+        "covered": 1341,
+        "missed": 74,
+        "total": 1415,
+        "pct": 94.77
+      },
+      "COMPLEXITY": {
+        "covered": 569,
+        "missed": 159,
+        "total": 728,
+        "pct": 78.16
+      },
+      "METHOD": {
+        "covered": 368,
+        "missed": 25,
+        "total": 393,
+        "pct": 93.64
+      },
+      "CLASS": {
+        "covered": 82,
+        "missed": 1,
+        "total": 83,
+        "pct": 98.8
+      }
+    },
+    "flujos": {
+      "INSTRUCTION": {
+        "covered": 1478,
+        "missed": 120,
+        "total": 1598,
+        "pct": 92.49
+      },
+      "BRANCH": {
+        "covered": 89,
+        "missed": 20,
+        "total": 109,
+        "pct": 81.65
+      },
+      "LINE": {
+        "covered": 238,
+        "missed": 19,
+        "total": 257,
+        "pct": 92.61
+      },
+      "COMPLEXITY": {
+        "covered": 147,
+        "missed": 28,
+        "total": 175,
+        "pct": 84.0
+      },
+      "METHOD": {
+        "covered": 111,
+        "missed": 8,
+        "total": 119,
+        "pct": 93.28
+      },
+      "CLASS": {
+        "covered": 22,
+        "missed": 0,
+        "total": 22,
+        "pct": 100.0
+      }
+    },
+    "archivos": {
+      "INSTRUCTION": {
+        "covered": 9229,
+        "missed": 1653,
+        "total": 10882,
+        "pct": 84.81
+      },
+      "BRANCH": {
+        "covered": 669,
+        "missed": 379,
+        "total": 1048,
+        "pct": 63.84
+      },
+      "LINE": {
+        "covered": 1391,
+        "missed": 220,
+        "total": 1611,
+        "pct": 86.34
+      },
+      "COMPLEXITY": {
+        "covered": 524,
+        "missed": 404,
+        "total": 928,
+        "pct": 56.47
+      },
+      "METHOD": {
+        "covered": 336,
+        "missed": 68,
+        "total": 404,
+        "pct": 83.17
+      },
+      "CLASS": {
+        "covered": 83,
+        "missed": 3,
+        "total": 86,
+        "pct": 96.51
+      }
+    },
+    "plazos": {
+      "INSTRUCTION": {
+        "covered": 2444,
+        "missed": 142,
+        "total": 2586,
+        "pct": 94.51
+      },
+      "LINE": {
+        "covered": 448,
+        "missed": 23,
+        "total": 471,
+        "pct": 95.12
+      },
+      "COMPLEXITY": {
+        "covered": 199,
+        "missed": 37,
+        "total": 236,
+        "pct": 84.32
+      },
+      "METHOD": {
+        "covered": 117,
+        "missed": 2,
+        "total": 119,
+        "pct": 98.32
+      },
+      "CLASS": {
+        "covered": 39,
+        "missed": 1,
+        "total": 40,
+        "pct": 97.5
+      },
+      "BRANCH": {
+        "covered": 192,
+        "missed": 39,
+        "total": 231,
+        "pct": 83.12
+      }
+    }
+  },
+  "conservacion": {
+    "cambios": [
+      "backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesFase5IT.java",
+      "backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesV16IT.java",
+      "backend/src/test/java/com/decokasa/seguimiento/V2RestriccionesIT.java",
+      "backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesFase4IT.java",
+      "backend/src/test/java/com/decokasa/seguimiento/MigracionesIT.java"
+    ],
+    "produccionIntacta": true,
+    "headerIntacto": true,
+    "indiceIntacto": true
+  },
+  "rama": "fase-6-flujo-b",
+  "googleReal": false,
+  "alcance": "Solo 6.B1; sin frontend ni recorrido de navegador 6.B2",
+  "fases": "Abiertas",
+  "3.B3": "Pospuesto",
+  "archivosConPatronesSecretos": []
+}

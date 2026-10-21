@@ -209,6 +209,20 @@ UNIQUE (`flujo_id`, `etapa_origen`, `accion`). En V2 la transición apunta al or
 - **`ELEGIR_BODEGA`:** no se siembra; es diseño del contrato, no está en 4.4.
 - **Habilitación:** en la fase 2 la aplicación solo habilita las acciones de A1 a A4, incluido A4 → A5. El flujo B se siembra en la fase 6.
 
+**Siembra del flujo B de Ecuador, versión 1 (V17, fase 6, paso 6.1):** solo inserta filas y no cambia A.
+- **Etapas:** 12, con Fin automático en B12 y la llegada en B8.
+- **Transiciones:** las 16 de `requerimientos.md` 4.5:
+  - B2 ✗ → B1 y B4 ✗ → B3;
+  - B5 devuelve por error y por producto nuevo a B3 (con urgencia hasta volver a B5);
+  - B6–B12 como A5–A11.
+- **Documentos (decisión de Richard del 2026-10-21, no del cliente):**
+  - B1 "Solicitud", B3 "Documentos codificados" y B7 "Packing List";
+  - B10 y B11 con `exige_algun_documento`.
+- **Siguen pendientes:**
+  - plazos de B2, B6, B8 y B11;
+  - `revisa_etapa` de B2 y B4;
+  - creación por el admin (P-14).
+
 ### 3.3 Pedidos y línea de tiempo (módulo `pedidos`)
 
 **`secuencia_pedido`** — creada en V2 para el formato `DK-EC-AAAA-NNNN` y la separación por país y año, que siguen **provisionales ⏸** (el manual los mantiene así mientras no se aprueben). Un trigger impide borrar filas, cambiar país o año, y hacer retroceder `ultimo_numero`.

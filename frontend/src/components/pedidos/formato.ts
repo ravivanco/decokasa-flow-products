@@ -1,7 +1,7 @@
 import { CODIGO_RESPUESTA_INVALIDA, esErrorApi } from '@/api/cliente';
 import type { Usuario } from '@/api/esquemas';
 import { mensajeDeError } from '@/api/mensajes';
-import type { AccionEtapa, EtapaEnLinea, NivelUrgencia, TipoEvento } from '@/api/pedidos';
+import type { AccionEtapa, DefinicionFlujo, EtapaEnLinea, NivelUrgencia, TipoEvento } from '@/api/pedidos';
 
 // Textos y formatos de las pantallas de pedidos. Las fechas llegan con la zona de Ecuador (-05:00, ADR-0006) y se
 // muestran en esa misma zona, sin depender de la zona del navegador (David trabaja desde China).
@@ -48,6 +48,28 @@ export function formatearTamano(bytes: number): string {
 /** "A2", "B5": el código de etapa que usan los requisitos. */
 export function codigoEtapa(tipoFlujo: string, numero: number): string {
   return `${tipoFlujo}${numero}`;
+}
+
+const NOMBRE_FLUJO: Record<string, string> = { A: 'A · Ecuador', B: 'B · China' };
+
+/** "A · Ecuador", "B · China": de dónde nace el pedido (requerimientos 1.4 y 1.5). */
+export function nombreFlujo(tipoFlujo: string): string {
+  return NOMBRE_FLUJO[tipoFlujo] ?? tipoFlujo;
+}
+
+/**
+ * Pista para la pantalla, no un permiso: los flujos cuya primera etapa tiene un rol vigente de la persona, que es la
+ * regla del servidor para crear (paso 6.2). El admin crea A porque A1 es suyo; no crea B sin Compras China (P-14 ⏸).
+ * Con varios roles se suman. Sale de las definiciones, no de nombres de rol fijos.
+ */
+export function flujosQuePuedeCrear(
+  definiciones: { A?: DefinicionFlujo; B?: DefinicionFlujo },
+  roles: string[],
+): ('A' | 'B')[] {
+  return (['A', 'B'] as const).filter((tipo) => {
+    const inicial = definiciones[tipo]?.etapas[0];
+    return inicial?.rolResponsable != null && roles.includes(inicial.rolResponsable);
+  });
 }
 
 export const NOMBRE_ACCION: Record<AccionEtapa, string> = {

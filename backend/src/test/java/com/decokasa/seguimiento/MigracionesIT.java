@@ -103,8 +103,8 @@ class MigracionesIT {
         assertThat(resultadoV2.targetSchemaVersion).isEqualTo("2");
         assertThat(resultadoV2.migrationsExecuted).isEqualTo(1);
         assertThat(resultado.success).isTrue();
-        assertThat(resultado.targetSchemaVersion).isEqualTo("16");
-        assertThat(resultado.migrationsExecuted).isEqualTo(14);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("18");
+        assertThat(resultado.migrationsExecuted).isEqualTo(16);
     }
 
     @Test
@@ -118,8 +118,8 @@ class MigracionesIT {
 
         assertThat(segunda.success).isTrue();
         assertThat(segunda.migrationsExecuted).isZero();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("16");
-        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("18");
+        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18");
         assertThat(flyway.info().pending()).isEmpty();
     }
 

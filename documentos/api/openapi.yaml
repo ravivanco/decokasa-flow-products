@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.14.0-borrador
+  version: 0.15.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -110,6 +110,13 @@ info:
     un documento de cualquier tipo, sin tipo comercial fijo y sin excepción "sin incidencias". Las tres transiciones pasan
     de `PENDIENTES` a `DEFINIDOS`. `DefinicionAccion` y `AccionDisponible` agregan `exigeAlgunDocumento`; si falta ese
     documento, `faltantes` y `documentosFaltantes` incluyen "al menos un documento". Solo se agrega un campo.
+
+    **Cambios del 2026-10-21 (fase 6, pasos 6.1 y 6.2; V17; versión 0.15.0-borrador).** Flujo B de Ecuador, versión 1,
+    vigente: `GET /flujos/EC/B` devuelve sus 12 etapas. `POST /pedidos` con `tipoFlujo: B` lo crea solo quien tiene,
+    vigente en la base, el rol `compras_china` (responsable de B1). El rol `admin` por sí solo recibe 403 al crear B
+    (P-14 sigue pendiente); un admin que también tenga `compras_china` lo crea por ese rol. La creación del flujo A no
+    cambia. B1 ENVIAR exige "Solicitud" (decisión de Richard del 2026-10-21) y B2 RECHAZAR vuelve a B1 con observación
+    obligatoria. Sin cambios de esquema.
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6), con el estado y los roles
     actuales de la persona en la base, no con los roles del token.
@@ -712,13 +719,16 @@ paths:
       summary: Crear pedido (solicitud) del flujo A o B
       x-origen: requisito
       x-roles: [admin, compras_china]
-      x-pendiente: ¿El admin crea pedidos del flujo B? (`arquitectura.md`, 8.1)
+      x-pendiente: ¿El admin crea pedidos del flujo B? (`arquitectura.md`, 8.1). Mientras tanto, no los crea (0.15.0).
       x-permisos-por-flujo:
         A: [admin]
         B: [compras_china]
       description: |
-        Requisito 4.2 #4: el flujo A lo crea el admin; el flujo B, Compras China (David). Si el rol
-        no corresponde al `tipoFlujo`, la respuesta es 403 (pendiente: si el admin también crea el B).
+        Requisito 4.2 #4: el flujo A lo crea el admin; el flujo B, Compras China (David). Crea quien tiene,
+        vigente en la base, el rol responsable de la primera etapa de la definición vigente del flujo. Si no
+        lo tiene, la respuesta es 403. El rol `admin` por sí solo no crea B mientras siga pendiente si puede
+        hacerlo (P-14); un admin que también tenga `compras_china` crea B por ese rol. Actuar en una etapa
+        (P-06) sigue permitido al admin vigente, también en B1.
         El servidor genera el número (requisito 4.2 #5). El pedido queda en A1 / B1. La solicitud
         (A1) o la propuesta de producto (B1) se adjuntan después con `POST .../archivos`, y la
         etapa se envía con la acción ENVIAR.
@@ -878,8 +888,8 @@ paths:
 
         | Etapa | Acciones permitidas | Destino | Requisitos |
         | --- | --- | --- | --- |
-        | A1 / B1 | ENVIAR | A2 / B2 | Solicitud (A1) o producto propuesto (B1) adjuntos |
-        | B2 | APROBAR / RECHAZAR | B3 / B1 | RECHAZAR: observación |
+        | A1 / B1 | ENVIAR | A2 / B2 | "Solicitud" adjunta (A1; B1 por decisión de Richard, 2026-10-21). El producto propuesto en B1 puede adjuntarse como documento adicional |
+        | B2 | APROBAR / RECHAZAR | B3 / B1 | RECHAZAR: observación obligatoria; vuelve a B1 con una entrada nueva |
         | A2 / B3 | ENVIAR | A3 / B4 | Documentos codificados adjuntos |
         | A3 / B4 | APROBAR / RECHAZAR | A4 / B5 — A2 / B3 | RECHAZAR: observación |
         | A4 / B5 | APROBAR / DEVOLVER_POR_ERROR / DEVOLVER_POR_PRODUCTO_NUEVO | A5 / B6 — A2 / B3 — A2 / B3 | Devolver: observación; por producto nuevo, además, urgencia |

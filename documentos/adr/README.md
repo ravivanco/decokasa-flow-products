@@ -31,6 +31,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | [0016](0016-spring-boot-4.md) | Spring Boot 4.1 en lugar de Spring Boot 3 | accepted (equipo) | 2026-10-12 | Paso 1.3: la rama 3.x quedó sin soporte gratuito el 2026-06-30 (API oficial de spring.io) |
 | [0017](0017-google-oauth-usuario-gmail-personal.md) | Gmail personal y Mi unidad con OAuth de usuario, cliente web local | accepted (equipo, Richard) | 2026-10-17 | Paso 3.1; sustituye la variante Workspace de 0003 y resuelve el canal de 0013 |
 | [0018](0018-etapa-de-llegada-explicita.md) | La etapa de llegada a aduana se marca de forma explícita en la definición del flujo | accepted (equipo) | 2026-10-19 | Paso 4.3 (fase 4): pedido por Richard tras la revisión del paso; marca `definicion_etapa.registra_llegada` (V11), solo A7 en el flujo A vigente. No es una respuesta del cliente |
+| [0019](0019-habilitacion-por-definicion.md) | Las etapas operables se deciden con la definición del flujo de cada pedido | proposed (pendiente de revisión por Codex y de aceptación por Richard) | 2026-10-21 | Propuesta P6-B3-ADR de Codex (fase 6, 6.B3). Registra F6-D3 (paso 6.4), el guard de etapas automáticas y la creación por el rol de la primera etapa (F6-D2). Complementa 0004. No es una respuesta del cliente; P-14 sigue pendiente |
 
 ## Propuestas de `arquitectura.md` (8.2) incluidas dentro de otro ADR
 
