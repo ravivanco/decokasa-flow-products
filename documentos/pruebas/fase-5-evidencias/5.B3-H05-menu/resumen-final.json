@@ -1,0 +1,16 @@
+{
+  "rama": "fase-5-seguimiento",
+  "archivosProtegidosAlterados": [],
+  "puertosAbiertos": {
+    "43184": false,
+    "43185": false,
+    "43186": false
+  },
+  "backendIniciado": false,
+  "baseDeDatosUtilizada": false,
+  "pedidosCreados": 0,
+  "api": "Dobles HTTP solo en navegador",
+  "H01_H04": "Pruebas y evidencias previas conservadas; no reejecutadas",
+  "produccionHeaderIndiceGit": "Hashes intactos",
+  "referenciasInformeAusentes": []
+}

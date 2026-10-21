@@ -69,9 +69,12 @@ public class PedidoController {
 
     @GetMapping("/bandeja")
     public PedidoRespuestas.Pagina bandeja(@AuthenticationPrincipal Jwt token,
+            @RequestParam(required = false) Boolean vencido,
+            @RequestParam(required = false) Boolean conUrgencia,
             @RequestParam(defaultValue = "0") @Min(0) int pagina,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int tamano) {
-        return PedidoRespuestas.de(consultar.bandeja(SolicitantesWeb.de(token), pagina, tamano));
+        return PedidoRespuestas.de(consultar.bandeja(SolicitantesWeb.de(token),
+                new ConsultarPedidos.FiltroBandeja(vencido, conUrgencia), pagina, tamano));
     }
 
     @GetMapping("/{pedidoId}")

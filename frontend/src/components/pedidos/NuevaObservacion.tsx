@@ -1,12 +1,14 @@
 import { CircleAlertIcon, LoaderIcon, SendIcon } from 'lucide-react';
 import { type FormEvent, useId, useState } from 'react';
 import { toast } from 'sonner';
+import { usePausarActualizacion } from '@/api/actualizacion';
 import { type Adjunto, useAgregarObservacion } from '@/api/pedidos';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldDescription, FieldError, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
+import { useBorrador } from './borradores';
 import { mensajeDeErrorPedido } from './formato';
 
 // Nueva observación (DESIGN.md 7.4; P-19, provisional del equipo): la agrega quien puede actuar en la etapa actual o
@@ -24,10 +26,15 @@ interface Props {
 export function NuevaObservacion({ pedidoId, etapa, entradaId, adjuntos }: Props) {
   const ids = useId();
   const agregar = useAgregarObservacion();
-  const [texto, setTexto] = useState('');
+  // Paso 5.5: el texto vive en el borrador de esta entrada; si la etapa cambia, no se pierde (BorradoresEnConflicto).
+  const borrador = useBorrador('observacion', etapa, entradaId);
+  const texto = borrador.texto;
+  const setTexto = borrador.cambiar;
   const [elegidos, setElegidos] = useState<Set<string>>(() => new Set());
   const [error, setError] = useState<string | null>(null);
   const [fallo, setFallo] = useState<unknown>(null);
+  // Paso 5.4: con texto o archivos elegidos sin publicar, el refresco automático no cambia la pantalla.
+  usePausarActualizacion(texto.trim() !== '' || elegidos.size > 0);
 
   function alternar(id: string, marcado: boolean) {
     setElegidos((actuales) => {
@@ -52,7 +59,7 @@ export function NuevaObservacion({ pedidoId, etapa, entradaId, adjuntos }: Props
       {
         onSuccess: () => {
           toast.success('Observación publicada en el historial.');
-          setTexto('');
+          borrador.descartar();
           setElegidos(new Set());
         },
         onError: setFallo,

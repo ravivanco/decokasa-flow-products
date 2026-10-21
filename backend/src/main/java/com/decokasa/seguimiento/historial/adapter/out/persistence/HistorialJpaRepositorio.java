@@ -8,6 +8,7 @@ import com.decokasa.seguimiento.historial.domain.DetalleEvento;
 import com.decokasa.seguimiento.historial.domain.EventoPedido;
 import com.decokasa.seguimiento.historial.domain.TipoEventoPedido;
 import jakarta.persistence.EntityManager;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,6 +100,18 @@ public class HistorialJpaRepositorio implements HistorialRepositorio {
         if (detalle.bodegaId() != null) {
             campos.put("bodegaId", detalle.bodegaId().toString());
         }
+        if (detalle.claseVencimiento() != null) {
+            campos.put("claseVencimiento", detalle.claseVencimiento());
+        }
+        if (detalle.venceEn() != null) {
+            campos.put("venceEn", detalle.venceEn().toString());
+        }
+        if (detalle.entradaId() != null) {
+            campos.put("entradaId", detalle.entradaId().toString());
+        }
+        if (detalle.urgenciaActivacionId() != null) {
+            campos.put("urgenciaActivacionId", detalle.urgenciaActivacionId().toString());
+        }
         return campos.isEmpty() ? null : json.writeValueAsString(campos);
     }
 
@@ -125,7 +138,12 @@ public class HistorialJpaRepositorio implements HistorialRepositorio {
                 nodo.hasNonNull("asignadoA") ? UUID.fromString(nodo.get("asignadoA").asString()) : null,
                 fecha(nodo, "fechaEstimadaAnterior"), fecha(nodo, "fechaEstimadaSolicitada"),
                 fecha(nodo, "nuevaFechaEstimadaLlegada"),
-                nodo.hasNonNull("bodegaId") ? UUID.fromString(nodo.get("bodegaId").asString()) : null);
+                nodo.hasNonNull("bodegaId") ? UUID.fromString(nodo.get("bodegaId").asString()) : null,
+                nodo.hasNonNull("claseVencimiento") ? nodo.get("claseVencimiento").asString() : null,
+                nodo.hasNonNull("venceEn") ? Instant.parse(nodo.get("venceEn").asString()) : null,
+                nodo.hasNonNull("entradaId") ? UUID.fromString(nodo.get("entradaId").asString()) : null,
+                nodo.hasNonNull("urgenciaActivacionId")
+                        ? UUID.fromString(nodo.get("urgenciaActivacionId").asString()) : null);
     }
 
     private static LocalDate fecha(JsonNode nodo, String campo) {

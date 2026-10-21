@@ -88,8 +88,14 @@ public final class EnviarNotificacionesCasoDeUso implements EnviarNotificaciones
         return "Pedido: "+n.datos().getOrDefault("pedido",n.pedidoId().toString())
             +"\nPaís: "+n.datos().getOrDefault("pais","")
             +"\nEvento: "+n.datos().getOrDefault("tipoEvento","")
-            +"\nEtapa de origen: "+n.datos().getOrDefault("etapaOrigen","")
-            +"\nEtapa de destino: "+n.datos().getOrDefault("etapaDestino","")
+            +(n.datos().containsKey("claseVencimiento") ? ""
+                : "\nEtapa de origen: "+n.datos().getOrDefault("etapaOrigen","")
+                    +"\nEtapa de destino: "+n.datos().getOrDefault("etapaDestino",""))
+            +(n.datos().containsKey("claseVencimiento")
+                ? "\nPlazo vencido: "+n.datos().get("claseVencimiento")
+                    +"\nEtapa: "+n.datos().getOrDefault("etapa","")
+                    +"\nVencía: "+n.datos().getOrDefault("venceEn","")
+                : "")
             +"\nFecha: "+n.datos().getOrDefault("ocurridoEn","")
             +"\nConsulta el pedido en la aplicación.";
     }

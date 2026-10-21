@@ -1,0 +1,25 @@
+allprojects { p ->
+ p.plugins.withId('java') {
+  def base = new File(p.projectDir, '../documentos/pruebas/fase-5-evidencias/5.B2-revalidacion-20')
+  def s = p.sourceSets.create('verificacionB2') {
+   java.srcDir(new File(base, 'java'))
+   compileClasspath = p.sourceSets.main.output + p.configurations.testRuntimeClasspath
+   runtimeClasspath = output + compileClasspath
+  }
+  p.tasks.register('f5B2', JavaExec) {
+   dependsOn s.classesTaskName
+   classpath = s.runtimeClasspath
+   mainClass = 'com.decokasa.b2.ArnesB2'
+   args base.absolutePath
+  }
+  p.tasks.register('revalidarResumenesB2', Test) {
+   dependsOn s.classesTaskName
+   testClassesDirs = s.output.classesDirs
+   classpath = s.runtimeClasspath
+   include '**/ResumirUsuariosB2Test.class'
+   useJUnitPlatform()
+   reports.junitXml.outputLocation = new File(base,'junit-resumenes')
+   reports.html.outputLocation = new File(base,'.tmp/html-resumenes')
+  }
+ }
+}

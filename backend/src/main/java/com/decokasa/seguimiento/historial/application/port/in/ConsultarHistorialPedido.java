@@ -40,7 +40,7 @@ public interface ConsultarHistorialPedido {
             String observacion, NivelUrgencia nivelUrgencia, Integer etapaDestino, MotivoDevolucion motivoDevolucion,
             Boolean urgenciaTerminada, UUID asignadoAnterior, UUID asignadoA, LocalDate fechaEstimadaAnterior,
             LocalDate fechaEstimadaSolicitada, LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId,
-            List<UUID> adjuntoIds) {
+            String claseVencimiento, Instant venceEn, List<UUID> adjuntoIds) {
 
         public Evento {
             adjuntoIds = adjuntoIds == null ? List.of() : List.copyOf(adjuntoIds);

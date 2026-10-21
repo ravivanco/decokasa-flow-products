@@ -1,0 +1,15 @@
+{
+  "rama": "fase-5-seguimiento",
+  "referencias": 23,
+  "rotas": [],
+  "patrones_secretos_reales": [],
+  "produccion_y_cambios_previos_conservados": true,
+  "indice_conservado": true,
+  "check": "APROBADO",
+  "backend_lineas_global": 91.35506003430531,
+  "deteccion_automatica": false,
+  "Google_real": false,
+  "5.B2": "NO EJECUTADO",
+  "fases_3_4_5": "ABIERTAS",
+  "3.B3": "POSPUESTO"
+}

@@ -1,4 +1,4 @@
-import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, UsersIcon, WarehouseIcon, type LucideIcon } from 'lucide-react';
+import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, TargetIcon, UsersIcon, WarehouseIcon, type LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
@@ -26,6 +26,7 @@ const ENLACES: Enlace[] = [
   { a: '/notificaciones', texto: 'Correos', icono: MailIcon, soloAdmin: true },
   { a: '/usuarios', texto: 'Usuarios', icono: UsersIcon, soloAdmin: true },
   { a: '/roles', texto: 'Roles', icono: ShieldCheckIcon, soloAdmin: true },
+  { a: '/configuracion/plazos', texto: 'Meta de plazos', icono: TargetIcon, soloAdmin: true },
 ];
 
 export function Sidebar() {
@@ -38,7 +39,10 @@ export function Sidebar() {
 
   return (
     <nav aria-label="Menú principal" className="border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0">
-      <ul className="flex gap-1 overflow-x-auto p-2 md:flex-col">
+      {/* F5-B3-H05: en móvil el menú era una tira con desplazamiento horizontal, y al recibir foco un enlace visible a
+          medias ("Bodegas", "Roles") no se desplazaba y quedaba recortado contra el borde. Ahora los enlaces pasan a la
+          línea siguiente: todos se ven completos, con su anillo de foco, sin desplazamiento ni texto acortado. */}
+      <ul className="flex flex-wrap gap-1 p-2 md:flex-col md:flex-nowrap">
         {visibles.map(({ a, texto, icono: Icono }) => (
           <li key={a}>
             <NavLink

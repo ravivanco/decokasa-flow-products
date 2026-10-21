@@ -70,6 +70,10 @@ public class PedidoEntity {
     @Column(name = "urgencia_vence_en")
     private Instant urgenciaVenceEn;
 
+    // V15 (paso 5.2): entrada creada por la devolución que activó la urgencia vigente; su identidad estable.
+    @Column(name = "urgencia_activacion_id")
+    private UUID urgenciaActivacionId;
+
     // V9: check de llegada de A7.
     @Column(name = "llegada_aduana_en")
     private Instant llegadaAduanaEn;
@@ -242,6 +246,14 @@ public class PedidoEntity {
 
     long getVersion() {
         return version;
+    }
+
+    void cambiarActivacionUrgencia(UUID urgenciaActivacionId) {
+        this.urgenciaActivacionId = urgenciaActivacionId;
+    }
+
+    UUID getUrgenciaActivacionId() {
+        return urgenciaActivacionId;
     }
 
     List<EtapaPedidoEntity> getEtapas() {

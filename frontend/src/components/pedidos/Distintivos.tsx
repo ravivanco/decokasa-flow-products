@@ -18,10 +18,21 @@ const TONOS = {
 // DESIGN.md 5: los badges usan el radio pequeño (6 px), no la píldora por defecto de shadcn.
 const BASE = 'h-auto gap-1 rounded-sm py-0.5 text-sm [&>svg]:size-3.5!';
 
-/** @param venceEn vencimiento propio de la urgencia, si se conoce (el historial no lo trae) */
-export function DistintivoUrgencia({ nivel, venceEn }: { nivel: NivelUrgencia; venceEn?: string | null }) {
-  const Icono = nivel === 'URGENTE' ? ZapIcon : nivel === 'PRIORITARIO' ? ArrowUpIcon : ClockIcon;
-  const tono = nivel === 'URGENTE' ? 'urgente' : nivel === 'PRIORITARIO' ? 'aviso' : 'neutro';
+/**
+ * @param venceEn vencimiento propio de la urgencia, si se conoce (el historial no lo trae)
+ * @param vencida la urgencia ya venció según el servidor (paso 5.3); se dice con texto e ícono, no solo con color
+ */
+export function DistintivoUrgencia({
+  nivel,
+  venceEn,
+  vencida = false,
+}: {
+  nivel: NivelUrgencia;
+  venceEn?: string | null;
+  vencida?: boolean;
+}) {
+  const Icono = vencida ? CircleAlertIcon : nivel === 'URGENTE' ? ZapIcon : nivel === 'PRIORITARIO' ? ArrowUpIcon : ClockIcon;
+  const tono = vencida ? 'vencido' : nivel === 'URGENTE' ? 'urgente' : nivel === 'PRIORITARIO' ? 'aviso' : 'neutro';
   return (
     <Badge
       variant="outline"
@@ -29,7 +40,7 @@ export function DistintivoUrgencia({ nivel, venceEn }: { nivel: NivelUrgencia; v
       title={venceEn ? `La urgencia vence el ${formatearFechaHora(venceEn)} (hora de Ecuador)` : undefined}
     >
       <Icono aria-hidden="true" />
-      {NOMBRE_URGENCIA[nivel]} · {HORAS_URGENCIA[nivel]} h
+      {NOMBRE_URGENCIA[nivel]} · {HORAS_URGENCIA[nivel]} h{vencida ? ' · vencida' : ''}
     </Badge>
   );
 }

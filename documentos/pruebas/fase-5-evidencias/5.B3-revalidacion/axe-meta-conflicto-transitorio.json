@@ -1,0 +1,323 @@
+{
+  "url": "/configuracion/plazos",
+  "version": "4.14.0",
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#7b7984",
+                "bgColor": "#fbfbfd",
+                "contrastRatio": 4.13,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+                  "target": [
+                    ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(1)"
+                  ]
+                },
+                {
+                  "html": "<div data-slot=\"alert\" role=\"alert\" class=\"group/alert relative...\" aria-live=\"polite\">",
+                  "target": [
+                    ".text-destructive"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.13 (foreground color: #7b7984, background color: #fbfbfd, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+          "target": [
+            ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.13 (foreground color: #7b7984, background color: #fbfbfd, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#7b7984",
+                "bgColor": "#fbfbfd",
+                "contrastRatio": 4.13,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+                  "target": [
+                    ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(2)"
+                  ]
+                },
+                {
+                  "html": "<div data-slot=\"alert\" role=\"alert\" class=\"group/alert relative...\" aria-live=\"polite\">",
+                  "target": [
+                    ".text-destructive"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 4.13 (foreground color: #7b7984, background color: #fbfbfd, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+          "target": [
+            ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.13 (foreground color: #7b7984, background color: #fbfbfd, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [],
+  "passes": [
+    {
+      "id": "aria-allowed-attr",
+      "nodes": 6
+    },
+    {
+      "id": "aria-allowed-role",
+      "nodes": 3
+    },
+    {
+      "id": "aria-conditional-attr",
+      "nodes": 6
+    },
+    {
+      "id": "aria-deprecated-role",
+      "nodes": 3
+    },
+    {
+      "id": "aria-hidden-body",
+      "nodes": 1
+    },
+    {
+      "id": "aria-hidden-focus",
+      "nodes": 13
+    },
+    {
+      "id": "aria-prohibited-attr",
+      "nodes": 6
+    },
+    {
+      "id": "aria-required-attr",
+      "nodes": 3
+    },
+    {
+      "id": "aria-roles",
+      "nodes": 3
+    },
+    {
+      "id": "aria-valid-attr-value",
+      "nodes": 6
+    },
+    {
+      "id": "aria-valid-attr",
+      "nodes": 6
+    },
+    {
+      "id": "autocomplete-valid",
+      "nodes": 1
+    },
+    {
+      "id": "button-name",
+      "nodes": 4
+    },
+    {
+      "id": "bypass",
+      "nodes": 1
+    },
+    {
+      "id": "color-contrast",
+      "nodes": 27
+    },
+    {
+      "id": "document-title",
+      "nodes": 1
+    },
+    {
+      "id": "duplicate-id-aria",
+      "nodes": 3
+    },
+    {
+      "id": "empty-heading",
+      "nodes": 3
+    },
+    {
+      "id": "form-field-multiple-labels",
+      "nodes": 1
+    },
+    {
+      "id": "heading-order",
+      "nodes": 3
+    },
+    {
+      "id": "html-has-lang",
+      "nodes": 1
+    },
+    {
+      "id": "html-lang-valid",
+      "nodes": 1
+    },
+    {
+      "id": "label-title-only",
+      "nodes": 1
+    },
+    {
+      "id": "label",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-banner-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-main-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-banner",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-one-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-unique",
+      "nodes": 5
+    },
+    {
+      "id": "link-name",
+      "nodes": 8
+    },
+    {
+      "id": "list",
+      "nodes": 1
+    },
+    {
+      "id": "listitem",
+      "nodes": 8
+    },
+    {
+      "id": "meta-viewport-large",
+      "nodes": 1
+    },
+    {
+      "id": "meta-viewport",
+      "nodes": 1
+    },
+    {
+      "id": "nested-interactive",
+      "nodes": 4
+    },
+    {
+      "id": "page-has-heading-one",
+      "nodes": 1
+    },
+    {
+      "id": "region",
+      "nodes": 63
+    },
+    {
+      "id": "tabindex",
+      "nodes": 1
+    },
+    {
+      "id": "target-size",
+      "nodes": 12
+    }
+  ],
+  "inapplicable": [
+    "accesskeys",
+    "area-alt",
+    "aria-braille-equivalent",
+    "aria-command-name",
+    "aria-dialog-name",
+    "aria-input-field-name",
+    "aria-meter-name",
+    "aria-progressbar-name",
+    "aria-required-children",
+    "aria-required-parent",
+    "aria-tab-name",
+    "aria-text",
+    "aria-toggle-field-name",
+    "aria-tooltip-name",
+    "aria-treeitem-name",
+    "avoid-inline-spacing",
+    "blink",
+    "definition-list",
+    "dlitem",
+    "empty-table-header",
+    "frame-focusable-content",
+    "frame-tested",
+    "frame-title-unique",
+    "frame-title",
+    "html-xml-lang-mismatch",
+    "image-alt",
+    "image-redundant-alt",
+    "input-button-name",
+    "input-image-alt",
+    "label-content-name-mismatch",
+    "landmark-contentinfo-is-top-level",
+    "landmark-no-duplicate-contentinfo",
+    "link-in-text-block",
+    "marquee",
+    "meta-refresh",
+    "object-alt",
+    "presentation-role-conflict",
+    "role-img-alt",
+    "scope-attr-valid",
+    "scrollable-region-focusable",
+    "select-name",
+    "server-side-image-map",
+    "skip-link",
+    "summary-name",
+    "svg-img-alt",
+    "table-duplicate-name",
+    "td-headers-attr",
+    "th-has-data-cells",
+    "valid-lang",
+    "video-caption",
+    "no-autoplay-audio"
+  ]
+}

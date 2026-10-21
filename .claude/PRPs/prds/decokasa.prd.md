@@ -185,7 +185,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | 2 | Motor de flujo y A1-A4 | Motor de flujos por datos, pedidos con número secuencial, etapas A1 a A4 con aprobar, rechazar y devolver (por error o con urgencia), historial de solo inserción | complete (desarrollo con datos ficticios validado por Richard, 2026-10-16; producción no autorizada) | with 3 | 1 | [fase-2-motor-flujo.plan.md](../plans/fase-2-motor-flujo.plan.md) |
 | 3 | Drive y Gmail | Puertos y adaptadores de archivos (Drive, 100 MB) y notificaciones (Gmail al admin), cola con reintentos, pantalla de archivos y de correos enviados | pending | with 2 | 1 | - |
 | 4 | Etapas A5-A11 | Fabricación, embarque con Packing List / BL, aduana con demora y recálculo, salida, bodega obligatoria, incidencias y Fin automático | pending | - | 2, 3 | - |
-| 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | - |
+| 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | [fase-5-seguimiento.plan.md](../plans/fase-5-seguimiento.plan.md) (solo plan, 2026-10-20) |
 | 6 | Flujo B | Configuración del flujo B (11 etapas + Fin) sobre el motor, creación de pedidos por Compras China, bandeja de productos propuestos | pending | with 5 | 4 | - |
 | 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujo colombiano, caso de uso de IA. Espera las definiciones del cliente; puede hacerse después de la fase 8 | pending | - | 5, 6 | - |
 | 8 | Producción | Alojamiento, CI, imágenes de producción, HTTPS, respaldos, monitoreo, auditoría final, prueba de aceptación con los 6 usuarios y documentación de entrega | pending | - | 5, 6 | - |
@@ -223,6 +223,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 - **Goal**: saber dónde está cada pedido y si va tarde, sin preguntar.
 - **Scope**: línea de tiempo horizontal en dashboards y búsqueda, cálculo de plazos en días hábiles con hora de Ecuador, detección de vencimientos con correo al admin y motivo visible, cronograma contra meta configurable que reemplaza la calculadora y Slack, actualización en tiempo real.
 - **Success signal**: el cronograma del caso base de la calculadora da las mismas fechas con la regla de días hábiles; un vencimiento llega al admin con su motivo; un check aparece en otra pantalla abierta sin recargar.
+- **Contradicción documentada (2026-10-20, sin resolver; la señal no se cambió):** la calculadora suma días corridos (8 + 31, 12 y 45; `requerimientos.md` 1.8), así que sus fechas no pueden coincidir con la regla de días hábiles. El manual (paso 5.1) prohíbe copiarlas como resultado del cálculo hábil, y la fase 5 sigue el manual y ADR-0006 (F5-D8 del plan de la fase 5). Además, Fabricación, tránsito e Incidencias no tienen plazo del cliente: por F5-D1 (opción A, Richard) esas fechas quedan "sin estimar" y no se toman de la calculadora. Reformular esta señal requiere aprobación.
 
 **Phase 6: Flujo B**
 - **Goal**: que Compras China proponga pedidos y estos recorran su flujo.

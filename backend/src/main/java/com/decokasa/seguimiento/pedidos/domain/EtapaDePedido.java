@@ -20,6 +20,7 @@ public final class EtapaDePedido {
     private Instant venceEn;
     private int reentradas;
     private UUID entradaId;
+    private String motivoRetraso;
 
     /**
      * Reconstruye una etapa guardada.
@@ -28,6 +29,16 @@ public final class EtapaDePedido {
      */
     public EtapaDePedido(UUID id, int numero, EstadoEtapa estado, UUID asignadoA, Instant entradaEn, Instant salidaEn,
             Instant venceEn, int reentradas, UUID entradaId) {
+        this(id, numero, estado, asignadoA, entradaEn, salidaEn, venceEn, reentradas, entradaId, null);
+    }
+
+    /**
+     * Reconstruye una etapa guardada con el motivo del retraso vigente de su entrada actual (fase 5, paso 5.2; F5-D3).
+     *
+     * @param motivoRetraso nulo si no hay motivo registrado en la entrada actual
+     */
+    public EtapaDePedido(UUID id, int numero, EstadoEtapa estado, UUID asignadoA, Instant entradaEn, Instant salidaEn,
+            Instant venceEn, int reentradas, UUID entradaId, String motivoRetraso) {
         this.id = Objects.requireNonNull(id, "id");
         this.numero = numero;
         this.estado = Objects.requireNonNull(estado, "estado");
@@ -37,6 +48,7 @@ public final class EtapaDePedido {
         this.venceEn = venceEn;
         this.reentradas = reentradas;
         this.entradaId = entradaId;
+        this.motivoRetraso = motivoRetraso;
     }
 
     /** Reconstruye una etapa guardada sin identificador de entrada (anterior a V3). */
@@ -66,12 +78,19 @@ public final class EtapaDePedido {
         entradaEn = ahora;
         salidaEn = null;
         venceEn = vence;
+        // Una reentrada limpia el motivo vigente (F5-D3); los anteriores quedan en el historial.
+        motivoRetraso = null;
     }
 
     /** El pedido sale de la etapa hacia adelante (COMPLETADA) o hacia atrás (DEVUELTA). */
     void salir(Instant ahora, EstadoEtapa nuevoEstado) {
         estado = nuevoEstado;
         salidaEn = ahora;
+    }
+
+    /** Motivo del retraso vigente de la entrada actual (F5-D3). Las reglas las decide {@link Pedido}. */
+    void registrarMotivo(String motivo) {
+        motivoRetraso = motivo;
     }
 
     /** El admin reasigna la etapa; quién puede recibirla lo decide {@link PermisosEtapa}. */
@@ -114,6 +133,11 @@ public final class EtapaDePedido {
 
     public int reentradas() {
         return reentradas;
+    }
+
+    /** Motivo del retraso vigente de la entrada actual; nulo si no hay (F5-D3). */
+    public String motivoRetraso() {
+        return motivoRetraso;
     }
 
     /** Identificador de la entrada actual (o la última); nulo si el pedido nunca entró en la etapa. */

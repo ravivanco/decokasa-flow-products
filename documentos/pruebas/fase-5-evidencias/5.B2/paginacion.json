@@ -1,0 +1,19 @@
+{
+  "total": 500,
+  "paginas": 25,
+  "tamano": 20,
+  "idsUnicos": 500,
+  "vencidosGlobal": 350,
+  "vencidosCargados": 50,
+  "plazosPendientesSinFecha": [
+    5,
+    7,
+    10
+  ],
+  "estado": {
+    "contenedor": "3548fd7445d5df0f89a0af9c9128209c01d97b7a78d44fd41b82d0feae9712ad",
+    "pedidos": 500,
+    "automaticos": false,
+    "google": false
+  }
+}

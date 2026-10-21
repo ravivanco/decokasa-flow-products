@@ -1,0 +1,3549 @@
+{
+  "browserVersion": "155.0.4283.62",
+  "repeticiones": 5,
+  "mediciones": [
+    {
+      "repeticion": 1,
+      "cache": "fria",
+      "dashboardMs": 216.74260000000004,
+      "busquedaMs": 130.09089999999992,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 132,
+          "cls": 0.17273657955970292,
+          "shifts": [
+            {
+              "time": 126.5,
+              "value": 0.0024511411916473764
+            },
+            {
+              "time": 162.0999999642372,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 48.30000001192093,
+            "navigationId": 3142,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.800000011920929,
+            "domainLookupStart": 0.800000011920929,
+            "domainLookupEnd": 0.800000011920929,
+            "connectStart": 0.800000011920929,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.800000011920929,
+            "requestStart": 1.5,
+            "responseStart": 2,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2,
+            "responseEnd": 2.199999988079071,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 4.800000011920929,
+            "unloadEventEnd": 4.800000011920929,
+            "domInteractive": 11,
+            "domContentLoadedEventStart": 47.89999997615814,
+            "domContentLoadedEventEnd": 48,
+            "domComplete": 48.30000001192093,
+            "loadEventStart": 48.30000001192093,
+            "loadEventEnd": 48.30000001192093,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 7.699999988079071,
+            "transferSize": 823840,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 1.800000011920929,
+            "transferSize": 85000,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.699999988079071,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 17.200000047683716,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 5,
+            "transferSize": 23964,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 29.600000023841858,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 29.19999998807907,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 14.199999988079071,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 27.399999976158142,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 10.199999988079071,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 29.600000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 12.599999964237213,
+            "transferSize": 19124,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 12.700000047683716,
+            "transferSize": 24572,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 12.600000023841858,
+            "transferSize": 18988,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 8.300000011920929,
+            "transferSize": 24752,
+            "encodedBodySize": 24452
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 4220,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 4220,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 4220,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 1,
+      "cache": "caliente",
+      "dashboardMs": 176.3904,
+      "busquedaMs": 122.73710000000005,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 108,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 121.19999998807907,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 19.899999976158142,
+            "navigationId": 6391,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 1,
+            "domainLookupStart": 1,
+            "domainLookupEnd": 1,
+            "connectStart": 1,
+            "secureConnectionStart": 0,
+            "connectEnd": 1,
+            "requestStart": 1.7999999523162842,
+            "responseStart": 2.599999964237213,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.599999964237213,
+            "responseEnd": 3,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5,
+            "unloadEventEnd": 5,
+            "domInteractive": 11,
+            "domContentLoadedEventStart": 18.599999964237213,
+            "domContentLoadedEventEnd": 18.69999998807907,
+            "domComplete": 19.899999976158142,
+            "loadEventStart": 19.899999976158142,
+            "loadEventEnd": 19.899999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.800000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 34.59999996423721,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 33.90000003576279,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 14.800000011920929,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 32.80000001192093,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 11.899999976158142,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 38.69999998807907,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 1,
+      "cache": "caliente-query",
+      "dashboardMs": 137.76849999999968,
+      "busquedaMs": 110.41080000000011,
+      "solicitudesDashboard": [],
+      "solicitudes": [
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 108,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 121.19999998807907,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [
+            {
+              "duration": 24,
+              "interactionId": 8430,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 24,
+              "interactionId": 8430,
+              "name": "pointerup"
+            },
+            {
+              "duration": 24,
+              "interactionId": 8430,
+              "name": "click"
+            },
+            {
+              "duration": 32,
+              "interactionId": 8437,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 32,
+              "interactionId": 8437,
+              "name": "pointerup"
+            },
+            {
+              "duration": 32,
+              "interactionId": 8437,
+              "name": "click"
+            }
+          ],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 19.899999976158142,
+            "navigationId": 6391,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 1,
+            "domainLookupStart": 1,
+            "domainLookupEnd": 1,
+            "connectStart": 1,
+            "secureConnectionStart": 0,
+            "connectEnd": 1,
+            "requestStart": 1.7999999523162842,
+            "responseStart": 2.599999964237213,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.599999964237213,
+            "responseEnd": 3,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5,
+            "unloadEventEnd": 5,
+            "domInteractive": 11,
+            "domContentLoadedEventStart": 18.599999964237213,
+            "domContentLoadedEventEnd": 18.69999998807907,
+            "domComplete": 19.899999976158142,
+            "loadEventStart": 19.899999976158142,
+            "loadEventEnd": 19.899999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.800000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 34.59999996423721,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 33.90000003576279,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 14.800000011920929,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 32.80000001192093,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 11.899999976158142,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 38.69999998807907,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/api/v1/pedidos/buscar",
+            "duration": 20.80000001192093,
+            "transferSize": 4012,
+            "encodedBodySize": 3712
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+            "duration": 15.099999964237213,
+            "transferSize": 2832,
+            "encodedBodySize": 2532
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+            "duration": 9.800000011920929,
+            "transferSize": 302,
+            "encodedBodySize": 2
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+            "duration": 21.100000023841858,
+            "transferSize": 1713,
+            "encodedBodySize": 1413
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 6.800000011920929,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 8430,
+          "name": "click"
+        },
+        {
+          "duration": 32,
+          "interactionId": 8437,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 32,
+          "interactionId": 8437,
+          "name": "pointerup"
+        },
+        {
+          "duration": 32,
+          "interactionId": 8437,
+          "name": "click"
+        },
+        {
+          "duration": 48,
+          "interactionId": 8444,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 48,
+          "interactionId": 8444,
+          "name": "pointerup"
+        },
+        {
+          "duration": 48,
+          "interactionId": 8444,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 2,
+      "cache": "fria",
+      "dashboardMs": 198.10510000000022,
+      "busquedaMs": 144.42749999999978,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 132,
+          "cls": 0.2892476689694251,
+          "shifts": [
+            {
+              "time": 128.60000002384186,
+              "value": 0.0024511411916473764
+            },
+            {
+              "time": 161.80000001192093,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 51.80000001192093,
+            "navigationId": 3523,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 1.199999988079071,
+            "domainLookupStart": 1.199999988079071,
+            "domainLookupEnd": 1.199999988079071,
+            "connectStart": 1.199999988079071,
+            "secureConnectionStart": 0,
+            "connectEnd": 1.199999988079071,
+            "requestStart": 2.100000023841858,
+            "responseStart": 2.899999976158142,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.899999976158142,
+            "responseEnd": 3.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 6.199999988079071,
+            "unloadEventEnd": 6.199999988079071,
+            "domInteractive": 12.199999988079071,
+            "domContentLoadedEventStart": 51.19999998807907,
+            "domContentLoadedEventEnd": 51.19999998807907,
+            "domComplete": 51.69999998807907,
+            "loadEventStart": 51.80000001192093,
+            "loadEventEnd": 51.80000001192093,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 4.300000011920929,
+            "transferSize": 823840,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 2,
+            "transferSize": 85000,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 19.600000023841858,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 4.299999952316284,
+            "transferSize": 23964,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 27.80000001192093,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.600000023841858,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.399999976158142,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.099999964237213,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 8.399999976158142,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 29.100000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 15.199999988079071,
+            "transferSize": 19124,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 15.5,
+            "transferSize": 24572,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 14.800000011920929,
+            "transferSize": 18988,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 15.399999976158142,
+            "transferSize": 24752,
+            "encodedBodySize": 24452
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 4116,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 4116,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 4116,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 2,
+      "cache": "caliente",
+      "dashboardMs": 169.57270000000017,
+      "busquedaMs": 119.25279999999975,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 100,
+          "cls": 0.17028543836805554,
+          "shifts": [
+            {
+              "time": 106.39999997615814,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 22.899999976158142,
+            "navigationId": 4668,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.699999988079071,
+            "responseStart": 2.199999988079071,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.199999988079071,
+            "responseEnd": 2.5,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 4.899999976158142,
+            "unloadEventEnd": 4.899999976158142,
+            "domInteractive": 10.600000023841858,
+            "domContentLoadedEventStart": 21.5,
+            "domContentLoadedEventEnd": 21.5,
+            "domComplete": 22.80000001192093,
+            "loadEventStart": 22.899999976158142,
+            "loadEventEnd": 22.899999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.600000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12.900000035762787,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.900000035762787,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.5,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.300000011920929,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.600000023841858,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 8.899999976158142,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 28.19999998807907,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 2,
+      "cache": "caliente-query",
+      "dashboardMs": 87.20100000000002,
+      "busquedaMs": 122.45539999999937,
+      "solicitudesDashboard": [],
+      "solicitudes": [
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 100,
+          "cls": 0.17028543836805554,
+          "shifts": [
+            {
+              "time": 106.39999997615814,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [
+            {
+              "duration": 40,
+              "interactionId": 3663,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 40,
+              "interactionId": 3663,
+              "name": "pointerup"
+            },
+            {
+              "duration": 40,
+              "interactionId": 3663,
+              "name": "click"
+            },
+            {
+              "duration": 32,
+              "interactionId": 3670,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 32,
+              "interactionId": 3670,
+              "name": "pointerup"
+            },
+            {
+              "duration": 32,
+              "interactionId": 3670,
+              "name": "click"
+            }
+          ],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 22.899999976158142,
+            "navigationId": 4668,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.699999988079071,
+            "responseStart": 2.199999988079071,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.199999988079071,
+            "responseEnd": 2.5,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 4.899999976158142,
+            "unloadEventEnd": 4.899999976158142,
+            "domInteractive": 10.600000023841858,
+            "domContentLoadedEventStart": 21.5,
+            "domContentLoadedEventEnd": 21.5,
+            "domComplete": 22.80000001192093,
+            "loadEventStart": 22.899999976158142,
+            "loadEventEnd": 22.899999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.600000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12.900000035762787,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.900000035762787,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.5,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.300000011920929,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.600000023841858,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 8.899999976158142,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 28.19999998807907,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/api/v1/pedidos/buscar",
+            "duration": 24.100000023841858,
+            "transferSize": 4012,
+            "encodedBodySize": 3712
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+            "duration": 13.5,
+            "transferSize": 2832,
+            "encodedBodySize": 2532
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+            "duration": 9.899999976158142,
+            "transferSize": 302,
+            "encodedBodySize": 2
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+            "duration": 20.100000023841858,
+            "transferSize": 1713,
+            "encodedBodySize": 1413
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 6.199999988079071,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.199999988079071,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.5,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 3663,
+          "name": "click"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3670,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3670,
+          "name": "pointerup"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3670,
+          "name": "click"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3677,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3677,
+          "name": "pointerup"
+        },
+        {
+          "duration": 32,
+          "interactionId": 3677,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 3,
+      "cache": "fria",
+      "dashboardMs": 197.85309999999936,
+      "busquedaMs": 149.6782000000003,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 124,
+          "cls": 0.19432406684027775,
+          "shifts": [
+            {
+              "time": 135.39999997615814,
+              "value": 0.19432406684027775
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 44.80000001192093,
+            "navigationId": 2389,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.5,
+            "responseStart": 2.099999964237213,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.099999964237213,
+            "responseEnd": 2.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 6.099999964237213,
+            "unloadEventEnd": 6.099999964237213,
+            "domInteractive": 12.199999988079071,
+            "domContentLoadedEventStart": 44.30000001192093,
+            "domContentLoadedEventEnd": 44.30000001192093,
+            "domComplete": 44.80000001192093,
+            "loadEventStart": 44.80000001192093,
+            "loadEventEnd": 44.80000001192093,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 3.699999988079071,
+            "transferSize": 823840,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 1.899999976158142,
+            "transferSize": 85000,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.199999988079071,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 3.300000011920929,
+            "transferSize": 23964,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 13.600000023841858,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 22.399999976158142,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 22.099999964237213,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 10.600000023841858,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 23.399999976158142,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 9.600000023841858,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 25.899999976158142,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 13.5,
+            "transferSize": 24572,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 13.699999988079071,
+            "transferSize": 19124,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 13.800000011920929,
+            "transferSize": 18988,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 7.800000011920929,
+            "transferSize": 24752,
+            "encodedBodySize": 24452
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 7866,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 7866,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 7866,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 3,
+      "cache": "caliente",
+      "dashboardMs": 171.76560000000063,
+      "busquedaMs": 120.80580000000009,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 92,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 116.5,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 19.399999976158142,
+            "navigationId": 2978,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.7999999523162842,
+            "domainLookupStart": 0.7999999523162842,
+            "domainLookupEnd": 0.7999999523162842,
+            "connectStart": 0.7999999523162842,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.7999999523162842,
+            "requestStart": 1.399999976158142,
+            "responseStart": 2.099999964237213,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.099999964237213,
+            "responseEnd": 2.399999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 4.199999988079071,
+            "unloadEventEnd": 4.199999988079071,
+            "domInteractive": 10.899999976158142,
+            "domContentLoadedEventStart": 18.19999998807907,
+            "domContentLoadedEventEnd": 18.19999998807907,
+            "domComplete": 19.399999976158142,
+            "loadEventStart": 19.399999976158142,
+            "loadEventEnd": 19.399999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 13.199999988079071,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.30000001192093,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 24.5,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 10,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.19999998807907,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 6.300000011920929,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 30,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 3,
+      "cache": "caliente-query",
+      "dashboardMs": 85.61589999999978,
+      "busquedaMs": 123.98970000000008,
+      "solicitudesDashboard": [],
+      "solicitudes": [
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 92,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 116.5,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [
+            {
+              "duration": 24,
+              "interactionId": 9140,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 24,
+              "interactionId": 9140,
+              "name": "pointerup"
+            },
+            {
+              "duration": 24,
+              "interactionId": 9140,
+              "name": "click"
+            },
+            {
+              "duration": 48,
+              "interactionId": 9147,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 48,
+              "interactionId": 9147,
+              "name": "pointerup"
+            },
+            {
+              "duration": 48,
+              "interactionId": 9147,
+              "name": "click"
+            }
+          ],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 19.399999976158142,
+            "navigationId": 2978,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.7999999523162842,
+            "domainLookupStart": 0.7999999523162842,
+            "domainLookupEnd": 0.7999999523162842,
+            "connectStart": 0.7999999523162842,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.7999999523162842,
+            "requestStart": 1.399999976158142,
+            "responseStart": 2.099999964237213,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.099999964237213,
+            "responseEnd": 2.399999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 4.199999988079071,
+            "unloadEventEnd": 4.199999988079071,
+            "domInteractive": 10.899999976158142,
+            "domContentLoadedEventStart": 18.19999998807907,
+            "domContentLoadedEventEnd": 18.19999998807907,
+            "domComplete": 19.399999976158142,
+            "loadEventStart": 19.399999976158142,
+            "loadEventEnd": 19.399999976158142,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 13.199999988079071,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.30000001192093,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 24.5,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 10,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.19999998807907,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 6.300000011920929,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 30,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/api/v1/pedidos/buscar",
+            "duration": 26.700000047683716,
+            "transferSize": 4012,
+            "encodedBodySize": 3712
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+            "duration": 14.400000035762787,
+            "transferSize": 2832,
+            "encodedBodySize": 2532
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+            "duration": 9.300000011920929,
+            "transferSize": 302,
+            "encodedBodySize": 2
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+            "duration": 19.5,
+            "transferSize": 1713,
+            "encodedBodySize": 1413
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 6.100000023841858,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 3.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.5,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 9140,
+          "name": "click"
+        },
+        {
+          "duration": 48,
+          "interactionId": 9147,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 48,
+          "interactionId": 9147,
+          "name": "pointerup"
+        },
+        {
+          "duration": 48,
+          "interactionId": 9147,
+          "name": "click"
+        },
+        {
+          "duration": 40,
+          "interactionId": 9154,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 9154,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 9154,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 4,
+      "cache": "fria",
+      "dashboardMs": 202.8752999999997,
+      "busquedaMs": 124.83969999999954,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 140,
+          "cls": 0.17273657955970292,
+          "shifts": [
+            {
+              "time": 129.39999997615814,
+              "value": 0.0024511411916473764
+            },
+            {
+              "time": 154.10000002384186,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 59.60000002384186,
+            "navigationId": 5391,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 2.100000023841858,
+            "responseStart": 2.699999988079071,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.699999988079071,
+            "responseEnd": 3,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 17.69999998807907,
+            "unloadEventEnd": 17.69999998807907,
+            "domInteractive": 25.69999998807907,
+            "domContentLoadedEventStart": 59.30000001192093,
+            "domContentLoadedEventEnd": 59.39999997615814,
+            "domComplete": 59.60000002384186,
+            "loadEventStart": 59.60000002384186,
+            "loadEventEnd": 59.60000002384186,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 6,
+            "transferSize": 823840,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 3,
+            "transferSize": 85000,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12.5,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 3.399999976158142,
+            "transferSize": 23964,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.80000001192093,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.19999998807907,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 12.199999988079071,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 26.899999976158142,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 11.100000023841858,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 29.5,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 13.5,
+            "transferSize": 19124,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 13.5,
+            "transferSize": 24572,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 13.5,
+            "transferSize": 18988,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 8.699999988079071,
+            "transferSize": 24752,
+            "encodedBodySize": 24452
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 3462,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 3462,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 3462,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 4,
+      "cache": "caliente",
+      "dashboardMs": 163.57430000000022,
+      "busquedaMs": 118.78390000000036,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 92,
+          "cls": 0.17028543836805554,
+          "shifts": [
+            {
+              "time": 103.59999996423721,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 21.69999998807907,
+            "navigationId": 5810,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.899999976158142,
+            "responseStart": 2.5,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.5,
+            "responseEnd": 2.800000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5.899999976158142,
+            "unloadEventEnd": 5.899999976158142,
+            "domInteractive": 12.699999988079071,
+            "domContentLoadedEventStart": 20.30000001192093,
+            "domContentLoadedEventEnd": 20.399999976158142,
+            "domComplete": 21.69999998807907,
+            "loadEventStart": 21.69999998807907,
+            "loadEventEnd": 21.69999998807907,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.600000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12.899999976158142,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 22.100000023841858,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 21.30000001192093,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 10.099999964237213,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 21.100000023841858,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 5.900000035762787,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 23.100000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 4,
+      "cache": "caliente-query",
+      "dashboardMs": 152.4294,
+      "busquedaMs": 106.64269999999942,
+      "solicitudesDashboard": [],
+      "solicitudes": [
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 92,
+          "cls": 0.17028543836805554,
+          "shifts": [
+            {
+              "time": 103.59999996423721,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [
+            {
+              "duration": 40,
+              "interactionId": 2107,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 40,
+              "interactionId": 2107,
+              "name": "pointerup"
+            },
+            {
+              "duration": 40,
+              "interactionId": 2107,
+              "name": "click"
+            },
+            {
+              "duration": 32,
+              "interactionId": 2114,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 32,
+              "interactionId": 2114,
+              "name": "pointerup"
+            },
+            {
+              "duration": 32,
+              "interactionId": 2114,
+              "name": "click"
+            }
+          ],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 21.69999998807907,
+            "navigationId": 5810,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.899999976158142,
+            "responseStart": 2.5,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.5,
+            "responseEnd": 2.800000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5.899999976158142,
+            "unloadEventEnd": 5.899999976158142,
+            "domInteractive": 12.699999988079071,
+            "domContentLoadedEventStart": 20.30000001192093,
+            "domContentLoadedEventEnd": 20.399999976158142,
+            "domComplete": 21.69999998807907,
+            "loadEventStart": 21.69999998807907,
+            "loadEventEnd": 21.69999998807907,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.600000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 12.899999976158142,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 22.100000023841858,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 21.30000001192093,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 10.099999964237213,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 21.100000023841858,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 5.900000035762787,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 23.100000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/api/v1/pedidos/buscar",
+            "duration": 18.5,
+            "transferSize": 4012,
+            "encodedBodySize": 3712
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+            "duration": 15,
+            "transferSize": 2832,
+            "encodedBodySize": 2532
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+            "duration": 10.399999976158142,
+            "transferSize": 302,
+            "encodedBodySize": 2
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+            "duration": 23,
+            "transferSize": 1713,
+            "encodedBodySize": 1413
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 7.599999964237213,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 3.600000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.899999976158142,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 2107,
+          "name": "click"
+        },
+        {
+          "duration": 32,
+          "interactionId": 2114,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 32,
+          "interactionId": 2114,
+          "name": "pointerup"
+        },
+        {
+          "duration": 32,
+          "interactionId": 2114,
+          "name": "click"
+        },
+        {
+          "duration": 24,
+          "interactionId": 2121,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 2121,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 2121,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 5,
+      "cache": "fria",
+      "dashboardMs": 182.8037000000004,
+      "busquedaMs": 137.28249999999935,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 128,
+          "cls": 0.17273657955970292,
+          "shifts": [
+            {
+              "time": 116.69999998807907,
+              "value": 0.0024511411916473764
+            },
+            {
+              "time": 141.0999999642372,
+              "value": 0.17028543836805554
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 50.5,
+            "navigationId": 6848,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.8999999761581421,
+            "domainLookupStart": 0.8999999761581421,
+            "domainLookupEnd": 0.8999999761581421,
+            "connectStart": 0.8999999761581421,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.8999999761581421,
+            "requestStart": 1.5,
+            "responseStart": 2,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2,
+            "responseEnd": 2.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 8.800000011920929,
+            "unloadEventEnd": 8.800000011920929,
+            "domInteractive": 16.69999998807907,
+            "domContentLoadedEventStart": 49.89999997615814,
+            "domContentLoadedEventEnd": 50,
+            "domComplete": 50.5,
+            "loadEventStart": 50.5,
+            "loadEventEnd": 50.5,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 4.899999976158142,
+            "transferSize": 823840,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 2.399999976158142,
+            "transferSize": 85000,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.100000023841858,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 15.100000023841858,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 3.199999988079071,
+            "transferSize": 23964,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.100000023841858,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 24.69999998807907,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.900000035762787,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 25.100000023841858,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 10.600000023841858,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 24.69999998807907,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 12.199999988079071,
+            "transferSize": 19124,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 12.5,
+            "transferSize": 24572,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 12.600000023841858,
+            "transferSize": 18988,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0.5999999642372131,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 24,
+          "interactionId": 7427,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 24,
+          "interactionId": 7427,
+          "name": "pointerup"
+        },
+        {
+          "duration": 24,
+          "interactionId": 7427,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 5,
+      "cache": "caliente",
+      "dashboardMs": 176.03729999999996,
+      "busquedaMs": 134.34709999999905,
+      "solicitudesDashboard": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true"
+      ],
+      "solicitudes": [
+        "/api/v1/auth/renovar",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&vencido=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=1&conUrgencia=true",
+        "/api/v1/pedidos/bandeja?pagina=0&tamano=20",
+        "/api/v1/flujos/EC/A",
+        "/api/v1/pedidos?pagina=0&tamano=50&vencido=true",
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+        "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+        "/api/v1/flujos/EC/A?version=1"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 88,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 114.90000003576279,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 21.900000035762787,
+            "navigationId": 8390,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.9000000357627869,
+            "domainLookupStart": 0.9000000357627869,
+            "domainLookupEnd": 0.9000000357627869,
+            "connectStart": 0.9000000357627869,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.9000000357627869,
+            "requestStart": 1.600000023841858,
+            "responseStart": 2.100000023841858,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.100000023841858,
+            "responseEnd": 2.400000035762787,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5.300000011920929,
+            "unloadEventEnd": 5.300000011920929,
+            "domInteractive": 12.800000011920929,
+            "domContentLoadedEventStart": 20.30000001192093,
+            "domContentLoadedEventEnd": 20.30000001192093,
+            "domComplete": 21.900000035762787,
+            "loadEventStart": 21.900000035762787,
+            "loadEventEnd": 21.900000035762787,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 10.799999952316284,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 23.69999998807907,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 24.30000001192093,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.699999988079071,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 23.400000035762787,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 5.900000035762787,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 28.100000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "pointerup"
+        },
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "click"
+        }
+      ]
+    },
+    {
+      "repeticion": 5,
+      "cache": "caliente-query",
+      "dashboardMs": 111.66300000000047,
+      "busquedaMs": 108.62779999999839,
+      "solicitudesDashboard": [],
+      "solicitudes": [
+        "/api/v1/pedidos/buscar?numero=DK-EC-2026-0008"
+      ],
+      "perf": {
+        "vitals": {
+          "lcp": 88,
+          "cls": 0.28679652777777775,
+          "shifts": [
+            {
+              "time": 114.90000003576279,
+              "value": 0.28679652777777775
+            }
+          ],
+          "eventos": [
+            {
+              "duration": 16,
+              "interactionId": 6680,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 16,
+              "interactionId": 6680,
+              "name": "pointerup"
+            },
+            {
+              "duration": 16,
+              "interactionId": 6680,
+              "name": "click"
+            },
+            {
+              "duration": 40,
+              "interactionId": 6687,
+              "name": "pointerdown"
+            },
+            {
+              "duration": 40,
+              "interactionId": 6687,
+              "name": "pointerup"
+            },
+            {
+              "duration": 40,
+              "interactionId": 6687,
+              "name": "click"
+            }
+          ],
+          "longTasks": []
+        },
+        "navegacion": [
+          {
+            "name": "http://127.0.0.1:43184/inicio",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 21.900000035762787,
+            "navigationId": 8390,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.1",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.9000000357627869,
+            "domainLookupStart": 0.9000000357627869,
+            "domainLookupEnd": 0.9000000357627869,
+            "connectStart": 0.9000000357627869,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.9000000357627869,
+            "requestStart": 1.600000023841858,
+            "responseStart": 2.100000023841858,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.100000023841858,
+            "responseEnd": 2.400000035762787,
+            "transferSize": 957,
+            "encodedBodySize": 657,
+            "decodedBodySize": 657,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 5.300000011920929,
+            "unloadEventEnd": 5.300000011920929,
+            "domInteractive": 12.800000011920929,
+            "domContentLoadedEventStart": 20.30000001192093,
+            "domContentLoadedEventEnd": 20.30000001192093,
+            "domComplete": 21.900000035762787,
+            "loadEventStart": 21.900000035762787,
+            "loadEventEnd": 21.900000035762787,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "recursos": [
+          {
+            "name": "/assets/index-BcYHdV4P.js",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 823540
+          },
+          {
+            "name": "/assets/index-vJKq1rKd.css",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 84700
+          },
+          {
+            "name": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 23664
+          },
+          {
+            "name": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24272
+          },
+          {
+            "name": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 24452
+          },
+          {
+            "name": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18688
+          },
+          {
+            "name": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+            "duration": 0,
+            "transferSize": 0,
+            "encodedBodySize": 18824
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.300000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/api/v1/auth/renovar",
+            "duration": 10.799999952316284,
+            "transferSize": 775,
+            "encodedBodySize": 475
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 23.69999998807907,
+            "transferSize": 647,
+            "encodedBodySize": 347
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 24.30000001192093,
+            "transferSize": 670,
+            "encodedBodySize": 370
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 11.699999988079071,
+            "transferSize": 348,
+            "encodedBodySize": 48
+          },
+          {
+            "name": "/api/v1/pedidos/bandeja",
+            "duration": 23.400000035762787,
+            "transferSize": 6864,
+            "encodedBodySize": 6564
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 5.900000035762787,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/api/v1/pedidos",
+            "duration": 28.100000023841858,
+            "transferSize": 16907,
+            "encodedBodySize": 16607
+          },
+          {
+            "name": "/api/v1/pedidos/buscar",
+            "duration": 26.400000035762787,
+            "transferSize": 4012,
+            "encodedBodySize": 3712
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/cronograma",
+            "duration": 14.699999988079071,
+            "transferSize": 2832,
+            "encodedBodySize": 2532
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/etapas/8/archivos",
+            "duration": 11,
+            "transferSize": 302,
+            "encodedBodySize": 2
+          },
+          {
+            "name": "/api/v1/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258/historial",
+            "duration": 19.899999976158142,
+            "transferSize": 1713,
+            "encodedBodySize": 1413
+          },
+          {
+            "name": "/api/v1/flujos/EC/A",
+            "duration": 7.199999988079071,
+            "transferSize": 5144,
+            "encodedBodySize": 4844
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 2.800000011920929,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          },
+          {
+            "name": "/favicon.ico",
+            "duration": 1.7999999523162842,
+            "transferSize": 957,
+            "encodedBodySize": 657
+          }
+        ]
+      },
+      "eventos": [
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "pointerup"
+        },
+        {
+          "duration": 16,
+          "interactionId": 6680,
+          "name": "click"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6687,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6687,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6687,
+          "name": "click"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6694,
+          "name": "pointerdown"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6694,
+          "name": "pointerup"
+        },
+        {
+          "duration": 40,
+          "interactionId": 6694,
+          "name": "click"
+        }
+      ]
+    }
+  ],
+  "definicionFria": "HTTP cliente vacía y QueryClient recreado por navegación; JVM/PG precalentados, no frío de base",
+  "definicionCaliente": "HTTP cliente conservada; navegación completa recrea QueryClient"
+}

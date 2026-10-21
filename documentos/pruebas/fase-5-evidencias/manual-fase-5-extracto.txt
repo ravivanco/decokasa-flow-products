@@ -1,0 +1,43 @@
+Fase 5 Seguimiento plazos y línea de tiempo
+Rama: fase-5-seguimiento
+Implementa seguimiento por rol, cronograma y alertas de vencimiento. Puede desarrollarse en paralelo con el flujo B sobre los contratos compartidos del motor.
+Parte A Codificación con Claude Code
+Plan de la fase
+Skill: /ecc:prp-plan
+/ecc:prp-plan .claude/PRPs/prds/decokasa.prd.md — Prepara o actualiza únicamente el plan de implementación de la fase 5. Conserva el código existente; no incluyas tareas de pruebas ni verificación.
+Paso 5.1 Calendario y cronograma
+Skills: /ecc:prp-implement, ecc:springboot-patterns
+/ecc:prp-implement .claude/PRPs/plans/<plan de la fase 5>.md — Implementa plazos con zona America/Guayaquil, fines de semana y arrastre de demoras. Mantén tipos de plazo hábil o corrido y meta configurable. La calculadora antigua usa días calendario: no copies sus fechas como resultado del nuevo cálculo hábil. Conserva pendientes tránsito, urgencias y feriados; usa las configuraciones provisionales documentadas. Implementa solo este paso, sin escribir, ejecutar ni modificar pruebas.
+Aplica también ecc:springboot-patterns al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 5.2 Detección de vencimientos
+Skills: /ecc:prp-implement, ecc:springboot-patterns
+/ecc:prp-implement .claude/PRPs/plans/<plan de la fase 5>.md — Implementa tarea programada para etapas vencidas, motivo visible y avisos al admin mediante outbox. Registra los avisos enviados para evitar repetir el mismo aviso en cada ejecución. Implementa solo este paso, sin escribir, ejecutar ni modificar pruebas.
+Aplica también ecc:springboot-patterns al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 5.3 Dashboards y búsqueda
+Skills: ecc:dashboard-builder, shadcn, tanstack-query-best-practices
+/ecc:dashboard-builder Conecta las bandejas por rol, pendientes, vencidos, responsable y etapa. El admin ve el conjunto autorizado. Agrega línea horizontal en cada pedido, búsqueda por número y cronograma frente a la meta. Sustituye TimelineCalculatorView y retira comandos /remind de Slack.
+Aplica también shadcn, tanstack-query-best-practices al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 5.4 Actualización de pantallas
+Skills: ecc:springboot-patterns, tanstack-query-best-practices
+/ecc:springboot-patterns Implementa la actualización entre pantallas según la decisión tomada en ADR-0014. Si se aprueba STOMP, configura autenticación, permisos de suscripción y proxy; si se eligen consultas periódicas, usa ese transporte. Actualiza las consultas afectadas sin mezclar pedidos o países no autorizados.
+Aplica también tanstack-query-best-practices al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 5.5 Consultas e interfaz
+Skills: ecc:react-performance, performance-optimization, shadcn
+/ecc:react-performance Implementa paginación, filtros e índices y evita consultas por cada fila. Mantén la meta de dashboard con 500 pedidos en menos de dos segundos como objetivo para la evaluación posterior. Usa etiquetas, foco visible, teclado, semántica de pestañas y estado con texto e iconos, además de color.
+Aplica también performance-optimization, shadcn al alcance de este paso, sin tareas de pruebas ni verificación.
+Entrega de implementación
+Seguimiento, cálculo, alertas y actualización de pantalla implementados. Las mediciones de rendimiento y accesibilidad quedan para Codex.
+Parte B Pruebas y verificación con Codex
+Richard abre el trabajo con Codex sobre la misma rama y comparte el resumen de implementación. Las skills originales se conservan como referencias; si un comando /ecc no está disponible en Codex, usa la instrucción escrita y las herramientas o skills disponibles. No ejecutes estos comandos en Claude Code como parte de la codificación.
+Paso 5.B1 Calendario y alertas
+Skills: ecc:tdd-workflow, ecc:springboot-tdd
+Qué pedir a Codex: Prueba zona de Ecuador, fines de semana, arrastre de demoras, reentradas, meta configurable y calendario según decisiones aprobadas. Diferencia días hábiles de corridos; el ejemplo de la calculadora antigua no determina las fechas nuevas. Cubre vencimientos, motivo, avisos sin duplicados y límites temporales usando un reloj controlado.
+Paso 5.B2 Tiempo real y rendimiento
+Skills: playwright-best-practices, ecc:benchmark, web-perf, performance-optimization, ecc:react-performance
+Qué pedir a Codex: Verifica en dos sesiones que un check actualiza las vistas y no expone datos de otro rol o país. Con 500 pedidos ficticios, mide dashboard y búsqueda en un entorno y conexión documentados; distingue caché fría y caliente y comprueba la meta de menos de dos segundos. Mide consultas, N+1 y Core Web Vitals.
+Paso 5.B3 Accesibilidad y regresión
+Skills: ecc:accessibility, playwright-best-practices, /ecc:verification-loop
+Qué pedir a Codex: Evalúa WCAG 2.2 AA en dashboard, línea de tiempo y panel de etapa: teclado, etiquetas, foco, contraste, estado por texto e iconos y avisos. Usa axe-core más revisión manual. Ejecuta regresión del flujo A y registra métricas y hallazgos.
+Criterio para cerrar la fase
+Cronograma aprobado, alertas y actualización entre vistas comprobados; métricas de 500 pedidos y accesibilidad AA documentadas y conformes.
+Codex guarda comandos, resultados, evidencias, hallazgos y bloqueos en documentos/pruebas/fase-5-informe.md. Devuelve defectos reproducibles a Claude Code para corregirlos y vuelve a comprobar los casos afectados. Richard valida el cierre; no se marca complete por terminar únicamente la parte A.

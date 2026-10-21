@@ -17,9 +17,9 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 class MigracionesFase4IT {
     @Container static final PostgreSQLContainer PG=new PostgreSQLContainer("postgres:17");
     Flyway fly(DatosB1 d,String version){var f=Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration");if(version!=null)f.target(version);return f.load();}
-    @Test void vaciaAplicaExactamenteV1AV13ValidaYNoReaplica(){
+    @Test void vaciaAplicaExactamenteV1AV15ValidaYNoReaplica(){
         var d=new DatosB1(PG,null);var f=fly(d,null);
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13");
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();
         assertThat(d.sql.queryForList("select nombre from bodega order by nombre",String.class)).containsExactly("Guayaquil","Ibarra","Quito");
         assertThat(d.sql.queryForObject("select count(*) from definicion_etapa where registra_llegada and numero=7",Integer.class)).isEqualTo(1);
@@ -39,7 +39,7 @@ class MigracionesFase4IT {
             assertThat(d.sql.queryForObject("select evento_id from evento_adjunto where adjunto_id=?",UUID.class,d.adjunto)).isEqualTo(d.evento);
             assertThat(p.get("bodega_id")).isNull();assertThat(p.get("llegada_aduana_en")).isNull();
         }
-        assertThat(fly(d,null).validateWithResult().validationSuccessful).isTrue();
+        assertThat(fly(d,"13").validateWithResult().validationSuccessful).isTrue();
     }
     void estadoSql(String codigo,Runnable accion){assertThatThrownBy(accion::run).rootCause().isInstanceOf(SQLException.class).extracting(e->((SQLException)e).getSQLState()).isEqualTo(codigo);}
     @Test void v12DistingueBodegaInactivaUB001YAsignacionInmutableUB002(){
@@ -84,7 +84,7 @@ class MigracionesFase4IT {
         assertThat(d.sql.queryForMap("select *,ctid::text as ubicacion,xmin::text as version_fila from evento_pedido where id=?",d.evento)).isEqualTo(esperado);
         assertThat(d.sql.queryForList("select tgname,pg_get_triggerdef(oid) as definicion from pg_trigger where tgrelid='evento_pedido'::regclass and not tgisinternal order by tgname")).isEqualTo(triggers);
         assertThat(d.sql.queryForObject("select convalidated from pg_constraint where conrelid='evento_pedido'::regclass and conname='evento_pedido_secuencia_nueva'",Boolean.class)).isFalse();
-        assertThat(fly(d,null).validateWithResult().validationSuccessful).isTrue();
+        assertThat(fly(d,"13").validateWithResult().validationSuccessful).isTrue();
         for(String accion:List.of("update evento_pedido set observacion='No permitido' where id='"+d.evento+"'","delete from evento_pedido where id='"+d.evento+"'","truncate table evento_pedido cascade"))estadoSql("P0001",()->d.sql.execute(accion));
         assertThat(d.sql.queryForMap("select *,ctid::text as ubicacion,xmin::text as version_fila from evento_pedido where id=?",d.evento)).isEqualTo(esperado);
     }

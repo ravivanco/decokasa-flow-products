@@ -1,6 +1,7 @@
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { useSesion } from '@/auth/SesionProvider';
+import { opcionesSeguimiento } from './actualizacion';
 import { esquemaBodega } from './esquemas';
 
 // Pedidos, historial, archivos y flujos (contrato documentos/api/openapi.yaml 0.7.0-borrador). Las respuestas se
@@ -24,6 +25,8 @@ const esquemaUrgencia = z.object({
   horas: z.number().int(),
   activadaEn: z.string(),
   venceEn: z.string(),
+  // Paso 5.3: la urgencia vigente ya venció. Lo decide el servidor con su reloj; aquí no se calcula.
+  vencida: z.boolean().optional(),
 });
 export type Urgencia = z.infer<typeof esquemaUrgencia>;
 
@@ -129,6 +132,7 @@ export const TIPOS_EVENTO = [
   'ARCHIVO_SUBIDO',
   'ETAPA_REASIGNADA',
   'PLAZO_VENCIDO',
+  'MOTIVO_RETRASO_REGISTRADO',
   'PEDIDO_FINALIZADO',
 ] as const;
 export type TipoEvento = (typeof TIPOS_EVENTO)[number];
@@ -152,6 +156,8 @@ export const esquemaEvento = z.object({
       fechaEstimadaSolicitada: z.string().nullish(),
       nuevaFechaEstimadaLlegada: z.string().nullish(),
       bodegaId: z.string().nullish(),
+      claseVencimiento: z.enum(['ETAPA', 'URGENCIA']).nullish(),
+      venceEn: z.string().nullish(),
     })
     .nullish(),
   fecha: z.string(),
@@ -217,11 +223,25 @@ export interface FiltrosPedidos {
   tamano: number;
 }
 
+/** Filtros de la bandeja del dashboard (paso 5.3). Los aplica el servidor: solo true filtra. */
+export interface FiltroBandeja {
+  vencido?: boolean;
+  conUrgencia?: boolean;
+}
+
 export const clavesPedidos = {
   listas: (sesion: number) => ['sesion', sesion, 'pedidos', 'lista'] as const,
   lista: (sesion: number, filtros: FiltrosPedidos) => ['sesion', sesion, 'pedidos', 'lista', filtros] as const,
   bandejas: (sesion: number) => ['sesion', sesion, 'pedidos', 'bandeja'] as const,
-  bandeja: (sesion: number, pagina: number) => ['sesion', sesion, 'pedidos', 'bandeja', pagina] as const,
+  bandeja: (sesion: number, pagina: number, filtro: FiltroBandeja = {}, tamano = 100) =>
+    [
+      'sesion',
+      sesion,
+      'pedidos',
+      'bandeja',
+      { pagina, tamano, vencido: Boolean(filtro.vencido), conUrgencia: Boolean(filtro.conUrgencia) },
+    ] as const,
+  cronograma: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'cronograma', id] as const,
   detalle: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'detalle', id] as const,
   historial: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'historial', id] as const,
   archivos: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'archivos', id] as const,
@@ -248,17 +268,53 @@ export function usePedidos(filtros: FiltrosPedidos) {
     },
     // Al paginar o filtrar, la tabla anterior queda visible mientras llega la nueva.
     placeholderData: keepPreviousData,
+    ...opcionesSeguimiento,
   });
 }
 
-/** Bandeja de trabajo según P-06: lo que la persona puede atender ahora (el admin ve todo lo que está en curso). */
-export function useBandeja(pagina: number) {
+function parametrosBandeja(pagina: number, tamano: number, filtro: FiltroBandeja) {
+  const parametros = new URLSearchParams({ pagina: String(pagina), tamano: String(tamano) });
+  if (filtro.vencido) parametros.set('vencido', 'true');
+  if (filtro.conUrgencia) parametros.set('conUrgencia', 'true');
+  return parametros;
+}
+
+/**
+ * Bandeja de trabajo según P-06: lo que la persona puede atender ahora (el admin ve todo lo que está en curso). Los
+ * filtros del dashboard (paso 5.3) los aplica el servidor, no la página cargada.
+ */
+export function useBandeja(pagina: number, filtro: FiltroBandeja = {}, tamano = 100) {
   const { pedir, sesionId } = useSesion();
   return useQuery({
-    queryKey: clavesPedidos.bandeja(sesionId, pagina),
+    queryKey: clavesPedidos.bandeja(sesionId, pagina, filtro, tamano),
     queryFn: ({ signal }) =>
-      pedir(`/pedidos/bandeja?pagina=${pagina}&tamano=100`, { esquema: esquemaPagina, signal }),
+      pedir(`/pedidos/bandeja?${parametrosBandeja(pagina, tamano, filtro)}`, { esquema: esquemaPagina, signal }),
     placeholderData: keepPreviousData,
+    ...opcionesSeguimiento,
+  });
+}
+
+const FILTROS_CONTEO: FiltroBandeja[] = [{}, { vencido: true }, { conUrgencia: true }];
+
+/**
+ * Totales de la bandeja para las pestañas del dashboard (paso 5.3): tres lecturas de una sola fila cada una; los
+ * cuenta el servidor con sus filtros. Indefinido mientras no llega la respuesta.
+ */
+export function useConteosBandeja() {
+  const { pedir, sesionId } = useSesion();
+  return useQueries({
+    queries: FILTROS_CONTEO.map((filtro) => ({
+      queryKey: clavesPedidos.bandeja(sesionId, 0, filtro, 1),
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        pedir(`/pedidos/bandeja?${parametrosBandeja(0, 1, filtro)}`, { esquema: esquemaPagina, signal }),
+      ...opcionesSeguimiento,
+    })),
+    combine: (resultados) => ({
+      pendientes: resultados[0].data?.total,
+      vencidos: resultados[1].data?.total,
+      conUrgencia: resultados[2].data?.total,
+      error: resultados.some((resultado) => resultado.isError),
+    }),
   });
 }
 
@@ -267,8 +323,9 @@ export function usePedido(pedidoId: string) {
   return useQuery({
     queryKey: clavesPedidos.detalle(sesionId, pedidoId),
     queryFn: ({ signal }) => pedir(`/pedidos/${id(pedidoId)}`, { esquema: esquemaPedidoDetalle, signal }),
-    // El estado de un pedido lo cambian otras personas: se vuelve a leer pronto.
+    // El estado de un pedido lo cambian otras personas: se vuelve a leer pronto y cada intervalo (paso 5.4).
     staleTime: 10_000,
+    ...opcionesSeguimiento,
   });
 }
 
@@ -279,6 +336,7 @@ export function useHistorial(pedidoId: string) {
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/historial`, { esquema: z.array(esquemaEvento), signal }),
     staleTime: 10_000,
+    ...opcionesSeguimiento,
   });
 }
 
@@ -289,8 +347,9 @@ export function useAdjuntosDeEtapa(pedidoId: string, etapa: number) {
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, { esquema: z.array(esquemaAdjunto), signal }),
     staleTime: 10_000,
-    refetchInterval: (consulta) => consulta.state.data?.some(a => a.estadoCopia === 'PENDIENTE') ? 30_000 : false,
-    refetchIntervalInBackground: false,
+    // Paso 5.4: los archivos del detalle visible se refrescan con el intervalo común (antes, solo con copias a Drive
+    // pendientes). Mismas pausas que las demás consultas de seguimiento.
+    ...opcionesSeguimiento,
   });
 }
 
@@ -306,12 +365,60 @@ export function useAdjuntosDeEtapas(pedidoId: string, etapas: number[]) {
       queryFn: ({ signal }: { signal: AbortSignal }) =>
         pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, { esquema: z.array(esquemaAdjunto), signal }),
       staleTime: 10_000,
+      ...opcionesSeguimiento,
     })),
     combine: (resultados) => {
       const porId = new Map<string, Adjunto>();
       for (const resultado of resultados) for (const adjunto of resultado.data ?? []) porId.set(adjunto.id, adjunto);
       return porId;
     },
+  });
+}
+
+export const PROCEDENCIAS_FECHA = ['REAL', 'LLEGADA_REAL', 'LLEGADA_ESTIMADA', 'PLANIFICADA'] as const;
+export type ProcedenciaFecha = (typeof PROCEDENCIAS_FECHA)[number];
+export const ESTADOS_CRONOGRAMA = ['REAL', 'ESTIMADA', 'EN_CURSO', 'PLANIFICADA', 'SIN_ESTIMAR'] as const;
+export type EstadoCronograma = (typeof ESTADOS_CRONOGRAMA)[number];
+
+// Cronograma (contrato 0.11.0, F5-D1 opción A): fechas planificadas, estimadas y reales por separado; un plazo
+// pendiente deja "sin estimar" y el total solo existe si es calculable. Aquí no se calcula ninguna fecha.
+const esquemaCronograma = z.object({
+  pedidoId: z.string(),
+  fechaPedido: z.string(),
+  meta: z.object({
+    dias: z.number().int(),
+    origen: z.enum(['PROPUESTA', 'ADMIN']),
+    pendienteDelCliente: z.boolean(),
+  }),
+  llegada: z.object({ fecha: z.string(), procedencia: z.enum(PROCEDENCIAS_FECHA) }).nullish(),
+  totalDias: z.number().int().nullish(),
+  diferenciaContraMeta: z.number().int().nullish(),
+  calculable: z.boolean(),
+  faltantes: z.array(z.object({ numero: z.number().int(), nombre: z.string() })),
+  etapas: z.array(
+    z.object({
+      numero: z.number().int(),
+      nombre: z.string(),
+      fechaPlanificada: z.string().nullish(),
+      movidaAlLunes: z.boolean(),
+      fechaEstimada: z.string().nullish(),
+      fechaReal: z.string().nullish(),
+      estado: z.enum(ESTADOS_CRONOGRAMA),
+      procedencia: z.enum(PROCEDENCIAS_FECHA).nullish(),
+      plazoPendiente: z.boolean(),
+    }),
+  ),
+});
+export type Cronograma = z.infer<typeof esquemaCronograma>;
+
+export function useCronograma(pedidoId: string) {
+  const { pedir, sesionId } = useSesion();
+  return useQuery({
+    queryKey: clavesPedidos.cronograma(sesionId, pedidoId),
+    queryFn: ({ signal }) =>
+      pedir(`/pedidos/${id(pedidoId)}/cronograma`, { esquema: esquemaCronograma, signal }),
+    staleTime: 10_000,
+    ...opcionesSeguimiento,
   });
 }
 
@@ -364,6 +471,7 @@ export function useRefrescarPedido() {
     else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pedidoId) });
     void consultas.invalidateQueries({ queryKey: ['notificaciones', sesionId] });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.cronograma(sesionId, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId) });
@@ -430,6 +538,43 @@ export function useAgregarObservacion() {
     mutationFn: ({ pedidoId, ...cuerpo }: DatosObservacion) =>
       pedir(`/pedidos/${id(pedidoId)}/observaciones`, { metodo: 'POST', cuerpo, esquema: esquemaEvento }),
     // Se recargan también detalle y bandejas; no se deriva ningún estado en el navegador.
+    onSuccess: (_evento, { pedidoId }) => refrescar(pedidoId),
+    onError: (_error, { pedidoId }) => refrescar(pedidoId),
+  });
+}
+
+/** Búsqueda exacta por número (requisito 4.2 #17; contrato GET /pedidos/buscar). La pide la persona al enviar. */
+export function useBuscarPedido() {
+  const { pedir, sesionId } = useSesion();
+  const consultas = useQueryClient();
+  return useMutation({
+    mutationFn: (numero: string) =>
+      pedir(`/pedidos/buscar?numero=${encodeURIComponent(numero)}`, { esquema: esquemaPedidoDetalle }),
+    onSuccess: (pedido) => consultas.setQueryData(clavesPedidos.detalle(sesionId, pedido.id), pedido),
+  });
+}
+
+export interface DatosMotivo {
+  pedidoId: string;
+  etapa: number;
+  entradaEsperadaId: string;
+  motivo: string;
+}
+
+/**
+ * Motivo del retraso (F5-D3, provisional del equipo): quien puede actuar en la etapa (P-06) o el admin, con un
+ * vencimiento activo. Cada registro o corrección queda en el historial; no envía correo. El servidor decide.
+ */
+export function useRegistrarMotivo() {
+  const { pedir } = useSesion();
+  const refrescar = useRefrescarPedido();
+  return useMutation({
+    mutationFn: ({ pedidoId, etapa, ...cuerpo }: DatosMotivo) =>
+      pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/motivo-retraso`, {
+        metodo: 'PUT',
+        cuerpo,
+        esquema: esquemaEvento,
+      }),
     onSuccess: (_evento, { pedidoId }) => refrescar(pedidoId),
     onError: (_error, { pedidoId }) => refrescar(pedidoId),
   });

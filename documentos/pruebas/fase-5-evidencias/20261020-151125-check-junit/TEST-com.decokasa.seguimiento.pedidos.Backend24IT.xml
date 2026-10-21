@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Backend24IT" tests="48" skipped="0" failures="1" errors="0" timestamp="2026-10-20T20:14:36.280Z" hostname="DESKTOP-GKF6IVL" time="22.508">
+  <properties/>
+  <testcase name="rechazosDevolucionPorErrorYA4A5MantienenContrato()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.923"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.136"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.133"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.131"/>
+  <testcase name="errorAlRegistrarRevierteMetadatosYConservaBytesYReserva()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.124"/>
+  <testcase name="resumenP20ReentradaConservaUltimoCierreYLoReemplazaAlCerrarDeNuevo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.659"/>
+  <testcase name="[1] tamano = 0" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.075"/>
+  <testcase name="[2] tamano = 1024" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.105"/>
+  <testcase name="[3] tamano = 1025" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.078"/>
+  <testcase name="subidaRevalidaEntradaDespuesDeRecibirYRevierteSiHuboReentrada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.371"/>
+  <testcase name="resumenP20UsaNombreVigentePeroConservaRolHistoricoYFechaEcuador()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.389"/>
+  <testcase name="dosAvancesSimultaneosConfirmanUnoSolo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.179"/>
+  <testcase name="adjuntosDeOtroPedidoDuplicadosNulosYDeOtraEtapaNoSeIgnoran()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.382"/>
+  <testcase name="reasignacionExcluyeOtrosYReleeRolDeAsignado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.537"/>
+  <testcase name="consultasContratoYConfiguracion()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.576"/>
+  <testcase name="bandejaRespetaContratoSinErrorInterno()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.268"/>
+  <testcase name="observacionEHistorialConservanElMismoJsonPublicoTrasSepararAdaptadores()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.359">
+    <failure message="java.lang.AssertionError: &#13;&#10;Expecting actual:&#13;&#10;  [&quot;etapaDestino&quot;,&#13;&#10;    &quot;motivoDevolucion&quot;,&#13;&#10;    &quot;urgenciaTerminada&quot;,&#13;&#10;    &quot;asignadoAnterior&quot;,&#13;&#10;    &quot;asignadoA&quot;,&#13;&#10;    &quot;fechaEstimadaAnterior&quot;,&#13;&#10;    &quot;fechaEstimadaSolicitada&quot;,&#13;&#10;    &quot;nuevaFechaEstimadaLlegada&quot;,&#13;&#10;    &quot;bodegaId&quot;,&#13;&#10;    &quot;claseVencimiento&quot;,&#13;&#10;    &quot;venceEn&quot;]&#13;&#10;to contain exactly in any order:&#13;&#10;  [&quot;etapaDestino&quot;,&#13;&#10;    &quot;motivoDevolucion&quot;,&#13;&#10;    &quot;urgenciaTerminada&quot;,&#13;&#10;    &quot;asignadoAnterior&quot;,&#13;&#10;    &quot;asignadoA&quot;,&#13;&#10;    &quot;fechaEstimadaAnterior&quot;,&#13;&#10;    &quot;fechaEstimadaSolicitada&quot;,&#13;&#10;    &quot;nuevaFechaEstimadaLlegada&quot;,&#13;&#10;    &quot;bodegaId&quot;,&#13;&#10;    &quot;claseVencimiento&quot;,&#13;&#10;    &quot;venceEn&quot;,&#13;&#10;    &quot;entradaId&quot;,&#13;&#10;    &quot;urgenciaActivacionId&quot;]&#13;&#10;but could not find the following elements:&#13;&#10;  [&quot;entradaId&quot;, &quot;urgenciaActivacionId&quot;]&#13;&#10;" type="java.lang.AssertionError">java.lang.AssertionError: 
+Expecting actual:
+  [&quot;etapaDestino&quot;,
+    &quot;motivoDevolucion&quot;,
+    &quot;urgenciaTerminada&quot;,
+    &quot;asignadoAnterior&quot;,
+    &quot;asignadoA&quot;,
+    &quot;fechaEstimadaAnterior&quot;,
+    &quot;fechaEstimadaSolicitada&quot;,
+    &quot;nuevaFechaEstimadaLlegada&quot;,
+    &quot;bodegaId&quot;,
+    &quot;claseVencimiento&quot;,
+    &quot;venceEn&quot;]
+to contain exactly in any order:
+  [&quot;etapaDestino&quot;,
+    &quot;motivoDevolucion&quot;,
+    &quot;urgenciaTerminada&quot;,
+    &quot;asignadoAnterior&quot;,
+    &quot;asignadoA&quot;,
+    &quot;fechaEstimadaAnterior&quot;,
+    &quot;fechaEstimadaSolicitada&quot;,
+    &quot;nuevaFechaEstimadaLlegada&quot;,
+    &quot;bodegaId&quot;,
+    &quot;claseVencimiento&quot;,
+    &quot;venceEn&quot;,
+    &quot;entradaId&quot;,
+    &quot;urgenciaActivacionId&quot;]
+but could not find the following elements:
+  [&quot;entradaId&quot;, &quot;urgenciaActivacionId&quot;]
+
+	at com.decokasa.seguimiento.pedidos.Backend24IT.observacionEHistorialConservanElMismoJsonPublicoTrasSepararAdaptadores(Backend24IT.java:198)
+</failure>
+  </testcase>
+  <testcase name="archivosRealesMetadatosYPermisosDeDescarga()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.349"/>
+  <testcase name="resumenDeEtapaIncluyeLoOcurrido()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.564"/>
+  <testcase name="[1] nivel = &quot;URGENTE&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.28"/>
+  <testcase name="[2] nivel = &quot;PRIORITARIO&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.144"/>
+  <testcase name="[3] nivel = &quot;NORMAL&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.168"/>
+  <testcase name="[1] rol = &quot;consulta&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.236"/>
+  <testcase name="[2] rol = &quot;asistente_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.219"/>
+  <testcase name="[3] rol = &quot;marketing&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.255"/>
+  <testcase name="[4] rol = &quot;asistente_compras&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.219"/>
+  <testcase name="[5] rol = &quot;compras_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.234"/>
+  <testcase name="[6] rol = &quot;logistica&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.255"/>
+  <testcase name="b2TransicionesRealesEncolanUnaIntencionPorEventoSinInventarDestinatario()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.09"/>
+  <testcase name="observacionInvalidaOAdjuntoAjenoNoDejanEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.305"/>
+  <testcase name="multipartExigeEntradaYPermisoSinCrearNada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.118"/>
+  <testcase name="fase4IncidenciasHabilitadaConservaBloqueoDocumental()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.114"/>
+  <testcase name="requisitosErroresYEtapaDesactualizadaSonAtomicos()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.142"/>
+  <testcase name="observacionesExigenEntradaVigenteYRegistranActorFechaSinAvance()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.505"/>
+  <testcase name="resumenP20EtapaIntermediaConservaSuCierreTrasDevolucionDesdeA4()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.113"/>
+  <testcase name="[1] desactivar = true" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.099"/>
+  <testcase name="[2] desactivar = false" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.112"/>
+  <testcase name="resumenP20SinCierreEsNuloAunqueHayaObservacionYArchivo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.49"/>
+  <testcase name="multipartRealAplicaLimiteDelServletConJwtFirmado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.461"/>
+  <testcase name="resumenP20RecortaUnicodeSinCambiarObservacionCompletaDelHistorial()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.863"/>
+  <testcase name="lecturaInterrumpidaNoDejaTemporalAdjuntoNiEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.117"/>
+  <testcase name="b2RegistroHttpExigeAdminVigenteInclusoConTokenAntiguo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.029"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.206"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.214"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.218"/>
+  <testcase name="b2RollbackRealDeTransicionNoDejaAvisoNiHistorialNiAvance()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.356"/>
+  <testcase name="b2RegistroSanitizaErroresYPaginaSinExponerDatosPrivados()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.348"/>
+  <testcase name="reentradaNoReutilizaDocumentosNiEntradaAnterior()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.96"/>
+  <system-out><![CDATA[2026-10-20T15:14:36.281-05:00  INFO 22072 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-20T15:14:36.309-05:00  INFO 22072 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+2026-10-20T15:14:36.309-05:00  INFO 22072 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-20T15:14:36.313-05:00  INFO 22072 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-20T15:14:36.335-05:00  INFO 22072 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Starting Backend24IT using Java 21.0.12.1 with PID 22072 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-20T15:14:36.335-05:00  INFO 22072 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-20T15:14:36.558-05:00  INFO 22072 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-20T15:14:36.613-05:00  INFO 22072 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 7 JPA repository interfaces.
+2026-10-20T15:14:36.888-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-20T15:14:36.910-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-20T15:14:36.910-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-20T15:14:36.998-05:00  INFO 22072 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 662 ms
+2026-10-20T15:14:37.080-05:00  INFO 22072 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-20T15:14:37.186-05:00  INFO 22072 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 09c9e0f7fdc2cf8b6dc05d70f93941f5206d49114a5f6ef95beeeab6be7dd8fc
+2026-10-20T15:14:38.658-05:00  INFO 22072 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5778999S
+2026-10-20T15:14:38.658-05:00  INFO 22072 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:52688/test?loggerLevel=OFF)
+2026-10-20T15:14:38.739-05:00  INFO 22072 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:52688/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T15:14:38.753-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-20T15:14:38.753-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 15 migrations (execution time 00:00.005s)
+2026-10-20T15:14:38.759-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-20T15:14:38.774-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-20T15:14:38.776-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-20T15:14:38.800-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-20T15:14:38.840-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-20T15:14:38.866-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-20T15:14:38.885-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-20T15:14:38.900-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-20T15:14:38.916-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-20T15:14:38.930-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-20T15:14:38.940-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-20T15:14:38.958-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-20T15:14:38.974-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-20T15:14:38.986-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-20T15:14:38.993-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - historial secuencia"
+2026-10-20T15:14:39.003-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - configuracion plazos"
+2026-10-20T15:14:39.012-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - avisos vencimiento"
+2026-10-20T15:14:39.028-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 15 migrations to schema "public", now at version v15 (execution time 00:00.154s)
+2026-10-20T15:14:39.068-05:00  INFO 22072 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-20T15:14:39.084-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-20T15:14:39.085-05:00  INFO 22072 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-27 - Starting...
+2026-10-20T15:14:39.093-05:00  INFO 22072 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-27 - Added connection org.postgresql.jdbc.PgConnection@4f251152
+2026-10-20T15:14:39.093-05:00  INFO 22072 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-27 - Start completed.
+2026-10-20T15:14:39.099-05:00  INFO 22072 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:52688/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-20T15:14:39.221-05:00  INFO 22072 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-20T15:14:39.233-05:00  INFO 22072 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T15:14:39.489-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2026-10-20T15:14:39.490-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-20T15:14:39.493-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-20T15:14:39.499-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 9 ms
+2026-10-20T15:14:39.534-05:00  INFO 22072 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 52699 (http) with context path '/'
+2026-10-20T15:14:39.537-05:00  INFO 22072 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Started Backend24IT in 3.221 seconds (process running for 185.226)
+2026-10-20T15:14:40.980-05:00  WARN 22072 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: P0001
+2026-10-20T15:14:40.980-05:00  WARN 22072 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: Fallo ficticio B24
+  Where: PL/pgSQL function fallo_subida_b24() line 1 at RAISE
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"56"]
+             Body = {"tipoFlujo":"A","pais":"EC","nombre":"Pedido ficticio"}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.PedidoController#crear(Jwt, SolicitudCrearPedido)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Location:"/api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"475073fc-cccd-4fb3-9427-1fecf6cd67dd","numero":"DK-EC-2026-0018","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":1,"nombreEtapaActual":"Crear solicitud de pedido","responsableActual":null,"venceEn":null,"vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"13682c1a-79f9-4fa1-98cd-6972a4b1e933","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-20T15:14:44.636504-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"llegadaAduanaEn":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"ACTUAL","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"0a7bdfd6-1ce5-4f68-b398-be68ff2cfd53","entrada":"2026-10-20T15:14:44.636504-05:00","salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":2,"nombre":"Codificación","estado":"PENDIENTE","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"PENDIENTE","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":2,"requiereObservacion":false,"requiereUrgencia":false,"requiereBodega":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Solicitud"],"documentosFaltantes":["Solicitud"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = /api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd/etapas/1/archivos
+       Parameters = {tipoDocumento=[Solicitud], entradaEsperadaId=[0a7bdfd6-1ce5-4f68-b398-be68ff2cfd53]}
+          Headers = [Content-Type:"multipart/form-data;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController
+           Method = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController#subir(Jwt, UUID, int, MultipartFile, String, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"64533e43-7e51-4107-9bd0-5f3e08d6c4fc","pedidoId":"475073fc-cccd-4fb3-9427-1fecf6cd67dd","etapa":1,"entradaId":"0a7bdfd6-1ce5-4f68-b398-be68ff2cfd53","eventoId":"d13a9159-9756-4531-8190-330ad04bbd17","nombre":"ficticio.pdf","tipoDocumento":"Solicitud","tamanoBytes":13,"subidoPor":{"id":"13682c1a-79f9-4fa1-98cd-6972a4b1e933","nombre":"Persona ficticia","roles":["admin"]},"subidoEn":"2026-10-20T15:14:44.7197756-05:00","estadoCopia":"PENDIENTE"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd/acciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"91"]
+             Body = {"accion":"ENVIAR","etapaEsperada":1,"adjuntoIds":["64533e43-7e51-4107-9bd0-5f3e08d6c4fc"]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.AccionEtapaController#ejecutar(Jwt, UUID, SolicitudAccion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"475073fc-cccd-4fb3-9427-1fecf6cd67dd","numero":"DK-EC-2026-0018","nombre":"Pedido ficticio","pais":"EC","tipoFlujo":"A","etapaActual":2,"nombreEtapaActual":"Codificación","responsableActual":null,"venceEn":"2026-10-21T15:14:44.777778-05:00","vencida":false,"motivoRetraso":null,"urgencia":null,"finalizado":false,"descripcion":null,"incluyeProductosNuevos":false,"creadoPor":{"id":"13682c1a-79f9-4fa1-98cd-6972a4b1e933","nombre":"Persona ficticia","roles":["admin"]},"creadoEn":"2026-10-20T15:14:44.636504-05:00","versionFlujo":1,"bodega":null,"demoraAduana":null,"llegadaAduanaEn":null,"lineaDeTiempo":[{"numero":1,"nombre":"Crear solicitud de pedido","estado":"COMPLETADA","rolResponsable":"admin","estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":"0a7bdfd6-1ce5-4f68-b398-be68ff2cfd53","entrada":"2026-10-20T15:14:44.636504-05:00","salida":"2026-10-20T15:14:44.777778-05:00","venceEn":null,"reentradas":0,"resumen":"Enviada por Persona ficticia (Administrador) el 20/10/2026 15:14 · pasa a A2. 1 archivo presentado."},{"numero":2,"nombre":"Codificación","estado":"ACTUAL","rolResponsable":"marketing","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":"4a68a04c-7090-41a0-9b1a-1e10c255a312","entrada":"2026-10-20T15:14:44.777778-05:00","salida":null,"venceEn":"2026-10-21T15:14:44.777778-05:00","reentradas":0,"resumen":null},{"numero":3,"nombre":"Revisión y aprobación","estado":"PENDIENTE","rolResponsable":"asistente_compras","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":4,"nombre":"Análisis y gestión","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":5,"nombre":"Fabricación","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":6,"nombre":"Embarque","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":7,"nombre":"Aduana Ecuador","estado":"PENDIENTE","rolResponsable":"compras_china","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":8,"nombre":"Autorización de salida","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":9,"nombre":"Bodega","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"DEFINIDO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":10,"nombre":"Incidencias","estado":"PENDIENTE","rolResponsable":"logistica","estadoPlazo":"PENDIENTE","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null},{"numero":11,"nombre":"Fin","estado":"PENDIENTE","rolResponsable":null,"estadoPlazo":"SIN_PLAZO","asignadoA":null,"asignacionVigente":null,"entradaId":null,"entrada":null,"salida":null,"venceEn":null,"reentradas":0,"resumen":null}],"accionesDisponibles":[{"accion":"ENVIAR","etapaDestino":3,"requiereObservacion":false,"requiereUrgencia":false,"requiereBodega":false,"requisitosDocumentales":"DEFINIDOS","documentosObligatorios":["Documentos codificados"],"documentosFaltantes":["Documentos codificados"],"puedeCompletarse":false}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd/etapas/2/archivos
+       Parameters = {tipoDocumento=[Documentos codificados], entradaEsperadaId=[4a68a04c-7090-41a0-9b1a-1e10c255a312]}
+          Headers = [Content-Type:"multipart/form-data;charset=UTF-8"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController
+           Method = com.decokasa.seguimiento.archivos.adapter.in.web.SubidaArchivoController#subir(Jwt, UUID, int, MultipartFile, String, UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"83efd5d2-2f72-4029-bcc1-fa2a9ded9c4b","pedidoId":"475073fc-cccd-4fb3-9427-1fecf6cd67dd","etapa":2,"entradaId":"4a68a04c-7090-41a0-9b1a-1e10c255a312","eventoId":"2a8cca71-a2cd-44ac-b563-4082b957ac88","nombre":"ficticio.pdf","tipoDocumento":"Documentos codificados","tamanoBytes":13,"subidoPor":{"id":"13682c1a-79f9-4fa1-98cd-6972a4b1e933","nombre":"Persona ficticia","roles":["admin"]},"subidoEn":"2026-10-20T15:14:44.8627081-05:00","estadoCopia":"PENDIENTE"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/v1/pedidos/475073fc-cccd-4fb3-9427-1fecf6cd67dd/observaciones
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"182"]
+             Body = {"texto":"Observación de compatibilidad ficticia","etapaEsperada":2,"entradaEsperadaId":"4a68a04c-7090-41a0-9b1a-1e10c255a312","adjuntoIds":["83efd5d2-2f72-4029-bcc1-fa2a9ded9c4b"]}
+    Session Attrs = {}
+
+Handler:
+             Type = com.decokasa.seguimiento.pedidos.adapter.in.web.ObservacionController
+           Method = com.decokasa.seguimiento.pedidos.adapter.in.web.ObservacionController#agregar(Jwt, UUID, SolicitudObservacion)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY", Referrer-Policy:"no-referrer"]
+     Content type = application/json
+             Body = {"id":"b2cf98c1-b8a0-42a9-8017-1198eb8f79ed","pedidoId":"475073fc-cccd-4fb3-9427-1fecf6cd67dd","numeroPedido":"DK-EC-2026-0018","etapa":2,"tipo":"OBSERVACION_AGREGADA","usuario":{"id":"13682c1a-79f9-4fa1-98cd-6972a4b1e933","nombre":"Persona ficticia","roles":["admin"]},"rolIntervencion":"admin","detalle":{"etapaDestino":null,"motivoDevolucion":null,"urgenciaTerminada":null,"asignadoAnterior":null,"asignadoA":null,"fechaEstimadaAnterior":null,"fechaEstimadaSolicitada":null,"nuevaFechaEstimadaLlegada":null,"bodegaId":null,"claseVencimiento":null,"venceEn":null},"fecha":"2026-10-20T15:14:44.920066-05:00","observacion":"Observación de compatibilidad ficticia","nivelUrgencia":null,"adjuntoIds":["83efd5d2-2f72-4029-bcc1-fa2a9ded9c4b"]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2026-10-20T15:14:55.281-05:00  INFO 22072 --- [seguimiento] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-20T15:14:55.281-05:00  INFO 22072 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-20T15:14:55.282-05:00  INFO 22072 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

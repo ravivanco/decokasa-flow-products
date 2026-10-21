@@ -45,6 +45,13 @@ server:
 # Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
 # JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
 decokasa:
+  plazos:
+    vencimientos:
+      # Paso 5.2: detección de vencimientos. Desactivada por defecto hasta su verificación (Codex, 5.B1).
+      automatico: ${VENCIMIENTOS_AUTOMATICO:false}
+      # Valores técnicos provisionales (F5-D9), pendientes de confirmar por Richard.
+      intervalo-ms: ${VENCIMIENTOS_INTERVALO_MS:300000}
+      lote: ${VENCIMIENTOS_LOTE:100}
   google:
     # Adaptadores pasivos del 3.2. Cada llamada exige además OAuth habilitado y autorización vigente.
     drive:

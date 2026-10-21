@@ -18,7 +18,7 @@ public record ObservacionRespuesta(UUID id, UUID pedidoId, String numeroPedido, 
     /** Esquema DetalleEvento: cada campo es nulo cuando no aplica. */
     public record Detalle(Integer etapaDestino, String motivoDevolucion, Boolean urgenciaTerminada,
             UUID asignadoAnterior, UUID asignadoA, String fechaEstimadaAnterior, String fechaEstimadaSolicitada,
-            String nuevaFechaEstimadaLlegada, UUID bodegaId) {
+            String nuevaFechaEstimadaLlegada, UUID bodegaId, String claseVencimiento, String venceEn) {
     }
 
     static ObservacionRespuesta de(ConsultarHistorialPedido.Entrada entrada) {
@@ -32,7 +32,8 @@ public record ObservacionRespuesta(UUID id, UUID pedidoId, String numeroPedido, 
                         evento.motivoDevolucion() == null ? null : evento.motivoDevolucion().name(),
                         evento.urgenciaTerminada(), evento.asignadoAnterior(), evento.asignadoA(),
                         texto(evento.fechaEstimadaAnterior()), texto(evento.fechaEstimadaSolicitada()),
-                        texto(evento.nuevaFechaEstimadaLlegada()), evento.bodegaId()),
+                        texto(evento.nuevaFechaEstimadaLlegada()), evento.bodegaId(),
+                        evento.claseVencimiento(), FechasWeb.texto(evento.venceEn())),
                 FechasWeb.texto(evento.ocurridoEn()), evento.observacion(),
                 evento.nivelUrgencia() == null ? null : evento.nivelUrgencia().name(), evento.adjuntoIds());
     }

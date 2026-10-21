@@ -1,6 +1,7 @@
 import { ArrowLeftIcon, RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
+import { usePausarActualizacion } from '@/api/actualizacion';
 import { esErrorApi } from '@/api/cliente';
 import { type AccionDisponible, type Adjunto, type Persona, useDefinicionFlujo, usePedido } from '@/api/pedidos';
 import { useUsuarioActual } from '@/auth/SesionProvider';
@@ -8,6 +9,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { BorradoresEnConflicto, ProveedorBorradores } from './borradores';
+import { CronogramaPedido } from './CronogramaPedido';
 import { DialogoAccion } from './DialogoAccion';
 import { DialogoReasignar } from './DialogoReasignar';
 import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
@@ -19,8 +22,18 @@ import { PanelEtapa } from './PanelEtapa';
 // Detalle del pedido: encabezado, línea de tiempo, panel de la etapa elegida e historial. Todo sale del servidor; tras
 // cada acción la pantalla muestra el pedido que él devolvió (o el vigente, si respondió con un conflicto).
 
+// Paso 5.5: los borradores viven por encima del contenido (y por pedido), para que un refresco, un error de lectura o
+// un cambio de etapa no borren en silencio el texto sin enviar.
 export function DetallePedido() {
   const { pedidoId = '' } = useParams();
+  return (
+    <ProveedorBorradores key={pedidoId}>
+      <ContenidoDetalle pedidoId={pedidoId} />
+    </ProveedorBorradores>
+  );
+}
+
+function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
   const usuario = useUsuarioActual();
   const pedido = usePedido(pedidoId);
   const datos = pedido.data;
@@ -34,6 +47,9 @@ export function DetallePedido() {
     adjuntos: Adjunto[];
   } | null>(null);
   const [reasignando, setReasignando] = useState(false);
+  // Paso 5.4: con un diálogo de acción o de reasignación abierto no se refresca solo; al confirmar, el servidor
+  // vuelve a comprobar la etapa esperada (y la entrada o la versión, según la operación).
+  usePausarActualizacion(accion !== null || reasignando);
 
   // Si el pedido cambia de etapa (por una acción propia o ajena), el panel vuelve a la etapa actual.
   if (datos && datos.etapaActual !== actualVista) {
@@ -113,7 +129,11 @@ export function DetallePedido() {
           </Badge>
           <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} estadoPlazo={actual?.estadoPlazo} />
           {detalle.urgencia && (
-            <DistintivoUrgencia nivel={detalle.urgencia.nivel} venceEn={detalle.urgencia.venceEn} />
+            <DistintivoUrgencia
+              nivel={detalle.urgencia.nivel}
+              venceEn={detalle.urgencia.venceEn}
+              vencida={detalle.urgencia.vencida}
+            />
           )}
           {pedido.isFetching && (
             <span role="status" className="text-sm text-muted-foreground">
@@ -164,6 +184,10 @@ export function DetallePedido() {
         automaticas={automaticas}
         onSeleccionar={setElegida}
       />
+
+      <BorradoresEnConflicto pedido={detalle} />
+
+      <CronogramaPedido pedidoId={detalle.id} tipoFlujo={detalle.tipoFlujo} />
 
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_26rem]">
         <PanelEtapa

@@ -16,6 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { ArchivosEtapa } from './ArchivosEtapa';
 import { codigoEtapa, formatearFechaHora, NOMBRE_ACCION, nombreRol, podriaActuarEn } from './formato';
+import { MotivoRetraso } from './MotivoRetraso';
 import { NuevaObservacion } from './NuevaObservacion';
 
 // Panel de la etapa elegida en la línea de tiempo (DESIGN.md 7.3). En la etapa actual muestra solo las acciones que
@@ -126,6 +127,14 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
       </CardHeader>
 
       <CardContent className="flex flex-col gap-6">
+        {esActual && (
+          <MotivoRetraso
+            key={etapa.entradaId ?? 'sin-entrada'}
+            pedido={pedido}
+            etapa={etapa}
+            puedeEditar={puedeIntervenir || esAdmin}
+          />
+        )}
         {documentosPendientes && <Alert role="note"><CircleAlertIcon />
           <AlertTitle>Documentos pendientes de definición</AlertTitle>
           <AlertDescription>Los requisitos de esta etapa todavía no están definidos. Los archivos conservados no eliminan este bloqueo y no se puede confirmar el avance.</AlertDescription>

@@ -1,0 +1,194 @@
+[
+  {
+    "tag": "A",
+    "nombre": "Inicio",
+    "id": "",
+    "rect": {
+      "x": 8,
+      "y": 133,
+      "width": 83.828125,
+      "height": 40,
+      "top": 133,
+      "right": 91.828125,
+      "bottom": 173,
+      "left": 8
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Mi bandeja",
+    "id": "",
+    "rect": {
+      "x": 95.828125,
+      "y": 133,
+      "width": 101.515625,
+      "height": 40,
+      "top": 133,
+      "right": 197.34375,
+      "bottom": 173,
+      "left": 95.828125
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Pedidos",
+    "id": "",
+    "rect": {
+      "x": 201.34375,
+      "y": 133,
+      "width": 101.953125,
+      "height": 40,
+      "top": 133,
+      "right": 303.296875,
+      "bottom": 173,
+      "left": 201.34375
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Bodegas",
+    "id": "",
+    "rect": {
+      "x": 307.296875,
+      "y": 133,
+      "width": 106.703125,
+      "height": 40,
+      "top": 133,
+      "right": 414,
+      "bottom": 173,
+      "left": 307.296875
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Correos",
+    "id": "",
+    "rect": {
+      "x": 144,
+      "y": 133,
+      "width": 101.6875,
+      "height": 40,
+      "top": 133,
+      "right": 245.6875,
+      "bottom": 173,
+      "left": 144
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Usuarios",
+    "id": "",
+    "rect": {
+      "x": 249.6875,
+      "y": 133,
+      "width": 107.328125,
+      "height": 40,
+      "top": 133,
+      "right": 357.015625,
+      "bottom": 173,
+      "left": 249.6875
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Roles",
+    "id": "",
+    "rect": {
+      "x": 361.015625,
+      "y": 133,
+      "width": 84.640625,
+      "height": 40,
+      "top": 133,
+      "right": 445.65625,
+      "bottom": 173,
+      "left": 361.015625
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  {
+    "tag": "A",
+    "nombre": "Meta de plazos",
+    "id": "",
+    "rect": {
+      "x": 290.65625,
+      "y": 133,
+      "width": 91.71875,
+      "height": 60,
+      "top": 133,
+      "right": 382.375,
+      "bottom": 193,
+      "left": 290.65625
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 390,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  }
+]

@@ -1,0 +1,8 @@
+﻿{
+    "deteccionAutomatica":  false,
+    "fecha":  "20261020-151125",
+    "comando":  ".\\gradlew.bat check --console=plain --no-daemon",
+    "googleReal":  false,
+    "salida":  1,
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-fase5-6cd41882703949c9b675814f9f4ec2ac"
+}

@@ -1,0 +1,750 @@
+{
+  "comando": {
+    "deteccionAutomatica": false,
+    "fecha": "20261020-151741",
+    "comando": ".\\gradlew.bat check --console=plain --no-daemon",
+    "googleReal": false,
+    "salida": 0,
+    "almacenAislado": "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-fase5-8baef02c63b640eaa7c5c082cbde41b0"
+  },
+  "junit": {
+    "tests": 849,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites_fase5": [
+    {
+      "suite": "TEST-com.decokasa.seguimiento.archivos.MigracionesFase5IT.xml",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "TEST-com.decokasa.seguimiento.pedidos.domain.Fase5ReentradaTest.xml",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "TEST-com.decokasa.seguimiento.pedidos.Fase5IT.xml",
+      "tests": 35,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "TEST-com.decokasa.seguimiento.plazos.adapter.out.diagnostico.Fase5DiagnosticoTest.xml",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "TEST-com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest.xml",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "global": {
+    "INSTRUCTION": {
+      "covered": 31620,
+      "missed": 3386,
+      "pct": 90.32737245043707
+    },
+    "BRANCH": {
+      "covered": 2057,
+      "missed": 766,
+      "pct": 72.8657456606447
+    },
+    "LINE": {
+      "covered": 5326,
+      "missed": 504,
+      "pct": 91.35506003430531
+    },
+    "COMPLEXITY": {
+      "covered": 2298,
+      "missed": 864,
+      "pct": 72.67552182163188
+    },
+    "METHOD": {
+      "covered": 1560,
+      "missed": 172,
+      "pct": 90.06928406466513
+    },
+    "CLASS": {
+      "covered": 400,
+      "missed": 11,
+      "pct": 97.32360097323601
+    }
+  },
+  "modulos": {
+    "notificaciones": {
+      "INSTRUCTION": {
+        "covered": 1965,
+        "missed": 290,
+        "pct": 87.13968957871397
+      },
+      "BRANCH": {
+        "covered": 169,
+        "missed": 66,
+        "pct": 71.91489361702128
+      },
+      "LINE": {
+        "covered": 268,
+        "missed": 54,
+        "pct": 83.22981366459628
+      },
+      "COMPLEXITY": {
+        "covered": 127,
+        "missed": 77,
+        "pct": 62.254901960784316
+      },
+      "METHOD": {
+        "covered": 70,
+        "missed": 15,
+        "pct": 82.3529411764706
+      },
+      "CLASS": {
+        "covered": 18,
+        "missed": 4,
+        "pct": 81.81818181818181
+      }
+    },
+    "bodegas": {
+      "INSTRUCTION": {
+        "covered": 884,
+        "missed": 40,
+        "pct": 95.67099567099567
+      },
+      "BRANCH": {
+        "covered": 50,
+        "missed": 12,
+        "pct": 80.64516129032258
+      },
+      "LINE": {
+        "covered": 148,
+        "missed": 7,
+        "pct": 95.48387096774194
+      },
+      "COMPLEXITY": {
+        "covered": 88,
+        "missed": 13,
+        "pct": 87.12871287128714
+      },
+      "METHOD": {
+        "covered": 68,
+        "missed": 2,
+        "pct": 97.14285714285714
+      },
+      "CLASS": {
+        "covered": 16,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "archivos": {
+      "INSTRUCTION": {
+        "covered": 9229,
+        "missed": 1653,
+        "pct": 84.80977761440911
+      },
+      "BRANCH": {
+        "covered": 669,
+        "missed": 379,
+        "pct": 63.83587786259542
+      },
+      "LINE": {
+        "covered": 1391,
+        "missed": 220,
+        "pct": 86.34388578522656
+      },
+      "COMPLEXITY": {
+        "covered": 524,
+        "missed": 404,
+        "pct": 56.46551724137931
+      },
+      "METHOD": {
+        "covered": 336,
+        "missed": 68,
+        "pct": 83.16831683168317
+      },
+      "CLASS": {
+        "covered": 83,
+        "missed": 3,
+        "pct": 96.51162790697674
+      }
+    },
+    "configuracion": {
+      "INSTRUCTION": {
+        "covered": 344,
+        "missed": 112,
+        "pct": 75.43859649122807
+      },
+      "BRANCH": {
+        "covered": 2,
+        "missed": 12,
+        "pct": 14.285714285714286
+      },
+      "LINE": {
+        "covered": 73,
+        "missed": 19,
+        "pct": 79.34782608695652
+      },
+      "COMPLEXITY": {
+        "covered": 27,
+        "missed": 11,
+        "pct": 71.05263157894737
+      },
+      "METHOD": {
+        "covered": 27,
+        "missed": 4,
+        "pct": 87.09677419354838
+      },
+      "CLASS": {
+        "covered": 4,
+        "missed": 1,
+        "pct": 80.0
+      }
+    },
+    "plazos": {
+      "INSTRUCTION": {
+        "covered": 2444,
+        "missed": 142,
+        "pct": 94.50889404485692
+      },
+      "LINE": {
+        "covered": 448,
+        "missed": 23,
+        "pct": 95.11677282377919
+      },
+      "COMPLEXITY": {
+        "covered": 199,
+        "missed": 37,
+        "pct": 84.32203389830508
+      },
+      "METHOD": {
+        "covered": 117,
+        "missed": 2,
+        "pct": 98.31932773109244
+      },
+      "CLASS": {
+        "covered": 39,
+        "missed": 1,
+        "pct": 97.5
+      },
+      "BRANCH": {
+        "covered": 192,
+        "missed": 39,
+        "pct": 83.11688311688312
+      }
+    },
+    "compartido": {
+      "INSTRUCTION": {
+        "covered": 1922,
+        "missed": 196,
+        "pct": 90.74598677998111
+      },
+      "BRANCH": {
+        "covered": 50,
+        "missed": 24,
+        "pct": 67.56756756756756
+      },
+      "LINE": {
+        "covered": 358,
+        "missed": 46,
+        "pct": 88.61386138613861
+      },
+      "COMPLEXITY": {
+        "covered": 125,
+        "missed": 59,
+        "pct": 67.93478260869566
+      },
+      "METHOD": {
+        "covered": 109,
+        "missed": 35,
+        "pct": 75.69444444444444
+      },
+      "CLASS": {
+        "covered": 51,
+        "missed": 1,
+        "pct": 98.07692307692308
+      }
+    },
+    "historial": {
+      "INSTRUCTION": {
+        "covered": 1930,
+        "missed": 90,
+        "pct": 95.54455445544555
+      },
+      "BRANCH": {
+        "covered": 118,
+        "missed": 16,
+        "pct": 88.05970149253731
+      },
+      "LINE": {
+        "covered": 349,
+        "missed": 8,
+        "pct": 97.75910364145658
+      },
+      "COMPLEXITY": {
+        "covered": 140,
+        "missed": 17,
+        "pct": 89.171974522293
+      },
+      "METHOD": {
+        "covered": 79,
+        "missed": 4,
+        "pct": 95.18072289156626
+      },
+      "CLASS": {
+        "covered": 21,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "usuarios": {
+      "INSTRUCTION": {
+        "covered": 3932,
+        "missed": 207,
+        "pct": 94.99879197873882
+      },
+      "BRANCH": {
+        "covered": 224,
+        "missed": 64,
+        "pct": 77.77777777777777
+      },
+      "LINE": {
+        "covered": 753,
+        "missed": 38,
+        "pct": 95.19595448798988
+      },
+      "COMPLEXITY": {
+        "covered": 366,
+        "missed": 71,
+        "pct": 83.75286041189932
+      },
+      "METHOD": {
+        "covered": 282,
+        "missed": 11,
+        "pct": 96.24573378839591
+      },
+      "CLASS": {
+        "covered": 63,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "flujos": {
+      "INSTRUCTION": {
+        "covered": 1412,
+        "missed": 100,
+        "pct": 93.3862433862434
+      },
+      "BRANCH": {
+        "covered": 86,
+        "missed": 17,
+        "pct": 83.49514563106796
+      },
+      "LINE": {
+        "covered": 227,
+        "missed": 16,
+        "pct": 93.4156378600823
+      },
+      "COMPLEXITY": {
+        "covered": 144,
+        "missed": 24,
+        "pct": 85.71428571428571
+      },
+      "METHOD": {
+        "covered": 108,
+        "missed": 7,
+        "pct": 93.91304347826087
+      },
+      "CLASS": {
+        "covered": 22,
+        "missed": 0,
+        "pct": 100.0
+      }
+    },
+    "pedidos": {
+      "INSTRUCTION": {
+        "covered": 7555,
+        "missed": 551,
+        "pct": 93.20256600049346
+      },
+      "BRANCH": {
+        "covered": 497,
+        "missed": 137,
+        "pct": 78.39116719242902
+      },
+      "LINE": {
+        "covered": 1310,
+        "missed": 71,
+        "pct": 94.85879797248371
+      },
+      "COMPLEXITY": {
+        "covered": 557,
+        "missed": 150,
+        "pct": 78.78359264497878
+      },
+      "METHOD": {
+        "covered": 363,
+        "missed": 23,
+        "pct": 94.04145077720207
+      },
+      "CLASS": {
+        "covered": 82,
+        "missed": 1,
+        "pct": 98.79518072289157
+      }
+    },
+    "com/decokasa/seguimiento": {
+      "INSTRUCTION": {
+        "covered": 3,
+        "missed": 5,
+        "pct": 37.5
+      },
+      "LINE": {
+        "covered": 1,
+        "missed": 2,
+        "pct": 33.333333333333336
+      },
+      "COMPLEXITY": {
+        "covered": 1,
+        "missed": 1,
+        "pct": 50.0
+      },
+      "METHOD": {
+        "covered": 1,
+        "missed": 1,
+        "pct": 50.0
+      },
+      "CLASS": {
+        "covered": 1,
+        "missed": 0,
+        "pct": 100.0
+      }
+    }
+  },
+  "bajo_80_lineas": [
+    {
+      "archivo": "com/decokasa/seguimiento/configuracion/SwaggerConfig.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 16,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/plazos/config/VencimientosAutomaticosConfig.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 4,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/domain/NumeroPedido.java",
+      "lineas": {
+        "covered": 5,
+        "missed": 2,
+        "pct": 71.42857142857143
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/domain/EtapasHabilitadas.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 2,
+        "pct": 77.77777777777777
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/application/port/in/ConsultarPedidos.java",
+      "lineas": {
+        "covered": 3,
+        "missed": 1,
+        "pct": 75.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/notificaciones/adapter/out/gmail/GmailNotificador.java",
+      "lineas": {
+        "covered": 75,
+        "missed": 27,
+        "pct": 73.52941176470588
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/application/port/out/AccesoCuentaGoogle.java",
+      "lineas": {
+        "covered": 1,
+        "missed": 1,
+        "pct": 50.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/flujos/domain/DefinicionEtapa.java",
+      "lineas": {
+        "covered": 11,
+        "missed": 6,
+        "pct": 64.70588235294117
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/notificaciones/application/port/out/TrabajoCorreo.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 1,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/notificaciones/application/port/out/Notificador.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 2,
+        "pct": 77.77777777777777
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/in/AutorizarCuentaGoogle.java",
+      "lineas": {
+        "covered": 1,
+        "missed": 1,
+        "pct": 50.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/adapter/in/archivos/PedidosParaCopiasAdaptador.java",
+      "lineas": {
+        "covered": 1,
+        "missed": 2,
+        "pct": 33.333333333333336
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/SubidaArchivoController.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 2,
+        "pct": 77.77777777777777
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/GoogleOAuthController.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 38,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/historial/adapter/out/persistence/EventoAdjuntoEntity.java",
+      "lineas": {
+        "covered": 11,
+        "missed": 3,
+        "pct": 78.57142857142857
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/plazos/adapter/in/tareas/TareaVencimientos.java",
+      "lineas": {
+        "covered": 9,
+        "missed": 10,
+        "pct": 47.36842105263158
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/SeguimientoApplication.java",
+      "lineas": {
+        "covered": 1,
+        "missed": 2,
+        "pct": 33.333333333333336
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/AutorizarCuentaGoogleCasoDeUso.java",
+      "lineas": {
+        "covered": 5,
+        "missed": 13,
+        "pct": 27.77777777777778
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/notificaciones/config/CorreoAutomaticoConfig.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 8,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/config/GoogleOAuthConfig.java",
+      "lineas": {
+        "covered": 3,
+        "missed": 4,
+        "pct": 42.857142857142854
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveAutomaticaConfig.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 3,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveConfig.java",
+      "lineas": {
+        "covered": 10,
+        "missed": 13,
+        "pct": 43.47826086956522
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/usuarios/adapter/out/security/BCryptCodificador.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 2,
+        "pct": 77.77777777777777
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/usuarios/adapter/out/security/GeneradorTokenSeguro.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 2,
+        "pct": 77.77777777777777
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/flujo/ContratoDeEtapa.java",
+      "lineas": {
+        "covered": 0,
+        "missed": 1,
+        "pct": 0.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/domain/LimiteDeTamano.java",
+      "lineas": {
+        "covered": 3,
+        "missed": 1,
+        "pct": 75.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/ConexionOAuthGoogle.java",
+      "lineas": {
+        "covered": 1,
+        "missed": 1,
+        "pct": 50.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/CopiaAdjuntoRepositorio.java",
+      "lineas": {
+        "covered": 2,
+        "missed": 1,
+        "pct": 66.66666666666667
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/MotivoRetrasoRegistrado.java",
+      "lineas": {
+        "covered": 9,
+        "missed": 3,
+        "pct": 75.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/DemoraReportada.java",
+      "lineas": {
+        "covered": 10,
+        "missed": 4,
+        "pct": 71.42857142857143
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/PedidoCreado.java",
+      "lineas": {
+        "covered": 6,
+        "missed": 3,
+        "pct": 66.66666666666667
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/PedidoDevuelto.java",
+      "lineas": {
+        "covered": 11,
+        "missed": 4,
+        "pct": 73.33333333333333
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/PedidoFinalizado.java",
+      "lineas": {
+        "covered": 5,
+        "missed": 4,
+        "pct": 55.55555555555556
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/ArchivoSubido.java",
+      "lineas": {
+        "covered": 10,
+        "missed": 3,
+        "pct": 76.92307692307692
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/EtapaReasignada.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 3,
+        "pct": 70.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/BodegaAsignada.java",
+      "lineas": {
+        "covered": 7,
+        "missed": 3,
+        "pct": 70.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/compartido/domain/eventos/ObservacionAgregada.java",
+      "lineas": {
+        "covered": 8,
+        "missed": 5,
+        "pct": 61.53846153846154
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/adapter/out/persistence/EntradaEtapaEntity.java",
+      "lineas": {
+        "covered": 6,
+        "missed": 2,
+        "pct": 75.0
+      }
+    },
+    {
+      "archivo": "com/decokasa/seguimiento/pedidos/adapter/in/web/FechaEstimadaLlegadaDeserializer.java",
+      "lineas": {
+        "covered": 8,
+        "missed": 5,
+        "pct": 61.53846153846154
+      }
+    }
+  ],
+  "conservacion": {
+    "protegidos": 494,
+    "alterados": []
+  },
+  "umbral_backend_80": true,
+  "Google_real": false,
+  "deteccion_automatica": false
+}

@@ -87,6 +87,7 @@ export function BandejaPedidos() {
                 error={null}
                 onReintentar={() => void bandeja.refetch()}
                 vacio={null}
+                recorrido={{ A: flujo.data?.etapas }}
               />
             </section>
           );

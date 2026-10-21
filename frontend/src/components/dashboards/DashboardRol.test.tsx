@@ -1,11 +1,20 @@
 import { screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { servidor } from '@/test/servidor';
+import { definicionFlujoA, pagina } from '@/test/pedidosFicticios';
 import { ana, type UsuarioApi } from '@/test/apiFicticia';
 import { abrirConSesion } from '@/test/renderizarApp';
 
 // Dashboard por rol (plan, tareas 17 y 24; D7). Sin datos simulados: desde el paso 2.5 cada panel lleva a la bandeja
 // real, y los paneles provisionales de consulta llevan a Pedidos (sin bandeja). Datos ficticios.
 describe('Dashboard por rol', () => {
+  // Los paneles de fase 5 ya leen la API; este fixture vacío solo delimita las pruebas de composición por rol.
+  beforeEach(() => servidor.use(
+    http.get('*/api/v1/pedidos/bandeja', () => HttpResponse.json(pagina([]))),
+    http.get('*/api/v1/pedidos', () => HttpResponse.json(pagina([]))),
+    http.get('*/api/v1/flujos/EC/A', () => HttpResponse.json(definicionFlujoA)),
+  ));
   const usuarioCon = (roles: string[]): UsuarioApi => ({ ...ana, roles });
 
   it.each(['consulta', 'asistente_china'])('%s muestra el alcance provisional sin acciones de gestión', async (rol) => {
@@ -45,7 +54,7 @@ describe('Dashboard por rol', () => {
 
     await screen.findByRole('heading', { level: 1, name: `Hola, ${ana.nombre}` });
     const titulos = screen.getAllByRole('heading', { level: 2 }).map((titulo) => titulo.textContent);
-    expect(titulos).toEqual(['Compras China', 'Logística', 'Consulta']);
+    expect(titulos).toEqual(['Mi trabajo', 'Compras China', 'Logística', 'Consulta']);
   });
 
   it('/ lleva a /inicio', async () => {

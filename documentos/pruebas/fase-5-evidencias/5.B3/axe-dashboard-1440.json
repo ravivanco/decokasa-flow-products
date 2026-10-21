@@ -1,0 +1,2446 @@
+{
+  "url": "/inicio",
+  "version": "4.14.0",
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/0236878c-5ac2-33c8-b19f-01ddf94d3f57\" data-discover=\"true\">DK-EC-2026-0003</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 3</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-3\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h3 id=\"_r_2_-etapa-4\" class=\"font-heading font-semibold\"><span class=\"tabular-nums\">A4</span> · Análisis y gestión<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span></h3>",
+          "target": [
+            "#_r_2_-etapa-4"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">A4</span>",
+          "target": [
+            "#_r_2_-etapa-4 > .tabular-nums:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span>",
+          "target": [
+            "#_r_2_-etapa-4 > .font-normal.tabular-nums.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/d4bf1dc0-f16a-392a-a20b-af8c88fd88d1\" data-discover=\"true\">DK-EC-2026-0014</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 14</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/09647236-a37c-394c-8562-a9b76f8f411b\" data-discover=\"true\">DK-EC-2026-0004</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 4</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-4\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h3 id=\"_r_2_-etapa-6\" class=\"font-heading font-semibold\"><span class=\"tabular-nums\">A6</span> · Embarque<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span></h3>",
+          "target": [
+            "#_r_2_-etapa-6"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">A6</span>",
+          "target": [
+            "#_r_2_-etapa-6 > .tabular-nums:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span>",
+          "target": [
+            "#_r_2_-etapa-6 > .font-normal.tabular-nums.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/13a127cd-54f3-3003-8326-b29bc5047e95\" data-discover=\"true\">DK-EC-2026-0016</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 16</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/ad898fd5-e26a-33a2-aaef-015ccbe3941c\" data-discover=\"true\">DK-EC-2026-0006</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 6</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-6\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h3 id=\"_r_2_-etapa-8\" class=\"font-heading font-semibold\"><span class=\"tabular-nums\">A8</span> · Autorización de salida<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span></h3>",
+          "target": [
+            "#_r_2_-etapa-8"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">A8</span>",
+          "target": [
+            "#_r_2_-etapa-8 > .tabular-nums:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span>",
+          "target": [
+            "#_r_2_-etapa-8 > .font-normal.tabular-nums.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/de44ca9b-70e8-3211-8d9d-f7d102cc7bc8\" data-discover=\"true\">DK-EC-2026-0018</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 18</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258\" data-discover=\"true\">DK-EC-2026-0008</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 8</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-8\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h3 id=\"_r_2_-etapa-9\" class=\"font-heading font-semibold\"><span class=\"tabular-nums\">A9</span> · Bodega<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span></h3>",
+          "target": [
+            "#_r_2_-etapa-9"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">A9</span>",
+          "target": [
+            "#_r_2_-etapa-9 > .tabular-nums:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"font-normal text-muted-foreground tabular-nums\"> · 2 </span>",
+          "target": [
+            "#_r_2_-etapa-9 > .font-normal.tabular-nums.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/8e6b5c91-baed-33a2-86d3-5e7aaf20cc06\" data-discover=\"true\">DK-EC-2026-0019</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 19</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(1) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring\" href=\"/pedidos/357215f7-6203-3f3a-ba87-99995077ffaf\" data-discover=\"true\">DK-EC-2026-0009</a>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .underline-offset-4.hover\\:underline.text-primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"truncate\">Pedido ficticio B2 9</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .items-baseline.gap-x-2.flex-wrap > .truncate"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"text-muted-foreground\">Sin persona asignada (por rol) · venció <span class=\"tabular-nums\">19 oct 2026, 16:28</span></p>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"tabular-nums\">19 oct 2026, 16:28</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > p:nth-child(2) > .tabular-nums"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Motivo: </span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"_r_2_-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"_r_2_-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-muted-foreground\">Sin motivo registrado</span>",
+          "target": [
+            "section[aria-labelledby=\"_r_2_-etapa-9\"] > .divide-y > .py-2.flex-col.gap-1:nth-child(2) > .whitespace-pre-wrap > .text-muted-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        }
+      ]
+    }
+  ],
+  "passes": [
+    {
+      "id": "aria-allowed-attr",
+      "nodes": 23
+    },
+    {
+      "id": "aria-allowed-role",
+      "nodes": 8
+    },
+    {
+      "id": "aria-conditional-attr",
+      "nodes": 23
+    },
+    {
+      "id": "aria-deprecated-role",
+      "nodes": 8
+    },
+    {
+      "id": "aria-hidden-body",
+      "nodes": 1
+    },
+    {
+      "id": "aria-hidden-focus",
+      "nodes": 55
+    },
+    {
+      "id": "aria-prohibited-attr",
+      "nodes": 23
+    },
+    {
+      "id": "aria-required-attr",
+      "nodes": 8
+    },
+    {
+      "id": "aria-required-children",
+      "nodes": 1
+    },
+    {
+      "id": "aria-required-parent",
+      "nodes": 3
+    },
+    {
+      "id": "aria-roles",
+      "nodes": 8
+    },
+    {
+      "id": "aria-valid-attr-value",
+      "nodes": 23
+    },
+    {
+      "id": "aria-valid-attr",
+      "nodes": 23
+    },
+    {
+      "id": "button-name",
+      "nodes": 5
+    },
+    {
+      "id": "bypass",
+      "nodes": 1
+    },
+    {
+      "id": "color-contrast",
+      "nodes": 246
+    },
+    {
+      "id": "definition-list",
+      "nodes": 1
+    },
+    {
+      "id": "dlitem",
+      "nodes": 4
+    },
+    {
+      "id": "document-title",
+      "nodes": 1
+    },
+    {
+      "id": "duplicate-id-aria",
+      "nodes": 13
+    },
+    {
+      "id": "empty-heading",
+      "nodes": 11
+    },
+    {
+      "id": "empty-table-header",
+      "nodes": 10
+    },
+    {
+      "id": "form-field-multiple-labels",
+      "nodes": 1
+    },
+    {
+      "id": "heading-order",
+      "nodes": 11
+    },
+    {
+      "id": "html-has-lang",
+      "nodes": 1
+    },
+    {
+      "id": "html-lang-valid",
+      "nodes": 1
+    },
+    {
+      "id": "label-title-only",
+      "nodes": 1
+    },
+    {
+      "id": "label",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-banner-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-main-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-banner",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-one-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-unique",
+      "nodes": 16
+    },
+    {
+      "id": "link-name",
+      "nodes": 44
+    },
+    {
+      "id": "list",
+      "nodes": 8
+    },
+    {
+      "id": "listitem",
+      "nodes": 22
+    },
+    {
+      "id": "meta-viewport-large",
+      "nodes": 1
+    },
+    {
+      "id": "meta-viewport",
+      "nodes": 1
+    },
+    {
+      "id": "nested-interactive",
+      "nodes": 5
+    },
+    {
+      "id": "page-has-heading-one",
+      "nodes": 1
+    },
+    {
+      "id": "region",
+      "nodes": 654
+    },
+    {
+      "id": "scope-attr-valid",
+      "nodes": 10
+    },
+    {
+      "id": "scrollable-region-focusable",
+      "nodes": 3
+    },
+    {
+      "id": "tabindex",
+      "nodes": 7
+    },
+    {
+      "id": "table-duplicate-name",
+      "nodes": 2
+    },
+    {
+      "id": "target-size",
+      "nodes": 50
+    },
+    {
+      "id": "td-headers-attr",
+      "nodes": 2
+    },
+    {
+      "id": "th-has-data-cells",
+      "nodes": 2
+    }
+  ],
+  "inapplicable": [
+    "accesskeys",
+    "area-alt",
+    "aria-braille-equivalent",
+    "aria-command-name",
+    "aria-dialog-name",
+    "aria-input-field-name",
+    "aria-meter-name",
+    "aria-progressbar-name",
+    "aria-tab-name",
+    "aria-text",
+    "aria-toggle-field-name",
+    "aria-tooltip-name",
+    "aria-treeitem-name",
+    "autocomplete-valid",
+    "avoid-inline-spacing",
+    "blink",
+    "frame-focusable-content",
+    "frame-tested",
+    "frame-title-unique",
+    "frame-title",
+    "html-xml-lang-mismatch",
+    "image-alt",
+    "image-redundant-alt",
+    "input-button-name",
+    "input-image-alt",
+    "label-content-name-mismatch",
+    "landmark-contentinfo-is-top-level",
+    "landmark-no-duplicate-contentinfo",
+    "link-in-text-block",
+    "marquee",
+    "meta-refresh",
+    "object-alt",
+    "presentation-role-conflict",
+    "role-img-alt",
+    "select-name",
+    "server-side-image-map",
+    "skip-link",
+    "summary-name",
+    "svg-img-alt",
+    "valid-lang",
+    "video-caption",
+    "no-autoplay-audio"
+  ]
+}

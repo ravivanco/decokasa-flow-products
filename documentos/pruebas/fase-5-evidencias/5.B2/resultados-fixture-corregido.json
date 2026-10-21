@@ -1,0 +1,457 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "-c",
+      "pruebas\\fase-5-evidencias\\5.B2\\playwright.config.mjs"
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2/.tmp/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2",
+        "testIgnore": [],
+        "testMatch": [
+          "b2.spec.mjs"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./resultados.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "b2.spec.mjs",
+      "file": "b2.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "01 entorno real y paginación global frente a grupos de página",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2899,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:52:46.720Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-0ce374ce19bd97fe6422",
+          "file": "b2.spec.mjs",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "10 diagnóstico de estabilidad visual con traza CDP, sin cambiar producto",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1446,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:52:49.974Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-5bc3a5ee7b88d262672e",
+          "file": "b2.spec.mjs",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "02 dos sesiones: observación confirmada aparece por polling real de 30 s",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32583,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:52:51.432Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-64f1e1db0559ac49cd31",
+          "file": "b2.spec.mjs",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "03 intervalo sin solapamiento; pestaña oculta, foco y reconexión",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6214,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m3\u001b[39m\nReceived:   \u001b[31m3\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m3\u001b[39m\nReceived:   \u001b[31m3\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:84:41",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                      "column": 41,
+                      "line": 84
+                    },
+                    "snippet": "  82 |  await context.setOffline(true);await page.evaluate(()=>window.dispatchEvent(new Event('offline')));await page.clock.runFor(65000);\n  83 |  const offline=llamadas.length;await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));\n> 84 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(offline);\n     |                                         ^\n  85 |  await expect.poll(()=>activas).toBe(0);await page.unrouteAll({behavior:'wait'});\n  86 |  guardar('polling',{intervaloMs:30000,maximasSolapadas:maximas,ocultaSinSolicitudes:true,foco:true,reconexion:true,reloj:'Playwright controlado; HTTP real; retardo de una respuesta real',visibilidad:'Page Visibility emulada mediante evento y propiedad; no prueba de pestaña física'});\n  87 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                        "column": 41,
+                        "line": 84
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m3\u001b[39m\nReceived:   \u001b[31m3\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  82 |  await context.setOffline(true);await page.evaluate(()=>window.dispatchEvent(new Event('offline')));await page.clock.runFor(65000);\n  83 |  const offline=llamadas.length;await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));\n> 84 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(offline);\n     |                                         ^\n  85 |  await expect.poll(()=>activas).toBe(0);await page.unrouteAll({behavior:'wait'});\n  86 |  guardar('polling',{intervaloMs:30000,maximasSolapadas:maximas,ocultaSinSolicitudes:true,foco:true,reconexion:true,reloj:'Playwright controlado; HTTP real; retardo de una respuesta real',visibilidad:'Page Visibility emulada mediante evento y propiedad; no prueba de pestaña física'});\n  87 | });\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:84:41"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:24.025Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\.tmp\\artifacts\\b2-03-intervalo-sin-solapa-45ca7-ña-oculta-foco-y-reconexión\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                    "column": 41,
+                    "line": 84
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-fcd75598eb0251218212",
+          "file": "b2.spec.mjs",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "04 borrador y respuesta tardía real; conflicto de entrada sin reenviar",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1444,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:30.834Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-ce5da6e4db2fd5dfae4b",
+          "file": "b2.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "05 permisos vigentes, 403 sin cerrar sesión y recuperación por foco",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1283,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:32.504Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-4328e53c15ae3541f835",
+          "file": "b2.spec.mjs",
+          "line": 108,
+          "column": 1
+        },
+        {
+          "title": "06 cambio de cuenta cancela lecturas y descarta borradores anteriores",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1781,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:33.802Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-75e5ec00413d726c75cd",
+          "file": "b2.spec.mjs",
+          "line": 125,
+          "column": 1
+        },
+        {
+          "title": "07 latencias HTTP, consultas por página, concurrencia y planes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5334,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:35.595Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-b6dface366064454cd08",
+          "file": "b2.spec.mjs",
+          "line": 141,
+          "column": 1
+        },
+        {
+          "title": "08 pantalla y búsqueda: caché cliente fría/caliente y métricas de laboratorio",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8473,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:40.939Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-39ddfa9774756296f4c7",
+          "file": "b2.spec.mjs",
+          "line": 157,
+          "column": 1
+        },
+        {
+          "title": "09 cambio real de A7 a A8 conserva borrador y bloqueos documentales",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2864,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:53:49.420Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-6be39ba4f58e94aaed7d",
+          "file": "b2.spec.mjs",
+          "line": 190,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-20T20:52:46.287Z",
+    "duration": 66258.83099999999,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

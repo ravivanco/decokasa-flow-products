@@ -65,7 +65,7 @@ public final class ConsultarHistorialPedidoCasoDeUso implements ConsultarHistori
                 evento.ocurridoEn(), evento.observacion(), evento.nivelUrgencia(), detalle.etapaDestino(),
                 detalle.motivoDevolucion(), detalle.urgenciaTerminada(), detalle.asignadoAnterior(), detalle.asignadoA(),
                 detalle.fechaEstimadaAnterior(), detalle.fechaEstimadaSolicitada(), detalle.nuevaFechaEstimadaLlegada(),
-                detalle.bodegaId(), evento.adjuntoIds());
+                detalle.bodegaId(), detalle.claseVencimiento(), detalle.venceEn(), evento.adjuntoIds());
     }
 
     private static Persona persona(UUID id, Map<UUID, ResumirUsuarios.Resumen> personas) {

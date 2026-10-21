@@ -195,7 +195,7 @@ class Backend24IT {
         assertThat(persona).containsEntry("id",admin.toString()).containsEntry("nombre","Persona ficticia")
                 .containsEntry("roles",List.of("admin"));
         Map<String,Object> detalle=JsonPath.read(creado,"$.detalle");
-        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA","fechaEstimadaAnterior","fechaEstimadaSolicitada","nuevaFechaEstimadaLlegada","bodegaId");
+        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA","fechaEstimadaAnterior","fechaEstimadaSolicitada","nuevaFechaEstimadaLlegada","bodegaId","claseVencimiento","venceEn");
         assertThat(detalle.values()).containsOnlyNulls();
         var antes=estado(p);
         List<Map<String,Object>> eventos=JsonPath.read(respuesta(get(base(p)+"/historial").with(token(admin)),200),"$");

@@ -17,6 +17,7 @@ import com.decokasa.seguimiento.pedidos.domain.UrgenciaActiva;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -200,28 +201,34 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     }
 
     @Override
-    public Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, int pagina, int tamano) {
-        // definicion_etapa da el rol responsable de la etapa actual en la versión del flujo de cada pedido.
+    public Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, boolean soloVencidos,
+            boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {
+        // definicion_etapa da el rol responsable de la etapa actual en la versión del flujo de cada pedido. Los filtros
+        // del dashboard (paso 5.3) son fragmentos fijos: ningún dato de entrada se concatena.
         String desde = " from pedido p"
                 + " join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL'"
                 + " join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero"
                 + " where not p.finalizado and (cast(:admin as boolean) or (d.rol_codigo in (:roles)"
-                + " and (e.asignado_a is null or e.asignado_a = :usuario)))";
+                + " and (e.asignado_a is null or e.asignado_a = :usuario)))"
+                + (soloVencidos ? " and e.vence_en is not null and e.vence_en < :ahora" : "")
+                + (soloConUrgencia ? " and p.urgencia_nivel is not null" : "");
         List<String> codigos = roles.stream().map(CodigoRol::valor).toList();
-        @SuppressWarnings("unchecked")
-        List<Object> filas = entityManager.createNativeQuery("select cast(p.id as text)" + desde
+        Query deLaPagina = entityManager.createNativeQuery("select cast(p.id as text)" + desde
                         + " order by p.creado_en desc, p.id limit :tamano offset :desde")
-                .setParameter("admin", admin)
-                .setParameter("roles", codigos)
-                .setParameter("usuario", usuarioId)
                 .setParameter("tamano", tamano)
-                .setParameter("desde", (long) pagina * tamano)
-                .getResultList();
-        Number total = (Number) entityManager.createNativeQuery("select count(*)" + desde)
-                .setParameter("admin", admin)
-                .setParameter("roles", codigos)
-                .setParameter("usuario", usuarioId)
-                .getSingleResult();
+                .setParameter("desde", (long) pagina * tamano);
+        Query conteo = entityManager.createNativeQuery("select count(*)" + desde);
+        for (Query consulta : List.of(deLaPagina, conteo)) {
+            consulta.setParameter("admin", admin)
+                    .setParameter("roles", codigos)
+                    .setParameter("usuario", usuarioId);
+            if (soloVencidos) {
+                consulta.setParameter("ahora", ahora);
+            }
+        }
+        @SuppressWarnings("unchecked")
+        List<Object> filas = deLaPagina.getResultList();
+        Number total = (Number) conteo.getSingleResult();
         List<UUID> ids = filas.stream().map(fila -> UUID.fromString((String) fila)).toList();
         return new Pagina(cargarEnOrden(ids), total.longValue());
     }
@@ -289,6 +296,7 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
                 urgencia == null ? null : urgencia.activadaEn(), urgencia == null ? null : urgencia.venceEn(),
                 pedido.actualizadoEn());
         entidad.asignarBodega(pedido.bodegaId().orElse(null));
+        entidad.cambiarActivacionUrgencia(pedido.urgenciaActivacionId().orElse(null));
         DemoraAduana demora = pedido.demora().orElse(null);
         entidad.cambiarLlegadaYDemora(pedido.llegadaAduanaEn().orElse(null),
                 demora == null ? null : demora.motivo(), demora == null ? null : demora.nuevaFechaEstimadaLlegada(),
@@ -298,6 +306,7 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     private static void copiarEtapa(EtapaDePedido etapa, EtapaPedidoEntity fila) {
         fila.cambiar(etapa.estado().name(), etapa.asignadoA(), etapa.entradaEn(), etapa.salidaEn(), etapa.venceEn(),
                 etapa.reentradas(), etapa.entradaId());
+        fila.cambiarMotivo(etapa.motivoRetraso());
     }
 
     private static Pedido aDominio(PedidoEntity entidad) {
@@ -313,13 +322,13 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
                 entidad.isIncluyeProductosNuevos(), entidad.getCreadoPor(), entidad.getCreadoEn(),
                 entidad.getEtapas().stream().map(PedidoJpaRepositorio::etapaADominio).toList(),
                 entidad.getEtapaActual(), entidad.isFinalizado(), entidad.getFinalizadoEn(), urgencia,
-                entidad.getLlegadaAduanaEn(), demora, entidad.getBodegaId(), entidad.getActualizadoEn(),
+                entidad.getUrgenciaActivacionId(), entidad.getLlegadaAduanaEn(), demora, entidad.getBodegaId(), entidad.getActualizadoEn(),
                 entidad.getVersion());
     }
 
     private static EtapaDePedido etapaADominio(EtapaPedidoEntity fila) {
         return new EtapaDePedido(fila.getId(), fila.getNumero(), EstadoEtapa.valueOf(fila.getEstado()),
                 fila.getAsignadoA(), fila.getEntradaEn(), fila.getSalidaEn(), fila.getVenceEn(), fila.getReentradas(),
-                fila.getEntradaId());
+                fila.getEntradaId(), fila.getMotivoRetraso());
     }
 }

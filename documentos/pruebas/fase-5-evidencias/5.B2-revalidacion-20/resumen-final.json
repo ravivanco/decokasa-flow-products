@@ -1,0 +1,298 @@
+{
+  "cls": [
+    {
+      "width": 1440,
+      "cache": "fria",
+      "n": 5,
+      "min": 0.0006817304446373457,
+      "p75": 0.000999098789544753,
+      "max": 0.000999098789544753,
+      "transferidosStaticos": [
+        1021231,
+        1021231,
+        1021231,
+        1021231,
+        1021231
+      ]
+    },
+    {
+      "width": 1440,
+      "cache": "caliente",
+      "n": 5,
+      "min": 5.5887104552469135e-05,
+      "p75": 5.5887104552469135e-05,
+      "max": 0.007177397641782407,
+      "transferidosStaticos": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "width": 390,
+      "cache": "fria",
+      "n": 5,
+      "min": 0.0024330465322760387,
+      "p75": 0.0031990224362573928,
+      "max": 0.0031990224362573928,
+      "transferidosStaticos": [
+        1021231,
+        1021231,
+        1021231,
+        1021231,
+        1021231
+      ]
+    },
+    {
+      "width": 390,
+      "cache": "caliente",
+      "n": 5,
+      "min": 8.072033422429864e-05,
+      "p75": 8.072033422429864e-05,
+      "max": 8.072033422429864e-05,
+      "transferidosStaticos": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polling": {
+    "cls": 0.0022225742669753088,
+    "entries": [
+      {
+        "time": 30606.400000035763,
+        "value": 0.0022225742669753088,
+        "sources": [
+          {
+            "tag": "TR",
+            "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+            "previous": {
+              "x": 249,
+              "y": 727,
+              "width": 1166,
+              "height": 49,
+              "top": 727,
+              "right": 1415,
+              "bottom": 776,
+              "left": 249
+            },
+            "current": {
+              "x": 249,
+              "y": 741,
+              "width": 1166,
+              "height": 49,
+              "top": 741,
+              "right": 1415,
+              "bottom": 790,
+              "left": 249
+            }
+          },
+          {
+            "tag": "TR",
+            "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+            "previous": {
+              "x": 249,
+              "y": 629,
+              "width": 1166,
+              "height": 49,
+              "top": 629,
+              "right": 1415,
+              "bottom": 678,
+              "left": 249
+            },
+            "current": {
+              "x": 249,
+              "y": 643,
+              "width": 1166,
+              "height": 49,
+              "top": 643,
+              "right": 1415,
+              "bottom": 692,
+              "left": 249
+            }
+          },
+          {
+            "tag": "TR",
+            "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+            "previous": {
+              "x": 249,
+              "y": 776,
+              "width": 1166,
+              "height": 49,
+              "top": 776,
+              "right": 1415,
+              "bottom": 825,
+              "left": 249
+            },
+            "current": {
+              "x": 249,
+              "y": 790,
+              "width": 1166,
+              "height": 49,
+              "top": 790,
+              "right": 1415,
+              "bottom": 839,
+              "left": 249
+            }
+          },
+          {
+            "tag": "TR",
+            "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+            "previous": {
+              "x": 249,
+              "y": 825,
+              "width": 1166,
+              "height": 49,
+              "top": 825,
+              "right": 1415,
+              "bottom": 874,
+              "left": 249
+            },
+            "current": {
+              "x": 249,
+              "y": 839,
+              "width": 1166,
+              "height": 49,
+              "top": 839,
+              "right": 1415,
+              "bottom": 888,
+              "left": 249
+            }
+          },
+          {
+            "tag": "TR",
+            "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+            "previous": {
+              "x": 249,
+              "y": 678,
+              "width": 1166,
+              "height": 49,
+              "top": 678,
+              "right": 1415,
+              "bottom": 727,
+              "left": 249
+            },
+            "current": {
+              "x": 249,
+              "y": 692,
+              "width": 1166,
+              "height": 49,
+              "top": 692,
+              "right": 1415,
+              "bottom": 741,
+              "left": 249
+            }
+          }
+        ]
+      }
+    ],
+    "propagacionMs": 29900,
+    "pedido": "de44ca9b-70e8-3211-8d9d-f7d102cc7bc8",
+    "pedidos": 20,
+    "intervaloMs": 30000,
+    "transporte": "polling real, sesiones separadas"
+  },
+  "sql": [
+    [
+      4,
+      1,
+      11
+    ],
+    [
+      4,
+      5,
+      11
+    ],
+    [
+      4,
+      20,
+      11
+    ],
+    [
+      20,
+      1,
+      11
+    ],
+    [
+      20,
+      5,
+      11
+    ],
+    [
+      20,
+      20,
+      11
+    ],
+    [
+      60,
+      1,
+      11
+    ],
+    [
+      60,
+      5,
+      11
+    ],
+    [
+      60,
+      20,
+      11
+    ]
+  ],
+  "junit": [
+    {
+      "archivo": "junit-backend\\TEST-com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest.xml",
+      "tests": 2,
+      "fallos": 0,
+      "errores": 0,
+      "omitidos": 0
+    },
+    {
+      "archivo": "junit-backend\\TEST-com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest.xml",
+      "tests": 7,
+      "fallos": 0,
+      "errores": 0,
+      "omitidos": 0
+    },
+    {
+      "archivo": "junit-backend\\TEST-com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT.xml",
+      "tests": 3,
+      "fallos": 0,
+      "errores": 0,
+      "omitidos": 0
+    },
+    {
+      "archivo": "junit-backend\\TEST-com.decokasa.seguimiento.usuarios.application.ConsultasTest.xml",
+      "tests": 9,
+      "fallos": 0,
+      "errores": 0,
+      "omitidos": 0
+    },
+    {
+      "archivo": "junit-resumenes\\TEST-com.decokasa.b2.ResumirUsuariosB2Test.xml",
+      "tests": 3,
+      "fallos": 0,
+      "errores": 0,
+      "omitidos": 0
+    }
+  ],
+  "backendTests": 24,
+  "protegidos": 604,
+  "cambiosPermitidos": [
+    "frontend\\src\\components\\dashboards\\DashboardRol.test.tsx",
+    "frontend\\src\\components\\pedidos\\Fase4Pantallas.test.tsx"
+  ],
+  "otrosCambios": [],
+  "puertosCerrados": {
+    "43184": true,
+    "43185": true,
+    "43186": true
+  },
+  "credencialTemporalRetirada": true,
+  "secretos": []
+}

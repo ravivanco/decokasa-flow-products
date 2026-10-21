@@ -1,0 +1,11 @@
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const base=path.dirname(fileURLToPath(import.meta.url));
+const acceso=JSON.parse(fs.readFileSync(path.join(base,'.tmp/acceso.json')));
+const login=await fetch('http://127.0.0.1:43185/api/v1/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({identificador:'b2-admin',contrasena:acceso.password})});
+if(login.status!==200)throw new Error('Login ficticio no disponible');
+const {tokenAcceso}=await login.json();await fetch('http://127.0.0.1:43186/reset');
+const t=performance.now();const r=await fetch('http://127.0.0.1:43185/api/v1/pedidos/bandeja?tamano=20',{headers:{Authorization:'Bearer '+tokenAcceso}});
+if(r.status!==200)throw new Error('Lectura no disponible');const pagina=await r.json();const ms=performance.now()-t;
+const stats=await (await fetch('http://127.0.0.1:43186/stats')).json();
+fs.writeFileSync(path.join(base,'escalado-usuarios.json'),JSON.stringify({usuarios:20,pedidos:pagina.total,pagina:pagina.elementos.length,ms,...stats},null,2));
+console.log('Experimento aislado guardado; sin credenciales en la evidencia.');

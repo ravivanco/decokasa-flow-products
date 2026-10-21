@@ -11,8 +11,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Tabla etapa_pedido de V2. Las columnas de demora (motivo_retraso, fecha_planificada, movida_al_lunes) son de la
- * fase 4 y no se mapean: toman sus valores por defecto de la base.
+ * Tabla etapa_pedido de V2. motivo_retraso se mapea desde el paso 5.2 (motivo vigente de la entrada actual, F5-D3);
+ * fecha_planificada y movida_al_lunes no se mapean: toman sus valores por defecto de la base.
  */
 @Entity
 @Table(name = "etapa_pedido")
@@ -49,6 +49,9 @@ public class EtapaPedidoEntity {
     @Column(name = "entrada_id")
     private UUID entradaId;
 
+    @Column(name = "motivo_retraso")
+    private String motivoRetraso;
+
     protected EtapaPedidoEntity() {
     }
 
@@ -67,6 +70,14 @@ public class EtapaPedidoEntity {
         this.venceEn = venceEn;
         this.reentradas = reentradas;
         this.entradaId = entradaId;
+    }
+
+    void cambiarMotivo(String motivoRetraso) {
+        this.motivoRetraso = motivoRetraso;
+    }
+
+    String getMotivoRetraso() {
+        return motivoRetraso;
     }
 
     UUID getId() {

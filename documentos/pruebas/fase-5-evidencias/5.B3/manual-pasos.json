@@ -1,0 +1,864 @@
+[
+  {
+    "accion": {
+      "tipo": "url",
+      "ruta": "/inicio"
+    },
+    "foco": {
+      "nombre": "LATINOAMÉRICA Importanto y Exportando el MundoFicticio B2 adminCerrar sesiónInicioMi bandejaPedidosBodegasCorreosUsuario",
+      "tag": "BODY",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1783,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1783,
+        "left": 0
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+      "boxShadow": "none",
+      "focusVisible": false,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-01.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "Cerrar sesión",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 1283.75,
+        "y": 14,
+        "width": 132.25,
+        "height": 40,
+        "top": 14,
+        "right": 1416,
+        "bottom": 54,
+        "left": 1283.75
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.03) 0px 0px 0px 0.0659px, rgba(178, 63, 0, 0.03) 0px 0px 0px 0.16475px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-02.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "Inicio",
+      "tag": "A",
+      "rect": {
+        "x": 8,
+        "y": 77,
+        "width": 207,
+        "height": 40,
+        "top": 77,
+        "right": 215,
+        "bottom": 117,
+        "left": 8
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-03.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "Mi bandeja",
+      "tag": "A",
+      "rect": {
+        "x": 8,
+        "y": 121,
+        "width": 207,
+        "height": 40,
+        "top": 121,
+        "right": 215,
+        "bottom": 161,
+        "left": 8
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-04.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "viewport",
+      "width": 390
+    },
+    "foco": {
+      "nombre": "Mi bandeja",
+      "tag": "A",
+      "rect": {
+        "x": 95.828125,
+        "y": 93,
+        "width": 101.515625,
+        "height": 40,
+        "top": 93,
+        "right": 197.34375,
+        "bottom": 133,
+        "left": 95.828125
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-05.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "arbol"
+    },
+    "foco": {
+      "nombre": "Mi bandeja",
+      "tag": "A",
+      "rect": {
+        "x": 95.828125,
+        "y": 93,
+        "width": 101.515625,
+        "height": 40,
+        "top": 93,
+        "right": 197.34375,
+        "bottom": 133,
+        "left": 95.828125
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-06.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "foco",
+      "role": "link",
+      "name": "Abrir la bandeja por etapa"
+    },
+    "foco": {
+      "nombre": "Abrir la bandeja por etapa",
+      "tag": "A",
+      "rect": {
+        "x": 16,
+        "y": 518,
+        "width": 199.25,
+        "height": 40,
+        "top": 518,
+        "right": 215.25,
+        "bottom": 558,
+        "left": 16
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.173) 0px 0px 0px 0.344098px, rgba(178, 63, 0, 0.173) 0px 0px 0px 0.860244px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-07.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "Pendientes20",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 16,
+        "y": 574,
+        "width": 162.921875,
+        "height": 40,
+        "top": 574,
+        "right": 178.921875,
+        "bottom": 614,
+        "left": 16
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-08.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "ArrowRight"
+    },
+    "foco": {
+      "nombre": "Plazo vencido14",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 186.921875,
+        "y": 574,
+        "width": 181.546875,
+        "height": 40,
+        "top": 574,
+        "right": 368.46875,
+        "bottom": 614,
+        "left": 186.921875
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-09.png",
+    "url": "/inicio"
+  },
+  {
+    "accion": {
+      "tipo": "url",
+      "ruta": "/pedidos/5de29986-3724-3659-a35a-e95e68b3efb9"
+    },
+    "foco": {
+      "nombre": "Cargando…",
+      "tag": "BODY",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 1000,
+        "top": 0,
+        "right": 390,
+        "bottom": 1000,
+        "left": 0
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+      "boxShadow": "none",
+      "focusVisible": false,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    "imagen": "manual-10.png",
+    "url": "/pedidos/5de29986-3724-3659-a35a-e95e68b3efb9"
+  },
+  {
+    "accion": {
+      "tipo": "url",
+      "ruta": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+    },
+    "foco": {
+      "nombre": "Cargando…",
+      "tag": "BODY",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 1000,
+        "top": 0,
+        "right": 390,
+        "bottom": 1000,
+        "left": 0
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+      "boxShadow": "none",
+      "focusVisible": false,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    "imagen": "manual-11.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foco",
+      "role": "button",
+      "name": "A8 Autorización de salida, etapa actual"
+    },
+    "foco": {
+      "nombre": "A8 Autorización de salida, etapa actual",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 139,
+        "y": 607,
+        "width": 112,
+        "height": 122,
+        "top": 607,
+        "right": 251,
+        "bottom": 729,
+        "left": 139
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-12.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "A9 Bodega, pendiente",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 251,
+        "y": 607,
+        "width": 112,
+        "height": 85,
+        "top": 607,
+        "right": 363,
+        "bottom": 692,
+        "left": 251
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-13.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "A9 Bodega, pendiente",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 251,
+        "y": 607,
+        "width": 112,
+        "height": 85,
+        "top": 607,
+        "right": 363,
+        "bottom": 692,
+        "left": 251
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-14.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "url",
+      "ruta": "/configuracion/plazos"
+    },
+    "foco": {
+      "nombre": "LATINOAMÉRICA Importanto y Exportando el MundoFicticio B2 adminCerrar sesiónInicioMi bandejaPedidosBodegasCorreosUsuario",
+      "tag": "BODY",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 1000,
+        "top": 0,
+        "right": 390,
+        "bottom": 1000,
+        "left": 0
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+      "boxShadow": "none",
+      "focusVisible": false,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-15.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "llenar",
+      "label": "Meta propuesta (días de pedido a llegada)",
+      "texto": "0"
+    },
+    "foco": {
+      "nombre": "",
+      "tag": "INPUT",
+      "rect": {
+        "x": 32,
+        "y": 615.25,
+        "width": 160,
+        "height": 40,
+        "top": 615.25,
+        "right": 192,
+        "bottom": 655.25,
+        "left": 32
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-16.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "foco",
+      "role": "button",
+      "name": "Guardar meta"
+    },
+    "foco": {
+      "nombre": "Guardar meta",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 214.8125,
+        "y": 721.25,
+        "width": 143.1875,
+        "height": 40,
+        "top": 721.25,
+        "right": 358,
+        "bottom": 761.25,
+        "left": 214.8125
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.03) 0px 0px 0px 0.0644217px, rgba(178, 63, 0, 0.03) 0px 0px 0px 0.161054px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-17.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Enter"
+    },
+    "foco": {
+      "nombre": "",
+      "tag": "INPUT",
+      "rect": {
+        "x": 32,
+        "y": 615.25,
+        "width": 160,
+        "height": 40,
+        "top": 615.25,
+        "right": 192,
+        "bottom": 655.25,
+        "left": 32
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.505427 0.168956 0.0880245 / 0.2) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-18.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "",
+      "tag": "INPUT",
+      "rect": {
+        "x": 32,
+        "y": 615.25,
+        "width": 160,
+        "height": 40,
+        "top": 615.25,
+        "right": 192,
+        "bottom": 655.25,
+        "left": 32
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.505427 0.168956 0.0880245 / 0.2) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-19.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "viewport",
+      "width": 1440
+    },
+    "foco": {
+      "nombre": "",
+      "tag": "INPUT",
+      "rect": {
+        "x": 264,
+        "y": 388.25,
+        "width": 160,
+        "height": 40,
+        "top": 388.25,
+        "right": 424,
+        "bottom": 428.25,
+        "left": 264
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.505427 0.168956 0.0880245 / 0.2) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-20.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "",
+      "tag": "INPUT",
+      "rect": {
+        "x": 264,
+        "y": 388.25,
+        "width": 160,
+        "height": 40,
+        "top": 388.25,
+        "right": 424,
+        "bottom": 428.25,
+        "left": 264
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.505427 0.168956 0.0880245 / 0.2) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-21.png",
+    "url": "/configuracion/plazos"
+  },
+  {
+    "accion": {
+      "tipo": "url",
+      "ruta": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+    },
+    "foco": {
+      "nombre": "LATINOAMÉRICA Importanto y Exportando el MundoFicticio B2 adminCerrar sesiónInicioMi bandejaPedidosBodegasCorreosUsuario",
+      "tag": "BODY",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+      "boxShadow": "none",
+      "focusVisible": false,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-22.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foco",
+      "role": "button",
+      "name": "A8 Autorización de salida, etapa actual"
+    },
+    "foco": {
+      "nombre": "A8 Autorización de salida, etapa actual",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 959,
+        "y": 424,
+        "width": 112,
+        "height": 122,
+        "top": 424,
+        "right": 1071,
+        "bottom": 546,
+        "left": 959
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-23.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Enter"
+    },
+    "foco": {
+      "nombre": "A8 Autorización de salida, etapa actual",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 959,
+        "y": 424,
+        "width": 112,
+        "height": 122,
+        "top": 424,
+        "right": 1071,
+        "bottom": 546,
+        "left": 959
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-24.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "A8 Autorización de salida, etapa actual",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 959,
+        "y": 424,
+        "width": 112,
+        "height": 122,
+        "top": 424,
+        "right": 1071,
+        "bottom": 546,
+        "left": 959
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-25.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "llenar",
+      "label": "Nueva observación",
+      "texto": "Borrador ficticio de revisión accesible, sin publicar"
+    },
+    "foco": {
+      "nombre": "Borrador ficticio de revisión accesible, sin publicar",
+      "tag": "TEXTAREA",
+      "rect": {
+        "x": 264,
+        "y": 779.25,
+        "width": 696,
+        "height": 96,
+        "top": 779.25,
+        "right": 960,
+        "bottom": 875.25,
+        "left": 264
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-26.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Tab"
+    },
+    "foco": {
+      "nombre": "Publicar observación",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 766.671875,
+        "y": 920.25,
+        "width": 193.328125,
+        "height": 40,
+        "top": 920.25,
+        "right": 960,
+        "bottom": 960.25,
+        "left": 766.671875
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.03) 0px 0px 0px 0.0644394px, rgba(178, 63, 0, 0.03) 0px 0px 0px 0.161098px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-27.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "Publicar observación",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 766.671875,
+        "y": 920.25,
+        "width": 193.328125,
+        "height": 40,
+        "top": 920.25,
+        "right": 960,
+        "bottom": 960.25,
+        "left": 766.671875
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.97) 0px 0px 0px 1.93704px, rgba(178, 63, 0, 0.97) 0px 0px 0px 4.84259px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "imagen": "manual-28.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "viewport",
+      "width": 390
+    },
+    "foco": {
+      "nombre": "Publicar observación",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 164.671875,
+        "y": 1720.5,
+        "width": 193.328125,
+        "height": 40,
+        "top": 1720.5,
+        "right": 358,
+        "bottom": 1760.5,
+        "left": 164.671875
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(178, 63, 0) 0px 0px 0px 5px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-29.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "Publicar observación",
+      "tag": "BUTTON",
+      "rect": {
+        "x": 164.671875,
+        "y": 1720.5,
+        "width": 193.328125,
+        "height": 40,
+        "top": 1720.5,
+        "right": 358,
+        "bottom": 1760.5,
+        "left": 164.671875
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(178, 63, 0) 0px 0px 0px 5px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-30.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "tecla",
+      "key": "Shift+Tab"
+    },
+    "foco": {
+      "nombre": "Borrador ficticio de revisión accesible, sin publicar",
+      "tag": "TEXTAREA",
+      "rect": {
+        "x": 32,
+        "y": 627.5,
+        "width": 326,
+        "height": 96,
+        "top": 627.5,
+        "right": 358,
+        "bottom": 723.5,
+        "left": 32
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-31.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  },
+  {
+    "accion": {
+      "tipo": "foto"
+    },
+    "foco": {
+      "nombre": "Borrador ficticio de revisión accesible, sin publicar",
+      "tag": "TEXTAREA",
+      "rect": {
+        "x": 32,
+        "y": 627.5,
+        "width": 326,
+        "height": 96,
+        "top": 627.5,
+        "right": 358,
+        "bottom": 723.5,
+        "left": 32
+      },
+      "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "scrollWidth": 456,
+      "viewport": 390
+    },
+    "imagen": "manual-32.png",
+    "url": "/pedidos/accd83f1-07de-3e06-9b41-bfe7b9ffc258"
+  }
+]

@@ -1,0 +1,1034 @@
+{
+  "url": "/pedidos/845b47f5-34d2-3abd-9515-6d438ed67bfb",
+  "version": "4.14.0",
+  "violations": [
+    {
+      "id": "label-content-name-mismatch",
+      "impact": "serious",
+      "tags": [
+        "cat.semantics",
+        "wcag21a",
+        "wcag253",
+        "EN-301-549",
+        "EN-9.2.5.3",
+        "RGAAv4",
+        "RGAA-6.1.5"
+      ],
+      "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+      "help": "Elements must have their visible text as part of their accessible name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "label-content-name-mismatch",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Text inside the element is not included in the accessible name"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" aria-pressed=\"false\" aria-label=\"A9 Bodega, pendiente\" class=\"relative z-10 flex min-h-11 w-full flex-col items-center gap-1.5 rounded-md px-1 pb-1.5 text-center outline-none hover:bg-morado-50 focus-visible:ring-3 focus-visible:ring-ring\">",
+          "target": [
+            "button[aria-label=\"A9 Bodega, pendiente\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+        },
+        {
+          "any": [
+            {
+              "id": "label-content-name-mismatch",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Text inside the element is not included in the accessible name"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" aria-current=\"step\" aria-pressed=\"true\" aria-label=\"A10 Incidencias, eta...\" class=\"relative z-10 flex m...\">",
+          "target": [
+            ".bg-morado-100"
+          ],
+          "failureSummary": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+        },
+        {
+          "any": [
+            {
+              "id": "label-content-name-mismatch",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Text inside the element is not included in the accessible name"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" aria-pressed=\"false\" aria-label=\"A11 Fin, pendiente\" class=\"relative z-10 flex min-h-11 w-full flex-col items-center gap-1.5 rounded-md px-1 pb-1.5 text-center outline-none hover:bg-morado-50 focus-visible:ring-3 focus-visible:ring-ring\">",
+          "target": [
+            "button[aria-label=\"A11 Fin, pendiente\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+        }
+      ]
+    },
+    {
+      "id": "scrollable-region-focusable",
+      "impact": "serious",
+      "tags": [
+        "cat.keyboard",
+        "wcag2a",
+        "wcag211",
+        "wcag213",
+        "TTv5",
+        "TT4.a",
+        "EN-301-549",
+        "EN-9.2.1.1",
+        "EN-9.2.1.3",
+        "RGAAv4",
+        "RGAA-7.3.2"
+      ],
+      "description": "Ensure elements that have scrollable content are accessible by keyboard in Safari",
+      "help": "Scrollable region must have keyboard access",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "focusable-content",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element should have focusable content"
+            },
+            {
+              "id": "focusable-element",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element should be focusable"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div data-slot=\"table-container\" class=\"relative w-full overflow-x-auto\">",
+          "target": [
+            "div[data-slot=\"table-container\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<nav aria-label=\"Menú principal\" class=\"border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0\">",
+                  "target": [
+                    "nav"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring\" href=\"/bodegas\" data-discover=\"true\">",
+          "target": [
+            "a[href$=\"bodegas\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<nav aria-label=\"Menú principal\" class=\"border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0\">",
+                  "target": [
+                    "nav"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring\" href=\"/notificaciones\" data-discover=\"true\">",
+          "target": [
+            "a[href$=\"notificaciones\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<nav aria-label=\"Menú principal\" class=\"border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0\">",
+                  "target": [
+                    "nav"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring\" href=\"/usuarios\" data-discover=\"true\">",
+          "target": [
+            "a[href$=\"usuarios\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<nav aria-label=\"Menú principal\" class=\"border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0\">",
+                  "target": [
+                    "nav"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring\" href=\"/roles\" data-discover=\"true\">",
+          "target": [
+            "a[href$=\"roles\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<nav aria-label=\"Menú principal\" class=\"border-b bg-card md:w-56 md:shrink-0 md:border-r md:border-b-0\">",
+                  "target": [
+                    "nav"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring\" href=\"/configuracion/plazos\" data-discover=\"true\">",
+          "target": [
+            "a[href$=\"plazos\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"overflow-x-auto rounded-lg border bg-card px-2 py-4 shadow-sm\">",
+                  "target": [
+                    ".py-4"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"line-clamp-2 text-xs leading-tight text-muted-foreground\">Autorización de salida</span>",
+          "target": [
+            ".w-28:nth-child(8) > .hover\\:bg-morado-50.z-10.min-h-11 > .line-clamp-2.leading-tight.text-xs"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-muted-foreground\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(1) > td:nth-child(5) > .inline-flex.gap-1\\.5.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-muted-foreground\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(2) > td:nth-child(5) > .inline-flex.gap-1\\.5.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-muted-foreground\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(3) > td:nth-child(5) > .inline-flex.gap-1\\.5.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-muted-foreground\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(4) > td:nth-child(5) > .inline-flex.gap-1\\.5.text-muted-foreground"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-estado-aviso\">Plazo pendiente del cliente</span>",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(5) > td:nth-child(2) > .text-estado-aviso"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(5) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(6) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-estado-aviso\">Plazo pendiente del cliente</span>",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(7) > td:nth-child(2) > .text-estado-aviso"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(7) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(8) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(9) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"text-estado-aviso\">Plazo pendiente del cliente</span>",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(10) > td:nth-child(2) > .text-estado-aviso"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-primary\">",
+          "target": [
+            ".text-primary.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section aria-labelledby=\"cronograma-titulo\" class=\"flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-6\">",
+                  "target": [
+                    "section[aria-labelledby=\"cronograma-titulo\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"inline-flex items-center gap-1.5 text-estado-aviso\">",
+          "target": [
+            ".hover\\:bg-muted\\/50:nth-child(11) > td:nth-child(5) > .text-estado-aviso.inline-flex.gap-1\\.5"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        }
+      ]
+    }
+  ],
+  "passes": [
+    {
+      "id": "aria-allowed-attr",
+      "nodes": 25
+    },
+    {
+      "id": "aria-allowed-role",
+      "nodes": 7
+    },
+    {
+      "id": "aria-conditional-attr",
+      "nodes": 25
+    },
+    {
+      "id": "aria-deprecated-role",
+      "nodes": 7
+    },
+    {
+      "id": "aria-hidden-body",
+      "nodes": 1
+    },
+    {
+      "id": "aria-hidden-focus",
+      "nodes": 50
+    },
+    {
+      "id": "aria-prohibited-attr",
+      "nodes": 25
+    },
+    {
+      "id": "aria-required-attr",
+      "nodes": 7
+    },
+    {
+      "id": "aria-roles",
+      "nodes": 7
+    },
+    {
+      "id": "aria-valid-attr-value",
+      "nodes": 25
+    },
+    {
+      "id": "aria-valid-attr",
+      "nodes": 25
+    },
+    {
+      "id": "avoid-inline-spacing",
+      "nodes": 1
+    },
+    {
+      "id": "button-name",
+      "nodes": 17
+    },
+    {
+      "id": "bypass",
+      "nodes": 1
+    },
+    {
+      "id": "color-contrast",
+      "nodes": 97
+    },
+    {
+      "id": "definition-list",
+      "nodes": 2
+    },
+    {
+      "id": "dlitem",
+      "nodes": 12
+    },
+    {
+      "id": "document-title",
+      "nodes": 1
+    },
+    {
+      "id": "duplicate-id-aria",
+      "nodes": 9
+    },
+    {
+      "id": "empty-heading",
+      "nodes": 6
+    },
+    {
+      "id": "empty-table-header",
+      "nodes": 5
+    },
+    {
+      "id": "form-field-multiple-labels",
+      "nodes": 3
+    },
+    {
+      "id": "heading-order",
+      "nodes": 6
+    },
+    {
+      "id": "html-has-lang",
+      "nodes": 1
+    },
+    {
+      "id": "html-lang-valid",
+      "nodes": 1
+    },
+    {
+      "id": "label-content-name-mismatch",
+      "nodes": 1
+    },
+    {
+      "id": "label-title-only",
+      "nodes": 3
+    },
+    {
+      "id": "label",
+      "nodes": 3
+    },
+    {
+      "id": "landmark-banner-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-main-is-top-level",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-banner",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-no-duplicate-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-one-main",
+      "nodes": 1
+    },
+    {
+      "id": "landmark-unique",
+      "nodes": 10
+    },
+    {
+      "id": "link-name",
+      "nodes": 9
+    },
+    {
+      "id": "list",
+      "nodes": 2
+    },
+    {
+      "id": "listitem",
+      "nodes": 19
+    },
+    {
+      "id": "meta-viewport-large",
+      "nodes": 1
+    },
+    {
+      "id": "meta-viewport",
+      "nodes": 1
+    },
+    {
+      "id": "nested-interactive",
+      "nodes": 16
+    },
+    {
+      "id": "page-has-heading-one",
+      "nodes": 1
+    },
+    {
+      "id": "region",
+      "nodes": 285
+    },
+    {
+      "id": "scope-attr-valid",
+      "nodes": 5
+    },
+    {
+      "id": "scrollable-region-focusable",
+      "nodes": 2
+    },
+    {
+      "id": "tabindex",
+      "nodes": 1
+    },
+    {
+      "id": "table-duplicate-name",
+      "nodes": 1
+    },
+    {
+      "id": "target-size",
+      "nodes": 27
+    },
+    {
+      "id": "td-headers-attr",
+      "nodes": 1
+    },
+    {
+      "id": "th-has-data-cells",
+      "nodes": 1
+    }
+  ],
+  "inapplicable": [
+    "accesskeys",
+    "area-alt",
+    "aria-braille-equivalent",
+    "aria-command-name",
+    "aria-dialog-name",
+    "aria-input-field-name",
+    "aria-meter-name",
+    "aria-progressbar-name",
+    "aria-required-children",
+    "aria-required-parent",
+    "aria-tab-name",
+    "aria-text",
+    "aria-toggle-field-name",
+    "aria-tooltip-name",
+    "aria-treeitem-name",
+    "autocomplete-valid",
+    "blink",
+    "frame-focusable-content",
+    "frame-tested",
+    "frame-title-unique",
+    "frame-title",
+    "html-xml-lang-mismatch",
+    "image-alt",
+    "image-redundant-alt",
+    "input-button-name",
+    "input-image-alt",
+    "landmark-contentinfo-is-top-level",
+    "landmark-no-duplicate-contentinfo",
+    "link-in-text-block",
+    "marquee",
+    "meta-refresh",
+    "object-alt",
+    "presentation-role-conflict",
+    "role-img-alt",
+    "select-name",
+    "server-side-image-map",
+    "skip-link",
+    "summary-name",
+    "svg-img-alt",
+    "valid-lang",
+    "video-caption",
+    "no-autoplay-audio"
+  ]
+}

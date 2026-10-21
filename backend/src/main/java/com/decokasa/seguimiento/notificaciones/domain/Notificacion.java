@@ -32,8 +32,13 @@ public record Notificacion(UUID id, UUID pedidoId, UUID eventoId, String destina
     }
     public static Notificacion pendiente(UUID pedidoId, UUID eventoId, String destinatario,
             Map<String,String> datos, Instant ahora) {
+        return pendiente(pedidoId, eventoId, destinatario, datos, ahora, "TRANSICION", "Cambio de etapa de un pedido");
+    }
+    /** Con plantilla y asunto propios (VENCIMIENTO, paso 5.2). */
+    public static Notificacion pendiente(UUID pedidoId, UUID eventoId, String destinatario,
+            Map<String,String> datos, Instant ahora, String plantilla, String asunto) {
         UUID id = UUID.randomUUID();
-        return new Notificacion(id, pedidoId, eventoId, destinatario, "TRANSICION", "Cambio de etapa de un pedido",
+        return new Notificacion(id, pedidoId, eventoId, destinatario, plantilla, asunto,
                 datos, Estado.PENDIENTE, 0, ahora, null, ahora, null, null,
                 "<notificacion-" + id + "@decokasa.invalid>", false);
     }

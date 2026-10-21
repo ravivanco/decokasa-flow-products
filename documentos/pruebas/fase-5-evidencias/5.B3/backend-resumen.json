@@ -1,0 +1,44 @@
+{
+  "junit": {
+    "tests": 849,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "global": {
+    "INSTRUCTION": {
+      "covered": 31758,
+      "missed": 3410
+    },
+    "BRANCH": {
+      "covered": 2064,
+      "missed": 767
+    },
+    "LINE": {
+      "covered": 5340,
+      "missed": 506
+    },
+    "COMPLEXITY": {
+      "covered": 2305,
+      "missed": 867
+    },
+    "METHOD": {
+      "covered": 1564,
+      "missed": 174
+    },
+    "CLASS": {
+      "covered": 401,
+      "missed": 12
+    }
+  },
+  "modulos": {
+    "archivos": {
+      "covered": 1401,
+      "missed": 222
+    },
+    "plazos": {
+      "covered": 448,
+      "missed": 23
+    }
+  }
+}

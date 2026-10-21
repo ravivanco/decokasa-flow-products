@@ -1,0 +1,136 @@
+{
+  "cls": 0.0022225742669753088,
+  "entries": [
+    {
+      "time": 30606.400000035763,
+      "value": 0.0022225742669753088,
+      "sources": [
+        {
+          "tag": "TR",
+          "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+          "previous": {
+            "x": 249,
+            "y": 727,
+            "width": 1166,
+            "height": 49,
+            "top": 727,
+            "right": 1415,
+            "bottom": 776,
+            "left": 249
+          },
+          "current": {
+            "x": 249,
+            "y": 741,
+            "width": 1166,
+            "height": 49,
+            "top": 741,
+            "right": 1415,
+            "bottom": 790,
+            "left": 249
+          }
+        },
+        {
+          "tag": "TR",
+          "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+          "previous": {
+            "x": 249,
+            "y": 629,
+            "width": 1166,
+            "height": 49,
+            "top": 629,
+            "right": 1415,
+            "bottom": 678,
+            "left": 249
+          },
+          "current": {
+            "x": 249,
+            "y": 643,
+            "width": 1166,
+            "height": 49,
+            "top": 643,
+            "right": 1415,
+            "bottom": 692,
+            "left": 249
+          }
+        },
+        {
+          "tag": "TR",
+          "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+          "previous": {
+            "x": 249,
+            "y": 776,
+            "width": 1166,
+            "height": 49,
+            "top": 776,
+            "right": 1415,
+            "bottom": 825,
+            "left": 249
+          },
+          "current": {
+            "x": 249,
+            "y": 790,
+            "width": 1166,
+            "height": 49,
+            "top": 790,
+            "right": 1415,
+            "bottom": 839,
+            "left": 249
+          }
+        },
+        {
+          "tag": "TR",
+          "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+          "previous": {
+            "x": 249,
+            "y": 825,
+            "width": 1166,
+            "height": 49,
+            "top": 825,
+            "right": 1415,
+            "bottom": 874,
+            "left": 249
+          },
+          "current": {
+            "x": 249,
+            "y": 839,
+            "width": 1166,
+            "height": 49,
+            "top": 839,
+            "right": 1415,
+            "bottom": 888,
+            "left": 249
+          }
+        },
+        {
+          "tag": "TR",
+          "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+          "previous": {
+            "x": 249,
+            "y": 678,
+            "width": 1166,
+            "height": 49,
+            "top": 678,
+            "right": 1415,
+            "bottom": 727,
+            "left": 249
+          },
+          "current": {
+            "x": 249,
+            "y": 692,
+            "width": 1166,
+            "height": 49,
+            "top": 692,
+            "right": 1415,
+            "bottom": 741,
+            "left": 249
+          }
+        }
+      ]
+    }
+  ],
+  "propagacionMs": 29900,
+  "pedido": "de44ca9b-70e8-3211-8d9d-f7d102cc7bc8",
+  "pedidos": 20,
+  "intervaloMs": 30000,
+  "transporte": "polling real, sesiones separadas"
+}

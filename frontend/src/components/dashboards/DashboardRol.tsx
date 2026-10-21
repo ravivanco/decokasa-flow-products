@@ -1,6 +1,6 @@
 import { InboxIcon } from 'lucide-react';
 import { Link } from 'react-router';
-import { useUsuarioActual } from '@/auth/SesionProvider';
+import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +12,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { BuscarPorNumero } from './BuscarPorNumero';
+import { PanelVencidos } from './PanelVencidos';
+import { TableroTrabajo } from './TableroTrabajo';
 
 // Dashboard vacío por rol (plan, tarea 24; D7; manual, fase 1, paso 1.5). Un usuario con varios roles ve un panel por
 // cada uno, sin repetir. No hay datos simulados: cada panel lleva a la bandeja real (fase 2, paso 2.5).
@@ -54,14 +57,23 @@ export function panelesDe(roles: string[]): Panel[] {
     .filter((panel) => (vistos.has(panel.titulo) ? false : (vistos.add(panel.titulo), true)));
 }
 
+// Paso 5.3: el dashboard responde, con datos reales, qué toca hacer (mi trabajo), qué va tarde y por qué (vencidos del
+// admin) y dónde está un pedido (búsqueda por número). Quien solo tiene paneles provisionales (consulta,
+// asistente_china) ve la búsqueda y sus paneles, sin bandeja de trabajo.
 export function DashboardRol() {
   const usuario = useUsuarioActual();
+  const admin = esAdmin(usuario);
+  const paneles = panelesDe(usuario.roles);
+  const conTrabajo = admin || paneles.some((panel) => !panel.provisional);
 
   return (
     <section className="flex flex-col gap-6">
       <h1 className="font-heading text-2xl font-bold text-primary">Hola, {usuario.nombre}</h1>
+      <BuscarPorNumero />
+      {conTrabajo && <TableroTrabajo admin={admin} />}
+      {admin && <PanelVencidos />}
       <div className="grid gap-4 lg:grid-cols-2">
-        {panelesDe(usuario.roles).map((panel) => (
+        {paneles.map((panel) => (
           <Card key={panel.titulo}>
             <CardHeader>
               <CardTitle>

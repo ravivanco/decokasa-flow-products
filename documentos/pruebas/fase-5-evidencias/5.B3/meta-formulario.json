@@ -1,0 +1,116 @@
+{
+  "vinculacion": {
+    "describedby": "_r_0_-ayuda",
+    "errormessage": null,
+    "active": true,
+    "formText": "Meta propuesta (días de pedido a llegada)Número entero desde 1. Días corridos de la fecha del pedido a la llegada.Escribe la meta en días: un número entero desde 1.Guardar meta"
+  },
+  "puts": 1,
+  "conflicto": 409,
+  "borrador": "77 conservado, nunca guardado automáticamente",
+  "propuesta": true,
+  "errorViolations": [],
+  "conflictoViolations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#d16a6a",
+                "bgColor": "#fafbfc",
+                "contrastRatio": 3.38,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+                  "target": [
+                    ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(1)"
+                  ]
+                },
+                {
+                  "html": "<div data-slot=\"alert\" role=\"alert\" class=\"group/alert relative...\" aria-live=\"polite\">",
+                  "target": [
+                    ".text-destructive"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.38 (foreground color: #d16a6a, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+          "target": [
+            ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.38 (foreground color: #d16a6a, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#d16a6a",
+                "bgColor": "#fafbfc",
+                "contrastRatio": 3.38,
+                "fontSize": "10.5pt (14px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+                  "target": [
+                    ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(2)"
+                  ]
+                },
+                {
+                  "html": "<div data-slot=\"alert\" role=\"alert\" class=\"group/alert relative...\" aria-live=\"polite\">",
+                  "target": [
+                    ".text-destructive"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.38 (foreground color: #d16a6a, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"group/button inline-...\" type=\"button\">",
+          "target": [
+            ".hover\\:text-foreground.aria-expanded\\:bg-muted.aria-expanded\\:text-foreground:nth-child(2)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.38 (foreground color: #d16a6a, background color: #fafbfc, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ]
+}

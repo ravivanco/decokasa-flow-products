@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Backend24IT" tests="48" skipped="0" failures="0" errors="0" timestamp="2026-10-20T20:17:55.169Z" hostname="DESKTOP-GKF6IVL" time="35.094">
+  <properties/>
+  <testcase name="rechazosDevolucionPorErrorYA4A5MantienenContrato()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="2.079"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.156"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.135"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.139"/>
+  <testcase name="errorAlRegistrarRevierteMetadatosYConservaBytesYReserva()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.125"/>
+  <testcase name="resumenP20ReentradaConservaUltimoCierreYLoReemplazaAlCerrarDeNuevo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.764"/>
+  <testcase name="[1] tamano = 0" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.098"/>
+  <testcase name="[2] tamano = 1024" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.143"/>
+  <testcase name="[3] tamano = 1025" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.111"/>
+  <testcase name="subidaRevalidaEntradaDespuesDeRecibirYRevierteSiHuboReentrada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.457"/>
+  <testcase name="resumenP20UsaNombreVigentePeroConservaRolHistoricoYFechaEcuador()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.505"/>
+  <testcase name="dosAvancesSimultaneosConfirmanUnoSolo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.214"/>
+  <testcase name="adjuntosDeOtroPedidoDuplicadosNulosYDeOtraEtapaNoSeIgnoran()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.48"/>
+  <testcase name="reasignacionExcluyeOtrosYReleeRolDeAsignado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.586"/>
+  <testcase name="consultasContratoYConfiguracion()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.481"/>
+  <testcase name="bandejaRespetaContratoSinErrorInterno()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.303"/>
+  <testcase name="observacionEHistorialConservanElMismoJsonPublicoTrasSepararAdaptadores()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.454"/>
+  <testcase name="archivosRealesMetadatosYPermisosDeDescarga()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.367"/>
+  <testcase name="resumenDeEtapaIncluyeLoOcurrido()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.616"/>
+  <testcase name="[1] nivel = &quot;URGENTE&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.303"/>
+  <testcase name="[2] nivel = &quot;PRIORITARIO&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.294"/>
+  <testcase name="[3] nivel = &quot;NORMAL&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.163"/>
+  <testcase name="[1] rol = &quot;consulta&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.241"/>
+  <testcase name="[2] rol = &quot;asistente_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.244"/>
+  <testcase name="[3] rol = &quot;marketing&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.228"/>
+  <testcase name="[4] rol = &quot;asistente_compras&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.224"/>
+  <testcase name="[5] rol = &quot;compras_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.244"/>
+  <testcase name="[6] rol = &quot;logistica&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.244"/>
+  <testcase name="b2TransicionesRealesEncolanUnaIntencionPorEventoSinInventarDestinatario()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.018"/>
+  <testcase name="observacionInvalidaOAdjuntoAjenoNoDejanEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.307"/>
+  <testcase name="multipartExigeEntradaYPermisoSinCrearNada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.117"/>
+  <testcase name="fase4IncidenciasHabilitadaConservaBloqueoDocumental()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.136"/>
+  <testcase name="requisitosErroresYEtapaDesactualizadaSonAtomicos()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.169"/>
+  <testcase name="observacionesExigenEntradaVigenteYRegistranActorFechaSinAvance()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.583"/>
+  <testcase name="resumenP20EtapaIntermediaConservaSuCierreTrasDevolucionDesdeA4()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.113"/>
+  <testcase name="[1] desactivar = true" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.117"/>
+  <testcase name="[2] desactivar = false" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.118"/>
+  <testcase name="resumenP20SinCierreEsNuloAunqueHayaObservacionYArchivo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.518"/>
+  <testcase name="multipartRealAplicaLimiteDelServletConJwtFirmado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.511"/>
+  <testcase name="resumenP20RecortaUnicodeSinCambiarObservacionCompletaDelHistorial()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.863"/>
+  <testcase name="lecturaInterrumpidaNoDejaTemporalAdjuntoNiEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.117"/>
+  <testcase name="b2RegistroHttpExigeAdminVigenteInclusoConTokenAntiguo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.039"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.196"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.211"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.218"/>
+  <testcase name="b2RollbackRealDeTransicionNoDejaAvisoNiHistorialNiAvance()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.346"/>
+  <testcase name="b2RegistroSanitizaErroresYPaginaSinExponerDatosPrivados()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.36"/>
+  <testcase name="reentradaNoReutilizaDocumentosNiEntradaAnterior()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.998"/>
+  <system-out><![CDATA[15:17:55.349 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:17:55.567 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+15:17:55.674 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:17:55.692 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-20T15:17:56.283-05:00  INFO 25344 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Starting Backend24IT using Java 21.0.12.1 with PID 25344 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-20T15:17:56.283-05:00  INFO 25344 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-20T15:17:57.697-05:00  INFO 25344 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-20T15:17:57.816-05:00  INFO 25344 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 104 ms. Found 7 JPA repository interfaces.
+2026-10-20T15:17:58.668-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-20T15:17:58.685-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-20T15:17:58.692-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-20T15:17:58.759-05:00  INFO 25344 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2448 ms
+2026-10-20T15:17:58.994-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-20T15:17:59.000-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-20T15:17:59.024-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.5
+2026-10-20T15:17:59.459-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-20T15:17:59.975-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-20T15:17:59.978-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-10-20T15:18:00.005-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-20T15:18:00.097-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-20T15:18:00.321-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 6d17e14463d8723f1105e8627b402bec85eaf7941b03bc1722c20149a29e97bb
+2026-10-20T15:18:00.685-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.5876577S
+2026-10-20T15:18:00.689-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-20T15:18:00.689-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-10-20T15:18:00.691-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-10-20T15:18:00.692-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-20T15:18:00.790-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 695fef12c1dede0d37c8951e2640e844a32e12b841b34360da92a2af516d1168
+2026-10-20T15:18:02.300-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.6076003S
+2026-10-20T15:18:02.302-05:00  INFO 25344 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:58771/test?loggerLevel=OFF)
+2026-10-20T15:18:02.846-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:58771/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-20T15:18:02.924-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-20T15:18:02.930-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 15 migrations (execution time 00:00.032s)
+2026-10-20T15:18:02.944-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-20T15:18:02.991-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-20T15:18:03.008-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-20T15:18:03.066-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-20T15:18:03.128-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-20T15:18:03.173-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-20T15:18:03.203-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-20T15:18:03.228-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-20T15:18:03.252-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-20T15:18:03.272-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-20T15:18:03.287-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-20T15:18:03.305-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-20T15:18:03.322-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-20T15:18:03.338-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-20T15:18:03.350-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - historial secuencia"
+2026-10-20T15:18:03.364-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - configuracion plazos"
+2026-10-20T15:18:03.378-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - avisos vencimiento"
+2026-10-20T15:18:03.403-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 15 migrations to schema "public", now at version v15 (execution time 00:00.223s)
+2026-10-20T15:18:03.525-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-20T15:18:03.604-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-20T15:18:04.214-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-20T15:18:04.283-05:00  INFO 25344 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-20T15:18:04.320-05:00  INFO 25344 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62542312
+2026-10-20T15:18:04.320-05:00  INFO 25344 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-20T15:18:04.469-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:58771/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-20T15:18:06.112-05:00  INFO 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-20T15:18:06.179-05:00  INFO 25344 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-20T15:18:06.290-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-20T15:18:08.574-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2026-10-20T15:18:08.574-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-20T15:18:08.589-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-20T15:18:08.605-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 31 ms
+2026-10-20T15:18:08.669-05:00  INFO 25344 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 58784 (http) with context path '/'
+2026-10-20T15:18:08.676-05:00  INFO 25344 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Started Backend24IT in 12.893 seconds (process running for 18.159)
+2026-10-20T15:18:11.381-05:00  WARN 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: P0001
+2026-10-20T15:18:11.381-05:00  WARN 25344 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: Fallo ficticio B24
+  Where: PL/pgSQL function fallo_subida_b24() line 1 at RAISE
+2026-10-20T15:18:26.696-05:00  INFO 25344 --- [seguimiento] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-20T15:18:26.696-05:00  INFO 25344 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-20T15:18:26.696-05:00  INFO 25344 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

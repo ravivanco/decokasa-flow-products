@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-10-20T20:22:16.367Z" hostname="DESKTOP-GKF6IVL" time="0.003">
+  <properties/>
+  <testcase name="unUsuarioSinRolesNoPuedeIniciarSesion()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.001"/>
+  <testcase name="cuatroFallosNoBloquean()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="elQuintoFalloBloqueaQuinceMinutos()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="unUsuarioActivoConUnRolPuedeIniciarSesion()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="unUsuarioDesactivadoNoPuedeIniciarSesion()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="unUsuarioNuevoNecesitaAlMenosUnRol()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.001"/>
+  <testcase name="unAciertoReiniciaElContador()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="unUsuarioConVariosRolesPuedeIniciarSesionYLosTieneTodos()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="elBloqueoTerminaALosQuinceMinutos()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="desactivarLeQuitaElAccesoSinBorrarSusRoles()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="asignarRolesReemplazaLaListaCompleta()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="unUsuarioNuevoQuedaActivoSinIntentosYConSusRoles()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <testcase name="noSePuedeDejarAUnUsuarioSinRoles()" classname="com.decokasa.seguimiento.usuarios.domain.UsuarioTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

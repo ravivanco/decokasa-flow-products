@@ -18,7 +18,23 @@ public interface ConsultarPedidos {
     VistasDePedido.Pagina listar(Solicitante solicitante, Filtro filtro, int pagina, int tamano);
 
     /** Filtra el trabajo según P-06; no cambia la visibilidad general de P-13. */
-    VistasDePedido.Pagina bandeja(Solicitante solicitante, int pagina, int tamano);
+    /** Bandeja de trabajo (P-06) con los filtros del dashboard (fase 5, paso 5.3). */
+    VistasDePedido.Pagina bandeja(Solicitante solicitante, FiltroBandeja filtro, int pagina, int tamano);
+
+    /** Bandeja sin filtros. */
+    default VistasDePedido.Pagina bandeja(Solicitante solicitante, int pagina, int tamano) {
+        return bandeja(solicitante, FiltroBandeja.SIN_FILTRO, pagina, tamano);
+    }
+
+    /**
+     * Filtros de la bandeja (paso 5.3). Solo {@code true} filtra; nulo o {@code false} no.
+     *
+     * @param vencido     solo con el plazo de la etapa actual vencido (el mismo criterio que {@code vencida})
+     * @param conUrgencia solo con una urgencia vigente, vencida o no
+     */
+    record FiltroBandeja(Boolean vencido, Boolean conUrgencia) {
+        public static final FiltroBandeja SIN_FILTRO = new FiltroBandeja(null, null);
+    }
 
     /** Cada campo nulo no filtra. */
     record Filtro(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto) {

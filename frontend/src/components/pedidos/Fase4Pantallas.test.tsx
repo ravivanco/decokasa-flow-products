@@ -75,7 +75,7 @@ describe('Fase 4.6 · pantallas conectadas',()=>{
       api.estado.detalle=pedidoDetalle({etapaActual:8,llegadaAduanaEn:'2026-10-16T17:00:00-05:00'});
       return HttpResponse.json(api.estado.detalle);
     }));
-    await app.usuario.click(screen.getByRole('button',{name:'Confirmar llegada'}));
+    await app.usuario.click(await screen.findByRole('button',{name:'Confirmar llegada'}));
     const d=await screen.findByRole('dialog',{name:'Confirmar llegada'});
     expect(within(d).queryByLabelText('Nueva fecha estimada de llegada')).not.toBeInTheDocument();
     await app.usuario.click(within(d).getByRole('button',{name:'Confirmar llegada'}));

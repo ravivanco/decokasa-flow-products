@@ -109,7 +109,10 @@ describe('Acciones de la etapa actual', () => {
     const usuario = { ...ana, roles: ['asistente_compras'] };
     const enA3 = pedidoDetalle({ etapaActual: 3, acciones: [accion('APROBAR', 4), accion('RECHAZAR', 2)] });
     const { api, app } = await abrir(usuario, enA3);
-    const cuerpos = acciones(api, () => HttpResponse.json(pedidoDetalle({ etapaActual: 2 })));
+    const cuerpos = acciones(api, () => {
+      api.estado.detalle = pedidoDetalle({ etapaActual: 2 });
+      return HttpResponse.json(api.estado.detalle);
+    });
 
     await app.usuario.click(await screen.findByRole('button', { name: 'Rechazar' }));
     const dialogo = await screen.findByRole('dialog', { name: 'Rechazar' });
@@ -155,9 +158,10 @@ describe('Acciones de la etapa actual', () => {
       ],
     });
     const { api, app } = await abrir(usuario, enA4);
-    const cuerpos = acciones(api, () =>
-      HttpResponse.json(pedidoDetalle({ etapaActual: 2, urgencia: { nivel: 'URGENTE', horas: 4 } })),
-    );
+    const cuerpos = acciones(api, () => {
+      api.estado.detalle = pedidoDetalle({ etapaActual: 2, urgencia: { nivel: 'URGENTE', horas: 4 } });
+      return HttpResponse.json(api.estado.detalle);
+    });
 
     await app.usuario.click(await screen.findByRole('button', { name: 'Devolver por producto nuevo' }));
     const dialogo = await screen.findByRole('dialog', { name: 'Devolver por producto nuevo' });

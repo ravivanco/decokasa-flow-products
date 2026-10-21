@@ -1,0 +1,148 @@
+[
+  {
+    "nombre": "dashboard-1440",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 68
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A6-1440",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 11
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 1
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A8-1440",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 11
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 2
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A10-1440",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 11
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 2
+      }
+    ]
+  },
+  {
+    "nombre": "meta-1440",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "nombre": "dashboard-390",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 183
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A6-390",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 7
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodos": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 20
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A8-390",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 5
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodos": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 19
+      }
+    ]
+  },
+  {
+    "nombre": "detalle-A10-390",
+    "violations": [
+      {
+        "id": "label-content-name-mismatch",
+        "impact": "serious",
+        "nodos": 3
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodos": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 20
+      }
+    ]
+  },
+  {
+    "nombre": "meta-390",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodos": 4
+      }
+    ]
+  }
+]

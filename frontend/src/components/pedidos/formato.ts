@@ -80,6 +80,7 @@ export const NOMBRE_EVENTO: Record<TipoEvento, string> = {
   ARCHIVO_SUBIDO: 'Archivo subido',
   ETAPA_REASIGNADA: 'Etapa reasignada',
   PLAZO_VENCIDO: 'Plazo vencido',
+  MOTIVO_RETRASO_REGISTRADO: 'Motivo del retraso',
   PEDIDO_FINALIZADO: 'Pedido finalizado',
 };
 

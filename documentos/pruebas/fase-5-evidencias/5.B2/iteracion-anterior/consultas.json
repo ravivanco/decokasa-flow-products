@@ -1,0 +1,80 @@
+{
+  "1": {
+    "count": 21,
+    "sql": [
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 where ue1_0.id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select cast(p.id as text) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?))) order by p.creado_en desc, p.id limit ? offset ?",
+      "select count(*) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?)))",
+      "select distinct pe1_0.id,pe1_0.actualizado_en,pe1_0.bodega_id,pe1_0.creado_en,pe1_0.creado_por,pe1_0.demora_motivo,pe1_0.demora_nueva_fecha_llegada,pe1_0.demora_reportada_en,pe1_0.demora_reportada_por,pe1_0.descripcion,pe1_0.etapa_actual,e1_0.pedido_id,e1_0.id,e1_0.asignado_a,e1_0.entrada_en,e1_0.entrada_id,e1_0.estado,e1_0.motivo_retraso,e1_0.numero,e1_0.reentradas,e1_0.salida_en,e1_0.vence_en,pe1_0.finalizado,pe1_0.finalizado_en,pe1_0.flujo_id,pe1_0.incluye_productos_nuevos,pe1_0.llegada_aduana_en,pe1_0.nombre,pe1_0.numero,pe1_0.pais_codigo,pe1_0.tipo_flujo,pe1_0.urgencia_activacion_id,pe1_0.urgencia_activada_en,pe1_0.urgencia_nivel,pe1_0.urgencia_vence_en,pe1_0.version from pedido pe1_0 left join etapa_pedido e1_0 on pe1_0.id=e1_0.pedido_id where pe1_0.id in (?) order by e1_0.numero",
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 order by ue1_0.nombre",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select dfe1_0.id,dfe1_0.pais_codigo,dfe1_0.tipo_flujo,dfe1_0.version,dfe1_0.vigente from definicion_flujo dfe1_0 where dfe1_0.id=?",
+      "select dee1_0.id,dee1_0.automatica,dee1_0.flujo_id,dee1_0.nombre,dee1_0.numero,dee1_0.plazo_cantidad,dee1_0.plazo_estado,dee1_0.plazo_tipo,dee1_0.registra_llegada,dee1_0.revisa_etapa,dee1_0.rol_codigo from definicion_etapa dee1_0 where dee1_0.flujo_id=? order by dee1_0.numero",
+      "select distinct tpe1_0.id,tpe1_0.accion,d1_0.transicion_id,d1_0.tipo_documento,tpe1_0.etapa_destino,tpe1_0.etapa_origen,tpe1_0.flujo_id,tpe1_0.requiere_bodega,tpe1_0.requiere_observacion,tpe1_0.requiere_urgencia,tpe1_0.requisitos_documentales from transicion_permitida tpe1_0 left join documento_requerido d1_0 on tpe1_0.id=d1_0.transicion_id where tpe1_0.flujo_id=?"
+    ]
+  },
+  "20": {
+    "count": 21,
+    "sql": [
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 where ue1_0.id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select cast(p.id as text) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?))) order by p.creado_en desc, p.id limit ? offset ?",
+      "select count(*) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?)))",
+      "select distinct pe1_0.id,pe1_0.actualizado_en,pe1_0.bodega_id,pe1_0.creado_en,pe1_0.creado_por,pe1_0.demora_motivo,pe1_0.demora_nueva_fecha_llegada,pe1_0.demora_reportada_en,pe1_0.demora_reportada_por,pe1_0.descripcion,pe1_0.etapa_actual,e1_0.pedido_id,e1_0.id,e1_0.asignado_a,e1_0.entrada_en,e1_0.entrada_id,e1_0.estado,e1_0.motivo_retraso,e1_0.numero,e1_0.reentradas,e1_0.salida_en,e1_0.vence_en,pe1_0.finalizado,pe1_0.finalizado_en,pe1_0.flujo_id,pe1_0.incluye_productos_nuevos,pe1_0.llegada_aduana_en,pe1_0.nombre,pe1_0.numero,pe1_0.pais_codigo,pe1_0.tipo_flujo,pe1_0.urgencia_activacion_id,pe1_0.urgencia_activada_en,pe1_0.urgencia_nivel,pe1_0.urgencia_vence_en,pe1_0.version from pedido pe1_0 left join etapa_pedido e1_0 on pe1_0.id=e1_0.pedido_id where pe1_0.id in (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) order by e1_0.numero",
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 order by ue1_0.nombre",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select dfe1_0.id,dfe1_0.pais_codigo,dfe1_0.tipo_flujo,dfe1_0.version,dfe1_0.vigente from definicion_flujo dfe1_0 where dfe1_0.id=?",
+      "select dee1_0.id,dee1_0.automatica,dee1_0.flujo_id,dee1_0.nombre,dee1_0.numero,dee1_0.plazo_cantidad,dee1_0.plazo_estado,dee1_0.plazo_tipo,dee1_0.registra_llegada,dee1_0.revisa_etapa,dee1_0.rol_codigo from definicion_etapa dee1_0 where dee1_0.flujo_id=? order by dee1_0.numero",
+      "select distinct tpe1_0.id,tpe1_0.accion,d1_0.transicion_id,d1_0.tipo_documento,tpe1_0.etapa_destino,tpe1_0.etapa_origen,tpe1_0.flujo_id,tpe1_0.requiere_bodega,tpe1_0.requiere_observacion,tpe1_0.requiere_urgencia,tpe1_0.requisitos_documentales from transicion_permitida tpe1_0 left join documento_requerido d1_0 on tpe1_0.id=d1_0.transicion_id where tpe1_0.flujo_id=?"
+    ]
+  },
+  "100": {
+    "count": 21,
+    "sql": [
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 where ue1_0.id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select cast(p.id as text) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?))) order by p.creado_en desc, p.id limit ? offset ?",
+      "select count(*) from pedido p join etapa_pedido e on e.pedido_id = p.id and e.estado = 'ACTUAL' join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero where not p.finalizado and (cast(? as boolean) or (d.rol_codigo in (?) and (e.asignado_a is null or e.asignado_a = ?)))",
+      "select distinct pe1_0.id,pe1_0.actualizado_en,pe1_0.bodega_id,pe1_0.creado_en,pe1_0.creado_por,pe1_0.demora_motivo,pe1_0.demora_nueva_fecha_llegada,pe1_0.demora_reportada_en,pe1_0.demora_reportada_por,pe1_0.descripcion,pe1_0.etapa_actual,e1_0.pedido_id,e1_0.id,e1_0.asignado_a,e1_0.entrada_en,e1_0.entrada_id,e1_0.estado,e1_0.motivo_retraso,e1_0.numero,e1_0.reentradas,e1_0.salida_en,e1_0.vence_en,pe1_0.finalizado,pe1_0.finalizado_en,pe1_0.flujo_id,pe1_0.incluye_productos_nuevos,pe1_0.llegada_aduana_en,pe1_0.nombre,pe1_0.numero,pe1_0.pais_codigo,pe1_0.tipo_flujo,pe1_0.urgencia_activacion_id,pe1_0.urgencia_activada_en,pe1_0.urgencia_nivel,pe1_0.urgencia_vence_en,pe1_0.version from pedido pe1_0 left join etapa_pedido e1_0 on pe1_0.id=e1_0.pedido_id where pe1_0.id in (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) order by e1_0.numero",
+      "select ue1_0.id,ue1_0.activo,ue1_0.actualizado_en,ue1_0.bloqueado_hasta,ue1_0.contrasena_hash,ue1_0.correo,ue1_0.creado_en,ue1_0.intentos_fallidos,ue1_0.nombre,ue1_0.telefono,ue1_0.usuario,ue1_0.version from usuario ue1_0 order by ue1_0.nombre",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select r1_0.usuario_id,r1_0.asignado_en,r1_0.rol_id from usuario_rol r1_0 where r1_0.usuario_id=?",
+      "select re1_0.id,re1_0.codigo,re1_0.creado_en,re1_0.nombre from rol re1_0 where re1_0.id in (?)",
+      "select p1_0.usuario_id,p1_0.pais_codigo from usuario_pais p1_0 where p1_0.usuario_id=?",
+      "select dfe1_0.id,dfe1_0.pais_codigo,dfe1_0.tipo_flujo,dfe1_0.version,dfe1_0.vigente from definicion_flujo dfe1_0 where dfe1_0.id=?",
+      "select dee1_0.id,dee1_0.automatica,dee1_0.flujo_id,dee1_0.nombre,dee1_0.numero,dee1_0.plazo_cantidad,dee1_0.plazo_estado,dee1_0.plazo_tipo,dee1_0.registra_llegada,dee1_0.revisa_etapa,dee1_0.rol_codigo from definicion_etapa dee1_0 where dee1_0.flujo_id=? order by dee1_0.numero",
+      "select distinct tpe1_0.id,tpe1_0.accion,d1_0.transicion_id,d1_0.tipo_documento,tpe1_0.etapa_destino,tpe1_0.etapa_origen,tpe1_0.flujo_id,tpe1_0.requiere_bodega,tpe1_0.requiere_observacion,tpe1_0.requiere_urgencia,tpe1_0.requisitos_documentales from transicion_permitida tpe1_0 left join documento_requerido d1_0 on tpe1_0.id=d1_0.transicion_id where tpe1_0.flujo_id=?"
+    ]
+  }
+}

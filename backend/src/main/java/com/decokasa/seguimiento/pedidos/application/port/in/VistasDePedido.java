@@ -29,13 +29,17 @@ public final class VistasDePedido {
         PENDIENTE
     }
 
-    public record Urgencia(NivelUrgencia nivel, Instant activadaEn, Instant venceEn) {
+    /** @param vencida la urgencia sigue vigente y su vencimiento ya pasó (lo decide el servidor, paso 5.3) */
+    public record Urgencia(NivelUrgencia nivel, Instant activadaEn, Instant venceEn, boolean vencida) {
     }
 
-    /** @param responsableActual persona asignada a la etapa actual; nula si no hay */
+    /**
+     * @param responsableActual persona asignada a la etapa actual; nula si no hay
+     * @param motivoRetraso motivo vigente de la entrada actual (F5-D3, paso 5.2); nulo si no hay
+     */
     public record Resumen(UUID id, String numero, String nombre, CodigoPais pais, TipoFlujo tipoFlujo,
             int etapaActual, String nombreEtapaActual, Persona responsableActual, Instant venceEn, boolean vencida,
-            Urgencia urgencia, boolean finalizado) {
+            Urgencia urgencia, boolean finalizado, String motivoRetraso) {
     }
 
     /**

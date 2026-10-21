@@ -1,0 +1,27 @@
+{
+  "datos": {
+    "x": 248,
+    "y": 441,
+    "width": 1168,
+    "height": 500
+  },
+  "vacio": {
+    "x": 248,
+    "y": 441,
+    "width": 1168,
+    "height": 500
+  },
+  "error": {
+    "x": 248,
+    "y": 477,
+    "width": 1168,
+    "height": 500
+  },
+  "recuperado": {
+    "x": 248,
+    "y": 477,
+    "width": 1168,
+    "height": 500
+  },
+  "sesionConservada": true
+}

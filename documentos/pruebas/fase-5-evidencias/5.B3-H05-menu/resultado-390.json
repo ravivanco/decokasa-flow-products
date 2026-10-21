@@ -1,0 +1,361 @@
+{
+  "width": 390,
+  "pasos": [
+    {
+      "direccion": "Tab",
+      "nombre": "Inicio",
+      "rect": {
+        "x": 8,
+        "y": 133,
+        "width": 83.828125,
+        "height": 40,
+        "top": 133,
+        "right": 91.828125,
+        "bottom": 173,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Mi bandeja",
+      "rect": {
+        "x": 95.828125,
+        "y": 133,
+        "width": 121.5625,
+        "height": 40,
+        "top": 133,
+        "right": 217.390625,
+        "bottom": 173,
+        "left": 95.828125
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Pedidos",
+      "rect": {
+        "x": 221.390625,
+        "y": 133,
+        "width": 101.953125,
+        "height": 40,
+        "top": 133,
+        "right": 323.34375,
+        "bottom": 173,
+        "left": 221.390625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Bodegas",
+      "rect": {
+        "x": 8,
+        "y": 177,
+        "width": 106.703125,
+        "height": 40,
+        "top": 177,
+        "right": 114.703125,
+        "bottom": 217,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Correos",
+      "rect": {
+        "x": 118.703125,
+        "y": 177,
+        "width": 101.6875,
+        "height": 40,
+        "top": 177,
+        "right": 220.390625,
+        "bottom": 217,
+        "left": 118.703125
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Usuarios",
+      "rect": {
+        "x": 224.390625,
+        "y": 177,
+        "width": 107.328125,
+        "height": 40,
+        "top": 177,
+        "right": 331.71875,
+        "bottom": 217,
+        "left": 224.390625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Roles",
+      "rect": {
+        "x": 8,
+        "y": 221,
+        "width": 84.640625,
+        "height": 40,
+        "top": 221,
+        "right": 92.640625,
+        "bottom": 261,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "Tab",
+      "nombre": "Meta de plazos",
+      "rect": {
+        "x": 96.640625,
+        "y": 221,
+        "width": 149.859375,
+        "height": 40,
+        "top": 221,
+        "right": 246.5,
+        "bottom": 261,
+        "left": 96.640625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Meta de plazos",
+      "rect": {
+        "x": 96.640625,
+        "y": 221,
+        "width": 149.859375,
+        "height": 40,
+        "top": 221,
+        "right": 246.5,
+        "bottom": 261,
+        "left": 96.640625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Roles",
+      "rect": {
+        "x": 8,
+        "y": 221,
+        "width": 84.640625,
+        "height": 40,
+        "top": 221,
+        "right": 92.640625,
+        "bottom": 261,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Usuarios",
+      "rect": {
+        "x": 224.390625,
+        "y": 177,
+        "width": 107.328125,
+        "height": 40,
+        "top": 177,
+        "right": 331.71875,
+        "bottom": 217,
+        "left": 224.390625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Correos",
+      "rect": {
+        "x": 118.703125,
+        "y": 177,
+        "width": 101.6875,
+        "height": 40,
+        "top": 177,
+        "right": 220.390625,
+        "bottom": 217,
+        "left": 118.703125
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Bodegas",
+      "rect": {
+        "x": 8,
+        "y": 177,
+        "width": 106.703125,
+        "height": 40,
+        "top": 177,
+        "right": 114.703125,
+        "bottom": 217,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Pedidos",
+      "rect": {
+        "x": 221.390625,
+        "y": 133,
+        "width": 101.953125,
+        "height": 40,
+        "top": 133,
+        "right": 323.34375,
+        "bottom": 173,
+        "left": 221.390625
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Mi bandeja",
+      "rect": {
+        "x": 95.828125,
+        "y": 133,
+        "width": 121.5625,
+        "height": 40,
+        "top": 133,
+        "right": 217.390625,
+        "bottom": 173,
+        "left": 95.828125
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "direccion": "ShiftTab",
+      "nombre": "Inicio",
+      "rect": {
+        "x": 8,
+        "y": 133,
+        "width": 83.828125,
+        "height": 40,
+        "top": 133,
+        "right": 91.828125,
+        "bottom": 173,
+        "left": 8
+      },
+      "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(178, 63, 0) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "focusVisible": true,
+      "viewport": 390,
+      "scroll": 390,
+      "recortes": []
+    },
+    {
+      "enter": "Inicio",
+      "ruta": "/inicio"
+    },
+    {
+      "enter": "Mi bandeja",
+      "ruta": "/bandeja"
+    },
+    {
+      "enter": "Pedidos",
+      "ruta": "/pedidos"
+    },
+    {
+      "enter": "Bodegas",
+      "ruta": "/bodegas"
+    },
+    {
+      "enter": "Correos",
+      "ruta": "/notificaciones"
+    },
+    {
+      "enter": "Usuarios",
+      "ruta": "/usuarios"
+    },
+    {
+      "enter": "Roles",
+      "ruta": "/roles"
+    },
+    {
+      "enter": "Meta de plazos",
+      "ruta": "/configuracion/plazos"
+    }
+  ],
+  "focoCerrar": {
+    "nombre": "Cerrar sesión",
+    "rect": {
+      "x": 151.546875,
+      "y": 72,
+      "width": 132.25,
+      "height": 40,
+      "top": 72,
+      "right": 283.796875,
+      "bottom": 112,
+      "left": 151.546875
+    },
+    "sombra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(178, 63, 0) 0px 0px 0px 5px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": 390,
+    "scroll": 390,
+    "recortes": []
+  },
+  "logout": true,
+  "api": "Dobles HTTP del navegador; backend no iniciado"
+}

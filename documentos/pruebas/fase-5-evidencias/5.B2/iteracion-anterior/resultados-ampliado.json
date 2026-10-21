@@ -1,0 +1,405 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "-c",
+      "pruebas\\fase-5-evidencias\\5.B2\\playwright.config.mjs",
+      "--grep",
+      "03 |04 |05 |06 |07 |08 "
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2/.tmp/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/5.B2",
+        "testIgnore": [],
+        "testMatch": [
+          "b2.spec.mjs"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./resultados.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "b2.spec.mjs",
+      "file": "b2.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "03 intervalo sin solapamiento; pestaña oculta, foco y reconexión",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6377,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m2\u001b[39m\nReceived:   \u001b[31m2\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m2\u001b[39m\nReceived:   \u001b[31m2\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:63:41",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                      "column": 41,
+                      "line": 63
+                    },
+                    "snippet": "  61 |  const antes=llamadas.length;await page.clock.runFor(95000);expect(llamadas.length).toBe(antes);\n  62 |  await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'visible'});document.dispatchEvent(new Event('visibilitychange'))});\n> 63 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(antes);\n     |                                         ^\n  64 |  await context.setOffline(true);await page.evaluate(()=>window.dispatchEvent(new Event('offline')));await page.clock.runFor(65000);\n  65 |  const offline=llamadas.length;await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));\n  66 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(offline);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                        "column": 41,
+                        "line": 63
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m2\u001b[39m\nReceived:   \u001b[31m2\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  61 |  const antes=llamadas.length;await page.clock.runFor(95000);expect(llamadas.length).toBe(antes);\n  62 |  await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'visible'});document.dispatchEvent(new Event('visibilitychange'))});\n> 63 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(antes);\n     |                                         ^\n  64 |  await context.setOffline(true);await page.evaluate(()=>window.dispatchEvent(new Event('offline')));await page.clock.runFor(65000);\n  65 |  const offline=llamadas.length;await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));\n  66 |  await expect.poll(()=>llamadas.length).toBeGreaterThan(offline);\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:63:41"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:31:41.897Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\.tmp\\artifacts\\b2-03-intervalo-sin-solapa-45ca7-ña-oculta-foco-y-reconexión\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                    "column": 41,
+                    "line": 63
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-fcd75598eb0251218212",
+          "file": "b2.spec.mjs",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "04 borrador y respuesta tardía real; conflicto de entrada sin reenviar",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5950,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:76:35",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                      "column": 35,
+                      "line": 76
+                    },
+                    "snippet": "  74 |  });\n  75 |  await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'hidden'});document.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'visible'});document.dispatchEvent(new Event('visibilitychange'))});\n> 76 |  await expect.poll(()=>capturada).toBe(true);\n     |                                   ^\n  77 |  await page.getByLabel('Nueva observación',{exact:true}).fill(texto);liberar();\n  78 |  await expect(page.getByLabel('Nueva observación',{exact:true})).toHaveValue(texto);\n  79 |  await page.unroute('**/api/v1/pedidos/'+pid);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                        "column": 35,
+                        "line": 76
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  74 |  });\n  75 |  await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'hidden'});document.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'visible'});document.dispatchEvent(new Event('visibilitychange'))});\n> 76 |  await expect.poll(()=>capturada).toBe(true);\n     |                                   ^\n  77 |  await page.getByLabel('Nueva observación',{exact:true}).fill(texto);liberar();\n  78 |  await expect(page.getByLabel('Nueva observación',{exact:true})).toHaveValue(texto);\n  79 |  await page.unroute('**/api/v1/pedidos/'+pid);\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:76:35"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:31:49.026Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\.tmp\\artifacts\\b2-04-borrador-y-respuesta-20cf3-cto-de-entrada-sin-reenviar\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                    "column": 35,
+                    "line": 76
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-ce5da6e4db2fd5dfae4b",
+          "file": "b2.spec.mjs",
+          "line": 69,
+          "column": 1
+        },
+        {
+          "title": "05 permisos vigentes, 403 sin cerrar sesión y recuperación por foco",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 120040,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                        "column": 16,
+                        "line": 100
+                      },
+                      "message": "Error: page.waitForResponse: Test timeout of 120000ms exceeded.\n\n   98 |   await expect(page.getByRole('button',{name:'Cerrar sesión'})).toBeVisible();expect(page.url()).not.toContain('/login');\n   99 |  }finally{await control('restaurar-permisos')}\n> 100 |  const ok=page.waitForResponse(r=>r.url().endsWith('/pedidos/'+pedido8())&&r.status()===200);\n      |                ^\n  101 |  await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'hidden'});window.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'visible'});window.dispatchEvent(new Event('visibilitychange'))});await ok;\n  102 |  await expect(page.getByLabel('Nueva observación',{exact:true})).toBeVisible();\n  103 |  guardar('permisos',{putAdminPorLogistica:403,trabajoTotal:trabajo.total,etapas:[...new Set(trabajo.elementos.map(p=>p.etapaActual))],sesionConservadaTras403:true,recuperacionTrasRestaurar:true,paises:'Solo EC v1; no se habilitan otros países para el ensayo'});\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:100:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:31:55.762Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\.tmp\\artifacts\\b2-05-permisos-vigentes-40-fb5c7-ión-y-recuperación-por-foco\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-4328e53c15ae3541f835",
+          "file": "b2.spec.mjs",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "06 cambio de cuenta cancela lecturas y descarta borradores anteriores",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1912,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:33:56.552Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-75e5ec00413d726c75cd",
+          "file": "b2.spec.mjs",
+          "line": 105,
+          "column": 1
+        },
+        {
+          "title": "07 latencias HTTP, consultas por página, concurrencia y planes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5567,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:33:58.662Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-b6dface366064454cd08",
+          "file": "b2.spec.mjs",
+          "line": 121,
+          "column": 1
+        },
+        {
+          "title": "08 pantalla y búsqueda: caché cliente fría/caliente y métricas de laboratorio",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 933,
+                  "error": {
+                    "message": "Error: locator.fill: Error: strict mode violation: getByLabel('Buscar pedido por número', { exact: true }) resolved to 2 elements:\n    1) <form role=\"search\" novalidate=\"\" aria-label=\"Buscar pedido por número\" class=\"flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm\">…</form> aka getByRole('search', { name: 'Buscar pedido por número' })\n    2) <input value=\"\" type=\"search\" data-slot=\"input\" id=\"_r_0_-numero\" placeholder=\"DK-EC-2026-0001\" aria-describedby=\"_r_0_-aviso\" class=\"h-10 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring disabled:pointer-events-none disable…/> aka getByRole('searchbox', { name: 'Buscar pedido por número' })\n\nCall log:\n\u001b[2m  - waiting for getByLabel('Buscar pedido por número', { exact: true })\u001b[22m\n",
+                    "stack": "Error: locator.fill: Error: strict mode violation: getByLabel('Buscar pedido por número', { exact: true }) resolved to 2 elements:\n    1) <form role=\"search\" novalidate=\"\" aria-label=\"Buscar pedido por número\" class=\"flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm\">…</form> aka getByRole('search', { name: 'Buscar pedido por número' })\n    2) <input value=\"\" type=\"search\" data-slot=\"input\" id=\"_r_0_-numero\" placeholder=\"DK-EC-2026-0001\" aria-describedby=\"_r_0_-aviso\" class=\"h-10 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring disabled:pointer-events-none disable…/> aka getByRole('searchbox', { name: 'Buscar pedido por número' })\n\nCall log:\n\u001b[2m  - waiting for getByLabel('Buscar pedido por número', { exact: true })\u001b[22m\n\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:158:68",
+                    "location": {
+                      "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                      "column": 68,
+                      "line": 158
+                    },
+                    "snippet": "  156 |     const dashboardMs=performance.now()-t;\n  157 |     const perf=await page.evaluate(()=>({vitals:window.__perf,navegacion:performance.getEntriesByType('navigation').map(e=>e.toJSON()),recursos:performance.getEntriesByType('resource').map(e=>({name:new URL(e.name).pathname,duration:e.duration,transferSize:e.transferSize,encodedBodySize:e.encodedBodySize}))}));\n> 158 |     await page.getByLabel('Buscar pedido por número',{exact:true}).fill('DK-EC-2026-0008');t=performance.now();\n      |                                                                    ^\n  159 |     await page.getByRole('search').getByRole('button',{name:'Buscar',exact:true}).click();await expect(page.getByLabel('Nueva observación',{exact:true})).toBeVisible();\n  160 |     const busquedaMs=performance.now()-t;const eventos=await page.evaluate(()=>window.__perf.eventos);page.off('request',listener);\n  161 |     mediciones.push({repeticion,cache,dashboardMs,busquedaMs,solicitudes:reqs,perf,eventos});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                        "column": 68,
+                        "line": 158
+                      },
+                      "message": "Error: locator.fill: Error: strict mode violation: getByLabel('Buscar pedido por número', { exact: true }) resolved to 2 elements:\n    1) <form role=\"search\" novalidate=\"\" aria-label=\"Buscar pedido por número\" class=\"flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm\">…</form> aka getByRole('search', { name: 'Buscar pedido por número' })\n    2) <input value=\"\" type=\"search\" data-slot=\"input\" id=\"_r_0_-numero\" placeholder=\"DK-EC-2026-0001\" aria-describedby=\"_r_0_-aviso\" class=\"h-10 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring disabled:pointer-events-none disable…/> aka getByRole('searchbox', { name: 'Buscar pedido por número' })\n\nCall log:\n\u001b[2m  - waiting for getByLabel('Buscar pedido por número', { exact: true })\u001b[22m\n\n\n  156 |     const dashboardMs=performance.now()-t;\n  157 |     const perf=await page.evaluate(()=>({vitals:window.__perf,navegacion:performance.getEntriesByType('navigation').map(e=>e.toJSON()),recursos:performance.getEntriesByType('resource').map(e=>({name:new URL(e.name).pathname,duration:e.duration,transferSize:e.transferSize,encodedBodySize:e.encodedBodySize}))}));\n> 158 |     await page.getByLabel('Buscar pedido por número',{exact:true}).fill('DK-EC-2026-0008');t=performance.now();\n      |                                                                    ^\n  159 |     await page.getByRole('search').getByRole('button',{name:'Buscar',exact:true}).click();await expect(page.getByLabel('Nueva observación',{exact:true})).toBeVisible();\n  160 |     const busquedaMs=performance.now()-t;const eventos=await page.evaluate(()=>window.__perf.eventos);page.off('request',listener);\n  161 |     mediciones.push({repeticion,cache,dashboardMs,busquedaMs,solicitudes:reqs,perf,eventos});\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs:158:68"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T20:34:04.236Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\.tmp\\artifacts\\b2-08-pantalla-y-búsqueda--8559c-e-y-métricas-de-laboratorio\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\5.B2\\b2.spec.mjs",
+                    "column": 68,
+                    "line": 158
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0d95f52b4a4d83781df7-39ddfa9774756296f4c7",
+          "file": "b2.spec.mjs",
+          "line": 137,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-20T20:31:41.493Z",
+    "duration": 143919.474,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

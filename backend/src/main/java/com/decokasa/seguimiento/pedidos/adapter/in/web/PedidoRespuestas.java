@@ -12,7 +12,7 @@ public final class PedidoRespuestas {
     private PedidoRespuestas() {
     }
 
-    public record Urgencia(String nivel, int horas, String activadaEn, String venceEn) {
+    public record Urgencia(String nivel, int horas, String activadaEn, String venceEn, boolean vencida) {
     }
 
     public record Resumen(UUID id, String numero, String nombre, String pais, String tipoFlujo, int etapaActual,
@@ -59,14 +59,14 @@ public final class PedidoRespuestas {
     static Resumen de(VistasDePedido.Resumen resumen) {
         return new Resumen(resumen.id(), resumen.numero(), resumen.nombre(), resumen.pais().name(),
                 resumen.tipoFlujo().name(), resumen.etapaActual(), resumen.nombreEtapaActual(),
-                persona(resumen.responsableActual()), FechasWeb.texto(resumen.venceEn()), resumen.vencida(), null,
+                persona(resumen.responsableActual()), FechasWeb.texto(resumen.venceEn()), resumen.vencida(), resumen.motivoRetraso(),
                 urgencia(resumen.urgencia()), resumen.finalizado());
     }
 
     static Detalle de(VistasDePedido.Detalle detalle) {
         VistasDePedido.Resumen r = detalle.resumen();
         return new Detalle(r.id(), r.numero(), r.nombre(), r.pais().name(), r.tipoFlujo().name(), r.etapaActual(),
-                r.nombreEtapaActual(), persona(r.responsableActual()), FechasWeb.texto(r.venceEn()), r.vencida(), null,
+                r.nombreEtapaActual(), persona(r.responsableActual()), FechasWeb.texto(r.venceEn()), r.vencida(), r.motivoRetraso(),
                 urgencia(r.urgencia()), r.finalizado(), detalle.descripcion(), detalle.incluyeProductosNuevos(),
                 persona(detalle.creadoPor()), FechasWeb.texto(detalle.creadoEn()), detalle.versionFlujo(),
                 bodega(detalle.bodega()), demora(detalle.demoraAduana()), FechasWeb.texto(detalle.llegadaAduanaEn()),
@@ -101,7 +101,7 @@ public final class PedidoRespuestas {
 
     private static Urgencia urgencia(VistasDePedido.Urgencia urgencia) {
         return urgencia == null ? null : new Urgencia(urgencia.nivel().name(), urgencia.nivel().horas(),
-                FechasWeb.texto(urgencia.activadaEn()), FechasWeb.texto(urgencia.venceEn()));
+                FechasWeb.texto(urgencia.activadaEn()), FechasWeb.texto(urgencia.venceEn()), urgencia.vencida());
     }
 
     private static UsuarioResumenRespuesta persona(VistasDePedido.Persona persona) {

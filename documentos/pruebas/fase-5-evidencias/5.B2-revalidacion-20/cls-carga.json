@@ -1,0 +1,4226 @@
+{
+  "muestras": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 1,
+      "cache": "fria",
+      "cls": 0.0006817304446373457,
+      "entries": [
+        {
+          "time": 1346.8999999761581,
+          "value": 0.00006804289641203704,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 406.859375,
+                "y": 385,
+                "width": 168.890625,
+                "height": 40,
+                "top": 385,
+                "right": 575.75,
+                "bottom": 425,
+                "left": 406.859375
+              },
+              "current": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 583.75,
+                "y": 385,
+                "width": 165.28125,
+                "height": 40,
+                "top": 385,
+                "right": 749.03125,
+                "bottom": 425,
+                "left": 583.75
+              },
+              "current": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1656.800000011921,
+          "value": 0.0005408142843364197,
+          "sources": [
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 1170.96875,
+                "y": 14,
+                "width": 245.03125,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1170.96875
+              },
+              "current": {
+                "x": 1157.25,
+                "y": 14,
+                "width": 258.75,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1157.25
+              }
+            },
+            {
+              "tag": "A",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 1223.828125,
+                "y": 329,
+                "width": 192.171875,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1223.828125
+              },
+              "current": {
+                "x": 1216.75,
+                "y": 329,
+                "width": 199.25,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1216.75
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 1305.265625,
+                "y": 188,
+                "width": 93.734375,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1305.265625
+              },
+              "current": {
+                "x": 1300.25,
+                "y": 188,
+                "width": 98.75,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1300.25
+              }
+            }
+          ]
+        },
+        {
+          "time": 1672.8999999761581,
+          "value": 0.0000728732638888889,
+          "sources": [
+            {
+              "previous": {
+                "x": 248,
+                "y": 93,
+                "width": 1168,
+                "height": 29,
+                "top": 93,
+                "right": 1416,
+                "bottom": 122,
+                "left": 248
+              },
+              "current": {
+                "x": 248,
+                "y": 94,
+                "width": 1168,
+                "height": 29,
+                "top": 94,
+                "right": 1416,
+                "bottom": 123,
+                "left": 248
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 1,
+      "cache": "caliente",
+      "cls": 0.000055887104552469135,
+      "entries": [
+        {
+          "time": 1044.7000000476837,
+          "value": 0.000055887104552469135,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 415.875,
+                "y": 385,
+                "width": 178.5,
+                "height": 40,
+                "top": 385,
+                "right": 594.375,
+                "bottom": 425,
+                "left": 415.875
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 602.375,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 776.8125,
+                "bottom": 425,
+                "left": 602.375
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 2,
+      "cache": "fria",
+      "cls": 0.000999098789544753,
+      "entries": [
+        {
+          "time": 1375,
+          "value": 0.00006804289641203704,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 406.859375,
+                "y": 385,
+                "width": 168.890625,
+                "height": 40,
+                "top": 385,
+                "right": 575.75,
+                "bottom": 425,
+                "left": 406.859375
+              },
+              "current": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 583.75,
+                "y": 385,
+                "width": 165.28125,
+                "height": 40,
+                "top": 385,
+                "right": 749.03125,
+                "bottom": 425,
+                "left": 583.75
+              },
+              "current": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1716,
+          "value": 0.000931055893132716,
+          "sources": [
+            {
+              "previous": {
+                "x": 248,
+                "y": 93,
+                "width": 1168,
+                "height": 29,
+                "top": 93,
+                "right": 1416,
+                "bottom": 122,
+                "left": 248
+              },
+              "current": {
+                "x": 248,
+                "y": 94,
+                "width": 1168,
+                "height": 29,
+                "top": 94,
+                "right": 1416,
+                "bottom": 123,
+                "left": 248
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 1170.96875,
+                "y": 14,
+                "width": 245.03125,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1170.96875
+              },
+              "current": {
+                "x": 1157.25,
+                "y": 14,
+                "width": 258.75,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1157.25
+              }
+            },
+            {
+              "tag": "A",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 1223.828125,
+                "y": 329,
+                "width": 192.171875,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1223.828125
+              },
+              "current": {
+                "x": 1216.75,
+                "y": 329,
+                "width": 199.25,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1216.75
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 2,
+      "cache": "caliente",
+      "cls": 0.000055887104552469135,
+      "entries": [
+        {
+          "time": 1015.5,
+          "value": 0.000055887104552469135,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 415.875,
+                "y": 385,
+                "width": 178.5,
+                "height": 40,
+                "top": 385,
+                "right": 594.375,
+                "bottom": 425,
+                "left": 415.875
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 602.375,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 776.8125,
+                "bottom": 425,
+                "left": 602.375
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 3,
+      "cache": "fria",
+      "cls": 0.000999098789544753,
+      "entries": [
+        {
+          "time": 1384.4000000357628,
+          "value": 0.00006804289641203704,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 406.859375,
+                "y": 385,
+                "width": 168.890625,
+                "height": 40,
+                "top": 385,
+                "right": 575.75,
+                "bottom": 425,
+                "left": 406.859375
+              },
+              "current": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 583.75,
+                "y": 385,
+                "width": 165.28125,
+                "height": 40,
+                "top": 385,
+                "right": 749.03125,
+                "bottom": 425,
+                "left": 583.75
+              },
+              "current": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1688.6000000238419,
+          "value": 0.000931055893132716,
+          "sources": [
+            {
+              "previous": {
+                "x": 248,
+                "y": 93,
+                "width": 1168,
+                "height": 29,
+                "top": 93,
+                "right": 1416,
+                "bottom": 122,
+                "left": 248
+              },
+              "current": {
+                "x": 248,
+                "y": 94,
+                "width": 1168,
+                "height": 29,
+                "top": 94,
+                "right": 1416,
+                "bottom": 123,
+                "left": 248
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 1170.96875,
+                "y": 14,
+                "width": 245.03125,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1170.96875
+              },
+              "current": {
+                "x": 1157.25,
+                "y": 14,
+                "width": 258.75,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1157.25
+              }
+            },
+            {
+              "tag": "A",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 1223.828125,
+                "y": 329,
+                "width": 192.171875,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1223.828125
+              },
+              "current": {
+                "x": 1216.75,
+                "y": 329,
+                "width": 199.25,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1216.75
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 3,
+      "cache": "caliente",
+      "cls": 0.000055887104552469135,
+      "entries": [
+        {
+          "time": 1028.800000011921,
+          "value": 0.000055887104552469135,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 415.875,
+                "y": 385,
+                "width": 178.5,
+                "height": 40,
+                "top": 385,
+                "right": 594.375,
+                "bottom": 425,
+                "left": 415.875
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 602.375,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 776.8125,
+                "bottom": 425,
+                "left": 602.375
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 4,
+      "cache": "fria",
+      "cls": 0.0006817304446373457,
+      "entries": [
+        {
+          "time": 1393.800000011921,
+          "value": 0.00006804289641203704,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 406.859375,
+                "y": 385,
+                "width": 168.890625,
+                "height": 40,
+                "top": 385,
+                "right": 575.75,
+                "bottom": 425,
+                "left": 406.859375
+              },
+              "current": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 583.75,
+                "y": 385,
+                "width": 165.28125,
+                "height": 40,
+                "top": 385,
+                "right": 749.03125,
+                "bottom": 425,
+                "left": 583.75
+              },
+              "current": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1677.5,
+          "value": 0.0005408142843364197,
+          "sources": [
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 1170.96875,
+                "y": 14,
+                "width": 245.03125,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1170.96875
+              },
+              "current": {
+                "x": 1157.25,
+                "y": 14,
+                "width": 258.75,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1157.25
+              }
+            },
+            {
+              "tag": "A",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 1223.828125,
+                "y": 329,
+                "width": 192.171875,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1223.828125
+              },
+              "current": {
+                "x": 1216.75,
+                "y": 329,
+                "width": 199.25,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1216.75
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 1305.265625,
+                "y": 188,
+                "width": 93.734375,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1305.265625
+              },
+              "current": {
+                "x": 1300.25,
+                "y": 188,
+                "width": 98.75,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1300.25
+              }
+            }
+          ]
+        },
+        {
+          "time": 1697.7000000476837,
+          "value": 0.0000728732638888889,
+          "sources": [
+            {
+              "previous": {
+                "x": 248,
+                "y": 93,
+                "width": 1168,
+                "height": 29,
+                "top": 93,
+                "right": 1416,
+                "bottom": 122,
+                "left": 248
+              },
+              "current": {
+                "x": 248,
+                "y": 94,
+                "width": 1168,
+                "height": 29,
+                "top": 94,
+                "right": 1416,
+                "bottom": 123,
+                "left": 248
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 4,
+      "cache": "caliente",
+      "cls": 0.000055887104552469135,
+      "entries": [
+        {
+          "time": 1063.300000011921,
+          "value": 0.000055887104552469135,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 415.875,
+                "y": 385,
+                "width": 178.5,
+                "height": 40,
+                "top": 385,
+                "right": 594.375,
+                "bottom": 425,
+                "left": 415.875
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 602.375,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 776.8125,
+                "bottom": 425,
+                "left": 602.375
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 5,
+      "cache": "fria",
+      "cls": 0.0006817304446373457,
+      "entries": [
+        {
+          "time": 1423.300000011921,
+          "value": 0.00006804289641203704,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 406.859375,
+                "y": 385,
+                "width": 168.890625,
+                "height": 40,
+                "top": 385,
+                "right": 575.75,
+                "bottom": 425,
+                "left": 406.859375
+              },
+              "current": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 583.75,
+                "y": 385,
+                "width": 165.28125,
+                "height": 40,
+                "top": 385,
+                "right": 749.03125,
+                "bottom": 425,
+                "left": 583.75
+              },
+              "current": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1705.1000000238419,
+          "value": 0.0005408142843364197,
+          "sources": [
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 1170.96875,
+                "y": 14,
+                "width": 245.03125,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1170.96875
+              },
+              "current": {
+                "x": 1157.25,
+                "y": 14,
+                "width": 258.75,
+                "height": 40,
+                "top": 14,
+                "right": 1416,
+                "bottom": 54,
+                "left": 1157.25
+              }
+            },
+            {
+              "tag": "A",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 1223.828125,
+                "y": 329,
+                "width": 192.171875,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1223.828125
+              },
+              "current": {
+                "x": 1216.75,
+                "y": 329,
+                "width": 199.25,
+                "height": 40,
+                "top": 329,
+                "right": 1416,
+                "bottom": 369,
+                "left": 1216.75
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 592.0625,
+                "y": 385,
+                "width": 165.203125,
+                "height": 40,
+                "top": 385,
+                "right": 757.265625,
+                "bottom": 425,
+                "left": 592.0625
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 411.015625,
+                "y": 385,
+                "width": 173.046875,
+                "height": 40,
+                "top": 385,
+                "right": 584.0625,
+                "bottom": 425,
+                "left": 411.015625
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 1305.265625,
+                "y": 188,
+                "width": 93.734375,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1305.265625
+              },
+              "current": {
+                "x": 1300.25,
+                "y": 188,
+                "width": 98.75,
+                "height": 40,
+                "top": 188,
+                "right": 1399,
+                "bottom": 228,
+                "left": 1300.25
+              }
+            }
+          ]
+        },
+        {
+          "time": 1728.9000000357628,
+          "value": 0.0000728732638888889,
+          "sources": [
+            {
+              "previous": {
+                "x": 248,
+                "y": 93,
+                "width": 1168,
+                "height": 29,
+                "top": 93,
+                "right": 1416,
+                "bottom": 122,
+                "left": 248
+              },
+              "current": {
+                "x": 248,
+                "y": 94,
+                "width": 1168,
+                "height": 29,
+                "top": 94,
+                "right": 1416,
+                "bottom": 123,
+                "left": 248
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "repeticion": 5,
+      "cache": "caliente",
+      "cls": 0.007177397641782407,
+      "entries": [
+        {
+          "time": 1027.5,
+          "value": 0.000042905454282407404,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 415.875,
+                "y": 385,
+                "width": 178.5,
+                "height": 40,
+                "top": 385,
+                "right": 594.375,
+                "bottom": 425,
+                "left": 415.875
+              },
+              "current": {
+                "x": 418.921875,
+                "y": 385,
+                "width": 181.546875,
+                "height": 40,
+                "top": 385,
+                "right": 600.46875,
+                "bottom": 425,
+                "left": 418.921875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 602.375,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 776.8125,
+                "bottom": 425,
+                "left": 602.375
+              },
+              "current": {
+                "x": 608.46875,
+                "y": 385,
+                "width": 174.4375,
+                "height": 40,
+                "top": 385,
+                "right": 782.90625,
+                "bottom": 425,
+                "left": 608.46875
+              }
+            }
+          ]
+        },
+        {
+          "time": 1045.5,
+          "value": 0.0071344921875,
+          "sources": [
+            {
+              "tag": "TR",
+              "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+              "previous": {
+                "x": 249,
+                "y": 809.5,
+                "width": 1166,
+                "height": 44,
+                "top": 809.5,
+                "right": 1415,
+                "bottom": 853.5,
+                "left": 249
+              },
+              "current": {
+                "x": 249,
+                "y": 839,
+                "width": 1166,
+                "height": 49,
+                "top": 839,
+                "right": 1415,
+                "bottom": 888,
+                "left": 249
+              }
+            },
+            {
+              "tag": "TR",
+              "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+              "previous": {
+                "x": 249,
+                "y": 765.5,
+                "width": 1166,
+                "height": 44,
+                "top": 765.5,
+                "right": 1415,
+                "bottom": 809.5,
+                "left": 249
+              },
+              "current": {
+                "x": 249,
+                "y": 790,
+                "width": 1166,
+                "height": 49,
+                "top": 790,
+                "right": 1415,
+                "bottom": 839,
+                "left": 249
+              }
+            },
+            {
+              "tag": "TR",
+              "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+              "previous": {
+                "x": 249,
+                "y": 570.5,
+                "width": 1166,
+                "height": 63,
+                "top": 570.5,
+                "right": 1415,
+                "bottom": 633.5,
+                "left": 249
+              },
+              "current": {
+                "x": 249,
+                "y": 580,
+                "width": 1166,
+                "height": 63,
+                "top": 580,
+                "right": 1415,
+                "bottom": 643,
+                "left": 249
+              }
+            },
+            {
+              "tag": "TR",
+              "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+              "previous": {
+                "x": 249,
+                "y": 721.5,
+                "width": 1166,
+                "height": 44,
+                "top": 721.5,
+                "right": 1415,
+                "bottom": 765.5,
+                "left": 249
+              },
+              "current": {
+                "x": 249,
+                "y": 741,
+                "width": 1166,
+                "height": 49,
+                "top": 741,
+                "right": 1415,
+                "bottom": 790,
+                "left": 249
+              }
+            },
+            {
+              "tag": "TR",
+              "clases": "border-b transition-colors has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted hover:bg-morado-50",
+              "previous": {
+                "x": 249,
+                "y": 677.5,
+                "width": 1166,
+                "height": 44,
+                "top": 677.5,
+                "right": 1415,
+                "bottom": 721.5,
+                "left": 249
+              },
+              "current": {
+                "x": 249,
+                "y": 692,
+                "width": 1166,
+                "height": 49,
+                "top": 692,
+                "right": 1415,
+                "bottom": 741,
+                "left": 249
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 1,
+      "cache": "fria",
+      "cls": 0.0024330465322760387,
+      "entries": [
+        {
+          "time": 1369.6000000238419,
+          "value": 0.00010592181649800527,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 174.859375,
+                "y": 574,
+                "width": 168.890625,
+                "height": 40,
+                "top": 574,
+                "right": 343.75,
+                "bottom": 614,
+                "left": 174.859375
+              },
+              "current": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1659.1000000238419,
+          "value": 0.0013855922086465676,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 197.109375,
+                "y": 93,
+                "width": 98.078125,
+                "height": 60,
+                "top": 93,
+                "right": 295.1875,
+                "bottom": 153,
+                "left": 197.109375
+              },
+              "current": {
+                "x": 201.34375,
+                "y": 93,
+                "width": 101.953125,
+                "height": 60,
+                "top": 93,
+                "right": 303.296875,
+                "bottom": 153,
+                "left": 201.34375
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 299.1875,
+                "y": 93,
+                "width": 90.8125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 299.1875
+              },
+              "current": {
+                "x": 307.296875,
+                "y": 93,
+                "width": 82.703125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 307.296875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 263.265625,
+                "y": 273,
+                "width": 93.734375,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 263.265625
+              },
+              "current": {
+                "x": 258.25,
+                "y": 273,
+                "width": 98.75,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 258.25
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 304.015625,
+                "y": 22,
+                "width": 85.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 304.015625
+              },
+              "current": {
+                "x": 310.015625,
+                "y": 22,
+                "width": 79.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 310.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1671.1000000238419,
+          "value": 0.0009415325071314661,
+          "sources": [
+            {
+              "previous": {
+                "x": 16,
+                "y": 178,
+                "width": 358,
+                "height": 29,
+                "top": 178,
+                "right": 374,
+                "bottom": 207,
+                "left": 16
+              },
+              "current": {
+                "x": 16,
+                "y": 179,
+                "width": 358,
+                "height": 29,
+                "top": 179,
+                "right": 374,
+                "bottom": 208,
+                "left": 16
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 183.515625,
+                "y": 22,
+                "width": 206.484375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 183.515625
+              },
+              "current": {
+                "x": 197.296875,
+                "y": 22,
+                "width": 192.703125,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 197.296875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 1,
+      "cache": "caliente",
+      "cls": 0.00008072033422429864,
+      "entries": [
+        {
+          "time": 1040.300000011921,
+          "value": 0.00008072033422429864,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 183.875,
+                "y": 574,
+                "width": 178.5,
+                "height": 40,
+                "top": 574,
+                "right": 362.375,
+                "bottom": 614,
+                "left": 183.875
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 2,
+      "cache": "fria",
+      "cls": 0.0024330465322760387,
+      "entries": [
+        {
+          "time": 1333,
+          "value": 0.00010592181649800527,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 174.859375,
+                "y": 574,
+                "width": 168.890625,
+                "height": 40,
+                "top": 574,
+                "right": 343.75,
+                "bottom": 614,
+                "left": 174.859375
+              },
+              "current": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1637.4000000357628,
+          "value": 0.0013855922086465676,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 197.109375,
+                "y": 93,
+                "width": 98.078125,
+                "height": 60,
+                "top": 93,
+                "right": 295.1875,
+                "bottom": 153,
+                "left": 197.109375
+              },
+              "current": {
+                "x": 201.34375,
+                "y": 93,
+                "width": 101.953125,
+                "height": 60,
+                "top": 93,
+                "right": 303.296875,
+                "bottom": 153,
+                "left": 201.34375
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 299.1875,
+                "y": 93,
+                "width": 90.8125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 299.1875
+              },
+              "current": {
+                "x": 307.296875,
+                "y": 93,
+                "width": 82.703125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 307.296875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 263.265625,
+                "y": 273,
+                "width": 93.734375,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 263.265625
+              },
+              "current": {
+                "x": 258.25,
+                "y": 273,
+                "width": 98.75,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 258.25
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 304.015625,
+                "y": 22,
+                "width": 85.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 304.015625
+              },
+              "current": {
+                "x": 310.015625,
+                "y": 22,
+                "width": 79.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 310.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1651,
+          "value": 0.0009415325071314661,
+          "sources": [
+            {
+              "previous": {
+                "x": 16,
+                "y": 178,
+                "width": 358,
+                "height": 29,
+                "top": 178,
+                "right": 374,
+                "bottom": 207,
+                "left": 16
+              },
+              "current": {
+                "x": 16,
+                "y": 179,
+                "width": 358,
+                "height": 29,
+                "top": 179,
+                "right": 374,
+                "bottom": 208,
+                "left": 16
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 183.515625,
+                "y": 22,
+                "width": 206.484375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 183.515625
+              },
+              "current": {
+                "x": 197.296875,
+                "y": 22,
+                "width": 192.703125,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 197.296875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 2,
+      "cache": "caliente",
+      "cls": 0.00008072033422429864,
+      "entries": [
+        {
+          "time": 997.1999999880791,
+          "value": 0.00008072033422429864,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 183.875,
+                "y": 574,
+                "width": 178.5,
+                "height": 40,
+                "top": 574,
+                "right": 362.375,
+                "bottom": 614,
+                "left": 183.875
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 3,
+      "cache": "fria",
+      "cls": 0.0031990224362573928,
+      "entries": [
+        {
+          "time": 1401.6000000238419,
+          "value": 0.00010592181649800527,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 174.859375,
+                "y": 574,
+                "width": 168.890625,
+                "height": 40,
+                "top": 574,
+                "right": 343.75,
+                "bottom": 614,
+                "left": 174.859375
+              },
+              "current": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1718.800000011921,
+          "value": 0.0030931006197593876,
+          "sources": [
+            {
+              "previous": {
+                "x": 16,
+                "y": 178,
+                "width": 358,
+                "height": 29,
+                "top": 178,
+                "right": 374,
+                "bottom": 207,
+                "left": 16
+              },
+              "current": {
+                "x": 16,
+                "y": 179,
+                "width": 358,
+                "height": 29,
+                "top": 179,
+                "right": 374,
+                "bottom": 208,
+                "left": 16
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 183.515625,
+                "y": 22,
+                "width": 206.484375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 183.515625
+              },
+              "current": {
+                "x": 197.296875,
+                "y": 22,
+                "width": 192.703125,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 197.296875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 197.109375,
+                "y": 93,
+                "width": 98.078125,
+                "height": 60,
+                "top": 93,
+                "right": 295.1875,
+                "bottom": 153,
+                "left": 197.109375
+              },
+              "current": {
+                "x": 201.34375,
+                "y": 93,
+                "width": 101.953125,
+                "height": 60,
+                "top": 93,
+                "right": 303.296875,
+                "bottom": 153,
+                "left": 201.34375
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 299.1875,
+                "y": 93,
+                "width": 90.8125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 299.1875
+              },
+              "current": {
+                "x": 307.296875,
+                "y": 93,
+                "width": 82.703125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 307.296875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 3,
+      "cache": "caliente",
+      "cls": 0.00008072033422429864,
+      "entries": [
+        {
+          "time": 1039.8999999761581,
+          "value": 0.00008072033422429864,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 183.875,
+                "y": 574,
+                "width": 178.5,
+                "height": 40,
+                "top": 574,
+                "right": 362.375,
+                "bottom": 614,
+                "left": 183.875
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 4,
+      "cache": "fria",
+      "cls": 0.0024330465322760387,
+      "entries": [
+        {
+          "time": 1369.1000000238419,
+          "value": 0.00010592181649800527,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 174.859375,
+                "y": 574,
+                "width": 168.890625,
+                "height": 40,
+                "top": 574,
+                "right": 343.75,
+                "bottom": 614,
+                "left": 174.859375
+              },
+              "current": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1687.1000000238419,
+          "value": 0.0013855922086465676,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 197.109375,
+                "y": 93,
+                "width": 98.078125,
+                "height": 60,
+                "top": 93,
+                "right": 295.1875,
+                "bottom": 153,
+                "left": 197.109375
+              },
+              "current": {
+                "x": 201.34375,
+                "y": 93,
+                "width": 101.953125,
+                "height": 60,
+                "top": 93,
+                "right": 303.296875,
+                "bottom": 153,
+                "left": 201.34375
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 299.1875,
+                "y": 93,
+                "width": 90.8125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 299.1875
+              },
+              "current": {
+                "x": 307.296875,
+                "y": 93,
+                "width": 82.703125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 307.296875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-10 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+              "previous": {
+                "x": 263.265625,
+                "y": 273,
+                "width": 93.734375,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 263.265625
+              },
+              "current": {
+                "x": 258.25,
+                "y": 273,
+                "width": 98.75,
+                "height": 40,
+                "top": 273,
+                "right": 357,
+                "bottom": 313,
+                "left": 258.25
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-2 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground h-10 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+              "previous": {
+                "x": 304.015625,
+                "y": 22,
+                "width": 85.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 304.015625
+              },
+              "current": {
+                "x": 310.015625,
+                "y": 22,
+                "width": 79.984375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 310.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1713.3999999761581,
+          "value": 0.0009415325071314661,
+          "sources": [
+            {
+              "previous": {
+                "x": 16,
+                "y": 178,
+                "width": 358,
+                "height": 29,
+                "top": 178,
+                "right": 374,
+                "bottom": 207,
+                "left": 16
+              },
+              "current": {
+                "x": 16,
+                "y": 179,
+                "width": 358,
+                "height": 29,
+                "top": 179,
+                "right": 374,
+                "bottom": 208,
+                "left": 16
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 183.515625,
+                "y": 22,
+                "width": 206.484375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 183.515625
+              },
+              "current": {
+                "x": 197.296875,
+                "y": 22,
+                "width": 192.703125,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 197.296875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 4,
+      "cache": "caliente",
+      "cls": 0.00008072033422429864,
+      "entries": [
+        {
+          "time": 1047.800000011921,
+          "value": 0.00008072033422429864,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 183.875,
+                "y": 574,
+                "width": 178.5,
+                "height": 40,
+                "top": 574,
+                "right": 362.375,
+                "bottom": 614,
+                "left": 183.875
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 5,
+      "cache": "fria",
+      "cls": 0.0031990224362573928,
+      "entries": [
+        {
+          "time": 1367.8999999761581,
+          "value": 0.00010592181649800527,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 174.859375,
+                "y": 574,
+                "width": 168.890625,
+                "height": 40,
+                "top": 574,
+                "right": 343.75,
+                "bottom": 614,
+                "left": 174.859375
+              },
+              "current": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              }
+            }
+          ]
+        },
+        {
+          "time": 1676.5999999642372,
+          "value": 0.0030931006197593876,
+          "sources": [
+            {
+              "previous": {
+                "x": 16,
+                "y": 178,
+                "width": 358,
+                "height": 29,
+                "top": 178,
+                "right": 374,
+                "bottom": 207,
+                "left": 16
+              },
+              "current": {
+                "x": 16,
+                "y": 179,
+                "width": 358,
+                "height": 29,
+                "top": 179,
+                "right": 374,
+                "bottom": 208,
+                "left": 16
+              }
+            },
+            {
+              "tag": "DIV",
+              "clases": "flex items-center gap-3",
+              "previous": {
+                "x": 183.515625,
+                "y": 22,
+                "width": 206.484375,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 183.515625
+              },
+              "current": {
+                "x": 197.296875,
+                "y": 22,
+                "width": 192.703125,
+                "height": 40,
+                "top": 22,
+                "right": 390,
+                "bottom": 62,
+                "left": 197.296875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 179.015625,
+                "y": 574,
+                "width": 173.046875,
+                "height": 40,
+                "top": 574,
+                "right": 352.0625,
+                "bottom": 614,
+                "left": 179.015625
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 197.109375,
+                "y": 93,
+                "width": 98.078125,
+                "height": 60,
+                "top": 93,
+                "right": 295.1875,
+                "bottom": 153,
+                "left": 197.109375
+              },
+              "current": {
+                "x": 201.34375,
+                "y": 93,
+                "width": 101.953125,
+                "height": 60,
+                "top": 93,
+                "right": 303.296875,
+                "bottom": 153,
+                "left": 201.34375
+              }
+            },
+            {
+              "tag": "LI",
+              "clases": "",
+              "previous": {
+                "x": 299.1875,
+                "y": 93,
+                "width": 90.8125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 299.1875
+              },
+              "current": {
+                "x": 307.296875,
+                "y": 93,
+                "width": 82.703125,
+                "height": 60,
+                "top": 93,
+                "right": 390,
+                "bottom": 153,
+                "left": 307.296875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 824578,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 85253,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 23964,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 24572,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 19124,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 18988,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 24752,
+          "encodedBodySize": 24452
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "repeticion": 5,
+      "cache": "caliente",
+      "cls": 0.00008072033422429864,
+      "entries": [
+        {
+          "time": 1087.4000000357628,
+          "value": 0.00008072033422429864,
+          "sources": [
+            {
+              "tag": "BUTTON",
+              "clases": "inline-flex min-h-10 items-center gap-2 rounded-md border px-3 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring bg-card hover:bg-morado-50",
+              "previous": {
+                "x": 183.875,
+                "y": 574,
+                "width": 178.5,
+                "height": 40,
+                "top": 574,
+                "right": 362.375,
+                "bottom": 614,
+                "left": 183.875
+              },
+              "current": {
+                "x": 186.921875,
+                "y": 574,
+                "width": 181.546875,
+                "height": 40,
+                "top": 574,
+                "right": 368.46875,
+                "bottom": 614,
+                "left": 186.921875
+              }
+            }
+          ]
+        }
+      ],
+      "recursos": [
+        {
+          "ruta": "/assets/index-Cvq5SKOI.js",
+          "transferSize": 0,
+          "encodedBodySize": 824278
+        },
+        {
+          "ruta": "/assets/index-DwVg-oTS.css",
+          "transferSize": 0,
+          "encodedBodySize": 84953
+        },
+        {
+          "ruta": "/assets/inter-latin-400-normal-C38fXH4l.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 23664
+        },
+        {
+          "ruta": "/assets/inter-latin-500-normal-Cerq10X2.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24272
+        },
+        {
+          "ruta": "/assets/inter-latin-600-normal-LgqL8muc.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 24452
+        },
+        {
+          "ruta": "/assets/montserrat-latin-600-normal-UVxSCcoG.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18688
+        },
+        {
+          "ruta": "/assets/montserrat-latin-700-normal-BdjcYUrC.woff2",
+          "transferSize": 0,
+          "encodedBodySize": 18824
+        },
+        {
+          "ruta": "/favicon.ico",
+          "transferSize": 957,
+          "encodedBodySize": 657
+        },
+        {
+          "ruta": "/api/v1/auth/renovar",
+          "transferSize": 775,
+          "encodedBodySize": 475
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 645,
+          "encodedBodySize": 345
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 668,
+          "encodedBodySize": 368
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 348,
+          "encodedBodySize": 48
+        },
+        {
+          "ruta": "/api/v1/pedidos/bandeja",
+          "transferSize": 6807,
+          "encodedBodySize": 6507
+        },
+        {
+          "ruta": "/api/v1/flujos/EC/A",
+          "transferSize": 5144,
+          "encodedBodySize": 4844
+        },
+        {
+          "ruta": "/api/v1/pedidos",
+          "transferSize": 5023,
+          "encodedBodySize": 4723
+        }
+      ]
+    }
+  ],
+  "umbral": 0.1,
+  "latenciaInducidaMs": 300,
+  "api": "real sin routing; CDP añade 300 ms a la red, no limita caudal; caché HTTP habilitada",
+  "observacion": "No es comparación causal directa con 500: cambió el volumen"
+}

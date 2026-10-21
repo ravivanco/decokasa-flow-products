@@ -31,7 +31,12 @@ public interface ConsultaDePedidos {
      * responsable), o no tiene asignación y la persona tiene el rol responsable. Con {@code admin}, todos los pedidos
      * en curso.
      */
-    Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, int pagina, int tamano);
+    /**
+     * @param soloVencidos    solo pedidos con el plazo de la etapa actual vencido antes de {@code ahora}
+     * @param soloConUrgencia solo pedidos con urgencia vigente
+     */
+    Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, boolean soloVencidos,
+            boolean soloConUrgencia, Instant ahora, int pagina, int tamano);
 
     record Pagina(List<Pedido> pedidos, long total) {
     }

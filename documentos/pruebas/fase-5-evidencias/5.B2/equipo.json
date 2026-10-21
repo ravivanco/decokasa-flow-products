@@ -1,0 +1,15 @@
+{
+  "cpu": "12th Gen Intel(R) Core(TM) i5-12400F",
+  "hilos": 12,
+  "ramBytes": 16984231936,
+  "os": "Windows 11 Pro",
+  "release": "10.0.26100",
+  "node": "v24.21.0",
+  "browserName": "chromium",
+  "conexion": "loopback IPv4 sin limitación de red ni CPU",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "pollingMs": 30000
+}

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.10.1-borrador
+  version: 0.13.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -26,7 +26,7 @@ info:
     3. Formato del número de pedido: `DK-EC-AAAA-NNNN` es una propuesta pendiente de aprobación; por eso no se fija con `pattern`.
     4. ¿El admin crea pedidos del flujo B? `requerimientos.md` 4.2 #4 dice que los crea David; el
        admin "actúa en cualquier etapa". Queda pendiente; ver `POST /pedidos`.
-    5. WebSocket (ADR-0014, propuesta) no forma parte de este contrato REST; si se aprueba, se describe aparte (AsyncAPI). El equipo decidió que no entra antes de la fase 5.
+    5. Actualización entre pantallas (ADR-0014, decisión técnica del equipo, provisional, 2026-10-20): consultas periódicas del frontend sobre este mismo contrato REST, sin WebSocket. Un cambio ajeno puede tardar hasta el intervalo (30 s por defecto) más la petición; no se declara cumplido "al instante" sin aceptación del cliente.
     6. Roles por usuario: resuelto por el equipo (Richard, 2026-10-12), no por el cliente. Un usuario tiene uno o
        varios roles (`Usuario.roles`), que solo asigna el admin (`requerimientos.md` 4.7).
     7. Límite de 100 MB por archivo: `requerimientos.md` 4.2 #15 y la tabla MoSCoW ("Pedido explícito") lo dan como
@@ -80,6 +80,31 @@ info:
     - Subida con `entradaEsperadaId`; descarga nueva `GET /archivos/{adjuntoId}/contenido`; código
       `ARCHIVO_NO_DISPONIBLE`; 403 en las consultas para cuentas inactivas o sin roles.
 
+    **Cambios del 2026-10-20 (fase 5, paso 5.1; versión 0.11.0-borrador; F5-D1 opción A, aprobada por Richard como
+    decisión del equipo).** `Cronograma` se rediseña antes de tener consumidores: fechas planificada, estimada y real por
+    separado, `estado` y `procedencia` por etapa, `llegada` con su procedencia, `totalDias` y `diferenciaContraMeta`
+    anulables, `calculable` y `faltantes`. Un plazo PENDIENTE no es cero ni SIN_PLAZO: deja "sin estimar" su etapa y
+    las que dependen de ella hasta un dato de llegada válido (la real prevalece sobre la estimada). `ConfiguracionPlazos`
+    agrega `origenMeta`, `metaPendienteDelCliente`, `actualizadoEn` y `version` (409 si cambió); los feriados siguen
+    pendientes del cliente y un PUT que los traiga se rechaza con 400.
+    **Contradicción documentada (no resuelta en el PRD):** la señal de éxito de la fase 5 del PRD dice que "el
+    cronograma del caso base de la calculadora da las mismas fechas con la regla de días hábiles"; la calculadora suma
+    días corridos (requerimientos 1.8) y el manual (paso 5.1) prohíbe copiar sus fechas como resultado del cálculo
+    hábil. Este contrato sigue el manual y ADR-0006: las fechas salen de los plazos de cada etapa con días u horas
+    hábiles, y las etapas sin plazo del cliente no toman los 8 + 31, 12 ni 45 días de la calculadora.
+
+    **Cambios del 2026-10-20 (fase 5, paso 5.2; versión 0.12.0-borrador; reglas aprobadas provisionalmente por
+    Richard como decisión del equipo, no del cliente).** Nuevo `PUT /pedidos/{pedidoId}/etapas/{numeroEtapa}/motivo-retraso`
+    (F5-D3) y tipo de evento `MOTIVO_RETRASO_REGISTRADO`. `PLAZO_VENCIDO` se registra por cada plazo vencido (ETAPA o
+    URGENCIA, F5-D4) con `detalle.claseVencimiento` y `detalle.venceEn`. `PedidoResumen.motivoRetraso` devuelve el motivo
+    vigente. Los avisos al admin salen por el outbox (`notificacion`, plantilla VENCIMIENTO); sin destinatario
+    configurado queda la fila con destinatario nulo (bloqueo explícito). La detección automática está desactivada por
+    defecto hasta su verificación.
+
+    **Cambios del 2026-10-20 (fase 5, paso 5.3; versión 0.13.0-borrador).** `GET /pedidos/bandeja` acepta los filtros
+    opcionales `vencido` y `conUrgencia` del dashboard; `Urgencia.vencida` dice si la urgencia vigente ya venció, decidido
+    por el servidor. Solo se agregan campos y parámetros opcionales.
+
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6), con el estado y los roles
     actuales de la persona en la base, no con los roles del token.
     - Leer pedidos (listar, buscar, detalle y línea de tiempo): usuarios activos con al menos un rol vigente; las
@@ -95,7 +120,8 @@ info:
     - Agregar observaciones: **P-19, provisional del equipo** (la fuente no dice quién). Quien puede actuar en la etapa
       actual (P-06) o el admin, con estado, roles y asignación vigentes; `consulta` y `asistente_china` no conceden
       escritura ni quitan la de otros roles.
-    - Usuarios, roles, auditoría, notificaciones, vencidos y configuración de plazos: solo el admin.
+    - Usuarios, roles, auditoría, notificaciones, vencidos y cambiar la configuración de plazos: solo el admin. Leer
+      la configuración de plazos: cualquier usuario autenticado. Cronograma de un pedido: igual que leer el pedido (P-13).
 
     **Revisión:** revisado con `/ecc:api-design` el 2026-10-10 contra requerimientos, PRD, arquitectura y ADR.
 
@@ -754,6 +780,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Pagina'
         - $ref: '#/components/parameters/Tamano'
+        - name: vencido
+          in: query
+          description: 'Paso 5.3: true deja solo los pedidos con el plazo de la etapa actual vencido (mismo criterio que `vencida`).'
+          schema:
+            type: boolean
+        - name: conUrgencia
+          in: query
+          description: 'Paso 5.3: true deja solo los pedidos con urgencia vigente.'
+          schema:
+            type: boolean
       responses:
         '200':
           description: Bandeja del usuario.
@@ -1025,6 +1061,51 @@ paths:
       responses:
         '201':
           description: Observación registrada como evento del historial.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventoHistorial'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '409':
+          $ref: '#/components/responses/Conflicto'
+
+  /pedidos/{pedidoId}/etapas/{numeroEtapa}/motivo-retraso:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+      - $ref: '#/components/parameters/NumeroEtapa'
+    put:
+      tags: [plazos]
+      operationId: registrarMotivoRetraso
+      summary: Registrar o corregir el motivo del retraso de la etapa actual
+      x-origen: decision-equipo
+      x-decision: 'F5-D3, aprobada provisionalmente por Richard el 2026-10-20 (no es respuesta del cliente).'
+      description: |
+        Requisito 4.2 #16: el motivo del retraso queda visible en la etapa. Quién lo escribe no está en las fuentes;
+        regla provisional del equipo:
+        - Puede registrarlo o corregirlo quien puede actuar en la etapa actual (P-06: estado, roles y asignación
+          vigentes) o el admin. `consulta` y `asistente_china` no conceden escritura, pero no quitan la de otros roles.
+        - Solo mientras haya un vencimiento activo: el de la etapa o el de la urgencia. Si no, 409.
+        - `entradaEsperadaId` debe ser la entrada actual de la etapa: si la etapa avanzó o volvió a entrar, 409
+          `ETAPA_CAMBIO`.
+        - Se guarda el motivo vigente y cada registro o corrección agrega un evento `MOTIVO_RETRASO_REGISTRADO` al
+          historial (los anteriores no cambian). Una reentrada limpia el motivo vigente.
+        - No genera correo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudMotivoRetraso'
+      responses:
+        '200':
+          description: Evento MOTIVO_RETRASO_REGISTRADO del historial.
           content:
             application/json:
               schema:
@@ -1591,10 +1672,27 @@ paths:
       operationId: obtenerCronograma
       summary: Cronograma del pedido contra la meta de días
       x-origen: requisito
+      x-decision: 'F5-D1 opción A, aprobada por Richard el 2026-10-20 como decisión del equipo.'
       description: |
-        Reemplaza la calculadora actual (respuestas del cliente). Las fechas se calculan en días
-        hábiles con la hora de Ecuador (ADR-0006); una fecha en fin de semana pasa al lunes y un
-        retraso arrastra las siguientes.
+        Reemplaza la calculadora actual (respuestas del cliente) sin copiar sus fechas: la calculadora sumaba días
+        corridos y solo movía al lunes la fecha final (requerimientos 1.8). Aquí cada etapa usa su plazo definido con
+        el calendario laboral (días u horas hábiles con la hora de Ecuador, o corridos si la etapa lo declara;
+        ADR-0006); una fecha en fin de semana pasa al lunes y un retraso arrastra las siguientes.
+
+        - Cada etapa termina en una fecha **real** (salida o llegada registrada), **estimada** (llegada estimada por
+          demora, F4-D5; no es un vencimiento) o **planificada** (inicio + plazo). Se devuelven por separado.
+        - La etapa actual y las recorridas empiezan en su última entrada (el plazo se reinicia en cada reentrada); las
+          siguientes, cuando termina la anterior.
+        - Un plazo PENDIENTE del cliente no es cero ni SIN_PLAZO: esa etapa y las que dependen de ella quedan
+          `SIN_ESTIMAR` y la etapa aparece en `faltantes`. SIN_PLAZO (A1, Fin) no añade duración.
+        - El cálculo se retoma desde la etapa de llegada (ADR-0018) si hay llegada real o estimada; la real prevalece y
+          se indica la procedencia.
+        - `totalDias` (días corridos de la fecha del pedido a la llegada, como la métrica del PRD) y
+          `diferenciaContraMeta` solo existen si se conoce la llegada (`calculable: true`); nunca con duraciones
+          faltantes.
+        - Feriados y jornada laboral: pendientes del cliente; no se descuentan.
+
+        Visibilidad: la de leer el pedido (P-13, provisional del equipo); 403 para cuentas inactivas o sin roles.
       responses:
         '200':
           description: Cronograma.
@@ -1604,6 +1702,8 @@ paths:
                 $ref: '#/components/schemas/Cronograma'
         '401':
           $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
         '404':
           $ref: '#/components/responses/NoEncontrado'
 
@@ -1625,16 +1725,22 @@ paths:
     put:
       tags: [plazos]
       operationId: actualizarConfiguracionPlazos
-      summary: Cambiar la meta de días y los feriados (solo admin)
+      summary: Cambiar la meta de días (solo admin)
       x-origen: requisito
       x-roles: [admin]
       x-pendiente: 'Meta ("se ajusta") y feriados (propuesta, calendario de Ecuador editable por el admin).'
+      description: |
+        Solo la meta. El servidor decide con el estado vigente del admin en la base, no con los roles del token. Exige
+        la `version` leída: si otra persona cambió la configuración, 409 `VERSION_DESACTUALIZADA` sin cambios.
+        `feriados` siguen pendientes del cliente: un cuerpo con feriados (lista no vacía) se rechaza con 400 en
+        `feriados`; no se ignoran en silencio. El valor de la meta sigue pendiente del cliente aunque el admin lo
+        configure (`origenMeta: ADMIN`, `metaPendienteDelCliente: true`).
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConfiguracionPlazos'
+              $ref: '#/components/schemas/SolicitudConfiguracionPlazos'
       responses:
         '200':
           description: Configuración actualizada.
@@ -1648,6 +1754,8 @@ paths:
           $ref: '#/components/responses/NoAutenticado'
         '403':
           $ref: '#/components/responses/SinPermiso'
+        '409':
+          $ref: '#/components/responses/Conflicto'
 
   /auditoria:
     get:
@@ -2353,6 +2461,7 @@ components:
           type: boolean
         motivoRetraso:
           type: [string, 'null']
+          description: 'Motivo vigente del retraso de la entrada actual (F5-D3, 0.12.0). Nulo si no hay; una reentrada lo limpia. Los anteriores están en el historial (MOTIVO_RETRASO_REGISTRADO).'
         urgencia:
           oneOf:
             - $ref: '#/components/schemas/Urgencia'
@@ -2544,6 +2653,9 @@ components:
       type: object
       required: [nivel, horas, activadaEn, venceEn]
       properties:
+        vencida:
+          type: boolean
+          description: 'Paso 5.3 (0.13.0): la urgencia vigente ya venció. Lo decide el servidor con su reloj.'
         nivel:
           $ref: '#/components/schemas/NivelUrgencia'
         horas:
@@ -2721,7 +2833,7 @@ components:
           type: integer
         tipo:
           type: string
-          enum: [PEDIDO_CREADO, ETAPA_ENVIADA, ETAPA_APROBADA, ETAPA_RECHAZADA, PEDIDO_DEVUELTO, DEMORA_REPORTADA, BODEGA_ASIGNADA, OBSERVACION_AGREGADA, ARCHIVO_SUBIDO, ETAPA_REASIGNADA, PLAZO_VENCIDO, PEDIDO_FINALIZADO]
+          enum: [PEDIDO_CREADO, ETAPA_ENVIADA, ETAPA_APROBADA, ETAPA_RECHAZADA, PEDIDO_DEVUELTO, DEMORA_REPORTADA, BODEGA_ASIGNADA, OBSERVACION_AGREGADA, ARCHIVO_SUBIDO, ETAPA_REASIGNADA, PLAZO_VENCIDO, MOTIVO_RETRASO_REGISTRADO, PEDIDO_FINALIZADO]
         usuario:
           oneOf:
             - $ref: '#/components/schemas/UsuarioResumen'
@@ -2781,6 +2893,15 @@ components:
           type: [string, 'null']
           format: uuid
           description: 'BODEGA_ASIGNADA: la bodega elegida al aprobar Bodega. Agregado en 0.10.0.'
+        claseVencimiento:
+          type: [string, 'null']
+          enum: [ETAPA, URGENCIA, null]
+          description: 'PLAZO_VENCIDO (0.12.0): plazo de la entrada de la etapa o de la urgencia. Si vencen los dos, hay dos eventos.'
+        venceEn:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+          description: 'PLAZO_VENCIDO (0.12.0): el vencimiento que se incumplió. La hora del evento es la de la detección.'
     Adjunto:
       type: object
       required: [id, pedidoId, etapa, entradaId, nombre, tipoDocumento, tamanoBytes, subidoPor, subidoEn, estadoCopia]
@@ -2874,7 +2995,8 @@ components:
 
     Cronograma:
       type: object
-      required: [pedidoId, fechaPedido, metaDias, totalDiasPlanificados, etapas]
+      description: 'F5-D1 opción A (0.11.0). Fechas en días de Ecuador. Ver GET /pedidos/{pedidoId}/cronograma.'
+      required: [pedidoId, fechaPedido, meta, llegada, totalDias, diferenciaContraMeta, calculable, faltantes, etapas]
       properties:
         pedidoId:
           type: string
@@ -2882,52 +3004,147 @@ components:
         fechaPedido:
           type: string
           format: date
-        metaDias:
-          type: integer
-          description: 'Configurable; provisional 90 (pendiente: "se ajusta").'
-        totalDiasPlanificados:
-          type: integer
+        meta:
+          type: object
+          required: [dias, origen, pendienteDelCliente]
+          properties:
+            dias:
+              type: integer
+              minimum: 1
+            origen:
+              type: string
+              enum: [PROPUESTA, ADMIN]
+              description: 'PROPUESTA: los 90 días sembrados, propuesta documentada sin aprobación. ADMIN: configurada por el admin.'
+            pendienteDelCliente:
+              type: boolean
+              description: 'Siempre true mientras el cliente no fije la meta ("se ajusta"). La meta propuesta de 90 días (o la que configure el admin) no es un objetivo aprobado ni permite declarar cumplimiento del cliente.'
+        llegada:
+          description: 'Fecha de llegada comparada con la meta; nula si no se puede estimar.'
+          oneOf:
+            - type: object
+              required: [fecha, procedencia]
+              properties:
+                fecha:
+                  type: string
+                  format: date
+                procedencia:
+                  $ref: '#/components/schemas/ProcedenciaFecha'
+            - type: 'null'
+        totalDias:
+          type: [integer, 'null']
+          description: 'Días corridos de fechaPedido a la llegada (métrica del PRD). Nulo si no es calculable.'
         diferenciaContraMeta:
-          type: integer
-          description: 'Positivo si el plan supera la meta.'
+          type: [integer, 'null']
+          description: 'totalDias menos meta.dias; positivo si supera la meta. Nulo si no es calculable. Un valor igual o menor que cero no significa que se cumpla un objetivo del cliente: la meta sigue pendiente.'
+        calculable:
+          type: boolean
+          description: 'false si falta alguna duración necesaria para la llegada; entonces total y diferencia son nulos.'
+        faltantes:
+          type: array
+          description: 'Etapas con plazo pendiente del cliente que dejaron fechas sin estimar.'
+          items:
+            type: object
+            required: [numero, nombre]
+            properties:
+              numero:
+                type: integer
+              nombre:
+                type: string
         etapas:
           type: array
           items:
             type: object
-            required: [numero, nombre, fechaPlanificada]
+            required: [numero, nombre, fechaPlanificada, movidaAlLunes, fechaEstimada, fechaReal, estado, procedencia, plazoPendiente]
             properties:
               numero:
                 type: integer
               nombre:
                 type: string
               fechaPlanificada:
-                type: string
+                type: [string, 'null']
                 format: date
+                description: 'Inicio + plazo definido. Nula si el plazo está pendiente o si no se conoce el inicio.'
+              movidaAlLunes:
+                type: boolean
+              fechaEstimada:
+                type: [string, 'null']
+                format: date
+                description: 'Solo en la etapa de llegada con demora reportada y sin llegada real (F4-D5).'
               fechaReal:
                 type: [string, 'null']
                 format: date
-              movidaAlLunes:
+              estado:
+                type: string
+                enum: [REAL, ESTIMADA, EN_CURSO, PLANIFICADA, SIN_ESTIMAR]
+              procedencia:
+                description: 'De dónde sale el fin de la etapa con el que empieza la siguiente; nula si no se conoce.'
+                oneOf:
+                  - $ref: '#/components/schemas/ProcedenciaFecha'
+                  - type: 'null'
+              plazoPendiente:
                 type: boolean
+    ProcedenciaFecha:
+      type: string
+      enum: [REAL, LLEGADA_REAL, LLEGADA_ESTIMADA, PLANIFICADA]
+      description: 'REAL: salida registrada. LLEGADA_REAL: check de llegada (ADR-0018). LLEGADA_ESTIMADA: estimación por demora (F4-D5). PLANIFICADA: inicio + plazo.'
     ConfiguracionPlazos:
       type: object
-      required: [metaDias]
+      required: [metaDias, origenMeta, metaPendienteDelCliente, feriados, actualizadoEn, version]
       properties:
         metaDias:
           type: integer
           minimum: 1
+        origenMeta:
+          type: string
+          enum: [PROPUESTA, ADMIN]
+          description: 'PROPUESTA: 90 días sembrados en V14, propuesta documentada sin aprobación provisional. ADMIN: la cambió el admin.'
+        metaPendienteDelCliente:
+          type: boolean
+          description: 'true mientras el cliente no fije la meta ("se ajusta"). Mientras sea true, la meta no es un objetivo aprobado ni sirve para declarar cumplimiento del cliente.'
         feriados:
           type: array
-          description: 'Propuesta pendiente (Could en el PRD): calendario de feriados de Ecuador editable por el admin.'
+          description: 'Siempre vacía: feriados de Ecuador y China pendientes del cliente (Could en el PRD).'
           x-pendiente: Feriados de Ecuador y China.
+          maxItems: 0
           items:
             type: object
-            required: [fecha, descripcion]
-            properties:
-              fecha:
-                type: string
-                format: date
-              descripcion:
-                type: string
+        actualizadoEn:
+          oneOf:
+            - $ref: '#/components/schemas/FechaHora'
+            - type: 'null'
+        version:
+          type: integer
+          minimum: 0
+    SolicitudConfiguracionPlazos:
+      type: object
+      required: [metaDias, version]
+      properties:
+        metaDias:
+          type: integer
+          minimum: 1
+        version:
+          type: integer
+          minimum: 0
+          description: 'La versión que leyó el cliente; 409 VERSION_DESACTUALIZADA si cambió.'
+        feriados:
+          type: array
+          maxItems: 0
+          description: 'Pendientes del cliente: una lista no vacía se rechaza con 400.'
+          items:
+            type: object
+
+    SolicitudMotivoRetraso:
+      type: object
+      required: [entradaEsperadaId, motivo]
+      properties:
+        entradaEsperadaId:
+          type: string
+          format: uuid
+          description: 'Entrada actual de la etapa que ve la persona (P-18).'
+        motivo:
+          type: string
+          minLength: 1
+          maxLength: 4000
 
     Notificacion:
       type: object

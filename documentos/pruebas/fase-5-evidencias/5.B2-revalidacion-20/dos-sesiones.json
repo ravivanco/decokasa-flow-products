@@ -1,0 +1,8 @@
+{
+  "accionMs": 156,
+  "propagacionDesdeCommitMs": 30077,
+  "solicitudesHistorial": [
+    1792530531762
+  ],
+  "transporte": "polling real, 30000 ms; sin API simulada"
+}

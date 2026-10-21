@@ -1,0 +1,79 @@
+{
+  "inicial": {
+    "tag": "A",
+    "nombre": "Abrir la bandeja por etapa",
+    "id": "",
+    "rect": {
+      "x": 1216.75,
+      "y": 329,
+      "width": 199.25,
+      "height": 40,
+      "top": 329,
+      "right": 1416,
+      "bottom": 369,
+      "left": 1216.75
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 3px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  "trasPolling": {
+    "tag": "A",
+    "nombre": "Abrir la bandeja por etapa",
+    "id": "",
+    "rect": {
+      "x": 1216.75,
+      "y": 329,
+      "width": 199.25,
+      "height": 40,
+      "top": 329,
+      "right": 1416,
+      "bottom": 369,
+      "left": 1216.75
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(178, 63, 0) 0px 0px 0px 5px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  "trasCambio": {
+    "tag": "A",
+    "nombre": "Abrir la bandeja por etapa",
+    "id": "",
+    "rect": {
+      "x": 1216.75,
+      "y": 329,
+      "width": 199.25,
+      "height": 40,
+      "top": 329,
+      "right": 1416,
+      "bottom": 369,
+      "left": 1216.75
+    },
+    "outline": "oklab(0.523742 0.121163 0.105719 / 0.5) none 1px",
+    "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(178, 63, 0) 0px 0px 0px 5px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "focusVisible": true,
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "scrollX": 0,
+    "scrollY": 0
+  },
+  "avisosSinCambio": [],
+  "avisos": [],
+  "cambioReal": "A7→A8",
+  "lecturas": 2,
+  "limitacion": "Se inspecciona DOM/árbol, no se prueba salida hablada de NVDA/VoiceOver"
+}

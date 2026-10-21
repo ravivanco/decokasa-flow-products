@@ -1,6 +1,7 @@
 package com.decokasa.seguimiento.historial.domain;
 
 import com.decokasa.seguimiento.compartido.domain.eventos.MotivoDevolucion;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -13,12 +14,36 @@ import java.util.UUID;
  * @param urgenciaTerminada el movimiento devolvió el pedido a la etapa de retorno y terminó la urgencia
  * @param asignadoAnterior quién tenía la etapa antes de reasignarla; nulo si nadie
  * @param asignadoA quién la recibió (ETAPA_REASIGNADA)
+ * @param claseVencimiento ETAPA o URGENCIA (PLAZO_VENCIDO, paso 5.2)
+ * @param venceEn vencimiento que se incumplió (PLAZO_VENCIDO)
+ * @param entradaId entrada de la etapa (PLAZO_VENCIDO de ETAPA y MOTIVO_RETRASO_REGISTRADO)
+ * @param urgenciaActivacionId entrada que activó la urgencia (PLAZO_VENCIDO de URGENCIA)
  */
 public record DetalleEvento(Integer etapaDestino, MotivoDevolucion motivoDevolucion, Boolean urgenciaTerminada,
         UUID asignadoAnterior, UUID asignadoA, LocalDate fechaEstimadaAnterior, LocalDate fechaEstimadaSolicitada,
-        LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId) {
+        LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId, String claseVencimiento, Instant venceEn,
+        UUID entradaId, UUID urgenciaActivacionId) {
 
     static final DetalleEvento VACIO = new DetalleEvento(null, null, null, null, null);
+
+    /** Sin datos de vencimiento: todos los tipos salvo PLAZO_VENCIDO y MOTIVO_RETRASO_REGISTRADO. */
+    public DetalleEvento(Integer etapaDestino, MotivoDevolucion motivoDevolucion, Boolean urgenciaTerminada,
+            UUID asignadoAnterior, UUID asignadoA, LocalDate fechaEstimadaAnterior, LocalDate fechaEstimadaSolicitada,
+            LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId) {
+        this(etapaDestino, motivoDevolucion, urgenciaTerminada, asignadoAnterior, asignadoA, fechaEstimadaAnterior,
+                fechaEstimadaSolicitada, nuevaFechaEstimadaLlegada, bodegaId, null, null, null, null);
+    }
+
+    /** PLAZO_VENCIDO (5.2): qué plazo venció y cuándo, con la entrada o la activación de urgencia que lo identifica. */
+    static DetalleEvento vencimiento(String clase, Instant venceEn, UUID entradaId, UUID urgenciaActivacionId) {
+        return new DetalleEvento(null, null, null, null, null, null, null, null, null, clase, venceEn, entradaId,
+                urgenciaActivacionId);
+    }
+
+    /** MOTIVO_RETRASO_REGISTRADO (5.2): la entrada a la que pertenece el motivo; el texto va en la observación. */
+    static DetalleEvento motivo(UUID entradaId) {
+        return new DetalleEvento(null, null, null, null, null, null, null, null, null, null, null, entradaId, null);
+    }
 
     /** Sin fechas de demora: todos los tipos salvo DEMORA_REPORTADA. */
     public DetalleEvento(Integer etapaDestino, MotivoDevolucion motivoDevolucion, Boolean urgenciaTerminada,

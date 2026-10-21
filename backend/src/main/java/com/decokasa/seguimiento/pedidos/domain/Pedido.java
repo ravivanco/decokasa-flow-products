@@ -20,6 +20,7 @@ import com.decokasa.seguimiento.compartido.domain.eventos.EtapaRechazada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EventoDePedido;
 import com.decokasa.seguimiento.compartido.domain.eventos.Interviniente;
 import com.decokasa.seguimiento.compartido.domain.eventos.MotivoDevolucion;
+import com.decokasa.seguimiento.compartido.domain.eventos.MotivoRetrasoRegistrado;
 import com.decokasa.seguimiento.compartido.domain.eventos.ObservacionAgregada;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoCreado;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoDevuelto;
@@ -73,6 +74,8 @@ public final class Pedido {
     private boolean finalizado;
     private Instant finalizadoEn;
     private UrgenciaActiva urgencia;
+    // Identidad estable de la activación vigente (paso 5.2): la entrada que creó la devolución con urgencia.
+    private UUID urgenciaActivacionId;
     private Instant llegadaAduanaEn;
     private DemoraAduana demora;
     private UUID bodegaId;
@@ -101,6 +104,21 @@ public final class Pedido {
             List<EtapaDePedido> etapas, int etapaActual, boolean finalizado, Instant finalizadoEn,
             UrgenciaActiva urgencia, Instant llegadaAduanaEn, DemoraAduana demora, UUID bodegaId,
             Instant actualizadoEn, long version) {
+        this(id, numero, pais, tipoFlujo, flujoId, nombre, descripcion, incluyeProductosNuevos, creadoPor, creadoEn,
+                etapas, etapaActual, finalizado, finalizadoEn, urgencia, null, llegadaAduanaEn, demora, bodegaId,
+                actualizadoEn, version);
+    }
+
+    /**
+     * Como el anterior, con la identidad de la activación de la urgencia vigente (fase 5, paso 5.2).
+     *
+     * @param urgenciaActivacionId entrada creada por la devolución que activó la urgencia; se ignora sin urgencia
+     */
+    public Pedido(UUID id, NumeroPedido numero, CodigoPais pais, TipoFlujo tipoFlujo, UUID flujoId, String nombre,
+            String descripcion, boolean incluyeProductosNuevos, UUID creadoPor, Instant creadoEn,
+            List<EtapaDePedido> etapas, int etapaActual, boolean finalizado, Instant finalizadoEn,
+            UrgenciaActiva urgencia, UUID urgenciaActivacionId, Instant llegadaAduanaEn, DemoraAduana demora,
+            UUID bodegaId, Instant actualizadoEn, long version) {
         this.id = Objects.requireNonNull(id, "id");
         this.numero = Objects.requireNonNull(numero, "numero");
         this.pais = Objects.requireNonNull(pais, "pais");
@@ -117,6 +135,7 @@ public final class Pedido {
         this.finalizado = finalizado;
         this.finalizadoEn = finalizadoEn;
         this.urgencia = urgencia;
+        this.urgenciaActivacionId = urgencia == null ? null : urgenciaActivacionId;
         this.llegadaAduanaEn = llegadaAduanaEn;
         this.demora = demora;
         this.bodegaId = bodegaId;
@@ -274,6 +293,13 @@ public final class Pedido {
         EtapaDePedido etapaDestino = etapa(destino);
         etapaDestino.entrar(ahora, regla.destinoEsAutomatico() ? null
                 : vencimientos.deEtapa(ahora, regla.plazoDestino()).orElse(null));
+        if (accion == AccionEtapa.DEVOLVER_POR_PRODUCTO_NUEVO) {
+            // Paso 5.2: la identidad de esta activación es la entrada que acaba de crear la devolución. Dos
+            // activaciones nunca comparten entrada, aunque compartan la hora del servidor.
+            urgenciaActivacionId = etapaDestino.entradaId();
+        } else if (urgencia == null) {
+            urgenciaActivacionId = null;
+        }
         etapaActual = destino;
         if (regla.destinoEsAutomatico()) {
             // Fin es visual: entrada y salida coinciden con la confirmación, sin etapa ACTUAL ni vencimiento.
@@ -486,6 +512,58 @@ public final class Pedido {
         return evento;
     }
 
+    /**
+     * Registra o corrige el motivo del retraso de la entrada actual de la etapa actual (F5-D3, aprobada
+     * provisionalmente por Richard el 2026-10-20). Puede hacerlo quien puede actuar en la etapa (P-06) o el admin, con
+     * estado, roles y asignación vigentes; {@code consulta} y {@code asistente_china} no conceden el permiso ni quitan
+     * el de otros roles. Solo con un vencimiento activo: el de la etapa o el de la urgencia. Guarda el motivo vigente;
+     * cada registro o corrección deja su propio evento en el historial (los anteriores no se tocan). No mueve el
+     * pedido, no cambia plazos y no genera correo.
+     *
+     * @param texto obligatorio, hasta 4000 caracteres
+     * @return el evento, que también queda en {@link #retirarEventos()}
+     * @throws EtapaCambio si la etapa ya no es la actual o volvió a entrar
+     * @throws TransicionNoPermitida si no hay un vencimiento activo o el pedido terminó
+     * @throws DatoInvalido si el texto está vacío o es demasiado largo
+     */
+    public MotivoRetrasoRegistrado registrarMotivoRetraso(int numeroEtapa, UUID entradaEsperadaId, String texto,
+            CodigoRol rolResponsable, EtapasHabilitadas habilitadas, ActorVigente actor, Instant ahora) {
+        Interviniente interviniente = autorizarEnEntradaActual(numeroEtapa, entradaEsperadaId, rolResponsable,
+                habilitadas, actor, "La etapa del pedido cambió. Vuelve a cargarlo antes de registrar el motivo.");
+        if (!tieneVencimientoActivo(ahora)) {
+            throw new TransicionNoPermitida(
+                    "No hay un plazo vencido en esta etapa: el motivo del retraso se registra con un vencimiento activo.");
+        }
+        String limpio = texto == null ? "" : texto.strip();
+        if (limpio.isEmpty()) {
+            throw new DatoInvalido("motivo", "Escribe el motivo del retraso.");
+        }
+        if (limpio.length() > 4000) {
+            throw new DatoInvalido("motivo", "El motivo del retraso admite hasta 4000 caracteres.");
+        }
+        EtapaDePedido actual = etapa(etapaActual);
+        actual.registrarMotivo(limpio);
+        actualizadoEn = ahora;
+        MotivoRetrasoRegistrado evento = new MotivoRetrasoRegistrado(datosDelPedido(), etapaActual, interviniente,
+                ahora, limpio, actual.entradaId(), UUID.randomUUID());
+        eventosPendientes.add(evento);
+        return evento;
+    }
+
+    /**
+     * Si la etapa actual o la urgencia vigente vencieron antes de {@code ahora}. Un plazo pendiente del cliente no
+     * tiene vencimiento y nunca vence.
+     */
+    public boolean tieneVencimientoActivo(Instant ahora) {
+        if (finalizado) {
+            return false;
+        }
+        Instant venceEtapa = etapa(etapaActual).venceEn();
+        boolean etapaVencida = venceEtapa != null && ahora.isAfter(venceEtapa);
+        boolean urgenciaVencida = urgencia != null && ahora.isAfter(urgencia.venceEn());
+        return etapaVencida || urgenciaVencida;
+    }
+
     private Interviniente autorizarEnEntradaActual(int numeroEtapa, UUID entradaEsperadaId, CodigoRol rolResponsable,
             EtapasHabilitadas habilitadas, ActorVigente actor, String mensajeCambio) {
         if (finalizado) {
@@ -653,6 +731,11 @@ public final class Pedido {
 
     public Instant finalizadoEn() {
         return finalizadoEn;
+    }
+
+    /** Entrada que activó la urgencia vigente (paso 5.2); vacía sin urgencia. */
+    public Optional<UUID> urgenciaActivacionId() {
+        return Optional.ofNullable(urgenciaActivacionId);
     }
 
     public Optional<UrgenciaActiva> urgencia() {

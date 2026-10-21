@@ -237,7 +237,7 @@ flowchart TD
 
 | Puerto | Módulo | Fase | Estado |
 | --- | --- | --- | --- |
-| `PublicadorTiempoReal` | `compartido` | 5 | **[P]** Adaptador WebSocket (STOMP) para que un check se vea sin recargar. Should en el PRD; no está en el stack fijo de `CLAUDE.md` |
+| `PublicadorTiempoReal` | `compartido` | — | **No se implementa (ADR-0014, 2026-10-20):** la actualización entre pantallas usa consultas periódicas del frontend (TanStack Query, 30 s por defecto, 10 s–5 min). Queda como opción si el cliente exige inmediatez |
 | `AsistenteIA` | por definir | 7 | ⏸ El caso de uso de la API de Claude no está definido. La clave vive solo en el servidor y no se envían documentos sin aprobación del cliente (requerimientos 4.7) |
 | Flujos de Colombia | `flujos` (datos) | 7 | ⏸ Proceso sin definir; entra como nuevas definiciones de flujo, sin cambiar el motor |
 
@@ -387,7 +387,7 @@ Ninguna es un requisito del cliente. Se registran en ADR y se pueden cambiar. La
 | Outbox: historial y cola de correos en la misma transacción | Sección 3.1 | Envío directo después de confirmar (puede perder correos) | Propuesta; se decide en la fase 3 |
 | Gmail API con delegación limitada al buzón remitente | Sección 4.6 | SMTP de Google Workspace (requerimientos 3) | Propuesta |
 | Subcarpetas de Drive por año y etapa | Sección 4.5 | Solo país y pedido (requerimientos 4.7) | Propuesta |
-| WebSocket (STOMP) para el tiempo real, desde la fase 5 | Sección 4.9 | Consultas periódicas del frontend | Aprobado que no entra antes de la fase 5; la tecnología se decide en esa fase (ADR-0014) |
+| Actualización entre pantallas | Sección 4.9 | WebSocket (STOMP) | **Consultas periódicas, aprobadas provisionalmente por Richard (2026-10-20, ADR-0014)**; STOMP descartado por ahora |
 | Bloqueo tras intentos fallidos y JWT de vida corta | Sección 4.1 | Sin bloqueo | Aprobada: 5 intentos, 15 min; acceso de 15 min; renovación hasta 8 h con rotación (ADR-0002) |
 | Token de renovación en cookie `HttpOnly`, `Secure`, `SameSite=Strict` (ruta `/api/v1/auth`), acceso solo en memoria y comprobación de `Origin` | Sección 4.1 | `sessionStorage` o solo en memoria | Aprobada por el equipo (D3b, Richard, 2026-10-12; ADR-0002) |
 | Monorepo y Gradle | — | Dos repositorios; Maven | Aprobada (ADR-0010) |

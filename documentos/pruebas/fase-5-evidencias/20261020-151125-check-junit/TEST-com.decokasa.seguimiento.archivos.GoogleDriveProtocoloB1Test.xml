@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-20T20:14:05.903Z" hostname="DESKTOP-GKF6IVL" time="0.185">
+  <properties/>
+  <testcase name="recibeMetadataConSuscriptorRealSinClienteDeRed()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.123"/>
+  <testcase name="errorDelFlujoSeClasificaSinExponerSuCausaInterna()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.003"/>
+  <testcase name="jsonIncompletoYFalloDeTransporteDejanErrorClasificado()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.003"/>
+  <testcase name="respuestaMayorAlLimiteCancelaElFlujoYNoSeConfirma()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.003"/>
+  <testcase name="metadatosFinalesDebenCoincidirConTamanoYConservarIdentidad()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.005"/>
+  <testcase name="[1] codigo = 404" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.004"/>
+  <testcase name="[2] codigo = 410" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.002"/>
+  <testcase name="reservaIdEIniciaSesionYReiniciaConPatchDelMismoId()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.005"/>
+  <testcase name="[1] rango = &quot;bytes=1-2&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.002"/>
+  <testcase name="[2] rango = &quot;bytes=0-999&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.001"/>
+  <testcase name="[3] rango = &quot;bytes=0-x&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.001"/>
+  <testcase name="respuesta308ConservaProgresoYFormaContentRangeReal()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.001"/>
+  <testcase name="[1] codigo = &quot;401&quot;, error = &quot;AUTORIZACION_REQUERIDA&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.003"/>
+  <testcase name="[2] codigo = &quot;429&quot;, error = &quot;CUOTA&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.003"/>
+  <testcase name="[3] codigo = &quot;500&quot;, error = &quot;TRANSITORIA&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.001"/>
+  <testcase name="[4] codigo = &quot;408&quot;, error = &quot;TRANSITORIA&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.002"/>
+  <testcase name="[5] codigo = &quot;409&quot;, error = &quot;CONFLICTO_REMOTO&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.001"/>
+  <testcase name="[6] codigo = &quot;400&quot;, error = &quot;PERMANENTE&quot;" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.002"/>
+  <testcase name="cuotaConRetryAfterUsaRelojControlado()" classname="com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

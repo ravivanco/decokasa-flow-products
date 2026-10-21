@@ -1,6 +1,7 @@
 import { Navigate, type RouteObject } from 'react-router';
 import App from './App';
 import { CatalogoBodegas } from './components/CatalogoBodegas';
+import { ConfiguracionPlazos } from './components/ConfiguracionPlazos';
 import { GmailNotificationsView } from './components/GmailNotificationsView';
 import { RutaProtegida, SoloAdmin } from './auth/RutaProtegida';
 import { DashboardRol } from './components/dashboards/DashboardRol';
@@ -40,6 +41,7 @@ export const rutas: RouteObject[] = [
               { path: '/usuarios', element: <UsersManagementView /> },
               { path: '/roles', element: <RolesManagementView /> },
               { path: '/pedidos/nuevo', element: <NuevoPedido /> },
+              { path: '/configuracion/plazos', element: <ConfiguracionPlazos /> },
             ],
           },
           { path: '*', element: <PaginaNoEncontrada /> },

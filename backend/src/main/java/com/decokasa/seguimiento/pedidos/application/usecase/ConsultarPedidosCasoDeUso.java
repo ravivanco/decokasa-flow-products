@@ -104,11 +104,13 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     }
 
     @Override
-    public VistasDePedido.Pagina bandeja(Solicitante solicitante, int pagina, int tamano) {
+    public VistasDePedido.Pagina bandeja(Solicitante solicitante, FiltroBandeja filtro, int pagina, int tamano) {
         ActorVigente actor = apoyo.lector(solicitante);
         exigirPagina(pagina, tamano);
+        FiltroBandeja aplicado = filtro == null ? FiltroBandeja.SIN_FILTRO : filtro;
         ConsultaDePedidos.Pagina resultado = consultas.bandeja(actor.usuarioId(), actor.roles(),
-                actor.tieneRol(PermisosEtapa.ADMIN), pagina, tamano);
+                actor.tieneRol(PermisosEtapa.ADMIN), Boolean.TRUE.equals(aplicado.vencido()),
+                Boolean.TRUE.equals(aplicado.conUrgencia()), reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
     }
 
@@ -172,8 +174,9 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
                 pedido.tipoFlujo(), pedido.etapaActual(), flujo.etapa(pedido.etapaActual()).nombre(),
                 persona(actual.asignadoA(), personas), venceEn, vencida,
                 urgencia == null ? null
-                        : new VistasDePedido.Urgencia(urgencia.nivel(), urgencia.activadaEn(), urgencia.venceEn()),
-                pedido.finalizado());
+                        : new VistasDePedido.Urgencia(urgencia.nivel(), urgencia.activadaEn(), urgencia.venceEn(),
+                                !pedido.finalizado() && ahora.isAfter(urgencia.venceEn())),
+                pedido.finalizado(), actual.motivoRetraso());
     }
 
     /**

@@ -13,10 +13,12 @@ import com.decokasa.seguimiento.flujos.application.port.in.ResolverTransicion;
 import com.decokasa.seguimiento.historial.application.port.in.ResumirEtapasDePedido;
 import com.decokasa.seguimiento.pedidos.application.port.in.AgregarObservacion;
 import com.decokasa.seguimiento.pedidos.application.port.in.AutorizarArchivosDePedido;
+import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarCronograma;
 import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarPedidos;
 import com.decokasa.seguimiento.pedidos.application.port.in.CrearPedido;
 import com.decokasa.seguimiento.pedidos.application.port.in.EjecutarAccionEtapa;
 import com.decokasa.seguimiento.pedidos.application.port.in.ReasignarEtapa;
+import com.decokasa.seguimiento.pedidos.application.port.in.RegistrarMotivoRetraso;
 import com.decokasa.seguimiento.pedidos.application.port.in.VerificarConsultaDePedido;
 import com.decokasa.seguimiento.pedidos.application.port.in.VistasDePedido;
 import com.decokasa.seguimiento.pedidos.application.port.out.ConsultaDePedidos;
@@ -24,12 +26,15 @@ import com.decokasa.seguimiento.pedidos.application.port.out.GeneradorNumeroPedi
 import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
 import com.decokasa.seguimiento.pedidos.application.usecase.AgregarObservacionCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.AutorizarArchivosCasoDeUso;
+import com.decokasa.seguimiento.pedidos.application.usecase.ConsultarCronogramaCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.ConsultarPedidosCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.CrearPedidoCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.EjecutarAccionEtapaCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.ReasignarEtapaCasoDeUso;
+import com.decokasa.seguimiento.pedidos.application.usecase.RegistrarMotivoRetrasoCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.VerificarConsultaCasoDeUso;
 import com.decokasa.seguimiento.pedidos.domain.EtapasHabilitadas;
+import com.decokasa.seguimiento.plazos.application.port.in.CalcularCronograma;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
@@ -116,10 +121,34 @@ public class PedidosConfig {
             }
 
             @Override
-            public VistasDePedido.Pagina bandeja(Solicitante solicitante, int pagina, int tamano) {
-                return tx.execute(estado -> caso.bandeja(solicitante, pagina, tamano));
+            public VistasDePedido.Pagina bandeja(Solicitante solicitante, FiltroBandeja filtro, int pagina,
+                    int tamano) {
+                return tx.execute(estado -> caso.bandeja(solicitante, filtro, pagina, tamano));
             }
         };
+    }
+
+    /** Motivo del retraso (fase 5, paso 5.2; F5-D3): con el pedido bloqueado, como las acciones. */
+    @Bean
+    RegistrarMotivoRetraso registrarMotivoRetraso(PlatformTransactionManager gestor, PedidoRepositorio pedidos,
+            ConsultarDefinicionFlujo flujos, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
+            CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj) {
+        TransactionTemplate tx = new TransactionTemplate(gestor);
+        RegistrarMotivoRetraso caso = new RegistrarMotivoRetrasoCasoDeUso(pedidos, flujos, habilitadas, responsables,
+                vencimientos, publicador, reloj);
+        return (solicitante, comando) -> tx.execute(estado -> caso.registrar(solicitante, comando));
+    }
+
+    /** Cronograma del pedido (fase 5, paso 5.1; P-13): transacción de solo lectura; el cálculo es de plazos. */
+    @Bean
+    ConsultarCronograma consultarCronograma(PlatformTransactionManager gestor, ConsultaDePedidos consultas,
+            ConsultarDefinicionFlujo flujos, CalcularCronograma cronogramas, ConsultarResponsables responsables,
+            CalcularVencimiento vencimientos, PublicadorEventos publicador) {
+        TransactionTemplate tx = new TransactionTemplate(gestor);
+        tx.setReadOnly(true);
+        ConsultarCronograma caso = new ConsultarCronogramaCasoDeUso(consultas, flujos, cronogramas, responsables,
+                vencimientos, publicador);
+        return (solicitante, pedidoId) -> tx.execute(estado -> caso.cronograma(solicitante, pedidoId));
     }
 
     /**
