@@ -334,7 +334,7 @@ describe('Permisos con varios roles', () => {
     const archivos = { 2: [adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'codigos.pdf')] };
     const { app } = await abrir(con(['asistente_compras']), pedidoDetalle({ etapaActual: 3 }), archivos);
 
-    await app.usuario.click(screen.getByRole('button', { name: /^A2 Codificación, completada$/ }));
+    await app.usuario.click(screen.getByRole('button', { name: /^A2 Codificación\s*, completada\s*, salió el\s*15[- ]oct\.?$/ }));
 
     expect(await screen.findByRole('button', { name: 'Descargar codigos.pdf' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Subir o reanudar' })).not.toBeInTheDocument();

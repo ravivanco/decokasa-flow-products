@@ -816,4 +816,95 @@ En la revalidación de Codex, H01–H04 quedaron cerrados y H05 solo en parte: e
 - El menú ocupa más alto en móvil (unas tres líneas con el admin).
 - `Header.tsx`, el cierre de sesión (arreglo de `App.tsx`) y H01–H04 se conservan.
 
-**Cómo revalidar:** admin ficticio a 390 px; Tab desde "Inicio" por todo el menú. Para cada enlace, el rectángulo y el anillo de foco quedan dentro del viewport sin recorte; `scrollWidth` igual a 390; cada enlace se activa con Enter. Repetir a 1440 px para confirmar la columna lateral. Pruebas que pueden verse afectadas (no se modificaron): ninguna conocida comprueba las clases del menú.
+**Cómo revalidar (H05):** admin ficticio a 390 px; Tab desde "Inicio" por todo el menú. Para cada enlace, el rectángulo y el anillo de foco quedan dentro del viewport sin recorte; `scrollWidth` igual a 390; cada enlace se activa con Enter. Repetir a 1440 px para confirmar la columna lateral. Pruebas que pueden verse afectadas (no se modificaron): ninguna conocida comprueba las clases del menú.
+
+## Documentos de A6, A9 y A10 y actualización de 30 s (parte A, 2026-10-21) — pendiente de verificación por Codex
+
+Implementa las decisiones que Richard confirmó el 2026-10-21. No son respuestas nuevas del cliente; están registradas en `requerimientos.md` 4.4 y 5. No se ejecutaron pruebas, builds ni migraciones.
+
+**Reglas implementadas:**
+
+| Etapa | Regla | Cómo |
+|---|---|---|
+| A6 Embarque → A7 | Al menos un documento de tipo "Packing List". BL y otros adjuntos, opcionales. | `documento_requerido` "Packing List"; transición en `DEFINIDOS`. |
+| A9 Bodega → A10 | Bodega activa y al menos un documento de cualquier tipo. | `exige_algun_documento = true`, sin tipo comercial. |
+| A10 Incidencias → Fin | Al menos un documento de cualquier tipo; sin excepción "sin incidencias". | Igual que A9. Fin se completa solo, en la misma transacción. |
+
+- En las tres etapas se admiten documentos adicionales de cualquier tipo.
+- La vinculación no cambia: un documento solo cuenta si es del pedido, de la etapa y de la entrada actual. Un ID de otra entrada responde 400.
+- Si falta un documento, la respuesta es 422 `REQUISITO_FALTANTE` con `faltantes`: "Packing List", "bodega" o "al menos un documento".
+
+**Cambios:**
+- **Migración `V16__documentos_a6_a9_a10.sql`:** siguiente versión libre; no modifica migraciones anteriores.
+  - Añade la columna `transicion_permitida.exige_algun_documento` (por defecto `false`), con un CHECK que la limita a transiciones en `DEFINIDOS`.
+  - Pasa las transiciones 209, 213 y 214 de `PENDIENTES` a `DEFINIDOS` e inserta el "Packing List".
+  - Un bloque final falla si quedara algún `PENDIENTES` en el flujo A o si A9/A10 no quedaran marcadas.
+  - Completa la versión 1 del flujo, como V3 y V11: esas transiciones nunca se pudieron ejecutar antes, así que ningún pedido pasó por ellas con otra regla.
+- **Dominio y API:** `exigeAlgunDocumento` se añadió al final de los records siguientes, con constructores de compatibilidad para las firmas anteriores:
+  - en `flujos`: `TransicionPermitida`, `ResolverTransicion.Resolucion` y `DescribirFlujo.Accion`;
+  - en `pedidos`: `ReglaDeTransicion` y `VistasDePedido.AccionDisponible`;
+  - en las respuestas web: `DefinicionFlujoRespuesta.Accion` y `PedidoRespuestas.AccionDisponible`.
+- **Dónde se aplica la regla:**
+  - `Pedido` añade el faltante "al menos un documento" si la acción lo exige y no hay ningún documento presentado y validado (`documentosPresentes`, igual que los tipos obligatorios). Lo hace tanto en el avance como en la demora.
+  - `ConsultarPedidosCasoDeUso` lo refleja en `documentosFaltantes` y `puedeCompletarse`, según los archivos subidos a la entrada actual.
+- **Contrato `openapi.yaml` 0.14.0-borrador:**
+  - tabla de transiciones actualizada;
+  - el bloqueo 409 de A6/A9/A10 se sustituye por 422 con `faltantes`;
+  - `exigeAlgunDocumento` añadido a `DefinicionAccion` y `AccionDisponible`.
+- **Pantallas:**
+  - `api/pedidos.ts`: campo opcional en Zod; si falta, cuenta como falso.
+  - `DialogoAccion`: el requisito "Al menos un documento, de cualquier tipo" aparece con su estado, y el envío queda bloqueado mientras no se presente ninguno. Indica que se pueden presentar documentos adicionales.
+  - El aviso "Documentos pendientes de definición" desaparece solo, al no quedar `PENDIENTES`.
+  - El selector de tipo sugiere "Packing List" en A6. En A9 y A10 no sugiere ningún tipo (opción "Otro…").
+- **Documentación:**
+  - `modelo-datos.md` y `arquitectura.md` (tabla de transiciones y pendientes);
+  - ADR-0014 y su índice: intervalo de 30 s aceptado por Richard. Sigue sin acreditar como respuesta del cliente que "al instante" quede satisfecho;
+  - el plan de la fase 4 (F4-D4/D7/D8 resueltos).
+- **Meta de días:** sigue pendiente. 90 sigue siendo una propuesta configurable; no se registró como aprobada.
+
+**Revisión Java (`ecc:java-reviewer`, solo lectura):**
+- **Resultado:** sin hallazgos críticos ni altos. No vio errores de compilación (constructores sin ambigüedad) ni violaciones de ArchUnit.
+- **Corregido:**
+  - la regla del dominio usa `documentosPresentes`, en lugar de `adjuntoIds`, para no depender de que la aplicación haya validado;
+  - el bloque de V16 comprueba que A6 exija exactamente "Packing List".
+- **Queda documentado, sin cambio:**
+  - `puedeCompletarse` se calcula con los archivos subidos a la entrada, sin verificar su integridad. Si el archivo falta, la acción puede responder 400, como ya ocurría con los tipos;
+  - el texto del faltante es "al menos un documento". Algunas pruebas de `Fase4IT` buscaban "documentos" en el 409 anterior;
+  - "Packing List" debe coincidir exactamente con el tipo del adjunto. La pantalla lo sugiere tal cual.
+
+**Pruebas que pueden verse afectadas (no se modificaron):**
+- `MigracionesIT`, `MigracionesFase4IT`, `MigracionesFase5IT` y `V2RestriccionesIT`: la última versión pasa a 16; hay una columna nueva; A6/A9/A10 dejan de estar en `PENDIENTES` y A6 tiene un `documento_requerido` más.
+- `Fase4IT` y `PersistenciaFaseDosIT`: si esperaban 409 por documentos pendientes en A6/A9/A10, ahora habrá 422 `REQUISITO_FALTANTE` sin documento, o avance con él.
+- Las pruebas del frontend usan fixtures MSW con `requisitosDocumentales: 'PENDIENTES'` explícito, así que no deberían cambiar.
+
+### Resumen conjunto para Codex: recorrido A1–Fin y preparación de la prueba real de Google
+
+**1. Recorrido A1–Fin (local, sin Google, hasta 20 pedidos ficticios):**
+- Aplicar V16 sobre una base limpia y sobre una base con V15 que tenga pedidos parados en A6.
+- Comprobar `GET /flujos/EC/A`:
+  - A6: `DEFINIDOS`, `documentosObligatorios = ["Packing List"]` y `exigeAlgunDocumento = false`;
+  - A9 y A10: `DEFINIDOS`, sin tipos y con `exigeAlgunDocumento = true`.
+- Recorrer A1→A2→A3→A4→A5→A6→A7→A8→A9→A10→Fin con usuarios de cada rol (P-06) y con el admin:
+  - **A6:** sin documentos → 422 "Packing List". Solo con BL → 422. Con "Packing List" → avanza. Con "Packing List" y BL → avanza, y los dos quedan en `EventoHistorial.adjuntoIds`.
+  - **A7:** demora y check de llegada (`llegadaAduanaEn`).
+  - **A9:** sin bodega → 422. Bodega inactiva → 400. Con bodega y sin documento → 422 "al menos un documento". Con bodega y un documento de cualquier tipo → avanza y se registra `BODEGA_ASIGNADA`.
+  - **A10:** sin documento → 422 y el pedido no se cierra. Con un documento → A10 y Fin completados, `PEDIDO_FINALIZADO` como evento del sistema y el pedido sin acciones.
+- **Vinculación:** un adjunto de otra entrada (por ejemplo, de antes de una devolución), de otro pedido o de otra etapa → 400 `adjuntoIds`. Un archivo ausente en el almacenamiento → 400.
+- **Pantallas:** el diálogo muestra "Al menos un documento, de cualquier tipo" con su estado, bloquea el envío sin documentos y permite adicionales. `PanelEtapa` muestra "falta subir al menos un documento." y ya no aparece "Documentos pendientes de definición".
+- **Actualización:** el intervalo de 30 s ya está aceptado; medir la demora real (intervalo más la petición).
+- **Regresión:** volver a ejecutar las suites indicadas arriba y adaptar las expectativas que dependían del bloqueo documental, sin relajar las aserciones de permisos ni de vinculación.
+
+**2. Preparación de la prueba real de Google (3.B3, sigue pospuesta; aquí no se activa nada):**
+- Procedimiento: `documentos/pruebas/fase-3-B3-procedimiento.md` y `documentos/google-oauth-paso-3.1.md` (ADR-0017: OAuth de usuario, Gmail personal y Mi unidad).
+- Variables que hoy están en `false` o vacías y que solo se activan con autorización expresa de Richard:
+  - `GOOGLE_OAUTH_HABILITADA`, `GOOGLE_OAUTH_CLIENTE_RUTA`, `GOOGLE_OAUTH_TOKENS_RUTA`, `GOOGLE_OAUTH_LLAVE_RUTA` y `GOOGLE_CUENTA_EMAIL`;
+  - `GOOGLE_DRIVE_HABILITADA` y `GOOGLE_GMAIL_HABILITADA`;
+  - `COPIA_DRIVE_AUTOMATICA` (worker de copia) y `VENCIMIENTOS_AUTOMATICO` (detección).
+- Preparar, sin ejecutar:
+  - una cuenta de prueba no productiva y una carpeta de Drive exclusiva;
+  - un destinatario ficticio controlado para el outbox;
+  - la lista de archivos ficticios del recorrido: Packing List, BL opcional y documentos de A9/A10;
+  - el criterio de limpieza.
+- Evidencia esperada: la copia a Drive de los adjuntos del recorrido A1–Fin, el envío de las notificaciones pendientes (incluida VENCIMIENTO, solo si se autoriza activar la detección) y la ausencia de secretos en Git y en los logs.
+
+**Sin cambios:** `Header.tsx` y los cambios ajenos se conservan. Google, OAuth, los workers y la detección automática siguen desactivados. Sin commit, push ni merge. Las fases 3, 4 y 5 siguen abiertas y 3.B3 sigue pospuesto.

@@ -1,0 +1,302 @@
+{
+  "pais": "EC",
+  "tipoFlujo": "A",
+  "version": 1,
+  "etapas": [
+    {
+      "numero": 1,
+      "nombre": "Crear solicitud de pedido",
+      "rolResponsable": "admin",
+      "estadoPlazo": "SIN_PLAZO",
+      "revisaEtapa": null,
+      "plazo": null,
+      "acciones": [
+        {
+          "accion": "ENVIAR",
+          "etapaDestino": 2,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [
+            "Solicitud"
+          ],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 2,
+      "nombre": "Codificación",
+      "rolResponsable": "marketing",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": null,
+      "plazo": {
+        "cantidad": 24,
+        "tipo": "HORAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "ENVIAR",
+          "etapaDestino": 3,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [
+            "Documentos codificados"
+          ],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 3,
+      "nombre": "Revisión y aprobación",
+      "rolResponsable": "asistente_compras",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": 2,
+      "plazo": {
+        "cantidad": 24,
+        "tipo": "HORAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 4,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        },
+        {
+          "accion": "RECHAZAR",
+          "etapaDestino": 2,
+          "requiereObservacion": true,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 4,
+      "nombre": "Análisis y gestión",
+      "rolResponsable": "compras_china",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": null,
+      "plazo": {
+        "cantidad": 3,
+        "tipo": "DIAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 5,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        },
+        {
+          "accion": "DEVOLVER_POR_ERROR",
+          "etapaDestino": 2,
+          "requiereObservacion": true,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        },
+        {
+          "accion": "DEVOLVER_POR_PRODUCTO_NUEVO",
+          "etapaDestino": 2,
+          "requiereObservacion": true,
+          "requiereUrgencia": true,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 5,
+      "nombre": "Fabricación",
+      "rolResponsable": "compras_china",
+      "estadoPlazo": "PENDIENTE",
+      "revisaEtapa": null,
+      "plazo": null,
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 6,
+          "requiereObservacion": true,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 6,
+      "nombre": "Embarque",
+      "rolResponsable": "compras_china",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": null,
+      "plazo": {
+        "cantidad": 10,
+        "tipo": "DIAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 7,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [
+            "Packing List"
+          ],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 7,
+      "nombre": "Aduana Ecuador",
+      "rolResponsable": "compras_china",
+      "estadoPlazo": "PENDIENTE",
+      "revisaEtapa": null,
+      "plazo": null,
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 8,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        },
+        {
+          "accion": "REPORTAR_DEMORA",
+          "etapaDestino": null,
+          "requiereObservacion": true,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": true
+    },
+    {
+      "numero": 8,
+      "nombre": "Autorización de salida",
+      "rolResponsable": "logistica",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": null,
+      "plazo": {
+        "cantidad": 24,
+        "tipo": "HORAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 9,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": false
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 9,
+      "nombre": "Bodega",
+      "rolResponsable": "logistica",
+      "estadoPlazo": "DEFINIDO",
+      "revisaEtapa": null,
+      "plazo": {
+        "cantidad": 24,
+        "tipo": "HORAS_HABILES"
+      },
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 10,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": true,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": true
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 10,
+      "nombre": "Incidencias",
+      "rolResponsable": "logistica",
+      "estadoPlazo": "PENDIENTE",
+      "revisaEtapa": null,
+      "plazo": null,
+      "acciones": [
+        {
+          "accion": "APROBAR",
+          "etapaDestino": 11,
+          "requiereObservacion": false,
+          "requiereUrgencia": false,
+          "requiereBodega": false,
+          "requisitosDocumentales": "DEFINIDOS",
+          "documentosObligatorios": [],
+          "exigeAlgunDocumento": true
+        }
+      ],
+      "automatica": false,
+      "registraLlegada": false
+    },
+    {
+      "numero": 11,
+      "nombre": "Fin",
+      "rolResponsable": null,
+      "estadoPlazo": "SIN_PLAZO",
+      "revisaEtapa": null,
+      "plazo": null,
+      "acciones": [],
+      "automatica": true,
+      "registraLlegada": false
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V2RestriccionesIT" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-21T15:17:58.362Z" hostname="DESKTOP-GKF6IVL" time="2.302">
+  <properties/>
+  <testcase name="initializationError" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.0">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;expected: 15&#13;&#10; but was: 16" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: 15
+ but was: 16
+	at com.decokasa.seguimiento.V2RestriccionesIT.migrarBaseVacia(V2RestriccionesIT.java:28)
+</failure>
+  </testcase>
+  <system-out><![CDATA[2026-10-21T10:17:58.364-05:00  INFO 29784 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-21T10:17:58.482-05:00  INFO 29784 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 9a3eb2f252390c640abc6e77a6c46918cca43e544ebaafaf71369fa0ad881f03
+2026-10-21T10:18:00.041-05:00  INFO 29784 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.6771929S
+2026-10-21T10:18:00.041-05:00  INFO 29784 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:64654/test?loggerLevel=OFF)
+2026-10-21T10:18:00.059-05:00  INFO 29784 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:64654/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-21T10:18:00.076-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-21T10:18:00.077-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 16 migrations (execution time 00:00.009s)
+2026-10-21T10:18:00.084-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-21T10:18:00.096-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-21T10:18:00.103-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-21T10:18:00.134-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-21T10:18:00.175-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-21T10:18:00.202-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-21T10:18:00.221-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-21T10:18:00.235-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-21T10:18:00.250-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-21T10:18:00.264-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-21T10:18:00.278-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-21T10:18:00.294-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-21T10:18:00.307-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-21T10:18:00.318-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-21T10:18:00.328-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - historial secuencia"
+2026-10-21T10:18:00.340-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - configuracion plazos"
+2026-10-21T10:18:00.353-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - avisos vencimiento"
+2026-10-21T10:18:00.367-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "16 - documentos a6 a9 a10"
+2026-10-21T10:18:00.383-05:00  INFO 29784 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 16 migrations to schema "public", now at version v16 (execution time 00:00.157s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -383,6 +383,9 @@ public final class Pedido {
                 .filter(tipo -> !solicitud.documentosPresentes().contains(tipo))
                 .sorted()
                 .forEach(faltantes::add);
+        if (regla.exigeAlgunDocumento() && solicitud.documentosPresentes().isEmpty()) {
+            faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+        }
         if (!faltantes.isEmpty()) {
             throw new RequisitoFaltante(faltantes);
         }
@@ -651,6 +654,9 @@ public final class Pedido {
                 .filter(tipo -> !solicitud.documentosPresentes().contains(tipo))
                 .sorted()
                 .forEach(faltantes::add);
+        if (regla.exigeAlgunDocumento() && solicitud.documentosPresentes().isEmpty()) {
+            faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+        }
         if (!faltantes.isEmpty()) {
             throw new RequisitoFaltante(faltantes);
         }

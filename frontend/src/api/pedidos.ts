@@ -90,6 +90,8 @@ const esquemaAccionDisponible = z.object({
   documentosObligatorios: z.array(z.string()),
   documentosFaltantes: z.array(z.string()),
   puedeCompletarse: z.boolean(),
+  // V16 (contrato 0.14.0): al menos un documento de la entrada actual, de cualquier tipo (A9 y A10). Ausente = false.
+  exigeAlgunDocumento: z.boolean().optional(),
 });
 export type AccionDisponible = z.infer<typeof esquemaAccionDisponible>;
 
@@ -203,6 +205,7 @@ const esquemaDefinicionFlujo = z.object({
           requiereBodega: z.boolean(),
           requisitosDocumentales: z.enum(['DEFINIDOS', 'PENDIENTES']),
           documentosObligatorios: z.array(z.string()),
+          exigeAlgunDocumento: z.boolean().optional(),
         }),
       ),
       automatica: z.boolean(),

@@ -4,7 +4,7 @@ param(
 )
 $ErrorActionPreference='Stop'
 $repoArnesB3=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
-if((git -C $repoArnesB3 branch --show-current) -ne 'fase-3-drive-gmail'){throw 'Rama inesperada'}
+if((git -C $repoArnesB3 branch --show-current) -ne 'fase-5-seguimiento'){throw 'Rama inesperada'}
 if($Accion -eq 'Estado'){
     Write-Output 'Arnes opt-in preparado. No inicia JVM, Docker, OAuth, copia ni correo sin una accion explicita.'
     exit 0

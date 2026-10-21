@@ -153,7 +153,7 @@ class Backend24IT {
         accion(admin,p,5,"APROBAR",",\"observacion\":\"Fabricacion ficticia terminada\"",200);
         assertThat(jdbc.queryForObject("select etapa_actual from pedido where id=?",Integer.class,p)).isEqualTo(6);
         antes=estado(p);
-        accion(admin,p,6,"APROBAR","",409); // Bloqueo documental vigente, no bloqueo de fase en A5.
+        assertThat(accion(admin,p,6,"APROBAR","",422)).contains("Packing List"); // Requisito V16, no bloqueo de fase en A5.
         assertThat(estado(p)).isEqualTo(antes);
     }
     @Test void fase4IncidenciasHabilitadaConservaBloqueoDocumental() throws Exception {
@@ -166,7 +166,7 @@ class Backend24IT {
             jdbc.update("update pedido set etapa_actual=10 where id=?",p);
         });
         var antes=estado(p);
-        assertThat(accion(admin,p,10,"APROBAR","",409)).contains("documentos");
+        assertThat(accion(admin,p,10,"APROBAR","",422)).contains("al menos un documento");
         assertThat(estado(p)).isEqualTo(antes);
     }
     @Test void resumenDeEtapaIncluyeLoOcurrido() throws Exception {

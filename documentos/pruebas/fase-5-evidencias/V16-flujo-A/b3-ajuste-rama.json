@@ -1,0 +1,8 @@
+{
+  "aprobacion": "Richard: Sí, exigir fase-5-seguimiento",
+  "archivo": "documentos/pruebas/arnes-b3/arnes-b3.ps1",
+  "antes": "f6bccb8ec015a68b056ffe01074b7d8e788ba04f187abcca7929dee2d0e7a555",
+  "despues": "f5105a75485c78b445078ba3de1c50749ecb3c893d76d014c019cf3fe97954ae",
+  "unicoCambioSemantico": true,
+  "otrasGuardas": "Conservadas; no inicia servicios con Estado"
+}

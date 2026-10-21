@@ -195,6 +195,7 @@ Los roles del usuario están en `usuario_rol`, no en esta tabla.
 | `requiere_urgencia` | `boolean` | NOT NULL, `CHECK` | Solo DEVOLVER_POR_PRODUCTO_NUEVO |
 | `requiere_bodega` | `boolean` | NOT NULL | APROBAR en A9 / B10 |
 | `requisitos_documentales` | `text` | NOT NULL, `CHECK (IN ('DEFINIDOS','PENDIENTES'))` | `PENDIENTES`: el cliente no definió los documentos; la transición no se puede ejecutar. Que no haya filas en `documento_requerido` **no** significa "sin requisitos" (S-2) |
+| `exige_algun_documento` | `boolean` | NOT NULL DEFAULT false; `CHECK` solo con `DEFINIDOS` (V16) | Hace falta al menos un documento de la entrada actual, de cualquier tipo. No fija un tipo comercial (A9 y A10) |
 
 UNIQUE (`flujo_id`, `etapa_origen`, `accion`). En V2 la transición apunta al origen y al destino por número de etapa dentro del mismo flujo (en lugar de `etapa_id`), así la base comprueba que el destino existe en ese flujo.
 
@@ -203,7 +204,7 @@ UNIQUE (`flujo_id`, `etapa_origen`, `accion`). En V2 la transición apunta al or
 **Siembra del flujo A de Ecuador, versión 1 (V2; P-04, decisión del equipo):** once etapas y las transiciones de `requerimientos.md` 4.4.
 
 - **Documentos confirmados:** "Solicitud" (A1 Enviar) y "Documentos codificados" (A2 Enviar).
-- **Documentos `PENDIENTES`:** A6 Embarque ("Packing List / BL": ⏸ uno o dos documentos, S-2), A9 Bodega ("documentos") y A10 Incidencias ("todos los documentos").
+- **Documentos de A6, A9 y A10 (V16, confirmados por Richard el 2026-10-21; antes `PENDIENTES`):** A6 Embarque exige "Packing List" (BL y otros opcionales); A9 Bodega y A10 Incidencias exigen al menos un documento de cualquier tipo (`exige_algun_documento`), sin excepción "sin incidencias". Se completa la versión 1, como V3 y V11: esas transiciones nunca se pudieron ejecutar antes.
 - **Plazos `PENDIENTE`:** Fabricación, Aduana (45 días de tránsito sin tipo definido) e Incidencias.
 - **`ELEGIR_BODEGA`:** no se siembra; es diseño del contrato, no está en 4.4.
 - **Habilitación:** en la fase 2 la aplicación solo habilita las acciones de A1 a A4, incluido A4 → A5. El flujo B se siembra en la fase 6.

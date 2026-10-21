@@ -383,3 +383,25 @@ Se mantienen los límites y estados de H01–H04, la aceptación pendiente del p
 Por autorización expresa de Richard, se prepara el índice únicamente con las **797 rutas revisadas** de fase 5, excluyendo Header.tsx, secretos, temporales y cambios ajenos. [Inventario por grupos y límites](fase-5-inventario.md), [selección exacta](fase-5-seleccion-final.txt), [revisión de secretos y exclusiones](fase-5-revision-seleccion.json), [resultado del índice, check y stat](fase-5-indice-comprobacion.json). Solo se fuerza la inclusión de los 66 logs ignorados revisados; las evidencias originales permanecen intactas. La correspondencia exacta y las referencias se registran en el resultado de comprobación; un estado pendiente no equivale a preparación terminada.
 
 No se repiten pruebas: se conservan sus resultados locales aprobados y sus límites. No se ejecutan commit ni push. A6/A9/A10 bloqueadas, A1–Fin no acreditado, aceptación del polling y meta pendientes, objetivo adicional de cobertura frontend y diferencia con 500 intactos. 3.B3 Google pospuesto; fases 3, 4 y 5 abiertas.
+
+## Revalidación V16 y recorrido real A1–Fin — 2026-10-21
+
+Esta entrada actualiza los estados históricos anteriores sin borrar sus evidencias. Richard confirmó A6 con Packing List, A9 con bodega activa y algún documento, y A10 con documento y Fin automático. V16 y la verificación local acreditan esas reglas: A6/A9/A10 ya no quedan bloqueadas por una definición documental pendiente. Los plazos pendientes y la meta de días propuesta siguen sin resolverse; esto no cierra fases.
+
+[Informe detallado, comandos y matriz](fase-5-evidencias/V16-flujo-A/README.md), [métricas reales](fase-5-evidencias/V16-flujo-A/metricas-finales.json), [conservación y parada](fase-5-evidencias/V16-flujo-A/conservacion-final.json).
+
+- Backend: check aprobado, **851/851**, PostgreSQL Testcontainers aislado; cobertura global de líneas **91,28 %**, archivos **86,34 %**, plazos **95,12 %**. Migración V16 sobre base vacía y V15 con pedido esperando en A6, documentos e historial conservados. Se adaptaron expectativas antiguas sin retirar comprobaciones de esquema ni comportamiento.
+- Frontend: lint, **324/324** y build aprobados; cobertura global de líneas **67,32 %**. El objetivo adicional ≥80 % sigue pendiente, sin exclusiones nuevas ni reducción de umbrales.
+- API real y navegador: recorrido A1–Fin con rechazo, ambas devoluciones, reentradas, demora, llegada, bodega, documentos reales en almacenamiento aislado e historial. Packing List sola y con adjuntos adicionales; rechazos de documentos ajenos, ausentes y corruptos; algún documento obligatorio en A9/A10; Fin automático del sistema sin acciones manuales. Contrato y pantallas coherentes con exigeAlgunDocumento.
+- Dos sesiones reales actualizadas por polling de 30 segundos: ambas comprobadas a los **30060 ms**, sin reloj simulado. No equivale a “al instante” ni aceptación del cliente. Siete pedidos en esta API; máximo observado 11 por base de suites, límite autorizado 20. No se repitió la carga de 500 ni se retiró por inferencia el objetivo original del manual.
+
+Los fallos iniciales de expectativas obsoletas y selector del arnés permanecen registrados; las revalidaciones posteriores aprobaron. No se identificó un defecto de producción nuevo en este alcance. Producción, Header.tsx e índice Git conservados por hashes. API, frontend y control locales detenidos, sin bases compartidas ni borrado de volúmenes. No hubo Google real.
+
+Continuación del arnés 3.B3 existente preparada **sin ejecutarla**: comparación de rama cambiada únicamente a fase-5-seguimiento por aprobación expresa de Richard; rechaza una rama ajena. Ocho guardas aprobadas y classpath actualizado, con evidencias anteriores conservadas. Solo se autoriza UN archivo ficticio de **104857600 bytes** y UN correo del buzón aprobado a sí mismo; no el outbox ni todos los adjuntos del recorrido. El inicio, autorización, copia y correo conservan sus confirmaciones personales. El consentimiento solo corresponde después de elegir autorizar y confirmar su guarda en consola. Recepción requiere confirmación de Richard, no basta aceptación de Gmail.
+
+3.B3 real continúa sin ejecutar ni aprobar; fases 3, 4 y 5 abiertas. OAuth, workers, schedulers y detección automática permanecen desactivados fuera de la activación aislada que todavía no se ha iniciado. Sigue explícita la limitación de espacio físico temporal: las cuotas lógicas no garantizan capacidad de disco. Se mantiene la distinción entre recomendaciones, decisiones provisionales del equipo y requisitos aceptados por el cliente.
+
+### Preparación del índice posterior a V16 — 2026-10-21
+
+Selección revisada en fase-5-v16-inventario.md y fase-5-v16-seleccion.txt: implementación, V16, pruebas, documentación y evidencias relacionadas. Preparación del arnés clasificada aparte; 3.B3 permanece pospuesto, sin operaciones Google. Se mantienen las fases abiertas, meta de días pendiente, objetivo adicional frontend ≥80 % pendiente, límite físico temporal y diferencia frente a 500. No se repiten pruebas ni se modifica producción. No se realiza commit, push ni merge.
+

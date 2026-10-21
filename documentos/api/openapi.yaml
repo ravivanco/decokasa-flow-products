@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.13.0-borrador
+  version: 0.14.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -104,6 +104,12 @@ info:
     **Cambios del 2026-10-20 (fase 5, paso 5.3; versión 0.13.0-borrador).** `GET /pedidos/bandeja` acepta los filtros
     opcionales `vencido` y `conUrgencia` del dashboard; `Urgencia.vencida` dice si la urgencia vigente ya venció, decidido
     por el servidor. Solo se agregan campos y parámetros opcionales.
+
+    **Cambios del 2026-10-21 (documentos de A6, A9 y A10, confirmados por Richard; V16; versión 0.14.0-borrador).**
+    A6 exige al menos un documento de tipo "Packing List"; el BL y otros adjuntos son opcionales. A9 y A10 exigen al menos
+    un documento de cualquier tipo, sin tipo comercial fijo y sin excepción "sin incidencias". Las tres transiciones pasan
+    de `PENDIENTES` a `DEFINIDOS`. `DefinicionAccion` y `AccionDisponible` agregan `exigeAlgunDocumento`; si falta ese
+    documento, `faltantes` y `documentosFaltantes` incluyen "al menos un documento". Solo se agrega un campo.
 
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6), con el estado y los roles
     actuales de la persona en la base, no con los roles del token.
@@ -878,11 +884,13 @@ paths:
         | A3 / B4 | APROBAR / RECHAZAR | A4 / B5 — A2 / B3 | RECHAZAR: observación |
         | A4 / B5 | APROBAR / DEVOLVER_POR_ERROR / DEVOLVER_POR_PRODUCTO_NUEVO | A5 / B6 — A2 / B3 — A2 / B3 | Devolver: observación; por producto nuevo, además, urgencia |
         | A5 / B6 | APROBAR | A6 / B7 | Observación |
-        | A6 / B7 | APROBAR | A7 / B8 | Packing List / BL adjuntos |
+        | A6 / B7 | APROBAR | A7 / B8 | Al menos un "Packing List" adjunto; BL y otros, opcionales (V16) |
         | A7 / B8 | APROBAR / REPORTAR_DEMORA | A8 / B9 — se queda | Demora: observación y nueva fecha |
         | A8 / B9 | APROBAR | A9 / B10 | — |
-        | A9 / B10 | APROBAR | A10 / B11 | `bodegaId` de una bodega activa y documentos (F4-D2; documentos pendientes, F4-D7) |
-        | A10 / B11 | APROBAR | A11 / B12 (Fin automático) | Documentos (pendiente: cuáles son "todos") |
+        | A9 / B10 | APROBAR | A10 / B11 | `bodegaId` de una bodega activa (F4-D2) y al menos un documento de cualquier tipo (V16) |
+        | A10 / B11 | APROBAR | A11 / B12 (Fin automático) | Al menos un documento de cualquier tipo (V16); sin excepción "sin incidencias" |
+
+        Las filas de A6, A9 y A10 rigen para el flujo A de Ecuador (V16); el flujo B se siembra en la fase 6.
 
         La urgencia (4, 12 o 24 h) tiene su propio vencimiento hasta volver a A4 / B5 (requisito 4.2 #11).
         El campo `etapaEsperada` evita actuar sobre una etapa que otro usuario ya movió (propuesta de diseño).
@@ -891,7 +899,9 @@ paths:
         archivos reales subidos a la **entrada actual** de la etapa (`EtapaEnLinea.entradaId`). Un identificador que
         no existe, es de otro pedido, de otra etapa o de una entrada anterior, o cuyo archivo no está disponible en el
         almacenamiento, responde **400** (`errores[].campo = adjuntoIds`); nunca se ignora. Si los identificadores son
-        válidos pero falta un tipo obligatorio, responde **422** con `faltantes`. Los archivos aceptados quedan en
+        válidos pero falta un tipo obligatorio, o la acción exige al menos un documento (`exigeAlgunDocumento`) y no se
+        adjuntó ninguno, responde **422** con `faltantes` ("al menos un documento" en el segundo caso). Se pueden adjuntar
+        documentos adicionales de cualquier tipo. Los archivos aceptados quedan en
         `EventoHistorial.adjuntoIds` del evento de la acción. El texto de una observación no reemplaza un documento.
 
         **Demora y llegada en aduana (F4-D5, provisional del equipo, pendiente de confirmación del cliente; 0.9.0).**
@@ -903,24 +913,26 @@ paths:
         `PENDIENTE`. Cada demora queda en el historial (`DEMORA_REPORTADA`) con la estimación anterior y, si es
         distinta, la fecha solicitada. `APROBAR` en A7 es el check de llegada: guarda `llegadaAduanaEn` con la hora
         del servidor y pasa a A8. La etapa de llegada es la marcada con `DefinicionEtapa.registraLlegada` (ADR-0018),
-        no la que admite `REPORTAR_DEMORA`. A7 solo se alcanza si A6 avanza, y A6 sigue bloqueada mientras sus documentos estén
-        pendientes del cliente (F4-D4).
+        no la que admite `REPORTAR_DEMORA`. A7 solo se alcanza si A6 avanza; desde V16, A6 avanza con al menos un "Packing List"
+        adjunto (F4-D4, confirmado por Richard el 2026-10-21).
 
         **Bodega (F4-D2, provisional del equipo, pendiente de confirmación del cliente; 0.10.0).** La bodega se elige
         únicamente con el `APROBAR` de A9, con `bodegaId` (quien puede actuar en A9 según P-06: Logística o el admin).
         Sin `bodegaId`, 422 con `faltantes: [bodega]`; una bodega inexistente o inactiva, también si se desactiva
         mientras se confirma, 400 en `bodegaId`; `bodegaId` con otra acción, 400. La bodega, el avance a A10 y los
         eventos `BODEGA_ASIGNADA` y `ETAPA_APROBADA` se guardan juntos; se asigna una sola vez y no se cambia después
-        (cambiarla queda pendiente del cliente). Mientras los documentos de A9 sigan pendientes del cliente (F4-D7),
-        `APROBAR` en A9 responde 409 y no guarda ninguna bodega. `ELEGIR_BODEGA` no se usa.
+        (cambiarla queda pendiente del cliente). Desde V16 (F4-D7), `APROBAR` en A9 exige además al menos un documento de
+        cualquier tipo de la entrada actual; si falta, 422 con `faltantes` y no se guarda ninguna bodega. `ELEGIR_BODEGA`
+        no se usa.
 
-        **Incidencias y Fin (paso 4.5).** A10 admite la acción APROBAR de Logística o admin vigente (P-06),
-        pero sus documentos siguen PENDIENTES (F4-D8): la confirmación responde 409 sin cerrar el pedido.
-        Su plazo también sigue PENDIENTE. Cuando se definan y cumplan los requisitos, APROBAR completa A10 y
+        **Incidencias y Fin (paso 4.5; documentos desde V16).** A10 admite la acción APROBAR de Logística o admin
+        vigente (P-06) y exige al menos un documento de cualquier tipo (F4-D8, confirmado por Richard el 2026-10-21; sin
+        excepción "sin incidencias"); sin él, 422 con `faltantes` y el pedido no se cierra. Su plazo sigue PENDIENTE.
+        Con el requisito cumplido, APROBAR completa A10 y
         Fin automáticamente en la misma transacción: pedido finalizado, ninguna etapa ACTUAL, Fin COMPLETADA
         con entrada y salida a la hora del servidor, sin vencimiento. Además de la aprobación por la persona,
         se registra PEDIDO_FINALIZADO como evento del sistema, sin usuario ni rol. Un pedido finalizado y A11
-        no admiten acciones manuales. Los bloqueos documentales de A6 y A9 se conservan.
+        no admiten acciones manuales.
         No se agrega un aviso específico de Fin ni se definen destinatarios (F4-D9 pendiente).
         El orden relativo de eventos con la misma hora sigue pendiente (F4-H01).
       requestBody:
@@ -2374,7 +2386,7 @@ components:
           description: 'Etapa de llegada a aduana: al aprobarla, el pedido guarda `llegadaAduanaEn` con la hora del servidor. Como máximo una por versión de flujo y nunca automática. En el flujo A vigente, solo A7. Agregado en 0.9.1.'
     DefinicionAccion:
       type: object
-      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios]
+      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios, exigeAlgunDocumento]
       properties:
         accion:
           $ref: '#/components/schemas/AccionEtapa'
@@ -2391,9 +2403,12 @@ components:
           $ref: '#/components/schemas/RequisitosDocumentales'
         documentosObligatorios:
           type: array
-          description: 'Tipos de documento que deben estar adjuntos a la etapa antes de la acción (por ejemplo, "Packing List" y "BL" en A6).'
+          description: 'Tipos de documento que deben estar adjuntos a la etapa antes de la acción (por ejemplo, "Packing List" en A6). Se pueden adjuntar otros tipos además.'
           items:
             type: string
+        exigeAlgunDocumento:
+          type: boolean
+          description: 'Hace falta al menos un documento adjunto de la entrada actual, de cualquier tipo (A9 y A10 desde V16). No fija un tipo comercial. Agregado en 0.14.0.'
     Plazo:
       type: object
       required: [cantidad, tipo]
@@ -2569,7 +2584,7 @@ components:
             $ref: '#/components/schemas/CodigoRol'
     AccionDisponible:
       type: object
-      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios, documentosFaltantes, puedeCompletarse]
+      required: [accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, requisitosDocumentales, documentosObligatorios, documentosFaltantes, puedeCompletarse, exigeAlgunDocumento]
       properties:
         accion:
           $ref: '#/components/schemas/AccionEtapa'
@@ -2590,12 +2605,15 @@ components:
             type: string
         documentosFaltantes:
           type: array
-          description: Tipos obligatorios sin ningún archivo subido a la entrada actual de la etapa (P-18).
+          description: 'Tipos obligatorios sin ningún archivo subido a la entrada actual de la etapa (P-18). Con `exigeAlgunDocumento` y ningún archivo subido, incluye "al menos un documento".'
           items:
             type: string
         puedeCompletarse:
           type: boolean
           description: Falso si los documentos están PENDIENTES de definir, si falta algún documento o si la acción todavía no está implementada. La observación, la urgencia, la fecha de una demora y la bodega se envían con la acción y no cuentan aquí.
+        exigeAlgunDocumento:
+          type: boolean
+          description: 'Hace falta al menos un documento de la entrada actual, de cualquier tipo (A9 y A10 desde V16). Agregado en 0.14.0.'
     EtapaEnLinea:
       type: object
       required: [numero, nombre, estado, rolResponsable, estadoPlazo]

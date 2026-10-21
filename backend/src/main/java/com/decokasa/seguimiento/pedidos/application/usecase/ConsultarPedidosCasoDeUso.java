@@ -25,6 +25,7 @@ import com.decokasa.seguimiento.pedidos.domain.EtapaDePedido;
 import com.decokasa.seguimiento.pedidos.domain.EtapasHabilitadas;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
 import com.decokasa.seguimiento.pedidos.domain.PermisosEtapa;
+import com.decokasa.seguimiento.pedidos.domain.ReglaDeTransicion;
 import com.decokasa.seguimiento.pedidos.domain.UrgenciaActiva;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
@@ -198,7 +199,12 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         List<VistasDePedido.AccionDisponible> lista = new ArrayList<>();
         for (ResolverTransicion.Resolucion resolucion : acciones.accionesDe(pedido.flujoId(), pedido.etapaActual())) {
             List<String> obligatorios = resolucion.documentosObligatorios().stream().sorted().toList();
-            List<String> faltantes = obligatorios.stream().filter(tipo -> !subidos.contains(tipo)).toList();
+            List<String> faltantes = new ArrayList<>(
+                    obligatorios.stream().filter(tipo -> !subidos.contains(tipo)).toList());
+            // V16 (A9 y A10): cualquier documento de la entrada actual cuenta; sin ninguno, falta uno.
+            if (resolucion.exigeAlgunDocumento() && subidos.isEmpty()) {
+                faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+            }
             // REPORTAR_DEMORA no mueve el pedido y sí está implementada (F4-D5); ELEGIR_BODEGA no se usa (F4-D2). La
             // bodega, como la observación, se envía con la acción y no cuenta aquí.
             boolean implementada = resolucion.etapaDestino() != null
@@ -206,7 +212,8 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
             boolean puedeCompletarse = !resolucion.documentosPendientes() && implementada && faltantes.isEmpty();
             lista.add(new VistasDePedido.AccionDisponible(resolucion.accion(), resolucion.etapaDestino(),
                     resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.requiereBodega(),
-                    resolucion.documentosPendientes(), obligatorios, faltantes, puedeCompletarse));
+                    resolucion.documentosPendientes(), obligatorios, List.copyOf(faltantes), puedeCompletarse,
+                    resolucion.exigeAlgunDocumento()));
         }
         return List.copyOf(lista);
     }

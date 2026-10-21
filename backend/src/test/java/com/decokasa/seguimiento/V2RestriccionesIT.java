@@ -25,8 +25,8 @@ class V2RestriccionesIT {
     @BeforeAll static void migrarBaseVacia() {
         var resultado=Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
                 .locations("classpath:db/migration").load().migrate();
-        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(15);
-        assertThat(resultado.targetSchemaVersion).isEqualTo("15");
+        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(16);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("16");
     }
     @BeforeEach void preparar() throws SQLException {
         db=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());
@@ -80,12 +80,12 @@ class V2RestriccionesIT {
                         "3:APROBAR:4:false:false:false:DEFINIDOS","3:RECHAZAR:2:true:false:false:DEFINIDOS",
                         "4:APROBAR:5:false:false:false:DEFINIDOS","4:DEVOLVER_POR_ERROR:2:true:false:false:DEFINIDOS",
                         "4:DEVOLVER_POR_PRODUCTO_NUEVO:2:true:true:false:DEFINIDOS","5:APROBAR:6:true:false:false:DEFINIDOS",
-                        "6:APROBAR:7:false:false:false:PENDIENTES","7:APROBAR:8:false:false:false:DEFINIDOS",
+                        "6:APROBAR:7:false:false:false:DEFINIDOS","7:APROBAR:8:false:false:false:DEFINIDOS",
                         "7:REPORTAR_DEMORA:-:true:false:false:DEFINIDOS","8:APROBAR:9:false:false:false:DEFINIDOS",
-                        "9:APROBAR:10:false:false:true:PENDIENTES","10:APROBAR:11:false:false:false:PENDIENTES");
+                        "9:APROBAR:10:false:false:true:DEFINIDOS","10:APROBAR:11:false:false:false:DEFINIDOS");
         assertThat(textos("select t.etapa_origen||':'||d.tipo_documento from documento_requerido d "
                 +"join transicion_permitida t on t.id=d.transicion_id order by t.etapa_origen"))
-                .containsExactly("1:Solicitud","2:Documentos codificados");
+                .containsExactly("1:Solicitud","2:Documentos codificados","6:Packing List");
     }
     @ParameterizedTest @ValueSource(strings={"update evento_pedido set observacion='Cambio ficticio'", "delete from evento_pedido", "truncate table evento_pedido cascade"})
     void historialRechazaUpdateDeleteYTruncate(String sentencia) throws SQLException { rechaza("P0001",sentencia); }

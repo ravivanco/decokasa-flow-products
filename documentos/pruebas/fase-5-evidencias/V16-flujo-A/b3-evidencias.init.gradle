@@ -1,0 +1,8 @@
+allprojects { p ->
+    p.plugins.withId('java') {
+        p.tasks.named('b3ComprobarGuardas', Test).configure {
+            reports.junitXml.outputLocation = new File(p.projectDir, '../documentos/pruebas/fase-5-evidencias/V16-flujo-A/b3-guardas-junit')
+            reports.html.outputLocation = new File(p.projectDir, '../documentos/pruebas/fase-5-evidencias/V16-flujo-A/b3-guardas-html')
+        }
+    }
+}

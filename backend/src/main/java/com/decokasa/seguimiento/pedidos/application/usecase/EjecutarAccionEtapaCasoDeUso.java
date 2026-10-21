@@ -101,7 +101,7 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
                 resolucion.etapaDestino(), resolucion.requiereObservacion(), resolucion.requiereUrgencia(),
                 resolucion.requiereBodega(), resolucion.documentosPendientes(), resolucion.documentosObligatorios(),
                 resolucion.plazoDestino(), resolucion.destinoEsRetornoDeUrgencia(), resolucion.rolResponsableOrigen(),
-                registraLlegada, resolucion.destinoEsAutomatico());
+                registraLlegada, resolucion.destinoEsAutomatico(), resolucion.exigeAlgunDocumento());
         Set<String> presentes = Set.of();
         if (!comando.adjuntoIds().isEmpty()) {
             EtapaDePedido actual = etapaActual(pedido);

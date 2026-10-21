@@ -39,7 +39,8 @@ public final class DescribirFlujoCasoDeUso implements DescribirFlujo {
                 .map(transicion -> new Accion(transicion.accion(), transicion.etapaDestino(),
                         transicion.requiereObservacion(), transicion.requiereUrgencia(), transicion.requiereBodega(),
                         transicion.documentosPendientes(),
-                        transicion.documentosObligatorios().stream().sorted().toList()))
+                        transicion.documentosObligatorios().stream().sorted().toList(),
+                        transicion.exigeAlgunDocumento()))
                 .toList();
         return new Etapa(etapa.numero(), etapa.nombre(), etapa.rolResponsable(), etapa.plazo(), etapa.revisaEtapa(),
                 etapa.automatica(), etapa.registraLlegada(), acciones);

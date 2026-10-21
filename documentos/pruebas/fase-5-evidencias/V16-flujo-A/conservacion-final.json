@@ -1,0 +1,23 @@
+{
+    "indiceSinCambios":  true,
+    "produccionSinCambios":  true,
+    "cambiosProtegidos":  [
+                              "frontend/src/components/pedidos/ArchivosYPermisos.test.tsx",
+                              "backend/src/test/java/com/decokasa/seguimiento/MigracionesIT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/V2RestriccionesIT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesFase4IT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/archivos/MigracionesFase5IT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/pedidos/Backend24IT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/pedidos/Fase4IT.java",
+                              "backend/src/test/java/com/decokasa/seguimiento/pedidos/PersistenciaFaseDosIT.java"
+                          ],
+    "puertosEscucha":  [
+
+                       ],
+    "archivosConPatronesSecretos":  [
+
+                                    ],
+    "credencialTemporalPresente":  false,
+    "headerSinCambios":  true,
+    "maxPedidosBackend":  11
+}

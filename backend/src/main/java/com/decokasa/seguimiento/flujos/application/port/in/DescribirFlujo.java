@@ -33,8 +33,20 @@ public interface DescribirFlujo {
             boolean automatica, boolean registraLlegada, List<Accion> acciones) {
     }
 
-    /** @param documentosPendientes el cliente no definió los documentos de la acción */
+    /**
+     * @param documentosPendientes el cliente no definió los documentos de la acción
+     * @param exigeAlgunDocumento hace falta al menos un documento adjunto, de cualquier tipo (A9 y A10, V16)
+     */
     record Accion(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion, boolean requiereUrgencia,
-            boolean requiereBodega, boolean documentosPendientes, List<String> documentosObligatorios) {
+            boolean requiereBodega, boolean documentosPendientes, List<String> documentosObligatorios,
+            boolean exigeAlgunDocumento) {
+
+        /** Compatibilidad con vistas anteriores a V16. */
+        public Accion(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                List<String> documentosObligatorios) {
+            this(accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosPendientes,
+                    documentosObligatorios, false);
+        }
     }
 }

@@ -72,6 +72,7 @@ public class DefinicionFlujoJpaRepositorio implements DefinicionFlujoRepositorio
         return new TransicionPermitida(fila.getEtapaOrigen(), AccionEtapa.valueOf(fila.getAccion()),
                 fila.getEtapaDestino() == null ? null : fila.getEtapaDestino().intValue(),
                 fila.isRequiereObservacion(), fila.isRequiereUrgencia(), fila.isRequiereBodega(),
-                RequisitosDocumentales.valueOf(fila.getRequisitosDocumentales()), fila.getDocumentos());
+                RequisitosDocumentales.valueOf(fila.getRequisitosDocumentales()), fila.getDocumentos(),
+                fila.isExigeAlgunDocumento());
     }
 }

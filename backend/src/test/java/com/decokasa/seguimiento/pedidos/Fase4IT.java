@@ -73,7 +73,7 @@ class Fase4IT {
         sql.update("insert into definicion_flujo(id,pais_codigo,tipo_flujo,version,vigente,creada_en) values(?,'EC','A',?,false,now())",f,NUMERO.incrementAndGet());
         sql.update("insert into definicion_etapa(id,flujo_id,numero,nombre,rol_codigo,plazo_estado,plazo_cantidad,plazo_tipo,automatica,registra_llegada) select gen_random_uuid(),?,numero,nombre,rol_codigo,plazo_estado,plazo_cantidad,plazo_tipo,automatica,numero=? from definicion_etapa where flujo_id=?",f,llegada,FLUJO);
         sql.update("update definicion_etapa n set revisa_etapa=o.revisa_etapa from definicion_etapa o where n.flujo_id=? and o.flujo_id=? and n.numero=o.numero",f,FLUJO);
-        sql.update("insert into transicion_permitida(id,flujo_id,etapa_origen,accion,etapa_destino,requiere_observacion,requiere_urgencia,requiere_bodega,requisitos_documentales) select gen_random_uuid(),?,etapa_origen,accion,etapa_destino,requiere_observacion,requiere_urgencia,requiere_bodega,case when etapa_origen=9 then 'DEFINIDOS' else requisitos_documentales end from transicion_permitida where flujo_id=?",f,FLUJO);
+        sql.update("insert into transicion_permitida(id,flujo_id,etapa_origen,accion,etapa_destino,requiere_observacion,requiere_urgencia,requiere_bodega,requisitos_documentales,exige_algun_documento) select gen_random_uuid(),?,etapa_origen,accion,etapa_destino,requiere_observacion,requiere_urgencia,requiere_bodega,case when etapa_origen=9 then 'DEFINIDOS' else requisitos_documentales end,exige_algun_documento from transicion_permitida where flujo_id=?",f,FLUJO);
         sql.update("insert into documento_requerido(transicion_id,tipo_documento) select n.id,d.tipo_documento from transicion_permitida n join transicion_permitida o on o.etapa_origen=n.etapa_origen and o.accion=n.accion join documento_requerido d on d.transicion_id=o.id where n.flujo_id=? and o.flujo_id=?",f,FLUJO);
         sql.update("insert into documento_requerido(transicion_id,tipo_documento) select id,'Documento ficticio F4' from transicion_permitida where flujo_id=? and etapa_origen=9",f);
         return f;
@@ -179,13 +179,14 @@ class Fase4IT {
         assertThat(sql.queryForObject("select observacion from evento_pedido where pedido_id=? and tipo='ETAPA_APROBADA'",String.class,p)).isEqualTo("Fabricacion ficticia concluida");
     }
     @ParameterizedTest @ValueSource(ints={6,9})
-    void requisitosPendientesRealesBloqueanSinMutarNiEncolar(int etapa)throws Exception{
+    void requisitosV16BloqueanSinDocumentoSinMutarNiEncolar(int etapa)throws Exception{
         UUID p=fixture(etapa,FLUJO),b=bodega(true);var antes=estado(p);
-        String r=accion(admin,p,etapa,"APROBAR",etapa==9?",\"bodegaId\":\""+b+"\"":"",409);
-        assertThat(r).contains("documentos");assertThat(estado(p)).isEqualTo(antes);
-        assertThat((String)JsonPath.read(detalle(p),"$.accionesDisponibles[0].requisitosDocumentales")).isEqualTo("PENDIENTES");
+        String r=accion(admin,p,etapa,"APROBAR",etapa==9?",\"bodegaId\":\""+b+"\"":"",422);
+        assertThat(r).contains(etapa==6 ? "Packing List" : "al menos un documento");assertThat(estado(p)).isEqualTo(antes);
+        assertThat((String)JsonPath.read(detalle(p),"$.accionesDisponibles[0].requisitosDocumentales")).isEqualTo("DEFINIDOS");
         assertThat((Boolean)JsonPath.read(detalle(p),"$.accionesDisponibles[0].puedeCompletarse")).isFalse();
-        assertThat(sql.queryForObject("select requisitos_documentales from transicion_permitida where flujo_id=? and etapa_origen=? and accion='APROBAR'",String.class,FLUJO,etapa)).isEqualTo("PENDIENTES");
+        assertThat(sql.queryForObject("select requisitos_documentales from transicion_permitida where flujo_id=? and etapa_origen=? and accion='APROBAR'",String.class,FLUJO,etapa)).isEqualTo("DEFINIDOS");
+        assertThat((Boolean)JsonPath.read(detalle(p),"$.accionesDisponibles[0].exigeAlgunDocumento")).isEqualTo(etapa==9);
     }
     @ParameterizedTest @ValueSource(strings={
         "\"2026-02-30\"","\"2026-10-17T00:00:00Z\"","123","[2026,10,17]","\"17/10/2026\"","\"2026-1-2\"",
@@ -288,7 +289,7 @@ class Fase4IT {
         http(patch("/api/v1/bodegas/"+b),admin,"{\"activa\":false,\"version\":0}",200);
         assertThat((Boolean)JsonPath.read(detalle(p),"$.bodega.activa")).isFalse();
         antes=estado(p);accion(admin,p,9,"APROBAR",datos(b,a),409);
-        accion(admin,p,10,"APROBAR","",409);assertThat(estado(p)).isEqualTo(antes);
+        accion(admin,p,10,"APROBAR","",422);assertThat(estado(p)).isEqualTo(antes);
     }
     @Test void fixtureNoOmiteDocumentosNiPermisosDeBodega()throws Exception{
         UUID p=fixture(9,versionFicticia(7)),b=bodega(true);var antes=estado(p);
@@ -425,18 +426,20 @@ class Fase4IT {
                 .singleElement().satisfies(e->assertThat(e.get("usuario")).isNull());
     }
     @ParameterizedTest @ValueSource(strings={"admin","logistica"})
-    void a10VigenteMantieneDocumentosYPlazoPendientes(String rol)throws Exception {
+    void a10VigenteExigeDocumentoConPlazoPendienteYFinAutomatico(String rol)throws Exception {
         UUID p=fixture(10,FLUJO),u=persona(rol);var antes=estado(p);
         String r=http(get(base(p)),u,"",200);
         assertThat((String)JsonPath.read(r,"$.lineaDeTiempo[9].estadoPlazo")).isEqualTo("PENDIENTE");
         assertThat(JsonPath.<Object>read(r,"$.lineaDeTiempo[9].venceEn")).isNull();
-        assertThat((String)JsonPath.read(r,"$.accionesDisponibles[0].requisitosDocumentales")).isEqualTo("PENDIENTES");
+        assertThat((String)JsonPath.read(r,"$.accionesDisponibles[0].requisitosDocumentales")).isEqualTo("DEFINIDOS");
+        assertThat((Boolean)JsonPath.read(r,"$.accionesDisponibles[0].exigeAlgunDocumento")).isTrue();
         assertThat((Boolean)JsonPath.read(r,"$.accionesDisponibles[0].puedeCompletarse")).isFalse();
-        assertThat(accion(u,p,10,"APROBAR","",409)).contains("documentos");
+        assertThat(accion(u,p,10,"APROBAR","",422)).contains("al menos un documento");
+        assertThat(estado(p)).isEqualTo(antes);
         UUID archivo=documentoIncidencia(p);var conArchivo=estado(p);
-        accion(u,p,10,"APROBAR",documento(archivo),409);assertThat(estado(p)).isEqualTo(conArchivo);
-        assertThat((Boolean)JsonPath.read(detalle(p),"$.finalizado")).isFalse();
-        assertThat(antes.get(0)).isEqualTo(estado(p).get(0));
+        assertThat(antes.get(0)).isEqualTo(conArchivo.get(0));
+        accion(u,p,10,"APROBAR",documento(archivo),200);comprobarFin(p);
+        var cerrado=estado(p);accion(u,p,10,"APROBAR",documento(archivo),409);assertThat(estado(p)).isEqualTo(cerrado);
     }
     @ParameterizedTest @ValueSource(strings={"admin","logistica"})
     void a10ConRequisitosDeFixtureFinalizaYRegistraSistema(String rol)throws Exception {
@@ -448,7 +451,7 @@ class Fase4IT {
         assertThat(sql.queryForObject("select usuario_id from evento_pedido where pedido_id=? and tipo='ETAPA_APROBADA'",UUID.class,p)).isEqualTo(u);
         assertThat(sql.queryForObject("select count(*) from evento_pedido where pedido_id=? and tipo in ('ETAPA_APROBADA','PEDIDO_FINALIZADO')",Integer.class,p)).isEqualTo(2);
         var cerrado=estado(p);accion(u,p,10,"APROBAR",documento(archivo),409);assertThat(estado(p)).isEqualTo(cerrado);
-        assertThat(sql.queryForObject("select requisitos_documentales from transicion_permitida where flujo_id=? and etapa_origen=10",String.class,FLUJO)).isEqualTo("PENDIENTES");
+        assertThat(sql.queryForObject("select requisitos_documentales from transicion_permitida where flujo_id=? and etapa_origen=10",String.class,FLUJO)).isEqualTo("DEFINIDOS");
     }
     @Test void a10NoAdmiteDocumentoDeOtroPedido()throws Exception {
         UUID f=versionIncidenciasFicticia(),p=fixture(10,f),otro=fixture(10,f),a=documentoIncidencia(otro);var antes=estado(p);

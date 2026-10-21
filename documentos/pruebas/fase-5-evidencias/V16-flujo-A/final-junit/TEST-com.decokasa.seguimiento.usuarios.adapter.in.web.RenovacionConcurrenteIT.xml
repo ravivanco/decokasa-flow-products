@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-21T15:39:01.830Z" hostname="DESKTOP-GKF6IVL" time="3.706">
+  <properties/>
+  <testcase name="dosRenovacionesSimultaneasConElMismoTokenNoEmitenDosSucesoresValidos()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT" time="0.894"/>
+  <system-out><![CDATA[2026-10-21T10:39:01.830-05:00  INFO 26316 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT]: RenovacionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-21T10:39:01.835-05:00  INFO 26316 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT
+2026-10-21T10:39:01.835-05:00  INFO 26316 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT]: RenovacionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-21T10:39:01.838-05:00  INFO 26316 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-21T10:39:01.850-05:00  INFO 26316 --- [seguimiento] [    Test worker] c.d.s.u.a.i.web.RenovacionConcurrenteIT  : Starting RenovacionConcurrenteIT using Java 21.0.12.1 with PID 26316 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-21T10:39:01.850-05:00  INFO 26316 --- [seguimiento] [    Test worker] c.d.s.u.a.i.web.RenovacionConcurrenteIT  : No active profile set, falling back to 1 default profile: "default"
+2026-10-21T10:39:02.014-05:00  INFO 26316 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-21T10:39:02.069-05:00  INFO 26316 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 7 JPA repository interfaces.
+2026-10-21T10:39:02.110-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-21T10:39:02.110-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-21T10:39:02.110-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-21T10:39:02.130-05:00  INFO 26316 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 280 ms
+2026-10-21T10:39:02.156-05:00  INFO 26316 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-21T10:39:02.260-05:00  INFO 26316 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 8005f075d9b5159a8f70feb7fa96d0c1744b208a7cb8037b638aec35d63fad21
+2026-10-21T10:39:03.879-05:00  INFO 26316 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.7228508S
+2026-10-21T10:39:03.879-05:00  INFO 26316 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51104/test?loggerLevel=OFF)
+2026-10-21T10:39:03.965-05:00  INFO 26316 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51104/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-21T10:39:03.985-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-21T10:39:03.985-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 16 migrations (execution time 00:00.008s)
+2026-10-21T10:39:03.992-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-21T10:39:04.013-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-21T10:39:04.015-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-21T10:39:04.041-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-21T10:39:04.082-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-21T10:39:04.110-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-21T10:39:04.128-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-21T10:39:04.142-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-21T10:39:04.154-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-21T10:39:04.166-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-21T10:39:04.178-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "9 - bodegas llegada"
+2026-10-21T10:39:04.192-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "10 - demora aduana"
+2026-10-21T10:39:04.205-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "11 - etapa de llegada"
+2026-10-21T10:39:04.215-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "12 - bodega inactiva codigo"
+2026-10-21T10:39:04.223-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "13 - historial secuencia"
+2026-10-21T10:39:04.233-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "14 - configuracion plazos"
+2026-10-21T10:39:04.244-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "15 - avisos vencimiento"
+2026-10-21T10:39:04.265-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "16 - documentos a6 a9 a10"
+2026-10-21T10:39:04.275-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 16 migrations to schema "public", now at version v16 (execution time 00:00.149s)
+2026-10-21T10:39:04.305-05:00  INFO 26316 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-21T10:39:04.321-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-21T10:39:04.321-05:00  INFO 26316 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-52 - Starting...
+2026-10-21T10:39:04.332-05:00  INFO 26316 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-52 - Added connection org.postgresql.jdbc.PgConnection@5dcebf9
+2026-10-21T10:39:04.332-05:00  INFO 26316 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-52 - Start completed.
+2026-10-21T10:39:04.337-05:00  INFO 26316 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:51104/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-21T10:39:04.416-05:00  INFO 26316 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-21T10:39:04.429-05:00  INFO 26316 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-21T10:39:04.626-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-21T10:39:04.644-05:00  INFO 26316 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 51114 (http) with context path '/'
+2026-10-21T10:39:04.646-05:00  INFO 26316 --- [seguimiento] [    Test worker] c.d.s.u.a.i.web.RenovacionConcurrenteIT  : Started RenovacionConcurrenteIT in 2.806 seconds (process running for 296.933)
+2026-10-21T10:39:04.660-05:00  INFO 26316 --- [seguimiento] [o-auto-9-exec-1] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-21T10:39:04.660-05:00  INFO 26316 --- [seguimiento] [o-auto-9-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-21T10:39:04.661-05:00  INFO 26316 --- [seguimiento] [o-auto-9-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

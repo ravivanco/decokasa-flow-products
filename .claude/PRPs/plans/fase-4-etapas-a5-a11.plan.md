@@ -489,6 +489,15 @@ Solo para la parte B (Codex): `./gradlew check` y `npm run lint && npm run test 
 | "Packing List o BL" exige extender el motor | Media | Media | ADR antes de implementar |
 | Arrastre de fechas mal entendido sin cronograma | Media | Media | F4-D5 explícita; cronograma en la fase 5 |
 
+## Documentos de A6, A9 y A10 resueltos (2026-10-21) — pendiente de verificación por Codex
+
+Richard confirmó F4-D4, F4-D7 y F4-D8 el 2026-10-21; las implementa V16 (detalle en el plan de la fase 5, "Documentos de A6, A9 y A10 y actualización de 30 s"):
+- **A6:** al menos un "Packing List"; BL y otros, opcionales.
+- **A9:** bodega y al menos un documento de cualquier tipo.
+- **A10:** al menos un documento de cualquier tipo, sin excepción "sin incidencias".
+
+El riesgo "el flujo no pasa de A6" deja de depender del cliente. El recorrido A1–Fin sigue sin verificar y la fase 4 sigue abierta.
+
 ## Notes
 - Contrato vigente: 0.7.3-borrador; última migración: V8 (fase 3).
 - Decisiones nuevas con prefijo F4-D para no chocar con P-01…P-20 y F3-D1…F3-D9.

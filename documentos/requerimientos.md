@@ -394,12 +394,14 @@ El equipo de DECOKASA en Ecuador y China puede crear un pedido de importación c
 | A4 Análisis | Devolver por error | Compras China | A2 | — | Observación; archivos opcionales |
 | A4 Análisis | Devolver por producto nuevo | Compras China | A2 | 4 / 12 / 24 h hasta volver a A4 | Urgencia y observación |
 | A5 Fabricación | ✓ al terminar | Compras China | A6 | **TBD** (la calculadora usa 8 + 31 días) | Observaciones |
-| A6 Embarque | ✓ Enviado | Compras China | A7 | 10 días | Packing List / BL |
+| A6 Embarque | ✓ Enviado | Compras China | A7 | 10 días | Al menos un Packing List; BL y otros adjuntos opcionales (Richard, 2026-10-21) |
 | A7 Aduana EC/CO | ✓ Llegada | Compras China | A8 | Calculadora: 45 días de tránsito | — |
 | A7 Aduana EC/CO | Reportar demora | Compras China | A7 (recalcula llegada y fechas siguientes) | — | Observación |
 | A8 Autorización de salida | ✓ | Logística | A9 | 24 h | — |
-| A9 Bodega | ✓ | Logística | A10 | 24 h | Bodega elegida; documentos |
-| A10 Incidencias | ✓ | Logística | A11 Fin (automático) | **TBD** | Todos los documentos |
+| A9 Bodega | ✓ | Logística | A10 | 24 h | Bodega elegida; al menos un documento de cualquier tipo (Richard, 2026-10-21) |
+| A10 Incidencias | ✓ | Logística | A11 Fin (automático) | **TBD** | Al menos un documento de cualquier tipo (Richard, 2026-10-21); sin excepción "sin incidencias" |
+
+En las tres etapas se pueden adjuntar documentos adicionales. Los documentos cuentan solo si son del pedido, de la etapa y de su entrada actual. Ninguna regla fija un tipo comercial para A9 o A10.
 
 ### 4.5 Estados y transiciones — flujo B (producto nuevo de China)
 
@@ -567,3 +569,14 @@ Mientras tanto, se usa el valor propuesto y queda configurable.
 | Andrea Collaguazo | "Asistente de compras en China nada más" | ¿Qué ve en el sistema? | Solo consulta de pedidos, sin acciones |
 | Roles por usuario | La entidad Usuario dice "rol(es)" (4.6) | ¿Un usuario puede tener uno o varios roles? | **Decidido por el equipo (Richard, 2026-10-12), sin respuesta del cliente:** uno o varios roles, asignados solo por el admin (4.7). Si el cliente pide otra cosa, se revisa con una migración nueva |
 | Rol `consulta` | No aparece en este documento; el demo lo tenía y el equipo decidió conservarlo (2026-10-12) | ¿Quién lo usa y qué puede ver? | Dashboard de consulta, sin permisos de gestión ni acciones |
+
+### Decisiones confirmadas por Richard (2026-10-21)
+
+Confirmadas por Richard para desbloquear el flujo A. No son respuestas nuevas del cliente.
+
+- **A6 Embarque (F4-D4):** exige al menos un documento de tipo "Packing List". El BL y otros adjuntos son opcionales.
+- **A9 Bodega (F4-D7):** además de la bodega elegida, exige al menos un documento, de cualquier tipo. No se fija un tipo comercial.
+- **A10 Incidencias (F4-D8):** exige al menos un documento, de cualquier tipo. No se fija un tipo comercial ni hay excepción "sin incidencias".
+- **En las tres:** se admiten documentos adicionales. Los documentos cuentan solo si son del pedido, de la etapa y de la entrada actual.
+- **Actualización de pantallas (ADR-0014):** Richard acepta el intervalo de 30 segundos. Un cambio de otra persona puede tardar hasta el intervalo más la petición.
+- **Sigue pendiente:** la meta de días. 90 es una propuesta configurable, no un valor aprobado.

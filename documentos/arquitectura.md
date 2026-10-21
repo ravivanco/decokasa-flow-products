@@ -149,11 +149,11 @@ flowchart TD
 | A3 / B4 | Aprobar / Rechazar | A4 / B5 — A2 / B3 | Rechazar: observación |
 | A4 / B5 | Aprobar / Devolver por error / Devolver por producto nuevo | A5 / B6 — A2 / B3 — A2 / B3 | Devolver: observación y archivos opcionales; por producto nuevo, además, nivel de urgencia |
 | A5 / B6 | Aprobar al terminar | A6 / B7 | Observaciones |
-| A6 / B7 | Aprobar (enviado) | A7 / B8 | Packing List / BL |
+| A6 / B7 | Aprobar (enviado) | A7 / B8 | Al menos un Packing List; BL y otros opcionales (V16) |
 | A7 / B8 | Aprobar (llegada) / Reportar demora | A8 / B9 — se queda | Reportar demora: observación y fecha (⏸ quién la calcula) |
 | A8 / B9 | Aprobar | A9 / B10 | — |
-| A9 / B10 | Elegir bodega / Aprobar | A10 / B11 | Bodega elegida y documentos |
-| A10 / B11 | Aprobar | A11 / B12 (Fin automático) | Documentos (⏸ cuáles son "todos") |
+| A9 / B10 | Elegir bodega / Aprobar | A10 / B11 | Bodega elegida y al menos un documento de cualquier tipo (V16) |
+| A10 / B11 | Aprobar | A11 / B12 (Fin automático) | Al menos un documento de cualquier tipo (V16); sin excepción "sin incidencias" |
 
 - Las definiciones son versionadas: un pedido sigue la versión con la que se creó.
 - El destino de Rechazar y Devolver depende de la etapa, y el estado y el correo se derivan del destino, no de un texto fijo. Esto corrige los errores 1 a 4 del demo (`auditoria-demo.md`, sección 6): B3 y B4 tienen solo sus propias acciones.
@@ -362,7 +362,7 @@ Ninguna bloquea la arquitectura: cada una se resuelve con un valor configurable 
 | Recálculo en aduana: lo escribe David o lo calcula el sistema | `pedidos`, `plazos` | `RecalcularPorDemora` recibe la fecha o la calcula | David escribe la fecha |
 | ¿El responsable también recibe correo? | `notificaciones` | `DirectorioDestinatarios` | Correo al admin y al responsable; el admin puede apagarlo |
 | Formatos de archivo aceptados | `archivos` | `PoliticaArchivos` | PDF, Word, Excel, imágenes y ZIP; 100 MB |
-| Documentos de Incidencias ("todos los documentos") | `flujos` | Requisitos de la etapa en la definición del flujo | Sin definir |
+| Documentos de Incidencias ("todos los documentos") | `flujos` | Requisitos de la etapa en la definición del flujo | Resuelto por Richard (2026-10-21, V16): al menos un documento de cualquier tipo |
 | Qué ve la asistente de compras en China | `usuarios`, `pedidos` | Permisos del rol `asistente_china` | Solo consulta |
 | Alcance del rol `consulta` (conservado por el equipo) | `usuarios`, `pedidos` | Permisos del rol `consulta` | Dashboard de consulta, sin acciones |
 | ¿El admin crea pedidos del flujo B? | `pedidos` | Permiso de `CrearPedido` | Solo Compras China |

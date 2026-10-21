@@ -1,0 +1,1246 @@
+{
+  "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+  "pedidoPackingSolo": "5ea1d15f-d79c-48e2-8ba8-c3e1d9d02620",
+  "detalleFinal": {
+    "id": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+    "numero": "DK-EC-2026-0006",
+    "nombre": "Recorrido A1–Fin V16 ficticio",
+    "pais": "EC",
+    "tipoFlujo": "A",
+    "etapaActual": 11,
+    "nombreEtapaActual": "Fin",
+    "responsableActual": null,
+    "venceEn": null,
+    "vencida": false,
+    "motivoRetraso": null,
+    "urgencia": null,
+    "finalizado": true,
+    "descripcion": null,
+    "incluyeProductosNuevos": false,
+    "creadoPor": {
+      "id": "21232f29-7a57-35a7-8389-4a0e4a801fc3",
+      "nombre": "Ficticio B2 admin",
+      "roles": [
+        "admin"
+      ]
+    },
+    "creadoEn": "2026-10-21T10:35:27.143822-05:00",
+    "versionFlujo": 1,
+    "bodega": {
+      "id": "f3a5b54c-8bd1-44b5-ae6e-90b4b31b2730",
+      "nombre": "Bodega activa V16 ac6a3f88",
+      "ciudad": "Ciudad ficticia",
+      "activa": true,
+      "version": 0
+    },
+    "demoraAduana": {
+      "reportadaPor": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "reportadaEn": "2026-10-21T10:35:30.649739-05:00",
+      "motivo": "Demora ficticia",
+      "nuevaFechaEstimadaLlegada": "2026-12-07"
+    },
+    "llegadaAduanaEn": "2026-10-21T10:35:30.700197-05:00",
+    "lineaDeTiempo": [
+      {
+        "numero": 1,
+        "nombre": "Crear solicitud de pedido",
+        "estado": "COMPLETADA",
+        "rolResponsable": "admin",
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "88aafcda-5dcb-43a8-8169-69e39c8419a6",
+        "entrada": "2026-10-21T10:35:27.143822-05:00",
+        "salida": "2026-10-21T10:35:27.270219-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Enviada por Ficticio B2 admin (Administrador) el 21/10/2026 10:35 · pasa a A2. 1 archivo presentado."
+      },
+      {
+        "numero": 2,
+        "nombre": "Codificación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "marketing",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "45cb92d0-2d66-48ae-82d0-673c20d98fd3",
+        "entrada": "2026-10-21T10:35:28.799398-05:00",
+        "salida": "2026-10-21T10:35:28.88905-05:00",
+        "venceEn": "2026-10-22T10:35:28.799398-05:00",
+        "reentradas": 3,
+        "resumen": "Enviada por Ficticio B2 marketing (Marketing y codificación) el 21/10/2026 10:35 · pasa a A3. 1 archivo presentado."
+      },
+      {
+        "numero": 3,
+        "nombre": "Revisión y aprobación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "asistente_compras",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "dc07c4cc-7b04-479d-96a3-8cf4aad3c37d",
+        "entrada": "2026-10-21T10:35:28.88905-05:00",
+        "salida": "2026-10-21T10:35:28.936065-05:00",
+        "venceEn": "2026-10-22T10:35:28.88905-05:00",
+        "reentradas": 3,
+        "resumen": "Aprobada por Ficticio B2 asistente_compras (Asistente de compras) el 21/10/2026 10:35 · pasa a A4."
+      },
+      {
+        "numero": 4,
+        "nombre": "Análisis y gestión",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "dc323de0-5cc3-46d4-84b7-ec4992b9f22c",
+        "entrada": "2026-10-21T10:35:28.936065-05:00",
+        "salida": "2026-10-21T10:35:29.009585-05:00",
+        "venceEn": "2026-10-26T10:35:28.936065-05:00",
+        "reentradas": 2,
+        "resumen": "Aprobada por Ficticio B2 compras_china (Compras China) el 21/10/2026 10:35 · pasa a A5."
+      },
+      {
+        "numero": 5,
+        "nombre": "Fabricación",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "d982571d-22b2-4d0e-92a5-2104a306a949",
+        "entrada": "2026-10-21T10:35:29.009585-05:00",
+        "salida": "2026-10-21T10:35:29.054036-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 compras_china (Compras China) el 21/10/2026 10:35 · pasa a A6. Observación: «Fabricación ficticia completa»."
+      },
+      {
+        "numero": 6,
+        "nombre": "Embarque",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "93a5a508-04fb-4001-b71d-f8db6d1e9421",
+        "entrada": "2026-10-21T10:35:29.054036-05:00",
+        "salida": "2026-10-21T10:35:30.617494-05:00",
+        "venceEn": "2026-11-04T10:35:29.054036-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 compras_china (Compras China) el 21/10/2026 10:35 · pasa a A7. 2 archivos presentados."
+      },
+      {
+        "numero": 7,
+        "nombre": "Aduana Ecuador",
+        "estado": "COMPLETADA",
+        "rolResponsable": "compras_china",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "423e0916-f821-45b0-9577-9e511134fd9b",
+        "entrada": "2026-10-21T10:35:30.617494-05:00",
+        "salida": "2026-10-21T10:35:30.700197-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 compras_china (Compras China) el 21/10/2026 10:35 · pasa a A8."
+      },
+      {
+        "numero": 8,
+        "nombre": "Autorización de salida",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "3f149c81-41e3-43d6-8126-6521fec22c38",
+        "entrada": "2026-10-21T10:35:30.700197-05:00",
+        "salida": "2026-10-21T10:35:31.019464-05:00",
+        "venceEn": "2026-10-22T10:35:30.700197-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 logistica (Logística) el 21/10/2026 10:35 · pasa a A9."
+      },
+      {
+        "numero": 9,
+        "nombre": "Bodega",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "DEFINIDO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "7e63034e-25ca-41f0-80b9-d0684cba4e69",
+        "entrada": "2026-10-21T10:35:31.019464-05:00",
+        "salida": "2026-10-21T10:35:34.322921-05:00",
+        "venceEn": "2026-10-22T10:35:31.019464-05:00",
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 logistica (Logística) el 21/10/2026 10:35 · pasa a A10. 1 archivo presentado."
+      },
+      {
+        "numero": 10,
+        "nombre": "Incidencias",
+        "estado": "COMPLETADA",
+        "rolResponsable": "logistica",
+        "estadoPlazo": "PENDIENTE",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "5558e630-39bb-4eb1-a9d5-354f97a3d124",
+        "entrada": "2026-10-21T10:35:34.322921-05:00",
+        "salida": "2026-10-21T10:35:36.343824-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": "Aprobada por Ficticio B2 logistica (Logística) el 21/10/2026 10:35 · pasa a A11. 1 archivo presentado."
+      },
+      {
+        "numero": 11,
+        "nombre": "Fin",
+        "estado": "COMPLETADA",
+        "rolResponsable": null,
+        "estadoPlazo": "SIN_PLAZO",
+        "asignadoA": null,
+        "asignacionVigente": null,
+        "entradaId": "d561a3aa-e832-4d2b-9a28-e24e773e8278",
+        "entrada": "2026-10-21T10:35:36.343824-05:00",
+        "salida": "2026-10-21T10:35:36.343824-05:00",
+        "venceEn": null,
+        "reentradas": 0,
+        "resumen": null
+      }
+    ],
+    "accionesDisponibles": []
+  },
+  "historial": [
+    {
+      "id": "747354f3-1306-4c3d-92e7-af48595c941e",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 11,
+      "tipo": "PEDIDO_FINALIZADO",
+      "usuario": null,
+      "rolIntervencion": null,
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:36.343824-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "33351afa-ef2f-4365-8aeb-8a4829c74dff",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 10,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 11,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:36.343824-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "6a04d4ce-f6a4-4931-ac8b-267118cd3c07"
+      ]
+    },
+    {
+      "id": "d225ecdd-a76f-4501-8962-1baf8e26859d",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 10,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:35.278832-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "6a04d4ce-f6a4-4931-ac8b-267118cd3c07"
+      ]
+    },
+    {
+      "id": "4eb858ac-431a-404e-87bc-271c6c76d02c",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 9,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 10,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:34.322921-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "d1560642-6fb1-48f2-8a2e-a960d05b45a0"
+      ]
+    },
+    {
+      "id": "0bff7428-b50b-466c-a8bb-db8a8b3e16e0",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 9,
+      "tipo": "BODEGA_ASIGNADA",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": "f3a5b54c-8bd1-44b5-ae6e-90b4b31b2730",
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:34.322921-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "e91ad27d-200d-465a-a6ad-ae6d3aaa3dc0",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 9,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:33.182455-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "d1560642-6fb1-48f2-8a2e-a960d05b45a0"
+      ]
+    },
+    {
+      "id": "b4bd5a15-cf49-4276-ab88-0ba80d977cb5",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 8,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "e9a5390f-6e43-3dc5-949b-b582def8a540",
+        "nombre": "Ficticio B2 logistica",
+        "roles": [
+          "logistica"
+        ]
+      },
+      "rolIntervencion": "logistica",
+      "detalle": {
+        "etapaDestino": 9,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:31.019464-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "cde07ed6-80bb-400e-a510-1ddeaa13de3a",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 7,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 8,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:30.700197-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "64aada50-a38e-4535-80c1-a6c3521ab8f6",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 7,
+      "tipo": "DEMORA_REPORTADA",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": "2026-12-05",
+        "nuevaFechaEstimadaLlegada": "2026-12-07",
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:30.649739-05:00",
+      "observacion": "Demora ficticia",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "f4cd817c-5494-46b1-a711-9f728a25c971",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 6,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 7,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:30.617494-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "11cfc820-6685-4723-acc7-b79ee1e2f4a7",
+        "19eda8ff-77c2-49b7-a40a-994f0009c5ee"
+      ]
+    },
+    {
+      "id": "246a3921-3b90-450a-8ad1-e7495d451a8e",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 6,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:30.365407-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "11cfc820-6685-4723-acc7-b79ee1e2f4a7"
+      ]
+    },
+    {
+      "id": "09182edb-450b-4e7a-8bd8-e0cf8b80a6f6",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 6,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:29.319028-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "19eda8ff-77c2-49b7-a40a-994f0009c5ee"
+      ]
+    },
+    {
+      "id": "4b30c36b-39a2-49e3-ba4a-596386cc7e4e",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 5,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 6,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:29.054036-05:00",
+      "observacion": "Fabricación ficticia completa",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "8160e8f8-276a-433f-af87-acc78a64d358",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 4,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 5,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:29.009585-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "310103dc-5b2d-46e8-b772-d7bc9c77a7ae",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 3,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "cef3ddc6-bd8b-388a-83c2-effe1320e1e7",
+        "nombre": "Ficticio B2 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 4,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": true,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.936065-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "cccf6dc5-10a9-4a09-966e-d95be8b1cd74",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.88905-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "6d195702-8432-4403-96e3-69479ba361a3"
+      ]
+    },
+    {
+      "id": "b1a25429-d128-4cea-89e9-aa18ce3a90e9",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.86449-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "6d195702-8432-4403-96e3-69479ba361a3"
+      ]
+    },
+    {
+      "id": "883215cf-a7d5-4184-834b-0099b66e0f24",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 4,
+      "tipo": "PEDIDO_DEVUELTO",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": "PRODUCTO_NUEVO",
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.799398-05:00",
+      "observacion": "Producto nuevo ficticio",
+      "nivelUrgencia": "URGENTE",
+      "adjuntoIds": []
+    },
+    {
+      "id": "0b29ee41-629a-4427-ae29-64d9e47a19d5",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 3,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "cef3ddc6-bd8b-388a-83c2-effe1320e1e7",
+        "nombre": "Ficticio B2 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 4,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.768567-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "1e55cfcd-ca61-471c-89b3-d970f83c91a5",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.737418-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "75be2519-6d11-4f70-92b4-2705183a0b9f"
+      ]
+    },
+    {
+      "id": "938cc2a7-2258-4acc-b5af-6fea55d25066",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.714346-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "75be2519-6d11-4f70-92b4-2705183a0b9f"
+      ]
+    },
+    {
+      "id": "b04150a2-1cc4-4c6e-bf56-919f07e76ac4",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 4,
+      "tipo": "PEDIDO_DEVUELTO",
+      "usuario": {
+        "id": "5a0b49a5-1f65-3440-bd0b-159529f33aff",
+        "nombre": "Ficticio B2 compras_china",
+        "roles": [
+          "compras_china"
+        ]
+      },
+      "rolIntervencion": "compras_china",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": "ERROR",
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.637139-05:00",
+      "observacion": "Error ficticio",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "64d65e28-a764-48d0-80b7-d9e2fced3619",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 3,
+      "tipo": "ETAPA_APROBADA",
+      "usuario": {
+        "id": "cef3ddc6-bd8b-388a-83c2-effe1320e1e7",
+        "nombre": "Ficticio B2 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 4,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.344537-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "07e988e2-a104-49fc-99c6-295a22d40932",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.306667-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "f0c6b25d-64d7-412d-b8bc-19117ae52770"
+      ]
+    },
+    {
+      "id": "7c616774-7a2d-42e7-84ab-705179c099b5",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.278977-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "f0c6b25d-64d7-412d-b8bc-19117ae52770"
+      ]
+    },
+    {
+      "id": "237317f0-5bb5-409b-85de-29db75ae910d",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 3,
+      "tipo": "ETAPA_RECHAZADA",
+      "usuario": {
+        "id": "cef3ddc6-bd8b-388a-83c2-effe1320e1e7",
+        "nombre": "Ficticio B2 asistente_compras",
+        "roles": [
+          "asistente_compras"
+        ]
+      },
+      "rolIntervencion": "asistente_compras",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:28.010259-05:00",
+      "observacion": "Rechazo ficticio",
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    },
+    {
+      "id": "fef79e20-442f-45ea-b525-6a93f5e2b78f",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": 3,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:27.683033-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "07e103f4-40fb-412c-a367-593e0331a951"
+      ]
+    },
+    {
+      "id": "412bd03d-8bd0-4bd8-bb0b-334912a92bf3",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 2,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "c769c2bd-1550-3dd9-8610-2d9be97fdceb",
+        "nombre": "Ficticio B2 marketing",
+        "roles": [
+          "marketing"
+        ]
+      },
+      "rolIntervencion": "marketing",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:27.646805-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "07e103f4-40fb-412c-a367-593e0331a951"
+      ]
+    },
+    {
+      "id": "7b95772e-17b3-4c92-a603-e83be4809097",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 1,
+      "tipo": "ETAPA_ENVIADA",
+      "usuario": {
+        "id": "21232f29-7a57-35a7-8389-4a0e4a801fc3",
+        "nombre": "Ficticio B2 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": 2,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:27.270219-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "a4f514f7-757c-41db-bbbc-e7dd1ab70321"
+      ]
+    },
+    {
+      "id": "381aa32a-b878-420b-83b1-a1365ae1f17c",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 1,
+      "tipo": "ARCHIVO_SUBIDO",
+      "usuario": {
+        "id": "21232f29-7a57-35a7-8389-4a0e4a801fc3",
+        "nombre": "Ficticio B2 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:27.241986-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": [
+        "a4f514f7-757c-41db-bbbc-e7dd1ab70321"
+      ]
+    },
+    {
+      "id": "58005532-93e6-405e-b747-1f28ad98baee",
+      "pedidoId": "ac6a3f88-6f34-4bd6-be89-02c641e00cb1",
+      "numeroPedido": "DK-EC-2026-0006",
+      "etapa": 1,
+      "tipo": "PEDIDO_CREADO",
+      "usuario": {
+        "id": "21232f29-7a57-35a7-8389-4a0e4a801fc3",
+        "nombre": "Ficticio B2 admin",
+        "roles": [
+          "admin"
+        ]
+      },
+      "rolIntervencion": "admin",
+      "detalle": {
+        "etapaDestino": null,
+        "motivoDevolucion": null,
+        "urgenciaTerminada": null,
+        "asignadoAnterior": null,
+        "asignadoA": null,
+        "fechaEstimadaAnterior": null,
+        "fechaEstimadaSolicitada": null,
+        "nuevaFechaEstimadaLlegada": null,
+        "bodegaId": null,
+        "claseVencimiento": null,
+        "venceEn": null
+      },
+      "fecha": "2026-10-21T10:35:27.143822-05:00",
+      "observacion": null,
+      "nivelUrgencia": null,
+      "adjuntoIds": []
+    }
+  ],
+  "packing": "11cfc820-6685-4723-acc7-b79ee1e2f4a7",
+  "bl": "19eda8ff-77c2-49b7-a40a-994f0009c5ee",
+  "documentoBodega": "d1560642-6fb1-48f2-8a2e-a960d05b45a0",
+  "documentoIncidencias": "6a04d4ce-f6a4-4931-ac8b-267118cd3c07",
+  "sqlNegocioUtilizado": false
+}

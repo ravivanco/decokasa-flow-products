@@ -70,7 +70,11 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
   const documentosPendientes = accion.requisitosDocumentales === 'PENDIENTES';
   const etapaCambio = esErrorApi(fallo, 'ETAPA_CAMBIO') || pedido.etapaActual !== etapaEsperada || pedido.finalizado;
   const bodegaVigente = bodegas.data?.some((bodega) => bodega.id === bodegaId && bodega.activa) ?? false;
-  const faltanDocumentos = accion.documentosObligatorios.some((tipo) => !tiposPresentados.has(tipo));
+  // V16 (A9 y A10): basta un documento de cualquier tipo entre los presentados; A6 pide además su tipo ("Packing List").
+  const exigeAlguno = accion.exigeAlgunDocumento === true;
+  const hayAlguno = adjuntos.some((adjunto) => elegidos.has(adjunto.id));
+  const faltanDocumentos = accion.documentosObligatorios.some((tipo) => !tiposPresentados.has(tipo))
+    || (exigeAlguno && !hayAlguno);
   const sinPermiso = esErrorApi(fallo) && fallo.status === 403;
   const nombreAccion = destinoAutomatico ? 'Confirmar y finalizar' : registraLlegada ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion];
 
@@ -158,10 +162,23 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               </Alert>
             )}
 
-            {accion.documentosObligatorios.length > 0 && (
+            {(accion.documentosObligatorios.length > 0 || exigeAlguno) && (
               <FieldSet>
                 <FieldLegend variant="label">Documentos obligatorios</FieldLegend>
                 <ul className="flex flex-col gap-1.5">
+                  {exigeAlguno && (
+                    <li className="flex items-center gap-2 text-sm">
+                      {hayAlguno ? (
+                        <CircleCheckIcon aria-hidden="true" className="size-4 text-estado-ok" />
+                      ) : (
+                        <CircleAlertIcon aria-hidden="true" className="size-4 text-estado-vencido" />
+                      )}
+                      <span>Al menos un documento, de cualquier tipo</span>
+                      <span className={hayAlguno ? 'text-estado-ok' : 'text-estado-vencido'}>
+                        {hayAlguno ? '· adjunto' : '· falta'}
+                      </span>
+                    </li>
+                  )}
                   {accion.documentosObligatorios.map((documento) => {
                     const presente = tiposPresentados.has(documento);
                     return (
@@ -184,6 +201,9 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
                     Sube primero lo que falta en la sección Archivos de la etapa; después vuelve a esta acción.
                   </FieldDescription>
                 )}
+                <FieldDescription>
+                  Puedes presentar documentos adicionales. Solo cuentan los archivos de la entrada actual de esta etapa.
+                </FieldDescription>
               </FieldSet>
             )}
 

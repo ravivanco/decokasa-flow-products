@@ -2,7 +2,7 @@
 
 **Fecha**: 2026-10-10 (propuesta); 2026-10-20 (decisión)
 **Estado**: accepted (equipo, provisional) — consultas periódicas con TanStack Query. **No es una respuesta del cliente.**
-**Decisores**: equipo de desarrollo; aprobada provisionalmente por Richard el 2026-10-20 (fase 5, paso 5.4)
+**Decisores**: equipo de desarrollo; aprobada provisionalmente por Richard el 2026-10-20 (fase 5, paso 5.4). Richard aceptó el intervalo de 30 s el 2026-10-21.
 
 ## Contexto
 
@@ -41,5 +41,5 @@ Las pantallas de seguimiento se actualizan con **consultas periódicas de TanSta
 - Carga periódica sobre la API (baja con ~6 usuarios: 3 a 6 consultas por pestaña visible cada 30 s).
 
 ### Pendiente
-- Aceptación del cliente de que la actualización no es instantánea.
+- Aceptación del cliente de que la actualización no es instantánea. (Richard aceptó el intervalo de 30 s el 2026-10-21; eso no se registra como respuesta del cliente.)
 - Medición de carga y de la demora real (Codex, 5.B2).

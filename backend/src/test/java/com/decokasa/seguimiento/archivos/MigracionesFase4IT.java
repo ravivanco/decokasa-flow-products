@@ -17,9 +17,9 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 class MigracionesFase4IT {
     @Container static final PostgreSQLContainer PG=new PostgreSQLContainer("postgres:17");
     Flyway fly(DatosB1 d,String version){var f=Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration");if(version!=null)f.target(version);return f.load();}
-    @Test void vaciaAplicaExactamenteV1AV15ValidaYNoReaplica(){
+    @Test void vaciaAplicaExactamenteV1AV16ValidaYNoReaplica(){
         var d=new DatosB1(PG,null);var f=fly(d,null);
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15");
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();
         assertThat(d.sql.queryForList("select nombre from bodega order by nombre",String.class)).containsExactly("Guayaquil","Ibarra","Quito");
         assertThat(d.sql.queryForObject("select count(*) from definicion_etapa where registra_llegada and numero=7",Integer.class)).isEqualTo(1);

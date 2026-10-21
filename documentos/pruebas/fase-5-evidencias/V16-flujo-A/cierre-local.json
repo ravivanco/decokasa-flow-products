@@ -1,0 +1,15 @@
+{
+    "ramaAjenaExit":  1,
+    "operacionesGoogle":  0,
+    "fasesCerradas":  [
+
+                      ],
+    "guardasExit":  0,
+    "ramaCorrectaExit":  0,
+    "ensayoRealIniciado":  false,
+    "referenciasNuevasRotas":  [
+
+                               ],
+    "rama":  "fase-5-seguimiento",
+    "commitRealizado":  false
+}

@@ -1,0 +1,182 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Richard\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "pruebas\\fase-5-evidencias\\V16-flujo-A\\playwright.config.mjs"
+    ],
+    "configFile": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\playwright.config.mjs",
+    "rootDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/V16-flujo-A",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/V16-flujo-A/.tmp/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-5-evidencias/V16-flujo-A",
+        "testIgnore": [],
+        "testMatch": [
+          "flujo.spec.mjs"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./resultados.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "flujo.spec.mjs",
+      "file": "flujo.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "01 V16: recorrido real, rechazos, devolución, demora, documentos y Fin",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 180049,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\flujo.spec.mjs",
+                        "column": 373,
+                        "line": 19
+                      },
+                      "message": "Error: locator.click: Test timeout of 180000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Confirmar y finalizar', exact: true })\u001b[22m\n\n\n  17 | async function hasta6(nombre){const p=await crear(nombre);await accion(p,1,[await subir(p,'Solicitud')]);await accion(p,2,[await subir(p,'Documentos codificados')]);await accion(p,3);await accion(p,4);await accion(p,5,[],{observacion:'Fabricación ficticia terminada'});expect((await detalle(p)).etapaActual).toBe(6);return p}\n  18 | async function login(page,rol='admin'){await page.goto('/login');await page.getByLabel('Correo, usuario o teléfono').fill('b2-'+rol);await page.getByLabel('Contraseña',{exact:true}).fill(clave());await page.getByRole('button',{name:'Ingresar',exact:true}).click();await expect(page).toHaveURL(/inicio/)}\n> 19 | async function pantalla(page,p,n,conArchivo=false){await page.goto('/pedidos/'+p);await expect(page.getByRole('heading',{name:'Historial',exact:true})).toBeVisible();await expect(page.getByText('Documentos pendientes de definición',{exact:true})).toHaveCount(0);const titulo=n===10?'Confirmar y finalizar':'Aprobar';await page.getByRole('button',{name:titulo,exact:true}).click();const dialogo=page.getByRole('dialog');await expect(dialogo.getByText('Al menos un documento, de cualquier tipo',{exact:true})).toBeVisible();const confirmar=dialogo.getByRole('button',{name:titulo,exact:true});if(!conArchivo)await expect(confirmar).toBeDisabled();await page.screenshot({path:path.join(base,'pantalla-A'+n+'-'+(conArchivo?'con':'sin')+'.png'),fullPage:true});await page.keyboard.press('Escape')}\n     |                                                                                                                                                                                                                                                                                                                                                                                     ^\n  20 |\n  21 | test('01 V16: recorrido real, rechazos, devolución, demora, documentos y Fin',async({page})=>{\n  22 |  const f=await api('GET','/flujos/EC/A');for(const n of [6,9,10]){const a=f.etapas.find(x=>x.numero===n).acciones.find(x=>x.accion==='APROBAR');expect(a.requisitosDocumentales).toBe('DEFINIDOS');expect(a.exigeAlgunDocumento).toBe(n!==6);expect(a.documentosObligatorios).toEqual(n===6?['Packing List']:[])}guardar('contrato-flujo',f);\n    at pantalla (C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\flujo.spec.mjs:19:373)\n    at C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\flujo.spec.mjs:31:2"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-21T15:22:19.550Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\.tmp\\artifacts\\flujo-01-V16-recorrido-rea-fd257-ión-demora-documentos-y-Fin\\error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Richard\\Desktop\\decoWeb\\documentos\\pruebas\\fase-5-evidencias\\V16-flujo-A\\.tmp\\artifacts\\flujo-01-V16-recorrido-rea-fd257-ión-demora-documentos-y-Fin\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f05da1c754264700ecf9-652cbdb1fa6d5e1c6470",
+          "file": "flujo.spec.mjs",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "02 dos sesiones y polling real de 30 segundos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 33144,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-21T15:25:20.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f05da1c754264700ecf9-3a2f81c6499102ad6c33",
+          "file": "flujo.spec.mjs",
+          "line": 36,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-21T15:22:19.102Z",
+    "duration": 215153.312,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

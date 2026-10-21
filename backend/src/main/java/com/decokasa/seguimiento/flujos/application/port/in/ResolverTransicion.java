@@ -27,11 +27,23 @@ public interface ResolverTransicion {
      * @param rolResponsableOrigen rol responsable de la etapa de origen; nulo si la etapa es automática (S-1)
      * @param origenRegistraLlegada la etapa de origen es la de llegada a aduana (ADR-0018, marca de los datos)
      * @param destinoEsAutomatico al entrar se completa Fin y se cierra el pedido, sin acción manual
+     * @param exigeAlgunDocumento hace falta al menos un documento adjunto, de cualquier tipo (A9 y A10, V16)
      */
     record Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
             Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
-            CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico) {
+            CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico,
+            boolean exigeAlgunDocumento) {
+
+        /** Compatibilidad con resoluciones anteriores a V16: solo los tipos de {@code documentosObligatorios}. */
+        public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
+                CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico) {
+            this(etapaOrigen, accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega,
+                    documentosPendientes, documentosObligatorios, plazoDestino, destinoEsRetornoDeUrgencia,
+                    rolResponsableOrigen, origenRegistraLlegada, destinoEsAutomatico, false);
+        }
 
         /** Compatibilidad con resoluciones anteriores al cierre automático. */
         public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,

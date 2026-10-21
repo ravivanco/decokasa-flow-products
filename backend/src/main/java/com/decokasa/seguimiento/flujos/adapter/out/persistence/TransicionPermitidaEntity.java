@@ -45,6 +45,10 @@ public class TransicionPermitidaEntity {
     @Column(name = "requisitos_documentales")
     private String requisitosDocumentales;
 
+    // V16: al menos un documento de cualquier tipo (A9 y A10).
+    @Column(name = "exige_algun_documento")
+    private boolean exigeAlgunDocumento;
+
     @ElementCollection
     @Immutable
     @CollectionTable(name = "documento_requerido", joinColumns = @JoinColumn(name = "transicion_id"))
@@ -84,6 +88,10 @@ public class TransicionPermitidaEntity {
 
     String getRequisitosDocumentales() {
         return requisitosDocumentales;
+    }
+
+    boolean isExigeAlgunDocumento() {
+        return exigeAlgunDocumento;
     }
 
     Set<String> getDocumentos() {

@@ -27,7 +27,8 @@ public final class PedidoRespuestas {
 
     public record AccionDisponible(String accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, String requisitosDocumentales,
-            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
+            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
+            boolean exigeAlgunDocumento) {
     }
 
     /** Esquema Bodega: la asignada al pedido, aunque después se haya desactivado. */
@@ -86,7 +87,8 @@ public final class PedidoRespuestas {
         return new AccionDisponible(accion.accion().name(), accion.etapaDestino(), accion.requiereObservacion(),
                 accion.requiereUrgencia(), accion.requiereBodega(),
                 accion.documentosPendientes() ? "PENDIENTES" : "DEFINIDOS",
-                accion.documentosObligatorios(), accion.documentosFaltantes(), accion.puedeCompletarse());
+                accion.documentosObligatorios(), accion.documentosFaltantes(), accion.puedeCompletarse(),
+                accion.exigeAlgunDocumento());
     }
 
     private static Bodega bodega(VistasDePedido.Bodega bodega) {

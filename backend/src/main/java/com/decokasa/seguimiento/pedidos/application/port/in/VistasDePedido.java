@@ -56,10 +56,20 @@ public final class VistasDePedido {
     /**
      * @param requiereBodega la acción se envía con {@code bodegaId} (APROBAR de Bodega, F4-D2)
      * @param documentosPendientes el cliente no definió los documentos (S-2): no se puede completar
+     * @param exigeAlgunDocumento hace falta al menos un documento de la entrada actual, de cualquier tipo (V16)
      */
     public record AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
-            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
+            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
+            boolean exigeAlgunDocumento) {
+
+        /** Compatibilidad con vistas anteriores a V16. */
+        public AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
+            this(accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosPendientes,
+                    documentosObligatorios, documentosFaltantes, puedeCompletarse, false);
+        }
     }
 
     /** Esquema Bodega del contrato: la bodega asignada, aunque después se haya desactivado (F4-D1). */

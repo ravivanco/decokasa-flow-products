@@ -1,0 +1,85 @@
+{
+  "junit": {
+    "tests": 808,
+    "failures": 15,
+    "errors": 0,
+    "skipped": 0
+  },
+  "fallos": [
+    {
+      "suite": "com.decokasa.seguimiento.archivos.MigracionesFase4IT",
+      "caso": "vaciaAplicaExactamenteV1AV15ValidaYNoReaplica()",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nExpecting actual:\r\n  [\"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\",\r\n    \"6\",\r\n    \"7\",\r\n    \"8\",\r\n    \"9\",\r\n    \"10\",\r\n    \"11\",\r\n    \"12\",\r\n    \"13\",\r\n    \"14\",\r\n    \"15\",\r\n    \"16\"]\r\nto contain exactly (and in same order):\r\n  [\"1\",\r\n    \"2\",\r\n    \"3\",\r\n    \"4\",\r\n    \"5\",\r\n    \"6\",\r\n    \"7\",\r\n    \"8\",\r\n    \"9\",\r\n    \"10\",\r\n    \"11\",\r\n    \"12\",\r\n    \"13\",\r\n    \"14\",\r\n    \"15\"]\r\nbut some elements were not expected:\r\n  [\"16\"]\r\n"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.archivos.MigracionesFase5IT",
+      "caso": "vaciaTieneV15ConfiguracionPropuestaYEsquemaSinFeriados()",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"15\"\r\n but was: \"16\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.MigracionesIT",
+      "caso": "reiniciarFlywayValidaLaMigracionSinReaplicarla()",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"15\"\r\n but was: \"16\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.MigracionesIT",
+      "caso": "flywayCompletaVersionDosSinModificarLaUno()",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"15\"\r\n but was: \"16\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Backend24IT",
+      "caso": "rechazosDevolucionPorErrorYA4A5MantienenContrato()",
+      "mensaje": "java.lang.AssertionError: Response status expected:<409> but was:<422>"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Backend24IT",
+      "caso": "fase4IncidenciasHabilitadaConservaBloqueoDocumental()",
+      "mensaje": "java.lang.AssertionError: Response status expected:<409> but was:<422>"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[1] rol = \"admin\"",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"PENDIENTES\"\r\n but was: \"DEFINIDOS\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[2] rol = \"logistica\"",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"PENDIENTES\"\r\n but was: \"DEFINIDOS\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[1] rol = \"admin\"",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"PENDIENTES\"\r\n but was: \"DEFINIDOS\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[2] rol = \"logistica\"",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: \"PENDIENTES\"\r\n but was: \"DEFINIDOS\""
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[1] etapa = 6",
+      "mensaje": "java.lang.AssertionError: Response status expected:<409> but was:<422>"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "[2] etapa = 9",
+      "mensaje": "java.lang.AssertionError: Response status expected:<409> but was:<422>"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.Fase4IT",
+      "caso": "bodegaEnFixtureConDocumentoExigeIdActivoYAsignaUnaVez()",
+      "mensaje": "java.lang.AssertionError: Response status expected:<409> but was:<200>"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+      "caso": "adaptadorDeFlujosConservaDocumentosYPlazosPendientes()",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nExpecting value to be true but was false"
+    },
+    {
+      "suite": "com.decokasa.seguimiento.V2RestriccionesIT",
+      "caso": "initializationError",
+      "mensaje": "org.opentest4j.AssertionFailedError: \r\nexpected: 15\r\n but was: 16"
+    }
+  ]
+}

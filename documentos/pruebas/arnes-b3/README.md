@@ -88,3 +88,13 @@ Las frases de consola son confirmaciones locales por operacion, no autorizacione
 - Copiar al informe solo un resumen sanitizado y hashes. Registrar manualmente las comprobaciones de carpeta por ID y recepcion en un anexo privado; no copiar query OAuth, HAR o sesiones reanudables. No borrar parciales/aceptados ni carpetas Drive sin otra aprobacion.
 
 No se considera resuelta la cuota agregada: la restriccion de un archivo limita este ensayo, no protege globalmente el almacenamiento de produccion. La politica de reintentos de correo permanece pendiente; archivos conserva su cobertura historica de 64,83 %. La fase sigue abierta.
+
+## Continuación preparada con V16 — 2026-10-21
+
+Richard aprobó cambiar únicamente la guarda de rama del lanzador: ahora exige `fase-5-seguimiento`. Las demás guardas y confirmaciones personales permanecen intactas. La verificación local aprobó; **no se ha iniciado el ensayo real ni OAuth**. Las ocho pruebas offline de guardas aprobaron y el classpath está preparado. Las evidencias anteriores no se sobrescribieron.
+
+[Resultados locales y procedimiento de continuación](../fase-5-evidencias/V16-flujo-A/README.md), [guardas](../fase-5-evidencias/V16-flujo-A/b3-guardas-junit/TEST-com.decokasa.ensayob3.GuardasB3Test.xml).
+
+La autorización vigente permite exclusivamente un archivo ficticio de 104857600 bytes y un correo de importadora.latinoamericaworld@gmail.com a ese mismo buzón. No amplía el alcance a los archivos ni avisos del recorrido A1–Fin. Usar el directorio externo UUID ya aprobado; las frases de inicio/OAuth/copia/correo y contraseña siguen siendo personales. El consentimiento de navegador se realiza después de la confirmación de autorizar. No compartir contraseña ni tokens. Confirmar recepción personalmente; ante resultado incierto no repetir el correo.
+
+Conservar evidencias y datos al salir. OAuth, workers y schedulers permanecen desactivados por defecto. 3.B3 real no está aprobado; las fases permanecen abiertas. Los apartados históricos de este README no sustituyen las decisiones posteriores de cuotas/reintentos ni amplían este permiso limitado.
