@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { useSesion } from '@/auth/SesionProvider';
 import { opcionesSeguimiento } from './actualizacion';
 import { esquemaBodega } from './esquemas';
+import { type CodigoPais, segmentoPais, usePaisActivo } from '@/pais/PaisProvider';
 
 // Pedidos, historial, archivos y flujos (contrato documentos/api/openapi.yaml 0.7.0-borrador). Las respuestas se
 // validan con estos esquemas: si el backend cambia la forma sin cambiar el contrato, falla aquí y no en la pantalla.
@@ -234,24 +235,33 @@ export interface FiltroBandeja {
   conUrgencia?: boolean;
 }
 
+// Paso 7.3: los datos de pedidos van además por país activo (segmentoPais). Al cambiar de país o al revocarlo se
+// cancelan y se borran las claves del anterior (PaisProvider), así que ninguna respuesta tardía se muestra.
 export const clavesPedidos = {
-  listas: (sesion: number) => ['sesion', sesion, 'pedidos', 'lista'] as const,
-  lista: (sesion: number, filtros: FiltrosPedidos) => ['sesion', sesion, 'pedidos', 'lista', filtros] as const,
-  bandejas: (sesion: number) => ['sesion', sesion, 'pedidos', 'bandeja'] as const,
-  bandeja: (sesion: number, pagina: number, filtro: FiltroBandeja = {}, tamano = 100) =>
+  listas: (sesion: number, pais: CodigoPais) => ['sesion', sesion, 'pedidos', segmentoPais(pais), 'lista'] as const,
+  lista: (sesion: number, pais: CodigoPais, filtros: FiltrosPedidos) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'lista', filtros] as const,
+  bandejas: (sesion: number, pais: CodigoPais) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'bandeja'] as const,
+  bandeja: (sesion: number, pais: CodigoPais, pagina: number, filtro: FiltroBandeja = {}, tamano = 100) =>
     [
       'sesion',
       sesion,
       'pedidos',
+      segmentoPais(pais),
       'bandeja',
       { pagina, tamano, vencido: Boolean(filtro.vencido), conUrgencia: Boolean(filtro.conUrgencia) },
     ] as const,
-  cronograma: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'cronograma', id] as const,
-  detalle: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'detalle', id] as const,
-  historial: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'historial', id] as const,
-  archivos: (sesion: number, id: string) => ['sesion', sesion, 'pedidos', 'archivos', id] as const,
-  archivosDeEtapa: (sesion: number, id: string, etapa: number) =>
-    ['sesion', sesion, 'pedidos', 'archivos', id, etapa] as const,
+  cronograma: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'cronograma', id] as const,
+  detalle: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'detalle', id] as const,
+  historial: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'historial', id] as const,
+  archivos: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'archivos', id] as const,
+  archivosDeEtapa: (sesion: number, pais: CodigoPais, id: string, etapa: number) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'archivos', id, etapa] as const,
   flujo: (sesion: number, pais: string, tipo: string, version: number) =>
     ['sesion', sesion, 'flujos', pais, tipo, version] as const,
 };
@@ -262,11 +272,16 @@ const id = (valor: string) => encodeURIComponent(valor);
 
 export function usePedidos(filtros: FiltrosPedidos, habilitada = true) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.lista(sesionId, filtros),
+    queryKey: clavesPedidos.lista(sesionId, pais, filtros),
     enabled: habilitada,
     queryFn: ({ signal }) => {
-      const parametros = new URLSearchParams({ pagina: String(filtros.pagina), tamano: String(filtros.tamano) });
+      const parametros = new URLSearchParams({
+        pais,
+        pagina: String(filtros.pagina),
+        tamano: String(filtros.tamano),
+      });
       if (filtros.texto) parametros.set('texto', filtros.texto);
       if (filtros.tipoFlujo) parametros.set('tipoFlujo', filtros.tipoFlujo);
       if (filtros.etapa) parametros.set('etapa', String(filtros.etapa));
@@ -279,8 +294,8 @@ export function usePedidos(filtros: FiltrosPedidos, habilitada = true) {
   });
 }
 
-function parametrosBandeja(pagina: number, tamano: number, filtro: FiltroBandeja) {
-  const parametros = new URLSearchParams({ pagina: String(pagina), tamano: String(tamano) });
+function parametrosBandeja(pais: CodigoPais, pagina: number, tamano: number, filtro: FiltroBandeja) {
+  const parametros = new URLSearchParams({ pais, pagina: String(pagina), tamano: String(tamano) });
   if (filtro.vencido) parametros.set('vencido', 'true');
   if (filtro.conUrgencia) parametros.set('conUrgencia', 'true');
   return parametros;
@@ -292,10 +307,11 @@ function parametrosBandeja(pagina: number, tamano: number, filtro: FiltroBandeja
  */
 export function useBandeja(pagina: number, filtro: FiltroBandeja = {}, tamano = 100) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.bandeja(sesionId, pagina, filtro, tamano),
+    queryKey: clavesPedidos.bandeja(sesionId, pais, pagina, filtro, tamano),
     queryFn: ({ signal }) =>
-      pedir(`/pedidos/bandeja?${parametrosBandeja(pagina, tamano, filtro)}`, { esquema: esquemaPagina, signal }),
+      pedir(`/pedidos/bandeja?${parametrosBandeja(pais, pagina, tamano, filtro)}`, { esquema: esquemaPagina, signal }),
     placeholderData: keepPreviousData,
     ...opcionesSeguimiento,
   });
@@ -309,11 +325,12 @@ const FILTROS_CONTEO: FiltroBandeja[] = [{}, { vencido: true }, { conUrgencia: t
  */
 export function useConteosBandeja() {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQueries({
     queries: FILTROS_CONTEO.map((filtro) => ({
-      queryKey: clavesPedidos.bandeja(sesionId, 0, filtro, 1),
+      queryKey: clavesPedidos.bandeja(sesionId, pais, 0, filtro, 1),
       queryFn: ({ signal }: { signal: AbortSignal }) =>
-        pedir(`/pedidos/bandeja?${parametrosBandeja(0, 1, filtro)}`, { esquema: esquemaPagina, signal }),
+        pedir(`/pedidos/bandeja?${parametrosBandeja(pais, 0, 1, filtro)}`, { esquema: esquemaPagina, signal }),
       ...opcionesSeguimiento,
     })),
     combine: (resultados) => ({
@@ -327,8 +344,9 @@ export function useConteosBandeja() {
 
 export function usePedido(pedidoId: string) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.detalle(sesionId, pedidoId),
+    queryKey: clavesPedidos.detalle(sesionId, pais, pedidoId),
     queryFn: ({ signal }) => pedir(`/pedidos/${id(pedidoId)}`, { esquema: esquemaPedidoDetalle, signal }),
     // El estado de un pedido lo cambian otras personas: se vuelve a leer pronto y cada intervalo (paso 5.4).
     staleTime: 10_000,
@@ -338,8 +356,9 @@ export function usePedido(pedidoId: string) {
 
 export function useHistorial(pedidoId: string) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.historial(sesionId, pedidoId),
+    queryKey: clavesPedidos.historial(sesionId, pais, pedidoId),
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/historial`, { esquema: z.array(esquemaEvento), signal }),
     staleTime: 10_000,
@@ -349,8 +368,9 @@ export function useHistorial(pedidoId: string) {
 
 export function useAdjuntosDeEtapa(pedidoId: string, etapa: number) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.archivosDeEtapa(sesionId, pedidoId, etapa),
+    queryKey: clavesPedidos.archivosDeEtapa(sesionId, pais, pedidoId, etapa),
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, { esquema: z.array(esquemaAdjunto), signal }),
     staleTime: 10_000,
@@ -366,9 +386,10 @@ export function useAdjuntosDeEtapa(pedidoId: string, etapa: number) {
  */
 export function useAdjuntosDeEtapas(pedidoId: string, etapas: number[]) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQueries({
     queries: etapas.map((etapa) => ({
-      queryKey: clavesPedidos.archivosDeEtapa(sesionId, pedidoId, etapa),
+      queryKey: clavesPedidos.archivosDeEtapa(sesionId, pais, pedidoId, etapa),
       queryFn: ({ signal }: { signal: AbortSignal }) =>
         pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, { esquema: z.array(esquemaAdjunto), signal }),
       staleTime: 10_000,
@@ -420,8 +441,9 @@ export type Cronograma = z.infer<typeof esquemaCronograma>;
 
 export function useCronograma(pedidoId: string) {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQuery({
-    queryKey: clavesPedidos.cronograma(sesionId, pedidoId),
+    queryKey: clavesPedidos.cronograma(sesionId, pais, pedidoId),
     queryFn: ({ signal }) =>
       pedir(`/pedidos/${id(pedidoId)}/cronograma`, { esquema: esquemaCronograma, signal }),
     staleTime: 10_000,
@@ -447,17 +469,19 @@ export function useDefinicionFlujo(pais: string, tipo: string, version: number |
 const TIPOS_DE_FLUJO = ['A', 'B'] as const;
 
 /**
- * Definiciones vigentes de Ecuador de los flujos A y B (fase 6), con la misma clave que {@link useDefinicionFlujo}: una
+ * Definiciones vigentes del país activo (paso 7.3; antes, solo Ecuador) de los flujos A y B (fase 6), con la misma
+ * clave que {@link useDefinicionFlujo}: una
  * consulta por flujo, compartida por todas las pantallas. Las tablas eligen la de cada pedido por su `tipoFlujo`, así
  * B se dibuja con sus doce etapas y A con sus once. Indefinida mientras no llega o si falló.
  */
 export function useDefinicionesVigentes() {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   return useQueries({
     queries: TIPOS_DE_FLUJO.map((tipo) => ({
-      queryKey: clavesPedidos.flujo(sesionId, 'EC', tipo, 0),
+      queryKey: clavesPedidos.flujo(sesionId, pais, tipo, 0),
       queryFn: ({ signal }: { signal: AbortSignal }) =>
-        pedir(`/flujos/EC/${tipo}`, { esquema: esquemaDefinicionFlujo, signal }),
+        pedir(`/flujos/${pais}/${tipo}`, { esquema: esquemaDefinicionFlujo, signal }),
       staleTime: 5 * 60 * 1000,
     })),
     combine: (resultados) => ({
@@ -483,14 +507,16 @@ export interface DatosNuevoPedido {
 
 export function useCrearPedido() {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   const consultas = useQueryClient();
   return useMutation({
+    // Paso 7.3: siempre en el país activo; el servidor exige que esté asignado (403 si no).
     mutationFn: (datos: DatosNuevoPedido) =>
-      pedir('/pedidos', { metodo: 'POST', cuerpo: { ...datos, pais: 'EC' }, esquema: esquemaPedidoDetalle }),
+      pedir('/pedidos', { metodo: 'POST', cuerpo: { ...datos, pais }, esquema: esquemaPedidoDetalle }),
     onSuccess: (pedido) => {
-      consultas.setQueryData(clavesPedidos.detalle(sesionId, pedido.id), pedido);
-      void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId) });
-      void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId) });
+      if (pedido.pais === pais) consultas.setQueryData(clavesPedidos.detalle(sesionId, pais, pedido.id), pedido);
+      void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId, pais) });
+      void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId, pais) });
     },
   });
 }
@@ -498,16 +524,19 @@ export function useCrearPedido() {
 /** Tras cualquier cambio de un pedido: su detalle, su historial, sus archivos y las listas que lo muestran. */
 export function useRefrescarPedido() {
   const { sesionId } = useSesion();
+  const pais = usePaisActivo();
   const consultas = useQueryClient();
   return (pedidoId: string, detalle?: PedidoDetalle) => {
-    if (detalle) consultas.setQueryData(clavesPedidos.detalle(sesionId, pedidoId), detalle);
-    else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pedidoId) });
+    // Una respuesta de otro país (país cambiado mientras tanto) no se guarda en la caché del país activo.
+    if (detalle && detalle.pais === pais) {
+      consultas.setQueryData(clavesPedidos.detalle(sesionId, pais, pedidoId), detalle);
+    } else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: ['notificaciones', sesionId] });
-    void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pedidoId) });
-    void consultas.invalidateQueries({ queryKey: clavesPedidos.cronograma(sesionId, pedidoId) });
-    void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pedidoId) });
-    void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId) });
-    void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.cronograma(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId, pais) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId, pais) });
   };
 }
 
@@ -579,11 +608,15 @@ export function useAgregarObservacion() {
 /** Búsqueda exacta por número (requisito 4.2 #17; contrato GET /pedidos/buscar). La pide la persona al enviar. */
 export function useBuscarPedido() {
   const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
   const consultas = useQueryClient();
   return useMutation({
+    // Paso 7.3: solo en el país activo; un número de otro país responde como inexistente (404).
     mutationFn: (numero: string) =>
-      pedir(`/pedidos/buscar?numero=${encodeURIComponent(numero)}`, { esquema: esquemaPedidoDetalle }),
-    onSuccess: (pedido) => consultas.setQueryData(clavesPedidos.detalle(sesionId, pedido.id), pedido),
+      pedir(`/pedidos/buscar?numero=${encodeURIComponent(numero)}&pais=${pais}`, { esquema: esquemaPedidoDetalle }),
+    onSuccess: (pedido) => {
+      if (pedido.pais === pais) consultas.setQueryData(clavesPedidos.detalle(sesionId, pais, pedido.id), pedido);
+    },
   });
 }
 

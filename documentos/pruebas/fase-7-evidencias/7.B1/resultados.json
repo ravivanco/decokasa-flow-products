@@ -1,0 +1,80 @@
+{
+  "branch": "fase-7-colombia-ia",
+  "backendCheck": {
+    "command": ".\\gradlew.bat check --console=plain --no-daemon",
+    "exit": 1
+  },
+  "backendCoverage": "No medible: compileJava falla; no reutilizar jacoco anterior como actual",
+  "migrationSQL": {
+    "tests": 110,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0
+  },
+  "migrationFailures": [
+    {
+      "suite": "TEST-com.decokasa.seguimiento.archivos.MigracionesFase7IT",
+      "test": "colombiaDebeQuedarHabilitadaSinAsignarlaAutomaticamente()",
+      "message": "org.opentest4j.AssertionFailedError: \r\nExpecting value to be true but was false"
+    },
+    {
+      "suite": "TEST-com.decokasa.seguimiento.MigracionesIT",
+      "test": "siembraEcuadorYColombiaActivosSegunFase7()",
+      "message": "java.lang.AssertionError: \r\nExpecting map:\r\n  {\"CO\"=false, \"EC\"=true}\r\nto contain only:\r\n  [\"EC\"=true, \"CO\"=true]\r\nmap entries not found:\r\n  [\"CO\"=true]\r\nand map entries not expected:\r\n  [\"CO\"=false]\r\n"
+    }
+  ],
+  "frontend": {
+    "test": 0,
+    "build": 0,
+    "lint": 0
+  },
+  "frontendTests": 335,
+  "frontendFiles": 27,
+  "frontendCoverage": {
+    "lines": {
+      "total": 2340,
+      "covered": 1582,
+      "skipped": 0,
+      "pct": 67.6
+    },
+    "statements": {
+      "total": 2592,
+      "covered": 1746,
+      "skipped": 0,
+      "pct": 67.36
+    },
+    "functions": {
+      "total": 832,
+      "covered": 580,
+      "skipped": 0,
+      "pct": 69.71
+    },
+    "branches": {
+      "total": 2524,
+      "covered": 1560,
+      "skipped": 0,
+      "pct": 61.8
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "openapi": {
+    "valid": true,
+    "openapi": "3.1.0",
+    "version": "0.19.0-borrador"
+  },
+  "realAPIJourneys": "blocked by production compilation; no browser E2E claimed",
+  "productionCompared": 533,
+  "productionChanges": [],
+  "gitIndexUnchanged": true,
+  "headerUnchanged": true,
+  "googleOrClaudeAPICalls": false,
+  "aiEnabled": false,
+  "phaseClosed": false,
+  "missingReportLinks": [],
+  "credentialPatternFindings": []
+}

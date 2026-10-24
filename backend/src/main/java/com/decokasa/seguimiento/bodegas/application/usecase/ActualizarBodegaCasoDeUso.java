@@ -28,15 +28,20 @@ public final class ActualizarBodegaCasoDeUso implements ActualizarBodega {
 
     @Override
     public Bodega actualizar(Solicitante solicitante, Comando comando) {
-        autorizacion.exigir(solicitante);
+        // Primero el rol (403), antes de bloquear ninguna fila.
+        var estado = autorizacion.exigirRol(solicitante);
         Bodega actual = bodegas.buscarParaActualizar(comando.bodegaId())
                 .orElseThrow(() -> new NoEncontrado("La bodega no existe."));
+        // ADR-0024: una bodega de un país no asignado no existe para quien edita (404, como una inexistente).
+        if (!estado.paises().contains(actual.pais())) {
+            throw new NoEncontrado("La bodega no existe.");
+        }
         if (actual.version() != comando.version()) {
             throw new VersionDesactualizada(BODEGA_CAMBIO);
         }
         Bodega cambiada = actual.cambiar(comando.nombre(), comando.ciudad(), comando.activa());
         if (comando.nombre() != null) {
-            bodegas.buscarPorNombre(cambiada.nombre())
+            bodegas.buscarPorNombre(cambiada.pais(), cambiada.nombre())
                     .filter(otra -> !otra.id().equals(actual.id()))
                     .ifPresent(otra -> {
                         throw new DatoDuplicado("nombre", CrearBodegaCasoDeUso.NOMBRE_REPETIDO);

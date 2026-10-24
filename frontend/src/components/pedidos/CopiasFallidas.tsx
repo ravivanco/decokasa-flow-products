@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 import { Link } from 'react-router';
 import { useSesion } from '@/auth/SesionProvider';
+import { segmentoPais, usePaisActivo } from '@/pais/PaisProvider';
 import { esquemaAdjunto } from '@/api/pedidos';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -12,10 +13,12 @@ import { mensajeDeErrorPedido } from './formato';
 
 export function CopiasFallidas() {
   const { pedir, sesionId } = useSesion();
+  // Paso 7.3: solo archivos de pedidos del país activo. El total sigue pendiente (el contrato responde una lista).
+  const pais = usePaisActivo();
   const [pagina, setPagina] = useState(0);
   const copias = useQuery({
-    queryKey: ['copias-fallidas', sesionId, pagina],
-    queryFn: ({ signal }) => pedir(`/archivos/copias-fallidas?pagina=${pagina}&tamano=20`, {
+    queryKey: ['copias-fallidas', sesionId, segmentoPais(pais), pagina],
+    queryFn: ({ signal }) => pedir(`/archivos/copias-fallidas?pais=${pais}&pagina=${pagina}&tamano=20`, {
       esquema: z.array(esquemaAdjunto), signal,
     }), staleTime: 10_000, retry: false,
   });

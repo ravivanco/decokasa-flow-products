@@ -2,6 +2,7 @@ import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, TargetIcon
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
+import { SelectorPais } from '@/pais/PaisProvider';
 
 // Menú principal (plan, tarea 21). Muestra las secciones activas: inicio, bandeja y pedidos (fase 2) para todos, y
 // usuarios, roles y correos para el admin; bodegas para admin o Logística. El servidor valida cada permiso (R6).
@@ -42,6 +43,10 @@ export function Sidebar() {
       {/* F5-B3-H05: en móvil el menú era una tira con desplazamiento horizontal, y al recibir foco un enlace visible a
           medias ("Bodegas", "Roles") no se desplazaba y quedaba recortado contra el borde. Ahora los enlaces pasan a la
           línea siguiente: todos se ven completos, con su anillo de foco, sin desplazamiento ni texto acortado. */}
+      {/* Paso 7.3: país activo, solo entre los asignados hoy (con uno solo, sin opciones). */}
+      <div className="border-b p-2">
+        <SelectorPais />
+      </div>
       <ul className="flex flex-wrap gap-1 p-2 md:flex-col md:flex-nowrap">
         {visibles.map(({ a, texto, icono: Icono }) => (
           <li key={a}>

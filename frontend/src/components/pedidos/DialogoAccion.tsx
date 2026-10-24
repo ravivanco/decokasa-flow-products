@@ -28,6 +28,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { codigoEtapa, HORAS_URGENCIA, mensajeDeErrorPedido, NOMBRE_ACCION, NOMBRE_URGENCIA } from './formato';
+import { ciudadDeBodega } from '@/api/esquemas';
 
 // Diálogo de una acción de la etapa actual (DESIGN.md 7.3). Lo que exige cada acción lo dice el servidor
 // (`accionesDisponibles`): observación, urgencia y documentos. Los archivos que se presentan son los de la entrada
@@ -253,7 +254,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
                       <SelectValue placeholder={bodegas.data?.length ? 'Elige una bodega activa' : 'No hay bodegas activas'} />
                     </SelectTrigger>
                     <SelectContent><SelectGroup>{bodegas.data?.map((bodega) => (
-                      <SelectItem key={bodega.id} value={bodega.id}>{bodega.nombre} · {bodega.ciudad}</SelectItem>
+                      <SelectItem key={bodega.id} value={bodega.id}>{bodega.nombre} · {ciudadDeBodega(bodega)}</SelectItem>
                     ))}</SelectGroup></SelectContent>
                   </Select>}
                 <FieldDescription id={`${ids}-bodega-ayuda`}>Se asigna una sola vez al confirmar. El servidor vuelve a comprobar que esté activa.</FieldDescription>

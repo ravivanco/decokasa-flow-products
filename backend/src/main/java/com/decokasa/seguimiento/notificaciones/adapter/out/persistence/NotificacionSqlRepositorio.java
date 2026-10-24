@@ -1,5 +1,6 @@
 package com.decokasa.seguimiento.notificaciones.adapter.out.persistence;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle.Causa;
 import com.decokasa.seguimiento.notificaciones.application.port.out.NotificacionRepositorio;
 import com.decokasa.seguimiento.notificaciones.domain.Notificacion;
@@ -10,6 +11,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -99,6 +101,26 @@ public class NotificacionSqlRepositorio implements NotificacionRepositorio,
         return sql.query("select * from notificacion where (:estado is null or estado = :estado) order by creada_en desc,id limit :limite offset :inicio",
                 new MapSqlParameterSource().addValue("estado",estado == null ? null : estado.name(),java.sql.Types.VARCHAR)
                     .addValue("limite",tamano).addValue("inicio",Math.multiplyExact((long)pagina,tamano)),this::leer);
+    }
+    // Fase 7 (ADR-0024): el país sale del pedido del correo (notificacion.pedido_id es obligatorio, V4).
+    private static final String DE_PAISES = " from notificacion n join pedido p on p.id = n.pedido_id"
+            + " where p.pais_codigo in (:paises) and (:estado is null or n.estado = :estado)";
+    @Override public List<Notificacion> listar(Set<CodigoPais> paises, Notificacion.Estado estado, int pagina,
+            int tamano) {
+        if (pagina < 0 || tamano < 1 || tamano > 100) { throw new IllegalArgumentException("Página inválida"); }
+        if (paises.isEmpty()) { return List.of(); }
+        return sql.query("select n.*" + DE_PAISES + " order by n.creada_en desc, n.id limit :limite offset :inicio",
+                new MapSqlParameterSource().addValue("paises", paises.stream().map(CodigoPais::name).toList())
+                    .addValue("estado", estado == null ? null : estado.name(), java.sql.Types.VARCHAR)
+                    .addValue("limite", tamano).addValue("inicio", Math.multiplyExact((long) pagina, tamano)),
+                this::leer);
+    }
+    @Override public long contar(Set<CodigoPais> paises, Notificacion.Estado estado) {
+        if (paises.isEmpty()) { return 0; }
+        Long total = sql.queryForObject("select count(*)" + DE_PAISES,
+                new MapSqlParameterSource().addValue("paises", paises.stream().map(CodigoPais::name).toList())
+                    .addValue("estado", estado == null ? null : estado.name(), java.sql.Types.VARCHAR), Long.class);
+        return total == null ? 0 : total;
     }
     @Override public long contar(Notificacion.Estado estado) {
         Long total=sql.queryForObject("select count(*) from notificacion where (:estado is null or estado = :estado)",

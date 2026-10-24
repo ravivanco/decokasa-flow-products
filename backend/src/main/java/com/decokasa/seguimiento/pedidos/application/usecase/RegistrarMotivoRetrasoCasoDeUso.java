@@ -44,6 +44,7 @@ public final class RegistrarMotivoRetrasoCasoDeUso implements RegistrarMotivoRet
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
+        apoyo.exigirPais(actor, pedido);
         ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
         CodigoRol rol = flujo.etapa(pedido.etapaActual()).rolResponsable();
         UUID eventoId = pedido.registrarMotivoRetraso(comando.etapaEsperada(), comando.entradaEsperadaId(),

@@ -5,6 +5,7 @@ import type { PedidoDetalle } from '@/api/pedidos';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useCambiosSinGuardar } from '@/pais/PaisProvider';
 import { codigoEtapa } from './formato';
 
 // Borradores del detalle del pedido (paso 5.5, corrección del pendiente de 5.4). El texto sin enviar de una
@@ -48,6 +49,10 @@ export function ProveedorBorradores({ children }: { children: ReactNode }) {
     });
   }, []);
   const valor = useMemo(() => ({ borradores: Object.values(mapa), guardar, descartar }), [mapa, guardar, descartar]);
+  // Paso 7.3: un borrador nunca pasa a otro país; cambiar de país con texto sin enviar pide confirmación.
+  useCambiosSinGuardar(
+    Object.values(mapa).some((borrador) => borrador.texto.trim()) ? 'observaciones o motivos sin enviar' : null,
+  );
   return <ContextoBorradores.Provider value={valor}>{children}</ContextoBorradores.Provider>;
 }
 

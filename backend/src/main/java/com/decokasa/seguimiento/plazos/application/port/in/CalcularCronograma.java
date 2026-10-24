@@ -1,5 +1,6 @@
 package com.decokasa.seguimiento.plazos.application.port.in;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,6 +17,16 @@ import java.util.UUID;
 public interface CalcularCronograma {
 
     Resultado calcular(Datos datos);
+
+    /**
+     * Fase 7: el mismo cálculo con el calendario configurado para el país del pedido. Una implementación con un solo
+     * calendario (Ecuador, como hasta la fase 6) se devuelve a sí misma.
+     *
+     * @throws IllegalArgumentException si el país no tiene calendario configurado
+     */
+    default CalcularCronograma paraPais(CodigoPais pais) {
+        return this;
+    }
 
     /** Una etapa del pedido con su definición (plazo y marca de llegada de ADR-0018). */
     record EtapaDelPedido(int numero, String nombre, PlazoDeEtapa plazo, boolean registraLlegada, Instant entradaEn,

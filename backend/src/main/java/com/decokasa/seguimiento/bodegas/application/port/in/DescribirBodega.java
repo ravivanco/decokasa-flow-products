@@ -1,5 +1,6 @@
 package com.decokasa.seguimiento.bodegas.application.port.in;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,6 +15,11 @@ public interface DescribirBodega {
     Optional<Vista> describir(UUID bodegaId);
 
     /** Esquema Bodega del contrato. */
-    record Vista(UUID id, String nombre, String ciudad, boolean activa, long version) {
+    record Vista(UUID id, String nombre, String ciudad, boolean activa, long version, CodigoPais pais) {
+
+        /** Solo compatibilidad documentada (anterior a la fase 7): una bodega de Ecuador. No decide permisos. */
+        public Vista(UUID id, String nombre, String ciudad, boolean activa, long version) {
+            this(id, nombre, ciudad, activa, version, CodigoPais.EC);
+        }
     }
 }

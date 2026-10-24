@@ -1,0 +1,18 @@
+allprojects { p ->
+ p.plugins.withId('java') {
+  def base = new File(p.projectDir, '../documentos/pruebas/fase-7-evidencias/7.B1')
+  def s = p.sourceSets.create('migracionesF7') {
+   java.srcDir(new File(p.projectDir, 'src/test/java'))
+   java.include '**/MigracionesFase7IT.java', '**/DatosB1.java', '**/MigracionesIT.java', '**/V2RestriccionesIT.java', '**/MigracionesFase4IT.java', '**/MigracionesFase5IT.java', '**/MigracionesFase6IT.java', '**/MigracionesV16IT.java'
+   compileClasspath = p.configurations.testRuntimeClasspath
+   runtimeClasspath = output + compileClasspath
+  }
+  p.tasks.register('migracionesF7', Test) {
+   testClassesDirs = s.output.classesDirs
+   classpath = s.runtimeClasspath + p.files('src/main/resources')
+   useJUnitPlatform()
+   reports.junitXml.outputLocation = new File(base, 'migraciones-junit')
+   reports.html.outputLocation = new File(base, '.tmp/migraciones-html')
+  }
+ }
+}

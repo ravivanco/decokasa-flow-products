@@ -5,10 +5,12 @@ import com.decokasa.seguimiento.bodegas.application.port.in.DescribirBodega;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
+import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
@@ -79,6 +81,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     public VistasDePedido.Detalle detalle(Solicitante solicitante, UUID pedidoId) {
         ActorVigente actor = apoyo.lector(solicitante);
         Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
         return detalle(pedido, actor);
     }
 
@@ -91,16 +94,22 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         }
         Pedido pedido = consultas.porNumero(limpio)
                 .orElseThrow(() -> new NoEncontrado("No hay un pedido con ese número."));
+        if (!actor.veePais(pedido.pais())) {
+            // ADR-0024: el número de otro país no revela que existe.
+            throw new NoEncontrado("No hay un pedido con ese número.");
+        }
         return detalle(pedido, actor);
     }
 
     @Override
     public VistasDePedido.Pagina listar(Solicitante solicitante, Filtro filtro, int pagina, int tamano) {
-        apoyo.lector(solicitante);
+        ActorVigente actor = apoyo.lector(solicitante);
         exigirPagina(pagina, tamano);
         String texto = filtro.texto() == null || filtro.texto().isBlank() ? null : filtro.texto().strip();
-        ConsultaDePedidos.Pagina resultado = consultas.listar(filtro.tipoFlujo(), filtro.etapa(), filtro.vencido(),
-                texto, reloj.ahora(), pagina, tamano);
+        // ADR-0024: solo pedidos de los países asignados hoy.
+        ConsultaDePedidos.Pagina resultado = consultas.listar(paisesDe(actor, filtro.pais()), filtro.tipoFlujo(),
+                filtro.etapa(),
+                filtro.vencido(), texto, reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
     }
 
@@ -109,10 +118,24 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         ActorVigente actor = apoyo.lector(solicitante);
         exigirPagina(pagina, tamano);
         FiltroBandeja aplicado = filtro == null ? FiltroBandeja.SIN_FILTRO : filtro;
-        ConsultaDePedidos.Pagina resultado = consultas.bandeja(actor.usuarioId(), actor.roles(),
+        ConsultaDePedidos.Pagina resultado = consultas.bandeja(paisesDe(actor, aplicado.pais()), actor.usuarioId(),
+                actor.roles(),
                 actor.tieneRol(PermisosEtapa.ADMIN), Boolean.TRUE.equals(aplicado.vencido()),
                 Boolean.TRUE.equals(aplicado.conUrgencia()), reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
+    }
+
+    /**
+     * Paso 7.3: el país seleccionado, que debe estar asignado hoy (403 si no); sin país, todos los asignados (ADR-0024).
+     */
+    private static Set<CodigoPais> paisesDe(ActorVigente actor, CodigoPais seleccionado) {
+        if (seleccionado == null) {
+            return actor.paises();
+        }
+        if (!actor.veePais(seleccionado)) {
+            throw new SinPermiso("No tienes asignado ese país.");
+        }
+        return Set.of(seleccionado);
     }
 
     private static void exigirPagina(int pagina, int tamano) {

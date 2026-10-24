@@ -148,7 +148,7 @@ describe('Catálogo real · roles y control de versión',()=>{
     await app.usuario.click(screen.getByRole('button',{name:'Nueva bodega'}));const d=await screen.findByRole('dialog');
     await app.usuario.type(within(d).getByLabelText('Nombre'),'Nueva ficticia');await app.usuario.type(within(d).getByLabelText('Ciudad'),'Ciudad ficticia');
     await app.usuario.click(within(d).getByRole('button',{name:'Guardar bodega'}));
-    expect(await screen.findByRole('cell',{name:'Nueva ficticia'})).toBeInTheDocument();expect(cuerpos).toEqual([{nombre:'Nueva ficticia',ciudad:'Ciudad ficticia',activa:true}]);expect(lecturas).toBeGreaterThan(antes);
+    expect(await screen.findByRole('cell',{name:'Nueva ficticia'})).toBeInTheDocument();expect(cuerpos).toEqual([{nombre:'Nueva ficticia',ciudad:'Ciudad ficticia',activa:true,pais:'EC'}]);expect(lecturas).toBeGreaterThan(antes);
   });
 
   it.each([['consulta'],['compras_china']])('no concede mantenimiento para %j',async(...roles)=>{

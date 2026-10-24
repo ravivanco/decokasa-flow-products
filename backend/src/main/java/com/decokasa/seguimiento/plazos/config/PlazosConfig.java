@@ -2,6 +2,7 @@ package com.decokasa.seguimiento.plazos.config;
 
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularCronograma;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.plazos.application.port.in.ConfigurarMeta;
@@ -17,7 +18,7 @@ import com.decokasa.seguimiento.plazos.application.usecase.CalcularVencimientoCa
 import com.decokasa.seguimiento.plazos.application.usecase.ConfiguracionPlazosCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.DetectarVencimientosCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.RegistrarVencimientosCasoDeUso;
-import com.decokasa.seguimiento.plazos.domain.CalendarioLaboral;
+import com.decokasa.seguimiento.plazos.domain.CalendariosPorPais;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,13 +37,14 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Configuration(proxyBeanMethods = false)
 public class PlazosConfig {
 
-    private static CalendarioLaboral calendario() {
-        return new CalendarioLaboral(Reloj.ZONA_ECUADOR);
+    /** Fase 7: calendario por país, con las mismas reglas provisionales en Ecuador y Colombia (ADR-0006, ADR-0024). */
+    private static CalendariosPorPais calendarios() {
+        return CalendariosPorPais.provisionales();
     }
 
     @Bean
     CalcularVencimiento calcularVencimiento() {
-        return new CalcularVencimientoCasoDeUso(calendario());
+        return new CalcularVencimientoCasoDeUso(calendarios());
     }
 
     /** Para pedidos (GET /pedidos/{id}/cronograma): se une a la transacción de solo lectura de quien la llama. */
@@ -50,8 +52,22 @@ public class PlazosConfig {
     CalcularCronograma calcularCronograma(PlatformTransactionManager gestor,
             ConfiguracionPlazosRepositorio configuracion) {
         TransactionTemplate tx = soloLectura(gestor);
-        CalcularCronograma caso = new CalcularCronogramaCasoDeUso(configuracion, calendario());
-        return datos -> tx.execute(estado -> caso.calcular(datos));
+        return conTransaccion(tx, new CalcularCronogramaCasoDeUso(configuracion, calendarios()));
+    }
+
+    // El cálculo de cada país corre en la misma transacción de solo lectura que el general.
+    private static CalcularCronograma conTransaccion(TransactionTemplate tx, CalcularCronograma caso) {
+        return new CalcularCronograma() {
+            @Override
+            public Resultado calcular(Datos datos) {
+                return tx.execute(estado -> caso.calcular(datos));
+            }
+
+            @Override
+            public CalcularCronograma paraPais(CodigoPais pais) {
+                return conTransaccion(tx, caso.paraPais(pais));
+            }
+        };
     }
 
     @Bean

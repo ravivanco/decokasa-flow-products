@@ -38,7 +38,12 @@ public final class DescargarArchivoCasoDeUso implements DescargarArchivo {
     @Override
     public Autorizada autorizar(Solicitante solicitante, UUID adjuntoId) {
         Adjunto adjunto = adjuntos.porId(adjuntoId).orElseThrow(() -> new NoEncontrado("El archivo no existe."));
-        pedidos.autorizarDescarga(solicitante, adjunto.pedidoId(), adjunto.etapa());
+        try {
+            pedidos.autorizarDescarga(solicitante, adjunto.pedidoId(), adjunto.etapa());
+        } catch (NoEncontrado deOtroPais) {
+            // ADR-0024: un archivo de un pedido de otro país responde igual que uno inexistente.
+            throw new NoEncontrado("El archivo no existe.");
+        }
         return new Autorizada(adjunto.id(), adjunto.nombre(), adjunto.tamanoBytes(), adjunto.sha256(),
                 adjunto.claveLocal());
     }

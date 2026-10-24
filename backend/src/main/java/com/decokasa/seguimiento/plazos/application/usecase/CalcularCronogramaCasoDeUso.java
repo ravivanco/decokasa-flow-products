@@ -1,8 +1,10 @@
 package com.decokasa.seguimiento.plazos.application.usecase;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularCronograma;
 import com.decokasa.seguimiento.plazos.application.port.out.ConfiguracionPlazosRepositorio;
 import com.decokasa.seguimiento.plazos.domain.CalendarioLaboral;
+import com.decokasa.seguimiento.plazos.domain.CalendariosPorPais;
 import com.decokasa.seguimiento.plazos.domain.Cronograma;
 
 /**
@@ -13,10 +15,28 @@ public final class CalcularCronogramaCasoDeUso implements CalcularCronograma {
 
     private final ConfiguracionPlazosRepositorio configuracion;
     private final CalendarioLaboral calendario;
+    private final CalendariosPorPais calendarios;
 
+    /** Un solo calendario para todos los pedidos (Ecuador, como hasta la fase 6). */
     public CalcularCronogramaCasoDeUso(ConfiguracionPlazosRepositorio configuracion, CalendarioLaboral calendario) {
         this.configuracion = configuracion;
         this.calendario = calendario;
+        this.calendarios = null;
+    }
+
+    /**
+     * Fase 7: el calendario de cada país; {@link #calcular} usa el de Ecuador y {@link #paraPais} el del pedido. La
+     * meta de días sigue siendo una sola (configuracion_plazos).
+     */
+    public CalcularCronogramaCasoDeUso(ConfiguracionPlazosRepositorio configuracion, CalendariosPorPais calendarios) {
+        this.configuracion = configuracion;
+        this.calendario = calendarios.de(CodigoPais.EC);
+        this.calendarios = calendarios;
+    }
+
+    @Override
+    public CalcularCronograma paraPais(CodigoPais pais) {
+        return calendarios == null ? this : new CalcularCronogramaCasoDeUso(configuracion, calendarios.de(pais));
     }
 
     @Override

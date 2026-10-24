@@ -24,5 +24,13 @@ public enum CodigoError {
     CARGA_INCOMPLETA,
     CARGA_OCUPADA,
     CARGA_ALMACENAMIENTO,
-    CUOTA_ALMACENAMIENTO
+    CUOTA_ALMACENAMIENTO,
+    /** Asistente desactivado, sin presupuesto o proveedor no disponible (fase 7, paso 7.4; contrato 0.16.0). */
+    IA_NO_DISPONIBLE,
+    /** La conversación del asistente llegó a 10 preguntas (F7-D2). */
+    LIMITE_PREGUNTAS,
+    /** Límite del piloto: consulta en curso, consultas del día o presupuesto del mes (ADR-0022; paso 7.5). */
+    LIMITE_CONSUMO,
+    /** La pregunta y el historial no caben en el límite de entrada (F7-D2; paso 7.5). */
+    CONTEXTO_EXCEDIDO
 }

@@ -89,6 +89,7 @@ flowchart LR
 | `archivos` | Adjuntos por etapa y evento, copia a Google Drive | 3 (en la fase 2 con adaptador en memoria) |
 | `notificaciones` | Correos al admin, con cola y reintentos | 3 |
 | `bodegas` | Catálogo de bodegas | 4 |
+| `asistente` | Chat de consulta de solo lectura con Claude API sobre un pedido; puerto `AsistenteIA`, presupuesto y conservación (ADR-0020 a ADR-0023; piloto, sin implementar) | 7 |
 | `plazos` | Calendario laboral, plazos, urgencia, cronograma, vencimientos | 2 (vencimiento por etapa y urgencia), 4 (recálculo por demora y arrastre de fechas) y 5 (cronograma contra la meta y detección de vencimientos) |
 
 ### 3.1 Cómo se relacionan
@@ -238,8 +239,43 @@ flowchart TD
 | Puerto | Módulo | Fase | Estado |
 | --- | --- | --- | --- |
 | `PublicadorTiempoReal` | `compartido` | — | **No se implementa (ADR-0014, 2026-10-20):** la actualización entre pantallas usa consultas periódicas del frontend (TanStack Query, 30 s por defecto, 10 s–5 min). Queda como opción si el cliente exige inmediatez |
-| `AsistenteIA` | por definir | 7 | ⏸ El caso de uso de la API de Claude no está definido. La clave vive solo en el servidor y no se envían documentos sin aprobación del cliente (requerimientos 4.7) |
+| `AsistenteIA` | `asistente` | 7 | **Paso 7.4 (2026-10-22, sin verificar):** adaptador `ClaudeAsistenteIA` (SDK oficial de Java) y `AsistenteIADesactivado`. Sin ruta que lo invoque hasta el paso 7.5. Ver 4.10. Documentos reales y conservación en producción: pendientes (F7-D6) |
 | Flujos de Colombia | `flujos` (datos) | 7 | ⏸ Proceso sin definir; entra como nuevas definiciones de flujo, sin cambiar el motor |
+
+### 4.9-bis Acceso por país (fase 7, paso 7.2; ADR-0024; sin verificar)
+
+- `ConsultarResponsables.EstadoVigente` y `ActorVigente` traen los países asignados hoy (`usuario_pais`).
+- `ApoyoPedidos.exigirPais` responde 404 a un pedido de un país no asignado en cada caso de uso de pedidos, y los listados y la bandeja filtran por país en la consulta (`PedidoJpaRepositorio`).
+- Crear exige el país asignado.
+- `bodegas` filtra por país (`ConsultarBodegasPorPais`) y exige el país de la bodega para crear o editar.
+- Elegir bodega exige que sea del país del pedido.
+- `plazos` usa `CalendariosPorPais` (`paraPais` en `CalcularVencimiento` y `CalcularCronograma`).
+- El admin no tiene excepción. `GET /notificaciones` y `GET /archivos/copias-fallidas` filtran por los países del admin en la consulta (`RegistroNotificaciones`, `ConsultaCopias`), sin borrar ni reasignar registros.
+- "Sin país equivale a EC" es solo compatibilidad documentada: nunca reemplaza los países leídos de la base.
+
+### 4.10 `asistente` (fase 7, piloto; pasos 7.4 y 7.5 implementados sin verificar)
+
+**Estado del paso 7.5.** Preguntar y consumo están publicados. `PresupuestoIASql` hace la reserva atómica (ADR-0022), `ControlesAsistente` exige todos los controles antes de cualquier llamada al proveedor (también count_tokens) y hay rutas de admin para tarifas y para el interruptor de la base. Nuevos puertos: `TarifasIA` y `ConsultaConsumoIA` (salida); `GestionarTarifasIA`, `GestionarConfiguracionIA` y `ConsultarConsumoIA` (entrada). Pantalla: `/pedidos/:pedidoId/asistente`.
+
+**Estado del paso 7.4.** Existen el módulo, V20 y las rutas que no llaman al modelo (abrir, listar y leer). `Preguntar` está escrito pero **no se registra ni tiene ruta**, y `PresupuestoIA` solo tiene `PresupuestoPendiente`, que falla cerrado: nada puede gastar hasta el paso 7.5. `ConsultarConsumoIA` también es de 7.5. El adaptador falso para pruebas lo escribe Codex en la parte B. Dependencias (R9): `asistente` → `pedidos`, `archivos` y `usuarios` por sus puertos de entrada (adaptadores en `asistente/adapter/out/modulos`); ningún módulo depende de `asistente`.
+
+Chat de consulta de **solo lectura** sobre **un único pedido** (F7-D1). Diseño aprobado por Richard el 2026-10-22 solo para el piloto con datos ficticios (ADR-0020 a ADR-0023).
+
+- **Puertos.** De entrada: `AbrirConversacion`, `Preguntar`, `ConsultarConversaciones` y `ConsultarConsumoIA`. De salida: `AsistenteIA` (adaptador con el SDK oficial de Java y adaptador falso para pruebas), `ConversacionesIA`, `PresupuestoIA` y `ManifiestoPiloto`. Para leer pedidos y documentos usa los puertos de entrada de `pedidos` y `archivos` (R4), nunca su dominio interno.
+- **Credenciales.** `decokasa.ia.claude-api-key` (`DECOKASA_CLAUDE_API_KEY`), propias de Decokasa. El cliente se construye con `.apiKey()`, nunca con `fromEnv()`. La clave no se registra ni se devuelve. Con `IA_HABILITADA=false` (el valor por defecto) o sin clave, responde 503 y el resto del sistema sigue igual.
+- **Modelo.** `claude-haiku-5-5`, configurable y sujeto a verificar su disponibilidad. Sin cambio automático a modelos más caros.
+- **Recorrido de una pregunta.**
+  1. Permisos vigentes: rol (F7-D4), cuenta, país, lectura del pedido y P-17 por documento.
+  2. Documentos elegibles: PDF por su contenido y, en el piloto, presentes en el manifiesto.
+  3. Historial sin los mensajes retenidos.
+  4. Contexto ≤ 60 000 tokens (`count_tokens`).
+  5. Reserva atómica del presupuesto (ADR-0022).
+  6. Llamada.
+  7. **Verificación de referencias**: documento autorizado enviado en esta consulta y página existente.
+  8. Liquidación y registro en `consulta_ia`, sin texto.
+- **Transacciones (ADR-0012).** La reserva y la liquidación son transacciones cortas en la frontera; la llamada al proveedor queda **fuera** de cualquier transacción.
+- **Conservación (ADR-0023).** El servidor guarda las conversaciones, que solo ve su autor. Los textos se borran a los 30 días mediante un proceso diario. Las copias de seguridad y la retención del proveedor se tratan aparte: no se promete un borrado inmediato.
+- **Pendiente.** Documentos reales, conservación en producción y retención del proveedor (F7-D6). Acceso por país para Colombia.
 
 ## 5. Estructura de paquetes
 

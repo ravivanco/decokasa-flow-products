@@ -8,6 +8,7 @@ import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
 import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarCronograma;
 import com.decokasa.seguimiento.pedidos.application.port.out.ConsultaDePedidos;
+import com.decokasa.seguimiento.pedidos.domain.ActorVigente;
 import com.decokasa.seguimiento.pedidos.domain.DemoraAduana;
 import com.decokasa.seguimiento.pedidos.domain.EtapaDePedido;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
@@ -42,8 +43,9 @@ public final class ConsultarCronogramaCasoDeUso implements ConsultarCronograma {
 
     @Override
     public CalcularCronograma.Resultado cronograma(Solicitante solicitante, UUID pedidoId) {
-        apoyo.lector(solicitante);
+        ActorVigente actor = apoyo.lector(solicitante);
         Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
         ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
         List<CalcularCronograma.EtapaDelPedido> etapas = new ArrayList<>();
         for (ContratoDeEtapa definicion : flujo.etapas()) {
@@ -55,8 +57,10 @@ public final class ConsultarCronogramaCasoDeUso implements ConsultarCronograma {
                     definicion.plazo(), definicion.registraLlegada(), etapa == null ? null : etapa.entradaEn(),
                     salida(pedido, etapa)));
         }
-        return cronogramas.calcular(new CalcularCronograma.Datos(pedido.id(), pedido.creadoEn(), pedido.etapaActual(),
-                pedido.finalizado(), etapas, pedido.llegadaAduanaEn().orElse(null),
+        // Fase 7: el calendario del país del pedido.
+        return cronogramas.paraPais(pedido.pais()).calcular(new CalcularCronograma.Datos(pedido.id(),
+                pedido.creadoEn(), pedido.etapaActual(), pedido.finalizado(), etapas,
+                pedido.llegadaAduanaEn().orElse(null),
                 pedido.demora().map(DemoraAduana::nuevaFechaEstimadaLlegada).orElse(null)));
     }
 

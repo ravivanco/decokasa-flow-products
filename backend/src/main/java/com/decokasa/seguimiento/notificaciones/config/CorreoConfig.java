@@ -27,7 +27,7 @@ public class CorreoConfig {
             RegistroNotificaciones registro, ConsultarResponsables usuarios) {
         var tx=new TransactionTemplate(gestor); tx.setReadOnly(true);
         var caso=new ConsultarNotificacionesCasoDeUso(registro,usuarios);
-        return (s,e,p,t) -> tx.execute(estado -> caso.consultar(s,e,p,t));
+        return (s,pais,e,p,t) -> tx.execute(estado -> caso.consultar(s,pais,e,p,t));
     }
     @Bean EnviarNotificacionesPendientes enviarNotificacionesPendientes(PlatformTransactionManager gestor,
             NotificacionSqlRepositorio repo, Notificador gmail, DirectorioDestinatarios directorio, Reloj reloj,

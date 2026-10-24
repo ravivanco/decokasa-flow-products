@@ -2,7 +2,7 @@ package com.decokasa.seguimiento.bodegas.config;
 
 import com.decokasa.seguimiento.bodegas.application.port.in.ActualizarBodega;
 import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegaActiva;
-import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegas;
+import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegasPorPais;
 import com.decokasa.seguimiento.bodegas.application.port.in.CrearBodega;
 import com.decokasa.seguimiento.bodegas.application.port.in.DescribirBodega;
 import com.decokasa.seguimiento.bodegas.application.port.out.BodegaRepositorio;
@@ -22,11 +22,16 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Configuration(proxyBeanMethods = false)
 public class BodegasConfig {
 
+    // Fase 7 (ADR-0024): no se publica ConsultarBodegas (lista sin filtro de país). GET /bodegas usa
+    // ConsultarBodegasPorPais.
+
+    /** GET /bodegas desde la fase 7 (ADR-0024): solo las de los países asignados hoy. */
     @Bean
-    ConsultarBodegas consultarBodegas(PlatformTransactionManager gestor, BodegaRepositorio bodegas) {
+    ConsultarBodegasPorPais consultarBodegasPorPais(PlatformTransactionManager gestor, BodegaRepositorio bodegas,
+            ConsultarResponsables usuarios) {
         TransactionTemplate tx = soloLectura(gestor);
-        ConsultarBodegas caso = new ConsultarBodegasCasoDeUso(bodegas);
-        return activa -> tx.execute(estado -> caso.listar(activa));
+        ConsultarBodegasPorPais caso = new ConsultarBodegasCasoDeUso(bodegas, usuarios);
+        return (solicitante, pais, activa) -> tx.execute(estado -> caso.listar(solicitante, pais, activa));
     }
 
     /** Para pedidos (A9, todavía sin uso): se une a la transacción de quien la llama. */

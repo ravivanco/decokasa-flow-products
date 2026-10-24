@@ -26,6 +26,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
+import { NOMBRE_PAIS, useCambiosSinGuardar, usePaisActivo } from '@/pais/PaisProvider';
 import { codigoEtapa, flujosQuePuedeCrear, mensajeDeErrorPedido, nombreFlujo } from './formato';
 
 // Crear un pedido (requisito 4.2 #4; fase 6, paso 6.5). Crea quien tiene el rol de la primera etapa del flujo según su
@@ -95,6 +96,7 @@ function FormularioNuevoPedido({
   const ids = useId();
   const navegar = useNavigate();
   const crear = useCrearPedido();
+  const pais = usePaisActivo();
   const [tipo, setTipo] = useState<Tipo | undefined>(inicial);
   const [errorTipo, setErrorTipo] = useState<string | null>(null);
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
@@ -104,12 +106,14 @@ function FormularioNuevoPedido({
     handleSubmit,
     setError,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<Datos>({
     resolver: zodResolver(esquema),
     defaultValues: { nombre: '', descripcion: '', incluyeProductosNuevos: false },
   });
   const descripcion = watch('descripcion');
+  // Paso 7.3: el pedido nuevo es del país activo; cambiar de país con datos escritos pide confirmación.
+  useCambiosSinGuardar(isDirty && !crear.isSuccess ? 'un pedido nuevo sin crear' : null);
   const inicio = inicioDelFlujo(tipo ? definiciones[tipo] : undefined);
 
   function guardar(datos: Datos) {
@@ -165,7 +169,8 @@ function FormularioNuevoPedido({
           {tipo && inicio.primera && (
             <CardDescription className="flex flex-col gap-1">
               <span>
-                Flujo {nombreFlujo(tipo)}. El número se genera al guardar y el pedido empieza en{' '}
+                Flujo {nombreFlujo(tipo)} de {NOMBRE_PAIS[pais]}. El número se genera al guardar y el pedido empieza
+                en{' '}
                 {codigoEtapa(tipo, inicio.primera.numero)} · {inicio.primera.nombre}.
               </span>
               {inicio.destino && inicio.documentos.length > 0 && (

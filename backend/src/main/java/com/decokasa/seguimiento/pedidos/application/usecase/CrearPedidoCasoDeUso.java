@@ -5,6 +5,7 @@ import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
+import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
@@ -52,10 +53,11 @@ public final class CrearPedidoCasoDeUso implements CrearPedido {
         if (comando.tipoFlujo() == null) {
             throw new DatoInvalido("tipoFlujo", "Elige el tipo de flujo.");
         }
+        // Sin país, Ecuador, como antes de la fase 7 (contrato: default EC).
         CodigoPais pais = comando.pais() == null ? CodigoPais.EC : comando.pais();
-        if (pais != CodigoPais.EC) {
-            // ADR-0009: en v1 solo Ecuador está activo.
-            throw new DatoInvalido("pais", "Por ahora solo se crean pedidos de Ecuador.");
+        // ADR-0024: solo se crea en un país asignado hoy a quien crea, también el admin. Antes de reservar el número.
+        if (!creador.veePais(pais)) {
+            throw new SinPermiso("No tienes asignado ese país.");
         }
         ContratoDeFlujo flujo = definicionVigente(pais, comando);
         ContratoDeEtapa inicial = flujo.etapaInicial();
@@ -71,16 +73,16 @@ public final class CrearPedidoCasoDeUso implements CrearPedido {
                 flujo.etapas().stream().map(ContratoDeEtapa::numero).toList(), inicial.rolResponsable(),
                 inicial.plazo());
         Pedido pedido = Pedido.crear(numero, pais, flujoDelPedido, comando.nombre(), comando.descripcion(),
-                comando.incluyeProductosNuevos(), creador, ahora, apoyo.vencimientos());
+                comando.incluyeProductosNuevos(), creador, ahora, apoyo.vencimientos(pais));
         pedidos.insertar(pedido);
         apoyo.publicarEventos(pedido);
         return pedido;
     }
 
     /**
-     * Flujos A (V2) y B (V17) de Ecuador. Crea quien tiene el rol de la primera etapa de esa definición: el admin el A
-     * y Compras China el B; si el admin también crea el B sigue pendiente del cliente (P-14, ⏸), así que hoy no lo
-     * hace. Sin definición vigente la respuesta es 400, no 404.
+     * Flujos A (V2) y B (V17) de Ecuador y sus copias de Colombia (V19). Crea quien tiene el rol de la primera etapa de
+     * esa definición: el admin el A y Compras China el B; si el admin también crea el B sigue pendiente del cliente
+     * (P-14, ⏸), así que hoy no lo hace. Sin definición vigente la respuesta es 400, no 404.
      */
     private ContratoDeFlujo definicionVigente(CodigoPais pais, Comando comando) {
         try {

@@ -8,7 +8,7 @@ import jakarta.persistence.Version;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Tabla bodega de V9. Solo existe en este adaptador (R3). */
+/** Tabla bodega de V9 (país desde V19). Solo existe en este adaptador (R3). */
 @Entity
 @Table(name = "bodega")
 public class BodegaEntity {
@@ -16,8 +16,13 @@ public class BodegaEntity {
     @Id
     private UUID id;
 
+    // V19: país de la bodega; no cambia después del alta.
+    @Column(name = "pais_codigo", updatable = false)
+    private String paisCodigo;
+
     private String nombre;
 
+    // Nula mientras la ciudad está pendiente (V19).
     private String ciudad;
 
     private boolean activa;
@@ -35,8 +40,9 @@ public class BodegaEntity {
     protected BodegaEntity() {
     }
 
-    BodegaEntity(UUID id, Instant creadaEn) {
+    BodegaEntity(UUID id, String paisCodigo, Instant creadaEn) {
         this.id = id;
+        this.paisCodigo = paisCodigo;
         this.creadaEn = creadaEn;
     }
 
@@ -49,6 +55,10 @@ public class BodegaEntity {
 
     UUID getId() {
         return id;
+    }
+
+    String getPaisCodigo() {
+        return paisCodigo;
     }
 
     String getNombre() {

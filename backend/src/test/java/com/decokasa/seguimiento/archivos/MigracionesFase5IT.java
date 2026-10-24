@@ -16,10 +16,10 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 class MigracionesFase5IT {
     @Container static final PostgreSQLContainer PG=new PostgreSQLContainer("postgres:17");
     Flyway fly(DatosB1 d){return Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration").load();}
-    @Test void vaciaTieneV18ConfiguracionPropuestaYEsquemaSinFeriados(){
+    @Test void vaciaTieneV21ConfiguracionPropuestaYEsquemaSinFeriados(){
         var d=new DatosB1(PG,null);var f=fly(d);
-        assertThat(f.info().current().getVersion().toString()).isEqualTo("18");
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18");
+        assertThat(f.info().current().getVersion().toString()).isEqualTo("21");
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();
         assertThat(d.sql.queryForMap("select meta_dias,meta_origen,version from configuracion_plazos")).containsEntry("meta_dias",90).containsEntry("meta_origen","PROPUESTA").containsEntry("version",0L);
         assertThat(d.sql.queryForObject("select count(*) from information_schema.tables where table_schema=? and table_name='feriado'",Integer.class,d.esquema)).isZero();

@@ -1,5 +1,6 @@
 package com.decokasa.seguimiento.pedidos.application.port.out;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
@@ -37,6 +38,29 @@ public interface ConsultaDePedidos {
      */
     Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, boolean soloVencidos,
             boolean soloConUrgencia, Instant ahora, int pagina, int tamano);
+
+    /**
+     * Fase 7 (ADR-0024): como {@link #listar(TipoFlujo, Integer, Boolean, String, Instant, int, int)}, solo con pedidos
+     * de los países indicados (los asignados hoy a quien consulta). Un conjunto vacío no devuelve nada.
+     *
+     * <p>La implementación por defecto solo filtra la página ya obtenida: sirve para dobles de prueba con un país. El
+     * adaptador de la base filtra en la consulta, así que la paginación y el total son exactos.
+     */
+    default Pagina listar(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto,
+            Instant ahora, int pagina, int tamano) {
+        return soloDe(paises, listar(tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano));
+    }
+
+    /** Fase 7 (ADR-0024): como {@link #bandeja}, solo con pedidos de los países indicados. Mismo aviso que listar. */
+    default Pagina bandeja(Set<CodigoPais> paises, UUID usuarioId, Set<CodigoRol> roles, boolean admin,
+            boolean soloVencidos, boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {
+        return soloDe(paises, bandeja(usuarioId, roles, admin, soloVencidos, soloConUrgencia, ahora, pagina, tamano));
+    }
+
+    private static Pagina soloDe(Set<CodigoPais> paises, Pagina pagina) {
+        List<Pedido> visibles = pagina.pedidos().stream().filter(pedido -> paises.contains(pedido.pais())).toList();
+        return new Pagina(visibles, visibles.size() == pagina.pedidos().size() ? pagina.total() : visibles.size());
+    }
 
     record Pagina(List<Pedido> pedidos, long total) {
     }

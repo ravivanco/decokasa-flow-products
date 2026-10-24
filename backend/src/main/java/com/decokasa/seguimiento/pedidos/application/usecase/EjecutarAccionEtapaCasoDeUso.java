@@ -84,6 +84,9 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
     public Pedido ejecutar(Solicitante solicitante, Comando comando) {
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        // ADR-0024: el país va antes de cualquier regla del pedido; un 409 de otro país revelaría que existe.
+        ActorVigente actor = apoyo.solicitante(solicitante);
+        apoyo.exigirPais(actor, pedido);
         if (pedido.finalizado()) {
             throw new TransicionNoPermitida("El pedido ya terminó.");
         }
@@ -91,7 +94,6 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         if (comando.etapaEsperada() != pedido.etapaActual()) {
             throw new EtapaCambio("La etapa del pedido cambió. Vuelve a cargarlo antes de actuar.");
         }
-        ActorVigente actor = apoyo.solicitante(solicitante);
         ResolverTransicion.Resolucion resolucion = transiciones.resolver(pedido.flujoId(), pedido.etapaActual(),
                 comando.accion());
         // ADR-0018: la etapa de llegada está marcada en la definición del flujo; su APROBAR es el check de llegada.
@@ -121,8 +123,10 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         if (comando.bodegaId() != null && resolucion.requiereBodega() && !resolucion.documentosPendientes()
                 && efectivas.incluye(pedido.etapaActual()) && pedido.bodegaId().isEmpty()) {
             PermisosEtapa.paraActuar(etapaActual(pedido), resolucion.rolResponsableOrigen(), actor);
-            if (bodegas.activa(comando.bodegaId()).isEmpty()) {
-                throw new DatoInvalido("bodegaId", "La bodega no existe o está inactiva; elige una bodega activa.");
+            // Fase 7 (ADR-0024): la bodega debe ser del país del pedido.
+            if (bodegas.activa(comando.bodegaId()).filter(bodega -> bodega.pais() == pedido.pais()).isEmpty()) {
+                throw new DatoInvalido("bodegaId",
+                        "La bodega no existe, está inactiva o es de otro país; elige una activa del país.");
             }
         }
         AccionSolicitada solicitud = new AccionSolicitada(comando.accion(), comando.etapaEsperada(),
@@ -130,7 +134,7 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
                 comando.nuevaFechaEstimadaLlegada(), comando.bodegaId());
         Instant ahora = reloj.ahora();
         // Una sola lectura del reloj: la hora del evento y el "hoy" de la demora son del mismo instante.
-        pedido.ejecutar(solicitud, regla, efectivas, actor, ahora, apoyo.vencimientos(),
+        pedido.ejecutar(solicitud, regla, efectivas, actor, ahora, apoyo.vencimientos(pedido.pais()),
                 ahora.atZone(reloj.zona()).toLocalDate());
         pedidos.actualizar(pedido);
         apoyo.publicarEventos(pedido);

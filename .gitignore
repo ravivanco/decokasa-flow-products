@@ -32,3 +32,6 @@ documentos/manual-paso-a-paso.docx
 **/client_secret*.json
 **/oauth-tokens*
 **/google-aes*.key
+
+# Piloto de IA (F7-D3): PDF ficticios y su manifiesto revisado, siempre locales.
+/piloto-ia/

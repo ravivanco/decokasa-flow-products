@@ -41,7 +41,12 @@ export function useActualizarMeta() {
       pedir('/configuracion/plazos', { metodo: 'PUT', cuerpo, esquema: esquemaConfiguracionPlazos }),
     onSuccess: (configuracion) => {
       consultas.setQueryData(clavesPlazos.configuracion(sesionId), configuracion);
-      void consultas.invalidateQueries({ queryKey: ['sesion', sesionId, 'pedidos', 'cronograma'] });
+      // Paso 7.3: el cronograma va por país (['sesion', s, 'pedidos', 'pais:XX', 'cronograma', id]); la meta es una
+      // sola, así que se invalidan los de cualquier país.
+      void consultas.invalidateQueries({
+        predicate: ({ queryKey }) => queryKey[0] === 'sesion' && queryKey[1] === sesionId
+          && queryKey[2] === 'pedidos' && queryKey[4] === 'cronograma',
+      });
     },
     onError: (error) => {
       if (esErrorApi(error, 'VERSION_DESACTUALIZADA')) {

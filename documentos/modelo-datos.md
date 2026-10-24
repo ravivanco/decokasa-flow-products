@@ -389,6 +389,42 @@ La tarea de envío toma lotes con `SELECT … FOR UPDATE SKIP LOCKED`, así dos 
 
 **`feriado`** **[P] ⏸** (Could en el PRD): `pais_codigo` FK y `fecha` date, como PK compuesta; `descripcion` text NOT NULL. Solo se usa si el cliente aprueba descontar feriados.
 
+**Fase 7, paso 7.2 (V19, sin aplicar ni verificar):**
+- `bodega.pais_codigo` text NOT NULL FK → `pais` (Quito, Guayaquil e Ibarra en EC).
+- `bodega.ciudad` acepta NULL solo mientras está pendiente; si tiene valor, conserva el formato de V9.
+- Índice único `bodega_nombre_unico` sobre (`pais_codigo`, `lower(nombre)`), e índice `bodega_pais`.
+- Siembra de "Bodega 1" en CO, activa y con la ciudad pendiente (`01a160e8-5000-7000-8000-000000000401`).
+- Definiciones CO/A v1 y CO/B v1, vigentes, copiadas fila por fila de EC/A v1 y EC/B v1 (etapas, transiciones, documentos, revisoras y llegada); solo cambia "Aduana Ecuador" por "Aduana Colombia".
+- Sin cambios en `usuario_pais` ni usuarios en la migración.
+
+### 3.8 Asistente de IA (módulo `asistente`) — fase 7, piloto; ADR-0020 a ADR-0023
+
+Aprobado por Richard el 2026-10-22 **para el piloto**. **Paso 7.4 (V20, sin aplicar ni verificar):** `conversacion_ia`, `mensaje_ia` y `consulta_ia`. **Paso 7.5 (V21, sin aplicar ni verificar):** `configuracion_ia`, `precio_modelo_ia`, `presupuesto_ia`, `uso_ia_dia`, `uso_ia_usuario_dia` y `reserva_ia`.
+
+Diferencias de V21 con la propuesta:
+- `configuracion_ia` nace con `habilitada = false` y motivo; se activa desde `PATCH /asistente/configuracion` solo con la tarifa validada. `espera_reserva_segundos` (300) es una **propuesta del equipo** (espera del proveedor + margen de ADR-0022), no un límite de F7-D2. Sin `retencion_dias`: la conservación de 30 días sigue en la configuración del entorno (F7-D5).
+- `precio_modelo_ia`: id propio, precios base y del tramo superior (umbral) en micro-USD por MTok, `fuente` https, `consultado_en`, quién y cuándo la registró y la validó. Se siembra `claude-haiku-5-5` desde la página oficial de precios (2026-10-22) **sin validar**. Un trigger solo admite marcarla validada una vez; una tarifa validada no se borra.
+- `reserva_ia` (nueva): una fila por reserva (`ABIERTA`, `LIQUIDADA`, `LIBERADA` o `CONSUMIDA`) para cerrarla una sola vez y recuperar las abandonadas.
+- `presupuesto_ia.limite_micro_usd` se copia de la configuración al crear el mes.
+
+Diferencias de V20 con la propuesta:
+- `conversacion_ia.numero_pedido`: copia del número del pedido (que no cambia), para listar sin leer cada pedido. Un trigger comprueba al insertar que número y país coinciden con el pedido, y solo deja cambiar `preguntas`, nunca hacia atrás.
+- `mensaje_ia`: `orden` de 1 a 20, preguntas en orden impar y respuestas en par, `evidencia_suficiente` solo en las respuestas, preguntas de 1 a 2 000 caracteres sin referencias ni documentos. Un trigger impide editar un mensaje; solo se borra con su conversación.
+- `consulta_ia.resultado`: `RESPONDIDA`, `SIN_EVIDENCIA`, `INCOMPLETA`, `RECHAZADA`, `LIMITE`, `ERROR_SIN_COBRO` o `ERROR_INCIERTO` (en lugar de un único `ERROR`, para distinguir lo que pudo cobrarse; ADR-0022). `modelo` es nulo si el proveedor no respondió. El trigger de solo inserción admite únicamente el `ON DELETE SET NULL` de `conversacion_id`.
+
+| Tabla | Columnas | Reglas |
+|---|---|---|
+| `configuracion_ia` | Fila única (`id = 1`): `habilitada`, `modelo`, `tokens_entrada_max` (60000), `tokens_salida_max` (4000), `preguntas_por_conversacion` (10), `consultas_usuario_dia` (20), `en_curso_usuario` (1), `consultas_dia` (200), `presupuesto_mes_micro_usd` (10000000), `retencion_dias` (30), `deshabilitada_motivo`, `origen`, `actualizado_por/en`, `version` | Como `configuracion_plazos`. **La clave no se guarda aquí**: solo en el entorno |
+| `precio_modelo_ia` | `modelo`, `vigente_desde` (PK compuesta), precios en micro-USD por millón de tokens (entrada, salida, escritura y lectura de caché), umbral y precios del tramo superior (Haiku 5.5: más de 100 000 tokens), `fuente` | Sin precio vigente para el modelo configurado, la IA no responde |
+| `presupuesto_ia` | `periodo` (mes, PK), `limite_micro_usd`, `consumido_micro_usd`, `reservado_micro_usd` | Reserva con `UPDATE … WHERE consumido + reservado + :max <= limite` (ADR-0022) |
+| `uso_ia_usuario_dia` | (`usuario_id`, `dia`) PK, `consultas`, `en_curso` | Mismo patrón condicional |
+| `uso_ia_dia` | `dia` PK, `consultas` | Mismo patrón condicional |
+| `conversacion_ia` | `id`, `usuario_id` FK, `pedido_id` FK, `pais_codigo`, `creada_en`, `expira_en`, `preguntas` | Índice por `expira_en`. Solo la ve su autor |
+| `mensaje_ia` | `id`, `conversacion_id` FK `ON DELETE CASCADE`, `orden`, `autor` (`USUARIO`/`ASISTENTE`), `texto`, `referencias` jsonb, `documentos_enviados` uuid[], `documentos_excluidos` jsonb, `evidencia_suficiente`, `creado_en` | Se borra con su conversación. `documentos_enviados` permite retener el mensaje si se pierde el permiso de descarga |
+| `consulta_ia` | `id`, `conversacion_id` FK `ON DELETE SET NULL`, `usuario_id`, `pais_codigo`, `pedido_id`, `modelo`, `tokens_entrada`, `tokens_salida`, `tokens_cache_escritura`, `tokens_cache_lectura`, `costo_micro_usd`, `resultado` (`RESPONDIDA`, `SIN_EVIDENCIA`, `LIMITE`, `ERROR`, `RECHAZADA`), `documentos_enviados` uuid[], `creada_en` | Solo inserción (trigger, como `evento_pedido`). **Sin texto ni citas** |
+
+**Eliminación (ADR-0023).** Un proceso diario borra físicamente las conversaciones vencidas y, en cascada, sus mensajes; las copias de seguridad del piloto rotan en 30 días o menos; la retención del proveedor es independiente y está pendiente de F7-D6. El manifiesto de PDF ficticios **no** está en la base: es un archivo local revisado por Richard, y se compara con `adjunto.sha256`.
+
 ## 4. Índices
 
 | Índice | Tabla | Para qué |

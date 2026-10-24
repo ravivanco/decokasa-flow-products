@@ -22,7 +22,12 @@ public final class ConsultarArchivosDriveCasoDeUso implements ConsultarArchivosD
     }
     public String enlace(Solicitante s,UUID id) {
         var a=adjuntos.porId(id).orElseThrow(()->new NoEncontrado("El archivo no existe."));
-        pedidos.autorizarDescarga(s,a.pedidoId(),a.etapa()); // P-17 vigente, igual que contenido.
+        try {
+            pedidos.autorizarDescarga(s,a.pedidoId(),a.etapa()); // P-17 vigente, igual que contenido.
+        } catch (NoEncontrado deOtroPais) {
+            // ADR-0024: un archivo de un pedido de otro país responde igual que uno inexistente.
+            throw new NoEncontrado("El archivo no existe.");
+        }
         String url=copias.enlaceConfirmado(id).orElseThrow(Pendiente::new);
         try {
             URI uri=URI.create(url);
@@ -31,12 +36,16 @@ public final class ConsultarArchivosDriveCasoDeUso implements ConsultarArchivosD
         } catch (IllegalArgumentException error) { throw new Pendiente(); }
         return url; // Nunca construir un enlace a partir de un ID reservado.
     }
-    public List<AdjuntoVista> fallidos(Solicitante s,int pagina,int tamano) {
-        if (responsables.estado(s.usuarioId()).filter(u -> u.activo() && u.roles().contains(new CodigoRol("admin"))).isEmpty()) {
+    public List<AdjuntoVista> fallidos(Solicitante s,CodigoPais pais,int pagina,int tamano) {
+        var admin=responsables.estado(s.usuarioId()).filter(u -> u.activo() && u.roles().contains(new CodigoRol("admin")));
+        if (admin.isEmpty()) {
             throw new SinPermiso("Solo el admin vigente puede consultar copias fallidas.");
         }
         if (pagina<0 || tamano<1 || tamano>100) { throw new DatoInvalido("pagina","Paginación inválida."); }
-        var ids=copias.fallidos(pagina,tamano);
+        // ADR-0024: solo archivos de pedidos de los países asignados hoy al admin, filtrados en la consulta.
+        var asignados=admin.get().paises();
+        if (pais!=null && !asignados.contains(pais)) { throw new SinPermiso("No tienes asignado ese país."); }
+        var ids=copias.fallidos(pais==null ? asignados : java.util.Set.of(pais),pagina,tamano);
         var lista=adjuntos.porIds(ids);
         var eventos=adjuntos.eventosDeSubida(ids);
         var personas=usuarios.resumenes(lista.stream().map(a->a.subidoPor()).distinct().toList());

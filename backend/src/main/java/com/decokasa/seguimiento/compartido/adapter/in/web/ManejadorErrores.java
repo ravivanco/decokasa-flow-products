@@ -52,7 +52,11 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.CARGA_OCUPADA, HttpStatus.CONFLICT),
             Map.entry(CodigoError.CARGA_ALMACENAMIENTO, HttpStatus.SERVICE_UNAVAILABLE),
             Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, HttpStatus.CONFLICT),
-            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE)));
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.IA_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.LIMITE_PREGUNTAS, HttpStatus.BAD_REQUEST),
+            Map.entry(CodigoError.LIMITE_CONSUMO, HttpStatus.TOO_MANY_REQUESTS),
+            Map.entry(CodigoError.CONTEXTO_EXCEDIDO, HttpStatus.BAD_REQUEST)));
 
     private static final Map<CodigoError, String> TITULOS = new EnumMap<>(Map.ofEntries(
             Map.entry(CodigoError.VALIDACION, "Datos inválidos"),
@@ -74,7 +78,11 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.CARGA_OCUPADA, "Carga en curso"),
             Map.entry(CodigoError.CARGA_ALMACENAMIENTO, "Carga no disponible"),
             Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, "Cuota de almacenamiento agotada"),
-            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, "Conexión Google no disponible")));
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, "Conexión Google no disponible"),
+            Map.entry(CodigoError.IA_NO_DISPONIBLE, "Asistente no disponible"),
+            Map.entry(CodigoError.LIMITE_PREGUNTAS, "Límite de preguntas"),
+            Map.entry(CodigoError.LIMITE_CONSUMO, "Límite de consumo"),
+            Map.entry(CodigoError.CONTEXTO_EXCEDIDO, "Contexto excedido")));
 
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {

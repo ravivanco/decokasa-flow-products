@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Decokasa — API de seguimiento de pedidos de importación
-  version: 0.15.0-borrador
+  version: 0.19.0-borrador
   description: |
     Contrato de la API del MVP (fase 0, paso 0.8). Es la fuente de verdad del límite
     entre frontend y backend: los dos se verifican contra este archivo.
@@ -118,6 +118,57 @@ info:
     cambia. B1 ENVIAR exige "Solicitud" (decisión de Richard del 2026-10-21) y B2 RECHAZAR vuelve a B1 con observación
     obligatoria. Sin cambios de esquema.
 
+    **Cambios del 2026-10-22 (fase 7, paso 7.1; versión 0.16.0-borrador; sin implementar).** Chat de consulta de solo
+    lectura con Claude API para el **piloto con datos ficticios** (ADR-0020 a ADR-0023, aprobados por Richard para el
+    piloto). Nueva etiqueta `asistente`: abrir una conversación sobre **un único pedido**, preguntar, listar y leer las
+    conversaciones propias, y consumo para el admin. Nuevos códigos `CONTEXTO_EXCEDIDO`, `LIMITE_PREGUNTAS`,
+    `LIMITE_CONSUMO` e `IA_NO_DISPONIBLE`. No hay backend todavía; la IA está desactivada (`IA_HABILITADA=false`).
+    Colombia sigue fuera de este contrato hasta sus definiciones. Pendiente (F7-D6): documentos reales, conservación en
+    producción y revisión de la retención del proveedor.
+
+    **Cambios del 2026-10-22 (fase 7, paso 7.2; V19; versión 0.17.0-borrador; sin verificar).** Colombia con los mismos
+    flujos A y B que Ecuador (decisión de Richard): `GET /flujos/CO/A` y `GET /flujos/CO/B` devuelven sus definiciones
+    v1 (iguales a EC v1 salvo "Aduana Colombia"). **Acceso por país (ADR-0024):** cada operación sobre pedidos, archivos,
+    historial, cronograma y bodegas usa los países asignados hoy en la base (`usuario_pais`), también para el admin. Un
+    pedido de un país no asignado responde **404**, como uno inexistente; los listados y la bandeja solo devuelven pedidos
+    de los países asignados. `POST /pedidos` acepta `pais: CO` si el país está asignado (si no, 403); la numeración es
+    por país (`DK-CO-AAAA-NNNN`, formato pendiente como `DK-EC`). Bodegas por país: `Bodega` agrega `pais` y `ciudad`
+    puede ser nula mientras está pendiente ("Bodega 1" de Colombia); `GET /bodegas` acepta `pais` y solo devuelve
+    bodegas de los países asignados; `POST /bodegas` acepta `pais` (por defecto EC); el nombre es único por país; al
+    elegir bodega, debe ser del país del pedido (400 en `bodegaId`). Calendario: mismas reglas provisionales, configuradas
+    por país. Los países los asigna el admin con `PATCH /usuarios/{id}` (`paises`); ninguna cuenta recibe Colombia
+    automáticamente. **Paso 7.3:** `GET /pedidos`, `/pedidos/bandeja`, `/pedidos/buscar`, `/notificaciones` y
+    `/archivos/copias-fallidas` aceptan `pais` (el país seleccionado en la pantalla), validado contra los asignados hoy
+    (403 si no). Vistas del admin: `GET /notificaciones` y `GET /archivos/copias-fallidas` solo muestran registros
+    de pedidos de los países asignados hoy al admin, con la paginación y el total filtrados en el servidor; los registros
+    no se borran ni se reasignan. "Sin país equivale a EC" es solo compatibilidad documentada (por ejemplo, `pais`
+    ausente en `POST /pedidos` o `POST /bodegas` se interpreta como EC) y nunca omite la autorización: sin EC asignado,
+    403.
+
+    **Cambios del 2026-10-22 (fase 7, paso 7.4; V20; versión 0.18.0-borrador; sin verificar).** Backend del asistente
+    con Claude API para el piloto. **Publicadas** (no llaman al modelo): `POST /pedidos/{pedidoId}/asistente/conversaciones`,
+    `GET /asistente/conversaciones` (ahora con `pais`, el país seleccionado: 403 si no está asignado hoy) y
+    `GET /asistente/conversaciones/{conversacionId}`. **Sin publicar hasta el paso 7.5**: `POST
+    /asistente/conversaciones/{conversacionId}/mensajes` y `GET /asistente/consumo`, que esperan la reserva de presupuesto
+    y los controles (ADR-0022); hasta entonces esas rutas no existen en el servidor (404). Una conversación ajena, vencida
+    o de un país no asignado responde 404. Con `IA_HABILITADA=false` (el valor por defecto), abrir responde 503
+    `IA_NO_DISPONIBLE`. Ningún documento se envía fuera del entorno `PILOTO_FICTICIO` (F7-D3; documentos reales
+    pendientes de F7-D6).
+
+    **Cambios del 2026-10-22 (fase 7, paso 7.5; V21; versión 0.19.0-borrador; sin verificar).** Controles del piloto
+    (ADR-0022, límites de F7-D2). **Publicadas**: `POST /asistente/conversaciones/{conversacionId}/mensajes` y
+    `GET /asistente/consumo` (admin), más `GET`/`POST /asistente/tarifas`, `POST /asistente/tarifas/{tarifaId}/validacion`
+    y `GET`/`PATCH /asistente/configuracion` (admin). Preguntar responde 503 `IA_NO_DISPONIBLE` **antes de cualquier
+    llamada al proveedor** (incluida count_tokens) mientras falte un control: `IA_HABILITADA=true` con clave y modelo, el
+    interruptor de la base activado, y la tarifa vigente del modelo **validada** por un admin. La tarifa de
+    `claude-haiku-5-5` se siembra desde la documentación oficial de precios (consultada el 2026-10-22) **sin validar**.
+    Límites: 60 000 tokens de entrada medidos con count_tokens (los PDF que no caben se excluyen con
+    `CONTEXTO_EXCEDIDO`; si ni sin PDF cabe, 400 `CONTEXTO_EXCEDIDO`), `max_tokens` 4 000, 10 preguntas, 20 consultas
+    por usuario y día con 1 en curso, 200 diarias y US$10 al mes, con reserva atómica del peor caso (429
+    `LIMITE_CONSUMO`). El límite de gasto del proveedor desactiva el asistente (503) hasta que un admin lo reactive; que el
+    servidor maneje ese error no significa que el límite de US$15 del workspace esté configurado en la Console. Los
+    importes van como texto decimal con 6 decimales (micro-USD). No se envía `Retry-After`.
+
     **Permisos (resumen).** Los permisos se validan siempre en el servidor (ADR-0002, R6), con el estado y los roles
     actuales de la persona en la base, no con los roles del token.
     - Leer pedidos (listar, buscar, detalle y línea de tiempo): usuarios activos con al menos un rol vigente; las
@@ -133,12 +184,22 @@ info:
     - Agregar observaciones: **P-19, provisional del equipo** (la fuente no dice quién). Quien puede actuar en la etapa
       actual (P-06) o el admin, con estado, roles y asignación vigentes; `consulta` y `asistente_china` no conceden
       escritura ni quitan la de otros roles.
-    - Usuarios, roles, auditoría, notificaciones, vencidos y cambiar la configuración de plazos: solo el admin. Leer
+    - Asistente (0.16.0, piloto): F7-D4, aprobada por Richard. Pueden usarlo `admin`, `asistente_compras`, `marketing`,
+      `compras_china` y `logistica`; `consulta` y `asistente_china` no dan acceso por sí solos, pero no quitan el de
+      otro rol. Antes de enviar datos al modelo **y** antes de devolver una conversación guardada, el servidor comprueba
+      cuenta, país, pedido (P-13) y descarga de cada documento (P-17), con el estado vigente en la base. Cada
+      conversación solo la ve su autor. El admin ve el consumo, no textos ajenos.
+    - País (0.17.0, ADR-0024): además de lo anterior, todo pedido, archivo, cronograma, historial y bodega se limita a
+      los países asignados hoy en la base; el admin no tiene excepción. Fuera de ese alcance, 404 en pedidos y 403 al
+      pedir explícitamente un país no asignado (bodegas, creación).
+    - Usuarios, roles, auditoría, notificaciones, vencidos y cambiar la configuración de plazos: solo el admin. Desde
+      0.17.0, notificaciones y copias fallidas, además, solo de pedidos de los países asignados hoy al admin. Leer
       la configuración de plazos: cualquier usuario autenticado. Cronograma de un pedido: igual que leer el pedido (P-13).
 
     **Revisión:** revisado con `/ecc:api-design` el 2026-10-10 contra requerimientos, PRD, arquitectura y ADR.
 
-    **Fuera de este contrato:** Colombia y la API de Claude (fase 7, ADR-0009), pausar o cancelar
+    **Fuera de este contrato:** selector de país en pantalla (fase 7, paso 7.3), consultas del asistente
+    sobre varios pedidos (F7-D1), pausar o cancelar
     pedidos y el checklist por etapa (pendientes de confirmar), y la subida reanudable por partes
     (propuesta de `arquitectura.md`, se define en la fase 3).
   contact:
@@ -174,6 +235,8 @@ tags:
     description: Eventos inmutables por pedido y auditoría global.
   - name: notificaciones
     description: Registro de correos enviados, pendientes y fallidos.
+  - name: asistente
+    description: Chat de consulta de solo lectura con Claude API sobre un pedido (fase 7, piloto con datos ficticios).
 security:
   - bearerAuth: []
 
@@ -700,6 +763,7 @@ paths:
           description: Busca en el número y en el nombre del pedido.
           schema:
             type: string
+        - $ref: '#/components/parameters/PaisSeleccionado'
         - $ref: '#/components/parameters/Pagina'
         - $ref: '#/components/parameters/Tamano'
       responses:
@@ -769,6 +833,7 @@ paths:
           schema:
             type: string
           example: DK-EC-2026-0001
+        - $ref: '#/components/parameters/PaisSeleccionado'
       responses:
         '200':
           description: Pedido encontrado.
@@ -794,6 +859,7 @@ paths:
         esta persona, o no tiene persona asignada y la persona tiene el rol responsable de la etapa. El admin ve
         todos los pedidos en curso. La bandeja solo filtra el trabajo: no cambia la visibilidad general de P-13.
       parameters:
+        - $ref: '#/components/parameters/PaisSeleccionado'
         - $ref: '#/components/parameters/Pagina'
         - $ref: '#/components/parameters/Tamano'
         - name: vencido
@@ -1563,11 +1629,16 @@ paths:
       operationId: consultarCopiasFallidas
       summary: Archivos cuya copia a Drive falló (solo admin)
       parameters:
+        - $ref: '#/components/parameters/PaisSeleccionado'
         - $ref: '#/components/parameters/Pagina'
         - $ref: '#/components/parameters/Tamano' 
       x-origen: requisito
       x-roles: [admin]
-      description: Requisito 4.8. Admin activo y con rol vigente en servidor. Lista acotada por pagina/tamano; conserva la respuesta array del contrato. No reintenta ni expone sesiones privadas.
+      description: |
+        Requisito 4.8. Admin activo y con rol vigente en servidor. Lista acotada por pagina/tamano; conserva la respuesta
+        array del contrato. No reintenta ni expone sesiones privadas. Desde 0.17.0 (ADR-0024): solo archivos de pedidos
+        de los países asignados hoy al admin, filtrados en la consulta (la página se arma después del filtro). No borra
+        ni reasigna registros; los de otros países siguen en su estado.
       responses:
         '200':
           description: Adjuntos con `estadoCopia` FALLIDO.
@@ -1589,8 +1660,15 @@ paths:
       summary: Catálogo de bodegas
       x-origen: requisito
       description: |
-        Lo lee cualquier usuario autenticado. Sin `activa`, devuelve todas; con `activa`, filtra. Ordenadas por nombre.
+        Desde 0.17.0 (ADR-0024): lo lee un usuario activo con roles, y solo ve las bodegas de sus países asignados hoy.
+        Sin `pais`, de todos sus países; con un `pais` no asignado, 403. Sin `activa`, todas; con `activa`, filtra.
+        Ordenadas por país y nombre.
       parameters:
+        - name: pais
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/CodigoPais'
         - name: activa
           in: query
           schema:
@@ -1779,6 +1857,333 @@ paths:
         '409':
           $ref: '#/components/responses/Conflicto'
 
+  /pedidos/{pedidoId}/asistente/conversaciones:
+    parameters:
+      - $ref: '#/components/parameters/PedidoId'
+    post:
+      tags: [asistente]
+      operationId: abrirConversacionAsistente
+      summary: Abrir una conversación del asistente sobre un pedido
+      x-origen: decision-equipo
+      x-decision: 'F7-D1 opción C, F7-D4 y ADR-0021, aprobados por Richard el 2026-10-22 para el piloto.'
+      description: |
+        Una conversación pertenece a **un único pedido** y a su autor. Exige un rol habilitado (F7-D4), cuenta activa,
+        el país del pedido entre los asignados y permiso para leer el pedido; si falta algo, 403. Conocer el
+        identificador no basta. No llama al modelo. Con la IA desactivada, 503 `IA_NO_DISPONIBLE`.
+      responses:
+        '201':
+          description: Conversación abierta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversacionAsistente'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '503':
+          $ref: '#/components/responses/IaNoDisponible'
+
+  /asistente/conversaciones:
+    get:
+      tags: [asistente]
+      operationId: listarConversacionesAsistente
+      summary: Conversaciones propias y vigentes
+      x-origen: decision-equipo
+      description: |
+        Solo las del solicitante, no vencidas, y solo de pedidos que **hoy** puede leer. Sin el texto de los mensajes.
+        Paso 7.4: con `pais`, solo las de ese país (debe estar asignado hoy; si no, 403); sin él, las de todos los países
+        asignados. Exige cuenta activa y un rol de F7-D4 (si no, 403).
+      parameters:
+        - name: pedidoId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/PaisSeleccionado'
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Página de conversaciones.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaConversacionesAsistente'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /asistente/conversaciones/{conversacionId}:
+    parameters:
+      - $ref: '#/components/parameters/ConversacionId'
+    get:
+      tags: [asistente]
+      operationId: obtenerConversacionAsistente
+      summary: Una conversación propia con sus mensajes
+      x-origen: decision-equipo
+      description: |
+        Antes de devolver nada se vuelven a comprobar la cuenta, el rol, el país y el pedido. Una conversación ajena,
+        vencida o inexistente responde **404** (no revela que existe). Si ya no puede leer el pedido o su país, 404 sin
+        contenido. Si perdió el permiso de descarga de un documento citado o enviado en un mensaje, ese mensaje se
+        devuelve **retenido** (`retenido: true`, sin `texto` ni `referencias`): no se revela contenido que ya no puede
+        consultar.
+      responses:
+        '200':
+          description: Conversación.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversacionAsistenteDetalle'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /asistente/conversaciones/{conversacionId}/mensajes:
+    parameters:
+      - $ref: '#/components/parameters/ConversacionId'
+    post:
+      tags: [asistente]
+      operationId: preguntarAsistente
+      summary: Hacer una pregunta en la conversación
+      x-origen: decision-equipo
+      x-decision: 'F7-D2 a F7-D5 y ADR-0020 a ADR-0023, aprobados por Richard el 2026-10-22 para el piloto.'
+      description: |
+        Solo lectura: no modifica pedidos ni ejecuta acciones. Orden: permisos vigentes (como en la lectura de la
+        conversación) → documentos elegibles (descarga P-17, PDF por contenido, en el manifiesto del piloto) →
+        contexto ≤ 60 000 tokens → reserva de presupuesto → llamada → validación de referencias → registro.
+
+        - **Referencias verificadas.** Cada referencia corresponde a un documento autorizado **enviado en esta
+          consulta** y a una página que existe en ese PDF. Las que no cumplen se descartan y no cuentan como evidencia.
+          Si no queda ninguna válida, `evidenciaSuficiente: false` y la respuesta lo dice.
+        - **Historial.** A partir del segundo turno solo se reenvían los mensajes cuyas fuentes siguen autorizadas.
+        - `documentosExcluidos` solo lista documentos que el usuario puede descargar, para no revelar los demás.
+        - Sin modelo, claves ni detalles del proveedor en la respuesta. Sin streaming.
+        - Límites del piloto (F7-D2): 10 preguntas por conversación; 20 consultas por usuario y día, con 1 en curso;
+          200 consultas diarias; presupuesto mensual. Al superarlos, 429 `LIMITE_CONSUMO` o 400 `LIMITE_PREGUNTAS`,
+          sin llamar al modelo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreguntaAsistente'
+      responses:
+        '200':
+          description: Respuesta del asistente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespuestaAsistente'
+        '400':
+          description: |
+            `VALIDACION`, `CONTEXTO_EXCEDIDO` (la pregunta, el pedido o los documentos no caben en 60 000 tokens) o
+            `LIMITE_PREGUNTAS` (la conversación llegó a 10 preguntas).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+        '429':
+          $ref: '#/components/responses/LimiteConsumo'
+        '503':
+          $ref: '#/components/responses/IaNoDisponible'
+
+  /asistente/consumo:
+    get:
+      tags: [asistente]
+      operationId: consultarConsumoAsistente
+      summary: Consumo del asistente (solo admin)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: Consultas, tokens y costo estimado por día y usuario, y el presupuesto del mes. **Sin textos.**
+      parameters:
+        - name: desde
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: hasta
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Consumo del periodo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsumoAsistente'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+
+  /asistente/tarifas:
+    get:
+      tags: [asistente]
+      operationId: listarTarifasAsistente
+      summary: Tarifas por modelo y fecha (solo admin)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      x-decision: 'ADR-0022; paso 7.5. Sin tarifa vigente validada del modelo configurado, el asistente no llama al proveedor.'
+      responses:
+        '200':
+          description: Tarifas, de la más reciente a la más antigua por modelo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TarifaAsistente'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+    post:
+      tags: [asistente]
+      operationId: registrarTarifaAsistente
+      summary: Registrar una tarifa nueva (solo admin; nace sin validar)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: |
+        Una tarifa no se edita: se registra otra con su fecha. La fuente debe ser una página https de la documentación
+        oficial de Anthropic (dominios aceptados: propuesta del equipo). Nace sin validar.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NuevaTarifaAsistente'
+      responses:
+        '201':
+          description: Tarifa registrada, sin validar.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaAsistente'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '409':
+          description: DUPLICADO (ya hay una tarifa de ese modelo para esa fecha).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
+  /asistente/tarifas/{tarifaId}/validacion:
+    parameters:
+      - name: tarifaId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [asistente]
+      operationId: validarTarifaAsistente
+      summary: Validar una tarifa contra su fuente oficial (solo admin)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: Solo una vez; después la tarifa no cambia ni se borra.
+      responses:
+        '200':
+          description: Tarifa validada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaAsistente'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /asistente/configuracion:
+    get:
+      tags: [asistente]
+      operationId: obtenerConfiguracionAsistente
+      summary: Estado del asistente y límites vigentes (solo admin)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: Sin la clave ni detalles del proveedor. `disponible` es true solo si todos los controles están presentes.
+      responses:
+        '200':
+          description: Estado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguracionAsistente'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+    patch:
+      tags: [asistente]
+      operationId: cambiarConfiguracionAsistente
+      summary: Activar o desactivar el asistente en la base (solo admin)
+      x-origen: decision-equipo
+      x-roles: [admin]
+      description: |
+        Tras el apagado automático por límite de gasto, lo reactiva un admin (ADR-0022). Activar exige la tarifa vigente
+        del modelo validada. No cambia `IA_HABILITADA` ni los límites de F7-D2.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [habilitada, version]
+              additionalProperties: false
+              properties:
+                habilitada:
+                  type: boolean
+                version:
+                  type: integer
+                  minimum: 0
+      responses:
+        '200':
+          description: Estado actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguracionAsistente'
+        '400':
+          $ref: '#/components/responses/Validacion'
+        '401':
+          $ref: '#/components/responses/NoAutenticado'
+        '403':
+          $ref: '#/components/responses/SinPermiso'
+        '409':
+          description: VERSION_DESACTUALIZADA.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problema'
+
   /auditoria:
     get:
       tags: [historial]
@@ -1823,12 +2228,16 @@ paths:
       summary: Correos enviados, pendientes y fallidos (solo admin)
       x-origen: requisito
       x-roles: [admin]
-      description: 'Requisitos 4.2 #16 y 4.8 (registro de correos enviados y fallidos). Reemplaza la vista de Gmail del demo.'
+      description: |
+        Requisitos 4.2 #16 y 4.8 (registro de correos enviados y fallidos). Reemplaza la vista de Gmail del demo. Desde
+        0.17.0 (ADR-0024): solo correos de pedidos de los países asignados hoy al admin; `elementos` y `total` usan el
+        mismo filtro en el servidor. No cambia el envío ni los trabajos pendientes.
       parameters:
         - name: estado
           in: query
           schema:
             $ref: '#/components/schemas/EstadoNotificacion'
+        - $ref: '#/components/parameters/PaisSeleccionado'
         - $ref: '#/components/parameters/Pagina'
         - $ref: '#/components/parameters/Tamano'
       responses:
@@ -1905,6 +2314,23 @@ components:
         type: integer
         minimum: 1
         maximum: 12
+    ConversacionId:
+      name: conversacionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PaisSeleccionado:
+      name: pais
+      in: query
+      required: false
+      description: |
+        Paso 7.3 (ADR-0024): país seleccionado en la pantalla. Debe estar asignado hoy a quien consulta; si no, 403.
+        Sin él, todos sus países asignados (compatibilidad). En la búsqueda por número, un pedido de otro país responde
+        404 aunque esté asignado.
+      schema:
+        $ref: '#/components/schemas/CodigoPais'
     Pagina:
       name: pagina
       in: query
@@ -1956,6 +2382,22 @@ components:
         cliente lo leyó; D10). Con DUPLICADO, `errores[0].campo` indica el campo repetido. VERSION_DESACTUALIZADA
         no lleva `errores` y no aplica ningún cambio; si además hubiera un dato repetido, se responde
         VERSION_DESACTUALIZADA.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    LimiteConsumo:
+      description: |
+        Límite del piloto alcanzado (código LIMITE_CONSUMO): consultas por usuario o diarias, consulta en curso o
+        presupuesto del mes. No se llamó al modelo. Puede llevar `Retry-After` cuando el límite es diario.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problema'
+    IaNoDisponible:
+      description: |
+        El asistente no está disponible (código IA_NO_DISPONIBLE): desactivado, sin credenciales, sin precio del modelo,
+        proveedor caído, tiempo agotado o límite de gasto externo alcanzado. Sin detalles del proveedor.
       content:
         application/problem+json:
           schema:
@@ -2053,6 +2495,10 @@ components:
             - CARGA_OCUPADA
             - CARGA_ALMACENAMIENTO
             - CUOTA_ALMACENAMIENTO
+            - CONTEXTO_EXCEDIDO
+            - LIMITE_PREGUNTAS
+            - LIMITE_CONSUMO
+            - IA_NO_DISPONIBLE
         errores:
           type: array
           description: |
@@ -2439,7 +2885,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/CodigoPais'
           default: EC
-          description: 'En v1 solo se acepta EC (ADR-0009); CO responde 400.'
+          description: |
+            Desde 0.17.0 (ADR-0024): EC o CO, si el país está asignado hoy a quien crea (también al admin); si no, 403.
+            Antes de reservar el número. La numeración es por país y año.
         nombre:
           type: string
           minLength: 1
@@ -2536,6 +2984,295 @@ components:
                 **Cambio de tipo en 0.7.0** (antes era una lista de `AccionEtapa`).
               items:
                 $ref: '#/components/schemas/AccionDisponible'
+    ConversacionAsistente:
+      type: object
+      x-origen: decision-equipo
+      required: [id, pedidoId, numeroPedido, creadaEn, expiraEn, preguntasRestantes]
+      properties:
+        id:
+          type: string
+          format: uuid
+        pedidoId:
+          type: string
+          format: uuid
+        numeroPedido:
+          type: string
+        creadaEn:
+          $ref: '#/components/schemas/FechaHora'
+        expiraEn:
+          description: Fin de la conservación del piloto (30 días, F7-D5). Después se elimina del almacenamiento activo.
+          allOf:
+            - $ref: '#/components/schemas/FechaHora'
+        preguntasRestantes:
+          type: integer
+          minimum: 0
+          maximum: 10
+    ConversacionAsistenteDetalle:
+      allOf:
+        - $ref: '#/components/schemas/ConversacionAsistente'
+        - type: object
+          required: [mensajes]
+          properties:
+            mensajes:
+              type: array
+              items:
+                $ref: '#/components/schemas/MensajeAsistente'
+    MensajeAsistente:
+      type: object
+      required: [orden, autor, creadoEn, retenido]
+      properties:
+        orden:
+          type: integer
+          minimum: 1
+        autor:
+          type: string
+          enum: [USUARIO, ASISTENTE]
+        creadoEn:
+          $ref: '#/components/schemas/FechaHora'
+        retenido:
+          type: boolean
+          description: |
+            true si el usuario ya no puede consultar alguna fuente del mensaje (permiso de descarga perdido). Entonces no
+            se incluyen `texto`, `referencias` ni `documentosExcluidos`.
+        texto:
+          type: string
+        evidenciaSuficiente:
+          type: boolean
+        referencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferenciaAsistente'
+        documentosExcluidos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentoExcluidoAsistente'
+    PreguntaAsistente:
+      type: object
+      required: [pregunta]
+      additionalProperties: false
+      properties:
+        pregunta:
+          type: string
+          minLength: 1
+          maxLength: 2000
+    RespuestaAsistente:
+      type: object
+      required: [texto, evidenciaSuficiente, referencias, documentosExcluidos, preguntasRestantes]
+      properties:
+        texto:
+          type: string
+          description: Respuesta del asistente. Si no hay evidencia suficiente, lo dice en lugar de suponer.
+        evidenciaSuficiente:
+          type: boolean
+          description: false si no queda ninguna referencia válida después de verificarlas en el servidor.
+        referencias:
+          type: array
+          description: Solo referencias verificadas (documento autorizado enviado en esta consulta y página existente).
+          items:
+            $ref: '#/components/schemas/ReferenciaAsistente'
+        documentosExcluidos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentoExcluidoAsistente'
+        preguntasRestantes:
+          type: integer
+          minimum: 0
+    ReferenciaAsistente:
+      type: object
+      required: [numeroPedido]
+      properties:
+        numeroPedido:
+          type: string
+        etapa:
+          type: [integer, 'null']
+          description: Número de etapa del dato o del documento citado, si aplica.
+        archivoId:
+          type: [string, 'null']
+          format: uuid
+        nombreArchivo:
+          type: [string, 'null']
+        pagina:
+          type: [integer, 'null']
+          minimum: 1
+          description: Página del PDF (desde 1), validada contra el número de páginas. Nula si la fuente no tiene páginas.
+        textoCitado:
+          type: [string, 'null']
+    DocumentoExcluidoAsistente:
+      type: object
+      required: [archivoId, nombreArchivo, motivo]
+      properties:
+        archivoId:
+          type: string
+          format: uuid
+        nombreArchivo:
+          type: string
+        motivo:
+          type: string
+          enum: [FORMATO_NO_ADMITIDO, CONTEXTO_EXCEDIDO, NO_AUTORIZADO_PILOTO]
+          description: |
+            FORMATO_NO_ADMITIDO: no es PDF por su contenido. CONTEXTO_EXCEDIDO: no cabe en 60 000 tokens.
+            NO_AUTORIZADO_PILOTO: no está en el manifiesto revisado del piloto (F7-D3).
+    PaginaConversacionesAsistente:
+      type: object
+      required: [elementos, pagina, tamano, total]
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversacionAsistente'
+        pagina:
+          type: integer
+        tamano:
+          type: integer
+        total:
+          type: integer
+    PreciosAsistente:
+      type: object
+      required: [entradaMicroUsdMtok, salidaMicroUsdMtok, escrituraCacheMicroUsdMtok, lecturaCacheMicroUsdMtok]
+      description: Micro-USD por millón de tokens (US$0.10/MTok = 100000).
+      properties:
+        entradaMicroUsdMtok:
+          type: integer
+          minimum: 1
+        salidaMicroUsdMtok:
+          type: integer
+          minimum: 1
+        escrituraCacheMicroUsdMtok:
+          type: integer
+          minimum: 1
+        lecturaCacheMicroUsdMtok:
+          type: integer
+          minimum: 1
+    NuevaTarifaAsistente:
+      type: object
+      required: [modelo, vigenteDesde, base, fuente, consultadoEn]
+      properties:
+        modelo:
+          type: string
+          maxLength: 100
+        vigenteDesde:
+          type: string
+          format: date
+        base:
+          $ref: '#/components/schemas/PreciosAsistente'
+        umbralTokensEntrada:
+          type: [integer, 'null']
+          minimum: 1
+          description: Por encima, toda la petición paga los precios `superior`. Va junto con `superior`.
+        superior:
+          oneOf:
+            - $ref: '#/components/schemas/PreciosAsistente'
+            - type: 'null'
+        fuente:
+          type: string
+          maxLength: 500
+          description: URL https de la documentación oficial de Anthropic.
+        consultadoEn:
+          type: string
+          format: date
+    TarifaAsistente:
+      allOf:
+        - $ref: '#/components/schemas/NuevaTarifaAsistente'
+        - type: object
+          required: [id, validada]
+          properties:
+            id:
+              type: string
+              format: uuid
+            validada:
+              type: boolean
+            registradaPor:
+              type: [string, 'null']
+              format: uuid
+              description: Nulo si la sembró una migración.
+            registradaEn:
+              $ref: '#/components/schemas/FechaHora'
+            validadaPor:
+              type: [string, 'null']
+              format: uuid
+            validadaEn:
+              type: [string, 'null']
+    ConfiguracionAsistente:
+      type: object
+      x-roles: [admin]
+      required: [habilitada, entornoHabilitado, pilotoFicticio, modelo, disponible, version, limites]
+      properties:
+        habilitada:
+          type: boolean
+          description: Interruptor de la base (el apagado automático lo pone en false).
+        motivoDeshabilitada:
+          type: [string, 'null']
+        entornoHabilitado:
+          type: boolean
+          description: IA_HABILITADA=true con clave y modelo configurados. No se muestra la clave.
+        pilotoFicticio:
+          type: boolean
+        modelo:
+          type: string
+        disponible:
+          type: boolean
+          description: true solo si todos los controles están presentes y preguntar puede llamar al proveedor.
+        version:
+          type: integer
+        limites:
+          type: object
+          required: [tokensEntradaMax, tokensSalidaMax, preguntasPorConversacion, consultasUsuarioDia, enCursoUsuario,
+                     consultasDia, presupuestoMesUsd, esperaReservaSegundos]
+          properties:
+            tokensEntradaMax:
+              type: integer
+            tokensSalidaMax:
+              type: integer
+            preguntasPorConversacion:
+              type: integer
+            consultasUsuarioDia:
+              type: integer
+            enCursoUsuario:
+              type: integer
+            consultasDia:
+              type: integer
+            presupuestoMesUsd:
+              type: string
+            esperaReservaSegundos:
+              type: integer
+              description: Propuesta del equipo (no es un límite de F7-D2); reservas abiertas más tiempo se dan por consumidas.
+        tarifa:
+          oneOf:
+            - $ref: '#/components/schemas/TarifaAsistente'
+            - type: 'null'
+    ConsumoAsistente:
+      type: object
+      x-roles: [admin]
+      required: [presupuestoMesUsd, consumidoMesUsd, reservadoMesUsd, dias]
+      properties:
+        reservadoMesUsd:
+          type: string
+          description: Reservas abiertas del mes (paso 7.5).
+        presupuestoMesUsd:
+          type: string
+          description: Decimal en texto (por ejemplo "10.00"), para no perder precisión.
+        consumidoMesUsd:
+          type: string
+        dias:
+          type: array
+          items:
+            type: object
+            required: [fecha, usuarioId, consultas, tokensEntrada, tokensSalida, costoUsd]
+            properties:
+              fecha:
+                type: string
+                format: date
+              usuarioId:
+                type: string
+                format: uuid
+              consultas:
+                type: integer
+              tokensEntrada:
+                type: integer
+              tokensSalida:
+                type: integer
+              costoUsd:
+                type: string
     PaginaPedidos:
       type: object
       required: [elementos, pagina, tamano, total]
@@ -2968,15 +3705,22 @@ components:
 
     Bodega:
       type: object
-      required: [id, nombre, ciudad, activa, version]
+      required: [id, nombre, ciudad, activa, version, pais]
       properties:
         id:
           type: string
           format: uuid
         nombre:
           type: string
+          description: Único dentro de cada país (V19).
         ciudad:
-          type: string
+          type: [string, 'null']
+          description: |
+            Nula mientras la ciudad está pendiente (0.17.0): "Bodega 1" de Colombia, decisión de Richard del 2026-10-22.
+            Una bodega creada con `POST /bodegas` siempre tiene ciudad.
+          x-pendiente: 'Ciudad de "Bodega 1" de Colombia.'
+        pais:
+          $ref: '#/components/schemas/CodigoPais'
         activa:
           type: boolean
         version:
@@ -2999,6 +3743,11 @@ components:
         activa:
           type: boolean
           default: true
+        pais:
+          allOf:
+            - $ref: '#/components/schemas/CodigoPais'
+          default: EC
+          description: País de la bodega (0.17.0). Exige Logística o admin con ese país asignado; si no, 403.
     SolicitudActualizarBodega:
       type: object
       required: [version]

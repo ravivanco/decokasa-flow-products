@@ -80,6 +80,30 @@ decokasa:
       llave-ruta: ${GOOGLE_OAUTH_LLAVE_RUTA:}
       cuenta-email: ${GOOGLE_CUENTA_EMAIL:}
       redirect-uri: http://localhost:8080/api/v1/integraciones/google/oauth2/callback
+  ia:
+    # Fase 7: chat de consulta con Claude API (ADR-0020 a ADR-0023; adaptador del paso 7.4). Desactivado por defecto.
+    # Paso 7.4: aunque se active, no hay ruta para preguntar ni presupuesto hasta el paso 7.5.
+    habilitada: ${IA_HABILITADA:false}
+    # Clave propia de Decokasa, nueva e independiente de las herramientas de desarrollo. Sin valor por defecto ni en
+    # Git: llega por configuración local segura. Se lee con un nombre propio y no con ANTHROPIC_API_KEY a propósito: el
+    # cliente se construirá solo con esta propiedad (.apiKey), nunca con AnthropicOkHttpClient.fromEnv(), que tomaría
+    # ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN o un perfil de "ant auth login" del equipo. Sin clave, la IA no se
+    # activa y el resto del sistema arranca. Nunca se registra ni se devuelve en una respuesta.
+    claude-api-key: ${DECOKASA_CLAUDE_API_KEY:}
+    # F7-D2 (Richard, 2026-10-22): claude-haiku-5-5, sujeto a verificar su disponibilidad. Sin modelo, la IA no se
+    # activa. Sin cambio automático a otros modelos.
+    modelo: ${IA_MODELO:}
+    # F7-D3: solo con PILOTO_FICTICIO (y sin documentos reales autorizados) se envían PDF del manifiesto. Con cualquier
+    # otro valor no se envía ningún documento hasta F7-D6.
+    entorno: ${IA_ENTORNO:}
+    documentos-reales-autorizados: ${IA_DOCUMENTOS_REALES_AUTORIZADOS:false}
+    piloto:
+      # Manifiesto revisado de los PDF ficticios (local, fuera de Git).
+      manifiesto: ${IA_MANIFIESTO_PILOTO:piloto-ia/manifiesto.json}
+    # F7-D5 (piloto): 30 días de conservación y borrado diario, también con la IA desactivada.
+    conservacion-dias: 30
+    borrado:
+      automatico: ${IA_BORRADO_AUTOMATICO:true}
   jwt:
     secreto: ${JWT_SECRETO:}
   sesion:

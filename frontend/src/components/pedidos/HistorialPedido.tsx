@@ -12,7 +12,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { type EventoHistorial, type Persona, type TipoEvento, useAdjuntosDeEtapas, useHistorial } from '@/api/pedidos';
-import type { Bodega } from '@/api/esquemas';
+import { ciudadDeBodega, type Bodega } from '@/api/esquemas';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -172,7 +172,7 @@ function Evento({
           </dl>
         )}
         {evento.tipo === 'BODEGA_ASIGNADA' && detalle?.bodegaId && <p className="text-sm text-muted-foreground">
-          {bodega && bodega.id === detalle.bodegaId ? `Bodega: ${bodega.nombre} · ${bodega.ciudad} (nombre vigente)` : 'Asignación de bodega registrada por el servidor.'}
+          {bodega && bodega.id === detalle.bodegaId ? `Bodega: ${bodega.nombre} · ${ciudadDeBodega(bodega)} (nombre vigente)` : 'Asignación de bodega registrada por el servidor.'}
         </p>}
         {evento.observacion && (
           <p className="max-w-prose rounded-md bg-muted/60 px-3 py-2 text-sm whitespace-pre-wrap">{evento.observacion}</p>

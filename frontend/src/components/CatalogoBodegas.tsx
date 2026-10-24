@@ -3,7 +3,8 @@ import { LoaderIcon, PlusIcon, RotateCwIcon, WarehouseIcon } from 'lucide-react'
 import { toast } from 'sonner';
 import { useBodegas, useGuardarBodega } from '@/api/bodegas';
 import { esErrorApi } from '@/api/cliente';
-import type { Bodega } from '@/api/esquemas';
+import { ciudadDeBodega, type Bodega } from '@/api/esquemas';
+import { useCambiosSinGuardar } from '@/pais/PaisProvider';
 import { mensajeDeError } from '@/api/mensajes';
 import { useUsuarioActual } from '@/auth/SesionProvider';
 import { SinPermiso } from '@/components/PaginasSimples';
@@ -30,7 +31,7 @@ function ContenidoCatalogo() {
   const [texto, setTexto] = useState('');
   const [edicion, setEdicion] = useState<Bodega | 'nueva' | null>(null);
   const termino = texto.trim().toLocaleLowerCase('es');
-  const visibles = bodegas.data?.filter((b) => `${b.nombre} ${b.ciudad}`.toLocaleLowerCase('es').includes(termino)) ?? [];
+  const visibles = bodegas.data?.filter((b) => `${b.nombre} ${b.ciudad ?? ''}`.toLocaleLowerCase('es').includes(termino)) ?? [];
   return (
     <section className="flex min-w-0 flex-col gap-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -62,7 +63,7 @@ function ContenidoCatalogo() {
             ? <TableRow><TableCell colSpan={4} className="py-10 text-center text-muted-foreground">{texto ? 'Ninguna bodega coincide con la búsqueda.' : 'Todavía no hay bodegas registradas.'}</TableCell></TableRow>
             : visibles.map((bodega) => <TableRow key={bodega.id}>
               <TableCell className="max-w-64 whitespace-normal break-words font-medium">{bodega.nombre}</TableCell>
-              <TableCell className="max-w-56 whitespace-normal break-words">{bodega.ciudad}</TableCell>
+              <TableCell className="max-w-56 whitespace-normal break-words">{ciudadDeBodega(bodega)}</TableCell>
               <TableCell><Badge variant={bodega.activa ? 'secondary' : 'outline'}>{bodega.activa ? 'Activa' : 'Inactiva'}</Badge></TableCell>
               <TableCell className="text-right"><Button variant="outline" size="sm" onClick={() => setEdicion(bodega)} aria-label={`Editar bodega ${bodega.nombre}`}>Editar</Button></TableCell>
             </TableRow>)}</TableBody>
@@ -81,6 +82,12 @@ function FormularioBodega({ bodega, onCerrar }: { bodega?: Bodega; onCerrar: () 
   const [activa, setActiva] = useState(bodega?.activa ?? true);
   const [errores, setErrores] = useState<{ nombre?: string; ciudad?: string }>({});
   const [fallo, setFallo] = useState<unknown>(null);
+  // Paso 7.3: una bodega a medio editar no pasa a otro país; cambiar de país pide confirmación.
+  const cambiada = nombre !== (bodega?.nombre ?? '') || ciudad !== (bodega?.ciudad ?? '')
+    || activa !== (bodega?.activa ?? true);
+  useCambiosSinGuardar(cambiada && !guardar.isSuccess ? 'una bodega sin guardar' : null);
+  // Contrato 0.17.0: una bodega con la ciudad pendiente se puede editar sin inventarla.
+  const ciudadPendiente = bodega !== undefined && bodega.ciudad === null;
   const conflicto = esErrorApi(fallo, 'VERSION_DESACTUALIZADA');
   const sinPermiso = esErrorApi(fallo) && fallo.status === 403;
   function enviar(evento: FormEvent) {
@@ -88,10 +95,12 @@ function FormularioBodega({ bodega, onCerrar }: { bodega?: Bodega; onCerrar: () 
     if (guardar.isPending || conflicto || sinPermiso) return;
     const nuevos: typeof errores = {};
     if (!nombre.trim() || nombre.trim().length > 100) nuevos.nombre = 'Escribe un nombre de 1 a 100 caracteres.';
-    if (!ciudad.trim() || ciudad.trim().length > 100) nuevos.ciudad = 'Escribe una ciudad de 1 a 100 caracteres.';
+    if ((!ciudad.trim() && !ciudadPendiente) || ciudad.trim().length > 100) {
+      nuevos.ciudad = 'Escribe una ciudad de 1 a 100 caracteres.';
+    }
     setErrores(nuevos);if (Object.keys(nuevos).length) return;
     setFallo(null);
-    const datos = { nombre: nombre.trim(), ciudad: ciudad.trim(), activa };
+    const datos = { nombre: nombre.trim(), ciudad: ciudad.trim() || undefined, activa };
     guardar.mutate(bodega ? { ...datos, id: bodega.id, version: bodega.version } : datos, {
       onSuccess: () => { toast.success(bodega ? 'Bodega actualizada.' : 'Bodega creada.');onCerrar(); },
       onError: (error) => {

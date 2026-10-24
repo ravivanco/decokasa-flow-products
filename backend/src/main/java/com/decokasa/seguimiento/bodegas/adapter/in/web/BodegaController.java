@@ -1,10 +1,11 @@
 package com.decokasa.seguimiento.bodegas.adapter.in.web;
 
 import com.decokasa.seguimiento.bodegas.application.port.in.ActualizarBodega;
-import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegas;
+import com.decokasa.seguimiento.bodegas.application.port.in.ConsultarBodegasPorPais;
 import com.decokasa.seguimiento.bodegas.application.port.in.CrearBodega;
 import com.decokasa.seguimiento.bodegas.domain.Bodega;
 import com.decokasa.seguimiento.compartido.adapter.in.web.SolicitantesWeb;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -26,9 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tools.jackson.databind.JsonNode;
 
 /**
- * Catálogo de bodegas (contrato: /bodegas). La lectura es para cualquier usuario autenticado, como dice el contrato. El
- * alta y la edición las decide el caso de uso con el estado vigente (F4-D1: Logística o admin). No hay borrado: una
- * bodega se desactiva con {@code activa: false}.
+ * Catálogo de bodegas (contrato: /bodegas). Desde la fase 7 (ADR-0024) cada persona ve solo las bodegas de sus países
+ * asignados, con cuenta activa y roles. El alta y la edición las decide el caso de uso con el estado vigente (F4-D1:
+ * Logística o admin, con el país de la bodega asignado). No hay borrado: una bodega se desactiva con
+ * {@code activa: false}.
  */
 @RestController
 @RequestMapping("/api/v1/bodegas")
@@ -37,7 +39,9 @@ public class BodegaController {
     public record SolicitudBodega(
             @NotBlank(message = "Escribe el nombre de la bodega.") @Size(max = 100) String nombre,
             @NotBlank(message = "Escribe la ciudad de la bodega.") @Size(max = 100) String ciudad,
-            Boolean activa) {
+            Boolean activa,
+            // Fase 7: país de la bodega; sin él, Ecuador (contrato 0.17.0).
+            CodigoPais pais) {
     }
 
     public record SolicitudActualizarBodega(
@@ -49,26 +53,27 @@ public class BodegaController {
             JsonNode version) {
     }
 
-    private final ConsultarBodegas consultar;
+    private final ConsultarBodegasPorPais consultar;
     private final CrearBodega crear;
     private final ActualizarBodega actualizar;
 
-    public BodegaController(ConsultarBodegas consultar, CrearBodega crear, ActualizarBodega actualizar) {
+    public BodegaController(ConsultarBodegasPorPais consultar, CrearBodega crear, ActualizarBodega actualizar) {
         this.consultar = consultar;
         this.crear = crear;
         this.actualizar = actualizar;
     }
 
     @GetMapping
-    public List<BodegaRespuesta> listar(@RequestParam(required = false) Boolean activa) {
-        return consultar.listar(activa).stream().map(BodegaRespuesta::de).toList();
+    public List<BodegaRespuesta> listar(@AuthenticationPrincipal Jwt token,
+            @RequestParam(required = false) CodigoPais pais, @RequestParam(required = false) Boolean activa) {
+        return consultar.listar(SolicitantesWeb.de(token), pais, activa).stream().map(BodegaRespuesta::de).toList();
     }
 
     @PostMapping
     public ResponseEntity<BodegaRespuesta> crear(@AuthenticationPrincipal Jwt token,
             @Valid @RequestBody SolicitudBodega solicitud) {
         Bodega creada = crear.crear(SolicitantesWeb.de(token),
-                new CrearBodega.Comando(solicitud.nombre(), solicitud.ciudad(), solicitud.activa()));
+                new CrearBodega.Comando(solicitud.nombre(), solicitud.ciudad(), solicitud.activa(), solicitud.pais()));
         return ResponseEntity.created(URI.create("/api/v1/bodegas/" + creada.id())).body(BodegaRespuesta.de(creada));
     }
 

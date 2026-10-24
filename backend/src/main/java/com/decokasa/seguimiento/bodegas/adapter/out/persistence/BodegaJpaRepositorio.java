@@ -2,6 +2,7 @@ package com.decokasa.seguimiento.bodegas.adapter.out.persistence;
 
 import com.decokasa.seguimiento.bodegas.application.port.out.BodegaRepositorio;
 import com.decokasa.seguimiento.bodegas.domain.Bodega;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.DatoDuplicado;
 import com.decokasa.seguimiento.compartido.domain.VersionDesactualizada;
@@ -10,6 +11,7 @@ import jakarta.persistence.LockModeType;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,6 +30,7 @@ public class BodegaJpaRepositorio implements BodegaRepositorio {
     private static final String VIOLACION_DE_UNICIDAD = "23505";
     private static final String NOMBRE_UNICO = "bodega_nombre_unico";
     private static final Sort POR_NOMBRE = Sort.by("nombre");
+    private static final Sort POR_PAIS_Y_NOMBRE = Sort.by("paisCodigo", "nombre");
 
     private final BodegaDatos datos;
     private final Reloj reloj;
@@ -43,6 +46,21 @@ public class BodegaJpaRepositorio implements BodegaRepositorio {
     public List<Bodega> listar(Boolean activa) {
         List<BodegaEntity> filas = activa == null ? datos.findAll(POR_NOMBRE) : datos.findByActiva(activa, POR_NOMBRE);
         return filas.stream().map(BodegaJpaRepositorio::aDominio).toList();
+    }
+
+    /** Fase 7 (ADR-0024): el filtro por país va en la consulta. */
+    @Override
+    public List<Bodega> listar(Set<CodigoPais> paises, Boolean activa) {
+        List<String> codigos = paises.stream().map(CodigoPais::name).toList();
+        List<BodegaEntity> filas = activa == null
+                ? datos.findByPaisCodigoIn(codigos, POR_PAIS_Y_NOMBRE)
+                : datos.findByPaisCodigoInAndActiva(codigos, activa, POR_PAIS_Y_NOMBRE);
+        return filas.stream().map(BodegaJpaRepositorio::aDominio).toList();
+    }
+
+    @Override
+    public Optional<Bodega> buscarPorNombre(CodigoPais pais, String nombre) {
+        return datos.findByPaisCodigoAndNombreIgnoreCase(pais.name(), nombre).map(BodegaJpaRepositorio::aDominio);
     }
 
     @Override
@@ -64,22 +82,27 @@ public class BodegaJpaRepositorio implements BodegaRepositorio {
         return Optional.of(aDominio(entidad));
     }
 
+    /**
+     * Firma anterior a la fase 7. Desde V19 el nombre solo es único por país: por compatibilidad documentada busca en
+     * Ecuador (ADR-0024). Ningún caso de uso la usa; usan {@link #buscarPorNombre(CodigoPais, String)}.
+     */
     @Override
     public Optional<Bodega> buscarPorNombre(String nombre) {
-        return datos.findByNombreIgnoreCase(nombre).map(BodegaJpaRepositorio::aDominio);
+        return buscarPorNombre(CodigoPais.EC, nombre);
     }
 
     @Override
     public Bodega guardar(Bodega bodega) {
         Instant ahora = reloj.ahora();
-        BodegaEntity entidad = datos.findById(bodega.id()).orElseGet(() -> new BodegaEntity(bodega.id(), ahora));
+        BodegaEntity entidad = datos.findById(bodega.id())
+                .orElseGet(() -> new BodegaEntity(bodega.id(), bodega.pais().name(), ahora));
         entidad.actualizar(bodega.nombre(), bodega.ciudad(), bodega.activa(), ahora);
         // Se escribe ya, y no al confirmar, para que una carrera con otra alta o edición llegue aquí como 409.
         try {
             return aDominio(datos.saveAndFlush(entidad));
         } catch (DataIntegrityViolationException error) {
             if (esNombreRepetido(error)) {
-                throw new DatoDuplicado("nombre", "Ya existe una bodega con ese nombre.");
+                throw new DatoDuplicado("nombre", "Ya existe una bodega con ese nombre en ese país.");
             }
             throw error;
         } catch (ObjectOptimisticLockingFailureException error) {
@@ -100,6 +123,6 @@ public class BodegaJpaRepositorio implements BodegaRepositorio {
 
     private static Bodega aDominio(BodegaEntity entidad) {
         return new Bodega(entidad.getId(), entidad.getNombre(), entidad.getCiudad(), entidad.isActiva(),
-                entidad.getVersion() == null ? 0 : entidad.getVersion());
+                entidad.getVersion() == null ? 0 : entidad.getVersion(), CodigoPais.valueOf(entidad.getPaisCodigo()));
     }
 }

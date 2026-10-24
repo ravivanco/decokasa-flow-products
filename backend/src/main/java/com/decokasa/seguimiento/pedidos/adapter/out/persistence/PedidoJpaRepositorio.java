@@ -160,7 +160,26 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     @Override
     public Pagina listar(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto, Instant ahora, int pagina,
             int tamano) {
+        return listarEn(null, tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano);
+    }
+
+    /** ADR-0024: el filtro por país va en la consulta, así que la página y el total son los del usuario. */
+    @Override
+    public Pagina listar(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto,
+            Instant ahora, int pagina, int tamano) {
+        if (paises.isEmpty()) {
+            return new Pagina(List.of(), 0);
+        }
+        return listarEn(paises, tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano);
+    }
+
+    // paises nulo: sin filtro de país (firma anterior a la fase 7).
+    private Pagina listarEn(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto,
+            Instant ahora, int pagina, int tamano) {
         StringBuilder condiciones = new StringBuilder(" where 1 = 1");
+        if (paises != null) {
+            condiciones.append(" and p.paisCodigo in :paises");
+        }
         if (tipoFlujo != null) {
             condiciones.append(" and p.tipoFlujo = :tipoFlujo");
         }
@@ -183,6 +202,9 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
         TypedQuery<Long> total = entityManager.createQuery("select count(p) from PedidoEntity p" + condiciones,
                 Long.class);
         for (TypedQuery<?> consulta : List.of(ids, total)) {
+            if (paises != null) {
+                consulta.setParameter("paises", paises.stream().map(CodigoPais::name).toList());
+            }
             if (tipoFlujo != null) {
                 consulta.setParameter("tipoFlujo", tipoFlujo.name());
             }
@@ -203,6 +225,22 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     @Override
     public Pagina bandeja(UUID usuarioId, Set<CodigoRol> roles, boolean admin, boolean soloVencidos,
             boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {
+        return bandejaEn(null, usuarioId, roles, admin, soloVencidos, soloConUrgencia, ahora, pagina, tamano);
+    }
+
+    /** ADR-0024: solo pedidos de los países asignados, también para el admin. */
+    @Override
+    public Pagina bandeja(Set<CodigoPais> paises, UUID usuarioId, Set<CodigoRol> roles, boolean admin,
+            boolean soloVencidos, boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {
+        if (paises.isEmpty()) {
+            return new Pagina(List.of(), 0);
+        }
+        return bandejaEn(paises, usuarioId, roles, admin, soloVencidos, soloConUrgencia, ahora, pagina, tamano);
+    }
+
+    // paises nulo: sin filtro de país (firma anterior a la fase 7).
+    private Pagina bandejaEn(Set<CodigoPais> paises, UUID usuarioId, Set<CodigoRol> roles, boolean admin,
+            boolean soloVencidos, boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {
         // definicion_etapa da el rol responsable de la etapa actual en la versión del flujo de cada pedido. Los filtros
         // del dashboard (paso 5.3) son fragmentos fijos: ningún dato de entrada se concatena.
         String desde = " from pedido p"
@@ -211,7 +249,8 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
                 + " where not p.finalizado and (cast(:admin as boolean) or (d.rol_codigo in (:roles)"
                 + " and (e.asignado_a is null or e.asignado_a = :usuario)))"
                 + (soloVencidos ? " and e.vence_en is not null and e.vence_en < :ahora" : "")
-                + (soloConUrgencia ? " and p.urgencia_nivel is not null" : "");
+                + (soloConUrgencia ? " and p.urgencia_nivel is not null" : "")
+                + (paises != null ? " and p.pais_codigo in (:paises)" : "");
         List<String> codigos = roles.stream().map(CodigoRol::valor).toList();
         Query deLaPagina = entityManager.createNativeQuery("select cast(p.id as text)" + desde
                         + " order by p.creado_en desc, p.id limit :tamano offset :desde")
@@ -224,6 +263,9 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
                     .setParameter("usuario", usuarioId);
             if (soloVencidos) {
                 consulta.setParameter("ahora", ahora);
+            }
+            if (paises != null) {
+                consulta.setParameter("paises", paises.stream().map(CodigoPais::name).toList());
             }
         }
         @SuppressWarnings("unchecked")

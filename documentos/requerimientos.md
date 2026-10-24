@@ -479,6 +479,7 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 - Los permisos se revisan en el servidor por rol y por etapa, nunca solo en la pantalla.
 - La carpeta de Drive se organiza por país y pedido. Quién tiene acceso directo a Drive: **TBD**.
 - API de Claude: se definirá más adelante; no se enviarán documentos sin aprobación del cliente.
+  - **Actualización 2026-10-22 (definiciones comunicadas por Richard, §5, "Definiciones de la fase 7"):** proveedor Claude API; chat de solo lectura; la clave y el modelo se configuran solo en el backend; acceso limitado por los permisos vigentes del usuario (país, pedido y documento); límites de consumo; desarrollo inicial solo con documentos ficticios. Enviar documentos reales sigue exigiendo una aprobación expresa, que todavía no existe.
 
 ### 4.8 Observabilidad y operación
 
@@ -545,8 +546,8 @@ El cliente respondió las 31 preguntas el 2026-10-09 (respuestas entre comillas)
 
 ### Alcance y plataforma
 
-- [ ] ¿Para qué se usará la API de Claude? Por ejemplo: revisar la codificación, resumir el historial o responder preguntas sobre pedidos. **(bloquea fase 7)**** ****"****m****as**** ****a****del****a****n****t****e**** se im****p****l****e****m****n****e****t****a ****e****s****o****"**
-- [ ] ¿En qué difiere el proceso de Colombia? ¿Solo la admin elige país o todos los usuarios? "admin y usuarios pero eso se mira mas adelante"
+- [ ] *(Respuesta parcial, comunicada por Richard el 2026-10-22: chat de consulta de solo lectura; ver "Definiciones de la fase 7". Se conserva la respuesta original del cliente.)* ¿Para qué se usará la API de Claude? Por ejemplo: revisar la codificación, resumir el historial o responder preguntas sobre pedidos. **(bloquea fase 7)**** ****"****m****as**** ****a****del****a****n****t****e**** se im****p****l****e****m****n****e****t****a ****e****s****o****"**
+- [ ] *(Respuesta parcial, comunicada por Richard el 2026-10-22: mismos flujos A/B y roles que Ecuador; ver "Definiciones de la fase 7". Bodegas, calendario, responsables y asignaciones siguen abiertos.)* ¿En qué difiere el proceso de Colombia? ¿Solo la admin elige país o todos los usuarios? "admin y usuarios pero eso se mira mas adelante"
 - [ ] ¿El admin puede actuar en cualquier etapa o reasignarla si el responsable falta? "Si"
 - [ ] ¿Tienen Google Workspace (necesario para la cuenta de servicio de Drive y Gmail)? "Si"
 - [ ] ¿Dónde se aloja el sistema? Llenar la tabla de servicios de producción: servidor, dominio, respaldos y monitoreo. "Al final vamos a ver alojamientos y lo de producción"
@@ -588,3 +589,43 @@ Confirmadas por Richard para desbloquear el flujo A. No son respuestas nuevas de
   - **B11:** al menos un documento de cualquier tipo, sin excepción "sin incidencias".
   
   En todas se admiten adjuntos adicionales, y solo cuentan los documentos válidos del pedido, de la etapa y de la entrada actual. No se extienden por analogía otras decisiones pendientes del flujo B: plazo de B2, etapas revisoras y creación de B por el admin (P-14).
+
+### Definiciones de la fase 7 comunicadas por Richard (2026-10-22) — paso 7.1, sin implementar
+
+Las comunicó Richard para el paso 7.1. **No consta que sean respuestas escritas del cliente**: si el cliente las confirma o las cambia, se actualiza esta sección antes que el código. Lo que no aparece aquí sigue abierto y no se completa por analogía con Ecuador.
+
+**Proveedor de IA:** Claude API (Anthropic), confirmado por Richard.
+
+**Colombia**
+- Tendrá los **mismos flujos A y B y los mismos roles** que Ecuador.
+- **Siguen por definir:** las bodegas de Colombia, su calendario (feriados y jornada), los responsables y las asignaciones por país.
+- **Diferencia entre fuentes (sin resolver):** el documento del cliente (1.3) dice "Ecuador y Colombia, con procesos distintos". La definición de Richard dice "mismos flujos". Hay que confirmar con el cliente si "mismos flujos" incluye también los documentos obligatorios, los plazos (y los que siguen pendientes en Ecuador), las etapas revisoras y la etapa de llegada ("Aduana Colombia"). Hasta entonces, nada de Ecuador se copia a Colombia por analogía.
+- Siguen abiertos: quién elige país al entrar (el cliente respondió "admin y usuarios pero eso se mira mas adelante") y el formato del número (`DK-CO-AAAA-NNNN`, sujeto a la aprobación del formato de Ecuador).
+
+**Datos de Colombia (Richard, 2026-10-22; paso 7.2)**
+- **Bodega:** "Bodega 1", temporal y activa. **Ciudad pendiente**: no se inventa y queda nula hasta que se defina; no bloquea el resto del trabajo.
+- **Calendario:** las mismas reglas provisionales de Ecuador (días hábiles de lunes a viernes, fin de semana al lunes, sin jornada ni feriados porque siguen pendientes), con la configuración separada por país.
+- **Asignaciones:** Mirian Franco (admin) tiene acceso a Ecuador y Colombia. Como admin, asigna los países a los demás usuarios; **nadie recibe Colombia automáticamente**. Las asignaciones no van en migraciones (ADR-0015, ADR-0024).
+- **Acceso por país (ADR-0024):** el servidor limita pedidos, archivos, cronogramas, historial y bodegas a los países asignados hoy a cada persona, también al admin.
+
+**Chat de consulta con IA**
+- **Para qué:** responder preguntas sobre pedidos, sus etapas y la mercadería descrita en los documentos adjuntos.
+- **Solo lectura:** no modifica pedidos, no ejecuta acciones de etapa, no sube ni borra archivos y no envía correos.
+- **Permisos:** cada respuesta usa solo lo que el usuario puede ver con sus permisos **vigentes en la base** (cuenta activa, roles y países), filtrado por país, pedido y documento. El servidor aplica el filtro **antes** de enviar nada al modelo; el modelo no decide permisos.
+- **Respuestas con evidencia:** cada afirmación indica el pedido (número) y, si sale de un documento, el documento y la página cuando esté disponible (por ejemplo, en un PDF). Si no hay evidencia suficiente, la respuesta lo dice en lugar de suponer.
+- **Datos:** el desarrollo inicial usa solo documentos ficticios. Enviar documentos reales al proveedor requiere una aprobación expresa, que todavía no existe (4.7). Quién la otorga, cómo se registra y si cubre todos los documentos o solo algunos tipos: **pendiente**.
+- **Configuración y costos:** el modelo es configurable; la clave vive solo en el backend (nunca en el navegador, en Git ni en los registros); hay límites de consumo. Sus valores (por usuario, por día o mes y presupuesto total) están **pendientes**.
+- **Alcance de una conversación (F7-D1, aprobado por Richard el 2026-10-22, opción C):** al principio, una conversación pertenece a **un único pedido**. Las consultas sobre varios pedidos quedan **fuera de esta entrega**; si se retoman, necesitan su propia decisión y ADR.
+- **Permisos en cada consulta (Richard, 2026-10-22):** antes de **cada** consulta, el servidor vuelve a comprobar los permisos vigentes de país, pedido y documentos. No basta con que el usuario conozca el identificador del pedido o del documento.
+- **Límites del piloto (F7-D2, aprobados por Richard el 2026-10-22):** 60 000 tokens de entrada por consulta, 4 000 de respuesta, 10 preguntas por conversación, 20 consultas por usuario y día con 1 en curso, 200 consultas diarias, US$10 por mes en el servidor y US$15 por mes de respaldo en el workspace del piloto. Solo con las credenciales nuevas de Decokasa. No autoriza compras ni llamadas reales; la IA sigue desactivada. El modelo inicial (recomendado `claude-haiku-5-5`) falta confirmarlo.
+- **Modelo inicial (Richard, 2026-10-22):** `claude-haiku-5-5`, sujeto a verificar su disponibilidad para la cuenta nueva. **Sin cambio automático a modelos más caros** (ni respaldo del servidor a otro modelo ni escalado automático).
+- **Piloto aislado (F7-D3, aprobado por Richard el 2026-10-22):** entorno con base, archivos y credenciales propios; solo datos ficticios y PDF locales, sin Google; la respuesta informa qué documentos quedaron fuera por formato. La variable de entorno habilita el piloto, pero **no demuestra** que un documento sea ficticio: los archivos que se cargan se controlan con un procedimiento documentado (manifiesto revisado y verificación por `sha256`; plan de la fase 7).
+- **Roles del chat (F7-D4, aprobado por Richard el 2026-10-22):** `admin`, `asistente_compras`, `marketing`, `compras_china` y `logistica`. `consulta` y `asistente_china` no dan acceso por sí solos, pero tampoco quitan el acceso que dé otro rol del mismo usuario. Antes de enviar datos al modelo y antes de mostrar una conversación guardada, el servidor comprueba los permisos vigentes de país, pedido y descarga.
+- **Conversaciones del piloto (F7-D5, aprobado por Richard el 2026-10-22, solo para el piloto):** las guarda el servidor y solo las ve su autor; el admin consulta el consumo, no textos ajenos; los textos se conservan 30 días y luego se eliminan junto con sus copias y referencias (procedimiento en el plan de la fase 7); nunca hay preguntas, respuestas, documentos ni secretos en los logs.
+- **Propuestas consolidadas (Richard, 2026-10-22, aprobadas para el piloto con precisiones):** contrato `openapi.yaml` 0.16.0-borrador, modelo de datos 3.8, arquitectura 4.10 y ADR-0020 a ADR-0023. Precisiones:
+  - no se declara retención cero del proveedor por enviar los PDF dentro de la petición: su retención es independiente y sigue pendiente;
+  - cada referencia debe corresponder a un documento autorizado enviado en esa consulta y a una página válida, o no cuenta como evidencia;
+  - si los permisos cambian, no se revela el contenido de mensajes anteriores que el usuario ya no pueda consultar;
+  - la eliminación a 30 días distingue datos activos, copias de seguridad y retención del proveedor, sin prometer el borrado inmediato de todas las copias.
+- **No aprobado todavía:** la conservación en producción (la propuesta de 24 horas) y el envío de documentos reales. Ambos siguen en F7-D6.
+- **Pendientes:** F7-D6 (documentos reales, conservación en producción, región o retención del proveedor), los idiomas y los formatos posteriores a PDF (imágenes, Excel, Word).

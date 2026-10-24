@@ -1,7 +1,8 @@
-import { ArrowLeftIcon, RotateCwIcon } from 'lucide-react';
+import { ArrowLeftIcon, BotIcon, RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { usePausarActualizacion } from '@/api/actualizacion';
+import { puedeUsarAsistente } from '@/api/asistente';
 import { esErrorApi } from '@/api/cliente';
 import { type AccionDisponible, type Adjunto, type Persona, useDefinicionFlujo, usePedido } from '@/api/pedidos';
 import { useUsuarioActual } from '@/auth/SesionProvider';
@@ -18,6 +19,8 @@ import { formatearFecha, formatearFechaHora, mensajeDeErrorPedido, nombreFlujo }
 import { HistorialPedido } from './HistorialPedido';
 import { LineaDeTiempo } from './LineaDeTiempo';
 import { PanelEtapa } from './PanelEtapa';
+import { ciudadDeBodega } from '@/api/esquemas';
+import { esPais, NOMBRE_PAIS, usePaisActivo, useSeleccionPais } from '@/pais/PaisProvider';
 
 // Detalle del pedido: encabezado, línea de tiempo, panel de la etapa elegida e historial. Todo sale del servidor; tras
 // cada acción la pantalla muestra el pedido que él devolvió (o el vigente, si respondió con un conflicto).
@@ -35,6 +38,8 @@ export function DetallePedido() {
 
 function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
   const usuario = useUsuarioActual();
+  const paisActivo = usePaisActivo();
+  const seleccion = useSeleccionPais();
   const pedido = usePedido(pedidoId);
   const datos = pedido.data;
   const flujo = useDefinicionFlujo(datos?.pais ?? 'EC', datos?.tipoFlujo ?? 'A', datos?.versionFlujo);
@@ -95,6 +100,28 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
   }
 
   const detalle = pedido.data;
+  // Paso 7.3: un pedido de otro país (asignado, si el servidor lo devolvió) no se muestra en el país activo. Nada de sus
+  // datos llega a la pantalla; se ofrece cambiar de país, con la misma confirmación si hay cambios sin guardar.
+  if (detalle.pais !== paisActivo) {
+    const destino = esPais(detalle.pais) && seleccion?.asignados.includes(detalle.pais) ? detalle.pais : null;
+    return (
+      <section className="flex flex-col items-start gap-4">
+        <h1 className="font-heading text-2xl font-bold text-primary">Pedido de otro país</h1>
+        <p className="max-w-prose text-muted-foreground">
+          Este pedido no es de {NOMBRE_PAIS[paisActivo]}.
+          {destino ? ` Cambia a ${NOMBRE_PAIS[destino]} para verlo.` : ''}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {destino && seleccion && (
+            <Button onClick={() => seleccion.solicitarCambio(destino)}>Cambiar a {NOMBRE_PAIS[destino]}</Button>
+          )}
+          <Button variant="outline" asChild>
+            <Link to="/pedidos">Ver pedidos de {NOMBRE_PAIS[paisActivo]}</Link>
+          </Button>
+        </div>
+      </section>
+    );
+  }
   const numeroElegido = elegida ?? detalle.etapaActual;
   const etapa =
     detalle.lineaDeTiempo.find((e) => e.numero === numeroElegido) ??
@@ -114,12 +141,23 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
 
   return (
     <section className="flex flex-col gap-6">
-      <Button variant="ghost" asChild className="w-fit">
-        <Link to="/pedidos">
-          <ArrowLeftIcon data-icon="inline-start" />
-          Pedidos
-        </Link>
-      </Button>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Button variant="ghost" asChild className="w-fit">
+          <Link to="/pedidos">
+            <ArrowLeftIcon data-icon="inline-start" />
+            Pedidos
+          </Link>
+        </Button>
+        {/* Paso 7.5: acceso al asistente para los roles de F7-D4; el servidor vuelve a decidirlo. */}
+        {puedeUsarAsistente(usuario.roles) && (
+          <Button variant="outline" asChild className="w-fit">
+            <Link to={`/pedidos/${encodeURIComponent(detalle.id)}/asistente`}>
+              <BotIcon data-icon="inline-start" />
+              Preguntar al asistente
+            </Link>
+          </Button>
+        )}
+      </div>
 
       <header className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -158,7 +196,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
           <div className="flex flex-col gap-1"><dt className="text-muted-foreground">Llegada a aduana confirmada</dt>
             <dd className="font-medium tabular-nums">{detalle.llegadaAduanaEn ? formatearFechaHora(detalle.llegadaAduanaEn) : 'Sin llegada confirmada'}</dd></div>
           <div className="flex flex-col gap-1"><dt className="text-muted-foreground">Bodega asignada</dt>
-            <dd className="font-medium">{detalle.bodega ? `${detalle.bodega.nombre} · ${detalle.bodega.ciudad}${detalle.bodega.activa ? '' : ' · inactiva para nuevas asignaciones'}` : 'Sin bodega asignada'}</dd></div>
+            <dd className="font-medium">{detalle.bodega ? `${detalle.bodega.nombre} · ${ciudadDeBodega(detalle.bodega)}${detalle.bodega.activa ? '' : ' · inactiva para nuevas asignaciones'}` : 'Sin bodega asignada'}</dd></div>
         </dl>
         {detalle.demoraAduana && <Alert role="note"><AlertDescription className="flex flex-col gap-2">
           <p className="font-medium">Última demora · llegada estimada {formatearFecha(detalle.demoraAduana.nuevaFechaEstimadaLlegada)}</p>

@@ -1,0 +1,42 @@
+Fase 7 Colombia y API de Claude
+Rama: fase-7-colombia-ia
+Esta fase espera la definición del cliente y puede incorporarse después de la primera entrega de Ecuador. No implementes procesos o usos de IA aún no aprobados.
+Parte A Codificación con Claude Code
+Plan de la fase
+Skill: /ecc:prp-plan
+/ecc:prp-plan .claude/PRPs/prds/decokasa.prd.md — Prepara o actualiza únicamente el plan de implementación de la fase 7. Conserva el código existente; no incluyas tareas de pruebas ni verificación.
+Paso 7.1 Definiciones aprobadas
+Skills: /ecc:prp-prd, /ecc:prp-plan
+/ecc:prp-prd Incorpora en requerimientos.md el proceso colombiano, responsables, plazos, bodegas, selección de país y caso de uso concreto de IA. Actualiza PRD, contrato, datos y ADR antes de extender el código.
+Aplica también /ecc:prp-plan al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 7.2 Datos y permisos de Colombia
+Skill: /agregar-flujo-decokasa
+/agregar-flujo-decokasa Agrega país habilitado, bodegas, calendario y definiciones de flujo aprobadas. Mantén la numeración por país; DK-CO-AAAA-NNNN continúa sujeto al formato aprobado. Implementa acceso según los países asignados al usuario.
+Paso 7.3 Pantallas por país
+Skills: /agregar-flujo-decokasa, shadcn
+/agregar-flujo-decokasa Agrega selector de país para los usuarios autorizados y conecta bandejas, pedidos, rastreo y cronograma. Reutiliza el motor y las pantallas; evita mostrar o permitir acciones sobre datos de otro país sin autorización.
+Aplica también shadcn al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 7.4 Integración de IA
+Skills: claude-api, ecc:hexagonal-architecture
+Usa la skill claude-api. Implementa el caso de uso aprobado mediante puerto AsistenteIA y adaptador del backend. Configura modelo y clave solo en servidor. No envíes documentos del cliente sin su aprobación. Registra actor, fecha y consumo sin registrar secretos.
+Aplica también ecc:hexagonal-architecture al alcance de este paso, sin tareas de pruebas ni verificación.
+Paso 7.5 Controles y entrega
+Skills: claude-api, ecc:hexagonal-architecture
+Usa la skill claude-api. Implementa límites de uso y costos, permisos por usuario, manejo de errores y protección frente a instrucciones contenidas en documentos u observaciones. Documenta datos enviados, configuración y decisiones. Conserva el funcionamiento de los flujos de Ecuador.
+Aplica también ecc:hexagonal-architecture al alcance de este paso, sin tareas de pruebas ni verificación.
+Entrega de implementación
+Funcionalidades aprobadas de Colombia e IA implementadas y documentadas. Si falta la definición del cliente, conserva la fase pendiente.
+Parte B Pruebas y verificación con Codex
+Richard abre el trabajo con Codex sobre la misma rama y comparte el resumen de implementación. Las skills originales se conservan como referencias; si un comando /ecc no está disponible en Codex, usa la instrucción escrita y las herramientas o skills disponibles. No ejecutes estos comandos en Claude Code como parte de la codificación.
+Paso 7.B1 Colombia y aislamiento
+Skills: ecc:springboot-tdd, playwright-best-practices, /agregar-flujo-decokasa
+Qué pedir a Codex: Prueba el proceso colombiano aprobado, número por país, selector, acceso según países asignados y recorrido hasta Fin. Rechaza consulta o modificación de otro país sin permiso. Ejecuta regresión completa de Ecuador. Si la fase no se implementó por falta de definición, regístrala pendiente sin aprobarla.
+Paso 7.B2 IA con dobles y seguridad
+Skills: claude-api, /ecc:security-scan, /security-review
+Qué pedir a Codex: Usa un adaptador falso para probar respuesta, errores, timeout, límites de consumo y permisos. Revisa inyección de instrucciones, datos enviados y secretos. Solo realiza una llamada real con datos autorizados por Richard; documenta modelo, uso y costo sin registrar claves ni documentos sensibles.
+Paso 7.B3 Cierre de validación
+Skills: /code-review, /ecc:verification-loop
+Qué pedir a Codex: Comprueba requisitos aprobados, comportamiento de IA, flujos A y B de Ecuador y los flujos colombianos. Entrega evidencia y hallazgos. No cierres la fase si falta aprobación del caso de uso o se detectan fallos críticos o altos.
+Criterio para cerrar la fase
+Colombia e IA aprobados y comprobados, regresión de Ecuador en verde y revisión de IA sin hallazgos altos; de otro modo la fase sigue pendiente.
+Codex guarda comandos, resultados, evidencias, hallazgos y bloqueos en documentos/pruebas/fase-7-informe.md. Devuelve defectos reproducibles a Claude Code para corregirlos y vuelve a comprobar los casos afectados. Richard valida el cierre; no se marca complete por terminar únicamente la parte A.

@@ -25,8 +25,8 @@ class V2RestriccionesIT {
     @BeforeAll static void migrarBaseVacia() {
         var resultado=Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
                 .locations("classpath:db/migration").load().migrate();
-        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(18);
-        assertThat(resultado.targetSchemaVersion).isEqualTo("18");
+        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(21);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("21");
     }
     @BeforeEach void preparar() throws SQLException {
         db=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());
@@ -62,7 +62,7 @@ class V2RestriccionesIT {
         finally { db.rollback(punto); }
     }
     @Test void siembraExactaDeOnceEtapasSinInventarPlazos() throws SQLException {
-        assertThat(textos("select pais_codigo||':'||tipo_flujo||':'||version||':'||vigente from definicion_flujo where tipo_flujo='A'"))
+        assertThat(textos("select pais_codigo||':'||tipo_flujo||':'||version||':'||vigente from definicion_flujo where tipo_flujo='A' and pais_codigo='EC'"))
                 .containsExactly("EC:A:1:true");
         assertThat(textos("select numero||':'||coalesce(rol_codigo,'-')||':'||plazo_estado||':'||coalesce(plazo_cantidad::text,'-')"
                 +"||':'||coalesce(plazo_tipo,'-')||':'||automatica from definicion_etapa where flujo_id='01a13cdb-cc00-7000-8000-000000000001' order by numero"))

@@ -71,8 +71,8 @@ Sin definir en los requerimientos o detectadas en la auditoría:
 - [ ] Quién tiene acceso directo a la carpeta de Drive: **TBD**.
 - [ ] Marca: los 4 logos en JPEG ya se recibieron y se aplicaron en `documentos/diseno/DESIGN.md`. Faltan versiones transparentes (sobre todo el isotipo), los códigos de color y la tipografía oficiales, y decidir qué nombre se muestra (Decokasa o Latinoamérica World).
 - [ ] Creación de la cuenta de servicio de Google Workspace para Drive y Gmail (el cliente confirmó que tiene Workspace).
-- [ ] Proceso de Colombia: etapas, responsables, plazos y bodegas (el cliente lo dejó para más adelante).
-- [ ] Caso de uso de la API de Claude (el cliente lo dejó para más adelante).
+- [ ] Proceso de Colombia: etapas, responsables, plazos y bodegas (el cliente lo dejó para más adelante). *2026-10-22, comunicado por Richard: mismos flujos A/B y roles que Ecuador. Siguen abiertos bodegas, calendario, responsables y asignaciones por país, y la diferencia con "procesos distintos" del documento del cliente (`requerimientos.md` §5, "Definiciones de la fase 7").*
+- [ ] Caso de uso de la API de Claude (el cliente lo dejó para más adelante). *2026-10-22, comunicado por Richard: chat de consulta de solo lectura con evidencia y permisos vigentes. Alcance aprobado (F7-D1: un pedido por conversación). Siguen abiertos los usuarios del chat, los límites de consumo, la conservación del texto, los formatos de documento y la aprobación para enviar documentos reales.*
 - [ ] Alojamiento, dominio, respaldos y monitoreo (el cliente lo dejó para el final).
 - [ ] ¿Proveedores, navieras o clientes finales usarán el sistema? Hoy no aparecen como usuarios.
 
@@ -187,7 +187,7 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | 4 | Etapas A5-A11 | Fabricación, embarque con Packing List / BL, aduana con demora y recálculo, salida, bodega obligatoria, incidencias y Fin automático | pending | - | 2, 3 | - |
 | 5 | Seguimiento y plazos | Línea de tiempo horizontal en dashboards y búsqueda, plazos en días hábiles con hora de Ecuador, vencimientos con alerta al admin, cronograma contra meta configurable, tiempo real | pending | with 6 | 4 | [fase-5-seguimiento.plan.md](../plans/fase-5-seguimiento.plan.md) (solo plan, 2026-10-20) |
 | 6 | Flujo B | Configuración del flujo B (11 etapas + Fin) sobre el motor, creación de pedidos por Compras China, bandeja de productos propuestos | in-progress (plan; F6-D1 abierta) | with 5 | 4 | [fase-6-flujo-b.plan.md](../plans/fase-6-flujo-b.plan.md) |
-| 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujo colombiano, caso de uso de IA. Espera las definiciones del cliente; puede hacerse después de la fase 8 | pending | - | 5, 6 | - |
+| 7 | Colombia y API de Claude | Selección de país para admin y usuarios, flujos A/B de Colombia, chat de consulta de solo lectura con Claude API. Definiciones parciales del 2026-10-22; puede hacerse después de la fase 8 | in-progress (paso 7.1: solo plan y documentación) | - | 5, 6 | [fase-7-colombia-ia.plan.md](../plans/fase-7-colombia-ia.plan.md) |
 | 8 | Producción | Alojamiento, CI, imágenes de producción, HTTPS, respaldos, monitoreo, auditoría final, prueba de aceptación con los 6 usuarios y documentación de entrega | pending | - | 5, 6 | - |
 
 **Estado vigente de fase 2 — 2026-10-16:** cerrada en desarrollo con datos ficticios por validación expresa de Richard. Se conservan P-11, decisiones provisionales y backlog documentado; producción no autorizada. Véase la validación específica al final de este PRD y el [informe de fase 2](../../../documentos/pruebas/fase-2-informe.md). Las demás fases no cambian de estado.
@@ -231,9 +231,11 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 - **Success signal**: un pedido creado por David llega a Fin, y las pruebas de punta a punta de los flujos A y B pasan juntas.
 
 **Phase 7: Colombia y API de Claude**
-- **Goal**: sumar Colombia y el caso de uso de IA cuando el cliente los defina.
-- **Scope**: selección de país al entrar para el admin y los usuarios, flujos de Colombia con numeración propia, integración con la API de Claude desde el servidor. **Bloqueada** hasta que el cliente defina el proceso colombiano y el uso de la IA; puede hacerse después de la fase 8.
-- **Success signal**: un pedido de Colombia recorre su flujo sin romper los de Ecuador, y la IA funciona con el adaptador real mientras las pruebas usan el falso.
+- **Goal**: sumar Colombia y un chat de consulta con IA sin romper los flujos de Ecuador.
+- **Scope**: selección de país al entrar para el admin y los usuarios; flujos A y B de Colombia con numeración propia; acceso por los países asignados; chat de consulta **de solo lectura** con Claude API desde el servidor, con referencias a pedido, documento y página, sin evidencia → lo dice; documentos ficticios hasta una aprobación expresa; modelo configurable, clave solo en el backend y límites de consumo. Puede hacerse después de la fase 8.
+- **Definiciones (2026-10-22, comunicadas por Richard, no constan como respuesta escrita del cliente):** Claude API como proveedor; Colombia con los mismos flujos A/B y roles que Ecuador; bodegas, calendario, responsables y asignaciones por país por definir. Detalle y pendientes en `requerimientos.md` §5, "Definiciones de la fase 7".
+- **Bloqueos**: los datos de Colombia (7.2) esperan sus bodegas, calendario y la confirmación del alcance de "mismos flujos"; el chat (7.4) espera el alcance de la pregunta y los valores de los límites; enviar documentos reales espera una aprobación expresa.
+- **Success signal**: un pedido de Colombia recorre su flujo sin romper los de Ecuador; el chat responde con referencias verificables, dice cuándo no hay evidencia, nunca muestra datos fuera de los permisos del usuario y nunca modifica nada; las pruebas usan un adaptador falso y solo hay llamadas reales con datos autorizados por Richard.
 
 **Phase 8: Producción**
 - **Goal**: poner el sistema en uso real con los 6 usuarios.
@@ -268,6 +270,8 @@ Flujo B: David crea el pedido propuesto (B1) → Marcela revisa el producto prop
 | Backend (2026-10-12) | Gradle, hexagonal, transacciones fuera del dominio | Maven; capas de Spring | Decisión del equipo (ADR-0010, 0011, 0012) |
 | Tiempo real (2026-10-12) | No entra antes de la fase 5 | WebSocket desde la fase 1 | Decisión del equipo (ADR-0014) |
 | Datos iniciales (2026-10-12) | Países y 7 roles en migraciones; usuarios reales y secretos fuera de git | Sembrar usuarios en la migración | Decisión del equipo (ADR-0015); repositorio público |
+| Proveedor de IA (2026-10-22) | Claude API desde el backend, detrás de un puerto (`AsistenteIA`) | Otro proveedor; llamadas desde el navegador | Confirmado por Richard; el manual (7.4) pide puerto y clave solo en el servidor. ADR propuesto en el plan de la fase 7 |
+| Alcance del chat (F7-D1, 2026-10-22) | Una conversación pertenece a un único pedido; permisos de país, pedido y documento comprobados en el servidor antes de cada consulta | Varios pedidos por pregunta (fuera de esta entrega) | Aprobado por Richard (opción C) |
 | Demo en la fase 1 (2026-10-12) | Pantallas de pedidos sin ruta hasta su fase; se conserva el rol `consulta` | Borrarlas o mostrarlas con datos simulados | Decisión del equipo (plan de la fase 1) |
 
 ---

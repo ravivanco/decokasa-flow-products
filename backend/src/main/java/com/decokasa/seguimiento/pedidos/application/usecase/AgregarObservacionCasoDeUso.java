@@ -49,6 +49,7 @@ public final class AgregarObservacionCasoDeUso implements AgregarObservacion {
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
+        apoyo.exigirPais(actor, pedido);
         ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
         CodigoRol rol = flujo.etapa(pedido.etapaActual()).rolResponsable();
         EtapasHabilitadas efectivas = habilitadas.para(flujo.etapas());

@@ -1,10 +1,11 @@
 package com.decokasa.seguimiento.notificaciones.adapter.in.web;
 
+import com.decokasa.seguimiento.compartido.adapter.in.web.FechasWeb;
 import com.decokasa.seguimiento.compartido.adapter.in.web.SolicitantesWeb;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle.Causa;
 import com.decokasa.seguimiento.notificaciones.application.port.in.ConsultarNotificaciones;
 import com.decokasa.seguimiento.notificaciones.domain.Notificacion;
-import com.decokasa.seguimiento.compartido.adapter.in.web.FechasWeb;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.CacheControl;
@@ -20,8 +21,9 @@ public class NotificacionesController {
     @GetMapping("/api/v1/notificaciones")
     public ResponseEntity<Pagina> listar(@AuthenticationPrincipal Jwt token,
             @RequestParam(required=false) Notificacion.Estado estado,
+            @RequestParam(required=false) CodigoPais pais,
             @RequestParam(defaultValue="0") int pagina,@RequestParam(defaultValue="20") int tamano) {
-        var p=consultar.consultar(SolicitantesWeb.de(token),estado,pagina,tamano);
+        var p=consultar.consultar(SolicitantesWeb.de(token),pais,estado,pagina,tamano);
         return ResponseEntity.ok().cacheControl(CacheControl.noStore())
             .body(new Pagina(p.elementos().stream().map(Fila::de).toList(),p.pagina(),p.tamano(),p.total()));
     }

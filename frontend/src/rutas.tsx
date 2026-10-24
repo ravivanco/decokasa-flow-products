@@ -9,6 +9,7 @@ import { ErrorRuta } from './components/ErrorRuta';
 import { LoginScreen } from './components/LoginScreen';
 import { PaginaNoEncontrada } from './components/PaginasSimples';
 import { BandejaPedidos } from './components/pedidos/BandejaPedidos';
+import { AsistentePedido } from './components/asistente/AsistentePedido';
 import { DetallePedido } from './components/pedidos/DetallePedido';
 import { ListaPedidos } from './components/pedidos/ListaPedidos';
 import { NuevoPedido } from './components/pedidos/NuevoPedido';
@@ -36,6 +37,8 @@ export const rutas: RouteObject[] = [
           { path: '/pedidos', element: <ListaPedidos /> },
           { path: '/pedidos/nuevo', element: <NuevoPedido /> },
           { path: '/pedidos/:pedidoId', element: <DetallePedido /> },
+          // Paso 7.5: chat del asistente por pedido. El servidor decide el acceso (F7-D4, país, pedido, P-17).
+          { path: '/pedidos/:pedidoId/asistente', element: <AsistentePedido /> },
           {
             element: <SoloAdmin />,
             children: [

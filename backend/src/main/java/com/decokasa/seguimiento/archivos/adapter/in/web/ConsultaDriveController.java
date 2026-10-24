@@ -2,6 +2,7 @@ package com.decokasa.seguimiento.archivos.adapter.in.web;
 
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarArchivosDrive;
 import com.decokasa.seguimiento.compartido.adapter.in.web.SolicitantesWeb;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.CacheControl;
@@ -20,9 +21,10 @@ public class ConsultaDriveController {
     }
     @GetMapping("/api/v1/archivos/copias-fallidas")
     public ResponseEntity<List<AdjuntoRespuesta>> fallidos(@AuthenticationPrincipal Jwt token,
+            @RequestParam(required=false) CodigoPais pais,
             @RequestParam(defaultValue="0") int pagina,@RequestParam(defaultValue="20") int tamano) {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(
-            consultar.fallidos(SolicitantesWeb.de(token),pagina,tamano).stream().map(AdjuntoRespuesta::de).toList());
+            consultar.fallidos(SolicitantesWeb.de(token),pais,pagina,tamano).stream().map(AdjuntoRespuesta::de).toList());
     }
     public record Enlace(String url) {}
 }
