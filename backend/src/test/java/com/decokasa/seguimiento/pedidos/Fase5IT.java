@@ -51,7 +51,7 @@ class Fase5IT {
     @BeforeEach void preparar(){RELOJ.set(AHORA);admin=persona("admin");sql.update("update configuracion_plazos set meta_dias=90,meta_origen='PROPUESTA',actualizado_en=null,actualizado_por=null,version=0");}
     UUID persona(String rol){UUID id=UUID.randomUUID();String s=id.toString().replace("-","");
         sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values(?,'Persona ficticia F5',?,?,?,'hash-ficticio',?,?,0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14),Timestamp.from(AHORA),Timestamp.from(AHORA));
-        rol(id,rol);return id;}
+        rol(id,rol);sql.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);return id;}
     void rol(UUID id,String rol){sql.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo=?",id,rol);}
     UUID pedido(int etapa,Instant vence){UUID p=UUID.randomUUID(),entrada=UUID.randomUUID();new TransactionTemplate(gestor).executeWithoutResult(tx->{
         sql.update("insert into pedido(id,numero,pais_codigo,tipo_flujo,flujo_id,nombre,creado_por,creado_en,etapa_actual,actualizado_en,version) values(?,?,'EC','A',?,'Fixture F5',?,'2026-10-16T22:00:00Z',?,?,0)",p,"DK-EC-2026-"+NUMERO.incrementAndGet(),FLUJO,admin,etapa,Timestamp.from(ENTRADA));

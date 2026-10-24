@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-24T15:32:57.180Z" hostname="DESKTOP-GKF6IVL" time="2.52">
+  <properties/>
+  <testcase name="r1NucleoSinFrameworks" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="2.289"/>
+  <testcase name="r2NucleoSinAnotacionesDeSpring" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.006"/>
+  <testcase name="r3EntidadesSoloEnPersistencia" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.002"/>
+  <testcase name="r4DominiosIndependientes" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.056"/>
+  <testcase name="r9SinCiclosEntreModulos" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.14"/>
+  <testcase name="dominioNoDependeDeCapasExternas" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.009"/>
+  <testcase name="aplicacionNoDependeDeAdaptadores" classname="com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest" time="0.015"/>
+  <system-out><![CDATA[10:32:57.194 [Test worker] INFO com.tngtech.archunit.core.PluginLoader -- Detected Java version 21.0.12.1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

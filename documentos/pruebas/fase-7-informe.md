@@ -166,3 +166,16 @@ Por solicitud de Richard se prepara únicamente el índice del avance completo d
 **Header.tsx se conserva aparte y no viajará con este commit.** No se descarta ni se prepara. Las pruebas frontend existentes usaron el Header local; el otro PC recibirá el Header ya confirmado, no esta modificación excluida. No se transfieren credenciales, entornos privados, builds ni bytes de almacenamiento. El índice se compara con la selección explícita; los avisos de whitespace se informan sin alterar evidencias originales. No se realiza commit, push ni merge ni se cierra fase alguna.
 
 Preparación del checkpoint: **220 rutas** (204 normales y 16 logs revisados preparados con `-f`), igualdad exacta entre selección e índice. Sin coincidencias de patrones de secretos en archivos seleccionados ni en su contenido preparado. `git diff --cached --stat`: salida 0. `git diff --cached --check`: salida **2, doce avisos de espacios finales** en plan/XML, conservados. También hay avisos LF→CRLF. Los detalles y la primera captura quedan en la auditoría; no se modifica producción ni evidencia original para limpiarlos.
+
+## F7-COMP-01 revalidado; 192 fallos del `check` ahora visibles — Claude, 2026-10-24
+
+Detalle, comandos y evidencias en [fase-3-informe.md](fase-3-informe.md), «Revalidación de F3-ADR25-01 y F7-COMP-01».
+- **Compilación:** con los tipos `Resultado` calificados, `compileJava` y `compileTestJava` aprueban con `asistente` incluido y sin exclusiones (salida 0).
+- **Arquitectura y arranque:** ArchUnit 7/7, fronteras 2/2 y arranque 4/4 con todos los módulos.
+- **Asistente desactivado:** con `IA_HABILITADA=false` responde `IaNoDisponible`, sin construir el cliente Claude y con cero interacciones con el proveedor (prueba nueva de la revalidación).
+- **`check` global:** ahora se ejecuta, pero **falla: 926 casos, 192 fallos**.
+  - 189 por el acceso por país (ADR-0024): fixtures de fases anteriores sin `usuario_pais`, respuestas 403/404 y `SinPermiso`.
+  - 2 por Colombia inactiva, ya registrado arriba.
+  - 1 en `CorreoB2IT`, por el filtro de país en `listar`.
+- **Cobertura:** 61,69 %, solo informativa.
+- **Alcance:** no se corrigieron, porque están fuera del encargo. Siguen pendientes de 7.B1, sin cerrar la fase.

@@ -98,3 +98,30 @@ Richard aprobó cambiar únicamente la guarda de rama del lanzador: ahora exige 
 La autorización vigente permite exclusivamente un archivo ficticio de 104857600 bytes y un correo de importadora.latinoamericaworld@gmail.com a ese mismo buzón. No amplía el alcance a los archivos ni avisos del recorrido A1–Fin. Usar el directorio externo UUID ya aprobado; las frases de inicio/OAuth/copia/correo y contraseña siguen siendo personales. El consentimiento de navegador se realiza después de la confirmación de autorizar. No compartir contraseña ni tokens. Confirmar recepción personalmente; ante resultado incierto no repetir el correo.
 
 Conservar evidencias y datos al salir. OAuth, workers y schedulers permanecen desactivados por defecto. 3.B3 real no está aprobado; las fases permanecen abiertas. Los apartados históricos de este README no sustituyen las decisiones posteriores de cuotas/reintentos ni amplían este permiso limitado.
+
+## Corrección del arranque al reutilizar PostgreSQL — parte A, 2026-10-24, sin compilar ni ejecutar
+
+Solo cambian `ArnesGoogleB3.java` y `GuardasB3.java`. No cambian el lanzador (sigue exigiendo `fase-5-seguimiento`), el init script, las frases personales, el receptor, las demás guardas, `GuardasB3Test` ni la producción. **Pendiente de compilación y verificación por Codex**; no autoriza iniciar el ensayo real.
+
+**Defecto.** `PostgreSQLContainer` de Testcontainers 2.0.5 espera **dos** mensajes `database system is ready to accept connections`, durante 60 s. En el primer arranque salen dos: uno del servidor temporal de initdb y otro del definitivo. Con el volumen del ensayo ya inicializado no hay initdb, sale **uno solo** y el arranque agotaba el tiempo. Es justo el caso de reanudar el mismo ensayo, que este README exige hacer con la misma raíz y el mismo volumen. Además, el comando por defecto de esa clase arranca PostgreSQL con `fsync=off`, que no es aceptable en un volumen que debe conservar datos.
+
+**Corrección:**
+- **Espera:** `pg_isready` por TCP dentro del contenedor (`-h 127.0.0.1 -p 5432`), con un máximo de 120 s. El servidor temporal de initdb no escucha en TCP, y `pg_isready` no responde "aceptando" hasta terminar la recuperación tras una parada brusca. Sirve igual en el primer arranque y al reutilizar.
+- **Durabilidad:** comando `postgres` sin `fsync=off`.
+- **Credenciales y datos (`GuardasB3.reutilizacion`):** se decide en el constructor, antes de escribir nada y con el cerrojo de la raíz tomado:
+  - si el volumen existe pero falta `ensayo-privado.properties`, el arnés se bloquea. No genera otra contraseña ni otro JWT para una base que ya tiene los suyos;
+  - si existe la marca `base-inicializada.NO-BORRAR` y falta el volumen, el arnés se bloquea. No crea una base vacía en lugar de la que tenía datos;
+  - la marca se crea, con permisos privados, tras el primer arranque correcto de PostgreSQL. Ningún código la borra.
+- **Comprobaciones que se mantienen:** las etiquetas del volumen (ensayo y raíz) se comprueban como antes, ahora también antes de crear las credenciales.
+- **Lo que no cambia:** STOP solo del contenedor propio, volumen nombrado no registrado para borrado, bind 127.0.0.1 en puerto aleatorio y `withReuse(false)`.
+
+**Casos para Codex**, con Docker local y una raíz UUID **ficticia y distinta** de la del ensayo real. Sin `.env.local` real ni Google: si la comprobación de rutas Google impide arrancar sin ellas, detenerse y consultar a Richard.
+1. Compilar con `b3ComprobarGuardas b3Classpath` (las 8 guardas existentes siguen en verde).
+2. Probar `GuardasB3.reutilizacion` con las ocho combinaciones de volumen, credenciales y marca: bloquea "volumen + credenciales nuevas" y "marca sin volumen"; admite el primer arranque (nada existe), el reintento tras un fallo anterior a crear el volumen (credenciales previas sin volumen ni marca) y la reutilización (volumen, credenciales previas, con o sin marca).
+3. Primer arranque con volumen nuevo: listo antes de 120 s, crea la marca y Flyway aplica.
+4. `salir` y volver a arrancar con la misma raíz: arranca (antes agotaba el tiempo), conserva el usuario b3-admin y los datos, y no cambia la contraseña.
+5. En la raíz ficticia ya arrancada, renombrar temporalmente `ensayo-privado.properties` (no borrarlo): bloqueo sin crear otro archivo de credenciales. Restaurar el nombre y comprobar que vuelve a arrancar. Una copia de la raíz no sirve para este caso: la bloquea antes la etiqueta de raíz del volumen.
+6. `SHOW fsync` devuelve `on`.
+7. Tras salir, el volumen sigue existiendo (Ryuk retira el contenedor, no el volumen).
+
+No se iniciaron Docker, Spring ni Google; no se tocaron la raíz `c465a284-…`, su archivo de 104857600 bytes ni ningún volumen.

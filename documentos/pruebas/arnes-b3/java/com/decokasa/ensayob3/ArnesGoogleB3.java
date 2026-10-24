@@ -14,6 +14,7 @@ import java.nio.channels.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,13 +26,18 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.testcontainers.DockerClientFactory;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 /** Main exclusivamente opt-in del source set ensayoB3; nunca se descubre desde produccion. */
 public final class ArnesGoogleB3 {
+    /** Se crea tras el primer arranque correcto de PostgreSQL; desde entonces la base del ensayo tiene datos que conservar. */
+    private static final String MARCA_BASE = "base-inicializada.NO-BORRAR";
     private final Path raiz;
     private final UUID id;
     private final UUID admin;
+    private final String volumen;
+    private final boolean volumenExiste;
     private final Properties privado;
     private final Properties origen;
     private PostgreSQLContainer postgres;
@@ -52,8 +58,15 @@ public final class ArnesGoogleB3 {
             Path p = Path.of(origen.getProperty(k, ""));
             GuardasB3.externo(p.getParent(), repo); GuardasB3.privado(p);
         }
+        volumen = "decokasa-b3-" + id;
         Path archivo = raiz.resolve("ensayo-privado.properties");
-        if (!Files.exists(archivo, LinkOption.NOFOLLOW_LINKS)) {
+        boolean privadoNuevo = !Files.exists(archivo, LinkOption.NOFOLLOW_LINKS);
+        // Se decide antes de escribir nada: un volumen existente solo arranca con la contrasena que lo inicializo, y una
+        // base ya inicializada no se sustituye por otra vacia. El cerrojo de la raiz se mantiene hasta iniciarBase.
+        volumenExiste = volumenDelEnsayo();
+        GuardasB3.reutilizacion(volumenExiste, privadoNuevo,
+                Files.exists(this.raiz.resolve(MARCA_BASE), LinkOption.NOFOLLOW_LINKS));
+        if (privadoNuevo) {
             Properties p = new Properties();
             p.setProperty("ensayo", id.toString());
             p.setProperty("db-password", UUID.randomUUID().toString() + UUID.randomUUID());
@@ -109,30 +122,49 @@ public final class ArnesGoogleB3 {
         } finally { if (arnes != null) arnes.detener(); }
     }
 
-    private void iniciarBase() {
-        String volumen = "decokasa-b3-" + id;
-        String propietario = UUID.nameUUIDFromBytes(raiz.toString().getBytes(StandardCharsets.UTF_8)).toString();
+    /** true si el volumen del ensayo existe con las etiquetas de este ensayo y esta raiz; false si no existe. */
+    private boolean volumenDelEnsayo() {
+        try {
+            var existente = DockerClientFactory.instance().client().inspectVolumeCmd(volumen).exec();
+            GuardasB3.exigir(existente.getLabels() != null
+                    && id.toString().equals(existente.getLabels().get("decokasa.b3"))
+                    && propietario().equals(existente.getLabels().get("decokasa.b3.root")));
+            return true;
+        } catch (NotFoundException ausente) {
+            return false;
+        }
+    }
+    private String propietario() {
+        return UUID.nameUUIDFromBytes(raiz.toString().getBytes(StandardCharsets.UTF_8)).toString();
+    }
+
+    private void iniciarBase() throws IOException {
         var docker = DockerClientFactory.instance().client();
         GuardasB3.exigir(docker.listContainersCmd().withShowAll(false).exec().stream()
                 .noneMatch(c -> c.getLabels() != null && id.toString().equals(c.getLabels().get("decokasa.b3"))));
-        try {
-            var existente = docker.inspectVolumeCmd(volumen).exec();
-            GuardasB3.exigir(existente.getLabels() != null
-                    && id.toString().equals(existente.getLabels().get("decokasa.b3"))
-                    && propietario.equals(existente.getLabels().get("decokasa.b3.root")));
-        } catch (NotFoundException ausente) {
+        if (!volumenExiste) {
             docker.createVolumeCmd().withName(volumen)
-                    .withLabels(Map.of("decokasa.b3", id.toString(), "decokasa.b3.root", propietario)).exec();
+                    .withLabels(Map.of("decokasa.b3", id.toString(), "decokasa.b3.root", propietario())).exec();
         }
+        String base = "b3_" + id.toString().replace("-", "");
         postgres = new PostgreSQLContainer("postgres:17")
-                .withDatabaseName("b3_" + id.toString().replace("-", ""))
+                .withDatabaseName(base)
                 .withUsername("b3_admin").withPassword(privado.getProperty("db-password"))
                 .withReuse(false).withLabel("decokasa.b3", id.toString())
+                // Sin el "fsync=off" que Testcontainers pone por defecto: el volumen es duradero y debe sobrevivir a una caida.
+                .withCommand("postgres")
+                // La espera por defecto cuenta dos "ready to accept connections" (servidor temporal de initdb y definitivo).
+                // Con un volumen ya inicializado no hay initdb, sale uno solo y el arranque agotaba el tiempo. pg_isready por
+                // TCP solo responde al servidor definitivo (el temporal no escucha en TCP) y ya terminada la recuperacion.
+                .waitingFor(Wait.forSuccessfulCommand("pg_isready -q -h 127.0.0.1 -p 5432 -U b3_admin -d " + base)
+                        .withStartupTimeout(Duration.ofSeconds(120)))
                 .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig()
                         .withBinds(new Bind(volumen, new Volume("/var/lib/postgresql/data")))
                         .withPortBindings(new PortBinding(Ports.Binding.bindIpAndPort("127.0.0.1", 0), new ExposedPort(5432))));
         postgres.start();
         GuardasB3.exigir(Set.of("127.0.0.1", "localhost").contains(postgres.getHost()));
+        Path marca = raiz.resolve(MARCA_BASE);
+        if (!Files.exists(marca, LinkOption.NOFOLLOW_LINKS)) crearPrivado(marca);
     }
 
     private void abrir(boolean oauth, boolean drive, boolean gmail) throws IOException {

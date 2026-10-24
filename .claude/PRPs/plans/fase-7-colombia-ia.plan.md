@@ -858,3 +858,19 @@ Pantallas por país. Skills: `agregar-flujo-decokasa`, `shadcn` y `tanstack-quer
 28. **Correos y copias del admin:** solo del país activo. Con un `pais` no asignado en la URL, 403.
 29. **Accesibilidad y diseño:** el selector es alcanzable con teclado, tiene etiqueta visible y anillo de foco, y mide al menos 40 px. El diálogo de confirmación es accesible.
 30. **Regresión de Ecuador** con un usuario de un solo país: mismas pantallas que antes, salvo el texto "País: Ecuador".
+
+## F7-COMP-01: compilación de `PreguntarCasoDeUso` (parte A, 2026-10-24) — sin compilar ni revalidar
+
+Codex lo reprodujo en la verificación de ADR-0025 (`documentos/pruebas/fase-3-informe.md`): nueve errores, iguales en HEAD y con el cambio de Drive.
+- **Causa:** `PreguntarCasoDeUso` implementa `Preguntar`, cuyo record anidado `Preguntar.Resultado` oculta el import de `RegistroConsultasIA.Resultado` (enum).
+- **Corrección:** sin ese import, con los dos tipos calificados explícitamente. No cambian las reglas, los límites ni los controles del asistente, y la IA sigue desactivada.
+- **Casos de revalidación:** compilación completa sin excluir `asistente`, ArchUnit, arranque y pruebas del asistente. Detalle en el plan de la fase 3, "Corrección de los bloqueos de la verificación ADR-0025".
+
+## Bloqueos del `check` global (2026-10-24, Claude con autorización de Richard)
+
+Detalle, comandos y evidencias en `documentos/pruebas/fase-3-informe.md`, "Bloqueos del `check` global y destinatario de prueba".
+- **Fixtures:** los anteriores a la fase 7 asignan EC de forma explícita. Hay pruebas nuevas de que un usuario sin países no crea (403) ni ve o actúa (404), y de que retirarle el país corta el acceso con el mismo JWT.
+- **`V22__colombia_activa.sql`:** activa CO sin asignarla a nadie. V19, ya publicada, no se edita; la versión final de Flyway pasa a 22.
+- **`CorreoB2IT`:** adaptada al filtro por país.
+- **Destinatario de prueba de Gmail:** `NOTIFICACIONES_DESTINATARIO_PRUEBA`, vacío por defecto. Solo admite el buzón autorizado.
+- **Resultado:** 942/942 pruebas. El `check` falla solo por la cobertura (77,33 % frente al 80 %), por `asistente`: 200/1355 líneas, sin pruebas de 7.4/7.5. **Pendiente: las pruebas del asistente (parte B).** No se baja el umbral ni se excluye el módulo.

@@ -124,10 +124,22 @@ class CorreoB2IT {
    when(usuarios.estado(d.usuario)).thenReturn(Optional.of(new com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables.EstadoVigente(d.usuario,false,Set.of(rol))));
    assertThatThrownBy(()->consulta.consultar(solicitante,null,0,20)).isInstanceOf(com.decokasa.seguimiento.compartido.domain.SinPermiso.class);
    verifyNoInteractions(registro);
-   when(usuarios.estado(d.usuario)).thenReturn(Optional.of(new com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables.EstadoVigente(d.usuario,true,Set.of(rol))));
-   when(registro.listar(null,0,20)).thenReturn(List.of());when(registro.contar(null)).thenReturn(0L);
+   // Fase 7 (ADR-0024): el admin vigente solo consulta los correos de los países asignados hoy, con el mismo filtro
+   // en la lista y en el total.
+   var ec=com.decokasa.seguimiento.compartido.domain.CodigoPais.EC;
+   var co=com.decokasa.seguimiento.compartido.domain.CodigoPais.CO;
+   when(usuarios.estado(d.usuario)).thenReturn(Optional.of(new com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables.EstadoVigente(d.usuario,true,Set.of(rol),Set.of(ec))));
+   assertThatThrownBy(()->consulta.consultar(solicitante,co,null,0,20)).isInstanceOf(com.decokasa.seguimiento.compartido.domain.SinPermiso.class);
+   verifyNoInteractions(registro);
+   when(registro.listar(Set.of(ec),null,0,20)).thenReturn(List.of());when(registro.contar(Set.of(ec),null)).thenReturn(0L);
    assertThatCode(()->consulta.consultar(solicitante,null,0,20)).doesNotThrowAnyException();
-   verify(registro).listar(null,0,20);verify(registro).contar(null);
+   verify(registro).listar(Set.of(ec),null,0,20);verify(registro).contar(Set.of(ec),null);
+   // Sin países asignados no hay filtro implícito: se consulta con el conjunto vacío, nunca con todos los países.
+   clearInvocations(registro);
+   when(usuarios.estado(d.usuario)).thenReturn(Optional.of(new com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables.EstadoVigente(d.usuario,true,Set.of(rol),Set.of())));
+   assertThatCode(()->consulta.consultar(solicitante,null,0,20)).doesNotThrowAnyException();
+   verify(registro).listar(Set.of(),null,0,20);verify(registro).contar(Set.of(),null);
+   verify(registro,never()).listar(null,0,20);
  }
 
  @Test void cuatroTransicionesConservanEventoDestinoYSnapshotSinDuplicar() {

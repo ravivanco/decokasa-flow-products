@@ -54,7 +54,7 @@ class Fase4IT {
     UUID persona(String rol){
         UUID id=UUID.randomUUID();String s=id.toString().replace("-","");
         sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values(?,'Ficticio F4',?,?,?,'hash-ficticio',?, ?,0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14),Timestamp.from(AHORA),Timestamp.from(AHORA));
-        rol(id,rol);return id;
+        rol(id,rol);sql.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);return id;
     }
     void rol(UUID id,String rol){sql.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo=?",id,rol);}
     String http(MockHttpServletRequestBuilder r,UUID actor,String cuerpo,int codigo)throws Exception{

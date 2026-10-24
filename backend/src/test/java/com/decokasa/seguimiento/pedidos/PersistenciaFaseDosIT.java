@@ -68,6 +68,7 @@ class PersistenciaFaseDosIT {
                 +"values (?,'Persona ficticia',?,?,?,'hash-ficticio',?, ?,0)",id,sufijo+"@ejemplo.test",sufijo,
                 "+"+Long.toUnsignedString(id.getLeastSignificantBits()).substring(0,14),java.sql.Timestamp.from(AHORA),java.sql.Timestamp.from(AHORA));
         jdbc.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,? from rol where codigo=?",id,java.sql.Timestamp.from(AHORA),rol);
+        jdbc.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);
         return id;
     }
     private <T> T tx(Supplier<T> trabajo) { return new TransactionTemplate(gestor).execute(estado -> trabajo.get()); }

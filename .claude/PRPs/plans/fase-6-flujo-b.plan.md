@@ -549,3 +549,30 @@ Solo documentación, según `documentos/pruebas/fase-6-informe.md` (6.B3). No se
 - **F6-B3-H02:** se creó `documentos/agregar-flujo.md`, una guía breve (qué es cada cambio, quién decide y reparto A/B) enlazada a la skill, que centraliza los pasos operativos. Ninguna de las dos prevalece sobre requisitos, contrato ni ADR aceptados (corregido tras la revisión de Codex).
 - **P6-B3-ADR:** se registró [ADR-0019](../../../documentos/adr/0019-habilitacion-por-definicion.md) en estado **proposed**: habilitación por definición (F6-D3), guard de automáticas, creación por el rol de la primera etapa (F6-D2), límites y conservación de A/B. Se le asignó el siguiente número libre al registrarlo; su aceptación la decide Richard. P-14 sigue ⏸.
 - **Límite conocido, sin implementar:** una versión nueva que cambie el número, el orden o el nombre de las etapas requiere antes resolver la línea compacta de las listas por versión del pedido (decisión propia).
+
+## Delimitación del límite de versiones en listas y tableros (parte A, 2026-10-24) — no corregido
+
+Solo análisis del código de `fase-6-flujo-b`, sin cambios de código ni ejecución. **El límite sigue abierto**: documentarlo no lo corrige.
+
+**Cuándo aparece.** Solo si se publica una versión nueva de un flujo que cambia el número, el orden o el nombre de sus etapas mientras hay pedidos en curso en la anterior. Hoy cada país y tipo tiene una sola versión (EC/A v1 y EC/B v1), así que no hay un fallo visible. Una versión que solo cambie documentos, plazos o permisos tampoco lo provoca.
+
+**Qué falla entonces:**
+
+| Dónde | Qué hace hoy | Efecto con v1 y v2 a la vez |
+|---|---|---|
+| `TablaPedidos` → `LineaCompacta` en `ListaPedidos`, `BandejaPedidos`, `TableroTrabajo` y `ProductosPropuestos` | `recorrido[tipoFlujo]` sale de `useDefinicionesVigentes()`, la versión **vigente** del tipo | Un pedido de v1 se dibuja con las etapas de v2: número de pasos, nombres y posición de la etapa actual incorrectos |
+| Filtro por etapa (`?tipoFlujo=B&etapa=N`) y grupos (flujo, etapa) del tablero | Filtran y agrupan por **número** de etapa, sin versión | Mezcla en un mismo grupo o filtro etapas distintas de v1 y v2 que comparten número |
+| "Productos propuestos" | Toma la etapa revisora de la definición vigente de B | En pedidos de v1 puede filtrar una etapa que no es la revisora de su versión |
+| Contrato `PedidoResumen` (0.15.0-borrador) | No trae `versionFlujo` | La pantalla no puede saber con qué versión dibujar cada fila |
+
+**Lo que no está afectado:** las reglas del backend (acciones, permisos, archivos y plazos se resuelven por `pedido.flujo_id`); `nombreEtapaActual`, que el servidor calcula con la versión del pedido; el detalle, que pide `versionFlujo`; y la creación y el botón "Crear", que usan la vigente, como corresponde.
+
+**Garantía actual:** solo de procedimiento (skill `agregar-flujo-decokasa` §1-bis.5: resolverlo antes de publicar). No hay una guarda técnica que impida publicar esa versión.
+
+**Corrección propuesta (pendiente de decisión de Richard; no implementada):**
+1. Contrato: añadir `versionFlujo` a `PedidoResumen` (campo nuevo, versión menor del contrato). El backend ya lo conoce por `pedido.flujo_id`.
+2. Frontend: cargar con `useQueries` la definición de cada (país, tipo, versión) presente en la página, con caché larga porque una versión publicada no cambia, y dibujar cada fila con la suya.
+3. Filtros por etapa: decidir si se aplican a la versión vigente o llevan versión. Es una regla de pantalla que hoy no está definida.
+4. Casos para Codex: pedidos de v1 en varias etapas junto a pedidos de v2 con otra numeración, en las cuatro pantallas; detalle sin cambios; ninguna petición N+1 (una consulta por versión, no por fila).
+
+Conviene hacerlo **después de integrar la fase 7**: `api/pedidos.ts` y las listas cambiaron allí (claves por país).

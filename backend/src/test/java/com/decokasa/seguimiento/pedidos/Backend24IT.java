@@ -55,6 +55,35 @@ class Backend24IT {
         jdbc.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) "
                 +"values (?,'Persona ficticia',?,?,?,'hash-ficticio',now(),now(),0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14));
         jdbc.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo=?",id,rol);
+        // ADR-0024: el acceso exige país asignado; los fixtures de Ecuador lo asignan de forma explícita.
+        jdbc.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);
+        return id;
+    }
+    /** ADR-0024: con rol admin vigente pero sin países, no crea (403) ni ve, lee o actúa sobre un pedido de EC (404). */
+    @Test void usuarioSinPaisesNoCreaNiVeNiActua() throws Exception {
+        UUID p=crear();
+        UUID sinPais=personaSinPais("admin");
+        json(post("/api/v1/pedidos"),sinPais,"{\"tipoFlujo\":\"A\",\"pais\":\"EC\",\"nombre\":\"Sin país\"}",403);
+        json(post("/api/v1/pedidos"),sinPais,"{\"tipoFlujo\":\"A\",\"nombre\":\"Sin país por defecto\"}",403);
+        respuesta(get(base(p)).with(token(sinPais)),404);
+        respuesta(get(base(p)+"/historial").with(token(sinPais)),404);
+        json(post(base(p)+"/observaciones"),sinPais,
+                "{\"texto\":\"Sin país\",\"etapaEsperada\":1,\"entradaEsperadaId\":\""+entrada(p,1)+"\"}",404);
+        assertThat(jdbc.queryForObject("select count(*) from pedido where creado_por=?",Long.class,sinPais)).isZero();
+        assertThat(jdbc.queryForObject("select count(*) from evento_pedido where usuario_id=?",Long.class,sinPais)).isZero();
+    }
+    /** ADR-0024: retirar el país surte efecto en la siguiente petición, aunque el JWT siga diciendo admin. */
+    @Test void retirarElPaisCortaElAccesoSinRenovarElToken() throws Exception {
+        UUID p=crear();
+        respuesta(get(base(p)).with(token(admin)),200);
+        jdbc.update("delete from usuario_pais where usuario_id=?",admin);
+        respuesta(get(base(p)).with(token(admin)),404);
+        json(post("/api/v1/pedidos"),admin,"{\"tipoFlujo\":\"A\",\"pais\":\"EC\",\"nombre\":\"Tras retirar\"}",403);
+    }
+    /** Misma cuenta activa y con rol, pero sin ningún país asignado (ADR-0024). */
+    UUID personaSinPais(String rol) {
+        UUID id=persona(rol);
+        jdbc.update("delete from usuario_pais where usuario_id=?",id);
         return id;
     }
     RequestPostProcessor token(UUID id) {

@@ -478,6 +478,7 @@ El flujo B agrega dos etapas antes de Codificación (crear en China y revisar el
 - Los datos personales reales (usuarios, correos, teléfonos) y las contraseñas o claves nunca se guardan en el repositorio. Las migraciones solo cargan países y roles; los usuarios reales se cargan fuera de git, y las pruebas usan usuarios ficticios (ADR-0015).
 - Los permisos se revisan en el servidor por rol y por etapa, nunca solo en la pantalla.
 - La carpeta de Drive se organiza por país y pedido. Quién tiene acceso directo a Drive: **TBD**.
+  - **Decisión de Richard (equipo, 2026-10-24; no es respuesta del cliente; ADR-0025):** `Mi unidad/DECOKASA/{EC|CO}/{número de pedido}/{rol}/{persona}/`. El rol es el rol con el que la persona intervino al subir el documento (regla P-06) y la persona se identifica por su ID interno. Las carpetas se crean solas con la primera copia que las necesita; no se comparten ni se publican. Los documentos ya copiados con la organización anterior (`Mi unidad/{país}/{número}`) no se mueven.
 - API de Claude: se definirá más adelante; no se enviarán documentos sin aprobación del cliente.
   - **Actualización 2026-10-22 (definiciones comunicadas por Richard, §5, "Definiciones de la fase 7"):** proveedor Claude API; chat de solo lectura; la clave y el modelo se configuran solo en el backend; acceso limitado por los permisos vigentes del usuario (país, pedido y documento); límites de consumo; desarrollo inicial solo con documentos ficticios. Enviar documentos reales sigue exigiendo una aprobación expresa, que todavía no existe.
 

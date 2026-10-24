@@ -30,14 +30,14 @@ class MigracionesFase7IT {
     }
     @Test void vaciaAplicaTodasValidaYConservaIaDesactivada(){
         var d=new DatosB1(PG,null);var f=fly(d,null);
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactlyElementsOf(java.util.stream.IntStream.rangeClosed(1,21).mapToObj(Integer::toString).toList());
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactlyElementsOf(java.util.stream.IntStream.rangeClosed(1,22).mapToObj(Integer::toString).toList());
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();equivalentes(d);
         assertThat(d.sql.queryForObject("select habilitada from configuracion_ia where id=1",Boolean.class)).isFalse();
         assertThat(d.sql.queryForObject("select count(*) from usuario_pais",Integer.class)).isZero();
         assertThat(d.sql.queryForObject("select count(*) from pedido",Integer.class)).isZero();
         assertThat(d.sql.queryForObject("select ciudad from bodega where pais_codigo='CO'",String.class)).isNull();
     }
-    @ParameterizedTest @ValueSource(strings={"18","19","20"})
+    @ParameterizedTest @ValueSource(strings={"18","19","20","21"})
     void datosPreviosSeConservanHasta21(String version){
         var d=new DatosB1(PG,version);d.poblar(4,"0".repeat(64),"ficticio-f7");
         d.sql.update("insert into usuario_pais(usuario_id,pais_codigo) values(?,'EC')",d.usuario);
@@ -45,7 +45,7 @@ class MigracionesFase7IT {
         var antes=new LinkedHashMap<String,List<Map<String,Object>>>();for(var t:tablas)antes.put(t,d.sql.queryForList("select * from "+t));
         var ec=d.sql.queryForList("select e.* from definicion_etapa e join definicion_flujo f on f.id=e.flujo_id where f.pais_codigo='EC' order by e.id");
         var bodega=d.sql.queryForMap("select * from bodega where id='01a13cdb-cc00-7000-8000-000000000401'");
-        assertThat(fly(d,null).migrate().migrationsExecuted).isEqualTo(21-Integer.parseInt(version));
+        assertThat(fly(d,null).migrate().migrationsExecuted).isEqualTo(22-Integer.parseInt(version));
         for(var t:tablas)assertThat(d.sql.queryForList("select * from "+t)).as(t).isEqualTo(antes.get(t));
         assertThat(d.sql.queryForList("select e.* from definicion_etapa e join definicion_flujo f on f.id=e.flujo_id where f.pais_codigo='EC' order by e.id")).isEqualTo(ec);
         var despues=d.sql.queryForMap("select * from bodega where id='01a13cdb-cc00-7000-8000-000000000401'");bodega.forEach((k,v)->assertThat(despues.get(k)).as(k).isEqualTo(v));

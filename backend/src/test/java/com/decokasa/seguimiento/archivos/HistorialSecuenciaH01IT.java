@@ -48,6 +48,7 @@ class HistorialSecuenciaH01IT {
             var sql=new JdbcTemplate(f.getConfiguration().getDataSource());
             sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values(?,'Actor ficticio H01','h01@ejemplo.test','h01','+593990007001','hash-ficticio',?,?,0)",ACTOR,Timestamp.from(HORA),Timestamp.from(HORA));
             sql.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,? from rol where codigo='admin'",ACTOR,Timestamp.from(HORA));
+            sql.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",ACTOR);
             for(int n=1;n<=3;n++){
                 UUID p=pedido(n),entrada=UUID.randomUUID();
                 sql.update("insert into pedido(id,numero,pais_codigo,tipo_flujo,flujo_id,nombre,creado_por,creado_en,etapa_actual,actualizado_en,version) values(?,?,'EC','A','01a13cdb-cc00-7000-8000-000000000001','Fixture legado H01',?,?,9,?,0)",p,"DK-EC-2026-"+(8000+n),ACTOR,Timestamp.from(HORA),Timestamp.from(HORA));

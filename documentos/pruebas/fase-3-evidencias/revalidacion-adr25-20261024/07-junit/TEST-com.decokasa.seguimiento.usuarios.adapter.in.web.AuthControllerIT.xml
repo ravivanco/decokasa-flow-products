@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-24T16:13:58.764Z" hostname="DESKTOP-GKF6IVL" time="0.64">
+  <properties/>
+  <testcase name="unIdentificadorVacioEsUnErrorDeValidacion()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.021"/>
+  <testcase name="desactivadosSinRolesEInexistentesRecibenLaMismaRespuestaQueUnaContrasenaIncorrecta()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.101"/>
+  <testcase name="unaContrasenaIncorrectaResponde401YSumaUnIntento()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.028"/>
+  <testcase name="yoDevuelveElUsuarioConTodosSusRolesYSusPermisos()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.085"/>
+  <testcase name="[1] identificador = &quot;ANA@Ejemplo.test&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.045"/>
+  <testcase name="[2] identificador = &quot;AnaPrueba&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.052"/>
+  <testcase name="[3] identificador = &quot;+593 99 000 0001&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.038"/>
+  <testcase name="unaContrasenaDeMasDeSetentaYDosBytesNoEntraNiSeRecorta()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.045"/>
+  <testcase name="unTokenManipuladoNoAutentica()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.031"/>
+  <testcase name="trasCincoFallosLaCuentaSeBloqueaQuinceMinutos()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.14"/>
+  <testcase name="elTokenDeAccesoLlevaElIdYTodosLosRolesYDuraQuinceMinutos()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT" time="0.033"/>
+  <system-out><![CDATA[2026-10-24T11:13:58.766-05:00  INFO 30168 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT]: AuthControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-24T11:13:58.771-05:00  INFO 30168 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT
+2026-10-24T11:13:58.771-05:00  INFO 30168 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT]: AuthControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-24T11:13:58.775-05:00  INFO 30168 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

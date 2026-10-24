@@ -541,3 +541,164 @@ Los fallos iniciales de expectativas obsoletas y selector del arnés permanecen 
 Continuación del arnés 3.B3 existente preparada **sin ejecutarla**: comparación de rama cambiada únicamente a fase-5-seguimiento por aprobación expresa de Richard; rechaza una rama ajena. Ocho guardas aprobadas y classpath actualizado, con evidencias anteriores conservadas. Solo se autoriza UN archivo ficticio de **104857600 bytes** y UN correo del buzón aprobado a sí mismo; no el outbox ni todos los adjuntos del recorrido. El inicio, autorización, copia y correo conservan sus confirmaciones personales. El consentimiento solo corresponde después de elegir autorizar y confirmar su guarda en consola. Recepción requiere confirmación de Richard, no basta aceptación de Gmail.
 
 3.B3 real continúa sin ejecutar ni aprobar; fases 3, 4 y 5 abiertas. OAuth, workers, schedulers y detección automática permanecen desactivados fuera de la activación aislada que todavía no se ha iniciado. Sigue explícita la limitación de espacio físico temporal: las cuotas lógicas no garantizan capacidad de disco. Se mantiene la distinción entre recomendaciones, decisiones provisionales del equipo y requisitos aceptados por el cliente.
+
+## Verificación de carpetas Drive — ADR-0025, 2026-10-24
+
+**Resultado: NO APROBADO para prueba real.** La compilación completa sigue bloqueada por **9 errores previos de fase 7**. La matriz diagnóstica, excluyendo expresamente el módulo `asistente`, ejecutó **87 casos: 86 aprobados, 1 fallido, 0 errores y 0 omitidos**. El fallo restante pertenece al nuevo lector de autores. No se corrigió producción en este encargo de verificación y no se presenta la ejecución parcial como aprobación de la aplicación completa.
+
+Se leyeron el resumen de implementación y los once casos del apartado «Carpetas de Drive por país, pedido, rol y persona» del plan de fase 3, el ADR-0025 y los cuatro archivos de implementación (dos modificados y dos nuevos). Alcance: `Mi unidad/DECOKASA/{país}/{pedido}/{rol}/{persona}/`, composición, persistencia y compatibilidad. Revisión Java con `ecc-java-reviewer`: Spring Boot 4.1.1, Java 21, Gradle 9.7.1; no cambios ajenos, refactorizaciones ni correcciones de fase 7.
+
+### Aislamiento y conservación
+
+- Rama conservada: `fase-7-colombia-ia`, HEAD `0fb061d261257ed8b4e9c690bd31ad05e97a503a`. No checkout adicional, staging, commit, push ni merge en este encargo. El checkout del arnés preparado anteriormente no se utiliza.
+- **18/18 archivos protegidos conservan SHA-256**, incluidos los cambios pendientes al iniciar, los dos archivos nuevos de producción, `Header.tsx` y el índice Git. [Antes](fase-3-evidencias/adr-0025-20261024/conservacion-antes.json), [comparación final](fase-3-evidencias/adr-0025-20261024/resultados.json). Solo se añaden pruebas/scripts/evidencias bajo el directorio de esta verificación y esta sección del informe; producción y plan pendientes permanecen intactos.
+- PostgreSQL 17 real mediante Testcontainers, sin reuse: contenedores propios de las suites y esquema UUID independiente por caso. `DatosB1` aplica V1–V21 en sus esquemas ficticios. Datos y archivos de pocos bytes creados por los fixtures; ninguna base de desarrollo, del ensayo existente o de producción.
+- `SPRING_CONFIG_IMPORT` y la propiedad de igual nombre vacíos; DB de respaldo apunta a `127.0.0.1:1`, almacenamiento exclusivo. No se lee `.env.local` ni credenciales del ensayo. OAuth, Drive, Gmail, ambos automatismos de correo/copia, vencimientos, IA, borrado IA y semilla se fuerzan a false en las JVM de prueba. No se modifican configuraciones privadas ni variables persistentes del operador.
+- Los objetos del caso de uso/adaptador habilitados dentro de tests trabajan exclusivamente con dobles de puerto o con `HttpClient` sustituido **antes de construir el adaptador**. No se activa la integración real ni un scheduler. Cada operación del doble verifica ausencia de transacción SQL activa. La prueba Spring arranca únicamente con el módulo asistente excluido y adaptadores deshabilitados; no es un arranque del backend normal completo.
+- Pruebas nuevas en el directorio de evidencias, incorporadas mediante `local.init.gradle`; no se modifica `build.gradle` ni la suite original. La exclusión diagnóstica afecta solo a `asistente` en producción y selecciona las clases de test relacionadas. Todos los demás módulos de producción, incluida Colombia, se compilan. Los directorios generados están ignorados localmente, sin borrar evidencias.
+
+### Comandos ejecutados y resultados
+
+Los comandos Gradle siguientes se ejecutaron desde `C:\Users\Richard\Desktop\decoWeb\backend`, salvo el baseline HEAD. No hubo descarga de dependencias (`--offline`), `bootRun`, OAuth ni llamadas Google.
+
+```powershell
+# Compilación y arquitectura completas, sin exclusión de módulos:
+.\gradlew.bat -I ..\documentos\pruebas\fase-3-evidencias\adr-0025-20261024\local.init.gradle compileJava test --tests '*ReglasArquitecturaTest' --offline --console=plain --no-daemon
+
+# Diagnóstico final, con exclusión explícita de asistente:
+.\gradlew.bat -I ..\documentos\pruebas\fase-3-evidencias\adr-0025-20261024\local.init.gradle -PdiagnosticoSinAsistente test --tests '*CarpetasDriveAdr25IT' --tests '*CarpetasDriveProtocoloAdr25Test' --tests '*ReglasArquitecturaTest' --tests '*FronterasFaseDosTest' --tests '*DriveRecuperacionB1IT' --tests '*GoogleDriveProtocoloB1Test' --tests '*AplicacionArrancaIT' --offline --console=plain --no-daemon
+```
+
+Para confirmar el origen de los errores se ejecutó, desde `documentos`, `python pruebas/fase-3-evidencias/adr-0025-20261024/preparar-baseline.py`: extrae `git archive --format=zip HEAD backend` en `baseline-head`, **solo contenido versionado**, sin configuración privada ni cambios Git. Desde `documentos/pruebas/fase-3-evidencias/adr-0025-20261024/baseline-head/backend` se ejecutó `.\gradlew.bat compileJava --offline --console=plain --no-daemon`.
+
+| Ejecución / evidencia | Resultado observado |
+|---|---|
+| [01 · compilación actual](fase-3-evidencias/adr-0025-20261024/01-compilacion-actual.log) | Salida 1, 9 errores en `asistente/application/usecase/PreguntarCasoDeUso.java`; `test` no llega a ejecutarse |
+| [02 · HEAD sin cambios Drive](fase-3-evidencias/adr-0025-20261024/02-compilacion-head.log) | Salida 1, los mismos 9 errores, líneas y símbolos; acredita que preceden al cambio |
+| [03 · primera matriz](fase-3-evidencias/adr-0025-20261024/03-diagnostico.log) | Salida 1, 78 casos / 2 fallos: evento de tipo incorrecto y expectativa demasiado estricta de un único POST concurrente |
+| [04 · intento con `-p`](fase-3-evidencias/adr-0025-20261024/04-verificacion-final.log) | Salida 1 antes de compilar: `-I` relativo se resolvió desde backend y no encontró el script. No acredita ninguna prueba |
+| [05 · matriz ampliada](fase-3-evidencias/adr-0025-20261024/05-verificacion-final.log) | Salida 1, 85 casos / 3 fallos; el adicional R9 era contaminación de arquitectura por clases de prueba en la ruta personalizada |
+| [06 · ruta corregida](fase-3-evidencias/adr-0025-20261024/06-matriz-corregida.log) | Salida 1, 85 casos / 2 fallos; arquitectura vuelve a pasar con la ruta convencional `diagnostico/build/classes/java/test`, sin cambiar sus reglas |
+| [07 · matriz final](fase-3-evidencias/adr-0025-20261024/07-matriz-final.log) | **Salida 1, 87 casos / 1 fallo**, sin omitidos. Se precisó la garantía de un objeto frente a un POST y se añadieron las carreras de reserva SQL y composición sin autor |
+
+Se conservaron los XML intermedios en `primera-ejecucion-junit`, `segunda-ejecucion-junit` y `tercera-ejecucion-junit`. El resumen final procede de XML nuevos, no de evidencias históricas: [medidor](fase-3-evidencias/adr-0025-20261024/medir.py), [resultados](fase-3-evidencias/adr-0025-20261024/resultados.json), [JUnit final conservado](fase-3-evidencias/adr-0025-20261024/final-junit/), [HTML final](fase-3-evidencias/adr-0025-20261024/diagnostico/build/reports/tests/test/index.html). Se ejecutó el medidor desde documentos: `python pruebas/fase-3-evidencias/adr-0025-20261024/medir.py`. El medidor lee la copia `final-junit`, de modo que una reproducción focalizada posterior no sustituye el resultado final registrado.
+
+### Matriz final comprobada
+
+| Suite | Casos / fallos | Alcance ejecutado |
+|---|---|---|
+| `CarpetasDriveAdr25IT` (nueva) | **30 / 1** | Cinco niveles, padres, nombres, claves persistidas y remotas iguales, confirmación y destino del archivo; reutilización sin nuevas reservas de carpetas; personas homónimas; renombre conservando el nombre original; otro rol; P-06 multirrol, admin, admin responsable y etapa asignada a otra persona; pérdida posterior de roles; EC/CO y dos pedidos EC; evento ausente/otro autor/otro pedido/otro tipo; timeout y 409; incertidumbre sin objeto visible y reintento sobre el ID reservado; siete divergencias; compatibilidad y COPIADO inmutable; constructor/composición nuevos; puerto de autor vacío sin fallback; reserva SQL y workers concurrentes |
+| `CarpetasDriveProtocoloAdr25Test` (nueva) | **2 / 0** | JSON real del POST simulado con solo ID, nombre, tipo, padre y `appProperties.carpetaClave`; una petición `/drive/v3/files`, sin `permissions`; éxito y error de transporte sin nombre, clave o token en logs/excepción |
+| `DriveRecuperacionB1IT` (sin modificar) | **23 / 0** | Regresión con constructor anterior: recuperación, leases/fencing, reintentos, sesiones, incertidumbre y contenido local conservado |
+| `GoogleDriveProtocoloB1Test` (sin modificar) | **19 / 0** | Protocolo HTTP doblado, progreso, errores, 409, transporte y límites; cero Google real |
+| `ReglasArquitecturaTest` (sin modificar) | **7 / 0** | Núcleo puro, capas, dominios, entidades y ausencia de ciclos **en el conjunto sin asistente** |
+| `FronterasFaseDosTest` (sin modificar) | **2 / 0** | Fronteras entre módulos **en el conjunto sin asistente** |
+| `AplicacionArrancaIT` (sin modificar) | **4 / 0** | Salud, actuator y protección de documentación con PostgreSQL propio y bean nuevo; **asistente excluido** |
+
+Fuentes nuevas: [persistencia y casos de uso](fase-3-evidencias/adr-0025-20261024/java/com/decokasa/seguimiento/archivos/CarpetasDriveAdr25IT.java), [protocolo y logs](fase-3-evidencias/adr-0025-20261024/java/com/decokasa/seguimiento/archivos/CarpetasDriveProtocoloAdr25Test.java). No se calcula cobertura nueva ni se atribuye a esta matriz el resultado histórico del `check` global.
+
+### Defecto nuevo reproducible: F3-ADR25-01 — falta comprobar el tipo del evento
+
+**Ubicación:** `backend/src/main/java/com/decokasa/seguimiento/archivos/adapter/out/persistence/AutoresDeCopiasSql.java:26–30`. La consulta verifica relación `SUBIDO`, pedido, autor y rol no nulo, pero **no exige `e.tipo = 'ARCHIVO_SUBIDO'`**. La base permite enlazar como `SUBIDO` otro tipo de evento; el fixture no desactiva triggers ni constraints para reproducirlo.
+
+**Reproducción:** crear un adjunto PENDIENTE con su usuario y pedido, insertar un evento `ETAPA_ENVIADA` del mismo autor/pedido con rol admin y relacionarlo en `evento_adjunto` como `SUBIDO`; ejecutar el caso de uso con los puertos SQL reales y Drive doble. El caso parametrizado `eventoIncoherenteFallaSinCrearCarpetas`, variante `otro-tipo`, reproduce siempre: **esperado FALLIDO/CONFIGURACION; observado COPIADO**. Los casos ausente, otro autor y otro pedido sí se bloquean. No se afirma que el flujo normal de subida produzca ese dato: se acredita que la guarda prometida no rechaza esa incoherencia persistida.
+
+Desde `documentos`, reproducción focalizada sin cambiar producción:
+
+```powershell
+.\pruebas\fase-3-evidencias\adr-0025-20261024\ejecutar.ps1 -Modo Defecto
+```
+
+El script ejecuta `test --tests '*CarpetasDriveAdr25IT.eventoIncoherenteFallaSinCrearCarpetas'` con el mismo init, exclusión diagnóstica y flags offline. Su resultado esperado mientras no se corrija es no cero (una de las cuatro variantes falla). **Pendiente de corregir y revalidar; no se modificó el SQL productivo.**
+
+### Concurrencia: garantía comprobada y precisión del plan
+
+Dos workers sobre adjuntos distintos del mismo pedido/persona/rol reclaman filas distintas y terminan COPIADO en la misma carpeta. PostgreSQL deja **una fila por clave**; una reserva concurrente perdedora devuelve el ID ganador. El doble fuerza con barreras que ambos observen ausente la misma raíz: hay **dos peticiones de creación con el mismo ID**, un solo objeto creado y un conflicto 409 conciliado consultando ese ID. No hay carpeta duplicada, ID alternativo ni segunda jerarquía.
+
+La primera aserción exigía un único POST: es más fuerte que la garantía idempotente del ADR, que contempla 409. La prueba final distingue intentos y objetos y conserva evidencia de ambos. El código **no proporciona exclusión mutua de peticiones de creación entre adjuntos**; si «una sola creación remota» del plan pretende literalmente un solo POST, ese requisito adicional queda **sin cumplir**, no aprobado por esta prueba. El mecanismo de reserva/conciliación es heredado del paso 3.4; no se atribuye la doble petición a la organización nueva.
+
+### Configuración, permisos y logs
+
+`CopiaDriveConfig.java:91` construye con `AutoresDeCopias` y `ResumirUsuarios`, y envuelve la lectura del autor en transacción corta. Se invocó ese mismo método de composición con SQL real/Drive doble: flags falsos no reclaman ni hacen peticiones; al simular la ejecución crea cinco niveles, sin claves `pais:` anteriores; si falta autor falla CONFIGURACION **sin recurrir al constructor anterior ni crear carpetas**. El constructor nuevo rechaza ambos puertos nulos. El constructor antiguo sigue siendo público para compatibilidad: no se afirma que sea imposible que código futuro lo invoque; las pruebas detectan una regresión de la composición actual. Solo una copia ya empezada con carpeta anterior confirmada usa legítimamente ese destino; una nueva copia del mismo pedido usa la jerarquía nueva.
+
+Revisión de `GoogleDriveAlmacen`: no hay operación de compartición, creación de permisos, movimiento o borrado en este cambio. El POST de carpeta no incluye permisos y el doble HTTP verifica su lista exacta de campos. Se conservan scope `drive.file`, propiedad de Mi unidad, rechazo de unidad compartida/papelera y `webViewLink` devuelto, sin fabricar enlaces públicos. Se ejecutaron rechazos de carpeta ausente, renombrada, movida, en papelera, sin propiedad, en unidad compartida o con clave divergente. **No se verificaron permisos efectivos de la cuenta real ni visibilidad en Google.**
+
+No hay logging nuevo en los cuatro archivos del cambio. `TareaCopiaArchivos` conserva el aviso genérico sin adjuntar la excepción. Captura de salida y excepción en éxito/transporte simulado: sin nombres ficticios, clave de persona ni token de prueba. Esto acredita las rutas ejecutadas y revisión de código; no un examen de logs productivos o de toda configuración de logging posible.
+
+### Bloqueo previo F7-COMP-01 y verificaciones no acreditadas
+
+`PreguntarCasoDeUso.java` no compila tanto en HEAD como con el cambio Drive: líneas 153 (dos errores), 162, 226, 406, 412, 413 y 414 (dos errores). Faltan `ERROR_INCIERTO`, `ERROR_SIN_COBRO`, `LIMITE`, `RECHAZADA`, `INCOMPLETA`, `RESPONDIDA` y `SIN_EVIDENCIA` en el `Resultado` resuelto; además, se intenta pasar `Preguntar.Resultado` a `RegistroConsultasIA.Resultado`. **Nueve errores iguales antes y después**, independientes de Drive. Las tres advertencias de recursos try no utilizados no son los errores que bloquean.
+
+Quedan bloqueados/no acreditados: compilación total, ArchUnit con todos los módulos, arranque de la aplicación normal completa, `check` global y cobertura global. El arranque y las reglas diagnósticas aprobados no sustituyen esas verificaciones. No se corrigió ni excluyó silenciosamente fase 7: el opt-in `-PdiagnosticoSinAsistente` y el directorio de salida separado lo hacen explícito.
+
+**Prueba real desde la aplicación normal: pendiente, sin ejecutar ni iniciar preparación operativa.** Antes deben resolverse F3-ADR25-01 y F7-COMP-01 y aprobar la revalidación completa. Se conserva la autorización ya dada por Richard para una subida ficticia y un correo al buzón aprobado; no se solicita de nuevo ni se ejecuta por anticipado. El consentimiento Google será personal, la continuación será un paso por vez y no utilizará el arnés. No se activaron OAuth, Drive, Gmail, workers ni schedulers reales. La fase 3 y 3.B3 real siguen sin aprobar.
+
+## Revalidación de F3-ADR25-01 y F7-COMP-01 — Claude, 2026-10-24
+
+Ejecutada por Claude con **autorización expresa de Richard** para correr pruebas y builds en esta revalidación. Rama `fase-7-colombia-ia`, HEAD `0fb061d`. Google, IA y automatismos forzados a `false`; base de respaldo bloqueada (`127.0.0.1:1`); PostgreSQL 17 de Testcontainers propio; **ninguna llamada real**. Correcciones revalidadas: `AutoresDeCopiasSql` (exige `ARCHIVO_SUBIDO`), validación del autor al inicio de `copiar()` antes de cualquier operación Drive, y tipos `Resultado` calificados en `PreguntarCasoDeUso` (detalle en el plan de fase 3, «Corrección de los bloqueos de la verificación ADR-0025»).
+
+**Resultado: F3-ADR25-01 y F7-COMP-01 APROBADOS en su alcance. El `check` global NO aprueba** por 192 fallos ajenos a estas correcciones (ver abajo). No se cierra ninguna fase ni se inicia la prueba real.
+
+### Aislamiento y conservación
+
+Init propio [revalidacion.init.gradle](fase-3-evidencias/revalidacion-adr25-20261024/revalidacion.init.gradle): **sin exclusiones** (asistente compilado e incluido), build en el directorio de la revalidación, reutiliza **sin modificarlas** las pruebas de la verificación de Codex (`adr-0025-20261024/java`) y añade dos pruebas nuevas propias. No cambia `build.gradle` ni `src/test`. [Antes](fase-3-evidencias/revalidacion-adr25-20261024/conservacion-antes.json) y [después](fase-3-evidencias/revalidacion-adr25-20261024/conservacion-despues.json): **448 archivos de producción sin cambios** durante la revalidación, `Header.tsx` con el mismo SHA-256, índice Git vacío y `git status` idéntico.
+
+### Comandos y resultados
+
+Desde `backend`, con `$d` = ruta absoluta de `documentos/pruebas/fase-3-evidencias/revalidacion-adr25-20261024`:
+
+| # | Comando | Resultado | Evidencia |
+|---|---|---|---|
+| 01 | `.\gradlew.bat -I "$d\revalidacion.init.gradle" compileJava compileTestJava --offline --console=plain --no-daemon` | **Salida 0.** Compilación completa con `asistente`, sin errores; solo avisos `[try]` previos | [log](fase-3-evidencias/revalidacion-adr25-20261024/01-compilacion.log) |
+| 02 | `... test --tests '*CarpetasDriveAdr25IT' --tests '*CarpetasDriveProtocoloAdr25Test' --tests '*ReglasArquitecturaTest' --tests '*FronterasFaseDosTest' --tests '*DriveRecuperacionB1IT' --tests '*GoogleDriveProtocoloB1Test' --tests '*AplicacionArrancaIT' ...` | **Salida 0, 87/87**: ADR-0025 30/30 (incluida la variante `otro-tipo`, antes fallida), protocolo 2/2, `DriveRecuperacionB1IT` 23/23, `GoogleDriveProtocoloB1Test` 19/19, ArchUnit 7/7 y fronteras 2/2 **con asistente incluido**, arranque 4/4 con la aplicación completa | [log](fase-3-evidencias/revalidacion-adr25-20261024/02-matriz-dirigida.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/02-junit/), [resumen](fase-3-evidencias/revalidacion-adr25-20261024/02-resumen.json) |
+| 03 | `... test --tests '*EventoIncoherenteSinDriveRevalidacionIT' --tests '*CarpetasDriveAdr25IT.eventoIncoherenteFallaSinCrearCarpetas' ...` | **Salida 0, 12/12**: las 4 variantes de Codex y **8 nuevas** (ausente, otro usuario, otro pedido y otro tipo, cada una sin y con `drive_id_reservado`): FALLIDO/`CONFIGURACION`, **cero llamadas a Drive** (doble que falla ante cualquier operación, incluidas `reservarId` y `metadatos`), sin `drive_id`, enlace, carpeta, sesión ni lease, y sin filas nuevas en `carpeta_drive` | [log](fase-3-evidencias/revalidacion-adr25-20261024/03-eventos-incoherentes.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/03-junit/), [prueba nueva](fase-3-evidencias/revalidacion-adr25-20261024/java/com/decokasa/seguimiento/archivos/EventoIncoherenteSinDriveRevalidacionIT.java) |
+| 04 | `... test --tests '*AsistenteDesactivadoRevalidacionIT' ...` | **Salida 0, 1/1**: aplicación completa con `IA_HABILITADA=false` y clave vacía: `ConfiguracionAsistente.habilitada()` falso, adaptador `AsistenteIADesactivado`, **ningún bean `ClaudeAsistenteIA`**; preguntar en una conversación real y vigente → `IaNoDisponible` (503) con **cero interacciones con el proveedor** (spy) y sin filas en `reserva_ia`, `consulta_ia` ni `mensaje_ia` | [log](fase-3-evidencias/revalidacion-adr25-20261024/04-asistente-desactivado.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/04-junit/), [prueba nueva](fase-3-evidencias/revalidacion-adr25-20261024/java/com/decokasa/seguimiento/AsistenteDesactivadoRevalidacionIT.java) |
+| 05 | `... check --offline --console=plain --no-daemon` | **Salida 1: 926 casos, 192 fallos, 0 errores, 0 omitidos** | [log](fase-3-evidencias/revalidacion-adr25-20261024/05-check-global.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/05-junit/), [causas](fase-3-evidencias/revalidacion-adr25-20261024/05-causas.txt) |
+| 06 | `... jacocoTestReport -x test ...` (sobre el `.exec` de 05) | Líneas 4605/7465 = **61,69 %**, ramas 46,66 %. **Informativo, no válido como medición**: 192 pruebas se detienen en su primer 403/404 y asistente no tiene pruebas propias. Clases tocadas: `CopiarPendientesCasoDeUso` 183/201 líneas, `AutoresDeCopiasSql` 4/4, `CopiaDriveConfig` 25/26 | [log](fase-3-evidencias/revalidacion-adr25-20261024/06-cobertura.log), [XML](fase-3-evidencias/revalidacion-adr25-20261024/06-jacoco.xml) |
+
+Resúmenes con `python pruebas/fase-3-evidencias/revalidacion-adr25-20261024/resumir.py <dir>` y `causas.py <dir>`, desde `documentos`.
+
+### Clasificación de los 192 fallos del `check`: ajenos a estas correcciones
+
+Ninguno toca Drive, `AutoresDeCopias` ni `Resultado`; las suites de Drive y arquitectura aprueban en la misma ejecución. Proceden del código de **fase 7, que hasta ahora no compilaba** y por tanto nunca se había ejecutado contra las suites anteriores:
+
+| Grupo | Fallos | Causa |
+|---|---:|---|
+| Acceso por país (ADR-0024): `Fase4IT` 74, `Backend24IT` 47, `CargasB1IT` 23, `PersistenciaFaseDosIT` 19, `Fase6IT` 14, `Fase5IT` 9, `HistorialSecuenciaH01IT` 3 | 189 | 403/404 o `SinPermiso: No tienes asignado ese país`. Los fixtures anteriores a fase 7 crean usuarios sin `usuario_pais`; la autorización vigente por país los rechaza. Adaptación de fixtures o decisión de compatibilidad pendiente de fase 7 (parte B) |
+| Colombia inactiva: `MigracionesIT.siembraEcuadorYColombiaActivosSegunFase7`, `MigracionesFase7IT.colombiaDebeQuedarHabilitada...` | 2 | V19 no activa `pais.activo` de CO. **Ya registrado** por Codex en `fase-7-informe.md` (7.B1) |
+| `CorreoB2IT.registroServidorRevalidaAdmin...` | 1 | Espera `listar(null,0,20)`; fase 7 añadió el filtro de país a la consulta de notificaciones |
+
+Quedan **fuera del alcance** de este encargo (solo F3-ADR25-01 y F7-COMP-01): no se modifican esas pruebas ni producción de fase 7. Al no haber correcciones de producción en esta revalidación, no se repitió `ecc:java-reviewer`.
+
+### Prueba real: no iniciada
+
+No se cumple la condición «si aprueba»: el `check` global falla. Además, la aplicación normal **no tiene un disparador manual** de copia ni de correo: la copia solo la ejecuta `TareaCopiaArchivos` (scheduler, `COPIA_DRIVE_AUTOMATICA`) y el envío solo `TareaCorreo` (scheduler, `CORREO_AUTOMATICO`); y el directorio de destinatarios de producción (`NotificacionesConfig`) está vacío, así que ningún aviso tendría destinatario. Con los schedulers apagados y sin arnés no puede crearse la carpeta ni enviarse el correo. Se presentan las decisiones a Richard; OAuth, Drive, Gmail, workers, schedulers e IA siguen desactivados. Ninguna fase se cierra.
+
+## Bloqueos del `check` global y destinatario de prueba — Claude, 2026-10-24
+
+Encargo de Richard: adaptar los fixtures al acceso por país, activar Colombia, adaptar `CorreoB2IT`, ejecutar `check` y cobertura, y añadir el destinatario de prueba de Gmail, solo local y vacío por defecto. Rama `fase-7-colombia-ia`; índice Git vacío; `Header.tsx` sin cambios. Google, IA y automatismos en `false` y sin llamadas reales. Mismo init y directorio de evidencias que la sección anterior.
+
+### Cambios
+
+| Bloqueo | Causa | Corrección |
+|---|---|---|
+| 189 fallos 403/404 por país | Los fixtures anteriores a la fase 7 creaban usuarios sin `usuario_pais` y ADR-0024 los rechaza | Los helpers `persona(...)` de `Backend24IT`, `Fase4IT`, `Fase5IT`, `Fase6IT`, `PersistenciaFaseDosIT`, `CargasB1IT` y `HistorialSecuenciaH01IT` asignan **EC explícitamente**. Sin permisos implícitos ni cambios en las aserciones. Las pruebas SQL sin autorización no cambian |
+| No había ninguna prueba explícita de "sin país no hay acceso" (solo lo cubrían, de forma implícita, esos fallos) | — | Pruebas nuevas en `Backend24IT`. **`usuarioSinPaisesNoCreaNiVeNiActua`:** crear, con `pais` o por defecto, devuelve 403; detalle, historial y observación de un pedido de EC devuelven 404; ninguna fila de `pedido` ni de `evento_pedido` a su nombre. **`retirarElPaisCortaElAccesoSinRenovarElToken`:** pasa de 200 a 404 y luego 403, con el mismo JWT |
+| 2 fallos por Colombia inactiva | V1 la sembró inactiva y V19 no la activó. **V19 está publicada en `origin/fase-7-colombia-ia`:** no se edita | **`V22__colombia_activa.sql`:** `update pais set activo = true where codigo = 'CO' and not activo` y bloque `DO` que exige CO y EC activos. No toca `usuario_pais` ni ninguna otra tabla. Las pruebas de migración pasan de la versión 21 a la 22 (`MigracionesIT`, `V2RestriccionesIT`, `MigracionesFase4IT`/`5IT`/`6IT`/`7IT`); `Fase6IT` y `Fase7IT` también comprueban la conservación tras V21 → V22 |
+| 1 fallo en `CorreoB2IT` | Esperaba `listar(null,…)` sin filtro de país | Conserva la revalidación del admin y añade: país no asignado → `SinPermiso` sin tocar el registro; `{EC}` en la lista y en el total; sin países → conjunto vacío, nunca todos los países |
+| Correo real sin destinatario (decisión de Richard: opción A) | El directorio de producción estaba vacío | `NotificacionesConfig` lee `decokasa.notificaciones.destinatario-prueba` (`NOTIFICACIONES_DESTINATARIO_PRUEBA`), **vacía por defecto**: directorio vacío y nada se envía. Solo admite `importadora.latinoamericaworld@gmail.com`, sin distinguir mayúsculas y quitando espacios; con otro valor la aplicación no arranca, sin revelar el valor. La revalidación al encolar y al enviar no cambia. No aparece en `.env.example` ni en docker-compose. Con valor, devuelve ese buzón para cualquier país; la prueba usa una base aislada |
+
+`ecc:java-reviewer` (solo lectura): sin hallazgos críticos ni altos. **Medio corregido:** se añadió una prueba con `ApplicationContextRunner`. Sin la propiedad, el directorio queda vacío; con el buzón, contiene ese buzón; con otro valor, el contexto falla y ningún mensaje de la cadena de causas contiene el valor. **Bajos aceptados:** nombres de pruebas que siguen diciendo "21"; ninguna prueba específica de `pais` tras V22 con datos previos; la salida de build de la carpeta de evidencias está excluida con `.gitignore`.
+
+### Comandos y resultados
+
+| # | Comando (desde `backend`, init de la revalidación) | Resultado | Evidencia |
+|---|---|---|---|
+| 07 | `check` tras adaptar fixtures, V22 y `CorreoB2IT` | **929/929 pruebas.** Falla solo `jacocoTestCoverageVerification`: líneas 0,77 frente a 0,80 | [log](fase-3-evidencias/revalidacion-adr25-20261024/07-check-global.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/07-junit/) |
+| 08 | `jacocoTestReport -x test` | Desglose por módulo: **asistente 200/1355 líneas = 14,8 %**; el resto de módulos entre 79 % y 98 % | [XML](fase-3-evidencias/revalidacion-adr25-20261024/08-jacoco.xml) |
+| 09 | `test --tests '*DestinatarioPruebaRevalidacionIT' --tests '*CorreoB2IT'` | **26/26** (12 del destinatario y 14 de `CorreoB2IT`) | [log](fase-3-evidencias/revalidacion-adr25-20261024/09-destinatario.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/09-junit/), [prueba](fase-3-evidencias/revalidacion-adr25-20261024/java/com/decokasa/seguimiento/notificaciones/config/DestinatarioPruebaRevalidacionIT.java) |
+| 10 | `check jacocoTestReport --continue` con todos los cambios | **942/942 pruebas, 0 fallos, 0 errores, 0 omitidas.** Falla `jacocoTestCoverageVerification`: líneas **5778/7472 = 77,33 %** (ramas 61,09 %) | [log](fase-3-evidencias/revalidacion-adr25-20261024/10-check-global.log), [JUnit](fase-3-evidencias/revalidacion-adr25-20261024/10-junit/), [XML](fase-3-evidencias/revalidacion-adr25-20261024/10-jacoco.xml) |
+
+### Bloqueo restante: cobertura por el módulo `asistente`
+
+Todas las pruebas aprueban. El `check` falla **solo** por el umbral del 80 %: `asistente` (fase 7, pasos 7.4 y 7.5, entregado sin pruebas; su parte B sigue pendiente) tiene 200 de 1355 líneas cubiertas. Sin ese módulo, la cobertura sería de 5578/6117 líneas = 91,19 %. **No es un defecto reproducible:** faltan las pruebas del asistente. No se baja el umbral ni se excluye el módulo. Hasta que Richard decida, **no se activan OAuth, Drive, Gmail ni los procesamientos**: el encargo pedía esperar al `check` global.

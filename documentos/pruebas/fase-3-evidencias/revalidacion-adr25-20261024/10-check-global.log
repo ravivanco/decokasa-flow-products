@@ -1,0 +1,87 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+gradlew.bat : OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap 
+classpath has been appended
+At line:1 char:523
++ ... kend; try { & .\gradlew.bat -I "$d\revalidacion.init.gradle" check ja ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (OpenJDK 64-Bit ...s been appended:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+> Task :test
+
+2026-10-24T11:23:46.383-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:46.383-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-24T11:23:46.392-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-10-24T11:23:46.682-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:46.683-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-10-24T11:23:46.686-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-10-24T11:23:46.991-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:46.992-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-26 - Shutdown initiated...
+2026-10-24T11:23:46.993-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-26 - Shutdown completed.
+2026-10-24T11:23:47.328-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:47.329-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-27 - Shutdown initiated...
+2026-10-24T11:23:47.330-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-27 - Shutdown completed.
+2026-10-24T11:23:47.614-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T11:23:47.619-05:00  INFO 18584 --- [seguimiento] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-24T11:23:47.622-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:47.623-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-28 - Shutdown initiated...
+2026-10-24T11:23:47.625-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-28 - Shutdown completed.
+2026-10-24T11:23:47.914-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:47.914-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Shutdown initiated...
+2026-10-24T11:23:47.916-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Shutdown completed.
+2026-10-24T11:23:48.248-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:48.249-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Shutdown initiated...
+2026-10-24T11:23:48.250-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Shutdown completed.
+2026-10-24T11:23:48.566-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:48.566-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Shutdown initiated...
+2026-10-24T11:23:48.567-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Shutdown completed.
+2026-10-24T11:23:48.875-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:48.875-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown initiated...
+2026-10-24T11:23:48.878-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown completed.
+2026-10-24T11:23:49.202-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T11:23:49.207-05:00  INFO 18584 --- [seguimiento] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-24T11:23:49.210-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:49.211-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Shutdown initiated...
+2026-10-24T11:23:49.215-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Shutdown completed.
+2026-10-24T11:23:49.518-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-24T11:23:49.520-05:00  INFO 18584 --- [seguimiento] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-24T11:23:49.522-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:49.522-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Shutdown initiated...
+2026-10-24T11:23:49.523-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Shutdown completed.
+2026-10-24T11:23:49.872-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:49.873-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Shutdown initiated...
+2026-10-24T11:23:49.874-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Shutdown completed.
+2026-10-24T11:23:50.161-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:50.161-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Shutdown initiated...
+2026-10-24T11:23:50.162-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Shutdown completed.
+2026-10-24T11:23:50.469-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-24T11:23:50.469-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-37 - Shutdown initiated...
+2026-10-24T11:23:50.470-05:00  INFO 18584 --- [seguimiento] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-37 - Shutdown completed.
+
+> Task :jacocoTestCoverageVerification FAILED
+[ant:jacocoReport] Rule violated for bundle seguimiento: lines covered ratio is 0.77, but expected minimum is 0.80
+
+> Task :jacocoTestReport
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':jacocoTestCoverageVerification' (registered by plugin 'org.gradle.jacoco').
+> A failure occurred while executing org.gradle.internal.jacoco.AntJacocoCheck
+   > Rule violated for bundle seguimiento: lines covered ratio is 0.77, but expected minimum is 0.80
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5m 36s
+7 actionable tasks: 3 executed, 4 up-to-date

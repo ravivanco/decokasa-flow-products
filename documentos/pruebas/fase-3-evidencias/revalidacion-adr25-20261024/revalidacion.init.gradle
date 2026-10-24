@@ -1,0 +1,25 @@
+// Revalidación de F3-ADR25-01 y F7-COMP-01 (2026-10-24), ejecutada por Claude con autorización expresa de Richard.
+// Sin exclusiones de producción: asistente se compila. Reutiliza sin modificarlas las pruebas de la verificación de
+// Codex (adr-0025-20261024/java) junto a src/test/java. Salida de build propia; Google, IA y automatismos en false.
+allprojects { p ->
+    p.plugins.withId('java') {
+        def aqui = new File('C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/revalidacion-adr25-20261024')
+        def codex = new File('C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/adr-0025-20261024')
+        p.layout.buildDirectory.set(new File(aqui, 'build'))
+        p.sourceSets.test.java.srcDir(new File(codex, 'java'))
+        // Prueba nueva de esta revalidación: cero operaciones Drive ante eventos incoherentes, con y sin ID reservado.
+        p.sourceSets.test.java.srcDir(new File(aqui, 'java'))
+        p.tasks.withType(Test).configureEach {
+            environment 'SPRING_CONFIG_IMPORT', ''
+            ['GOOGLE_OAUTH_HABILITADA', 'GOOGLE_DRIVE_HABILITADA', 'GOOGLE_GMAIL_HABILITADA',
+             'COPIA_DRIVE_AUTOMATICA', 'CORREO_AUTOMATICO', 'VENCIMIENTOS_AUTOMATICO',
+             'IA_HABILITADA', 'IA_BORRADO_AUTOMATICO', 'SEMILLA_HABILITADA'].each { environment it, 'false' }
+            environment 'DECOKASA_CLAUDE_API_KEY', ''
+            environment 'DB_URL', 'jdbc:postgresql://127.0.0.1:1/bloqueada'
+            environment 'DB_USUARIO', 'ficticio'
+            environment 'DB_CONTRASENA', 'ficticia'
+            environment 'ALMACEN_LOCAL_DIR', new File(aqui, 'almacen-test').absolutePath
+            systemProperty 'spring.config.import', ''
+        }
+    }
+}

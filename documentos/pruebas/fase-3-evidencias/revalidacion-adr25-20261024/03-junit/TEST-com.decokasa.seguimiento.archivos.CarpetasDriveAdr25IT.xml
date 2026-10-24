@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.CarpetasDriveAdr25IT" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-24T15:50:29.729Z" hostname="DESKTOP-GKF6IVL" time="10.101">
+  <properties/>
+  <testcase name="[1] caso = &quot;ausente&quot;" classname="com.decokasa.seguimiento.archivos.CarpetasDriveAdr25IT" time="2.835"/>
+  <testcase name="[2] caso = &quot;otro-usuario&quot;" classname="com.decokasa.seguimiento.archivos.CarpetasDriveAdr25IT" time="1.225"/>
+  <testcase name="[3] caso = &quot;otro-pedido&quot;" classname="com.decokasa.seguimiento.archivos.CarpetasDriveAdr25IT" time="1.171"/>
+  <testcase name="[4] caso = &quot;otro-tipo&quot;" classname="com.decokasa.seguimiento.archivos.CarpetasDriveAdr25IT" time="1.461"/>
+  <system-out><![CDATA[10:50:29.761 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+10:50:29.776 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+10:50:29.793 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+10:50:30.256 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+10:50:30.818 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+10:50:30.818 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+10:50:30.850 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+10:50:30.938 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+10:50:31.198 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 65b8d072288a26ec7294acdd28eb4d13013d1109fae9d81dd7ccd068db26dd1f
+10:50:31.538 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.5998224S
+10:50:31.543 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+10:50:31.543 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+10:50:31.544 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+10:50:31.544 [Test worker] INFO tc.postgres:17 -- Creating container for image: postgres:17
+10:50:31.623 [Test worker] INFO tc.postgres:17 -- Container postgres:17 is starting: 129a497e5e54077949bf3b163c3d462d8d45ec9d211d9b35145f49ebf921a123
+10:50:33.057 [Test worker] INFO tc.postgres:17 -- Container postgres:17 started in PT1.5133506S
+10:50:33.059 [Test worker] INFO tc.postgres:17 -- Container is started (JDBC URL: jdbc:postgresql://localhost:56989/test?loggerLevel=OFF)
+10:50:34.141 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56989/test?loggerLevel=OFF&currentSchema=b1_3ad2184fb48c4ff7ac61ab865455e3f2 (PostgreSQL 17.11)
+10:50:34.243 [Test worker] INFO org.flywaydb.core.internal.database.base.Schema -- Creating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" ...
+10:50:34.253 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "b1_3ad2184fb48c4ff7ac61ab865455e3f2"."flyway_schema_history" ...
+10:50:34.326 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2": null
+10:50:34.344 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "1 - usuarios roles paises"
+10:50:34.401 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "2 - flujos pedidos historial"
+10:50:34.459 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "3 - archivos y entradas"
+10:50:34.495 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "4 - drive notificaciones outbox"
+10:50:34.540 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "5 - cargas reanudables"
+10:50:34.559 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "6 - recuperacion copias drive"
+10:50:34.576 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "7 - cuotas archivos estructura"
+10:50:34.597 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "8 - cuotas archivos datos existentes"
+10:50:34.627 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "9 - bodegas llegada"
+10:50:34.673 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "10 - demora aduana"
+10:50:34.711 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "11 - etapa de llegada"
+10:50:34.738 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "12 - bodega inactiva codigo"
+10:50:34.762 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "13 - historial secuencia"
+10:50:34.796 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "14 - configuracion plazos"
+10:50:34.822 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "15 - avisos vencimiento"
+10:50:34.867 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "16 - documentos a6 a9 a10"
+10:50:34.892 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "17 - flujo b ecuador"
+10:50:34.913 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "18 - revision flujo b"
+10:50:34.935 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "19 - colombia flujos y bodegas por pais"
+10:50:34.974 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "20 - asistente ia piloto"
+10:50:35.007 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2" to version "21 - controles asistente ia"
+10:50:35.036 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 21 migrations to schema "b1_3ad2184fb48c4ff7ac61ab865455e3f2", now at version v21 (execution time 00:00.364s)
+10:50:35.993 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56989/test?loggerLevel=OFF&currentSchema=b1_eb63d4eb600540debaa280ba72e1e0e4 (PostgreSQL 17.11)
+10:50:36.012 [Test worker] INFO org.flywaydb.core.internal.database.base.Schema -- Creating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" ...
+10:50:36.015 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "b1_eb63d4eb600540debaa280ba72e1e0e4"."flyway_schema_history" ...
+10:50:36.039 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "b1_eb63d4eb600540debaa280ba72e1e0e4": null
+10:50:36.042 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "1 - usuarios roles paises"
+10:50:36.073 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "2 - flujos pedidos historial"
+10:50:36.128 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "3 - archivos y entradas"
+10:50:36.192 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "4 - drive notificaciones outbox"
+10:50:36.220 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "5 - cargas reanudables"
+10:50:36.241 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "6 - recuperacion copias drive"
+10:50:36.263 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "7 - cuotas archivos estructura"
+10:50:36.283 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "8 - cuotas archivos datos existentes"
+10:50:36.303 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "9 - bodegas llegada"
+10:50:36.334 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "10 - demora aduana"
+10:50:36.351 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "11 - etapa de llegada"
+10:50:36.363 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "12 - bodega inactiva codigo"
+10:50:36.372 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "13 - historial secuencia"
+10:50:36.385 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "14 - configuracion plazos"
+10:50:36.398 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "15 - avisos vencimiento"
+10:50:36.420 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "16 - documentos a6 a9 a10"
+10:50:36.436 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "17 - flujo b ecuador"
+10:50:36.455 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "18 - revision flujo b"
+10:50:36.468 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "19 - colombia flujos y bodegas por pais"
+10:50:36.499 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "20 - asistente ia piloto"
+10:50:36.529 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_eb63d4eb600540debaa280ba72e1e0e4" to version "21 - controles asistente ia"
+10:50:36.552 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 21 migrations to schema "b1_eb63d4eb600540debaa280ba72e1e0e4", now at version v21 (execution time 00:00.291s)
+10:50:37.216 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56989/test?loggerLevel=OFF&currentSchema=b1_b922641183444a78a44ae6b72aa62a9a (PostgreSQL 17.11)
+10:50:37.234 [Test worker] INFO org.flywaydb.core.internal.database.base.Schema -- Creating schema "b1_b922641183444a78a44ae6b72aa62a9a" ...
+10:50:37.237 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "b1_b922641183444a78a44ae6b72aa62a9a"."flyway_schema_history" ...
+10:50:37.258 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "b1_b922641183444a78a44ae6b72aa62a9a": null
+10:50:37.262 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "1 - usuarios roles paises"
+10:50:37.293 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "2 - flujos pedidos historial"
+10:50:37.337 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "3 - archivos y entradas"
+10:50:37.367 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "4 - drive notificaciones outbox"
+10:50:37.388 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "5 - cargas reanudables"
+10:50:37.404 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "6 - recuperacion copias drive"
+10:50:37.422 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "7 - cuotas archivos estructura"
+10:50:37.437 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "8 - cuotas archivos datos existentes"
+10:50:37.453 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "9 - bodegas llegada"
+10:50:37.471 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "10 - demora aduana"
+10:50:37.486 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "11 - etapa de llegada"
+10:50:37.495 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "12 - bodega inactiva codigo"
+10:50:37.504 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "13 - historial secuencia"
+10:50:37.516 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "14 - configuracion plazos"
+10:50:37.526 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "15 - avisos vencimiento"
+10:50:37.549 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "16 - documentos a6 a9 a10"
+10:50:37.568 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "17 - flujo b ecuador"
+10:50:37.581 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "18 - revision flujo b"
+10:50:37.596 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "19 - colombia flujos y bodegas por pais"
+10:50:37.626 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "20 - asistente ia piloto"
+10:50:37.649 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b922641183444a78a44ae6b72aa62a9a" to version "21 - controles asistente ia"
+10:50:37.672 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 21 migrations to schema "b1_b922641183444a78a44ae6b72aa62a9a", now at version v21 (execution time 00:00.229s)
+10:50:38.393 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:56989/test?loggerLevel=OFF&currentSchema=b1_34d5dffb4c6745a09a22bb7ec7b01f51 (PostgreSQL 17.11)
+10:50:38.417 [Test worker] INFO org.flywaydb.core.internal.database.base.Schema -- Creating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" ...
+10:50:38.420 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "b1_34d5dffb4c6745a09a22bb7ec7b01f51"."flyway_schema_history" ...
+10:50:38.447 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51": null
+10:50:38.449 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "1 - usuarios roles paises"
+10:50:38.487 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "2 - flujos pedidos historial"
+10:50:38.535 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "3 - archivos y entradas"
+10:50:38.575 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "4 - drive notificaciones outbox"
+10:50:38.609 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "5 - cargas reanudables"
+10:50:38.652 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "6 - recuperacion copias drive"
+10:50:38.693 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "7 - cuotas archivos estructura"
+10:50:38.734 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "8 - cuotas archivos datos existentes"
+10:50:38.774 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "9 - bodegas llegada"
+10:50:38.820 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "10 - demora aduana"
+10:50:38.859 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "11 - etapa de llegada"
+10:50:38.885 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "12 - bodega inactiva codigo"
+10:50:38.905 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "13 - historial secuencia"
+10:50:38.933 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "14 - configuracion plazos"
+10:50:38.985 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "15 - avisos vencimiento"
+10:50:39.039 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "16 - documentos a6 a9 a10"
+10:50:39.072 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "17 - flujo b ecuador"
+10:50:39.101 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "18 - revision flujo b"
+10:50:39.121 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "19 - colombia flujos y bodegas por pais"
+10:50:39.163 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "20 - asistente ia piloto"
+10:50:39.216 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51" to version "21 - controles asistente ia"
+10:50:39.235 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 21 migrations to schema "b1_34d5dffb4c6745a09a22bb7ec7b01f51", now at version v21 (execution time 00:00.427s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

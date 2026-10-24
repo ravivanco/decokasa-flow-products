@@ -1,0 +1,62 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Task :compileJava
+gradlew.bat : C:\Users\Richard\Desktop\decoWeb\backend\src\main\java\com\decokasa\seguimiento\archivos\application\usec
+ase\CopiarPendientesCasoDeUso.java:102: warning: [try] auto-closeable resource bloqueo is never referenced in body of 
+corresponding try statement
+At line:1 char:422
++ ... kend; try { & .\gradlew.bat -I "$d\revalidacion.init.gradle" compileJ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Richar...g try statement:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+                try (var bloqueo=cerrojo.orElseThrow()) { trabajo.procesar(); }
+                         ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\main\java\com\decokasa\seguimiento\archivos\config\CargasConfig.java:56: 
+warning: [try] auto-closeable resource bloqueo is never referenced in body of corresponding try statement
+                try (var bloqueo=parciales.bloquear(id)) {
+                         ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\main\java\com\decokasa\seguimiento\archivos\config\CargasConfig.java:72: 
+warning: [try] auto-closeable resource bloqueo is never referenced in body of corresponding try statement
+                try (var bloqueo=parciales.bloquear(id)) {
+                         ^
+3 warnings
+
+> Task :processResources
+> Task :classes
+
+> Task :compileTestJava
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\DriveRecuperacionB1IT.java:138
+: warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        preparar(1);try(var lock=new 
+BloqueoCopiasEnDisco(disco).intentar(d.adjunto).orElseThrow()){worker().ejecutar();}
+                            ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\ParcialesB1Test.java:15: 
+warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        try(var lock=a.bloquear(id)) {a.reconciliar(id,0);a.escribir(id,0,new byte[]{1,2,3});}
+                ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\ParcialesB1Test.java:17: 
+warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        try(var lock=reinicio.bloquear(id)) {reinicio.reconciliar(id,2);reinicio.escribir(id,2,new byte[]{4});}
+                ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\ParcialesB1Test.java:32: 
+warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        try(var lock=a.bloquear(id)) { assertThatThrownBy(()->b.bloquear(id)).isInstanceOf(ProblemaCarga.class); }
+                ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\ParcialesB1Test.java:38: 
+warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        try(var lock=a.intentar(id).orElseThrow()) {assertThat(b.intentar(id)).isEmpty();}
+                ^
+C:\Users\Richard\Desktop\decoWeb\backend\src\test\java\com\decokasa\seguimiento\archivos\ParcialesB1Test.java:39: 
+warning: [try] auto-closeable resource lock is never referenced in body of corresponding try statement
+        try(var lock=b.intentar(id).orElseThrow()) 
+{assertThat(Files.readAllBytes(disco.resolve("pendiente"))).containsExactly(1);}
+                ^
+6 warnings
+
+[Incubating] Problems report is available at: file:///C:/Users/Richard/Desktop/decoWeb/documentos/pruebas/fase-3-evidencias/revalidacion-adr25-20261024/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 16s
+3 actionable tasks: 3 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

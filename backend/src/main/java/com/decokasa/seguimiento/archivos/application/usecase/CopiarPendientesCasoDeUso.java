@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.archivos.application.usecase;
 import com.decokasa.seguimiento.archivos.application.port.in.ReintentarCopiasPendientes;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenArchivos;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
+import com.decokasa.seguimiento.archivos.application.port.out.AutoresDeCopias;
 import com.decokasa.seguimiento.archivos.application.port.out.BloqueoCopiaLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.CarpetaDriveRepositorio;
 import com.decokasa.seguimiento.archivos.application.port.out.CopiaAdjuntoRepositorio;
@@ -12,21 +13,40 @@ import com.decokasa.seguimiento.archivos.domain.PoliticaCopia;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle.Causa;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle;
+import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-/** Núcleo sin Spring/JPA/SDK. Los repositorios inyectados cierran su transacción antes de retornar. */
+/**
+ * Núcleo sin Spring/JPA/SDK. Los repositorios inyectados cierran su transacción antes de retornar.
+ *
+ * <p>Organización aprobada por Richard (2026-10-24): {@code Mi unidad/DECOKASA/{EC|CO}/{numeroPedido}/{rol}/{persona}/}.
+ * Cada carpeta se crea al necesitarla la primera copia, con un ID reservado y persistido antes de crearla en Drive
+ * ({@code carpeta_drive}); una reserva concurrente perdedora usa el ID ganador. Las claves usan identificadores internos
+ * (UUID del pedido y del usuario, código del rol), no nombres: un cambio de nombre no crea otra carpeta. País, pedido,
+ * rol y autor salen de datos del servidor: el pedido y el evento de subida validado (P-06), nunca del navegador.
+ * No comparte carpetas ni genera enlaces públicos. Una copia que ya había empezado en la organización anterior
+ * ({@code Mi unidad/{país}/{número}}) termina allí: no se mueve ni se borra nada.
+ */
 public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendientes {
     private static final int BLOQUE=4*1024*1024;
     private static final String CARPETA="application/vnd.google-apps.folder";
+    /** Carpeta de pedido de la organización anterior (paso 3.4); solo se lee para terminar copias ya empezadas. */
+    private static final String CLAVE_PEDIDO_ANTERIOR="pedido:";
+    private static final String CLAVE_RAIZ="d";
+    private static final String NOMBRE_RAIZ="DECOKASA";
     private final boolean habilitado;
     private final int lote;
     private final CopiaAdjuntoRepositorio copias;
@@ -38,12 +58,34 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
     private final ProtectorSesionDrive protector;
     private final Reloj reloj;
     private final PoliticaCopia politica;
+    /** Nulos solo con el constructor de compatibilidad: organización anterior {@code Mi unidad/{país}/{número}}. */
+    private final AutoresDeCopias autores;
+    private final ResumirUsuarios usuarios;
+
+    /**
+     * Solo para compatibilidad con las pruebas anteriores al 2026-10-24: copia con la organización anterior. La
+     * configuración de la aplicación usa el constructor con {@link AutoresDeCopias}.
+     */
     public CopiarPendientesCasoDeUso(boolean habilitado,int lote,CopiaAdjuntoRepositorio copias,
             CarpetaDriveRepositorio carpetas,PedidosParaCopias pedidos,AlmacenArchivos drive,AlmacenLocal local,
             BloqueoCopiaLocal bloqueos,ProtectorSesionDrive protector,Reloj reloj,PoliticaCopia politica) {
+        this(habilitado,lote,copias,carpetas,pedidos,drive,local,bloqueos,protector,reloj,politica,null,null,false);
+    }
+    public CopiarPendientesCasoDeUso(boolean habilitado,int lote,CopiaAdjuntoRepositorio copias,
+            CarpetaDriveRepositorio carpetas,PedidosParaCopias pedidos,AlmacenArchivos drive,AlmacenLocal local,
+            BloqueoCopiaLocal bloqueos,ProtectorSesionDrive protector,Reloj reloj,PoliticaCopia politica,
+            AutoresDeCopias autores,ResumirUsuarios usuarios) {
+        this(habilitado,lote,copias,carpetas,pedidos,drive,local,bloqueos,protector,reloj,politica,
+                Objects.requireNonNull(autores,"autores"),Objects.requireNonNull(usuarios,"usuarios"),true);
+    }
+    private CopiarPendientesCasoDeUso(boolean habilitado,int lote,CopiaAdjuntoRepositorio copias,
+            CarpetaDriveRepositorio carpetas,PedidosParaCopias pedidos,AlmacenArchivos drive,AlmacenLocal local,
+            BloqueoCopiaLocal bloqueos,ProtectorSesionDrive protector,Reloj reloj,PoliticaCopia politica,
+            AutoresDeCopias autores,ResumirUsuarios usuarios,boolean organizacionPorAutor) {
         if (lote<1 || lote>100) { throw new IllegalArgumentException("Lote inválido"); }
         this.habilitado=habilitado;this.lote=lote;this.copias=copias;this.carpetas=carpetas;this.pedidos=pedidos;
         this.drive=drive;this.local=local;this.bloqueos=bloqueos;this.protector=protector;this.reloj=reloj;this.politica=politica;
+        this.autores=organizacionPorAutor ? autores : null;this.usuarios=organizacionPorAutor ? usuarios : null;
     }
     @Override public int ejecutar() {
         if (!habilitado) { return 0; }
@@ -71,6 +113,8 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
         private String id;
         private String carpeta;
         private String md5;
+        /** Autor y rol de intervención del evento ARCHIVO_SUBIDO; nulo solo con el constructor de compatibilidad. */
+        private AutoresDeCopias.Autor autor;
         private Instant proximoLatido=Instant.MIN;
         private Ejecucion(CopiaAdjuntoRepositorio.Pendiente p,UUID token) {
             this.p=p;this.token=token;this.id=p.driveIdReservado();this.carpeta=p.carpetaId();
@@ -106,6 +150,9 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
         }
         private void copiar() {
             if (p.tamano()<1 || p.tamano()>104857600L) { throw fallo(Causa.CONFIGURACION); }
+            // Antes de cualquier operación Drive (reservar el ID del archivo, leer la raíz, crear carpetas): sin un evento
+            // ARCHIVO_SUBIDO coherente no hay rol ni persona validados y la copia no empieza (F3-ADR25-01).
+            if (autores!=null) { autor=autores.autor(p.id()).orElseThrow(() -> fallo(Causa.CONFIGURACION)); }
             renovar();verificarLocal();
             if (id==null) {
                 renovar();String reservado=drive.reservarId();
@@ -181,16 +228,46 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
             if (!CARPETA.equals(raiz.tipo()) || raiz.enPapelera() || !raiz.propietario() || !raiz.unidadCompartida().isBlank()) {
                 throw fallo(Causa.CONFIGURACION);
             }
-            String pais=asegurarCarpeta("pais:"+destino.pais().name(),destino.pais().name(),raiz.id());
-            return asegurarCarpeta("pedido:"+p.pedidoId(),destino.numero(),pais);
+            // Organización anterior: con el constructor de compatibilidad o para terminar, sin moverla, una copia que
+            // ya había empezado en la carpeta de pedido anterior confirmada. Se comprueba en Drive como antes.
+            if (autores==null || enCarpetaAnterior()) {
+                String pais=asegurarCarpeta("pais:"+destino.pais().name(),destino.pais().name(),raiz.id());
+                return asegurarCarpeta(CLAVE_PEDIDO_ANTERIOR+p.pedidoId(),destino.numero(),pais);
+            }
+            // El autor ya se validó al empezar la copia (copiar), antes de cualquier operación Drive.
+            var autor=this.autor;
+            if (autor==null) { throw fallo(Causa.CONFIGURACION); }
+            String rol=autor.rol().valor();
+            String app=asegurarCarpeta(CLAVE_RAIZ,NOMBRE_RAIZ,raiz.id());
+            String pais=asegurarCarpeta(CLAVE_RAIZ+"/pais/"+destino.pais().name(),destino.pais().name(),app);
+            String clavePedido=CLAVE_RAIZ+"/p/"+compacto(p.pedidoId());
+            String pedido=asegurarCarpeta(clavePedido,destino.numero(),pais);
+            String carpetaRol=asegurarCarpeta(clavePedido+"/"+rol,rol,pedido);
+            // El nombre visible se fija en la primera reserva; después manda la clave (UUID), no el nombre actual.
+            return asegurarCarpeta(clavePedido+"/"+rol+"/"+compacto(autor.usuarioId()),
+                    () -> nombrePersona(autor.usuarioId()),carpetaRol);
+        }
+        private boolean enCarpetaAnterior() {
+            if (carpeta==null) { return false; }
+            var anterior=carpetas.buscar(CLAVE_PEDIDO_ANTERIOR+p.pedidoId());
+            return anterior.isPresent() && anterior.orElseThrow().confirmada() && carpeta.equals(anterior.orElseThrow().driveId());
         }
         private String asegurarCarpeta(String clave,String nombre,String padre) {
+            return asegurarCarpeta(clave,null,nombre,padre);
+        }
+        private String asegurarCarpeta(String clave,Supplier<String> nombreInicial,String padre) {
+            return asegurarCarpeta(clave,nombreInicial,null,padre);
+        }
+        /** Con {@code nombreInicial}, el nombre lo fija la reserva (gane quien gane); si no, debe ser {@code nombreFijo}. */
+        private String asegurarCarpeta(String clave,Supplier<String> nombreInicial,String nombreFijo,String padre) {
             var reserva=carpetas.buscar(clave);
             if (reserva.isEmpty()) {
+                String propuesto=nombreInicial==null ? nombreFijo : nombreInicial.get();
                 renovar();String nuevo=drive.reservarId();
-                reserva=Optional.of(carpetas.reservar(clave,nombre,padre,nuevo,reloj.ahora()));
+                reserva=Optional.of(carpetas.reservar(clave,propuesto,padre,nuevo,reloj.ahora()));
             }
             var c=reserva.orElseThrow();
+            String nombre=nombreInicial==null ? nombreFijo : c.nombre();
             if (!c.nombre().equals(nombre) || !c.padreId().equals(padre)) { throw fallo(Causa.METADATOS_DIVERGENTES); }
             renovar();var remoto=drive.metadatos(c.driveId());
             if (remoto.isEmpty()) {
@@ -207,6 +284,19 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
                     || !r.unidadCompartida().isBlank() || !r.padres().equals(List.of(padre))
                     || !clave.equals(r.claveCarpeta()) || !nombre.equals(r.nombre())) { throw fallo(Causa.METADATOS_DIVERGENTES); }
             carpetas.confirmar(clave,c.driveId());return c.driveId();
+        }
+        /**
+         * Nombre visible de la carpeta de la persona: su nombre actual al crearla y los 8 últimos dígitos de su UUID, para
+         * distinguir nombres iguales a la vista. La identidad la da la clave, no este nombre.
+         */
+        private String nombrePersona(UUID usuarioId) {
+            var resumen=usuarios.resumenes(List.of(usuarioId)).get(usuarioId);
+            String base=resumen==null ? "" : resumen.nombre().codePoints().filter(c -> !Character.isISOControl(c))
+                    .collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append).toString().strip();
+            if (base.isEmpty()) { base="Usuario"; }
+            if (base.codePointCount(0,base.length())>200) { base=base.substring(0,base.offsetByCodePoints(0,200)).strip(); }
+            String id=usuarioId.toString();
+            return base+" · "+id.substring(id.length()-8);
         }
         private Optional<AlmacenArchivos.Remoto> consultarId() { renovar();return drive.metadatos(id); }
         private boolean reconciliar() {
@@ -258,5 +348,10 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
         };
     }
     private static FalloIntegracionGoogle fallo(Causa causa) { return new FalloIntegracionGoogle(causa); }
+    /** UUID en base64url sin relleno (22 caracteres): la clave más larga queda en 90 de los 100 admitidos. */
+    private static String compacto(UUID id) {
+        ByteBuffer bytes=ByteBuffer.allocate(16).putLong(id.getMostSignificantBits()).putLong(id.getLeastSignificantBits());
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes.array());
+    }
     private static void exigir(boolean vigente) { if (!vigente) { throw fallo(Causa.LEASE_PERDIDO); } }
 }

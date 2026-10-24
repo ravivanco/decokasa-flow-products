@@ -15,6 +15,13 @@ public final class GuardasB3 {
         if (!condicion) throw new IllegalStateException("Precondicion B3 no satisfecha; operacion bloqueada");
     }
     static void receptor(String correo) { exigir(CUENTA.equals(correo)); }
+    /**
+     * Reutilizar la base del ensayo. Un volumen existente exige las credenciales privadas que lo inicializaron: nunca se
+     * generan otras. Una base ya inicializada exige su volumen: nunca se sustituye por una base vacia.
+     */
+    static void reutilizacion(boolean volumenExiste, boolean privadoNuevo, boolean baseInicializada) {
+        exigir(!(volumenExiste && privadoNuevo) && (volumenExiste || !baseInicializada));
+    }
     static boolean confirmar(String recibido, String esperado) { return esperado.equals(recibido); }
     static Map<String, Object> modo(boolean oauth, boolean drive, boolean gmail) {
         exigir(!(drive && gmail) && (!(drive || gmail) || oauth));

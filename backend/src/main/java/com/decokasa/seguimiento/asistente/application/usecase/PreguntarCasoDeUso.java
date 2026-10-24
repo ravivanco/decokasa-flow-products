@@ -13,7 +13,6 @@ import com.decokasa.seguimiento.asistente.application.port.out.PedidosParaAsiste
 import com.decokasa.seguimiento.asistente.application.port.out.PresupuestoIA;
 import com.decokasa.seguimiento.asistente.application.port.out.RegistroConsultasIA;
 import com.decokasa.seguimiento.asistente.application.port.out.RegistroConsultasIA.ConsultaRegistrada;
-import com.decokasa.seguimiento.asistente.application.port.out.RegistroConsultasIA.Resultado;
 import com.decokasa.seguimiento.asistente.domain.Autor;
 import com.decokasa.seguimiento.asistente.domain.ContextoExcedido;
 import com.decokasa.seguimiento.asistente.domain.ConversacionIA;
@@ -100,7 +99,7 @@ public final class PreguntarCasoDeUso implements Preguntar {
     }
 
     @Override
-    public Resultado preguntar(Solicitante solicitante, UUID conversacionId, String pregunta) {
+    public Preguntar.Resultado preguntar(Solicitante solicitante, UUID conversacionId, String pregunta) {
         String texto = validar(pregunta);
         Instant inicio = reloj.ahora();
         ConversacionIA conversacion = acceso.vigente(solicitante, conversacionId, inicio).conversacion();
@@ -150,7 +149,8 @@ public final class PreguntarCasoDeUso implements Preguntar {
                 // Lo dado por consumido se registra con el costo reservado, para que el consumo cuadre con el presupuesto.
                 registrar(conversacion, solicitante, null, AsistenteIA.Consumo.NINGUNO,
                         fallo.posibleCobro() ? maximo : 0,
-                        fallo.posibleCobro() ? Resultado.ERROR_INCIERTO : Resultado.ERROR_SIN_COBRO,
+                        fallo.posibleCobro() ? RegistroConsultasIA.Resultado.ERROR_INCIERTO
+                                : RegistroConsultasIA.Resultado.ERROR_SIN_COBRO,
                         seleccion.enviados());
             }
             throw new IaNoDisponible();
@@ -159,7 +159,7 @@ public final class PreguntarCasoDeUso implements Preguntar {
                 presupuesto.darPorConsumida(reserva, reloj.ahora());
             } finally {
                 registrar(conversacion, solicitante, null, AsistenteIA.Consumo.NINGUNO, maximo,
-                        Resultado.ERROR_INCIERTO, seleccion.enviados());
+                        RegistroConsultasIA.Resultado.ERROR_INCIERTO, seleccion.enviados());
             }
             throw new IaNoDisponible();
         }
@@ -197,7 +197,7 @@ public final class PreguntarCasoDeUso implements Preguntar {
             // curso por usuario lo hace improbable para una conversación propia; el consumo ya quedó registrado.
             throw new IaNoDisponible();
         }
-        return new Resultado(textoFinal, evidencia, referencias, seleccion.excluidos(),
+        return new Preguntar.Resultado(textoFinal, evidencia, referencias, seleccion.excluidos(),
                 ConversacionIA.LIMITE_PREGUNTAS - (previas + 1));
     }
 
@@ -223,7 +223,8 @@ public final class PreguntarCasoDeUso implements Preguntar {
     /** Un fallo al registrar el intento no convierte el 429 en un 500. */
     private void registrarLimite(ConversacionIA conversacion, Solicitante solicitante) {
         try {
-            registrar(conversacion, solicitante, null, AsistenteIA.Consumo.NINGUNO, 0, Resultado.LIMITE, Set.of());
+            registrar(conversacion, solicitante, null, AsistenteIA.Consumo.NINGUNO, 0,
+                    RegistroConsultasIA.Resultado.LIMITE, Set.of());
         } catch (RuntimeException registro) {
             // El límite ya se aplicó; el registro de un intento rechazado no cambia el presupuesto.
         }
@@ -401,17 +402,18 @@ public final class PreguntarCasoDeUso implements Preguntar {
     }
 
     private void registrar(ConversacionIA conversacion, Solicitante solicitante, String modelo,
-            AsistenteIA.Consumo consumo, long costo, Resultado resultado, Set<UUID> enviados) {
+            AsistenteIA.Consumo consumo, long costo, RegistroConsultasIA.Resultado resultado, Set<UUID> enviados) {
         registro.registrar(new ConsultaRegistrada(UUID.randomUUID(), conversacion.id(), solicitante.usuarioId(),
                 conversacion.pedidoId(), conversacion.pais(), modelo, consumo, costo, resultado, enviados,
                 reloj.ahora()));
     }
 
-    private static Resultado resultado(AsistenteIA.Fin fin, boolean evidencia) {
+    private static RegistroConsultasIA.Resultado resultado(AsistenteIA.Fin fin, boolean evidencia) {
         return switch (fin) {
-            case RECHAZADA -> Resultado.RECHAZADA;
-            case TRUNCADA, OTRA -> Resultado.INCOMPLETA;
-            case COMPLETA -> evidencia ? Resultado.RESPONDIDA : Resultado.SIN_EVIDENCIA;
+            case RECHAZADA -> RegistroConsultasIA.Resultado.RECHAZADA;
+            case TRUNCADA, OTRA -> RegistroConsultasIA.Resultado.INCOMPLETA;
+            case COMPLETA -> evidencia ? RegistroConsultasIA.Resultado.RESPONDIDA
+                    : RegistroConsultasIA.Resultado.SIN_EVIDENCIA;
         };
     }
 

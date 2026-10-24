@@ -403,3 +403,119 @@ GET /notificaciones y copias-fallidas comprueban admin activo/rol vigente en ser
 Todos los defaults de OAuth/Drive/Gmail/worker Drive permanecen false; se añade CORREO_AUTOMATICO=false. Sin pruebas escritas/modificadas/ejecutadas, builds, migraciones, autorizaciones ni operaciones reales, commit o push. No se cambia Header.tsx ni evidencias anteriores. No se archiva este plan ni se cierra el PRD/fase.
 
 Entrega detallada y casos pendientes **3.B1–3.B3**: [documentos/fase-3-paso-3.5.md](../../../documentos/fase-3-paso-3.5.md). La parte A no acredita validación funcional: el cierre exige parte B y aprobación de Richard.
+
+## Arranque del arnés 3.B3 al reutilizar PostgreSQL (parte A, 2026-10-24) — pendiente de Codex
+
+Corregido solo en el arnés opt-in (`documentos/pruebas/arnes-b3`), sin cambios en producción ni en las pruebas existentes:
+- **Espera del contenedor:** la de Testcontainers 2.0.5 esperaba dos mensajes "ready", y un volumen ya inicializado emite uno solo. Ahora usa `pg_isready` por TCP, con un máximo de 120 s.
+- **Durabilidad:** se quita `fsync=off`.
+- **Guarda nueva:** no se generan credenciales para un volumen existente ni se crea una base vacía si ya hubo una.
+
+Detalle y siete casos para Codex en el [README del arnés](../../../documentos/pruebas/arnes-b3/README.md), sección del 2026-10-24.
+
+**Lo que sigue sin hacer:**
+- La prueba real de Drive y Gmail (consentimiento OAuth, copia de 104857600 bytes y un correo) sigue **pospuesta**. Requiere el consentimiento personal de Richard y la ejecuta Codex.
+- Siguen abiertos B3-SEG-01, el límite físico de los temporales, la retención, los destinatarios definitivos y la política definitiva de reintentos.
+- La fase 3 sigue abierta.
+
+## Carpetas de Drive por país, pedido, rol y persona (parte A, 2026-10-24) — sin compilar ni verificar
+
+**Decisión:** organización aprobada por Richard, registrada en el [ADR-0025](../../../documentos/adr/0025-carpetas-drive-por-rol-y-persona.md) y en `requerimientos.md` 4.7: `Mi unidad/DECOKASA/{EC|CO}/{númeroPedido}/{rol}/{persona}/`. Se hizo en la rama `fase-7-colombia-ia` porque necesita CO.
+
+**Implementación (reutiliza la copia del paso 3.4; sin migración):**
+
+| Archivo | Cambio |
+|---|---|
+| `archivos/application/port/out/AutoresDeCopias.java` (nuevo) | Puerto: autor (UUID) y rol de intervención de un adjunto |
+| `archivos/adapter/out/persistence/AutoresDeCopiasSql.java` (nuevo) | Lee el evento ARCHIVO_SUBIDO del adjunto (`evento_adjunto` SUBIDO → `evento_pedido`), exigiendo el mismo pedido y el mismo autor (`subido_por`) |
+| `archivos/application/usecase/CopiarPendientesCasoDeUso.java` | `resolverCarpetas` crea y comprueba los cinco niveles con `asegurarCarpeta`, que es el mecanismo existente de reserva, creación con ID reservado y consulta ante 409 o incertidumbre. El nombre de la persona lo fija la primera reserva. Hay un constructor nuevo con `AutoresDeCopias` y `ResumirUsuarios`; el de 11 argumentos se conserva, con la organización anterior, solo para las pruebas existentes |
+| `archivos/config/CopiaDriveConfig.java` | Usa el constructor nuevo; `AutoresDeCopias` va en su propia transacción corta, como los demás repositorios |
+
+**Reglas:**
+- **Rol de intervención con varios roles:** se reutiliza P-06 (`PermisosEtapa.paraActuar`), que ya decidió el rol al subir y lo guardó en el evento. Es el rol responsable de la etapa si la persona lo tiene (y la etapa está libre o asignada a ella); si no, `admin`. Un cambio posterior de roles no mueve el destino.
+- **Claves internas:** `d`, `d/pais/{país}`, `d/p/{pedido}`, `d/p/{pedido}/{rol}` y `d/p/{pedido}/{rol}/{usuario}`, con UUID en base64url y un máximo de 90 caracteres.
+- **Nombre de la carpeta de persona:** "Nombre · últimos 8 de su UUID". Un cambio de nombre no crea otra carpeta.
+- **Permisos y enlaces:** no se comparten carpetas ni se crean enlaces públicos. El archivo conserva `adjuntoId`, `pedidoId` y `entradaId` en `appProperties`; la etapa y la entrada siguen en `adjunto`.
+- **Copias anteriores:** lo ya copiado no se mueve. Una copia ya empezada en la carpeta `pedido:{UUID}` confirmada termina allí.
+- **Integraciones:** OAuth, Drive, Gmail, workers y schedulers siguen en `false`.
+
+**Casos para Codex** (dobles de Drive y PostgreSQL de Testcontainers, salvo el último):
+1. **Compilación y ArchUnit.** El caso de uso importa `usuarios.application.port.in.ResumirUsuarios`, igual que `SubirArchivoCasoDeUso`.
+2. **Creación automática.** La primera copia de un adjunto crea en orden DECOKASA → EC → número → rol → persona. Se comprueban el padre de cada nivel, el nombre, `appProperties.carpetaClave` igual a la clave de `carpeta_drive` y `confirmada = true`. El archivo queda con `parents = [persona]`.
+3. **Reutilización:**
+   - otra copia de la misma persona, rol y pedido no reserva ni crea carpetas;
+   - otra persona con el mismo rol crea solo su carpeta de persona;
+   - la misma persona con otro rol (por ejemplo, `admin` en otra etapa) crea rol y persona.
+4. **Nombres:**
+   - dos usuarios con el mismo nombre tienen carpetas distintas, con sufijos distintos;
+   - si se renombra al usuario entre dos copias, se usa la misma carpeta, con el nombre original.
+5. **Concurrencia** (dos hilos o dos workers, adjuntos distintos del mismo pedido y la misma persona, PostgreSQL real):
+   - una sola fila por clave y una sola creación remota por clave;
+   - los dos archivos quedan en la misma carpeta;
+   - el perdedor de la reserva usa el ID ganador.
+6. **Reintentos e incertidumbre:**
+   - si `crearCarpeta` hace timeout después de crearla o devuelve 409, se consulta el mismo ID y no se duplica;
+   - si una carpeta confirmada desaparece, se renombra o se mueve en Drive, sale `METADATOS_DIVERGENTES`, sin crear otra.
+7. **Aislamiento:**
+   - un pedido EC y uno CO van a `DECOKASA/EC` y `DECOKASA/CO`;
+   - dos pedidos del mismo país tienen carpetas de pedido distintas;
+   - la misma persona en dos pedidos tiene dos carpetas de persona.
+8. **Datos del servidor:**
+   - el rol sale del evento, no de la petición: un usuario con `marketing` y `asistente_compras` que sube en una etapa de `asistente_compras` queda en esa carpeta; un admin sin el rol de la etapa queda en `admin`;
+   - si el evento SUBIDO falta, es de otro usuario o es de otro pedido, la copia termina FALLIDO por `CONFIGURACION` sin crear carpetas;
+   - quitarle roles a la persona después de subir no cambia el destino.
+9. **Compatibilidad:**
+   - una copia ya empezada con `drive_carpeta_id` igual a la carpeta `pedido:{UUID}` confirmada termina allí, sin crear la jerarquía nueva;
+   - las filas COPIADO anteriores y sus enlaces no cambian;
+   - `DriveRecuperacionB1IT` (constructor anterior) sigue igual;
+   - `AplicacionArrancaIT` arranca con el bean nuevo.
+10. **Seguridad:**
+    - ninguna llamada a `permissions` ni enlaces públicos (revisión de `GoogleDriveAlmacen` y del doble);
+    - los logs no contienen nombres de personas ni claves.
+11. **Prueba real, posterior y solo con el consentimiento de Richard** (desde la aplicación normal, sin arnés):
+    - activar OAuth y Drive solo para la prueba, autorizar la cuenta y subir un archivo ficticio desde la pantalla del pedido;
+    - comprobar a la vista en Drive `DECOKASA/EC/{número}/{rol}/{persona}/archivo`, con su contenido;
+    - volver a dejar las variables en `false`.
+
+**Pruebas que pueden cambiar (no modificadas):** las que comprueben las claves `pais:`/`pedido:` en `carpeta_drive` con la configuración de la aplicación, o que el primer nivel cuelgue de `root`.
+
+### Corrección de los bloqueos de la verificación ADR-0025 (parte A, 2026-10-24) — sin compilar ni revalidar
+
+Bloqueos reproducidos por Codex en `documentos/pruebas/fase-3-informe.md`, sección "Verificación de carpetas Drive — ADR-0025". Solo se corrigen esos dos. No cambian las reglas de negocio, la organización `DECOKASA/país/pedido/rol/persona`, la conciliación por ID ante 409 ni las copias anteriores. No se tocaron pruebas, `Header.tsx` ni el índice Git. OAuth, Drive, Gmail, workers, schedulers e IA siguen desactivados.
+
+**F3-ADR25-01: el tipo del evento no se comprobaba.**
+- **Causa:** `AutoresDeCopiasSql` aceptaba cualquier evento enlazado como `SUBIDO` al adjunto. La base permite esa relación con otro tipo de evento, y Codex la reprodujo con un `ETAPA_ENVIADA`: la copia terminaba en COPIADO.
+- **Además:** el autor se resolvía dentro de `resolverCarpetas`, **después** de `drive.reservarId()` (el ID del archivo) y de leer la raíz de Drive. Un evento incoherente ya iniciaba operaciones en Drive antes de fallar.
+- **Corrección en el SQL:** se añadió `e.tipo = 'ARCHIVO_SUBIDO'` a las condiciones existentes (relación `SUBIDO`, mismo adjunto, mismo pedido, mismo autor `subido_por` y rol registrado). El rol de intervención sigue saliendo del evento, sin cambios.
+- **Corrección en el caso de uso:** `CopiarPendientesCasoDeUso.Ejecucion.copiar()` resuelve el autor **al empezar**, antes de cualquier operación Drive. Si falta, sale `CONFIGURACION`, que no es reintentable: la copia queda FALLIDO sin reservar ID, sin leer la raíz, sin crear carpetas y sin conciliar (`md5` sigue nulo).
+- **Constructor de compatibilidad:** no cambia (no usa autor).
+
+**F7-COMP-01: nueve errores de compilación en `PreguntarCasoDeUso` (fase 7, previos a Drive).**
+- **Causa:** la clase implementa `Preguntar`, que declara el record anidado `Preguntar.Resultado`. En Java, un tipo miembro heredado oculta el import de un solo tipo `RegistroConsultasIA.Resultado` (enum), así que `Resultado.ERROR_INCIERTO` y las demás constantes se buscaban en el record.
+- **Corrección:** se quitó ese import y se califican los dos tipos explícitamente:
+  - `Preguntar.Resultado` en el valor que devuelve `preguntar`;
+  - `RegistroConsultasIA.Resultado` en el registro de consumo, en `resultado(Fin, boolean)` y en las constantes `ERROR_INCIERTO`, `ERROR_SIN_COBRO`, `LIMITE`, `RECHAZADA`, `INCOMPLETA`, `RESPONDIDA` y `SIN_EVIDENCIA`.
+- **Qué no cambia:** la lógica. Tampoco se excluye `asistente` de la compilación.
+- **Búsqueda del mismo patrón:** un script recorrió todo `src/main/java` (import de tipo anidado que coincide con un tipo anidado de la interfaz implementada) y no encontró otras colisiones.
+
+**Casos para que Codex revalide** (sin `-PdiagnosticoSinAsistente`):
+1. **Compilación completa:** `compileJava` sin errores, con `asistente` incluido. Si aparecen errores nuevos de fase 7 que la atribución anterior ocultaba, registrarlos aparte.
+2. **Arquitectura y arranque:** `ReglasArquitecturaTest`, `FronterasFaseDosTest` y `AplicacionArrancaIT` con todos los módulos.
+3. **Variante `otro-tipo` de `eventoIncoherenteFallaSinCrearCarpetas`:** FALLIDO por `CONFIGURACION`, ninguna fila nueva en `carpeta_drive` y **cero llamadas al doble de Drive**, incluidas `reservarId` y `metadatos("root")`. Las variantes ausente, otro autor y otro pedido siguen bloqueadas igual.
+4. **Copia con `drive_id_reservado` ya puesto y evento incoherente:** sin conciliación ni consultas a Drive.
+5. **Regresión:**
+   - la matriz completa de `CarpetasDriveAdr25IT` y `CarpetasDriveProtocoloAdr25Test` (cinco niveles, reutilización, homónimos, renombre, P-06 con varios roles, EC/CO, 409 y timeout, divergencias, compatibilidad y concurrencia);
+   - `DriveRecuperacionB1IT` y `GoogleDriveProtocoloB1Test`.
+6. **Asistente, compilado de nuevo con la IA desactivada:** pruebas de `asistente` que existan. El registro de consumo guarda las mismas constantes que antes (LIMITE, ERROR_SIN_COBRO, ERROR_INCIERTO, RESPONDIDA, SIN_EVIDENCIA, INCOMPLETA, RECHAZADA). `IA_HABILITADA=false` responde 503 sin llamar al proveedor.
+7. **`check` global y cobertura**, si la compilación ya lo permite.
+
+**Revisión `ecc:java-reviewer` (solo lectura, 2026-10-24):** sin hallazgos críticos, altos ni medios en los dos archivos. Confirmó que:
+- no queda ningún `Resultado` sin calificar, todas las constantes existen y el `switch` sobre `Fin` es exhaustivo;
+- con el constructor nuevo no hay ninguna operación Drive antes de validar el autor;
+- el constructor de compatibilidad, la jerarquía nueva y la conciliación ante 409 no cambian.
+
+Dejó un hallazgo **bajo**, aceptado: el autor también se exige a una copia que ya había empezado en la carpeta anterior. Si alguna careciera de un evento `ARCHIVO_SUBIDO` coherente, quedaría FALLIDO en vez de terminar. Es el efecto buscado; no consta que existan copias anteriores, porque la copia real nunca se activó. Codex puede confirmarlo con `select count(*) from adjunto where drive_carpeta_id is not null and estado_copia = 'PENDIENTE'`.
+
+**Precisión sobre la concurrencia:** el código garantiza una sola carpeta por clave, no un solo POST. Dos workers pueden enviar la misma creación con el mismo ID reservado y el segundo se concilia por 409, tal como describe el ADR-0025. No se añadió exclusión mutua entre peticiones. Si se quisiera "un solo POST", sería un requisito nuevo.
+
+**La prueba real** desde la aplicación normal **no se inicia**: espera a que Codex apruebe la revalidación y al consentimiento personal de Richard.

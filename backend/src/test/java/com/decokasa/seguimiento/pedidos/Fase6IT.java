@@ -43,7 +43,7 @@ class Fase6IT {
     UUID admin,china,marketing,revision,logistica;
     @BeforeEach void preparar(){RELOJ.set(AHORA);admin=persona("admin");china=persona("compras_china");marketing=persona("marketing");revision=persona("asistente_compras");logistica=persona("logistica");}
     UUID persona(String rol){UUID id=UUID.randomUUID();String s=id.toString().replace("-","");
-        sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values(?,'Persona ficticia F6',?,?,?,'hash-ficticio',?,?,0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14),Timestamp.from(AHORA),Timestamp.from(AHORA));rol(id,rol);return id;}
+        sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values(?,'Persona ficticia F6',?,?,?,'hash-ficticio',?,?,0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14),Timestamp.from(AHORA),Timestamp.from(AHORA));rol(id,rol);sql.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);return id;}
     void rol(UUID id,String rol){sql.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo=?",id,rol);}
     String http(MockHttpServletRequestBuilder r,UUID u,String cuerpo,int status)throws Exception{
         return mvc.perform(r.with(jwt().jwt(j->j.subject(u.toString()).claim("roles",List.of("admin","compras_china")))).contentType("application/json").content(cuerpo)).andExpect(status().is(status)).andReturn().getResponse().getContentAsString();}

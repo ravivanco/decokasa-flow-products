@@ -45,6 +45,10 @@ server:
 # Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
 # JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
 decokasa:
+  notificaciones:
+    # Solo para la prueba real de Gmail, en la configuración local aislada; nunca en producción. Vacío: ningún
+    # destinatario y nada se envía. Único valor admitido: el buzón autorizado por Richard (2026-10-24); otro no arranca.
+    destinatario-prueba: ${NOTIFICACIONES_DESTINATARIO_PRUEBA:}
   plazos:
     vencimientos:
       # Paso 5.2: detección de vencimientos. Desactivada por defecto hasta su verificación (Codex, 5.B1).

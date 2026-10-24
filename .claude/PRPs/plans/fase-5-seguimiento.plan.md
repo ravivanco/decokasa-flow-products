@@ -908,3 +908,35 @@ Implementa las decisiones que Richard confirmó el 2026-10-21. No son respuestas
 - Evidencia esperada: la copia a Drive de los adjuntos del recorrido A1–Fin, el envío de las notificaciones pendientes (incluida VENCIMIENTO, solo si se autoriza activar la detección) y la ausencia de secretos en Git y en los logs.
 
 **Sin cambios:** `Header.tsx` y los cambios ajenos se conservan. Google, OAuth, los workers y la detección automática siguen desactivados. Sin commit, push ni merge. Las fases 3, 4 y 5 siguen abiertas y 3.B3 sigue pospuesto.
+
+## Decisiones para el cierre de la fase 5 (parte A, 2026-10-24) — pendientes de Richard
+
+Ninguna está decidida. Aquí no se fija la meta, no se cambia el manual y no se retira el objetivo de 500. El código no cambia con ninguna de las opciones: la meta ya es configurable por el admin (`PATCH /configuracion/plazos`) y la respuesta conserva `metaPendienteDelCliente = true`.
+
+**1. Meta de días.** Hechos:
+- **Qué compara el sistema:** el cronograma compara `totalDias`, los **días corridos** desde la fecha del pedido hasta la llegada, con `meta_dias`.
+- **Valor actual:** 90, sembrado en V14 con origen `PROPUESTA`.
+- **Calculadora del cliente:** sus tiempos estándar suman 99 días (101 con el ajuste de fin de semana).
+- **Respuesta del cliente:** "se ajusta", sin cifra.
+
+| Opción | Qué implica |
+|---|---|
+| **A. Richard fija una cifra N** como decisión del equipo | El admin la configura en cada entorno (origen `ADMIN`, con autor y fecha). Hay que dar la cifra **y** su interpretación: días corridos de pedido a llegada, como mide hoy el sistema. Sigue sin ser una respuesta del cliente. |
+| **B. Cerrar con la meta propuesta** (recomendada) | El cronograma se entrega con 90 marcado como propuesta y configurable, y la meta sigue ⏸ del cliente. No se afirma cumplimiento del cliente. |
+
+**2. Alcance de rendimiento: 20 pedidos frente a los 500 del manual.** Hechos:
+- **Medición con 500 (5.B2, 2026-10-20):** dashboard < 2 s en local (mediana fría 191 ms), pero **antes** de corregir F5-B2-H01 (CLS) y H02 (N+1).
+- **Revalidación con hasta 20:** las correcciones se revalidaron solo con hasta 20 pedidos, por decisión de Richard.
+- **Situación del objetivo:** el código actual no se ha medido con 500. El objetivo del manual no está cumplido ni retirado.
+
+| Opción | Qué implica |
+|---|---|
+| **A. Sustituir** el criterio por "< 2 s con hasta 20 pedidos" | Se anota en el manual y en el plan, con fecha y autor, que 20 reemplaza a 500. Retira el objetivo de 500 por decisión expresa. |
+| **B. Cierre de desarrollo con 20 y 500 pendiente antes de producción** (recomendada) | La fase se cierra para desarrollo con la evidencia de 20. Los 500 quedan como criterio pendiente, para medirse en un entorno parecido al de producción antes de entregar. El objetivo no se pierde ni se da por cumplido. |
+| **C. Mantener 500 como puerta** | La fase 5 no se cierra hasta repetir la medición con 500 sobre el código actual. Hace falta autorizar esa carga. |
+
+**3. Otros criterios de la puerta que Richard debe ver al validar** (no se cambian aquí):
+- **"Un vencimiento llega al admin por correo":** solo está acreditado el aviso en el outbox, con dobles. El correo real depende de 3.B3 (pospuesto) y de los destinatarios definitivos (⏸).
+- **"Un check aparece en otra pantalla sin recargar":** acreditado con el polling de 30 s aceptado por Richard (ADR-0014). No equivale a "al instante" ni a aceptación del cliente.
+- **Accesibilidad:** H01–H05 de 5.B3 cerrados en el alcance revisado, con axe y teclado automatizados. No hubo revisión con un lector de pantalla real.
+- **Cobertura del frontend ≥ 80 %:** objetivo adicional pendiente (67–68 %). No es el umbral del manual (backend, 91 %).

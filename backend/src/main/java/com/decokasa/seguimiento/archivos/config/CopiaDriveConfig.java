@@ -5,6 +5,7 @@ import com.decokasa.seguimiento.archivos.adapter.out.google.ProtectorSesionDrive
 import com.decokasa.seguimiento.archivos.application.port.in.ReintentarCopiasPendientes;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenArchivos;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
+import com.decokasa.seguimiento.archivos.application.port.out.AutoresDeCopias;
 import com.decokasa.seguimiento.archivos.application.port.out.BloqueoCopiaLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.CarpetaDriveRepositorio;
 import com.decokasa.seguimiento.archivos.application.port.out.CopiaAdjuntoRepositorio;
@@ -15,6 +16,7 @@ import com.decokasa.seguimiento.archivos.domain.PoliticaCopia;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle.Causa;
 import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle;
+import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -39,6 +41,7 @@ public class CopiaDriveConfig {
     }
     @Bean ReintentarCopiasPendientes reintentarCopiasPendientes(PlatformTransactionManager gestor,
             CopiaAdjuntoRepositorio repositorio,CarpetaDriveRepositorio directorio,PedidosParaCopias pedidos,
+            AutoresDeCopias autoresDeCopias,ResumirUsuarios usuarios,
             AlmacenArchivos drive,AlmacenLocal local,BloqueoCopiaLocal bloqueos,ProtectorSesionDrive protector,Reloj reloj,
             @Value("${decokasa.google.oauth.habilitada:false}") boolean oauth,
             @Value("${decokasa.google.drive.habilitada:false}") boolean driveHabilitado,
@@ -82,8 +85,11 @@ public class CopiaDriveConfig {
             @Override public void confirmar(String clave,String id) { tx.executeWithoutResult(s -> directorio.confirmar(clave,id)); }
         };
         PedidosParaCopias datos=id -> tx.execute(s -> pedidos.destino(id));
+        AutoresDeCopias autores=id -> tx.execute(s -> autoresDeCopias.autor(id));
         var politica=new PoliticaCopia(Duration.parse(lease),List.of(Duration.parse(espera1),Duration.parse(espera2),Duration.parse(espera3)));
-        var caso=new CopiarPendientesCasoDeUso(oauth && driveHabilitado,lote,copias,carpetas,datos,drive,local,bloqueos,protector,reloj,politica);
+        // Organización Mi unidad/DECOKASA/{país}/{número}/{rol}/{persona} (aprobada por Richard el 2026-10-24).
+        var caso=new CopiarPendientesCasoDeUso(oauth && driveHabilitado,lote,copias,carpetas,datos,drive,local,bloqueos,
+                protector,reloj,politica,autores,usuarios);
         return () -> {
             if (TransactionSynchronizationManager.isActualTransactionActive()) { throw new FalloIntegracionGoogle(Causa.TRANSACCION_ACTIVA); }
             return caso.ejecutar();

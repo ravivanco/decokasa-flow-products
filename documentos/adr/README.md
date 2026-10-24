@@ -37,6 +37,7 @@ El "Registro de decisiones" de `requerimientos.md` está marcado como "BORRADOR 
 | [0022](0022-presupuesto-ia-reserva-atomica.md) | El consumo del asistente se limita con una reserva atómica del peor caso antes de cada llamada | accepted (equipo, Richard) solo para el piloto | 2026-10-22 | F7-D2 (límites del piloto). Sin implementar |
 | [0023](0023-piloto-ia-aislado-y-conservacion.md) | El piloto del asistente se aísla con datos ficticios controlados y conserva los textos 30 días | accepted (equipo, Richard) solo para el piloto; producción y documentos reales pendientes (F7-D6) | 2026-10-22 | F7-D3 y F7-D5. La retención del proveedor es independiente y sigue pendiente. Sin implementar |
 | [0024](0024-acceso-por-pais.md) | El acceso a pedidos y bodegas se limita a los países asignados hoy a cada persona, también al admin | accepted (equipo, Richard) en lo decidido; detalles de diseño pendientes de revisión por Codex | 2026-10-22 | Fase 7, paso 7.2 (V19). Colombia con los mismos flujos; países asignados por el admin; sin Colombia automático. No es una respuesta del cliente; sin verificar |
+| [0025](0025-carpetas-drive-por-rol-y-persona.md) | Los documentos se copian a `Mi unidad/DECOKASA/{país}/{pedido}/{rol}/{persona}` | accepted (equipo, Richard); implementación sin verificar | 2026-10-24 | Rol de intervención de la subida (P-06) y persona por UUID; sin migración; no mueve copias anteriores. No es una respuesta del cliente |
 
 ## Propuestas de `arquitectura.md` (8.2) incluidas dentro de otro ADR
 

@@ -44,6 +44,7 @@ class CargasB1IT {
         admin=UUID.randomUUID();String suf=admin.toString().replace("-","");
         sql.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) values (?,'Admin B1',?,?,?,'hash-ficticio',now(),now(),0)",admin,suf+"@ejemplo.test",suf,"+"+suf.replaceAll("[a-f]","1").substring(0,14));
         sql.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo='admin'",admin);
+        sql.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",admin);
         String cuerpo=mvc.perform(post("/api/v1/pedidos").with(token(admin)).contentType("application/json")
             .content("{\"tipoFlujo\":\"A\",\"pais\":\"EC\",\"nombre\":\"Pedido B1\"}"))
             .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();

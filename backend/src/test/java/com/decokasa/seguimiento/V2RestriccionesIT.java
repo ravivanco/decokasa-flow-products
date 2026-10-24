@@ -25,8 +25,8 @@ class V2RestriccionesIT {
     @BeforeAll static void migrarBaseVacia() {
         var resultado=Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
                 .locations("classpath:db/migration").load().migrate();
-        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(21);
-        assertThat(resultado.targetSchemaVersion).isEqualTo("21");
+        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(22);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("22");
     }
     @BeforeEach void preparar() throws SQLException {
         db=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());

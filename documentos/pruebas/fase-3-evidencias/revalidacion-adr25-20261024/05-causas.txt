@@ -1,0 +1,29 @@
+{'tests': 926, 'failures': 192, 'errors': 0, 'skipped': 0}
+== Backend24IT (47)
+   47 x java.lang.AssertionError: Status expected:<201> but was:<403>
+== CargasB1IT (23)
+   23 x java.lang.AssertionError: Status expected:<201> but was:<403>
+== CorreoB2IT (1)
+   1 x org.mockito.exceptions.verification.opentest4j.ArgumentsAreDifferent: 
+== Fase4IT (74)
+   27 x java.lang.AssertionError: Response status expected:<201> but was:<403>
+   17 x java.lang.AssertionError: Response status expected:<200> but was:<404>
+   16 x java.lang.AssertionError: Status expected:<201> but was:<404>
+   10 x java.lang.AssertionError: Response status expected:<403> but was:<404>
+== Fase5IT (9)
+   3 x java.lang.AssertionError: Response status expected:<200> but was:<404>
+   3 x java.lang.AssertionError: Response status expected:<403> but was:<404>
+   1 x java.lang.AssertionError: Response status expected:<409> but was:<404>
+   1 x java.lang.AssertionError: Response status expected:<500> but was:<404>
+== Fase6IT (14)
+   14 x java.lang.AssertionError: Response status expected:<201> but was:<403>
+== HistorialSecuenciaH01IT (3)
+   3 x java.lang.AssertionError: Status expected:<200> but was:<404>
+== MigracionesFase7IT (1)
+   1 x org.opentest4j.AssertionFailedError: 
+== MigracionesIT (1)
+   1 x java.lang.AssertionError: 
+== PersistenciaFaseDosIT (19)
+   15 x com.decokasa.seguimiento.compartido.domain.SinPermiso: No tienes asignado ese pa�s.
+   2 x java.lang.AssertionError: 
+   2 x java.util.concurrent.ExecutionException: com.decokasa.seguimiento.compartido.domain.SinPermiso: No tienes asignado ese pa�s.

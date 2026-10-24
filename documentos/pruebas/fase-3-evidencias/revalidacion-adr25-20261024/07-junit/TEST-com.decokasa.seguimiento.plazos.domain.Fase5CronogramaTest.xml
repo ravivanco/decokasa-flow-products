@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-24T16:13:54.668Z" hostname="DESKTOP-GKF6IVL" time="0.009">
+  <properties/>
+  <testcase name="anclaEstimadaRetomaCalculoTrasPendientesYRealTienePrioridad()" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.001"/>
+  <testcase name="calculableNoInventaMetaAprobadaYListasSonInmutables()" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.001"/>
+  <testcase name="salidaRealArrastraYReentradaUsaUltimaEntradaSinArrastrarEntradasFuturasViejas()" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.0"/>
+  <testcase name="pendienteNoEsCeroNiSinPlazoYPropagaSinEstimar()" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.001"/>
+  <testcase name="medianocheEsDeEcuadorYNoDelNavegador()" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.0"/>
+  <testcase name="[1] inicio = &quot;2026-10-16T22:00:00Z&quot;, tipo = &quot;DIAS_HABILES&quot;, cantidad = &quot;2&quot;, fin = &quot;2026-10-20T22:00:00Z&quot;, movida = &quot;false&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.002"/>
+  <testcase name="[2] inicio = &quot;2026-10-16T22:00:00Z&quot;, tipo = &quot;DIAS_CORRIDOS&quot;, cantidad = &quot;2&quot;, fin = &quot;2026-10-19T22:00:00Z&quot;, movida = &quot;true&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.001"/>
+  <testcase name="[3] inicio = &quot;2026-10-16T22:00:00Z&quot;, tipo = &quot;HORAS_HABILES&quot;, cantidad = &quot;24&quot;, fin = &quot;2026-10-19T22:00:00Z&quot;, movida = &quot;false&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.001"/>
+  <testcase name="[4] inicio = &quot;2026-10-17T04:00:00Z&quot;, tipo = &quot;HORAS_HABILES&quot;, cantidad = &quot;1&quot;, fin = &quot;2026-10-19T05:00:00Z&quot;, movida = &quot;true&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.0"/>
+  <testcase name="[5] inicio = &quot;2026-10-17T05:00:00Z&quot;, tipo = &quot;HORAS_HABILES&quot;, cantidad = &quot;1&quot;, fin = &quot;2026-10-19T06:00:00Z&quot;, movida = &quot;false&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.0"/>
+  <testcase name="[6] inicio = &quot;2026-10-18T18:00:00Z&quot;, tipo = &quot;DIAS_HABILES&quot;, cantidad = &quot;1&quot;, fin = &quot;2026-10-19T18:00:00Z&quot;, movida = &quot;false&quot;" classname="com.decokasa.seguimiento.plazos.domain.Fase5CronogramaTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

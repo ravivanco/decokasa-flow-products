@@ -1,0 +1,35 @@
+{
+ "origen": "03-junit",
+ "total": {
+  "casos": 19,
+  "fallos": 0,
+  "errores": 0,
+  "omitidos": 0
+ },
+ "suites": [
+  {
+   "suite": "CarpetasDriveAdr25IT",
+   "casos": 4,
+   "fallos": 0,
+   "errores": 0,
+   "omitidos": 0,
+   "fallidos": []
+  },
+  {
+   "suite": "EventoIncoherenteSinDriveRevalidacionIT",
+   "casos": 8,
+   "fallos": 0,
+   "errores": 0,
+   "omitidos": 0,
+   "fallidos": []
+  },
+  {
+   "suite": "ReglasArquitecturaTest",
+   "casos": 7,
+   "fallos": 0,
+   "errores": 0,
+   "omitidos": 0,
+   "fallidos": []
+  }
+ ]
+}
