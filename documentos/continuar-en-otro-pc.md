@@ -29,4 +29,6 @@ El acceso a GitHub y el inicio de sesión de las herramientas de desarrollo se c
 
 Mantén OAuth, Drive, Gmail, IA y procesamientos automáticos desactivados al preparar el equipo. La prueba real autorizada debe seguir limitada a un archivo ficticio y un correo al buzón aprobado, con confirmación personal del consentimiento de Google.
 
-Los checkouts auxiliares, temporales, volcados binarios del índice, trazas de navegador y archivos privados del equipo anterior no forman parte del proyecto que necesita un clon nuevo.
+Se versionaron también las evidencias auxiliares revisadas, capturas ficticias, inventarios y resultados binarios históricos. No son necesarios para ejecutar la aplicación. El reporte `documentos/pruebas/fase-3-evidencias/ejecucion-02/TEST-com.decokasa.seguimiento.archivos.CargasB1IT.xml` supera 100 MiB y se conserva como `.xml.zip`; puede extraerse después de clonar.
+
+El checkout auxiliar local y los archivos privados no se trasladan por Git. La traza `documentos/pruebas/fase-4-evidencias/verificacion-4.5-4.6/browser-artifacts/pantallas-catalogo-guarda--faa5d-serva-borrador-sin-reenviar/trace.zip` contiene datos de autenticación y tampoco se publica; debe conservarse por un medio privado si se necesita.
