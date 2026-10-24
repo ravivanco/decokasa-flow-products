@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:51:46.118Z" hostname="DESKTOP-GKF6IVL" time="0.798">
+  <properties/>
+  <testcase name="unaEdicionALaVezQueLoginsFallidosNoFallaNiPierdeIntentosNiQuitaElBloqueo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" time="0.468"/>
+  <testcase name="dosEdicionesSimultaneasConLaMismaVersionGuardanUnaYLaOtraRecibe409()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT" time="0.306"/>
+  <system-out><![CDATA[2026-10-15T14:51:46.118-05:00  INFO 7748 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT]: EdicionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:51:46.126-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT
+2026-10-15T14:51:46.127-05:00  INFO 7748 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT]: EdicionConcurrenteIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:51:46.128-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

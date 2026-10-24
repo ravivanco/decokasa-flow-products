@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.Backend24IT" tests="41" skipped="0" failures="0" errors="0" timestamp="2026-10-17T17:40:55.811Z" hostname="DESKTOP-GKF6IVL" time="19.819">
+  <properties/>
+  <testcase name="rechazosDevolucionPorErrorYA4A5MantienenContrato()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.985"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.162"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.144"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.175"/>
+  <testcase name="errorAlRegistrarTrasEscribirRevierteDiscoYBase()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.124"/>
+  <testcase name="resumenP20ReentradaConservaUltimoCierreYLoReemplazaAlCerrarDeNuevo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.696"/>
+  <testcase name="subidaRevalidaEntradaDespuesDeRecibirYRevierteSiHuboReentrada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.333"/>
+  <testcase name="resumenP20UsaNombreVigentePeroConservaRolHistoricoYFechaEcuador()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.385"/>
+  <testcase name="dosAvancesSimultaneosConfirmanUnoSolo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.188"/>
+  <testcase name="adjuntosDeOtroPedidoDuplicadosNulosYDeOtraEtapaNoSeIgnoran()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.315"/>
+  <testcase name="reasignacionExcluyeOtrosYReleeRolDeAsignado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.459"/>
+  <testcase name="consultasContratoYConfiguracion()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.462"/>
+  <testcase name="bandejaRespetaContratoSinErrorInterno()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.262"/>
+  <testcase name="observacionEHistorialConservanElMismoJsonPublicoTrasSepararAdaptadores()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.367"/>
+  <testcase name="archivosRealesMetadatosYPermisosDeDescarga()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.322"/>
+  <testcase name="resumenDeEtapaIncluyeLoOcurrido()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.511"/>
+  <testcase name="[1] nivel = &quot;URGENTE&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.11"/>
+  <testcase name="[2] nivel = &quot;PRIORITARIO&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.122"/>
+  <testcase name="[3] nivel = &quot;NORMAL&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.057"/>
+  <testcase name="[1] rol = &quot;consulta&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.182"/>
+  <testcase name="[2] rol = &quot;asistente_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.192"/>
+  <testcase name="[3] rol = &quot;marketing&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.21"/>
+  <testcase name="[4] rol = &quot;asistente_compras&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.213"/>
+  <testcase name="[5] rol = &quot;compras_china&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.258"/>
+  <testcase name="[6] rol = &quot;logistica&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.23"/>
+  <testcase name="observacionInvalidaOAdjuntoAjenoNoDejanEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.272"/>
+  <testcase name="multipartExigeEntradaYPermisoSinCrearNada()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.113"/>
+  <testcase name="requisitosErroresYEtapaDesactualizadaSonAtomicos()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.119"/>
+  <testcase name="observacionesExigenEntradaVigenteYRegistranActorFechaSinAvance()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.45"/>
+  <testcase name="resumenP20EtapaIntermediaConservaSuCierreTrasDevolucionDesdeA4()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="1.099"/>
+  <testcase name="[1] desactivar = true" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.111"/>
+  <testcase name="[2] desactivar = false" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.112"/>
+  <testcase name="resumenP20SinCierreEsNuloAunqueHayaObservacionYArchivo()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.484"/>
+  <testcase name="multipartRealAplicaLimiteDelServletConJwtFirmado()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.528"/>
+  <testcase name="resumenP20RecortaUnicodeSinCambiarObservacionCompletaDelHistorial()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.899"/>
+  <testcase name="lecturaInterrumpidaNoDejaTemporalAdjuntoNiEvento()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.127"/>
+  <testcase name="[1] modo = &quot;ausente&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.2"/>
+  <testcase name="[2] modo = &quot;truncado&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.207"/>
+  <testcase name="[3] modo = &quot;corrupto&quot;" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.202"/>
+  <testcase name="reentradaNoReutilizaDocumentosNiEntradaAnterior()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.89"/>
+  <testcase name="vacioLimiteExactoYExcesoNoDejanRegistrosParciales()" classname="com.decokasa.seguimiento.pedidos.Backend24IT" time="0.26"/>
+  <system-out><![CDATA[2026-10-17T12:40:55.812-05:00  INFO 28860 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-17T12:40:55.843-05:00  INFO 28860 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+2026-10-17T12:40:55.843-05:00  INFO 28860 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.pedidos.Backend24IT]: Backend24IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-17T12:40:55.849-05:00  INFO 28860 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.Backend24IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-17T12:40:55.886-05:00  INFO 28860 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Starting Backend24IT using Java 21.0.12.1 with PID 28860 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-17T12:40:55.887-05:00  INFO 28860 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-17T12:40:56.109-05:00  INFO 28860 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-17T12:40:56.158-05:00  INFO 28860 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 6 JPA repository interfaces.
+2026-10-17T12:40:56.426-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-17T12:40:56.459-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-17T12:40:56.459-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-17T12:40:56.528-05:00  INFO 28860 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 640 ms
+2026-10-17T12:40:56.618-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-17T12:40:56.710-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: cbf745d2eed2b454499e5fd047f9e395b71506c10993f1ece837bc9927a0fb21
+2026-10-17T12:40:58.259-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.640621S
+2026-10-17T12:40:58.260-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:52734/test?loggerLevel=OFF)
+2026-10-17T12:40:58.356-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:52734/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:58.370-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-17T12:40:58.371-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.005s)
+2026-10-17T12:40:58.378-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-17T12:40:58.396-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-17T12:40:58.399-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-17T12:40:58.430-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-17T12:40:58.470-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-17T12:40:58.498-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-17T12:40:58.517-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-17T12:40:58.532-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-17T12:40:58.544-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "public", now at version v6 (execution time 00:00.097s)
+2026-10-17T12:40:58.569-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-17T12:40:58.585-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-17T12:40:58.600-05:00  INFO 28860 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2026-10-17T12:40:58.611-05:00  INFO 28860 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@51148050
+2026-10-17T12:40:58.611-05:00  INFO 28860 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2026-10-17T12:40:58.617-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:52734/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-17T12:40:58.736-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-17T12:40:58.751-05:00  INFO 28860 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-17T12:40:59.005-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2026-10-17T12:40:59.005-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-17T12:40:59.005-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-17T12:40:59.005-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-17T12:40:59.041-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 52745 (http) with context path '/'
+2026-10-17T12:40:59.048-05:00  INFO 28860 --- [seguimiento] [    Test worker] c.d.seguimiento.pedidos.Backend24IT      : Started Backend24IT in 3.193 seconds (process running for 65.003)
+2026-10-17T12:41:00.635-05:00  WARN 28860 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: P0001
+2026-10-17T12:41:00.635-05:00  WARN 28860 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: Fallo ficticio B24
+  Where: PL/pgSQL function fallo_subida_b24() line 1 at RAISE
+2026-10-17T12:41:12.617-05:00  INFO 28860 --- [seguimiento] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-17T12:41:12.617-05:00  INFO 28860 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-17T12:41:12.618-05:00  INFO 28860 --- [seguimiento] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

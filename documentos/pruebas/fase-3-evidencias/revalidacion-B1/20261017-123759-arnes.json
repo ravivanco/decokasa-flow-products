@@ -1,0 +1,6 @@
+﻿{
+    "comando":  ".\\gradlew.bat -I ..\\documentos\\pruebas\\fase-3-evidencias\\archivos-aislados.init.gradle archivosB1Aislados --console=plain --no-daemon",
+    "etapa":  "arnes",
+    "fecha":  "20261017-123759",
+    "salida":  0
+}

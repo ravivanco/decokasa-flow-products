@@ -1,0 +1,129 @@
+DECOKASA
+Seguimiento de pedidos
+Multi Prueba
+Cerrar sesión
+Inicio
+Mi bandeja
+Pedidos
+Pedidos
+DK-EC-2026-0004
+A · Ecuador
+A tiempo · vence 21 oct 2026, 11:23
+
+Conflicto y reasignaci?n ficticios
+
+Creado por Admin Prueba el 16 oct 2026, 11:22 · versión 1 del flujo
+
+A1
+Crear solicitud de pedido
+16-oct
+A2
+Codificación
+16-oct
+A3
+Revisión y aprobación
+16-oct
+4
+A4
+Análisis y gestión
+Etapa actual
+5
+A5
+Fabricación
+6
+A6
+Embarque
+7
+A7
+Aduana Ecuador
+8
+A8
+Autorización de salida
+9
+A9
+Bodega
+10
+A10
+Incidencias
+A11
+Fin
+A4 · Análisis y gestión
+Compras China
+Etapa actual
+Asignada a
+Cualquiera con el rol
+Entrada
+16 oct 2026, 11:23
+Vence
+21 oct 2026, 11:23
+Reentradas
+0
+Acciones
+
+No tienes acciones en esta etapa. Le corresponde a quien tenga el rol Compras China.
+
+Archivos
+
+Todavía no hay archivos en esta entrada de la etapa.
+
+Historial
+
+Etapa aprobada · A3 → A4
+
+16 oct 2026, 11:23
+
+Multi Prueba · Asistente de compras
+
+Verificación real 2.B3
+
+Etapa enviada · A2 → A3
+
+16 oct 2026, 11:23
+
+Multi Prueba · Marketing y codificación
+
+Verificación real 2.B3
+
+multi-codificacion.txt
+
+Archivo subido · A2
+
+16 oct 2026, 11:23
+
+Multi Prueba · Marketing y codificación
+
+multi-codificacion.txt
+
+Etapa reasignada · A2
+
+16 oct 2026, 11:23
+
+Admin Prueba · Administrador
+
+Asignada a Multi Prueba
+
+Prueba aislada de asignaci?n
+
+Etapa enviada · A1 → A2
+
+16 oct 2026, 11:22
+
+Admin Prueba · Administrador
+
+Verificación real 2.B3
+
+solicitud-conflicto.txt
+
+Archivo subido · A1
+
+16 oct 2026, 11:22
+
+Admin Prueba · Administrador
+
+solicitud-conflicto.txt
+
+Pedido creado · A1
+
+16 oct 2026, 11:22
+
+Admin Prueba · Administrador

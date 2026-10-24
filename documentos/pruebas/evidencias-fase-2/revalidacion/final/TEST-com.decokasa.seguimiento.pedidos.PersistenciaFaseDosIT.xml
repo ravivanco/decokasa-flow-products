@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" tests="21" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:40:29.133Z" hostname="DESKTOP-GKF6IVL" time="5.808">
+  <properties/>
+  <testcase name="componenteRollbackCreacionRevierteContadorYPermiteReusarSoloNumeroNoConfirmado()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.504"/>
+  <testcase name="componenteCreacionesSimultaneasUsanContadorRealYNumerosDistintos()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.162"/>
+  <testcase name="falloRealAlInsertarHistorialRevierteAccionEtapasYVersion()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.265"/>
+  <testcase name="componenteFalloHistorialRevierteAccionYVersion()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.104"/>
+  <testcase name="rollbackDeCreacionReviertePedidoEtapasHistorialYContador()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.093"/>
+  <testcase name="componenteDosAvancesSimultaneosConfirmanUnoYElOtroEtapaCambio()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.233"/>
+  <testcase name="creacionesSimultaneasConfirmanNumerosDistintos()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.066"/>
+  <testcase name="refreshReleePedidoYEtapasAunqueEstuvieranEnContextoAntesDeOtroCommit()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.094"/>
+  <testcase name="componenteNumero10000SeConfirmaEnPedidoSinTruncar()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.038"/>
+  <testcase name="[1] nivel = URGENTE" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.125"/>
+  <testcase name="[2] nivel = PRIORITARIO" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.108"/>
+  <testcase name="[3] nivel = NORMAL" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.094"/>
+  <testcase name="contextoValidaEntidadesContraV2YReconstruyeOnceEtapas()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.037"/>
+  <testcase name="adaptadorDeFlujosConservaDocumentosYPlazosPendientes()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.012"/>
+  <testcase name="[1] nivel = URGENTE" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.073"/>
+  <testcase name="[2] nivel = PRIORITARIO" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.065"/>
+  <testcase name="[3] nivel = NORMAL" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.054"/>
+  <testcase name="generadorNoTruncaDiezMilEnPostgres()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.009"/>
+  <testcase name="componenteValidaJPAContraV2YConexionExclusivaDeTestcontainers()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.031"/>
+  <testcase name="dosAvancesSimultaneosSoloConfirmanUnoYElOtroEsEtapaCambio()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.072"/>
+  <testcase name="reasignacionPersisteYRolAjenoNoActuaAunqueSuTokenDigaAdmin()" classname="com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT" time="0.11"/>
+  <system-out><![CDATA[2026-10-15T14:40:29.191-05:00  INFO 17388 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT
+2026-10-15T14:40:29.208-05:00  INFO 17388 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-15T14:40:29.262-05:00  INFO 17388 --- [seguimiento] [    Test worker] c.d.s.pedidos.PersistenciaFaseDosIT      : Starting PersistenciaFaseDosIT using Java 21.0.12.1 with PID 17388 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-15T14:40:29.262-05:00  INFO 17388 --- [seguimiento] [    Test worker] c.d.s.pedidos.PersistenciaFaseDosIT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-15T14:40:29.609-05:00  INFO 17388 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-15T14:40:29.653-05:00  INFO 17388 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39 ms. Found 5 JPA repository interfaces.
+2026-10-15T14:40:29.784-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T14:40:29.880-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 68483a4c43eac304cf9f9f4cabb80f838bd70b32198ab906ca83ccb41184cb68
+2026-10-15T14:40:31.507-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.7231478S
+2026-10-15T14:40:31.508-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:56672/test?loggerLevel=OFF)
+2026-10-15T14:40:31.639-05:00  INFO 17388 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:56672/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T14:40:31.658-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T14:40:31.659-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.004s)
+2026-10-15T14:40:31.670-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T14:40:31.706-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T14:40:31.715-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T14:40:31.775-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T14:40:31.855-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.101s)
+2026-10-15T14:40:31.904-05:00  INFO 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-15T14:40:31.943-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-15T14:40:31.946-05:00  INFO 17388 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-15T14:40:31.964-05:00  INFO 17388 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@739d2c01
+2026-10-15T14:40:31.964-05:00  INFO 17388 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-15T14:40:31.975-05:00  INFO 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:56672/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-15T14:40:32.131-05:00  INFO 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-15T14:40:32.152-05:00  INFO 17388 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-15T14:40:32.545-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-15T14:40:32.555-05:00  INFO 17388 --- [seguimiento] [    Test worker] c.d.s.pedidos.PersistenciaFaseDosIT      : Started PersistenciaFaseDosIT in 3.347 seconds (process running for 26.473)
+2026-10-15T14:40:33.000-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23514
+2026-10-15T14:40:33.001-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: new row for relation "evento_pedido" violates check constraint "prueba_b2_creacion"
+  Detail: Failing row contains (800c3272-22a7-409e-9cc4-1335a0fe4a60, e6813b2d-6523-4b16-a7f7-95f7face1469, 1, PEDIDO_CREADO, 7a261513-ecad-4067-a921-5ced3137209a, admin, 2026-10-16 17:00:00-05, null, null, null).
+2026-10-15T14:40:33.482-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23514
+2026-10-15T14:40:33.483-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: new row for relation "evento_pedido" violates check constraint "prueba_b2_historial"
+  Detail: Failing row contains (5c40dc78-0778-45ff-bb2c-2b9167c9ce38, c2ee89fe-013b-4117-bec2-fb4305f7f006, 3, ETAPA_RECHAZADA, 3e1b929e-9e73-47f5-a9e7-ef2904211585, admin, 2026-10-16 17:00:00-05, FALLO_CONTROLADO_B2, null, {"etapaDestino": 2}).
+2026-10-15T14:40:33.598-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23514
+2026-10-15T14:40:33.599-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: new row for relation "evento_pedido" violates check constraint "prueba_b2_historial"
+  Detail: Failing row contains (211a9832-1c98-4c58-8acf-4c3dfc96dc6c, c2d99bbe-d25e-4b59-8602-0f8ad204600a, 3, ETAPA_RECHAZADA, f50f85c7-7e86-4c9c-a393-37f6da5385ed, admin, 2026-10-16 17:00:00-05, FALLO_CONTROLADO_B2, null, {"etapaDestino": 2}).
+2026-10-15T14:40:33.663-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23514
+2026-10-15T14:40:33.663-05:00  WARN 17388 --- [seguimiento] [    Test worker] org.hibernate.orm.jdbc.error             : ERROR: new row for relation "evento_pedido" violates check constraint "prueba_b2_creacion"
+  Detail: Failing row contains (89631ea8-3d92-4845-bd70-e6baba879a78, d7790665-bddb-4cf5-9829-e98ae176ccea, 1, PEDIDO_CREADO, 7448bc8c-d816-46da-986f-a22332b1a930, admin, 2026-10-16 17:00:00-05, null, null, null).
+B2: bloqueo PostgreSQL observado; un avance confirmado; un evento nuevo; una etapa ACTUAL; segunda respuesta: com.decokasa.seguimiento.compartido.domain.EtapaCambio: La etapa del pedido cambió. Vuelve a cargarlo antes de actuar.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

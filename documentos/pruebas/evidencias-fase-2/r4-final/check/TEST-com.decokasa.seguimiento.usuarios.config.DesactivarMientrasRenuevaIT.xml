@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:51:58.075Z" hostname="DESKTOP-GKF6IVL" time="8.476">
+  <properties/>
+  <testcase name="laRenovacionConsumeElTokenAntesDeQueLaDesactivacionBloqueeAlUsuario()" classname="com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT" time="3.073"/>
+  <testcase name="desactivarMientrasElLoginEsperaLaFilaImpideCrearUnaSesion()" classname="com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT" time="0.042"/>
+  <testcase name="desactivarDespuesDeQueElLoginTomeLaFilaRevocaTambienSuNuevaSesion()" classname="com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT" time="0.047"/>
+  <testcase name="laDesactivacionBloqueaAlUsuarioAntesDeQueLaRenovacionConsumaElToken()" classname="com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT" time="3.049"/>
+  <system-out><![CDATA[2026-10-15T14:51:58.095-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT
+2026-10-15T14:51:58.099-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-15T14:51:58.115-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.c.DesactivarMientrasRenuevaIT    : Starting DesactivarMientrasRenuevaIT using Java 21.0.12.1 with PID 7748 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-15T14:51:58.115-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.c.DesactivarMientrasRenuevaIT    : No active profile set, falling back to 1 default profile: "default"
+2026-10-15T14:51:58.240-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-15T14:51:58.268-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 5 JPA repository interfaces.
+2026-10-15T14:51:58.316-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T14:51:58.409-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 90785cfe6c05a106df019e92b373226fcded4f7acdbf4ea2dbf1cc90f2463449
+2026-10-15T14:51:59.842-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5259868S
+2026-10-15T14:51:59.842-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55382/test?loggerLevel=OFF)
+2026-10-15T14:51:59.913-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55382/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T14:51:59.925-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T14:51:59.926-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.003s)
+2026-10-15T14:51:59.932-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T14:51:59.948-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T14:51:59.951-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T14:51:59.992-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T14:52:00.050-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.062s)
+2026-10-15T14:52:00.073-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-15T14:52:00.089-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-15T14:52:00.089-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2026-10-15T14:52:00.097-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection org.postgresql.jdbc.PgConnection@799a30bf
+2026-10-15T14:52:00.098-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2026-10-15T14:52:00.102-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:55382/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-15T14:52:00.166-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-15T14:52:00.177-05:00  INFO 7748 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-15T14:52:00.331-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-15T14:52:00.337-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.c.DesactivarMientrasRenuevaIT    : Started DesactivarMientrasRenuevaIT in 2.236 seconds (process running for 49.845)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

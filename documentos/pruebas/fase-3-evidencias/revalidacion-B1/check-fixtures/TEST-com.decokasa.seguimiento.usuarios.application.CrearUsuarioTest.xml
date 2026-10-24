@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-10-17T17:44:08.292Z" hostname="DESKTOP-GKF6IVL" time="0.012">
+  <properties/>
+  <testcase name="laCargaInicialCreaUsuariosSinUnAdminEnLaBase()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="elNombreDeUsuarioNoSeRepiteSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="rechazaUnaContrasenaDeSetentaYTresBytesSinGuardarNiCodificar()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="unSolicitanteQueNoExisteEnLaBaseNoCreaUsuariosAunqueSuTokenDigaAdmin()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="quienNoEsAdminNoPuedeCrearUsuarios()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="elTelefonoNoSeRepiteAunqueSeEscribaConEspacios()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="unAdminSinElRolAdminNoCreaOtroAdministradorConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="elCorreoNoSeRepiteSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="rechazaUnRolQueNoExiste()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="guardaSoloElHashDeLaContrasena()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="unAdminConVariosRolesTambienPuedeCrear()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="unAdminDesactivadoNoCreaOtroAdministradorConSuTokenAnterior()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="aceptaUnaContrasenaDeSetentaYDosBytes()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.001"/>
+  <testcase name="rechazaUnaContrasenaDeMenosDeOchoCaracteres()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="elAdminCreaUnUsuarioConVariosRoles()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <testcase name="exigeAlMenosUnRol()" classname="com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

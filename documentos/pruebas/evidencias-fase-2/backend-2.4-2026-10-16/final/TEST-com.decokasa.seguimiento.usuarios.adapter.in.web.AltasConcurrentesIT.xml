@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-16T14:21:19.997Z" hostname="DESKTOP-GKF6IVL" time="4.091">
+  <properties/>
+  <testcase name="mismo &quot;correo&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT" time="0.603"/>
+  <testcase name="mismo &quot;usuario&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT" time="0.36"/>
+  <testcase name="mismo &quot;telefono&quot;" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT" time="0.307"/>
+  <system-out><![CDATA[2026-10-16T09:21:19.998-05:00  INFO 19060 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT]: AltasConcurrentesIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T09:21:20.036-05:00  INFO 19060 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT
+2026-10-16T09:21:20.037-05:00  INFO 19060 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT]: AltasConcurrentesIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-16T09:21:20.042-05:00  INFO 19060 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-16T09:21:20.073-05:00  INFO 19060 --- [seguimiento] [    Test worker] c.d.s.u.a.in.web.AltasConcurrentesIT     : Starting AltasConcurrentesIT using Java 21.0.12.1 with PID 19060 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-16T09:21:20.073-05:00  INFO 19060 --- [seguimiento] [    Test worker] c.d.s.u.a.in.web.AltasConcurrentesIT     : No active profile set, falling back to 1 default profile: "default"
+2026-10-16T09:21:20.268-05:00  INFO 19060 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-16T09:21:20.314-05:00  INFO 19060 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 6 JPA repository interfaces.
+2026-10-16T09:21:20.389-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-16T09:21:20.390-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-16T09:21:20.390-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-16T09:21:20.417-05:00  INFO 19060 --- [seguimiento] [    Test worker] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 343 ms
+2026-10-16T09:21:20.448-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-16T09:21:20.594-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 3b70e194a49bb6f7bb7cd7bb4dea9e0cb59250d51fa7a3e96a89b821f40c4c2f
+2026-10-16T09:21:21.982-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5344474S
+2026-10-16T09:21:21.983-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:56296/test?loggerLevel=OFF)
+2026-10-16T09:21:22.079-05:00  INFO 19060 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:56296/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-16T09:21:22.096-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-16T09:21:22.098-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.005s)
+2026-10-16T09:21:22.106-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-16T09:21:22.132-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-16T09:21:22.138-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-16T09:21:22.179-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-16T09:21:22.252-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-16T09:21:22.286-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "public", now at version v3 (execution time 00:00.112s)
+2026-10-16T09:21:22.321-05:00  INFO 19060 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-16T09:21:22.346-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-16T09:21:22.347-05:00  INFO 19060 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2026-10-16T09:21:22.356-05:00  INFO 19060 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@5dd4460c
+2026-10-16T09:21:22.357-05:00  INFO 19060 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2026-10-16T09:21:22.365-05:00  INFO 19060 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:56296/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-16T09:21:22.493-05:00  INFO 19060 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-16T09:21:22.511-05:00  INFO 19060 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-16T09:21:22.796-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-16T09:21:22.809-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 56308 (http) with context path '/'
+2026-10-16T09:21:22.812-05:00  INFO 19060 --- [seguimiento] [    Test worker] c.d.s.u.a.in.web.AltasConcurrentesIT     : Started AltasConcurrentesIT in 2.762 seconds (process running for 53.103)
+2026-10-16T09:21:22.830-05:00  INFO 19060 --- [seguimiento] [o-auto-2-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-16T09:21:22.830-05:00  INFO 19060 --- [seguimiento] [o-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-16T09:21:22.831-05:00  INFO 19060 --- [seguimiento] [o-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-16T09:21:23.055-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.056-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax1@ejemplo.test) already exists.
+2026-10-16T09:21:23.109-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.110-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax2@ejemplo.test) already exists.
+2026-10-16T09:21:23.153-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.153-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax3@ejemplo.test) already exists.
+2026-10-16T09:21:23.188-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.189-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax4@ejemplo.test) already exists.
+2026-10-16T09:21:23.226-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.226-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax5@ejemplo.test) already exists.
+2026-10-16T09:21:23.264-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.264-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax6@ejemplo.test) already exists.
+2026-10-16T09:21:23.305-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.305-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax7@ejemplo.test) already exists.
+2026-10-16T09:21:23.339-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.339-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax8@ejemplo.test) already exists.
+2026-10-16T09:21:23.376-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.376-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax9@ejemplo.test) already exists.
+2026-10-16T09:21:23.411-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.412-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_correo_unico"
+  Detail: Key (lower(correo))=(carrerax10@ejemplo.test) already exists.
+2026-10-16T09:21:23.486-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.486-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax1) already exists.
+2026-10-16T09:21:23.519-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-7] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.519-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-7] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax2) already exists.
+2026-10-16T09:21:23.553-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.553-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax3) already exists.
+2026-10-16T09:21:23.588-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.588-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax4) already exists.
+2026-10-16T09:21:23.618-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.619-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax5) already exists.
+2026-10-16T09:21:23.650-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.650-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax6) already exists.
+2026-10-16T09:21:23.686-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.686-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax7) already exists.
+2026-10-16T09:21:23.719-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-9] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.720-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-9] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax8) already exists.
+2026-10-16T09:21:23.748-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.748-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-8] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax9) already exists.
+2026-10-16T09:21:23.775-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-3] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.775-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-3] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_usuario_unico"
+  Detail: Key (lower(usuario))=(carrerax10) already exists.
+2026-10-16T09:21:23.839-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-7] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.840-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-7] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330001) already exists.
+2026-10-16T09:21:23.868-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.868-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-5] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330002) already exists.
+2026-10-16T09:21:23.896-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-1] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.897-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-1] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330003) already exists.
+2026-10-16T09:21:23.922-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.922-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330004) already exists.
+2026-10-16T09:21:23.949-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-4] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.950-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-4] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330005) already exists.
+2026-10-16T09:21:23.977-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:23.977-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-2] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330006) already exists.
+2026-10-16T09:21:24.004-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:24.004-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-6] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330007) already exists.
+2026-10-16T09:21:24.030-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-9] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:24.030-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-9] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330008) already exists.
+2026-10-16T09:21:24.057-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:24.057-05:00  WARN 19060 --- [seguimiento] [-auto-2-exec-10] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330009) already exists.
+2026-10-16T09:21:24.083-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-4] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+2026-10-16T09:21:24.083-05:00  WARN 19060 --- [seguimiento] [o-auto-2-exec-4] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "usuario_telefono_unico"
+  Detail: Key (telefono)=(+59399330010) already exists.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

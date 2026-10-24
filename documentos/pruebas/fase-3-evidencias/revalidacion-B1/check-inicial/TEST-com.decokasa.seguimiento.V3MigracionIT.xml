@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V3MigracionIT" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-17T17:40:16.737Z" hostname="DESKTOP-GKF6IVL" time="2.002">
+  <properties/>
+  <testcase name="backfillConservaFechasYDaEntradasSoloAEtapasVisitadas()" classname="com.decokasa.seguimiento.V3MigracionIT" time="0.277">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;expected: 1&#13;&#10; but was: 4" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: 1
+ but was: 4
+	at com.decokasa.seguimiento.V3MigracionIT.backfillConservaFechasYDaEntradasSoloAEtapasVisitadas(V3MigracionIT.java:47)
+</failure>
+  </testcase>
+  <system-out><![CDATA[2026-10-17T12:40:16.738-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-17T12:40:16.825-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 13cef6aa524ec11d7197618fb80886636b8c5e164e636f14e19572c92fc4f3d9
+2026-10-17T12:40:18.461-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.7226611S
+2026-10-17T12:40:18.461-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:57888/test?loggerLevel=OFF)
+2026-10-17T12:40:18.479-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57888/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:18.493-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-17T12:40:18.494-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.006s)
+2026-10-17T12:40:18.500-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-17T12:40:18.517-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-17T12:40:18.520-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-17T12:40:18.551-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-17T12:40:18.592-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.052s)
+2026-10-17T12:40:18.621-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57888/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:18.635-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.004s)
+2026-10-17T12:40:18.649-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-17T12:40:18.653-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-17T12:40:18.686-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-17T12:40:18.706-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-17T12:40:18.722-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-17T12:40:18.736-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "public", now at version v6 (execution time 00:00.055s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-17T17:40:55.702Z" hostname="DESKTOP-GKF6IVL" time="0.09">
+  <properties/>
+  <testcase name="consultaDistingueVersionHistoricaDeDefinicionVigente()" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.006"/>
+  <testcase name="accionNoConfiguradaSeRechaza()" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.004"/>
+  <testcase name="definicionesAusentesNoSeSustituyenPorOtraVersion()" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.003"/>
+  <testcase name="retornoDeUrgenciaSeDeduceDeDatosNoDelNumeroCuatro()" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.001"/>
+  <testcase name="[1] origen = &quot;1&quot;, accion = &quot;ENVIAR&quot;, destino = &quot;2&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.006"/>
+  <testcase name="[2] origen = &quot;2&quot;, accion = &quot;ENVIAR&quot;, destino = &quot;3&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.002"/>
+  <testcase name="[3] origen = &quot;3&quot;, accion = &quot;APROBAR&quot;, destino = &quot;4&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.001"/>
+  <testcase name="[4] origen = &quot;3&quot;, accion = &quot;RECHAZAR&quot;, destino = &quot;2&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.001"/>
+  <testcase name="[5] origen = &quot;4&quot;, accion = &quot;APROBAR&quot;, destino = &quot;5&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.002"/>
+  <testcase name="[6] origen = &quot;4&quot;, accion = &quot;DEVOLVER_POR_ERROR&quot;, destino = &quot;2&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.001"/>
+  <testcase name="[7] origen = &quot;4&quot;, accion = &quot;DEVOLVER_POR_PRODUCTO_NUEVO&quot;, destino = &quot;2&quot;" classname="com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,113 @@
+DECOKASA
+Seguimiento de pedidos
+Admin Prueba
+Cerrar sesión
+Inicio
+Mi bandeja
+Pedidos
+Usuarios
+Roles
+Pedidos
+DK-EC-2026-0001
+A · Ecuador
+A tiempo · vence 19 oct 2026, 11:21
+
+Pedido ficticio integral 2.B3 1792167689530
+
+Solo entorno exclusivo.
+
+Creado por Admin Prueba el 16 oct 2026, 11:21 · versión 1 del flujo
+
+A1
+Crear solicitud de pedido
+16-oct
+2
+A2
+Codificación
+Etapa actual
+3
+A3
+Revisión y aprobación
+4
+A4
+Análisis y gestión
+5
+A5
+Fabricación
+6
+A6
+Embarque
+7
+A7
+Aduana Ecuador
+8
+A8
+Autorización de salida
+9
+A9
+Bodega
+10
+A10
+Incidencias
+A11
+Fin
+A2 · Codificación
+Marketing y codificación
+Etapa actual
+Asignada a
+Cualquiera con el rol
+Entrada
+16 oct 2026, 11:21
+Vence
+19 oct 2026, 11:21
+Reentradas
+0
+Acciones
+Reasignar
+Enviar
+Enviar: falta subir Documentos codificados.
+Archivos
+
+Todavía no hay archivos en esta entrada de la etapa.
+
+Tipo de documento
+Documentos codificados
+Documentos codificados
+Otro…
+Archivo
+
+Hasta 100 MiB (provisional). Los formatos aceptados siguen pendientes del cliente.
+
+Subir archivo
+Nueva observación
+
+0 de 4000 caracteres · no cambia la etapa ni sus plazos
+
+Publicar observación
+Historial
+
+Etapa enviada · A1 → A2
+
+16 oct 2026, 11:21
+
+Admin Prueba · Administrador
+
+Verificación real 2.B3
+
+solicitud.txt
+
+Archivo subido · A1
+
+16 oct 2026, 11:21
+
+Admin Prueba · Administrador
+
+solicitud.txt
+
+Pedido creado · A1
+
+16 oct 2026, 11:21
+
+Admin Prueba · Administrador
+
+Enviar: el pedido DK-EC-2026-0001 quedó en A2 · Codificación.

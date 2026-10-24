@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.AplicacionArrancaIT" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:51:14.217Z" hostname="DESKTOP-GKF6IVL" time="11.265">
+  <properties/>
+  <testcase name="elEstadoDeActuatorEstaArriba()" classname="com.decokasa.seguimiento.AplicacionArrancaIT" time="0.418"/>
+  <testcase name="losEndpointsDeActuatorDistintosDeHealthNoSeExponen()" classname="com.decokasa.seguimiento.AplicacionArrancaIT" time="0.013"/>
+  <testcase name="laSaludDeLaApiRespondeConLaBaseDeDatosReal()" classname="com.decokasa.seguimiento.AplicacionArrancaIT" time="0.048"/>
+  <testcase name="laDocumentacionDeLaApiNoEsPublicaFueraDelPerfilDev()" classname="com.decokasa.seguimiento.AplicacionArrancaIT" time="0.007"/>
+  <system-out><![CDATA[14:51:14.371 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.AplicacionArrancaIT]: AplicacionArrancaIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:51:14.544 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.AplicacionArrancaIT
+14:51:14.639 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.AplicacionArrancaIT]: AplicacionArrancaIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:51:14.639 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.AplicacionArrancaIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-15T14:51:15.113-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.seguimiento.AplicacionArrancaIT      : Starting AplicacionArrancaIT using Java 21.0.12.1 with PID 7748 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-15T14:51:15.113-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.seguimiento.AplicacionArrancaIT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-15T14:51:16.152-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-15T14:51:16.248-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 5 JPA repository interfaces.
+2026-10-15T14:51:16.862-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-15T14:51:16.864-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-15T14:51:16.878-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.5
+2026-10-15T14:51:17.245-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-15T14:51:17.667-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-15T14:51:17.667-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-10-15T14:51:17.689-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-15T14:51:17.766-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-15T14:51:17.953-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 73077a8abd61a414f417538ce6e5c90ed0f8c60a672db685332177f39f3f3d5f
+2026-10-15T14:51:18.259-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.4925724S
+2026-10-15T14:51:18.265-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-15T14:51:18.266-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-10-15T14:51:18.267-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-10-15T14:51:18.268-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T14:51:18.343-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 5a5f19575253e07a909b0f28f7a0a8b1cdb9db2af14e0f41ef1d27f9edfa0ff3
+2026-10-15T14:51:19.766-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4981889S
+2026-10-15T14:51:19.767-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55174/test?loggerLevel=OFF)
+2026-10-15T14:51:20.203-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55174/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T14:51:20.272-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T14:51:20.276-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.021s)
+2026-10-15T14:51:20.288-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T14:51:20.335-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T14:51:20.354-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T14:51:20.412-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T14:51:20.468-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.075s)
+2026-10-15T14:51:20.603-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-15T14:51:20.683-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-15T14:51:21.232-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-15T14:51:21.288-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-15T14:51:21.319-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7df549dd
+2026-10-15T14:51:21.322-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-15T14:51:21.423-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:55174/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-15T14:51:22.724-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-15T14:51:22.773-05:00  INFO 7748 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-15T14:51:22.865-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-15T14:51:24.817-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-15T14:51:24.817-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-15T14:51:24.817-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-15T14:51:24.837-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 20 ms
+2026-10-15T14:51:24.930-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.seguimiento.AplicacionArrancaIT      : Started AplicacionArrancaIT in 10.228 seconds (process running for 14.444)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

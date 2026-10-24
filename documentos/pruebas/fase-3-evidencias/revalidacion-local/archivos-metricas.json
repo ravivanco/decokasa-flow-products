@@ -1,0 +1,245 @@
+{
+  "marca": "2026-10-19T10:35:28.020307",
+  "global_lineas": {
+    "cubiertas": 2989,
+    "no_cubiertas": 1757,
+    "total": 4746,
+    "porcentaje": 62.9794
+  },
+  "archivos_lineas": {
+    "cubiertas": 1327,
+    "no_cubiertas": 284,
+    "total": 1611,
+    "porcentaje": 82.3712
+  },
+  "global_ramas": {
+    "cubiertas": 1020,
+    "no_cubiertas": 1268,
+    "total": 2288,
+    "porcentaje": 44.5804
+  },
+  "archivos_ramas": {
+    "cubiertas": 636,
+    "no_cubiertas": 412,
+    "total": 1048,
+    "porcentaje": 60.687
+  },
+  "clases_bajo_80": [
+    {
+      "cubiertas": 0,
+      "no_cubiertas": 38,
+      "total": 38,
+      "porcentaje": 0.0,
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/GoogleOAuthController.java"
+    },
+    {
+      "cubiertas": 5,
+      "no_cubiertas": 35,
+      "total": 40,
+      "porcentaje": 12.5,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/ValidarAdjuntosCasoDeUso.java"
+    },
+    {
+      "cubiertas": 65,
+      "no_cubiertas": 17,
+      "total": 82,
+      "porcentaje": 79.2683,
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/out/almacen/AlmacenLocalEnDisco.java"
+    },
+    {
+      "cubiertas": 5,
+      "no_cubiertas": 13,
+      "total": 18,
+      "porcentaje": 27.7778,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/AutorizarCuentaGoogleCasoDeUso.java"
+    },
+    {
+      "cubiertas": 10,
+      "no_cubiertas": 13,
+      "total": 23,
+      "porcentaje": 43.4783,
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveConfig.java"
+    },
+    {
+      "cubiertas": 28,
+      "no_cubiertas": 11,
+      "total": 39,
+      "porcentaje": 71.7949,
+      "archivo": "com/decokasa/seguimiento/archivos/config/ArchivosConfig.java"
+    },
+    {
+      "cubiertas": 5,
+      "no_cubiertas": 9,
+      "total": 14,
+      "porcentaje": 35.7143,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/ListarAdjuntosDeEtapaCasoDeUso.java"
+    },
+    {
+      "cubiertas": 26,
+      "no_cubiertas": 7,
+      "total": 33,
+      "porcentaje": 78.7879,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/SubirArchivoCasoDeUso.java"
+    },
+    {
+      "cubiertas": 3,
+      "no_cubiertas": 6,
+      "total": 9,
+      "porcentaje": 33.3333,
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/SubidaArchivoController.java"
+    },
+    {
+      "cubiertas": 19,
+      "no_cubiertas": 6,
+      "total": 25,
+      "porcentaje": 76.0,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/DescargarArchivoCasoDeUso.java"
+    },
+    {
+      "cubiertas": 3,
+      "no_cubiertas": 4,
+      "total": 7,
+      "porcentaje": 42.8571,
+      "archivo": "com/decokasa/seguimiento/archivos/config/GoogleOAuthConfig.java"
+    },
+    {
+      "cubiertas": 0,
+      "no_cubiertas": 3,
+      "total": 3,
+      "porcentaje": 0.0,
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveAutomaticaConfig.java"
+    },
+    {
+      "cubiertas": 1,
+      "no_cubiertas": 1,
+      "total": 2,
+      "porcentaje": 50.0,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/in/AutorizarCuentaGoogle.java"
+    },
+    {
+      "cubiertas": 3,
+      "no_cubiertas": 1,
+      "total": 4,
+      "porcentaje": 75.0,
+      "archivo": "com/decokasa/seguimiento/archivos/domain/LimiteDeTamano.java"
+    },
+    {
+      "cubiertas": 1,
+      "no_cubiertas": 1,
+      "total": 2,
+      "porcentaje": 50.0,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/ConexionOAuthGoogle.java"
+    },
+    {
+      "cubiertas": 2,
+      "no_cubiertas": 1,
+      "total": 3,
+      "porcentaje": 66.6667,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/CopiaAdjuntoRepositorio.java"
+    }
+  ],
+  "pruebas": [
+    {
+      "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+      "casos": 7,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+      "casos": 14,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+      "casos": 11,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CargasB1IT",
+      "casos": 22,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+      "casos": 13,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+      "casos": 16,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+      "casos": 19,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+      "casos": 23,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+      "casos": 20,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+      "casos": 19,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+      "casos": 5,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+      "casos": 5,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    }
+  ],
+  "totales": {
+    "casos": 175,
+    "fallos": 0,
+    "errores": 0,
+    "omitidas": 0
+  },
+  "produccion_o_protegidos_modificados": [],
+  "archivos_protegidos": 317,
+  "exclusiones_nuevas": false,
+  "umbral_modificado": false,
+  "limitacion": "Cuota logica: temporales fisicos no limitados/inventariados por ella; 3.B3 real pospuesto"
+}

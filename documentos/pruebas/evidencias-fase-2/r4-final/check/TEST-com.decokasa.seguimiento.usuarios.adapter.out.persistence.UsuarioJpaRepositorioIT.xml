@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:51:55.709Z" hostname="DESKTOP-GKF6IVL" time="2.311">
+  <properties/>
+  <testcase name="guardarIntentosNoCambiaLaVersion()" classname="com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT" time="0.018"/>
+  <testcase name="guardarNoEscribeLosContadoresDelLogin()" classname="com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT" time="0.018"/>
+  <testcase name="unConflictoDeVersionAlGuardarSeTraduceAVersionDesactualizada()" classname="com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT" time="0.015"/>
+  <system-out><![CDATA[2026-10-15T14:51:55.709-05:00  INFO 7748 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT]: UsuarioJpaRepositorioIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:51:55.729-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT
+2026-10-15T14:51:55.729-05:00  INFO 7748 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT]: UsuarioJpaRepositorioIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:51:55.729-05:00  INFO 7748 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-15T14:51:55.749-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.a.o.p.UsuarioJpaRepositorioIT    : Starting UsuarioJpaRepositorioIT using Java 21.0.12.1 with PID 7748 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-15T14:51:55.749-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.a.o.p.UsuarioJpaRepositorioIT    : No active profile set, falling back to 1 default profile: "default"
+2026-10-15T14:51:55.904-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-15T14:51:55.937-05:00  INFO 7748 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+2026-10-15T14:51:55.979-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T14:51:56.073-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: ce6e64294b7def6c6ec26ea49ee2f9a8b48dd54f7727b3d40ed925842d240502
+2026-10-15T14:51:57.488-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5089228S
+2026-10-15T14:51:57.488-05:00  INFO 7748 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55367/test?loggerLevel=OFF)
+2026-10-15T14:51:57.566-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55367/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T14:51:57.576-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T14:51:57.576-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.003s)
+2026-10-15T14:51:57.582-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T14:51:57.598-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T14:51:57.601-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T14:51:57.629-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T14:51:57.676-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.056s)
+2026-10-15T14:51:57.696-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-15T14:51:57.713-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-15T14:51:57.715-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-10-15T14:51:57.724-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@14c6f634
+2026-10-15T14:51:57.724-05:00  INFO 7748 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-10-15T14:51:57.730-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:55367/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-15T14:51:57.798-05:00  INFO 7748 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-15T14:51:57.808-05:00  INFO 7748 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-15T14:51:57.960-05:00  INFO 7748 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-15T14:51:57.967-05:00  INFO 7748 --- [seguimiento] [    Test worker] c.d.s.u.a.o.p.UsuarioJpaRepositorioIT    : Started UsuarioJpaRepositorioIT in 2.238 seconds (process running for 47.476)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

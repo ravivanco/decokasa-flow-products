@@ -1,0 +1,7 @@
+﻿{
+    "comando":  ".\\gradlew.bat jacocoTestReport -x test --console=plain --no-daemon",
+    "etapa":  "cobertura",
+    "fecha":  "20261019-102511",
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-local-0fb0c061f0fa4abd81e87a49fbbc1f9f",
+    "salida":  0
+}

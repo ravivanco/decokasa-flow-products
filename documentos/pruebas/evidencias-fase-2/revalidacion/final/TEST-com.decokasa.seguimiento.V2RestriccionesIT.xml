@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V2RestriccionesIT" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:40:24.604Z" hostname="DESKTOP-GKF6IVL" time="2.14">
+  <properties/>
+  <testcase name="[1] cambio = &quot;numero='otro'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.024"/>
+  <testcase name="[2] cambio = &quot;pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[3] cambio = &quot;tipo_flujo='B'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[4] cambio = &quot;flujo_id='00000000-0000-0000-0000-000000000001'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="contadorTampocoSePuedeVaciarPorTruncate()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="checksDePlazoResponsableYUrgencia()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.022"/>
+  <testcase name="siembraExactaDeOnceEtapasSinInventarPlazos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="pedidoNoSeBorra()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[1] cambio = &quot;estado='INEXISTENTE'&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[2] cambio = &quot;reentradas=-1&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="[3] cambio = &quot;numero=31&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[4] cambio = &quot;asignado_a='00000000-0000-0000-0000-000000000001'&quot;, estado = &quot;23503&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="catorceTransicionesConRequisitosAprobadosYPendientes()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="clavesForaneasDeTransicionesDocumentosYEventos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.024"/>
+  <testcase name="numeroUnicoYReferenciasDePedido()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.021"/>
+  <testcase name="indiceUnicoRechazaDosActualesYPermiteCambioA4A2EnOrden()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.021"/>
+  <testcase name="[1] sentencia = &quot;update secuencia_pedido set ultimo_numero=6&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.019"/>
+  <testcase name="[2] sentencia = &quot;delete from secuencia_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[3] sentencia = &quot;update secuencia_pedido set anio=2027&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[4] sentencia = &quot;update secuencia_pedido set pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.019"/>
+  <testcase name="[1] sentencia = &quot;update evento_pedido set observacion='Cambio ficticio'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[2] sentencia = &quot;delete from evento_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.02"/>
+  <testcase name="[3] sentencia = &quot;truncate table evento_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <system-out><![CDATA[2026-10-15T14:40:24.605-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-15T14:40:24.672-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 779620af3c0c8ea4a7e476678c0f8fe256ad21232b2d8551be5f4a3620a3725d
+2026-10-15T14:40:26.106-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5012477S
+2026-10-15T14:40:26.106-05:00  INFO 17388 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:64861/test?loggerLevel=OFF)
+2026-10-15T14:40:26.122-05:00  INFO 17388 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:64861/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-15T14:40:26.134-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-15T14:40:26.135-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.003s)
+2026-10-15T14:40:26.143-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-15T14:40:26.160-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-15T14:40:26.164-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-15T14:40:26.201-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-15T14:40:26.259-05:00  INFO 17388 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.069s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

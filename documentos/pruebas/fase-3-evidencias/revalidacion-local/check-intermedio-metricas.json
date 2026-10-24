@@ -1,0 +1,528 @@
+{
+  "marca": "2026-10-19T10:43:36.335342",
+  "global_lineas": {
+    "cubiertas": 4302,
+    "no_cubiertas": 444,
+    "total": 4746,
+    "porcentaje": 90.6448
+  },
+  "archivos_lineas": {
+    "cubiertas": 1391,
+    "no_cubiertas": 220,
+    "total": 1611,
+    "porcentaje": 86.3439
+  },
+  "archivos_mas_adaptador_de_pedidos_lineas": {
+    "cubiertas": 1401,
+    "no_cubiertas": 222,
+    "total": 1623,
+    "porcentaje": 86.3216
+  },
+  "objetivo_lineas_80": {
+    "global": true,
+    "archivos": true
+  },
+  "global_ramas": {
+    "cubiertas": 1588,
+    "no_cubiertas": 700,
+    "total": 2288,
+    "porcentaje": 69.4056
+  },
+  "archivos_ramas": {
+    "cubiertas": 669,
+    "no_cubiertas": 379,
+    "total": 1048,
+    "porcentaje": 63.8359
+  },
+  "clases_bajo_80": [
+    {
+      "cubiertas": 0,
+      "no_cubiertas": 38,
+      "total": 38,
+      "porcentaje": 0.0,
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/GoogleOAuthController.java"
+    },
+    {
+      "cubiertas": 5,
+      "no_cubiertas": 13,
+      "total": 18,
+      "porcentaje": 27.7778,
+      "archivo": "com/decokasa/seguimiento/archivos/application/usecase/AutorizarCuentaGoogleCasoDeUso.java"
+    },
+    {
+      "cubiertas": 10,
+      "no_cubiertas": 13,
+      "total": 23,
+      "porcentaje": 43.4783,
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveConfig.java"
+    },
+    {
+      "cubiertas": 3,
+      "no_cubiertas": 4,
+      "total": 7,
+      "porcentaje": 42.8571,
+      "archivo": "com/decokasa/seguimiento/archivos/config/GoogleOAuthConfig.java"
+    },
+    {
+      "cubiertas": 0,
+      "no_cubiertas": 3,
+      "total": 3,
+      "porcentaje": 0.0,
+      "archivo": "com/decokasa/seguimiento/archivos/config/CopiaDriveAutomaticaConfig.java"
+    },
+    {
+      "cubiertas": 7,
+      "no_cubiertas": 2,
+      "total": 9,
+      "porcentaje": 77.7778,
+      "archivo": "com/decokasa/seguimiento/archivos/adapter/in/web/SubidaArchivoController.java"
+    },
+    {
+      "cubiertas": 1,
+      "no_cubiertas": 1,
+      "total": 2,
+      "porcentaje": 50.0,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/in/AutorizarCuentaGoogle.java"
+    },
+    {
+      "cubiertas": 3,
+      "no_cubiertas": 1,
+      "total": 4,
+      "porcentaje": 75.0,
+      "archivo": "com/decokasa/seguimiento/archivos/domain/LimiteDeTamano.java"
+    },
+    {
+      "cubiertas": 1,
+      "no_cubiertas": 1,
+      "total": 2,
+      "porcentaje": 50.0,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/ConexionOAuthGoogle.java"
+    },
+    {
+      "cubiertas": 2,
+      "no_cubiertas": 1,
+      "total": 3,
+      "porcentaje": 66.6667,
+      "archivo": "com/decokasa/seguimiento/archivos/application/port/out/CopiaAdjuntoRepositorio.java"
+    }
+  ],
+  "pruebas": [
+    {
+      "clase": "com.decokasa.seguimiento.AplicacionArrancaIT",
+      "casos": 4,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.AlmacenGoogleLocalTest",
+      "casos": 7,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.adapter.out.google.OAuthFlujoLocalTest",
+      "casos": 14,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.AlmacenLocalRealTest",
+      "casos": 11,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CargasB1IT",
+      "casos": 22,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CorreoB2IT",
+      "casos": 13,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CorreoReintentosLocalesIT",
+      "casos": 16,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.CuotasLocalesIT",
+      "casos": 19,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT",
+      "casos": 23,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.GmailProtocoloLocalTest",
+      "casos": 20,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.GoogleDriveProtocoloB1Test",
+      "casos": 19,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.MigracionesArchivosB1IT",
+      "casos": 5,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.ParcialesB1Test",
+      "casos": 5,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.archivos.TareaCopiaB1Test",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.arquitectura.FronterasP20Test",
+      "casos": 2,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest",
+      "casos": 7,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.compartido.adapter.in.web.ManejadorErroresTest",
+      "casos": 17,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.compartido.adapter.out.RelojSistemaTest",
+      "casos": 3,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.compartido.domain.CodigoRolTest",
+      "casos": 11,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.configuracion.SaludControllerTest",
+      "casos": 7,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest",
+      "casos": 11,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.historial.application.HistorialFaseDosTest",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.MigracionesIT",
+      "casos": 40,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.adapter.in.web.ResumenDeEtapaP20Test",
+      "casos": 6,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest",
+      "casos": 6,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest",
+      "casos": 4,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.Backend24IT",
+      "casos": 47,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest",
+      "casos": 24,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT",
+      "casos": 21,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest",
+      "casos": 13,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosInicialesTest",
+      "casos": 4,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AltasConcurrentesIT",
+      "casos": 3,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.AuthControllerIT",
+      "casos": 11,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.EdicionConcurrenteIT",
+      "casos": 2,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.RenovacionConcurrenteIT",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.SesionHttpIT",
+      "casos": 16,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.UsuarioControllerIT",
+      "casos": 16,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.in.web.VersionUsuarioIT",
+      "casos": 20,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.RestriccionesUnicasUsuarioTest",
+      "casos": 6,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.adapter.out.persistence.UsuarioJpaRepositorioIT",
+      "casos": 3,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarRolTest",
+      "casos": 6,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.ActualizarUsuarioTest",
+      "casos": 17,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.CerrarSesionTest",
+      "casos": 2,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.ConsultasTest",
+      "casos": 9,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.CrearRolTest",
+      "casos": 6,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.CrearUsuarioTest",
+      "casos": 16,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.IniciarSesionTest",
+      "casos": 25,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.application.RenovarSesionTest",
+      "casos": 10,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.config.DesactivarMientrasRenuevaIT",
+      "casos": 4,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.domain.ContrasenaNuevaTest",
+      "casos": 10,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.domain.SesionRenovableTest",
+      "casos": 4,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.domain.TelefonoTest",
+      "casos": 13,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.usuarios.domain.UsuarioTest",
+      "casos": 13,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.V2RestriccionesIT",
+      "casos": 42,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    },
+    {
+      "clase": "com.decokasa.seguimiento.V3MigracionIT",
+      "casos": 1,
+      "fallos": 0,
+      "errores": 0,
+      "omitidas": 0
+    }
+  ],
+  "totales": {
+    "casos": 662,
+    "fallos": 0,
+    "errores": 0,
+    "omitidas": 0
+  },
+  "produccion_o_protegidos_modificados": [],
+  "archivos_protegidos": 317,
+  "exclusiones_nuevas": false,
+  "umbral_modificado": false,
+  "limitacion": "Cuota logica: temporales fisicos no limitados/inventariados por ella; 3.B3 real pospuesto"
+}

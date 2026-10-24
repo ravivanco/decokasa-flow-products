@@ -1,0 +1,7 @@
+﻿{
+    "comando":  ".\\gradlew.bat test --tests *CuotasLocalesIT --tests *CorreoReintentosLocalesIT --tests *GmailProtocoloLocalTest --tests *MigracionesArchivosB1IT --console=plain --no-daemon",
+    "etapa":  "nuevas",
+    "fecha":  "20261019-103000",
+    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-local-088c79fcbf684c44928939e432569d89",
+    "salida":  0
+}

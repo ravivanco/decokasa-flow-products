@@ -1,0 +1,7 @@
+﻿{
+    "comando":  ".\\gradlew.bat check --console=plain --no-daemon",
+    "discoAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-revalidacion-b1-617188f141604c16aa3a63607be851a8",
+    "etapa":  "check",
+    "fecha":  "20261017-124937",
+    "salida":  0
+}

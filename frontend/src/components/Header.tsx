@@ -26,8 +26,8 @@ export function Header() {
   return (
     <header className="flex items-center justify-between gap-4 border-b bg-primary px-4 py-3 text-primary-foreground sm:px-6">
       <div className="flex flex-col">
-        <span className="font-heading text-lg font-bold tracking-wide">DECOKASA</span>
-        <span className="text-xs text-primary-foreground/80">Seguimiento de pedidos</span>
+        <span className="font-heading text-lg font-bold tracking-wide">LATINOAMÉRICA </span>
+        <span className="text-xs text-primary-foreground/80">Importanto y Exportando el Mundo</span>
       </div>
       <div className="flex items-center gap-3">
         <span className="truncate text-sm font-medium">{usuario.nombre}</span>

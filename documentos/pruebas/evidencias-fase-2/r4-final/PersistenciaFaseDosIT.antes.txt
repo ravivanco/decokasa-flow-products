@@ -1,0 +1,383 @@
+package com.decokasa.seguimiento.pedidos;
+
+import static org.assertj.core.api.Assertions.*;
+import static com.decokasa.seguimiento.compartido.domain.AccionEtapa.*;
+import com.decokasa.seguimiento.TestcontainersConfiguration;
+import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
+import com.decokasa.seguimiento.compartido.domain.*;
+import com.decokasa.seguimiento.flujos.application.port.in.*;
+import com.decokasa.seguimiento.historial.application.port.out.HistorialRepositorio;
+import com.decokasa.seguimiento.pedidos.application.port.in.*;
+import com.decokasa.seguimiento.pedidos.application.port.out.*;
+import com.decokasa.seguimiento.pedidos.domain.*;
+import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
+import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
+import com.decokasa.seguimiento.pedidos.application.usecase.EjecutarAccionEtapaCasoDeUso;
+import com.decokasa.seguimiento.pedidos.application.usecase.CrearPedidoCasoDeUso;
+import com.decokasa.seguimiento.flujos.domain.DefinicionFlujo;
+import com.decokasa.seguimiento.flujos.domain.DefinicionEtapa;
+import jakarta.persistence.EntityManager;
+import java.time.Instant;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.Supplier;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.core.env.Environment;
+
+/** Cableado de producción, transacciones separadas, PostgreSQL 17 temporal. Sin servidor HTTP ni bases compartidas.
+ * No se limpia con DELETE/TRUNCATE: cada caso usa pedidos/usuarios nuevos dentro del contenedor descartable. */
+@SpringBootTest(properties={"spring.config.import=", "decokasa.semilla.habilitada=false", "spring.jpa.hibernate.ddl-auto=validate"})
+@Import({TestcontainersConfiguration.class,PersistenciaFaseDosIT.RelojDePrueba.class})
+class PersistenciaFaseDosIT {
+    static final Instant AHORA=Instant.parse("2026-10-16T22:00:00Z");
+    static final CodigoRol ADMIN=new CodigoRol("admin");
+    @TestConfiguration(proxyBeanMethods=false)
+    static class RelojDePrueba { @Bean @Primary Reloj relojFijoB2() { return () -> AHORA; } }
+    @Autowired CrearPedido crear;
+    @Autowired EjecutarAccionEtapa ejecutar;
+    @Autowired ReasignarEtapa reasignar;
+    @Autowired PedidoRepositorio pedidos;
+    @Autowired GeneradorNumeroPedido numeros;
+    @Autowired ConsultarDefinicionFlujo flujos;
+    @Autowired ResolverTransicion transiciones;
+    @Autowired HistorialRepositorio historial;
+    @Autowired CalcularVencimiento calcular;
+    @Autowired PlatformTransactionManager gestor;
+    @Autowired JdbcTemplate jdbc;
+    @Autowired EntityManager em;
+    @Autowired Environment entorno;
+    @Autowired PublicadorEventos publicar;
+    @Autowired ConsultarResponsables responsables;
+    @Autowired org.testcontainers.postgresql.PostgreSQLContainer postgresContainer;
+    private Solicitante admin;
+
+    @BeforeEach void usuarioFicticio() { admin=new Solicitante(persona("admin"),Set.of(ADMIN)); }
+    private UUID persona(String rol) {
+        UUID id=UUID.randomUUID(); String sufijo=id.toString().replace("-","");
+        jdbc.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) "
+                +"values (?,'Persona ficticia',?,?,?,'hash-ficticio',?, ?,0)",id,sufijo+"@ejemplo.test",sufijo,
+                "+"+Long.toUnsignedString(id.getLeastSignificantBits()).substring(0,14),java.sql.Timestamp.from(AHORA),java.sql.Timestamp.from(AHORA));
+        jdbc.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,? from rol where codigo=?",id,java.sql.Timestamp.from(AHORA),rol);
+        return id;
+    }
+    private <T> T tx(Supplier<T> trabajo) { return new TransactionTemplate(gestor).execute(estado -> trabajo.get()); }
+    private Pedido crear() { return crear.crear(admin,new CrearPedido.Comando(TipoFlujo.A,CodigoPais.EC,"Pedido ficticio B2",null,false)); }
+    private Pedido leer(UUID id) { return tx(() -> pedidos.buscarParaActualizar(id).orElseThrow()); }
+    private List<Map<String,Object>> etapas(UUID id) { return jdbc.queryForList("select * from etapa_pedido where pedido_id=? order by numero",id); }
+    private List<Map<String,Object>> fila(UUID id) { return jdbc.queryForList("select * from pedido where id=?",id); }
+    private long eventos(UUID id) { return jdbc.queryForObject("select count(*) from evento_pedido where pedido_id=?",Long.class,id); }
+    private long contador(int anio) { return jdbc.queryForObject("select coalesce((select ultimo_numero from secuencia_pedido where pais_codigo='EC' and anio=?),0)",Long.class,anio); }
+    private Pedido accion(UUID id,int etapa,AccionEtapa accion,NivelUrgencia urgencia,String observacion) {
+        return ejecutar.ejecutar(admin,new EjecutarAccionEtapa.Comando(id,accion,etapa,observacion,urgencia));
+    }
+    private Vencimientos vencimientos() {
+        return new Vencimientos() {
+            public Optional<Instant> deEtapa(Instant inicio,PlazoDeEtapa plazo) { return calcular.deEtapa(inicio,plazo); }
+            public Instant deUrgencia(Instant inicio,NivelUrgencia nivel) { return calcular.deUrgencia(inicio,nivel); }
+        };
+    }
+    /** Solo prepara A3/A4 para aislar persistencia. Tipos documentales ficticios en el agregado;
+     * no habilita documentos en el caso de uso ni representa subida de archivos. */
+    private Pedido enEtapa(int destino) {
+        Pedido nuevo=crear();
+        return tx(() -> {
+            Pedido p=pedidos.buscarParaActualizar(nuevo.id()).orElseThrow();
+            while(p.etapaActual()<destino) {
+                int origen=p.etapaActual(); var accion=origen<3?ENVIAR:APROBAR;
+                var r=transiciones.resolver(p.flujoId(),origen,accion);
+                p.ejecutar(new AccionSolicitada(accion,origen,null,null,r.documentosObligatorios()),
+                        new ReglaDeTransicion(origen,accion,r.etapaDestino(),r.requiereObservacion(),r.requiereUrgencia(),
+                                r.requiereBodega(),r.documentosPendientes(),r.documentosObligatorios(),r.plazoDestino(),
+                                r.destinoEsRetornoDeUrgencia(),r.rolResponsableOrigen()),EtapasHabilitadas.faseDos(),
+                        new ActorVigente(admin.usuarioId(),true,Set.of(ADMIN)),AHORA.minusSeconds(3600L*(destino-origen)),vencimientos());
+                pedidos.actualizar(p);
+            }
+            return p;
+        });
+    }
+    @Test void contextoValidaEntidadesContraV2YReconstruyeOnceEtapas() {
+        assertThat(entorno.getProperty("spring.jpa.hibernate.ddl-auto")).isEqualTo("validate");
+        Pedido p=crear(); Pedido releido=leer(p.id());
+        assertThat(releido.numero()).isEqualTo(p.numero()); assertThat(releido.etapas()).hasSize(11);
+        assertThat(releido.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(1);
+        assertThat(releido.flujoId()).isEqualTo(p.flujoId()); assertThat(releido.creadoPor()).isEqualTo(admin.usuarioId());
+        assertThat(releido.creadoEn()).isEqualTo(AHORA);
+        var guardados=tx(() -> historial.listarPorPedido(p.id()));
+        assertThat(guardados).singleElement().satisfies(e -> {
+            assertThat(e.usuarioId()).isEqualTo(admin.usuarioId()); assertThat(e.rolCodigo()).isEqualTo(ADMIN);
+            assertThat(e.ocurridoEn()).isEqualTo(AHORA); assertThat(e.detalle().etapaDestino()).isNull();
+        });
+    }
+    @Test void adaptadorDeFlujosConservaDocumentosYPlazosPendientes() {
+        var f=flujos.vigente(CodigoPais.EC,TipoFlujo.A);
+        assertThat(f.etapas()).hasSize(11); assertThat(f.transiciones()).hasSize(14);
+        assertThat(f.etapa(1).plazo()).isInstanceOf(PlazoDeEtapa.SinPlazo.class);
+        for(int n:List.of(5,7,10)) assertThat(f.etapa(n).plazo()).isInstanceOf(PlazoDeEtapa.Pendiente.class);
+        for(int n:List.of(6,9,10)) {
+            assertThat(f.resolver(n,APROBAR).documentosPendientes()).isTrue();
+            assertThat(f.resolver(n,APROBAR).documentosObligatorios()).isEmpty();
+        }
+        assertThat(f.resolver(1,ENVIAR).documentosObligatorios()).containsExactly("Solicitud");
+        assertThat(f.resolver(2,ENVIAR).documentosObligatorios()).containsExactly("Documentos codificados");
+    }
+    @ParameterizedTest @EnumSource(NivelUrgencia.class)
+    void a4A2GuardaReentradaAsignacionYUrgenciaSinChocarConIndice(NivelUrgencia nivel) {
+        Pedido p=enEtapa(4); UUID candidato=persona("marketing");
+        // Asignación previa al retorno, fixture aislado; su conservación en reentrada sigue provisional.
+        jdbc.update("update etapa_pedido set asignado_a=? where pedido_id=? and numero=2",candidato,p.id());
+        accion(p.id(),4,DEVOLVER_POR_PRODUCTO_NUEVO,nivel,"Producto ficticio B2");
+        Pedido despues=leer(p.id());
+        assertThat(despues.etapaActual()).isEqualTo(2);
+        var a2=despues.etapas().get(1);
+        assertThat(a2.asignadoA()).isEqualTo(candidato); assertThat(a2.reentradas()).isEqualTo(1);
+        assertThat(a2.entradaEn()).isEqualTo(AHORA); assertThat(a2.salidaEn()).isNull();
+        assertThat(a2.venceEn()).isEqualTo(calcular.deEtapa(AHORA,new PlazoDeEtapa.Definido(24,TipoPlazo.HORAS_HABILES)).orElseThrow());
+        assertThat(despues.urgencia()).contains(new UrgenciaActiva(nivel,AHORA,calcular.deUrgencia(AHORA,nivel)));
+        assertThat(despues.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(2);
+        assertThat(despues.etapas().get(2).estado()).isEqualTo(EstadoEtapa.DEVUELTA);
+        assertThat(despues.etapas().get(3).estado()).isEqualTo(EstadoEtapa.DEVUELTA);
+        var eventos=tx(() -> historial.listarPorPedido(p.id()));
+        assertThat(eventos).hasSize(2);
+        var devolucion=eventos.stream().filter(e -> e.nivelUrgencia()!=null).findFirst().orElseThrow();
+        assertThat(devolucion.usuarioId()).isEqualTo(admin.usuarioId()); assertThat(devolucion.rolCodigo()).isEqualTo(ADMIN);
+        assertThat(devolucion.ocurridoEn()).isEqualTo(AHORA); assertThat(devolucion.detalle().etapaDestino()).isEqualTo(2);
+        assertThat(devolucion.nivelUrgencia()).isEqualTo(nivel);
+    }
+    @Test void reasignacionPersisteYRolAjenoNoActuaAunqueSuTokenDigaAdmin() {
+        Pedido p=enEtapa(3); UUID asignado=persona("asistente_compras"); UUID otro=persona("asistente_compras");
+        reasignar.reasignar(admin,new ReasignarEtapa.Comando(p.id(),3,asignado,"Motivo ficticio"));
+        assertThat(leer(p.id()).etapas().get(2).asignadoA()).isEqualTo(asignado);
+        var antes=fila(p.id()); var etapasAntes=etapas(p.id()); long eventosAntes=eventos(p.id());
+        assertThatThrownBy(() -> ejecutar.ejecutar(new Solicitante(otro,Set.of(ADMIN)),
+                new EjecutarAccionEtapa.Comando(p.id(),APROBAR,3,null,null))).isInstanceOf(SinPermiso.class);
+        assertThat(fila(p.id())).isEqualTo(antes); assertThat(etapas(p.id())).isEqualTo(etapasAntes); assertThat(eventos(p.id())).isEqualTo(eventosAntes);
+        ejecutar.ejecutar(new Solicitante(asignado,Set.of(new CodigoRol("asistente_compras"))),
+                new EjecutarAccionEtapa.Comando(p.id(),APROBAR,3,null,null));
+        assertThat(leer(p.id()).etapaActual()).isEqualTo(4);
+    }
+    @Test void falloRealAlInsertarHistorialRevierteAccionEtapasYVersion() {
+        Pedido p=enEtapa(3); var antes=fila(p.id()); var etapasAntes=etapas(p.id()); long n=eventos(p.id());
+        // Fallo de DB inyectado exclusivamente en el contenedor, después de que el adaptador vacíe la acción.
+        jdbc.execute("alter table evento_pedido add constraint prueba_b2_historial check (observacion is distinct from 'FALLO_CONTROLADO_B2') not valid");
+        try {
+            assertThatThrownBy(() -> accion(p.id(),3,RECHAZAR,null,"FALLO_CONTROLADO_B2"))
+                    .hasStackTraceContaining("prueba_b2_historial");
+        } finally { jdbc.execute("alter table evento_pedido drop constraint prueba_b2_historial"); }
+        assertThat(fila(p.id())).isEqualTo(antes); assertThat(etapas(p.id())).isEqualTo(etapasAntes);
+        assertThat(eventos(p.id())).isEqualTo(n); assertThat(leer(p.id()).etapaActual()).isEqualTo(3);
+    }
+    @Test void rollbackDeCreacionReviertePedidoEtapasHistorialYContador() {
+        long contadorAntes=contador(2026); long pedidosAntes=jdbc.queryForObject("select count(*) from pedido",Long.class);
+        long etapasAntes=jdbc.queryForObject("select count(*) from etapa_pedido",Long.class);
+        long eventosAntes=jdbc.queryForObject("select count(*) from evento_pedido",Long.class);
+        jdbc.execute("alter table evento_pedido add constraint prueba_b2_creacion check (tipo <> 'PEDIDO_CREADO') not valid");
+        try { assertThatThrownBy(this::crear).hasStackTraceContaining("prueba_b2_creacion"); }
+        finally { jdbc.execute("alter table evento_pedido drop constraint prueba_b2_creacion"); }
+        assertThat(contador(2026)).isEqualTo(contadorAntes);
+        assertThat(jdbc.queryForObject("select count(*) from pedido",Long.class)).isEqualTo(pedidosAntes);
+        assertThat(jdbc.queryForObject("select count(*) from etapa_pedido",Long.class)).isEqualTo(etapasAntes);
+        assertThat(jdbc.queryForObject("select count(*) from evento_pedido",Long.class)).isEqualTo(eventosAntes);
+        Pedido confirmado=crear();
+        // Lectura A permite volver a reservar el número que nunca llegó a confirmarse.
+        assertThat(confirmado.numero()).isEqualTo(NumeroPedido.componer(CodigoPais.EC,2026,(int)contadorAntes+1));
+        assertThat(contador(2026)).isEqualTo(contadorAntes+1);
+    }
+    @Test void generadorNoTruncaDiezMilEnPostgres() {
+        jdbc.update("insert into secuencia_pedido values ('EC',2099,9999,0)");
+        assertThat(tx(() -> numeros.siguiente(CodigoPais.EC,2099)).valor()).isEqualTo("DK-EC-2099-10000");
+        assertThat(tx(() -> numeros.siguiente(CodigoPais.EC,2099)).valor()).isEqualTo("DK-EC-2099-10001");
+        assertThat(contador(2099)).isEqualTo(10001);
+    }
+    private <T> List<T> simultaneos(Callable<T> a,Callable<T> b) throws Exception {
+        CountDownLatch listos=new CountDownLatch(2); CountDownLatch salida=new CountDownLatch(1);
+        try(ExecutorService hilos=Executors.newFixedThreadPool(2)) {
+            Callable<T> primero=() -> { listos.countDown(); if(!salida.await(10,TimeUnit.SECONDS)) throw new AssertionError("Sin salida concurrente"); return a.call(); };
+            Callable<T> segundo=() -> { listos.countDown(); if(!salida.await(10,TimeUnit.SECONDS)) throw new AssertionError("Sin salida concurrente"); return b.call(); };
+            Future<T> f1=hilos.submit(primero); Future<T> f2=hilos.submit(segundo);
+            try { assertThat(listos.await(10,TimeUnit.SECONDS)).isTrue(); } finally { salida.countDown(); }
+            return List.of(f1.get(30,TimeUnit.SECONDS),f2.get(30,TimeUnit.SECONDS));
+        }
+    }
+    @Test void creacionesSimultaneasConfirmanNumerosDistintos() throws Exception {
+        var creados=simultaneos(this::crear,this::crear);
+        assertThat(creados).extracting(p -> p.numero().valor()).doesNotHaveDuplicates();
+        for(Pedido p:creados) { assertThat(leer(p.id()).numero()).isEqualTo(p.numero()); assertThat(eventos(p.id())).isEqualTo(1); }
+    }
+    @Test void dosAvancesSimultaneosSoloConfirmanUnoYElOtroEsEtapaCambio() throws Exception {
+        Pedido p=enEtapa(3); long versionAntes=leer(p.id()).version(); long eventosAntes=eventos(p.id());
+        Callable<String> avance=() -> {
+            try { accion(p.id(),3,APROBAR,null,null); return "CONFIRMADO"; }
+            catch(EtapaCambio cambio) { return cambio.codigo().name(); }
+        };
+        assertThat(simultaneos(avance,avance)).containsExactlyInAnyOrder("CONFIRMADO","ETAPA_CAMBIO");
+        Pedido despues=leer(p.id()); assertThat(despues.etapaActual()).isEqualTo(4);
+        assertThat(despues.version()).isEqualTo(versionAntes+1);
+        assertThat(eventos(p.id())).isEqualTo(eventosAntes+1);
+        assertThat(despues.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(4);
+        assertThat(despues.etapas().get(2).estado()).isEqualTo(EstadoEtapa.COMPLETADA);
+        assertThat(despues.etapas().get(3).reentradas()).isZero();
+    }
+    @Test void refreshReleePedidoYEtapasAunqueEstuvieranEnContextoAntesDeOtroCommit() {
+        Pedido p=enEtapa(3);
+        tx(() -> {
+            em.find(com.decokasa.seguimiento.pedidos.adapter.out.persistence.PedidoEntity.class,p.id());
+            // Transacción independiente: representa otro solicitante que confirmó tras la primera lectura.
+            var otra=new TransactionTemplate(gestor);
+            otra.setPropagationBehavior(org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+            otra.execute(s -> accion(p.id(),3,APROBAR,null,null));
+            var actualizado=pedidos.buscarParaActualizar(p.id()).orElseThrow();
+            assertThat(actualizado.etapaActual()).isEqualTo(4);
+            assertThat(actualizado.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(4);
+            return null;
+        });
+    }
+
+    // Pruebas de componentes bajo la frontera de flujos: NO sustituyen ni deshabilitan los casos integrados de arriba.
+    // Entrada de ConsultarDefinicionFlujo controlada en memoria; JPA, secuencia, usuarios, eventos y transacciones reales.
+    private CrearPedido crearConDefinicionFicticia() {
+        UUID id=jdbc.queryForObject("select id from definicion_flujo where pais_codigo='EC' and tipo_flujo='A'",UUID.class);
+        var etapas=java.util.stream.IntStream.rangeClosed(1,11).mapToObj(n -> new DefinicionEtapa(n,"Etapa ficticia "+n,
+                n==11?null:com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest.rol(n),
+                n==1||n==11?new PlazoDeEtapa.SinPlazo():n>=5?new PlazoDeEtapa.Pendiente():
+                n==4?new PlazoDeEtapa.Definido(3,TipoPlazo.DIAS_HABILES):new PlazoDeEtapa.Definido(24,TipoPlazo.HORAS_HABILES),n==11)).toList();
+        var definicion=new DefinicionFlujo(id,CodigoPais.EC,TipoFlujo.A,1,true,etapas,List.of());
+        ConsultarDefinicionFlujo entrada=new ConsultarDefinicionFlujo() {
+            public DefinicionFlujo vigente(CodigoPais pais,TipoFlujo tipo) { return definicion; }
+            public DefinicionFlujo version(CodigoPais pais,TipoFlujo tipo,int version) { return definicion; }
+            public DefinicionFlujo porId(UUID flujo) { return definicion; }
+        };
+        var caso=new CrearPedidoCasoDeUso(entrada,pedidos,numeros,responsables,calcular,publicar,() -> AHORA);
+        return (solicitante,comando) -> tx(() -> caso.crear(solicitante,comando));
+    }
+    private Pedido crearComponente() {
+        return crearConDefinicionFicticia().crear(admin,new CrearPedido.Comando(TipoFlujo.A,CodigoPais.EC,"Componente ficticio B2",null,false));
+    }
+    private Pedido prepararComponente(int destino) {
+        Pedido creado=crearComponente();
+        return tx(() -> {
+            var p=pedidos.buscarParaActualizar(creado.id()).orElseThrow();
+            while(p.etapaActual()<destino) {
+                int origen=p.etapaActual(); var accion=origen<3?ENVIAR:APROBAR;
+                var r=com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest.regla(origen,accion,origen+1);
+                p.ejecutar(new AccionSolicitada(accion,origen,null,null,r.documentosObligatorios()),r,
+                        EtapasHabilitadas.faseDos(),new ActorVigente(admin.usuarioId(),true,Set.of(ADMIN)),
+                        AHORA.minusSeconds(3600L*(destino-origen)),vencimientos());
+                pedidos.actualizar(p);
+            }
+            return p;
+        });
+    }
+    private Pedido accionComponente(UUID id,int etapa,AccionEtapa accion,NivelUrgencia nivel,String obs) {
+        ResolverTransicion entrada=(flujo,origen,operacion) -> {
+            int destino=operacion==APROBAR?origen+1:2;
+            var r=com.decokasa.seguimiento.pedidos.domain.NucleoFaseDosTest.regla(origen,operacion,destino);
+            return new ResolverTransicion.Resolucion(origen,operacion,destino,r.requiereObservacion(),r.requiereUrgencia(),
+                    r.requiereBodega(),r.documentosPendientes(),r.documentosObligatorios(),r.plazoDestino(),r.destinoEsRetornoDeUrgencia(),r.rolResponsableOrigen());
+        };
+        var caso=new EjecutarAccionEtapaCasoDeUso(pedidos,entrada,EtapasHabilitadas.faseDos(),responsables,calcular,publicar,() -> AHORA);
+        return tx(() -> caso.ejecutar(admin,new EjecutarAccionEtapa.Comando(id,accion,etapa,obs,nivel)));
+    }
+    @Test void componenteValidaJPAContraV2YConexionExclusivaDeTestcontainers() throws Exception {
+        assertThat(entorno.getProperty("spring.jpa.hibernate.ddl-auto")).isEqualTo("validate");
+        try(var c=Objects.requireNonNull(jdbc.getDataSource()).getConnection()) {
+            assertThat(c.getMetaData().getURL()).isEqualTo(postgresContainer.getJdbcUrl());
+        }
+        var p=crearComponente(); var reconstruido=leer(p.id());
+        assertThat(reconstruido.etapas()).hasSize(11); assertThat(reconstruido.numero()).isEqualTo(p.numero());
+        assertThat(reconstruido.creadoEn()).isEqualTo(AHORA); assertThat(reconstruido.creadoPor()).isEqualTo(admin.usuarioId());
+        assertThat(tx(() -> historial.listarPorPedido(p.id()))).singleElement().satisfies(e -> {
+            assertThat(e.usuarioId()).isEqualTo(admin.usuarioId()); assertThat(e.rolCodigo()).isEqualTo(ADMIN); assertThat(e.ocurridoEn()).isEqualTo(AHORA);
+        });
+    }
+    @ParameterizedTest @EnumSource(NivelUrgencia.class)
+    void componenteA4A2PersisteUrgenciaAsignacionReentradaYUnaActual(NivelUrgencia nivel) {
+        Pedido p=prepararComponente(4); UUID candidato=persona("marketing");
+        jdbc.update("update etapa_pedido set asignado_a=? where pedido_id=? and numero=2",candidato,p.id());
+        accionComponente(p.id(),4,DEVOLVER_POR_PRODUCTO_NUEVO,nivel,"Observación ficticia");
+        var leido=leer(p.id()); var a2=leido.etapas().get(1);
+        assertThat(leido.etapaActual()).isEqualTo(2); assertThat(a2.reentradas()).isEqualTo(1);
+        assertThat(a2.asignadoA()).isEqualTo(candidato); assertThat(a2.entradaEn()).isEqualTo(AHORA); assertThat(a2.salidaEn()).isNull();
+        assertThat(a2.venceEn()).isEqualTo(calcular.deEtapa(AHORA,new PlazoDeEtapa.Definido(24,TipoPlazo.HORAS_HABILES)).orElseThrow());
+        assertThat(leido.urgencia()).contains(new UrgenciaActiva(nivel,AHORA,calcular.deUrgencia(AHORA,nivel)));
+        assertThat(leido.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(2);
+        assertThat(leido.etapas().get(2).estado()).isEqualTo(EstadoEtapa.DEVUELTA); assertThat(leido.etapas().get(3).estado()).isEqualTo(EstadoEtapa.DEVUELTA);
+        assertThat(tx(() -> historial.listarPorPedido(p.id()))).filteredOn(e -> e.nivelUrgencia()!=null).singleElement().satisfies(e -> {
+            assertThat(e.nivelUrgencia()).isEqualTo(nivel); assertThat(e.usuarioId()).isEqualTo(admin.usuarioId());
+            assertThat(e.rolCodigo()).isEqualTo(ADMIN); assertThat(e.ocurridoEn()).isEqualTo(AHORA); assertThat(e.detalle().etapaDestino()).isEqualTo(2);
+        });
+    }
+    @Test void componenteDosAvancesSimultaneosConfirmanUnoYElOtroEtapaCambio() throws Exception {
+        var p=prepararComponente(3); long v=leer(p.id()).version(); long n=eventos(p.id());
+        Object resultado;
+        try(ExecutorService hilos=Executors.newSingleThreadExecutor()) {
+            var segundo=new java.util.concurrent.atomic.AtomicReference<Future<Object>>();
+            tx(() -> {
+                pedidos.buscarParaActualizar(p.id()).orElseThrow(); // Primera transacción conserva el bloqueo real.
+                int bloqueador=jdbc.queryForObject("select pg_backend_pid()",Integer.class);
+                segundo.set(hilos.submit(() -> {
+                    try { accionComponente(p.id(),3,APROBAR,null,null); return "CONFIRMADO"; }
+                    catch(RuntimeException error) { return error; } // Se afirma el tipo exacto al final; no se oculta.
+                }));
+                org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(10)).until(() ->
+                        Boolean.TRUE.equals(jdbc.queryForObject("select exists(select 1 from pg_stat_activity "
+                                +"where ? = any(pg_blocking_pids(pid)))",Boolean.class,bloqueador)));
+                accionComponente(p.id(),3,APROBAR,null,null);
+                return null;
+            }); // Commit de la primera; la segunda solo entonces obtiene el bloqueo.
+            resultado=segundo.get().get(30,TimeUnit.SECONDS);
+        }
+        var leido=leer(p.id()); assertThat(leido.etapaActual()).isEqualTo(4); assertThat(leido.version()).isEqualTo(v+1);
+        assertThat(eventos(p.id())).isEqualTo(n+1);
+        assertThat(leido.etapas().stream().filter(e -> e.estado()==EstadoEtapa.ACTUAL).map(EtapaDePedido::numero)).containsExactly(4);
+        assertThat(leido.etapas().get(2).estado()).isEqualTo(EstadoEtapa.COMPLETADA);
+        assertThat(leido.etapas().get(3).reentradas()).isZero();
+        System.out.println("B2: bloqueo PostgreSQL observado; un avance confirmado; un evento nuevo; una etapa ACTUAL; segunda respuesta: "+resultado);
+        assertThat(resultado).isInstanceOfSatisfying(EtapaCambio.class,error -> assertThat(error.codigo()).isEqualTo(CodigoError.ETAPA_CAMBIO));
+    }
+    @Test void componenteCreacionesSimultaneasUsanContadorRealYNumerosDistintos() throws Exception {
+        var creados=simultaneos(this::crearComponente,this::crearComponente);
+        assertThat(creados).extracting(p -> p.numero().valor()).doesNotHaveDuplicates();
+        for(var p:creados) { assertThat(leer(p.id()).numero()).isEqualTo(p.numero()); assertThat(eventos(p.id())).isEqualTo(1); }
+    }
+    @Test void componenteFalloHistorialRevierteAccionYVersion() {
+        var p=prepararComponente(3); var antes=fila(p.id()); var etapasAntes=etapas(p.id()); long n=eventos(p.id());
+        jdbc.execute("alter table evento_pedido add constraint prueba_b2_historial check (observacion is distinct from 'FALLO_CONTROLADO_B2') not valid");
+        try { assertThatThrownBy(() -> accionComponente(p.id(),3,RECHAZAR,null,"FALLO_CONTROLADO_B2")).hasStackTraceContaining("prueba_b2_historial"); }
+        finally { jdbc.execute("alter table evento_pedido drop constraint prueba_b2_historial"); }
+        assertThat(fila(p.id())).isEqualTo(antes); assertThat(etapas(p.id())).isEqualTo(etapasAntes); assertThat(eventos(p.id())).isEqualTo(n);
+    }
+    @Test void componenteRollbackCreacionRevierteContadorYPermiteReusarSoloNumeroNoConfirmado() {
+        long antes=contador(2026); long pedidosAntes=jdbc.queryForObject("select count(*) from pedido",Long.class);
+        long filasContadorAntes=jdbc.queryForObject("select count(*) from secuencia_pedido where pais_codigo='EC' and anio=2026",Long.class);
+        long etapasAntes=jdbc.queryForObject("select count(*) from etapa_pedido",Long.class);
+        long eventosAntes=jdbc.queryForObject("select count(*) from evento_pedido",Long.class);
+        jdbc.execute("alter table evento_pedido add constraint prueba_b2_creacion check (tipo <> 'PEDIDO_CREADO') not valid");
+        try { assertThatThrownBy(this::crearComponente).hasStackTraceContaining("prueba_b2_creacion"); }
+        finally { jdbc.execute("alter table evento_pedido drop constraint prueba_b2_creacion"); }
+        assertThat(contador(2026)).isEqualTo(antes);
+        assertThat(jdbc.queryForObject("select count(*) from secuencia_pedido where pais_codigo='EC' and anio=2026",Long.class)).isEqualTo(filasContadorAntes);
+        assertThat(jdbc.queryForObject("select count(*) from pedido",Long.class)).isEqualTo(pedidosAntes);
+        assertThat(jdbc.queryForObject("select count(*) from etapa_pedido",Long.class)).isEqualTo(etapasAntes);
+        assertThat(jdbc.queryForObject("select count(*) from evento_pedido",Long.class)).isEqualTo(eventosAntes);
+        assertThat(crearComponente().numero()).isEqualTo(NumeroPedido.componer(CodigoPais.EC,2026,(int)antes+1));
+    }
+
+    @Test void componenteNumero10000SeConfirmaEnPedidoSinTruncar() {
+        assertThat(contador(2026)).isLessThan(9999);
+        jdbc.update("insert into secuencia_pedido values ('EC',2026,9999,0) on conflict (pais_codigo,anio) do update set ultimo_numero=9999");
+        var confirmado=crearComponente();
+        assertThat(confirmado.numero().valor()).isEqualTo("DK-EC-2026-10000");
+        assertThat(leer(confirmado.id()).numero()).isEqualTo(confirmado.numero());
+        assertThat(eventos(confirmado.id())).isEqualTo(1);
+    }
+}

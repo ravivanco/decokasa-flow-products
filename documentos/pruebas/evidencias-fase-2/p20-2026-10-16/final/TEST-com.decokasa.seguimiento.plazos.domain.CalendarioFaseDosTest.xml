@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-10-16T14:48:58.641Z" hostname="DESKTOP-GKF6IVL" time="0.015">
+  <properties/>
+  <testcase name="tresDiasHabilesConservanHoraEcuador()" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="[1] nivel = &quot;URGENTE&quot;, horas = &quot;4&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.001"/>
+  <testcase name="[2] nivel = &quot;PRIORITARIO&quot;, horas = &quot;12&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="[3] nivel = &quot;NORMAL&quot;, horas = &quot;24&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="sinPlazoYPendienteSonTiposDistintosSinInventarVencimiento()" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.002"/>
+  <testcase name="[1] inicio = &quot;2026-10-16T23:00:00-05:00&quot;, horas = &quot;4&quot;, esperado = &quot;2026-10-19T03:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.002"/>
+  <testcase name="[2] inicio = &quot;2026-10-16T23:00:00-05:00&quot;, horas = &quot;12&quot;, esperado = &quot;2026-10-19T11:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.001"/>
+  <testcase name="[3] inicio = &quot;2026-10-16T23:00:00-05:00&quot;, horas = &quot;24&quot;, esperado = &quot;2026-10-19T23:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="[4] inicio = &quot;2026-10-16T20:00:00-05:00&quot;, horas = &quot;4&quot;, esperado = &quot;2026-10-19T00:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="[5] inicio = &quot;2026-10-17T10:00:00-05:00&quot;, horas = &quot;4&quot;, esperado = &quot;2026-10-19T04:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="[6] inicio = &quot;2026-10-18T10:00:00-05:00&quot;, horas = &quot;24&quot;, esperado = &quot;2026-10-20T00:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.001"/>
+  <testcase name="[7] inicio = &quot;2026-10-15T22:00:00-05:00&quot;, horas = &quot;4&quot;, esperado = &quot;2026-10-16T02:00:00-05:00&quot;" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <testcase name="diasCorridosMuevenVencimientoDeSabadoALunes()" classname="com.decokasa.seguimiento.plazos.domain.CalendarioFaseDosTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.AlmacenLocalRealTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-16T14:48:26.363Z" hostname="DESKTOP-GKF6IVL" time="0.305">
+  <properties/>
+  <testcase name="claveFueraDelDirectorioSeRechaza()" classname="com.decokasa.seguimiento.archivos.AlmacenLocalRealTest" time="0.013"/>
+  <testcase name="cienMiBMasUnByteSeRechazanSinArchivoParcial()" classname="com.decokasa.seguimiento.archivos.AlmacenLocalRealTest" time="0.125"/>
+  <testcase name="cienMiBExactosSeEscribenCompletosYSePuedenLeer()" classname="com.decokasa.seguimiento.archivos.AlmacenLocalRealTest" time="0.165"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

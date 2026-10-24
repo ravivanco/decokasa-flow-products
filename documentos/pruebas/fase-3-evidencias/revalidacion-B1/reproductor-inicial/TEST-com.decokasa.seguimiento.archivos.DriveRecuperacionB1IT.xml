@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-17T17:33:47.295Z" hostname="DESKTOP-GKF6IVL" time="9.269">
+  <properties/>
+  <testcase name="cerrojoOcupadoNoHaceRedNiConsumeReintentoAdicional()" classname="com.decokasa.seguimiento.archivos.DriveRecuperacionB1IT" time="1.657"/>
+  <system-out><![CDATA[12:33:47.334 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+12:33:47.338 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+12:33:47.352 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+12:33:47.777 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+12:33:52.174 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+12:33:52.174 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+12:33:52.206 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+12:33:52.309 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+12:33:52.589 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: b992f8fd0b03faa1c63cfc3cd9aefb626434510f1892d318259be8a6615042e7
+12:33:53.014 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.705374S
+12:33:53.020 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+12:33:53.020 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+12:33:53.021 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+12:33:53.022 [Test worker] INFO tc.postgres:17 -- Creating container for image: postgres:17
+12:33:53.124 [Test worker] INFO tc.postgres:17 -- Container postgres:17 is starting: e6b2ec1b44c00d0b3395bc30e62fbf027f0da40f38c03ca66454a15f98e9cf37
+12:33:54.893 [Test worker] INFO tc.postgres:17 -- Container postgres:17 started in PT1.8705965S
+12:33:54.895 [Test worker] INFO tc.postgres:17 -- Container is started (JDBC URL: jdbc:postgresql://localhost:50069/test?loggerLevel=OFF)
+12:33:55.592 [Test worker] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://localhost:50069/test?loggerLevel=OFF&currentSchema=b1_b47f6b68073348ca8beb5b6dea7470f9 (PostgreSQL 17.11)
+12:33:55.692 [Test worker] INFO org.flywaydb.core.internal.database.base.Schema -- Creating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" ...
+12:33:55.701 [Test worker] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "b1_b47f6b68073348ca8beb5b6dea7470f9"."flyway_schema_history" ...
+12:33:55.772 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "b1_b47f6b68073348ca8beb5b6dea7470f9": null
+12:33:55.787 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "1 - usuarios roles paises"
+12:33:55.844 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "2 - flujos pedidos historial"
+12:33:55.902 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "3 - archivos y entradas"
+12:33:55.939 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "4 - drive notificaciones outbox"
+12:33:55.962 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "5 - cargas reanudables"
+12:33:55.981 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "b1_b47f6b68073348ca8beb5b6dea7470f9" to version "6 - recuperacion copias drive"
+12:33:56.001 [Test worker] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 6 migrations to schema "b1_b47f6b68073348ca8beb5b6dea7470f9", now at version v6 (execution time 00:00.127s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

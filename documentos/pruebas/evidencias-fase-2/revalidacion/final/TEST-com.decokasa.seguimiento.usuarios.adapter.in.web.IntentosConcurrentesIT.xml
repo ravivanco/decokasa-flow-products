@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-15T19:40:41.399Z" hostname="DESKTOP-GKF6IVL" time="0.347">
+  <properties/>
+  <testcase name="losFallosSimultaneosSeCuentanTodosYLosPosterioresRespetanElBloqueo()" classname="com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT" time="0.335"/>
+  <system-out><![CDATA[2026-10-15T14:40:41.400-05:00  INFO 17388 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT]: IntentosConcurrentesIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:40:41.404-05:00  INFO 17388 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT
+2026-10-15T14:40:41.405-05:00  INFO 17388 --- [seguimiento] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT]: IntentosConcurrentesIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-15T14:40:41.409-05:00  INFO 17388 --- [seguimiento] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.usuarios.adapter.in.web.IntentosConcurrentesIT
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.MigracionesIT" tests="40" skipped="0" failures="3" errors="0" timestamp="2026-10-17T17:40:11.586Z" hostname="DESKTOP-GKF6IVL" time="2.669">
+  <properties/>
+  <testcase name="noSeAsignaUnRolQueNoExiste()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.115"/>
+  <testcase name="elNombreDeUsuarioTieneAlMenosTresCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="elTelefonoTieneAlMenosSieteDigitos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="losRolesSembradosTienenIdentificadoresUuidVersion7Fijos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.025"/>
+  <testcase name="losIntentosFallidosNoPuedenSerNegativos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="elNombreDelUsuarioNoPasaDeDoscientosCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="elCodigoDeRolTieneElFormatoDelDominio()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="noSeBorraUnRolAsignado()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="unUsuarioNuevoQuedaActivoYSinIntentosFallidos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="reiniciarFlywayValidaLaMigracionSinReaplicarla()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.173">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;expected: &quot;3&quot;&#13;&#10; but was: &quot;6&quot;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: &quot;3&quot;
+ but was: &quot;6&quot;
+	at com.decokasa.seguimiento.MigracionesIT.reiniciarFlywayValidaLaMigracionSinReaplicarla(MigracionesIT.java:121)
+</failure>
+  </testcase>
+  <testcase name="elUsuarioNoGuardaElRolEnUnaColumna()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.016"/>
+  <testcase name="elCorreoDebeTenerArroba()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="noSeBorraUnUsuarioConRolesOSesiones()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.015"/>
+  <testcase name="elMismoRolNoSeAsignaDosVeces()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.016"/>
+  <testcase name="elCorreoEsUnicoSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="losTextosDelUsuarioAceptanSuLongitudMaxima()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="elTokenDeRenovacionPerteneceAUnUsuarioExistente()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="creaLasTablasDeV1MotorYArchivosSinBodegas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.02">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;Expecting actual:&#13;&#10;  [&quot;adjunto&quot;,&#13;&#10;    &quot;carga_archivo&quot;,&#13;&#10;    &quot;carga_fragmento&quot;,&#13;&#10;    &quot;carpeta_drive&quot;,&#13;&#10;    &quot;definicion_etapa&quot;,&#13;&#10;    &quot;definicion_flujo&quot;,&#13;&#10;    &quot;documento_requerido&quot;,&#13;&#10;    &quot;entrada_etapa&quot;,&#13;&#10;    &quot;etapa_pedido&quot;,&#13;&#10;    &quot;evento_adjunto&quot;,&#13;&#10;    &quot;evento_pedido&quot;,&#13;&#10;    &quot;notificacion&quot;,&#13;&#10;    &quot;pais&quot;,&#13;&#10;    &quot;pedido&quot;,&#13;&#10;    &quot;rol&quot;,&#13;&#10;    &quot;rol_permiso&quot;,&#13;&#10;    &quot;secuencia_pedido&quot;,&#13;&#10;    &quot;token_renovacion&quot;,&#13;&#10;    &quot;transicion_permitida&quot;,&#13;&#10;    &quot;usuario&quot;,&#13;&#10;    &quot;usuario_pais&quot;,&#13;&#10;    &quot;usuario_rol&quot;]&#13;&#10;to contain exactly (and in same order):&#13;&#10;  [&quot;adjunto&quot;,&#13;&#10;    &quot;definicion_etapa&quot;,&#13;&#10;    &quot;definicion_flujo&quot;,&#13;&#10;    &quot;documento_requerido&quot;,&#13;&#10;    &quot;entrada_etapa&quot;,&#13;&#10;    &quot;etapa_pedido&quot;,&#13;&#10;    &quot;evento_adjunto&quot;,&#13;&#10;    &quot;evento_pedido&quot;,&#13;&#10;    &quot;pais&quot;,&#13;&#10;    &quot;pedido&quot;,&#13;&#10;    &quot;rol&quot;,&#13;&#10;    &quot;rol_permiso&quot;,&#13;&#10;    &quot;secuencia_pedido&quot;,&#13;&#10;    &quot;token_renovacion&quot;,&#13;&#10;    &quot;transicion_permitida&quot;,&#13;&#10;    &quot;usuario&quot;,&#13;&#10;    &quot;usuario_pais&quot;,&#13;&#10;    &quot;usuario_rol&quot;]&#13;&#10;but some elements were not expected:&#13;&#10;  [&quot;carga_archivo&quot;, &quot;carga_fragmento&quot;, &quot;carpeta_drive&quot;, &quot;notificacion&quot;]&#13;&#10;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+Expecting actual:
+  [&quot;adjunto&quot;,
+    &quot;carga_archivo&quot;,
+    &quot;carga_fragmento&quot;,
+    &quot;carpeta_drive&quot;,
+    &quot;definicion_etapa&quot;,
+    &quot;definicion_flujo&quot;,
+    &quot;documento_requerido&quot;,
+    &quot;entrada_etapa&quot;,
+    &quot;etapa_pedido&quot;,
+    &quot;evento_adjunto&quot;,
+    &quot;evento_pedido&quot;,
+    &quot;notificacion&quot;,
+    &quot;pais&quot;,
+    &quot;pedido&quot;,
+    &quot;rol&quot;,
+    &quot;rol_permiso&quot;,
+    &quot;secuencia_pedido&quot;,
+    &quot;token_renovacion&quot;,
+    &quot;transicion_permitida&quot;,
+    &quot;usuario&quot;,
+    &quot;usuario_pais&quot;,
+    &quot;usuario_rol&quot;]
+to contain exactly (and in same order):
+  [&quot;adjunto&quot;,
+    &quot;definicion_etapa&quot;,
+    &quot;definicion_flujo&quot;,
+    &quot;documento_requerido&quot;,
+    &quot;entrada_etapa&quot;,
+    &quot;etapa_pedido&quot;,
+    &quot;evento_adjunto&quot;,
+    &quot;evento_pedido&quot;,
+    &quot;pais&quot;,
+    &quot;pedido&quot;,
+    &quot;rol&quot;,
+    &quot;rol_permiso&quot;,
+    &quot;secuencia_pedido&quot;,
+    &quot;token_renovacion&quot;,
+    &quot;transicion_permitida&quot;,
+    &quot;usuario&quot;,
+    &quot;usuario_pais&quot;,
+    &quot;usuario_rol&quot;]
+but some elements were not expected:
+  [&quot;carga_archivo&quot;, &quot;carga_fragmento&quot;, &quot;carpeta_drive&quot;, &quot;notificacion&quot;]
+
+	at com.decokasa.seguimiento.MigracionesIT.creaLasTablasDeV1MotorYArchivosSinBodegas(MigracionesIT.java:134)
+</failure>
+  </testcase>
+  <testcase name="elTokenDeRenovacionVenceDespuesDeCrearse()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="siembraLosSieteRolesAcordados()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elTelefonoNoPasaDeQuinceDigitos()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.012"/>
+  <testcase name="flywayAplicaLaVersionUnoSobreUnaBaseVacia()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.007"/>
+  <testcase name="unUsuarioSinRolesSeGuardaPeroNoTieneFilasEnUsuarioRol()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elCodigoDeRolEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.008"/>
+  <testcase name="siembraEcuadorActivoYColombiaInactivo()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.015"/>
+  <testcase name="elHashDelTokenDeRenovacionEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elTelefonoSeGuardaNormalizado()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="flywayCompletaVersionDosSinModificarLaUno()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.008">
+    <failure message="org.opentest4j.AssertionFailedError: &#13;&#10;expected: &quot;3&quot;&#13;&#10; but was: &quot;6&quot;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: &quot;3&quot;
+ but was: &quot;6&quot;
+	at com.decokasa.seguimiento.MigracionesIT.flywayCompletaVersionDosSinModificarLaUno(MigracionesIT.java:106)
+</failure>
+  </testcase>
+  <testcase name="noSiembraUsuariosContrasenasNiSesiones()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.014"/>
+  <testcase name="laContrasenaEsObligatoria()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="elNombreDeUsuarioNoPasaDeCincuentaCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="unUsuarioPuedeTenerVariosRoles()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="elTelefonoEsUnico()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="elCorreoNoPasaDeDoscientosCincuentaYCuatroCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.01"/>
+  <testcase name="unPermisoNoSeRepiteEnElMismoRol()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.013"/>
+  <testcase name="unUsuarioTrabajaEnPaisesExistentes()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.018"/>
+  <testcase name="elNombreDelRolNoPasaDeCienCaracteres()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.009"/>
+  <testcase name="elNombreDeUsuarioEsUnicoSinDistinguirMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elCodigoDePaisSonDosMayusculas()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <testcase name="elMismoPaisNoSeAsignaDosVeces()" classname="com.decokasa.seguimiento.MigracionesIT" time="0.011"/>
+  <system-out><![CDATA[2026-10-17T12:40:11.591-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-17T12:40:11.678-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: d2ed7ef3c36a8c43c1cb03fe9cfed86dfd91d43d3cde846aa900877d4b05a954
+2026-10-17T12:40:13.106-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5143784S
+2026-10-17T12:40:13.106-05:00  INFO 28860 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF)
+2026-10-17T12:40:13.130-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:13.147-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-17T12:40:13.148-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.006s)
+2026-10-17T12:40:13.155-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-17T12:40:13.177-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-17T12:40:13.181-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-17T12:40:13.213-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.023s)
+2026-10-17T12:40:13.240-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:13.257-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.006s)
+2026-10-17T12:40:13.271-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2026-10-17T12:40:13.279-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-17T12:40:13.322-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v2 (execution time 00:00.037s)
+2026-10-17T12:40:13.344-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:13.361-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.007s)
+2026-10-17T12:40:13.376-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-17T12:40:13.381-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-17T12:40:13.420-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-17T12:40:13.444-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-17T12:40:13.464-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-17T12:40:13.481-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "public", now at version v6 (execution time 00:00.062s)
+2026-10-17T12:40:13.738-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:13.757-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.007s)
+2026-10-17T12:40:13.782-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-17T12:40:13.801-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.005s)
+2026-10-17T12:40:13.816-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 6
+2026-10-17T12:40:13.817-05:00  INFO 28860 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-17T12:40:13.831-05:00  INFO 28860 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57826/test?loggerLevel=OFF (PostgreSQL 17.11)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

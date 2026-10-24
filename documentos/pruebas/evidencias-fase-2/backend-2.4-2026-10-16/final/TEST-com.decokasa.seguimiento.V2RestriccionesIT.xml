@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.V2RestriccionesIT" tests="42" skipped="0" failures="0" errors="0" timestamp="2026-10-16T14:21:06.247Z" hostname="DESKTOP-GKF6IVL" time="2.42">
+  <properties/>
+  <testcase name="[1] cambio = &quot;numero='otro'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[2] cambio = &quot;pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="[3] cambio = &quot;tipo_flujo='B'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[4] cambio = &quot;flujo_id='00000000-0000-0000-0000-000000000001'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="contadorTampocoSePuedeVaciarPorTruncate()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="relacionDeRevisionYRelacionDeEvento()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.026"/>
+  <testcase name="checksDePlazoResponsableYUrgencia()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.02"/>
+  <testcase name="siembraExactaDeOnceEtapasSinInventarPlazos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="pedidoNoSeBorra()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.013"/>
+  <testcase name="adjuntoExigeLaMismaEntradaPedidoYEtapa()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.019"/>
+  <testcase name="[1] sentencia = &quot;update entrada_etapa set entrada_en=now()&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[2] sentencia = &quot;delete from entrada_etapa&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[3] sentencia = &quot;truncate entrada_etapa cascade&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[4] sentencia = &quot;delete from adjunto&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[5] sentencia = &quot;truncate adjunto cascade&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[6] sentencia = &quot;update evento_adjunto set relacion='PRESENTADO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[7] sentencia = &quot;delete from evento_adjunto&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[8] sentencia = &quot;truncate evento_adjunto&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[1] cambio = &quot;tamano_bytes=0&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[2] cambio = &quot;sha256='incorrecto'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[3] cambio = &quot;nombre=''&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[4] cambio = &quot;tipo_documento=''&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[5] cambio = &quot;clave_local=null&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[6] cambio = &quot;estado_copia='OTRO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[7] cambio = &quot;estado_copia='COPIADO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[8] cambio = &quot;intentos=-1&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[1] cambio = &quot;estado='INEXISTENTE'&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[2] cambio = &quot;reentradas=-1&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[3] cambio = &quot;numero=31&quot;, estado = &quot;23514&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.015"/>
+  <testcase name="[4] cambio = &quot;asignado_a='00000000-0000-0000-0000-000000000001'&quot;, estado = &quot;23503&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="catorceTransicionesConRequisitosAprobadosYPendientes()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="clavesForaneasDeTransicionesDocumentosYEventos()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.024"/>
+  <testcase name="numeroUnicoYReferenciasDePedido()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.021"/>
+  <testcase name="indiceUnicoRechazaDosActualesYPermiteCambioA4A2EnOrden()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.022"/>
+  <testcase name="[1] sentencia = &quot;update secuencia_pedido set ultimo_numero=6&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[2] sentencia = &quot;delete from secuencia_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.017"/>
+  <testcase name="[3] sentencia = &quot;update secuencia_pedido set anio=2027&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="[4] sentencia = &quot;update secuencia_pedido set pais_codigo='CO'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[1] sentencia = &quot;update evento_pedido set observacion='Cambio ficticio'&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[2] sentencia = &quot;delete from evento_pedido&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.016"/>
+  <testcase name="[3] sentencia = &quot;truncate table evento_pedido cascade&quot;" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.018"/>
+  <testcase name="entradaExigeFechaEIdentificadorJuntosYLaFkCompuestaEsDiferida()" classname="com.decokasa.seguimiento.V2RestriccionesIT" time="0.03"/>
+  <system-out><![CDATA[2026-10-16T09:21:06.249-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-16T09:21:06.331-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 64daa12a8713e8b315c61ff00f8aca17ddcbb678df221829ba18d8d16f332540
+2026-10-16T09:21:07.729-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4805985S
+2026-10-16T09:21:07.730-05:00  INFO 19060 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:56211/test?loggerLevel=OFF)
+2026-10-16T09:21:07.745-05:00  INFO 19060 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:56211/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-16T09:21:07.757-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-16T09:21:07.757-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.003s)
+2026-10-16T09:21:07.763-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-16T09:21:07.779-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-16T09:21:07.782-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-16T09:21:07.815-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-16T09:21:07.854-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-16T09:21:07.878-05:00  INFO 19060 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "public", now at version v3 (execution time 00:00.068s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

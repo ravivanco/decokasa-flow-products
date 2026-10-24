@@ -1,0 +1,1356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.decokasa.seguimiento.archivos.CargasB1IT" tests="22" skipped="0" failures="0" errors="0" timestamp="2026-10-19T15:32:25.875Z" hostname="DESKTOP-GKF6IVL" time="90.273">
+  <properties/>
+  <testcase name="exactamente100MiBEn25BloquesConBytesRealesYAsociacionCompleta()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="5.673"/>
+  <testcase name="registroDeCopiasFallidasConservaAsociacionSinClavesPrivadasYExigeAdminVigente()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.697"/>
+  <testcase name="[1] rango = &quot;bytes 0-2/*&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.523"/>
+  <testcase name="[2] rango = &quot;bytes 2-0/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.522"/>
+  <testcase name="[3] rango = &quot;bytes 0-9/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.476"/>
+  <testcase name="[4] rango = &quot;bytes -1-1/3&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.522"/>
+  <testcase name="[5] rango = &quot;bytes 0-2/9999999999&quot;" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.499"/>
+  <testcase name="mayorA100MiBSeRechazaAntesDeCrearSesion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.435"/>
+  <testcase name="revocarPermisoAntesDeUnBloqueNoEscribeBytes()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.64"/>
+  <testcase name="falloAlRegistrarFinalRevierteMetadatosYPermiteRecuperarElArchivoPreparado()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.636"/>
+  <testcase name="cambioDeEntradaEntreRecepcionYFinalizacionNoAsociaDocumentoALaNueva()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.628"/>
+  <testcase name="pausaReanudaConIdempotenciaYParcialNoCuentaComoAdjunto()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.716"/>
+  <testcase name="fragmentoMayorA4MiBNoAdelantaOffset()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.55"/>
+  <testcase name="mismaClaveConComandoDistintoNoSobrescribeLaSesion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.491"/>
+  <testcase name="rechazaHashIncorrectoHuecoTotalDistintoYReplayAlterado()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.603"/>
+  <testcase name="nuevoCoordinadorRecuperaOffsetSqlYTruncaTailNoConfirmadoSinPerderPrefijo()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.715"/>
+  <testcase name="entradaObsoletaNoPermiteIniciar()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.422"/>
+  <testcase name="otraCuentaNoConsultaNiCompletaUnaCargaAjena()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.411"/>
+  <testcase name="permisoSeReleeAlCompletarAunqueElJwtAunDigaAdmin()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.515"/>
+  <testcase name="corrupcionDelParcialImpideFinalizarYConservaBytes()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.565"/>
+  <testcase name="consultaDeEnlaceCompruebaPermisoVigenteAunqueJwtConserveAdmin()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.599"/>
+  <testcase name="consultaNoFabricaEnlaceParaIdReservadoYSoloLoEntregaTrasConfirmacion()" classname="com.decokasa.seguimiento.archivos.CargasB1IT" time="0.677"/>
+  <system-out><![CDATA[10:32:26.105 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.archivos.CargasB1IT]: CargasB1IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:32:26.360 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.archivos.CargasB1IT
+10:32:26.494 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.decokasa.seguimiento.archivos.CargasB1IT]: CargasB1IT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:32:26.506 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.decokasa.seguimiento.SeguimientoApplication for test class com.decokasa.seguimiento.archivos.CargasB1IT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:32:27.145-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:32:27.146-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:32:28.511-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:32:28.633-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 109 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:32:29.217-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-19T10:32:29.221-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-19T10:32:29.250-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 2.0.5
+2026-10-19T10:32:29.624-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-19T10:32:30.058-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-19T10:32:30.058-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2026-10-19T10:32:30.078-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 29.8.2
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7849 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-19T10:32:30.166-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-19T10:32:30.361-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 is starting: 2e0717aad75287065d6426084f19477e60f6d902da591c552809bed4520444df
+2026-10-19T10:32:30.687-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.testcontainers/ryuk:0.14.0            : Container testcontainers/ryuk:0.14.0 started in PT0.5199895S
+2026-10-19T10:32:30.691-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-19T10:32:30.692-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2026-10-19T10:32:30.692-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2026-10-19T10:32:30.693-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:32:30.768-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: c04bf90a4308a09d940dea98a8c00210922fa0344ed825044268d8d6c540bb84
+2026-10-19T10:32:32.225-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5318407S
+2026-10-19T10:32:32.226-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55845/test?loggerLevel=OFF)
+2026-10-19T10:32:32.782-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55845/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:32:32.866-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:32:32.869-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.027s)
+2026-10-19T10:32:32.882-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:32:32.932-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:32:32.948-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:32:33.010-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:32:33.073-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:32:33.117-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:32:33.145-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:32:33.166-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:32:33.186-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:32:33.206-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:32:33.220-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.162s)
+2026-10-19T10:32:33.363-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:32:33.447-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-19T10:32:34.076-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:32:34.130-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-19T10:32:34.165-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3e5b1239
+2026-10-19T10:32:34.165-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-19T10:32:34.286-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:55845/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:32:36.062-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:32:36.116-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:36.211-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-19T10:32:38.659-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:32:38.659-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:32:38.662-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:32:38.675-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 16 ms
+2026-10-19T10:32:38.819-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 12.224 seconds (process running for 16.097)
+2026-10-19T10:32:44.259-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:44.261-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-19T10:32:44.265-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:32:44.627-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:32:44.628-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:32:44.942-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:32:44.992-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:32:45.070-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:32:45.138-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 590c2d9f189a825143d1773d581a6bf1b1792f37b55a93217bde1406961a5c0c
+2026-10-19T10:32:46.597-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5268949S
+2026-10-19T10:32:46.598-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:57443/test?loggerLevel=OFF)
+2026-10-19T10:32:46.690-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57443/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:32:46.707-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:32:46.707-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.007s)
+2026-10-19T10:32:46.714-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:32:46.737-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:32:46.741-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:32:46.773-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:32:46.818-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:32:46.858-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:32:46.880-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:32:46.898-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:32:46.916-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:32:46.933-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:32:46.943-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.128s)
+2026-10-19T10:32:46.971-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:32:46.996-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:32:46.998-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-19T10:32:47.007-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@58e4cca1
+2026-10-19T10:32:47.008-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-19T10:32:47.013-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:57443/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:32:47.139-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:32:47.152-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:47.454-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:32:47.454-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:32:47.460-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:32:47.463-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 9 ms
+2026-10-19T10:32:47.487-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.9 seconds (process running for 24.765)
+2026-10-19T10:32:47.861-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:47.862-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-10-19T10:32:47.864-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:32:48.226-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:32:48.226-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:32:48.473-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:32:48.525-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:32:48.603-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:32:48.673-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: b26d524ee3640028967cc462b6bb8239eba5818de43655abb3c63703138b5cee
+2026-10-19T10:32:52.049-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT3.4455482S
+2026-10-19T10:32:52.049-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:53593/test?loggerLevel=OFF)
+2026-10-19T10:32:52.134-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:53593/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:32:52.148-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:32:52.149-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.005s)
+2026-10-19T10:32:52.157-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:32:52.186-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:32:52.189-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:32:52.224-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:32:52.287-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:32:52.321-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:32:52.344-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:32:52.361-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:32:52.377-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:32:52.390-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:32:52.400-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.140s)
+2026-10-19T10:32:52.431-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:32:52.460-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:32:52.462-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-10-19T10:32:52.474-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@4e09d32b
+2026-10-19T10:32:52.474-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-10-19T10:32:52.480-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:53593/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:32:52.599-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:32:52.619-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:52.919-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:32:52.919-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:32:52.919-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:32:52.929-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 10 ms
+2026-10-19T10:32:52.949-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 4.755 seconds (process running for 30.227)
+2026-10-19T10:32:53.103-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:53.103-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2026-10-19T10:32:53.106-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:32:53.553-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:32:53.554-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:32:54.052-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:32:54.137-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:32:54.203-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:32:54.280-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 9b731c8fe16ce6b22855ebf7869e83a8dc18a55cbc947a47193f915919073809
+2026-10-19T10:32:55.779-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5752704S
+2026-10-19T10:32:55.779-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:61009/test?loggerLevel=OFF)
+2026-10-19T10:32:55.859-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61009/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:32:55.875-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:32:55.877-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.008s)
+2026-10-19T10:32:55.887-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:32:55.916-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:32:55.922-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:32:55.955-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:32:56.002-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:32:56.039-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:32:56.068-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:32:56.082-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:32:56.097-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:32:56.110-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:32:56.118-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.132s)
+2026-10-19T10:32:56.158-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:32:56.182-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:32:56.182-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2026-10-19T10:32:56.194-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@6872fdf3
+2026-10-19T10:32:56.194-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2026-10-19T10:32:56.200-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:61009/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:32:56.315-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:32:56.328-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:56.590-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:32:56.591-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:32:56.597-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:32:56.600-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 9 ms
+2026-10-19T10:32:56.619-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 3.128 seconds (process running for 33.898)
+2026-10-19T10:32:56.807-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:56.807-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2026-10-19T10:32:56.812-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:32:57.189-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:32:57.189-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:32:57.456-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:32:57.484-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:32:57.549-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:32:57.625-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: bbb643ea8c94d440df54dd1cb2fe42a09a396959e0cd71a80939a8d0aa251741
+2026-10-19T10:32:59.026-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4773813S
+2026-10-19T10:32:59.026-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:61024/test?loggerLevel=OFF)
+2026-10-19T10:32:59.112-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:61024/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:32:59.128-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:32:59.129-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.006s)
+2026-10-19T10:32:59.137-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:32:59.161-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:32:59.168-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:32:59.197-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:32:59.241-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:32:59.274-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:32:59.296-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:32:59.314-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:32:59.331-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:32:59.345-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:32:59.354-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.122s)
+2026-10-19T10:32:59.390-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:32:59.415-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:32:59.417-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2026-10-19T10:32:59.426-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@20e04516
+2026-10-19T10:32:59.426-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2026-10-19T10:32:59.431-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:61024/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:32:59.530-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:32:59.544-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:59.819-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:32:59.819-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:32:59.819-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:32:59.819-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-19T10:32:59.849-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.697 seconds (process running for 37.127)
+2026-10-19T10:32:59.982-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:32:59.982-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2026-10-19T10:32:59.984-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:00.363-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:00.364-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:00.596-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:00.635-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:00.697-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:00.798-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: a71ba4a8e493c6118932d2fb4983cf89a774f7ce0862303108a46908f6f4e2dd
+2026-10-19T10:33:02.667-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.9694833S
+2026-10-19T10:33:02.667-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:50582/test?loggerLevel=OFF)
+2026-10-19T10:33:02.761-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:50582/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:02.779-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:02.780-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.006s)
+2026-10-19T10:33:02.792-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:02.812-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:02.816-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:02.842-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:02.887-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:02.918-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:02.937-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:02.951-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:02.963-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:02.976-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:02.985-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.107s)
+2026-10-19T10:33:03.014-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:03.032-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:03.035-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2026-10-19T10:33:03.042-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@20f56cb2
+2026-10-19T10:33:03.042-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2026-10-19T10:33:03.047-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:50582/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:03.138-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:03.149-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:03.384-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:03.385-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:03.386-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:03.386-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-10-19T10:33:03.406-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 3.073 seconds (process running for 40.685)
+2026-10-19T10:33:03.532-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:03.532-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2026-10-19T10:33:03.568-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:03.978-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:03.978-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:04.275-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:04.319-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:04.360-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:04.428-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: c69be5ecc0ec9760a00a131fae28f251b70255cdff4ce6ceea238c2475e12d6c
+2026-10-19T10:33:05.885-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5242922S
+2026-10-19T10:33:05.885-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51495/test?loggerLevel=OFF)
+2026-10-19T10:33:05.956-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51495/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:05.968-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:05.969-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:05.974-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:05.990-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:05.994-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:06.029-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:06.068-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:06.099-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:06.120-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:06.139-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:06.153-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:06.165-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:06.174-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.109s)
+2026-10-19T10:33:06.204-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:06.221-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:06.222-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-10-19T10:33:06.231-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@2a9e3906
+2026-10-19T10:33:06.231-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-10-19T10:33:06.236-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:51495/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:06.313-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:06.325-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:06.565-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:06.566-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:06.571-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:06.574-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 8 ms
+2026-10-19T10:33:06.587-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.646 seconds (process running for 43.865)
+2026-10-19T10:33:06.712-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:06.713-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2026-10-19T10:33:06.749-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:07.119-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:07.119-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:07.345-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:07.391-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:07.439-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:07.512-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 72fa73d8dc6a619588f10e5a268c2000796619c89b08fc8d1ea47dc7a563a9e6
+2026-10-19T10:33:08.917-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4775931S
+2026-10-19T10:33:08.917-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51511/test?loggerLevel=OFF)
+2026-10-19T10:33:08.986-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51511/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:08.998-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:09.000-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:09.005-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:09.023-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:09.027-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:09.056-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:09.107-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:09.144-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:09.168-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:09.191-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:09.205-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:09.219-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:09.227-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.132s)
+2026-10-19T10:33:09.249-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:09.270-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:09.271-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2026-10-19T10:33:09.285-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection org.postgresql.jdbc.PgConnection@2223d57b
+2026-10-19T10:33:09.286-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2026-10-19T10:33:09.296-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:51511/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:09.373-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:09.391-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:09.644-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:09.645-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:09.648-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:09.651-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 6 ms
+2026-10-19T10:33:09.662-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.571 seconds (process running for 46.941)
+2026-10-19T10:33:09.763-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:09.764-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2026-10-19T10:33:09.779-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:10.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:10.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:10.634-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:10.705-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:10.842-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:10.987-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 7bc84f3e0abfccf0e41633b8e3508ee73aa1bd2159d546608ac362e49c3f0628
+2026-10-19T10:33:12.760-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.9175979S
+2026-10-19T10:33:12.760-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:58116/test?loggerLevel=OFF)
+2026-10-19T10:33:12.975-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:58116/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:12.998-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:12.999-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.006s)
+2026-10-19T10:33:13.010-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:13.043-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:13.051-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:13.099-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:13.189-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:13.236-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:13.269-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:13.292-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:13.314-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:13.333-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:13.344-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.190s)
+2026-10-19T10:33:13.371-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:13.403-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:13.404-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2026-10-19T10:33:13.414-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection org.postgresql.jdbc.PgConnection@108b5f74
+2026-10-19T10:33:13.414-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2026-10-19T10:33:13.421-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:58116/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:13.524-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:13.539-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:13.831-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:13.833-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:13.838-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:13.842-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 8 ms
+2026-10-19T10:33:13.869-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 3.763 seconds (process running for 51.147)
+2026-10-19T10:33:14.174-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:14.175-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown initiated...
+2026-10-19T10:33:14.180-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:14.530-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:14.531-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:14.764-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:14.807-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:14.848-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:14.919-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 7f3a3a105ec8aca3082a96040784128527a5275ade39366d1cbb7227b88b0567
+2026-10-19T10:33:16.556-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.7072979S
+2026-10-19T10:33:16.556-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:65307/test?loggerLevel=OFF)
+2026-10-19T10:33:16.696-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:65307/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:16.710-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:16.710-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:16.716-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:16.739-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:16.743-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:16.772-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:16.809-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:16.837-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:16.857-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:16.874-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:16.889-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:16.900-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:16.908-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.104s)
+2026-10-19T10:33:16.936-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:16.961-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:16.962-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
+2026-10-19T10:33:16.970-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Added connection org.postgresql.jdbc.PgConnection@277264e4
+2026-10-19T10:33:16.970-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Start completed.
+2026-10-19T10:33:16.974-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:65307/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:17.047-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:17.057-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:17.293-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:17.293-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:17.295-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:17.297-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T10:33:17.311-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.796 seconds (process running for 54.589)
+2026-10-19T10:33:17.619-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:17.619-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown initiated...
+2026-10-19T10:33:17.620-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:17.980-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:17.980-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:18.229-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:18.276-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:18.315-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:18.389-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 39240b1322164cc058eb180976b3123a9aa8d430a437cf01c811148896eba555
+2026-10-19T10:33:19.962-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.6463219S
+2026-10-19T10:33:19.962-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:57521/test?loggerLevel=OFF)
+2026-10-19T10:33:20.028-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:57521/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:20.040-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:20.041-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:20.048-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:20.065-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:20.069-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:20.099-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:20.145-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:20.173-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:20.189-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:20.204-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:20.220-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:20.235-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:20.242-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.115s)
+2026-10-19T10:33:20.264-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:20.285-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:20.285-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Starting...
+2026-10-19T10:33:20.294-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-11 - Added connection org.postgresql.jdbc.PgConnection@f3466d2
+2026-10-19T10:33:20.294-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Start completed.
+2026-10-19T10:33:20.300-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:57521/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:20.383-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:20.397-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:20.696-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:20.697-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:20.708-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:20.716-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 19 ms
+2026-10-19T10:33:20.756-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.804 seconds (process running for 58.034)
+2026-10-19T10:33:21.028-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:21.029-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2026-10-19T10:33:21.030-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:21.415-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:21.415-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:21.735-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:21.804-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:21.858-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:21.941-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 696d0adabffe6d4ad8c648814b7156f84f92b2177f92d6dceed6fd75b8c14b3d
+2026-10-19T10:33:23.677-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.8186478S
+2026-10-19T10:33:23.678-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:60039/test?loggerLevel=OFF)
+2026-10-19T10:33:23.797-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:60039/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:23.845-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:23.847-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.020s)
+2026-10-19T10:33:23.861-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:23.905-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:23.910-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:23.955-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:24.014-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:24.044-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:24.064-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:24.084-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:24.106-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:24.127-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:24.141-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.155s)
+2026-10-19T10:33:24.173-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:24.193-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:24.195-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Starting...
+2026-10-19T10:33:24.224-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-12 - Added connection org.postgresql.jdbc.PgConnection@1e7438b
+2026-10-19T10:33:24.225-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Start completed.
+2026-10-19T10:33:24.236-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:60039/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:24.332-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:24.346-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:24.632-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:24.632-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:24.639-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:24.646-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 14 ms
+2026-10-19T10:33:24.669-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 3.274 seconds (process running for 61.947)
+2026-10-19T10:33:25.095-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:25.095-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown initiated...
+2026-10-19T10:33:25.096-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:25.426-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:25.426-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:25.706-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:25.737-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:25.770-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:25.850-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 3f56aba923500084439f079c0b80428b74540317874be919b3fca417483ace77
+2026-10-19T10:33:27.265-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4946085S
+2026-10-19T10:33:27.265-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:60789/test?loggerLevel=OFF)
+2026-10-19T10:33:27.343-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:60789/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:27.357-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:27.358-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:27.364-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:27.381-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:27.385-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:27.415-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:27.460-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:27.492-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:27.513-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:27.537-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:27.549-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:27.561-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:27.570-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.117s)
+2026-10-19T10:33:27.595-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:27.609-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:27.610-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Starting...
+2026-10-19T10:33:27.618-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-13 - Added connection org.postgresql.jdbc.PgConnection@2f11c22e
+2026-10-19T10:33:27.619-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Start completed.
+2026-10-19T10:33:27.623-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:60789/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:27.695-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:27.711-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:27.911-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:27.911-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:27.913-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:27.915-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T10:33:27.932-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.539 seconds (process running for 65.21)
+2026-10-19T10:33:28.164-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:28.164-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown initiated...
+2026-10-19T10:33:28.166-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:28.505-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:28.506-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:28.717-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:28.761-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:28.805-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:28.870-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 2c048c93ea8bae59e90a80e71f226ad8f2f1abe7695008aee5930016eec99ddb
+2026-10-19T10:33:30.302-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.4970094S
+2026-10-19T10:33:30.302-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:60805/test?loggerLevel=OFF)
+2026-10-19T10:33:30.378-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:60805/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:30.390-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:30.390-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:30.397-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:30.413-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:30.415-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:30.442-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:30.489-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:30.513-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:30.530-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:30.542-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:30.555-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:30.570-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:30.577-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.106s)
+2026-10-19T10:33:30.603-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:30.616-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:30.618-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Starting...
+2026-10-19T10:33:30.626-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-14 - Added connection org.postgresql.jdbc.PgConnection@457bf00c
+2026-10-19T10:33:30.626-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Start completed.
+2026-10-19T10:33:30.631-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:60805/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:30.693-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:30.704-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:30.890-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:30.891-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:30.893-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:30.896-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 5 ms
+2026-10-19T10:33:30.911-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.425 seconds (process running for 68.189)
+2026-10-19T10:33:31.060-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:31.061-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown initiated...
+2026-10-19T10:33:31.071-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:31.427-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:31.427-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:31.642-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:31.679-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:31.742-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:31.812-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: fbe115afd944865668df8ae90f3fc6381a766dea6725fc254c1f1c796e7a4bea
+2026-10-19T10:33:33.251-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.509066S
+2026-10-19T10:33:33.252-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:60819/test?loggerLevel=OFF)
+2026-10-19T10:33:33.322-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:60819/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:33.334-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:33.335-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.005s)
+2026-10-19T10:33:33.342-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:33.358-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:33.360-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:33.390-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:33.434-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:33.461-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:33.479-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:33.493-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:33.506-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:33.519-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:33.527-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.111s)
+2026-10-19T10:33:33.556-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:33.574-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:33.574-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Starting...
+2026-10-19T10:33:33.583-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-15 - Added connection org.postgresql.jdbc.PgConnection@305e4242
+2026-10-19T10:33:33.583-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Start completed.
+2026-10-19T10:33:33.590-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:60819/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:33.632-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:33.655-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:33.822-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:33.822-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:33.824-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:33.826-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T10:33:33.838-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.433 seconds (process running for 71.116)
+2026-10-19T10:33:34.103-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:34.104-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown initiated...
+2026-10-19T10:33:34.132-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:34.457-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:34.457-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:34.667-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:34.724-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:34.768-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:34.837-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 4f09d2c51fd540be37425f74ac704b29a6102e6d8c38384ed0921b2f172fe151
+2026-10-19T10:33:36.301-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5325743S
+2026-10-19T10:33:36.301-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:63698/test?loggerLevel=OFF)
+2026-10-19T10:33:36.386-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63698/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:36.404-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:36.405-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.007s)
+2026-10-19T10:33:36.411-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:36.428-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:36.431-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:36.460-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:36.491-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:36.527-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:36.544-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:36.559-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:36.573-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:36.585-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:36.592-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.105s)
+2026-10-19T10:33:36.618-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:36.634-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:36.634-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Starting...
+2026-10-19T10:33:36.651-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-16 - Added connection org.postgresql.jdbc.PgConnection@4c829078
+2026-10-19T10:33:36.652-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Start completed.
+2026-10-19T10:33:36.658-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:63698/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:36.738-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:36.757-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:36.945-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:36.945-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:36.945-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:36.945-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-19T10:33:36.966-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.521 seconds (process running for 74.244)
+2026-10-19T10:33:37.365-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:37.365-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown initiated...
+2026-10-19T10:33:37.366-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:37.709-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:37.709-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:37.925-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:37.968-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:38.017-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:38.092-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 0e1ae245525cd38247593d5d932a13beb2584ce7f67058c0963368918426f801
+2026-10-19T10:33:39.530-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5129438S
+2026-10-19T10:33:39.531-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:63714/test?loggerLevel=OFF)
+2026-10-19T10:33:39.604-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63714/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:39.615-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:39.616-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:39.622-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:39.637-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:39.641-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:39.666-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:39.705-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:39.731-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:39.748-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:39.763-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:39.777-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:39.790-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:39.798-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.099s)
+2026-10-19T10:33:39.830-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:39.845-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:39.846-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Starting...
+2026-10-19T10:33:39.855-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-17 - Added connection org.postgresql.jdbc.PgConnection@75254469
+2026-10-19T10:33:39.855-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Start completed.
+2026-10-19T10:33:39.860-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:63714/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:39.920-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:39.936-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:40.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:40.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:40.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:40.136-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-19T10:33:40.158-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.472 seconds (process running for 77.437)
+2026-10-19T10:33:40.248-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:40.249-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Shutdown initiated...
+2026-10-19T10:33:40.285-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:40.611-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:40.611-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:40.850-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:40.897-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:40.933-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:41.012-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: b80188528289aab3e5ee17f28408c2d74ed62fb7d42f4ae4955e568b6fc73e0c
+2026-10-19T10:33:42.503-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5696542S
+2026-10-19T10:33:42.503-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:63727/test?loggerLevel=OFF)
+2026-10-19T10:33:42.574-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63727/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:42.588-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:42.588-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.005s)
+2026-10-19T10:33:42.594-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:42.609-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:42.612-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:42.641-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:42.684-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:42.710-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:42.727-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:42.741-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:42.756-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:42.768-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:42.777-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.104s)
+2026-10-19T10:33:42.805-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:42.821-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:42.822-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Starting...
+2026-10-19T10:33:42.829-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-18 - Added connection org.postgresql.jdbc.PgConnection@3de365d0
+2026-10-19T10:33:42.829-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Start completed.
+2026-10-19T10:33:42.835-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:63727/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:42.899-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:42.909-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:43.089-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:43.090-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:43.092-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:43.095-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 5 ms
+2026-10-19T10:33:43.095-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.507 seconds (process running for 80.384)
+2026-10-19T10:33:43.212-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:43.212-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Shutdown initiated...
+2026-10-19T10:33:43.216-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:43.543-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:43.543-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:43.767-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:43.811-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:43.848-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:43.917-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 226c6118c90dfb09e94051c206efb2529db0370f8b02958020cbb152e0b3678f
+2026-10-19T10:33:45.363-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5150412S
+2026-10-19T10:33:45.364-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:63740/test?loggerLevel=OFF)
+2026-10-19T10:33:45.443-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63740/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:45.457-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:45.458-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:45.464-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:45.487-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:45.491-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:45.525-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:45.567-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:45.596-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:45.612-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:45.627-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:45.639-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:45.662-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:45.673-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.113s)
+2026-10-19T10:33:45.726-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:45.749-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:45.750-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Starting...
+2026-10-19T10:33:45.758-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-19 - Added connection org.postgresql.jdbc.PgConnection@41d2f018
+2026-10-19T10:33:45.758-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Start completed.
+2026-10-19T10:33:45.763-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:63740/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:45.826-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:45.836-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:46.001-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:46.001-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:46.001-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:46.001-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-19T10:33:46.020-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.499 seconds (process running for 83.298)
+2026-10-19T10:33:46.201-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:46.201-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Shutdown initiated...
+2026-10-19T10:33:46.209-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-19 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:46.559-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:46.559-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:46.787-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:46.836-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:46.874-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:46.938-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: e2de171bbc4395bcc61fb7fbb2ea72f4b703494dd62b05a9a1617f34187aee71
+2026-10-19T10:33:48.473-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5989323S
+2026-10-19T10:33:48.473-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:63755/test?loggerLevel=OFF)
+2026-10-19T10:33:48.543-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63755/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:48.556-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:48.557-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:48.562-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:48.579-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:48.582-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:48.615-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:48.656-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:48.686-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:48.705-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:48.718-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:48.733-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:48.747-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:48.755-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.109s)
+2026-10-19T10:33:48.787-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:48.799-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:48.800-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Starting...
+2026-10-19T10:33:48.809-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-20 - Added connection org.postgresql.jdbc.PgConnection@7b404fce
+2026-10-19T10:33:48.809-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Start completed.
+2026-10-19T10:33:48.813-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:63755/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:48.894-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:48.904-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:49.078-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:49.078-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:49.081-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:49.081-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-10-19T10:33:49.095-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.556 seconds (process running for 86.373)
+2026-10-19T10:33:49.308-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:49.308-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Shutdown initiated...
+2026-10-19T10:33:49.340-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-20 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:49.683-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:49.683-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:50.031-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:50.093-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:50.133-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:50.218-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: 168d5e7458b8f59a4fbca24de138acafbf6975bc3abe16a53d81c453e275e911
+2026-10-19T10:33:51.633-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.500622S
+2026-10-19T10:33:51.633-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:51222/test?loggerLevel=OFF)
+2026-10-19T10:33:51.705-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:51222/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:51.716-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:51.717-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:51.724-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:51.742-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:51.745-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:51.770-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:51.811-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:51.838-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:51.858-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:51.872-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:51.887-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:51.898-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:51.907-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.104s)
+2026-10-19T10:33:51.935-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:51.955-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:51.956-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Starting...
+2026-10-19T10:33:51.963-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-21 - Added connection org.postgresql.jdbc.PgConnection@2a1d6243
+2026-10-19T10:33:51.964-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Start completed.
+2026-10-19T10:33:51.968-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:51222/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:52.039-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:52.050-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:52.275-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:52.275-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:52.277-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:52.279-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T10:33:52.289-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.626 seconds (process running for 89.567)
+2026-10-19T10:33:52.580-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:52.580-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Shutdown initiated...
+2026-10-19T10:33:52.581-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-21 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-10-19T10:33:52.905-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Starting CargasB1IT using Java 21.0.12.1 with PID 30664 (started by Richard in C:\Users\Richard\Desktop\decoWeb\backend)
+2026-10-19T10:33:52.905-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : No active profile set, falling back to 1 default profile: "default"
+2026-10-19T10:33:53.132-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-19T10:33:53.195-05:00  INFO 30664 --- [seguimiento] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 6 JPA repository interfaces.
+2026-10-19T10:33:53.248-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Creating container for image: postgres:17
+2026-10-19T10:33:53.352-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 is starting: aa318de5e9f14862032f56315bda725e1e104e711182c1b4105b4afabb166b22
+2026-10-19T10:33:54.786-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container postgres:17 started in PT1.5379128S
+2026-10-19T10:33:54.786-05:00  INFO 30664 --- [seguimiento] [    Test worker] tc.postgres:17                           : Container is started (JDBC URL: jdbc:postgresql://localhost:55466/test?loggerLevel=OFF)
+2026-10-19T10:33:54.856-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:55466/test?loggerLevel=OFF (PostgreSQL 17.11)
+2026-10-19T10:33:54.867-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-19T10:33:54.868-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 8 migrations (execution time 00:00.004s)
+2026-10-19T10:33:54.874-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-19T10:33:54.891-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-19T10:33:54.893-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - usuarios roles paises"
+2026-10-19T10:33:54.922-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - flujos pedidos historial"
+2026-10-19T10:33:54.963-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - archivos y entradas"
+2026-10-19T10:33:54.992-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - drive notificaciones outbox"
+2026-10-19T10:33:55.010-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - cargas reanudables"
+2026-10-19T10:33:55.024-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - recuperacion copias drive"
+2026-10-19T10:33:55.038-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - cuotas archivos estructura"
+2026-10-19T10:33:55.051-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "8 - cuotas archivos datos existentes"
+2026-10-19T10:33:55.060-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 8 migrations to schema "public", now at version v8 (execution time 00:00.107s)
+2026-10-19T10:33:55.091-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-19T10:33:55.103-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-19T10:33:55.104-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Starting...
+2026-10-19T10:33:55.111-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-22 - Added connection org.postgresql.jdbc.PgConnection@7d196255
+2026-10-19T10:33:55.111-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Start completed.
+2026-10-19T10:33:55.118-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:55466/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.11
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-19T10:33:55.183-05:00  INFO 30664 --- [seguimiento] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-19T10:33:55.194-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:55.456-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-19T10:33:55.456-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-19T10:33:55.459-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-19T10:33:55.460-05:00  INFO 30664 --- [seguimiento] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-19T10:33:55.471-05:00  INFO 30664 --- [seguimiento] [    Test worker] c.d.seguimiento.archivos.CargasB1IT      : Started CargasB1IT in 2.58 seconds (process running for 92.749)
+2026-10-19T10:33:55.716-05:00  INFO 30664 --- [seguimiento] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-19T10:33:55.716-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Shutdown initiated...
+2026-10-19T10:33:55.717-05:00  INFO 30664 --- [seguimiento] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-22 - Shutdown completed.
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Richard\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.11\82212e5b3633e7a65fca8bec525762cfb6c9bae4\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
