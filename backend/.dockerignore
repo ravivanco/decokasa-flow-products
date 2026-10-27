@@ -1,0 +1,16 @@
+# Lo que no entra al contexto de construcción de la imagen del backend.
+build/
+.gradle/
+bin/
+out/
+.idea/
+.vscode/
+*.iml
+.env*
+Dockerfile
+.dockerignore
+# Datos reales locales: archivos subidos y usuarios iniciales (ADR-0015). La imagen no los necesita.
+datos/
+semilla/*.local.json
+.tmp/
+*.log

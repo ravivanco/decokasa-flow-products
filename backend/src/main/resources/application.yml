@@ -1,0 +1,156 @@
+# Configuración del backend de Decokasa. Ningún secreto vive aquí (ADR-0015): todo sale de variables de entorno.
+spring:
+  config:
+    # Arranque manual desde backend/: archivo local ignorado por Git. Docker usa sus variables de entorno.
+    import: optional:file:./.env.local[.properties]
+  application:
+    name: seguimiento
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/decokasa}
+    username: ${DB_USUARIO:decokasa}
+    password: ${DB_CONTRASENA:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Flyway es dueño del esquema; Hibernate solo valida (modelo-datos.md, sección 1).
+      ddl-auto: validate
+  jackson:
+    time-zone: America/Guayaquil
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# Documentación desactivada por defecto; application-dev.yml la habilita solo con el perfil dev.
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+server:
+  tomcat:
+    accesslog:
+      # El callback contiene un código de un solo uso: no registrar su query.
+      enabled: false
+  error:
+    include-message: never
+    include-stacktrace: never
+
+# Sesión, bloqueo y datos iniciales (ADR-0002 y ADR-0015). Los valores por defecto son los aprobados (D2, D3);
+# JWT_SECRETO no tiene valor por defecto: sin él la aplicación no arranca.
+decokasa:
+  notificaciones:
+    # Solo para la prueba real de Gmail, en la configuración local aislada; nunca en producción. Vacío: ningún
+    # destinatario y nada se envía. Único valor admitido: el buzón autorizado por Richard (2026-10-24); otro no arranca.
+    destinatario-prueba: ${NOTIFICACIONES_DESTINATARIO_PRUEBA:}
+    # ADR-0032: instante ISO 8601 (por ejemplo, 2026-11-01T08:00:00-05:00) desde el que el trabajador de Gmail envía.
+    # Vacío: no se envía nada. Lo creado antes (outbox histórico) no se envía nunca.
+    enviar-desde: ${NOTIFICACIONES_ENVIAR_DESDE:}
+  recuperacion:
+    # ADR-0033: duración del enlace de recuperación (entre 5 min y 24 h) y solicitudes por cuenta y hora (1 a 10).
+    duracion: ${RECUPERACION_DURACION:PT30M}
+    maximo-por-hora: ${RECUPERACION_MAXIMO_POR_HORA:3}
+    # Base pública del frontend para el enlace (http://localhost:3000 o el dominio futuro, sin barra final). Nunca se
+    # toma de la cabecera Host. Obligatoria solo si el envío automático está encendido.
+    url-base: ${RECUPERACION_URL_BASE:}
+    # Trabajador propio; además exige GOOGLE_OAUTH_HABILITADA y GOOGLE_GMAIL_HABILITADA. Apagado: nada se envía.
+    envio-automatico: ${RECUPERACION_ENVIO_AUTOMATICO:false}
+    intervalo-ms: ${RECUPERACION_INTERVALO_MS:15000}
+    lote: ${RECUPERACION_LOTE:5}
+  plazos:
+    vencimientos:
+      # Paso 5.2: detección de vencimientos. Desactivada por defecto hasta su verificación (Codex, 5.B1).
+      automatico: ${VENCIMIENTOS_AUTOMATICO:false}
+      # Valores técnicos provisionales (F5-D9), pendientes de confirmar por Richard.
+      intervalo-ms: ${VENCIMIENTOS_INTERVALO_MS:300000}
+      lote: ${VENCIMIENTOS_LOTE:100}
+  google:
+    # Adaptadores pasivos del 3.2. Cada llamada exige además OAuth habilitado y autorización vigente.
+    drive:
+      habilitada: ${GOOGLE_DRIVE_HABILITADA:false}
+      worker:
+        # Tres flags deben ser true para registrar la tarea. No activa OAuth ni arranca el worker por defecto.
+        automatico: ${COPIA_DRIVE_AUTOMATICA:false}
+        lote: ${COPIA_DRIVE_LOTE:5}
+        intervalo-ms: ${COPIA_DRIVE_INTERVALO_MS:30000}
+        lease: ${COPIA_DRIVE_LEASE:PT3M}
+        reintento-1: ${COPIA_DRIVE_REINTENTO_1:PT1M}
+        reintento-2: ${COPIA_DRIVE_REINTENTO_2:PT5M}
+        reintento-3: ${COPIA_DRIVE_REINTENTO_3:PT15M}
+        # Instante ISO-8601 (UTC). Solo se copian los adjuntos subidos desde entonces; los anteriores (por ejemplo, los de
+        # una base recuperada) quedan PENDIENTE sin copiarse. Vacío: sin límite.
+        copiar-desde: ${COPIA_DRIVE_DESDE:}
+    gmail:
+      habilitada: ${GOOGLE_GMAIL_HABILITADA:false}
+      worker:
+        automatico: ${CORREO_AUTOMATICO:false}
+        lote: ${CORREO_LOTE:5}
+        intervalo-ms: ${CORREO_INTERVALO_MS:30000}
+        lease: ${CORREO_LEASE:PT3M}
+    oauth:
+      # Paso 3.1: cliente web OAuth de usuario, Mi unidad y Gmail personal. No conecta al arrancar.
+      habilitada: ${GOOGLE_OAUTH_HABILITADA:false}
+      cliente-ruta: ${GOOGLE_OAUTH_CLIENTE_RUTA:}
+      tokens-ruta: ${GOOGLE_OAUTH_TOKENS_RUTA:}
+      llave-ruta: ${GOOGLE_OAUTH_LLAVE_RUTA:}
+      cuenta-email: ${GOOGLE_CUENTA_EMAIL:}
+      redirect-uri: http://localhost:8080/api/v1/integraciones/google/oauth2/callback
+  ia:
+    # Fase 7: chat de consulta con Claude API (ADR-0020 a ADR-0023; adaptador del paso 7.4). Desactivado por defecto.
+    # Paso 7.4: aunque se active, no hay ruta para preguntar ni presupuesto hasta el paso 7.5.
+    habilitada: ${IA_HABILITADA:false}
+    # Clave propia de Decokasa, nueva e independiente de las herramientas de desarrollo. Sin valor por defecto ni en
+    # Git: llega por configuración local segura. Se lee con un nombre propio y no con ANTHROPIC_API_KEY a propósito: el
+    # cliente se construirá solo con esta propiedad (.apiKey), nunca con AnthropicOkHttpClient.fromEnv(), que tomaría
+    # ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN o un perfil de "ant auth login" del equipo. Sin clave, la IA no se
+    # activa y el resto del sistema arranca. Nunca se registra ni se devuelve en una respuesta.
+    claude-api-key: ${DECOKASA_CLAUDE_API_KEY:}
+    # F7-D2 (Richard, 2026-10-22): claude-haiku-5-5, sujeto a verificar su disponibilidad. Sin modelo, la IA no se
+    # activa. Sin cambio automático a otros modelos.
+    modelo: ${IA_MODELO:}
+    # F7-D3: solo con PILOTO_FICTICIO (y sin documentos reales autorizados) se envían PDF del manifiesto. Con cualquier
+    # otro valor no se envía ningún documento hasta F7-D6.
+    entorno: ${IA_ENTORNO:}
+    documentos-reales-autorizados: ${IA_DOCUMENTOS_REALES_AUTORIZADOS:false}
+    piloto:
+      # Manifiesto revisado de los PDF ficticios (local, fuera de Git).
+      manifiesto: ${IA_MANIFIESTO_PILOTO:piloto-ia/manifiesto.json}
+    # F7-D5 (piloto): 30 días de conservación y borrado diario, también con la IA desactivada.
+    conservacion-dias: 30
+    borrado:
+      automatico: ${IA_BORRADO_AUTOMATICO:true}
+  jwt:
+    secreto: ${JWT_SECRETO:}
+  sesion:
+    duracion-acceso: ${JWT_DURACION_ACCESO:15m}
+    duracion-renovacion: ${JWT_DURACION_RENOVACION:8h}
+  bloqueo:
+    intentos-maximos: ${BLOQUEO_INTENTOS_MAXIMOS:5}
+    duracion: ${BLOQUEO_DURACION:15m}
+  bcrypt:
+    fuerza: 12
+  cors:
+    # Orígenes del frontend; /auth/renovar y /auth/cerrar-sesion rechazan cualquier otro Origin (D3b).
+    origenes: ${CORS_ORIGENES:http://localhost:3000}
+  archivos:
+    # Almacenamiento local persistente de archivos reales (P-05 opción A). En Docker es el volumen archivos-datos.
+    directorio: ${ALMACEN_LOCAL_DIR:./datos/archivos}
+    # Límite provisional del equipo (2026-10-15), pendiente del cliente: 100 MiB por archivo ("100MB" en Spring es
+    # 104857600 bytes). Configurable; en Docker sale de ARCHIVOS_TAMANO_MAXIMO_MIB, la misma variable que usa nginx.
+    tamano-maximo: ${DECOKASA_ARCHIVOS_TAMANO_MAXIMO:100MB}
+    # Provisional development decisions, 2026-10-19. Spring GB is binary GiB.
+    cuota:
+      global: ${ARCHIVOS_CUOTA_GLOBAL:10GB}
+      usuario: ${ARCHIVOS_CUOTA_USUARIO:2GB}
+      cargas-globales: ${ARCHIVOS_CARGAS_GLOBALES:10}
+      cargas-usuario: ${ARCHIVOS_CARGAS_USUARIO:2}
+  semilla:
+    habilitada: ${SEMILLA_HABILITADA:false}
+    archivo: ${SEMILLA_ARCHIVO:}
+    contrasena-temporal: ${SEMILLA_CONTRASENA_TEMPORAL:}

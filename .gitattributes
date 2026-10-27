@@ -1,0 +1,2 @@
+# Scripts de arranque de nginx: siempre con LF.
+frontend/*.envsh text eol=lf

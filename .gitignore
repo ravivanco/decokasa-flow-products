@@ -7,7 +7,41 @@ coverage/
 .env*
 !.env.example
 
-# Enlaces simbólicos de skills (se regeneran con npx skills)
-.claude/skills/
+# Usuarios reales para la carga inicial: nunca en Git (ADR-0015). Solo se sube usuarios.ejemplo.json.
+backend/semilla/*.local.json
+
+# Archivos reales del almacenamiento local (arranque manual del backend): nunca en Git.
+backend/datos/
+
+# Enlaces simbólicos de skills (se regeneran con npx skills). Excepción: solo el SKILL.md de agregar-flujo-decokasa,
+# skill propia del proyecto (fase 6, 6.B3-H02). Git no entra en un directorio excluido, por eso se abre la carpeta y
+# se vuelve a excluir su contenido salvo ese archivo.
+/.claude/skills/*
+!/.claude/skills/agregar-flujo-decokasa/
+/.claude/skills/agregar-flujo-decokasa/*
+!/.claude/skills/agregar-flujo-decokasa/SKILL.md
 # Archivos temporales de Word
 ~$*.docx
+
+# Temporales
+.tmp/
+documentos/manual-paso-a-paso.docx
+
+# Defensa adicional: OAuth Google siempre vive fuera del repositorio (paso 3.1).
+**/oauth-client*.json
+**/client_secret*.json
+**/oauth-tokens*
+**/google-aes*.key
+
+# Piloto de IA (F7-D3): PDF ficticios y su manifiesto revisado, siempre locales.
+/piloto-ia/
+
+# Capturas y volcados del navegador de las revisiones visuales (Playwright MCP): temporales, nunca en Git.
+/.playwright-mcp/
+# Documentación, informes y evidencias del proyecto: se conservan solo en local (decisión de Richard, 2026-10-27).
+# Nada del código, las pruebas ni la compilación lee esta carpeta.
+/documentos/
+# Copias de seguridad locales.
+*.bak
+*.orig
+*.tar

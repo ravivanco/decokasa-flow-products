@@ -1,0 +1,92 @@
+# Entorno local de Decokasa (paso 1.4): PostgreSQL 17, backend y frontend.
+# Las variables se leen de .env en la raíz (ignorado por Git); la plantilla es .env.example.
+# Uso, desde la raíz: docker compose up -d --build
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: decokasa-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-decokasa}
+      POSTGRES_USER: ${POSTGRES_USER:-decokasa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+    ports:
+      # Solo desde este equipo (herramientas de base de datos); los contenedores usan la red interna.
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-decokasa} -d ${POSTGRES_DB:-decokasa}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: decokasa-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-decokasa}
+      DB_USUARIO: ${POSTGRES_USER:-decokasa}
+      DB_CONTRASENA: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env}
+      # Sesión (ADR-0002): el secreto es obligatorio; las duraciones por defecto son las aprobadas (D2, D3).
+      JWT_SECRETO: ${JWT_SECRETO:?Define JWT_SECRETO en .env (al menos 32 bytes al azar)}
+      JWT_DURACION_ACCESO: ${JWT_DURACION_ACCESO:-15m}
+      JWT_DURACION_RENOVACION: ${JWT_DURACION_RENOVACION:-8h}
+      BLOQUEO_INTENTOS_MAXIMOS: ${BLOQUEO_INTENTOS_MAXIMOS:-5}
+      BLOQUEO_DURACION: ${BLOQUEO_DURACION:-15m}
+      CORS_ORIGENES: ${CORS_ORIGENES:-http://localhost:3000}
+      # Usuarios iniciales fuera de Git (ADR-0015): el archivo real vive en backend/semilla/*.local.json.
+      SEMILLA_HABILITADA: ${SEMILLA_HABILITADA:-false}
+      SEMILLA_ARCHIVO: ${SEMILLA_ARCHIVO:-/aplicacion/semilla/usuarios.local.json}
+      SEMILLA_CONTRASENA_TEMPORAL: ${SEMILLA_CONTRASENA_TEMPORAL:-}
+      # Archivos reales de la fase 2 (P-05 opción A): disco persistente, nunca el /tmp del contenedor.
+      ALMACEN_LOCAL_DIR: /aplicacion/archivos
+      # Límite provisional del equipo (100 MiB por archivo), pendiente del cliente. La misma variable alimenta a nginx
+      # (servicio frontend), así los dos límites no se desincronizan.
+      DECOKASA_ARCHIVOS_TAMANO_MAXIMO: ${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}MB
+      # Claude API (fase 7, paso 7.4; sin ruta para preguntar hasta 7.5): desactivada por defecto. La clave propia de Decokasa sale solo del .env
+      # local; vacía, la IA no se activa. Solo el backend la recibe; el frontend nunca.
+      IA_HABILITADA: ${IA_HABILITADA:-false}
+      DECOKASA_CLAUDE_API_KEY: ${DECOKASA_CLAUDE_API_KEY:-}
+      IA_MODELO: ${IA_MODELO:-}
+      IA_ENTORNO: ${IA_ENTORNO:-}
+      IA_DOCUMENTOS_REALES_AUTORIZADOS: ${IA_DOCUMENTOS_REALES_AUTORIZADOS:-false}
+    volumes:
+      - ./backend/semilla:/aplicacion/semilla:ro
+      - archivos-datos:/aplicacion/archivos
+    ports:
+      # Acceso directo para pruebas locales (curl); el navegador entra por el frontend.
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      # /actuator/health incluye la conexión a la base de datos.
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: decokasa-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      # nginx acepta el archivo más 1 MiB para el resto del formulario multipart (frontend/limite-archivos.envsh).
+      ARCHIVOS_TAMANO_MAXIMO_MIB: ${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}
+    ports:
+      - "3000:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
+  archivos-datos:

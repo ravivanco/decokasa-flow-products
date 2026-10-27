@@ -1,0 +1,109 @@
+package com.decokasa.seguimiento.pedidos.application.usecase;
+
+import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
+import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
+import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
+import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
+import com.decokasa.seguimiento.compartido.domain.SinPermiso;
+import com.decokasa.seguimiento.compartido.domain.Solicitante;
+import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeEtapa;
+import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
+import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
+import com.decokasa.seguimiento.pedidos.application.port.in.CrearPedido;
+import com.decokasa.seguimiento.pedidos.application.port.out.GeneradorNumeroPedido;
+import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
+import com.decokasa.seguimiento.pedidos.domain.ActorVigente;
+import com.decokasa.seguimiento.pedidos.domain.FlujoDelPedido;
+import com.decokasa.seguimiento.pedidos.domain.NumeroPedido;
+import com.decokasa.seguimiento.pedidos.domain.Pedido;
+import com.decokasa.seguimiento.pedidos.domain.PermisosEtapa;
+import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
+import com.decokasa.seguimiento.plazos.application.port.in.RegistrarPlanificacionOriginal;
+import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
+import java.time.Instant;
+
+/**
+ * Crea un pedido. Orden: permiso con el estado vigente, definición vigente del flujo, número reservado en esta
+ * transacción, agregado, inserción, planificación original (ADR-0030) y eventos. Sin Spring (R2); la transacción la
+ * abre la configuración (ADR-0012).
+ *
+ * <p>Del flujo solo usa el contrato compartido {@link ContratoDeFlujo}, nunca las clases internas de {@code flujos}
+ * (R4; 2.B1-D01).
+ */
+public final class CrearPedidoCasoDeUso implements CrearPedido {
+
+    private final ConsultarDefinicionFlujo flujos;
+    private final PedidoRepositorio pedidos;
+    private final GeneradorNumeroPedido generador;
+    private final Reloj reloj;
+    private final ApoyoPedidos apoyo;
+    private final RegistrarPlanificacionOriginal planificaciones;
+
+    public CrearPedidoCasoDeUso(ConsultarDefinicionFlujo flujos, PedidoRepositorio pedidos,
+            GeneradorNumeroPedido generador, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj, RegistrarPlanificacionOriginal planificaciones) {
+        this.flujos = flujos;
+        this.pedidos = pedidos;
+        this.generador = generador;
+        this.reloj = reloj;
+        this.apoyo = new ApoyoPedidos(responsables, vencimientos, publicador);
+        this.planificaciones = planificaciones;
+    }
+
+    /** Sin planificación original (como antes de ADR-0030); lo usan las pruebas anteriores. */
+    public CrearPedidoCasoDeUso(ConsultarDefinicionFlujo flujos, PedidoRepositorio pedidos,
+            GeneradorNumeroPedido generador, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj) {
+        this(flujos, pedidos, generador, responsables, vencimientos, publicador, reloj, null);
+    }
+
+    @Override
+    public Pedido crear(Solicitante solicitante, Comando comando) {
+        ActorVigente creador = apoyo.solicitante(solicitante);
+        if (comando.tipoFlujo() == null) {
+            throw new DatoInvalido("tipoFlujo", "Elige el tipo de flujo.");
+        }
+        // Sin país, Ecuador, como antes de la fase 7 (contrato: default EC).
+        CodigoPais pais = comando.pais() == null ? CodigoPais.EC : comando.pais();
+        // ADR-0024: solo se crea en un país asignado hoy a quien crea, también el admin. Antes de reservar el número.
+        if (!creador.veePais(pais)) {
+            throw new SinPermiso("No tienes asignado ese país.");
+        }
+        ContratoDeFlujo flujo = definicionVigente(pais, comando);
+        ContratoDeEtapa inicial = flujo.etapaInicial();
+        if (inicial.rolResponsable() == null) {
+            throw new IllegalStateException("La primera etapa de un flujo debe tener responsable.");
+        }
+        // El permiso se revisa antes de reservar el número; Pedido.crear lo vuelve a revisar.
+        PermisosEtapa.paraCrear(inicial.rolResponsable(), creador);
+
+        Instant ahora = reloj.ahora();
+        NumeroPedido numero = generador.siguiente(pais, reloj.ahoraEnEcuador().getYear());
+        FlujoDelPedido flujoDelPedido = new FlujoDelPedido(flujo.id(), flujo.tipo(),
+                flujo.etapas().stream().map(ContratoDeEtapa::numero).toList(), inicial.rolResponsable(),
+                inicial.plazo());
+        Pedido pedido = Pedido.crear(numero, pais, flujoDelPedido, comando.nombre(), comando.descripcion(),
+                comando.incluyeProductosNuevos(), creador, ahora, apoyo.vencimientos(pais));
+        pedidos.insertar(pedido);
+        // ADR-0030: la planificación original se calcula una sola vez, al crear, y se guarda en esta transacción.
+        if (planificaciones != null) {
+            planificaciones.registrar(pais, flujo.id(), DatosDeCronograma.de(pedido, flujo, ahora));
+        }
+        apoyo.publicarEventos(pedido);
+        return pedido;
+    }
+
+    /**
+     * Flujos A (V2) y B (V17) de Ecuador y sus copias de Colombia (V19). Crea quien tiene el rol de la primera etapa de
+     * esa definición: el admin el A y Compras China el B; si el admin también crea el B sigue pendiente del cliente
+     * (P-14, ⏸), así que hoy no lo hace. Sin definición vigente la respuesta es 400, no 404.
+     */
+    private ContratoDeFlujo definicionVigente(CodigoPais pais, Comando comando) {
+        try {
+            return flujos.vigente(pais, comando.tipoFlujo());
+        } catch (NoEncontrado sinDefinicion) {
+            throw new DatoInvalido("tipoFlujo", "Ese tipo de flujo todavía no está disponible.");
+        }
+    }
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+# Límite provisional del equipo (P-05), pendiente del cliente: ARCHIVOS_TAMANO_MAXIMO_MIB por archivo (100 por defecto).
+# nginx acepta el cuerpo completo con 1 MiB más para el resto del formulario multipart, el mismo margen que el backend
+# (ArchivosConfig). La imagen oficial de nginx carga este archivo antes de completar la plantilla (envsubst).
+limite="${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}"
+case "$limite" in
+    ''|*[!0-9]*)
+        echo "ARCHIVOS_TAMANO_MAXIMO_MIB debe ser un número entero de MiB" >&2
+        exit 1
+        ;;
+esac
+export ARCHIVOS_CUERPO_MAXIMO_MIB=$((limite + 1))
