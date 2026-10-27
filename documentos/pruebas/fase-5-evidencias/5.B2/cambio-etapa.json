@@ -1,9 +1,0 @@
-{
-  "pedido": "7c6ca4e2-f3d5-3d6e-ae84-2dd063579e31",
-  "transicionReal": "A7 a A8, APROBAR registra llegada",
-  "resultado": 200,
-  "observacionObsoleta": 409,
-  "envios": 1,
-  "borradorRecuperable": true,
-  "bloqueosReales": "A6/A9/A10 visibles, confirmación deshabilitada, definición sin modificar"
-}

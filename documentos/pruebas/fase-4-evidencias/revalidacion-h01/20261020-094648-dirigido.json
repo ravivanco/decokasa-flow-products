@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat test --tests *Fase4IT --tests *HistorialSecuenciaH01IT --tests *MigracionesIT --tests *MigracionesFase4IT --tests *V2RestriccionesIT --console=plain --no-daemon",
-    "fecha":  "20261020-094648",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-h01-b4c0ae62659d4ca7aa4ac657322f8294",
-    "googleReal":  false,
-    "salida":  0
-}

@@ -138,10 +138,10 @@ describe('Bandeja', () => {
 
     abrirConSesion(con(['marketing', 'asistente_compras', 'compras_china']), '/bandeja');
 
-    await screen.findByRole('link', { name: 'DK-EC-2026-0002' });
-    const titulos = screen.getAllByRole('heading', { level: 2 }).map((titulo) => titulo.textContent);
+    await within(await screen.findByRole('region', {name:'Bandeja por etapa'})).findByRole('link', { name: 'DK-EC-2026-0002' });
+    const titulos = within(screen.getByRole('region', {name:'Bandeja por etapa'})).getAllByRole('heading', { level: 2 }).map((titulo) => titulo.textContent).filter(t=>/^A[0-9]+ ?/.test(t ?? ''));
     expect(titulos).toEqual(['A2 · Codificación', 'A3 · Revisión y aprobación', 'A4 · Análisis y gestión']);
-    expect(consultas).toHaveLength(1);
+    expect(consultas).toHaveLength(5);
   });
 
   it('sin pendientes lo dice y ofrece ver todos los pedidos', async () => {

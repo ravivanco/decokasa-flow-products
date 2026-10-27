@@ -1,7 +1,0 @@
-[
-  {
-    "clase": "com.decokasa.seguimiento.pedidos.Backend24IT",
-    "caso": "resumenDeEtapaIncluyeLoOcurrido()",
-    "mensaje": "java.lang.AssertionError: \r\nExpecting not blank but was: null"
-  }
-]

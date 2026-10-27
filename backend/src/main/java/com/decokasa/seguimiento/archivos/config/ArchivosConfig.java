@@ -1,18 +1,24 @@
 package com.decokasa.seguimiento.archivos.config;
 
 import com.decokasa.seguimiento.archivos.adapter.out.almacen.AlmacenLocalEnDisco;
+import com.decokasa.seguimiento.archivos.adapter.out.almacen.VerificadorFormatoEnDisco;
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
+import com.decokasa.seguimiento.archivos.application.port.in.ConsultarDocumentosDelPedido;
 import com.decokasa.seguimiento.archivos.application.port.in.DescargarArchivo;
 import com.decokasa.seguimiento.archivos.application.port.in.ListarAdjuntosDeEtapa;
 import com.decokasa.seguimiento.archivos.application.port.in.SubirArchivo;
 import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosParaAccion;
 import com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio;
+import com.decokasa.seguimiento.archivos.application.port.out.AlmacenArchivos;
+import com.decokasa.seguimiento.archivos.application.port.out.DocumentosDePedido;
 import com.decokasa.seguimiento.archivos.application.port.out.CuotaAlmacenamiento;
 import com.decokasa.seguimiento.archivos.adapter.out.persistence.CuotaSqlRepositorio;
 import javax.sql.DataSource;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal.ArchivoRecibido;
 import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos;
+import com.decokasa.seguimiento.archivos.application.port.out.VerificadorFormato;
+import com.decokasa.seguimiento.archivos.application.usecase.ConsultarDocumentosDelPedidoCasoDeUso;
 import com.decokasa.seguimiento.archivos.application.usecase.DescargarArchivoCasoDeUso;
 import com.decokasa.seguimiento.archivos.application.usecase.ListarAdjuntosDeEtapaCasoDeUso;
 import com.decokasa.seguimiento.archivos.application.usecase.SubirArchivoCasoDeUso;
@@ -47,6 +53,12 @@ public class ArchivosConfig {
             @Value("${decokasa.archivos.cuota.cargas-globales:10}") int cargasGlobales,
             @Value("${decokasa.archivos.cuota.cargas-usuario:2}") int cargasUsuario) {
         return new CuotaSqlRepositorio(fuente,global.toBytes(),usuario.toBytes(),cargasGlobales,cargasUsuario);
+    }
+
+    /** Contenido técnico de los formatos admitidos (ADR-0026), sobre el mismo directorio del almacenamiento local. */
+    @Bean
+    VerificadorFormato verificadorFormato(@Value("${decokasa.archivos.directorio}") String directorio) {
+        return new VerificadorFormatoEnDisco(Path.of(directorio));
     }
 
     @Bean
@@ -86,13 +98,17 @@ public class ArchivosConfig {
     /** La autorización va en una transacción corta; la lectura y verificación del archivo, fuera de ella. */
     @Bean
     DescargarArchivo descargarArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos,
-            AdjuntoRepositorio adjuntos, AlmacenLocal almacen) {
+            AdjuntoRepositorio adjuntos, AlmacenLocal almacen, DocumentosDePedido documentos, AlmacenArchivos drive) {
         TransactionTemplate tx = soloLectura(gestor);
-        DescargarArchivo caso = new DescargarArchivoCasoDeUso(pedidos, adjuntos, almacen);
+        // ADR-0028: sin transacción externa. La autorización prueba P-17 y, si la niega, la regla de la etapa actual;
+        // una negativa esperada dentro de una transacción compartida la marcaría para deshacer y el commit fallaría (500).
+        // Cada lectura va en su propia transacción corta y cada comprobación de pedidos en la suya. Drive, en abrir().
+        DescargarArchivo caso = new DescargarArchivoCasoDeUso(pedidos, enTransaccion(AdjuntoRepositorio.class, adjuntos, tx),
+                almacen, enTransaccion(DocumentosDePedido.class, documentos, tx), drive);
         return new DescargarArchivo() {
             @Override
             public Autorizada autorizar(Solicitante solicitante, UUID adjuntoId) {
-                return tx.execute(estado -> caso.autorizar(solicitante, adjuntoId));
+                return caso.autorizar(solicitante, adjuntoId);
             }
 
             @Override
@@ -100,6 +116,40 @@ public class ArchivosConfig {
                 return caso.abrir(autorizada);
             }
         };
+    }
+
+    /**
+     * ADR-0028: documentos del pedido para consultarlos desde DECOKASA. Sin transacción externa, por la misma razón que
+     * la descarga: las negativas esperadas de P-17 no deben invalidar el listado.
+     */
+    @Bean
+    ConsultarDocumentosDelPedido consultarDocumentosDelPedido(PlatformTransactionManager gestor,
+            PedidosParaArchivos pedidos, DocumentosDePedido documentos, AlmacenLocal almacen, ResumirUsuarios usuarios) {
+        TransactionTemplate tx = soloLectura(gestor);
+        var caso = new ConsultarDocumentosDelPedidoCasoDeUso(pedidos,
+                enTransaccion(DocumentosDePedido.class, documentos, tx), almacen,
+                enTransaccion(ResumirUsuarios.class, usuarios, tx));
+        return caso::listar;
+    }
+
+    /** Cada llamada del puerto en su propia transacción corta (las excepciones salen tal cual). */
+    @SuppressWarnings("unchecked")
+    private static <T> T enTransaccion(Class<T> tipo, T destino, TransactionTemplate tx) {
+        return (T) java.lang.reflect.Proxy.newProxyInstance(tipo.getClassLoader(), new Class<?>[] {tipo},
+                (proxy, metodo, argumentos) -> {
+                    if (metodo.getDeclaringClass() == Object.class) { return metodo.invoke(destino, argumentos); }
+                    return tx.execute(estado -> {
+                        try {
+                            return metodo.invoke(destino, argumentos);
+                        } catch (java.lang.reflect.InvocationTargetException error) {
+                            if (error.getCause() instanceof RuntimeException fallo) { throw fallo; }
+                            if (error.getCause() instanceof Error grave) { throw grave; }
+                            throw new IllegalStateException(error.getCause());
+                        } catch (IllegalAccessException error) {
+                            throw new IllegalStateException(error);
+                        }
+                    });
+                });
     }
 
     // --- Subida: límite provisional del equipo de 100 MiB por archivo, configurable y pendiente del cliente ---
@@ -114,10 +164,10 @@ public class ArchivosConfig {
     @Bean
     SubirArchivo subirArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos, AlmacenLocal almacen,
             AdjuntoRepositorio adjuntos, PublicadorEventos publicador, ResumirUsuarios usuarios, Reloj reloj,
-            LimiteDeTamano limite, CuotaAlmacenamiento cuota) {
+            LimiteDeTamano limite, CuotaAlmacenamiento cuota, VerificadorFormato verificador) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         SubirArchivoCasoDeUso caso = new SubirArchivoCasoDeUso(pedidos, almacen, adjuntos, publicador, usuarios, reloj,
-                limite);
+                limite, verificador);
         return (solicitante, comando) -> {
             UUID adjuntoId = UUID.randomUUID();
             tx.executeWithoutResult(estado -> {

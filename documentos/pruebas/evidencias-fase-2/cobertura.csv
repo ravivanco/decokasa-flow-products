@@ -1,6 +1,0 @@
-﻿"Ambito","Cubiertas","Perdidas","Porcentaje"
-"Backend completo (solo pruebas *Test)","1196","792","60.16"
-"pedidos domain + application","345","32","91.51"
-"flujos domain + application","76","11","87.36"
-"plazos domain + application","46","0","100"
-"historial domain + application","64","5","92.75"

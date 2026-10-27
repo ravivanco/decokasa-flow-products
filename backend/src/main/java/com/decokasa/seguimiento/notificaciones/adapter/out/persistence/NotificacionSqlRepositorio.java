@@ -43,6 +43,13 @@ public class NotificacionSqlRepositorio implements NotificacionRepositorio,
                 .addValue("message", n.messageId())) == 1;
     }
     @Override public List<Notificacion> reclamar(int limite, Instant ahora, Instant hasta, UUID propietario) {
+        return reclamar(limite, ahora, hasta, propietario, null);
+    }
+    /**
+     * ADR-0032: con {@code desde}, solo filas creadas desde ese instante. Así activar Gmail nunca envía mensajes
+     * anteriores a la activación (outbox histórico).
+     */
+    public List<Notificacion> reclamar(int limite, Instant ahora, Instant hasta, UUID propietario, Instant desde) {
         if (limite < 1 || limite > 100 || !hasta.isAfter(ahora) || propietario == null) {
             throw new IllegalArgumentException("Reclamación inválida");
         }
@@ -50,6 +57,7 @@ public class NotificacionSqlRepositorio implements NotificacionRepositorio,
         return sql.query("""
                 with lote as (select id from notificacion where estado = 'PENDIENTE'
                   and destinatario is not null and not resultado_incierto and intentos < 3
+                  and creada_en >= :desde
                   and (proximo_intento_en is null or proximo_intento_en <= :ahora)
                   and (reclamado_hasta is null or reclamado_hasta <= :ahora)
                   order by creada_en,id limit :limite for update skip locked)
@@ -57,7 +65,8 @@ public class NotificacionSqlRepositorio implements NotificacionRepositorio,
                   intentos = intentos + 1, estado = 'FALLIDA', resultado_incierto = true,
                   ultimo_error = 'RESULTADO_INCIERTO' from lote where n.id = lote.id returning n.*
                 """, Map.of("limite", limite, "ahora", Timestamp.from(ahora), "hasta", Timestamp.from(hasta),
-                "propietario", propietario), this::leer);
+                "propietario", propietario,
+                "desde", Timestamp.from(desde == null ? Instant.parse("1970-01-01T00:00:00Z") : desde)), this::leer);
     }
     @Override public boolean marcarEnviada(UUID id, UUID propietario, String proveedorId, Instant ahora) {
         if (proveedorId == null || !proveedorId.matches("[A-Za-z0-9_-]{1,200}")) {

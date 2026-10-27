@@ -36,11 +36,13 @@ describe('Gestión de usuarios', () => {
       ...datos,
     };
     const campos = within(dialogo);
-    if (valores.nombre) await app.usuario.type(campos.getByLabelText('Nombre'), valores.nombre);
-    if (valores.correo) await app.usuario.type(campos.getByLabelText('Correo'), valores.correo);
-    if (valores.usuario) await app.usuario.type(campos.getByLabelText('Usuario'), valores.usuario);
-    if (valores.telefono) await app.usuario.type(campos.getByLabelText('Teléfono'), valores.telefono);
-    if (valores.contrasena) await app.usuario.type(campos.getByLabelText('Contraseña inicial'), valores.contrasena);
+    await app.usuario.click(campos.getByRole('checkbox', { name: 'Ecuador' }));
+    // Estas pruebas verifican el formulario y el envío; pegar conserva input/change sin
+    // añadir un temporizador por carácter bajo cuatro workers. El teclado se prueba aparte.
+    for (const [campo, etiqueta] of Object.entries({nombre:'Nombre',correo:'Correo',usuario:'Usuario',telefono:'Teléfono',contrasena:'Contraseña inicial'})) {
+      const valor=valores[campo as keyof typeof valores];
+      if (valor) {await app.usuario.click(campos.getByLabelText(etiqueta));await app.usuario.paste(valor);}
+    }
   }
 
   async function marcarRoles(app: App, dialogo: HTMLElement, nombres: string[]) {

@@ -267,9 +267,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               <FieldSet data-invalid={errores.nivel ? true : undefined}>
                 <FieldLegend variant="label">Urgencia</FieldLegend>
                 <FieldDescription>
-                  Tiene su propio vencimiento hasta que el pedido vuelva a{' '}
-                  {codigoEtapa(pedido.tipoFlujo, etapaEsperada)} · {origen?.nombre}. Si se cuentan horas hábiles o
-                  corridas sigue pendiente del cliente.
+                  
                 </FieldDescription>
                 <RadioGroup
                   disabled={ejecutar.isPending}

@@ -40,6 +40,11 @@ class GoogleDriveProtocoloB1Test {
             .when(http).sendAsync(any(HttpRequest.class),any(HttpResponse.BodyHandler.class));
     }
     AlmacenArchivos.Copia copia() {return new AlmacenArchivos.Copia("id-ficticio",UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),"ficticio.bin",null,3,"carpeta-ficticia");}
+    @Test void locationRealConFieldsSeparadosPorComasConservaLaSesionSinAmpliarElDestino() {
+        String location="https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,name,size&upload_id=ficticio";
+        cabeceras=Map.of("Location",List.of(location));
+        assertThat(drive.iniciar(copia()).uri()).isEqualTo(location);
+    }
     void causa(Causa causa,org.assertj.core.api.ThrowableAssert.ThrowingCallable accion) {
         assertThatThrownBy(accion).isInstanceOfSatisfying(FalloIntegracionGoogle.class,e->assertThat(e.causa()).isEqualTo(causa));
     }

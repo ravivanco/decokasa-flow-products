@@ -1,8 +1,0 @@
-"Clase","Pruebas","Fallos","Errores","Omitidas"
-"com.decokasa.seguimiento.arquitectura.FronterasFaseDosTest","1","0","0","0"
-"com.decokasa.seguimiento.arquitectura.ReglasArquitecturaTest","7","0","0","0"
-"com.decokasa.seguimiento.flujos.application.FlujoFaseDosTest","11","0","0","0"
-"com.decokasa.seguimiento.flujos.DefinicionFlujoPersistenciaIT","1","0","0","0"
-"com.decokasa.seguimiento.pedidos.application.AccionNucleoFaseDosTest","6","0","0","0"
-"com.decokasa.seguimiento.pedidos.application.CrearReasignarFaseDosTest","4","0","0","0"
-"com.decokasa.seguimiento.pedidos.PersistenciaFaseDosIT","21","0","0","0"

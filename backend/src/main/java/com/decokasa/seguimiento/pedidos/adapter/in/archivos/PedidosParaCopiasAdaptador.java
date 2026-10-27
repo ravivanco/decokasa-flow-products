@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Solo identidad de un pedido ya aceptado. Dirección pedidos -> archivos, igual al adaptador de fase 2. */
+/** Identidad y fecha de creación de un pedido ya aceptado (ADR-0026). Dirección pedidos -> archivos, igual al adaptador de fase 2. */
 @Component
 @Transactional(propagation=Propagation.MANDATORY)
 public class PedidosParaCopiasAdaptador implements PedidosParaCopias {
@@ -17,6 +17,6 @@ public class PedidosParaCopiasAdaptador implements PedidosParaCopias {
     public PedidosParaCopiasAdaptador(PedidoRepositorio pedidos) { this.pedidos=pedidos; }
     @Override public Destino destino(UUID id) {
         var pedido=pedidos.buscarParaActualizar(id).orElseThrow(() -> new FalloIntegracionGoogle(Causa.CONFIGURACION));
-        return new Destino(pedido.pais(),pedido.numero().valor());
+        return new Destino(pedido.pais(),pedido.numero().valor(),pedido.creadoEn());
     }
 }

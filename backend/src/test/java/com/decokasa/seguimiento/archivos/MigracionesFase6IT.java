@@ -26,7 +26,7 @@ class MigracionesFase6IT {
         assertThat(d.sql.queryForList("select numero from definicion_etapa where flujo_id=? and registra_llegada",Integer.class,B)).containsExactly(8);
     }
     @Test void vaciaAplicaV1AV21ConEsquemaYReglasAprobadas(){var d=new DatosB1(PG,null);var f=fly(d,null);
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactlyElementsOf(java.util.stream.IntStream.rangeClosed(1,22).mapToObj(Integer::toString).toList());
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactlyElementsOf(java.util.stream.IntStream.rangeClosed(1,24).mapToObj(Integer::toString).toList());
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();reglas(d);
         assertThat(d.sql.queryForObject("select count(*) from definicion_etapa where flujo_id=?",Integer.class,A)).isEqualTo(11);
         assertThat(d.sql.queryForObject("select count(*) from transicion_permitida where flujo_id=?",Integer.class,A)).isEqualTo(14);
@@ -38,7 +38,7 @@ class MigracionesFase6IT {
         for(int n=1;n<=11;n++)d.sql.update("insert into etapa_pedido(id,pedido_id,numero,estado,entrada_en,entrada_id) values(?,?,?,?,case when ? then '2026-10-20T15:00:00Z'::timestamptz else null end,?)",UUID.randomUUID(),d.pedido,n,n==6?"ACTUAL":"PENDIENTE",n==6,n==6?entrada6:null);
         var a=definicionA(d);var datos=new LinkedHashMap<String,List<Map<String,Object>>>();
         for(String t:List.of("pedido","etapa_pedido","entrada_etapa","adjunto","evento_pedido"))datos.put(t,d.sql.queryForList("select * from "+t+" order by id"));
-        for(String version:List.of("17","18","19","20","21","22")){assertThat(fly(d,version).migrate().migrationsExecuted).isEqualTo(1);assertThat(definicionA(d)).isEqualTo(a);
+        for(String version:List.of("17","18","19","20","21","22","23","24")){assertThat(fly(d,version).migrate().migrationsExecuted).isEqualTo(1);assertThat(definicionA(d)).isEqualTo(a);
             for(var item:datos.entrySet())assertThat(d.sql.queryForList("select * from "+item.getKey()+" order by id")).as(item.getKey()+" tras V"+version).isEqualTo(item.getValue());
             if(version.equals("17"))assertThat(d.sql.queryForObject("select count(*) from definicion_etapa where flujo_id=? and revisa_etapa is not null",Integer.class,B)).isZero();
         }

@@ -34,7 +34,7 @@ public final class EnviarNotificacionesCasoDeUso implements EnviarNotificaciones
     @Override public int procesar() {
         if (!habilitada) { return 0; }
         // F3-D8 pendiente: sin receptores aprobados no reclamar ni consumir intentos.
-        if (Arrays.stream(CodigoPais.values()).allMatch(p -> directorio.administradores(p).isEmpty())) { return 0; }
+        if (!directorio.algunoAutorizado()) { return 0; }
         int tratados=0;
         for (int i=0; i<lote; i++) {
             if (Thread.currentThread().isInterrupted()) { break; }
@@ -47,7 +47,7 @@ public final class EnviarNotificacionesCasoDeUso implements EnviarNotificaciones
             Notificador.Correo correo;
             try {
                 var pais=CodigoPais.valueOf(n.datos().get("pais"));
-                if (!directorio.administradores(pais).contains(n.destinatario())) {
+                if (!directorio.autorizado(pais, n.destinatario())) {
                     trabajo.fallo(n.id(),propietario,Causa.CONFIGURACION,reloj.ahora());
                     tratados++; continue;
                 }
@@ -85,6 +85,20 @@ public final class EnviarNotificacionesCasoDeUso implements EnviarNotificaciones
         return tratados;
     }
     private static String texto(Notificacion n) {
+        if ("AVISO_ETAPA".equals(n.plantilla())) {
+            // ADR-0032: lo que pasó, quién lo hizo, el motivo y por qué recibe el aviso. Sin enlaces externos.
+            var d=n.datos();
+            return "Pedido: "+d.getOrDefault("pedido",n.pedidoId().toString())
+                +"\nPaís: "+d.getOrDefault("pais","")
+                +"\nAviso: "+d.getOrDefault("accion","")
+                +(d.containsKey("etapaOrigen") ? "\nDesde: "+d.get("etapaOrigen") : "")
+                +"\nEtapa: "+d.getOrDefault("etapaDestino","")
+                +(d.containsKey("actor") ? "\nRealizado por: "+d.get("actor") : "")
+                +(d.containsKey("motivo") ? "\nMotivo: "+d.get("motivo") : "")
+                +"\nFecha (Ecuador): "+d.getOrDefault("fecha",d.getOrDefault("ocurridoEn",""))
+                +"\nRecibes este aviso como "+d.getOrDefault("como","destinatario")+"."
+                +"\nConsulta el pedido en la aplicación.";
+        }
         return "Pedido: "+n.datos().getOrDefault("pedido",n.pedidoId().toString())
             +"\nPaís: "+n.datos().getOrDefault("pais","")
             +"\nEvento: "+n.datos().getOrDefault("tipoEvento","")

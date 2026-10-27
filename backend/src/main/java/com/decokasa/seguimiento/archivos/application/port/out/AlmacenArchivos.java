@@ -1,5 +1,7 @@
 package com.decokasa.seguimiento.archivos.application.port.out;
 
+import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +15,17 @@ public interface AlmacenArchivos {
     Progreso enviarFragmento(Sesion sesion, long inicio, long total, byte[] fragmento);
     Optional<Remoto> metadatos(String id);
     Remoto crearCarpeta(String idReservado, String nombre, String padreId, String clave);
+
+    /**
+     * Contenido de un archivo ya copiado, por su ID persistido (ADR-0028), como flujo que el llamador debe cerrar; nunca
+     * se carga entero en memoria. Fuera de transacciones. Los dobles anteriores no lo implementan: Drive no disponible.
+     *
+     * @throws com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle si Google falla o la integración está
+     *         apagada
+     */
+    default InputStream descargar(String id) {
+        throw new FalloIntegracionGoogle(FalloIntegracionGoogle.Causa.DESACTIVADA);
+    }
 
     record Copia(String idReservado, UUID adjuntoId, UUID pedidoId, UUID entradaId,
             String nombre, String tipoDetectado, long tamano, String carpetaId) {

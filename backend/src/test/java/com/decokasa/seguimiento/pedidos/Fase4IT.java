@@ -88,7 +88,7 @@ class Fase4IT {
     }
     UUID conDocumento(UUID p)throws Exception{
         UUID entrada=sql.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=9",UUID.class,p);
-        String r=mvc.perform(multipart(base(p)+"/etapas/9/archivos").file(new MockMultipartFile("archivo","ficticio.txt","text/plain",new byte[]{1,2,3}))
+        String r=mvc.perform(multipart(base(p)+"/etapas/9/archivos").file(new MockMultipartFile("archivo","ficticio.csv","text/csv",new byte[]{97,44,98}))
                 .param("tipoDocumento","Documento ficticio F4").param("entradaEsperadaId",entrada.toString())
                 .with(jwt().jwt(j->j.subject(admin.toString())))).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
         return UUID.fromString(JsonPath.read(r,"$.id"));
@@ -397,7 +397,7 @@ class Fase4IT {
     UUID documentoIncidencia(UUID p)throws Exception {
         UUID entrada=sql.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=10",UUID.class,p);
         String r=mvc.perform(multipart(base(p)+"/etapas/10/archivos")
-                .file(new MockMultipartFile("archivo","incidencia-ficticia.txt","text/plain",new byte[]{4,5,6}))
+                .file(new MockMultipartFile("archivo","incidencia-ficticia.csv","text/csv",new byte[]{97,44,98}))
                 .param("tipoDocumento","Incidencia ficticia F4").param("entradaEsperadaId",entrada.toString())
                 .with(jwt().jwt(j->j.subject(admin.toString())))).andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -496,7 +496,7 @@ class Fase4IT {
         for(String nombre:List.of("APROBAR","ENVIAR","REPORTAR_DEMORA","ELEGIR_BODEGA"))accion(u,p,11,nombre,"",409);
         UUID entrada=sql.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=11",UUID.class,p);
         http(post(base(p)+"/observaciones"),u,"{\"etapaEsperada\":11,\"entradaEsperadaId\":\""+entrada+"\",\"texto\":\"No guardar\"}",409);
-        mvc.perform(multipart(base(p)+"/etapas/11/archivos").file(new MockMultipartFile("archivo","no.txt","text/plain",new byte[]{1}))
+        mvc.perform(multipart(base(p)+"/etapas/11/archivos").file(new MockMultipartFile("archivo","no.csv","text/csv",new byte[]{97}))
                 .param("tipoDocumento","Ficticio").param("entradaEsperadaId",entrada.toString()).with(jwt().jwt(j->j.subject(u.toString())))).andExpect(status().isConflict());
         http(put(base(p)+"/etapas/11/asignacion"),admin,"{\"usuarioId\":\""+persona("logistica")+"\",\"motivo\":\"No guardar\"}",409);
         assertThat(estado(p)).isEqualTo(antes);

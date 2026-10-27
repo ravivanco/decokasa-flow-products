@@ -36,6 +36,7 @@ import com.decokasa.seguimiento.pedidos.application.usecase.VerificarConsultaCas
 import com.decokasa.seguimiento.pedidos.domain.EtapasHabilitadas;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularCronograma;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
+import com.decokasa.seguimiento.plazos.application.port.in.RegistrarPlanificacionOriginal;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
 import java.util.UUID;
@@ -66,10 +67,11 @@ public class PedidosConfig {
     @Bean
     CrearPedido crearPedido(PlatformTransactionManager gestor, ConsultarDefinicionFlujo flujos,
             PedidoRepositorio pedidos, GeneradorNumeroPedido generador, ConsultarResponsables responsables,
-            CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj) {
+            CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj,
+            RegistrarPlanificacionOriginal planificaciones) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         CrearPedido caso = new CrearPedidoCasoDeUso(flujos, pedidos, generador, responsables, vencimientos,
-                publicador, reloj);
+                publicador, reloj, planificaciones);
         return (solicitante, comando) -> tx.execute(estado -> caso.crear(solicitante, comando));
     }
 
@@ -144,11 +146,11 @@ public class PedidosConfig {
     @Bean
     ConsultarCronograma consultarCronograma(PlatformTransactionManager gestor, ConsultaDePedidos consultas,
             ConsultarDefinicionFlujo flujos, CalcularCronograma cronogramas, ConsultarResponsables responsables,
-            CalcularVencimiento vencimientos, PublicadorEventos publicador) {
+            CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         tx.setReadOnly(true);
         ConsultarCronograma caso = new ConsultarCronogramaCasoDeUso(consultas, flujos, cronogramas, responsables,
-                vencimientos, publicador);
+                vencimientos, publicador, reloj);
         return (solicitante, pedidoId) -> tx.execute(estado -> caso.cronograma(solicitante, pedidoId));
     }
 
@@ -178,6 +180,11 @@ public class PedidosConfig {
             @Override
             public void autorizarDescarga(Solicitante solicitante, UUID pedidoId, int etapaDelArchivo) {
                 tx.executeWithoutResult(estado -> caso.autorizarDescarga(solicitante, pedidoId, etapaDelArchivo));
+            }
+
+            @Override
+            public void autorizarAperturaDesdeEtapaActual(Solicitante solicitante, UUID pedidoId) {
+                tx.executeWithoutResult(estado -> caso.autorizarAperturaDesdeEtapaActual(solicitante, pedidoId));
             }
         };
     }

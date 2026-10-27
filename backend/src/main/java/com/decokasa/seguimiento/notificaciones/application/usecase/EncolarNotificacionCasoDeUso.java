@@ -24,8 +24,17 @@ import java.util.Set;
 public final class EncolarNotificacionCasoDeUso implements EncolarNotificacion {
     private final NotificacionRepositorio repositorio;
     private final DirectorioDestinatarios directorio;
+    private final boolean transiciones;
     public EncolarNotificacionCasoDeUso(NotificacionRepositorio repositorio, DirectorioDestinatarios directorio) {
-        this.repositorio = repositorio; this.directorio = directorio;
+        this(repositorio, directorio, true);
+    }
+    /**
+     * @param transiciones false desde ADR-0032: los cambios de etapa los avisa RegistrarAvisosDeEtapaCasoDeUso
+     *                     (AVISO_ETAPA); aquí solo quedan los vencimientos, sin duplicar correos.
+     */
+    public EncolarNotificacionCasoDeUso(NotificacionRepositorio repositorio, DirectorioDestinatarios directorio,
+            boolean transiciones) {
+        this.repositorio = repositorio; this.directorio = directorio; this.transiciones = transiciones;
     }
     @Override public void encolar(EventoPedidoRegistrado registrado) {
         EventoDePedido evento = registrado.evento();
@@ -40,7 +49,7 @@ public final class EncolarNotificacionCasoDeUso implements EncolarNotificacion {
             case PedidoDevuelto e -> e.etapaDestino();
             default -> null;
         };
-        if (destino == null) { return; }
+        if (destino == null || !transiciones) { return; }
         Map<String,String> datos = Map.of("pedido", evento.numeroPedido(), "pais", evento.pais().name(),
                 "etapaOrigen", Integer.toString(evento.etapa()), "etapaDestino", Integer.toString(destino),
                 "tipoEvento", evento.getClass().getSimpleName(), "ocurridoEn", evento.ocurridoEn().toString());

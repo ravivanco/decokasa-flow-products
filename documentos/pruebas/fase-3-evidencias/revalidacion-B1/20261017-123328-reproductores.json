@@ -1,6 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat test --tests *DriveRecuperacionB1IT.cerrojoOcupadoNoHaceRedNiConsumeReintentoAdicional --console=plain --no-daemon",
-    "etapa":  "reproductores",
-    "fecha":  "20261017-123328",
-    "salida":  0
-}

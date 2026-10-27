@@ -32,5 +32,9 @@ public enum CodigoError {
     /** Límite del piloto: consulta en curso, consultas del día o presupuesto del mes (ADR-0022; paso 7.5). */
     LIMITE_CONSUMO,
     /** La pregunta y el historial no caben en el límite de entrada (F7-D2; paso 7.5). */
-    CONTEXTO_EXCEDIDO
+    CONTEXTO_EXCEDIDO,
+    /** Enlace de recuperación desconocido, caducado, usado o anulado (ADR-0033); igual en todos los casos. */
+    ENLACE_INVALIDO,
+    /** Límite de solicitudes por origen superado (ADR-0033). */
+    DEMASIADAS_SOLICITUDES
 }

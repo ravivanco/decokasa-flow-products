@@ -19,7 +19,7 @@ class MigracionesFase4IT {
     Flyway fly(DatosB1 d,String version){var f=Flyway.configure().dataSource(d.ds).schemas(d.esquema).locations("classpath:db/migration");if(version!=null)f.target(version);return f.load();}
     @Test void vaciaAplicaExactamenteV1AV21ValidaYNoReaplica(){
         var d=new DatosB1(PG,null);var f=fly(d,null);
-        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22");
+        assertThat(Arrays.stream(f.info().applied()).filter(m->m.getVersion()!=null).map(m->m.getVersion().toString()).toList()).containsExactly("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24");
         assertThat(f.validateWithResult().validationSuccessful).isTrue();assertThat(f.migrate().migrationsExecuted).isZero();
         assertThat(d.sql.queryForList("select nombre from bodega where pais_codigo='EC' order by nombre",String.class)).containsExactly("Guayaquil","Ibarra","Quito");
         assertThat(d.sql.queryForObject("select count(*) from definicion_etapa where registra_llegada and numero=7 and flujo_id in (select id from definicion_flujo where pais_codigo='EC')",Integer.class)).isEqualTo(1);

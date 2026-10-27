@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.decokasa.seguimiento.arquitectura.FronterasP20Test" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-16T16:03:19.419Z" hostname="DESKTOP-GKF6IVL" time="1.249">
-  <properties/>
-  <testcase name="r4PedidosIncluidosAdaptadoresNoUsaDominioNiAdaptadoresDeHistorial()" classname="com.decokasa.seguimiento.arquitectura.FronterasP20Test" time="0.713"/>
-  <testcase name="r9HistorialNoDependeDePedidosParaProducirLosCierres()" classname="com.decokasa.seguimiento.arquitectura.FronterasP20Test" time="0.534"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

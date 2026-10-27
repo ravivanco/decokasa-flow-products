@@ -50,11 +50,6 @@ public record Bodega(UUID id, String nombre, String ciudad, boolean activa, long
         return new Bodega(UUID.randomUUID(), nombre, conCiudad, activa == null || activa, 0, pais);
     }
 
-    /** ¿La ciudad sigue pendiente? */
-    public boolean ciudadPendiente() {
-        return ciudad == null;
-    }
-
     /**
      * Aplica solo los campos que llegan (los nulos no cambian). El país no cambia: los pedidos que la tienen son de ese
      * país. La versión la incrementa la persistencia.

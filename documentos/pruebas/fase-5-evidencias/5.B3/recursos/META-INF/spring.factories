@@ -1,1 +1,0 @@
-org.springframework.test.context.TestExecutionListener=com.decokasa.b3.LimitarFixturesB3

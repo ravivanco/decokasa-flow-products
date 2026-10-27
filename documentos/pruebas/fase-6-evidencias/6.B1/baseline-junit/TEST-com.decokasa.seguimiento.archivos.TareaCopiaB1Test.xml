@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.decokasa.seguimiento.archivos.TareaCopiaB1Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-21T20:23:21.780Z" hostname="DESKTOP-GKF6IVL" time="0.003">
-  <properties/>
-  <testcase name="falloDeUnaPasadaNoImpideLaSiguienteNiExponeLaExcepcion()" classname="com.decokasa.seguimiento.archivos.TareaCopiaB1Test" time="0.002"/>
-  <system-out><![CDATA[2026-10-21T15:23:21.783-05:00  WARN 8820 --- [seguimiento] [    Test worker] c.d.s.a.a.in.tareas.TareaCopiaArchivos   : No se completó la pasada de copias Drive; los leases y archivos quedan para recuperación.
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

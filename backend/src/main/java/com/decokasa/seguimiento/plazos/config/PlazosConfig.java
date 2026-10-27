@@ -8,15 +8,18 @@ import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.plazos.application.port.in.ConfigurarMeta;
 import com.decokasa.seguimiento.plazos.application.port.in.ConsultarConfiguracionPlazos;
 import com.decokasa.seguimiento.plazos.application.port.in.DetectarVencimientos;
+import com.decokasa.seguimiento.plazos.application.port.in.RegistrarPlanificacionOriginal;
 import com.decokasa.seguimiento.plazos.application.port.in.RegistrarVencimientosDePedido;
 import com.decokasa.seguimiento.plazos.application.port.out.AvisosVencimientoRepositorio;
 import com.decokasa.seguimiento.plazos.application.port.out.ConfiguracionPlazosRepositorio;
 import com.decokasa.seguimiento.plazos.application.port.out.DiagnosticoVencimientos;
 import com.decokasa.seguimiento.plazos.application.port.out.PedidosConEtapaActiva;
+import com.decokasa.seguimiento.plazos.application.port.out.PlanificacionesOriginales;
 import com.decokasa.seguimiento.plazos.application.usecase.CalcularCronogramaCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.CalcularVencimientoCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.ConfiguracionPlazosCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.DetectarVencimientosCasoDeUso;
+import com.decokasa.seguimiento.plazos.application.usecase.RegistrarPlanificacionOriginalCasoDeUso;
 import com.decokasa.seguimiento.plazos.application.usecase.RegistrarVencimientosCasoDeUso;
 import com.decokasa.seguimiento.plazos.domain.CalendariosPorPais;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
@@ -50,9 +53,22 @@ public class PlazosConfig {
     /** Para pedidos (GET /pedidos/{id}/cronograma): se une a la transacción de solo lectura de quien la llama. */
     @Bean
     CalcularCronograma calcularCronograma(PlatformTransactionManager gestor,
-            ConfiguracionPlazosRepositorio configuracion) {
+            ConfiguracionPlazosRepositorio configuracion, PlanificacionesOriginales planificaciones) {
         TransactionTemplate tx = soloLectura(gestor);
-        return conTransaccion(tx, new CalcularCronogramaCasoDeUso(configuracion, calendarios()));
+        return conTransaccion(tx, new CalcularCronogramaCasoDeUso(configuracion, calendarios(), planificaciones));
+    }
+
+    /**
+     * ADR-0030: planificación original de cada pedido nuevo. Se une a la transacción que crea el pedido (la abre
+     * pedidos), así que el pedido y su planificación se guardan juntos o no se guarda ninguno.
+     */
+    @Bean
+    RegistrarPlanificacionOriginal registrarPlanificacionOriginal(PlatformTransactionManager gestor,
+            PlanificacionesOriginales planificaciones) {
+        TransactionTemplate tx = new TransactionTemplate(gestor);
+        RegistrarPlanificacionOriginal caso = new RegistrarPlanificacionOriginalCasoDeUso(calendarios(),
+                planificaciones);
+        return (pais, flujoId, datos) -> tx.executeWithoutResult(estado -> caso.registrar(pais, flujoId, datos));
     }
 
     // El cálculo de cada país corre en la misma transacción de solo lectura que el general.

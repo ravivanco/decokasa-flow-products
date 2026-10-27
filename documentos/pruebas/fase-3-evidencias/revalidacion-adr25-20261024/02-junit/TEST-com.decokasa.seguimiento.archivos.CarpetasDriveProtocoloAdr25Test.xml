@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.decokasa.seguimiento.archivos.CarpetasDriveProtocoloAdr25Test" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-24T15:47:12.523Z" hostname="DESKTOP-GKF6IVL" time="0.822">
-  <properties/>
-  <testcase name="falloDeTransporteNoFiltraNombreTokenOCuerpoEnExcepcion(CapturedOutput)" classname="com.decokasa.seguimiento.archivos.CarpetasDriveProtocoloAdr25Test" time="0.21"/>
-  <testcase name="carpetaLlevaSoloIdNombrePadreYClaveSinComparticion(CapturedOutput)" classname="com.decokasa.seguimiento.archivos.CarpetasDriveProtocoloAdr25Test" time="0.055"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

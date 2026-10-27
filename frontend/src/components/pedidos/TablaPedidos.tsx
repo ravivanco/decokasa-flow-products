@@ -1,5 +1,5 @@
 import { RotateCwIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { type ReactNode, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
 import type { PedidoResumen } from '@/api/pedidos';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -13,6 +13,8 @@ import { type EtapaDeFlujo, LineaCompacta } from './LineaCompacta';
 
 // Tabla de pedidos (DESIGN.md 7.1). Se entra al pedido por el enlace del número (no por un clic en la fila), la
 // primera columna queda fija al desplazar en pantallas angostas y los estados de carga, vacío y error tienen su forma.
+// Mejora visual del 2026-10-27: el vencimiento y la urgencia pueden partirse en dos líneas (nunca se recortan), la
+// altura sigue al contenido (con tope y desplazamiento) y en pantallas angostas cada pedido es una tarjeta.
 
 interface Props {
   titulo: string;
@@ -32,8 +34,21 @@ interface Props {
 
 const FLUJO: Record<string, string> = { A: 'A · Ecuador', B: 'B · China' };
 
+// Por debajo de md (48rem) se muestran tarjetas; se pinta solo una de las dos vistas. Sin matchMedia, la tabla.
+const ANGOSTA = '(max-width: 47.99rem)';
+function suscribir(aviso: () => void) {
+  const consulta = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(ANGOSTA) : null;
+  consulta?.addEventListener('change', aviso);
+  return () => consulta?.removeEventListener('change', aviso);
+}
+const esAngosta = () => (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(ANGOSTA).matches : false);
+export function usePantallaAngosta() {
+  return useSyncExternalStore(suscribir, esAngosta, () => false);
+}
+
 export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, vacio, recorrido, alturaEstable = false }: Props) {
-  const marco = alturaEstable ? 'h-[28rem] overflow-auto rounded-lg border bg-card shadow-sm' : 'overflow-x-auto rounded-lg border bg-card shadow-sm';
+  const angosta = usePantallaAngosta();
+  const marco = alturaEstable ? 'max-h-[32rem] min-h-32 overflow-auto rounded-lg border bg-card shadow-sm' : 'overflow-x-auto rounded-lg border bg-card shadow-sm';
   const columnas = recorrido ? 8 : 7;
   if (error) {
     return (
@@ -50,14 +65,15 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
   }
 
   if (!cargando && pedidos?.length === 0) {
-    return <div className={alturaEstable ? `${marco} px-6 py-10 text-center` : 'rounded-lg border border-dashed bg-card px-6 py-10 text-center'}>{vacio}</div>;
+    return <div className="rounded-lg border border-dashed bg-card px-6 py-8 text-center">{vacio}</div>;
   }
 
   return (
+    angosta ? <TarjetasPedidos titulo={titulo} pedidos={pedidos} cargando={cargando} recorrido={recorrido} /> : (
     <div className={marco} tabIndex={alturaEstable ? 0 : undefined} role={alturaEstable ? 'region' : undefined} aria-label={alturaEstable ? titulo : undefined}>
-      <Table className={alturaEstable ? 'min-w-[80rem] table-fixed [&_td]:overflow-hidden [&_th]:overflow-hidden' : 'min-w-[56rem]'}>
+      <Table className={alturaEstable ? 'min-w-[68rem] table-fixed' : 'min-w-[56rem]'}>
         {alturaEstable && <colgroup>
-          {(recorrido ? [14, 15, 8, 15, 20, 10, 11, 7] : [16, 18, 9, 17, 13, 17, 10]).map((ancho, i) => <col key={i} style={{ width: `${ancho}%` }} />)}
+          {(recorrido ? [12, 13, 8, 15, 15, 10, 17, 10] : [14, 17, 9, 17, 12, 20, 11]).map((ancho, i) => <col key={i} style={{ width: `${ancho}%` }} />)}
         </colgroup>}
         <TableCaption className="sr-only">{titulo}</TableCaption>
         <TableHeader>
@@ -139,7 +155,7 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
                   <TableCell className="px-3">
                     {pedido.responsableActual?.nombre ?? <span className="text-muted-foreground">Por rol</span>}
                   </TableCell>
-                  <TableCell className="px-3">
+                  <TableCell className="px-3 py-2 [&_[data-slot=badge]]:whitespace-normal [&_[data-slot=badge]]:text-left">
                     <DistintivoVencimiento
                       venceEn={pedido.venceEn}
                       vencida={pedido.vencida}
@@ -152,7 +168,7 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
                       </p>
                     )}
                   </TableCell>
-                  <TableCell className="px-3">
+                  <TableCell className="px-3 py-2 [&_[data-slot=badge]]:whitespace-normal [&_[data-slot=badge]]:text-left">
                     {pedido.urgencia ? (
                       <DistintivoUrgencia
                         nivel={pedido.urgencia.nivel}
@@ -168,6 +184,58 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
         </TableBody>
       </Table>
     </div>
+    )
+  );
+}
+
+/** Pantallas angostas: una tarjeta por pedido con lo mismo que la fila, sin desplazamiento horizontal. */
+function TarjetasPedidos({ titulo, pedidos, cargando, recorrido }: Pick<Props, 'titulo' | 'pedidos' | 'cargando' | 'recorrido'>) {
+  if (cargando && !pedidos) {
+    return (
+      <div className="flex flex-col gap-2" aria-busy="true" aria-label={`Cargando: ${titulo}`}>
+        {[0, 1, 2].map((fila) => <Skeleton key={fila} className="h-28 w-full" />)}
+      </div>
+    );
+  }
+  return (
+    <ul aria-label={titulo} className="flex flex-col gap-2">
+      {pedidos?.map((pedido) => (
+        <li key={pedido.id} className="flex flex-col gap-2 rounded-lg border bg-card p-3 shadow-sm">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+            <Link
+              to={`/pedidos/${pedido.id}`}
+              className="rounded-sm font-medium text-primary tabular-nums underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring"
+            >
+              {pedido.numero}
+            </Link>
+            <span className="text-xs text-muted-foreground">{FLUJO[pedido.tipoFlujo] ?? pedido.tipoFlujo}</span>
+          </div>
+          <p className="truncate text-sm" title={pedido.nombre}>{pedido.nombre}</p>
+          <p className="text-sm">
+            <span className="font-medium tabular-nums">{codigoEtapa(pedido.tipoFlujo, pedido.etapaActual)}</span>
+            <span className="text-muted-foreground"> · {pedido.nombreEtapaActual} · {pedido.responsableActual?.nombre ?? 'Por rol'}</span>
+          </p>
+          {recorrido && (
+            <LineaCompacta
+              tipoFlujo={pedido.tipoFlujo}
+              etapaActual={pedido.etapaActual}
+              nombreEtapaActual={pedido.nombreEtapaActual}
+              finalizado={pedido.finalizado}
+              etapas={recorrido[pedido.tipoFlujo]}
+            />
+          )}
+          <div className="flex flex-wrap gap-1.5 [&_[data-slot=badge]]:whitespace-normal [&_[data-slot=badge]]:text-left">
+            <DistintivoVencimiento venceEn={pedido.venceEn} vencida={pedido.vencida} finalizado={pedido.finalizado} />
+            {pedido.urgencia && (
+              <DistintivoUrgencia nivel={pedido.urgencia.nivel} venceEn={pedido.urgencia.venceEn} vencida={pedido.urgencia.vencida} />
+            )}
+          </div>
+          {pedido.motivoRetraso && (
+            <p className="text-xs"><span className="text-muted-foreground">Motivo: </span>{pedido.motivoRetraso}</p>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
 

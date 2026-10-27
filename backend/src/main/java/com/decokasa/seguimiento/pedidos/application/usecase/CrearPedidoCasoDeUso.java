@@ -19,12 +19,14 @@ import com.decokasa.seguimiento.pedidos.domain.NumeroPedido;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
 import com.decokasa.seguimiento.pedidos.domain.PermisosEtapa;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
+import com.decokasa.seguimiento.plazos.application.port.in.RegistrarPlanificacionOriginal;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import java.time.Instant;
 
 /**
  * Crea un pedido. Orden: permiso con el estado vigente, definición vigente del flujo, número reservado en esta
- * transacción, agregado, inserción y eventos. Sin Spring (R2); la transacción la abre la configuración (ADR-0012).
+ * transacción, agregado, inserción, planificación original (ADR-0030) y eventos. Sin Spring (R2); la transacción la
+ * abre la configuración (ADR-0012).
  *
  * <p>Del flujo solo usa el contrato compartido {@link ContratoDeFlujo}, nunca las clases internas de {@code flujos}
  * (R4; 2.B1-D01).
@@ -36,15 +38,24 @@ public final class CrearPedidoCasoDeUso implements CrearPedido {
     private final GeneradorNumeroPedido generador;
     private final Reloj reloj;
     private final ApoyoPedidos apoyo;
+    private final RegistrarPlanificacionOriginal planificaciones;
 
     public CrearPedidoCasoDeUso(ConsultarDefinicionFlujo flujos, PedidoRepositorio pedidos,
             GeneradorNumeroPedido generador, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
-            PublicadorEventos publicador, Reloj reloj) {
+            PublicadorEventos publicador, Reloj reloj, RegistrarPlanificacionOriginal planificaciones) {
         this.flujos = flujos;
         this.pedidos = pedidos;
         this.generador = generador;
         this.reloj = reloj;
         this.apoyo = new ApoyoPedidos(responsables, vencimientos, publicador);
+        this.planificaciones = planificaciones;
+    }
+
+    /** Sin planificación original (como antes de ADR-0030); lo usan las pruebas anteriores. */
+    public CrearPedidoCasoDeUso(ConsultarDefinicionFlujo flujos, PedidoRepositorio pedidos,
+            GeneradorNumeroPedido generador, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj) {
+        this(flujos, pedidos, generador, responsables, vencimientos, publicador, reloj, null);
     }
 
     @Override
@@ -75,6 +86,10 @@ public final class CrearPedidoCasoDeUso implements CrearPedido {
         Pedido pedido = Pedido.crear(numero, pais, flujoDelPedido, comando.nombre(), comando.descripcion(),
                 comando.incluyeProductosNuevos(), creador, ahora, apoyo.vencimientos(pais));
         pedidos.insertar(pedido);
+        // ADR-0030: la planificación original se calcula una sola vez, al crear, y se guarda en esta transacción.
+        if (planificaciones != null) {
+            planificaciones.registrar(pais, flujo.id(), DatosDeCronograma.de(pedido, flujo, ahora));
+        }
         apoyo.publicarEventos(pedido);
         return pedido;
     }

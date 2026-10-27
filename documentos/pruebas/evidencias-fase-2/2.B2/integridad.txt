@@ -1,5 +1,0 @@
-﻿Archivos backend/src/main comparados: 162
-Diferencias de hashes: 0
-Diferencias R4: 0
-HEAD: 990c35a9cdcfad562e302966d79b7fa35a602ee2
-Rama: fase-2-motor-flujo

@@ -36,4 +36,9 @@ public class PedidosParaArchivosAdaptador implements PedidosParaArchivos {
     public void autorizarDescarga(Solicitante solicitante, UUID pedidoId, int etapaDelArchivo) {
         autorizar.autorizarDescarga(solicitante, pedidoId, etapaDelArchivo);
     }
+
+    @Override
+    public void autorizarAperturaDesdeEtapaActual(Solicitante solicitante, UUID pedidoId) {
+        autorizar.autorizarAperturaDesdeEtapaActual(solicitante, pedidoId);
+    }
 }

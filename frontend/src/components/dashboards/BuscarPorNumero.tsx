@@ -11,7 +11,7 @@ import { mensajeDeErrorPedido } from '@/components/pedidos/formato';
 // Búsqueda por número (requisito 4.2 #17; paso 5.3): lleva al pedido, con su línea de tiempo, su cronograma y el
 // resumen de cada etapa. Es una búsqueda exacta en el servidor; para buscar por nombre está la lista de pedidos.
 
-export function BuscarPorNumero() {
+export function BuscarPorNumero({ compacta = false }: { compacta?: boolean }) {
   const ids = useId();
   const navegar = useNavigate();
   const buscar = useBuscarPedido();
@@ -43,25 +43,26 @@ export function BuscarPorNumero() {
       aria-label="Buscar pedido por número"
       noValidate
       onSubmit={enviar}
-      className="flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm"
+      className={compacta ? 'relative flex flex-col' : 'flex flex-col gap-2 rounded-lg border bg-card p-4 shadow-sm'}
     >
-      <Label htmlFor={`${ids}-numero`}>Buscar pedido por número</Label>
+      <Label htmlFor={`${ids}-numero`} className={compacta ? 'sr-only' : undefined}>Buscar pedido por número</Label>
       <div className="flex gap-2">
         <Input
           id={`${ids}-numero`}
           type="search"
           value={numero}
           onChange={(evento) => setNumero(evento.target.value)}
-          placeholder="DK-EC-2026-0001"
+          placeholder={compacta ? 'Buscar n.º de pedido' : 'DK-EC-2026-0001'}
+          className={compacta ? 'h-10 w-44' : undefined}
           aria-invalid={aviso ? true : undefined}
           aria-describedby={`${ids}-aviso`}
         />
-        <Button type="submit" variant="outline" disabled={buscar.isPending}>
+        <Button type="submit" variant="outline" size={compacta ? 'sm' : 'default'} disabled={buscar.isPending} aria-label={compacta ? 'Buscar' : undefined}>
           <SearchIcon data-icon="inline-start" />
-          Buscar
+          {compacta ? null : 'Buscar'}
         </Button>
       </div>
-      <p id={`${ids}-aviso`} aria-live="polite" className="min-h-5 text-sm text-estado-vencido">
+      <p id={`${ids}-aviso`} aria-live="polite" className={compacta ? 'absolute top-full mt-0.5 text-xs text-estado-vencido' : 'min-h-5 text-sm text-estado-vencido'}>
         {aviso}
       </p>
     </form>

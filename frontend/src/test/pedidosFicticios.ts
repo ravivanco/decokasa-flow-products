@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import type { Cronograma } from '@/api/pedidos';
 
 // Pedidos, etapas, archivos e historial ficticios con la forma del contrato 0.7.0-borrador (documentos/api/openapi.yaml)
 // y una API simulada con estado: las respuestas cambian solo cuando la prueba lo indica, para comprobar que la
@@ -238,6 +239,19 @@ export function apiPedido(
     http.get(`${base}/historial`, () => {
       registrar('GET', '/historial');
       return HttpResponse.json(estado.historial);
+    }),
+    // El detalle monta el cronograma desde fase 5. Estos fixtures prueban otras funciones: declaran
+    // una respuesta no calculable, sin fechas estimadas ni reglas de calendario simuladas.
+    http.get(`${base}/cronograma`, () => {
+      registrar('GET', '/cronograma');
+      return HttpResponse.json({
+        pedidoId: estado.detalle.id,
+        fechaPedido: estado.detalle.creadoEn,
+        meta: { dias: 90, origen: 'PROPUESTA', pendienteDelCliente: true },
+        calculable: false,
+        faltantes: [],
+        etapas: [],
+      } satisfies Cronograma);
     }),
     http.get(`${base}/etapas/:etapa/archivos`, ({ params }) => {
       registrar('GET', `/etapas/${String(params.etapa)}/archivos`);

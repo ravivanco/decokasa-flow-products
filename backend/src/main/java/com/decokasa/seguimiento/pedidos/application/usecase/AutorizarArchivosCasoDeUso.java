@@ -89,4 +89,16 @@ public final class AutorizarArchivosCasoDeUso implements AutorizarArchivosDePedi
             throw new SinPermiso("No puedes descargar este archivo.");
         }
     }
+
+    /** ADR-0028: todos los documentos del pedido, para quien puede actuar en la etapa actual (o el admin), en su país. */
+    @Override
+    public void autorizarAperturaDesdeEtapaActual(Solicitante solicitante, UUID pedidoId) {
+        ActorVigente actor = apoyo.solicitante(solicitante);
+        Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
+        CodigoRol rolActual = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
+        if (!pedido.puedeAbrirDocumentosDelPedido(rolActual, actor)) {
+            throw new SinPermiso("No puedes abrir este archivo.");
+        }
+    }
 }

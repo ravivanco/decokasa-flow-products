@@ -47,6 +47,16 @@ public class DefinicionEtapaEntity {
     @Column(name = "registra_llegada")
     private boolean registraLlegada;
 
+    // V25 (ADR-0030): duración de referencia para estimar; no es un plazo.
+    @Column(name = "estimacion_cantidad")
+    private Integer estimacionCantidad;
+
+    @Column(name = "estimacion_tipo")
+    private String estimacionTipo;
+
+    @Column(name = "estimacion_fuente")
+    private String estimacionFuente;
+
     protected DefinicionEtapaEntity() {
     }
 
@@ -88,5 +98,17 @@ public class DefinicionEtapaEntity {
 
     boolean isRegistraLlegada() {
         return registraLlegada;
+    }
+
+    Integer getEstimacionCantidad() {
+        return estimacionCantidad;
+    }
+
+    String getEstimacionTipo() {
+        return estimacionTipo;
+    }
+
+    String getEstimacionFuente() {
+        return estimacionFuente;
     }
 }

@@ -35,3 +35,13 @@ documentos/manual-paso-a-paso.docx
 
 # Piloto de IA (F7-D3): PDF ficticios y su manifiesto revisado, siempre locales.
 /piloto-ia/
+
+# Capturas y volcados del navegador de las revisiones visuales (Playwright MCP): temporales, nunca en Git.
+/.playwright-mcp/
+# Documentación, informes y evidencias del proyecto: se conservan solo en local (decisión de Richard, 2026-10-27).
+# Nada del código, las pruebas ni la compilación lee esta carpeta.
+/documentos/
+# Copias de seguridad locales.
+*.bak
+*.orig
+*.tar

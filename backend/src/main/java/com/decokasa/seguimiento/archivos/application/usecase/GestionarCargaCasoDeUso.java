@@ -11,6 +11,7 @@ import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivo
 import com.decokasa.seguimiento.archivos.domain.Adjunto;
 import com.decokasa.seguimiento.archivos.domain.ArchivoDemasiadoGrande;
 import com.decokasa.seguimiento.archivos.domain.CargaArchivo;
+import com.decokasa.seguimiento.archivos.domain.FormatoArchivo;
 import com.decokasa.seguimiento.archivos.domain.LimiteDeTamano;
 import com.decokasa.seguimiento.archivos.domain.ProblemaCarga;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
@@ -53,6 +54,9 @@ public final class GestionarCargaCasoDeUso {
             throw new ArchivoDemasiadoGrande("El archivo supera el tamaño máximo permitido.");
         }
         String nombre=Adjunto.limpiarNombre(comando.nombre());
+        // ADR-0026: la extensión se comprueba antes de reservar nada, sobre el mismo nombre guardado que se vuelve a
+        // comprobar al finalizar (prepararFinal → recibir), junto con el contenido.
+        FormatoArchivo.desdeNombre(nombre);
         String tipo=Adjunto.validarTipoDocumento(comando.tipoDocumento());
         pedidos.autorizarSubida(solicitante,comando.pedidoId(),comando.etapa(),comando.entradaEsperadaId());
         Instant ahora=reloj.ahora();

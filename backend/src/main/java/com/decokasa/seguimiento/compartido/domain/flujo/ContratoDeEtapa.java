@@ -1,6 +1,7 @@
 package com.decokasa.seguimiento.compartido.domain.flujo;
 
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
+import com.decokasa.seguimiento.compartido.domain.EstimacionDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 
 /**
@@ -35,5 +36,13 @@ public interface ContratoDeEtapa {
      */
     default boolean automatica() {
         return false;
+    }
+
+    /**
+     * Duración de referencia para estimar fechas cuando el plazo no está definido (V25, ADR-0030); nula si no hay
+     * ninguna documentada. No es un plazo: no genera vencimientos.
+     */
+    default EstimacionDeEtapa estimacionDeReferencia() {
+        return null;
     }
 }

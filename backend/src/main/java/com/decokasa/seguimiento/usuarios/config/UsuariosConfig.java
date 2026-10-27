@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.usuarios.config;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.usuarios.adapter.in.arranque.CargadorUsuariosIniciales;
+import com.decokasa.seguimiento.usuarios.adapter.out.eventos.AvisoAltaUsuarioSpring;
 import com.decokasa.seguimiento.usuarios.adapter.out.security.BCryptCodificador;
 import com.decokasa.seguimiento.usuarios.adapter.out.security.GeneradorTokenSeguro;
 import com.decokasa.seguimiento.usuarios.adapter.out.security.JwtEmisor;
@@ -18,6 +19,7 @@ import com.decokasa.seguimiento.usuarios.application.port.in.IniciarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.in.ObtenerUsuarioActual;
 import com.decokasa.seguimiento.usuarios.application.port.in.RenovarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.in.NombrarRoles;
+import com.decokasa.seguimiento.usuarios.application.port.in.IdentificarUsuarios;
 import com.decokasa.seguimiento.usuarios.application.port.in.ResumirUsuarios;
 import com.decokasa.seguimiento.usuarios.application.port.out.CodificadorContrasena;
 import com.decokasa.seguimiento.usuarios.application.port.out.EmisorTokens;
@@ -37,6 +39,7 @@ import com.decokasa.seguimiento.usuarios.application.usecase.IniciarSesionCasoDe
 import com.decokasa.seguimiento.usuarios.application.usecase.ObtenerUsuarioActualCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.RenovarSesionCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.NombrarRolesCasoDeUso;
+import com.decokasa.seguimiento.usuarios.application.usecase.IdentificarUsuariosCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.ResumirUsuariosCasoDeUso;
 import com.decokasa.seguimiento.usuarios.domain.CredencialesInvalidas;
 import com.decokasa.seguimiento.usuarios.domain.CuentaBloqueada;
@@ -50,6 +53,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -152,8 +156,10 @@ public class UsuariosConfig {
 
     @Bean
     CrearUsuario crearUsuario(Transacciones tx, UsuarioRepositorio usuarios, RolRepositorio roles,
-            CodificadorContrasena codificador) {
-        CrearUsuario caso = new CrearUsuarioCasoDeUso(usuarios, roles, codificador);
+            CodificadorContrasena codificador, ApplicationEventPublisher eventos, Reloj reloj) {
+        // ADR-0026: el aviso de alta corre dentro de la transacción; archivos programa la carpeta de Drive sin Google.
+        CrearUsuario caso = new CrearUsuarioCasoDeUso(usuarios, roles, codificador,
+                new AvisoAltaUsuarioSpring(eventos, reloj));
         return (solicitante, comando) -> tx.ejecutar(() -> caso.crear(solicitante, comando));
     }
 
@@ -197,6 +203,13 @@ public class UsuariosConfig {
     ResumirUsuarios resumirUsuarios(Transacciones tx, UsuarioRepositorio usuarios) {
         ResumirUsuarios caso = new ResumirUsuariosCasoDeUso(usuarios);
         return usuarioIds -> tx.ejecutar(() -> caso.resumenes(usuarioIds));
+    }
+
+    /** Nombre de usuario para la carpeta de Drive de cada persona (ADR-0026); se une a la transacción que lo llama. */
+    @Bean
+    IdentificarUsuarios identificarUsuarios(Transacciones tx, UsuarioRepositorio usuarios) {
+        IdentificarUsuarios caso = new IdentificarUsuariosCasoDeUso(usuarios);
+        return usuarioId -> tx.ejecutar(() -> caso.nombreDeUsuario(usuarioId));
     }
 
     /** Para el resumen de etapa (historial): nombres de la tabla rol; se une a la transacción que lo llama. */

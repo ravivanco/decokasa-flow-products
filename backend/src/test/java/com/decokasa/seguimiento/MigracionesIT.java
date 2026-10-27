@@ -103,8 +103,8 @@ class MigracionesIT {
         assertThat(resultadoV2.targetSchemaVersion).isEqualTo("2");
         assertThat(resultadoV2.migrationsExecuted).isEqualTo(1);
         assertThat(resultado.success).isTrue();
-        assertThat(resultado.targetSchemaVersion).isEqualTo("22");
-        assertThat(resultado.migrationsExecuted).isEqualTo(20);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("24");
+        assertThat(resultado.migrationsExecuted).isEqualTo(22);
     }
 
     @Test
@@ -118,8 +118,8 @@ class MigracionesIT {
 
         assertThat(segunda.success).isTrue();
         assertThat(segunda.migrationsExecuted).isZero();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("22");
-        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22");
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("24");
+        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
         assertThat(flyway.info().pending()).isEmpty();
     }
 
@@ -132,7 +132,7 @@ class MigracionesIT {
 
         // Conserva V1–V3 y exige también las tablas nuevas de V4–V6; no acepta tablas inesperadas.
         assertThat(tablas).containsExactly(
-                "adjunto", "archivo_cuota", "archivo_cuota_cerrojo", "aviso_vencimiento", "bodega", "carga_archivo", "carga_fragmento", "carpeta_drive", "configuracion_ia", "configuracion_plazos", "consulta_ia", "conversacion_ia", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido", "mensaje_ia", "notificacion", "pais", "pedido", "precio_modelo_ia", "presupuesto_ia", "reserva_ia", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida", "uso_ia_dia", "uso_ia_usuario_dia", "usuario", "usuario_pais", "usuario_rol");
+                "adjunto", "archivo_cuota", "archivo_cuota_cerrojo", "aviso_vencimiento", "bodega", "carga_archivo", "carga_fragmento", "carpeta_drive", "carpeta_pedido_drive", "carpeta_usuario_drive", "configuracion_ia", "configuracion_plazos", "consulta_ia", "conversacion_ia", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido", "mensaje_ia", "notificacion", "pais", "pedido", "precio_modelo_ia", "presupuesto_ia", "reserva_ia", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida", "uso_ia_dia", "uso_ia_usuario_dia", "usuario", "usuario_pais", "usuario_rol");
     }
 
     @Test

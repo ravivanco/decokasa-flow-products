@@ -1,9 +1,7 @@
 import { CircleAlertIcon, InboxIcon, type LucideIcon, ZapIcon } from 'lucide-react';
 import { type KeyboardEvent, useEffect, useId, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { INTERVALO_ACTUALIZACION_MS } from '@/api/actualizacion';
 import { type FiltroBandeja, useBandeja, useConteosBandeja, useDefinicionesVigentes } from '@/api/pedidos';
-import { Button } from '@/components/ui/button';
 import { mensajeDeErrorPedido } from '@/components/pedidos/formato';
 import { Paginacion, TablaPedidos } from '@/components/pedidos/TablaPedidos';
 import { cn } from '@/lib/utils';
@@ -109,25 +107,13 @@ export function TableroTrabajo({ admin }: { admin: boolean }) {
   }
 
   return (
-    <section aria-labelledby={`${ids}-titulo`} className="flex flex-col gap-4">
+    <section id="trabajo" tabIndex={-1} aria-labelledby={`${ids}-titulo`} className="flex scroll-mt-4 flex-col gap-4 outline-none">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex flex-col gap-1">
           <h2 id={`${ids}-titulo`} className="font-heading text-xl font-semibold">
             {admin ? 'Pedidos en curso' : 'Mi trabajo'}
           </h2>
-          <p className="text-sm text-muted-foreground">
-            {admin
-              ? 'Como administrador ves todos los pedidos en curso que puedes consultar.'
-              : 'Pedidos cuya etapa actual te corresponde: asignada a ti o, sin persona asignada, a uno de tus roles.'}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Se actualiza cada {Math.round(INTERVALO_ACTUALIZACION_MS / 1000)} s mientras la pestaña está visible y al
-            volver a ella; un cambio de otra persona puede tardar ese tiempo en aparecer.
-          </p>
         </div>
-        <Button variant="outline" size="sm" asChild>
-          <Link to="/bandeja">Abrir la bandeja por etapa</Link>
-        </Button>
       </div>
 
       <div

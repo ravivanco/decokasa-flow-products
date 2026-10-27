@@ -159,7 +159,8 @@ export function mensajeDeErrorPedido(error: unknown, general: string): string {
     return 'El archivo supera el tamaño máximo permitido (100 MiB, valor provisional).';
   }
   if (esErrorApi(error, 'TIPO_ARCHIVO_NO_ACEPTADO')) {
-    return 'El servidor no acepta este tipo de archivo.';
+    // ADR-0026: formatos cerrados; también cuando el contenido no corresponde a la extensión.
+    return 'Formato no admitido o el contenido no corresponde a su extensión. Sube un PDF, un Excel (.xlsx o .xls), un CSV o una imagen JPG o PNG.';
   }
   if (esErrorApi(error, 'ARCHIVO_NO_DISPONIBLE')) {
     return 'El archivo no está disponible o está dañado, y el servidor no lo entrega. Avisa al administrador.';

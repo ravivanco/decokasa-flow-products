@@ -1,7 +1,0 @@
-﻿{
-    "comando":  "npm.cmd run test -- --maxWorkers=2",
-    "fecha":  "20261019-163049",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-f4b-88cc31183358438387ad44386125c669",
-    "googleReal":  false,
-    "salida":  0
-}

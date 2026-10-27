@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat test --tests com.decokasa.seguimiento.archivos.* --console=plain --no-daemon",
-    "etapa":  "archivos",
-    "fecha":  "20261019-103212",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-local-12599a05150d4897a7a897caea9ec4e4",
-    "salida":  0
-}

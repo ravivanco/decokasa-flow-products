@@ -49,6 +49,20 @@ decokasa:
     # Solo para la prueba real de Gmail, en la configuración local aislada; nunca en producción. Vacío: ningún
     # destinatario y nada se envía. Único valor admitido: el buzón autorizado por Richard (2026-10-24); otro no arranca.
     destinatario-prueba: ${NOTIFICACIONES_DESTINATARIO_PRUEBA:}
+    # ADR-0032: instante ISO 8601 (por ejemplo, 2026-11-01T08:00:00-05:00) desde el que el trabajador de Gmail envía.
+    # Vacío: no se envía nada. Lo creado antes (outbox histórico) no se envía nunca.
+    enviar-desde: ${NOTIFICACIONES_ENVIAR_DESDE:}
+  recuperacion:
+    # ADR-0033: duración del enlace de recuperación (entre 5 min y 24 h) y solicitudes por cuenta y hora (1 a 10).
+    duracion: ${RECUPERACION_DURACION:PT30M}
+    maximo-por-hora: ${RECUPERACION_MAXIMO_POR_HORA:3}
+    # Base pública del frontend para el enlace (http://localhost:3000 o el dominio futuro, sin barra final). Nunca se
+    # toma de la cabecera Host. Obligatoria solo si el envío automático está encendido.
+    url-base: ${RECUPERACION_URL_BASE:}
+    # Trabajador propio; además exige GOOGLE_OAUTH_HABILITADA y GOOGLE_GMAIL_HABILITADA. Apagado: nada se envía.
+    envio-automatico: ${RECUPERACION_ENVIO_AUTOMATICO:false}
+    intervalo-ms: ${RECUPERACION_INTERVALO_MS:15000}
+    lote: ${RECUPERACION_LOTE:5}
   plazos:
     vencimientos:
       # Paso 5.2: detección de vencimientos. Desactivada por defecto hasta su verificación (Codex, 5.B1).
@@ -69,6 +83,9 @@ decokasa:
         reintento-1: ${COPIA_DRIVE_REINTENTO_1:PT1M}
         reintento-2: ${COPIA_DRIVE_REINTENTO_2:PT5M}
         reintento-3: ${COPIA_DRIVE_REINTENTO_3:PT15M}
+        # Instante ISO-8601 (UTC). Solo se copian los adjuntos subidos desde entonces; los anteriores (por ejemplo, los de
+        # una base recuperada) quedan PENDIENTE sin copiarse. Vacío: sin límite.
+        copiar-desde: ${COPIA_DRIVE_DESDE:}
     gmail:
       habilitada: ${GOOGLE_GMAIL_HABILITADA:false}
       worker:

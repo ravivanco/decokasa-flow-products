@@ -1,6 +1,8 @@
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
+import { clavesEstadisticas } from './estadisticas';
 import { useSesion } from '@/auth/SesionProvider';
+import { clavesAvisos } from './avisos';
 import { opcionesSeguimiento } from './actualizacion';
 import { esquemaBodega } from './esquemas';
 import { type CodigoPais, segmentoPais, usePaisActivo } from '@/pais/PaisProvider';
@@ -264,7 +266,33 @@ export const clavesPedidos = {
     ['sesion', sesion, 'pedidos', segmentoPais(pais), 'archivos', id, etapa] as const,
   flujo: (sesion: number, pais: string, tipo: string, version: number) =>
     ['sesion', sesion, 'flujos', pais, tipo, version] as const,
+  documentos: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'documentos', id] as const,
 };
+
+// Documentos del pedido vistos desde DECOKASA (ADR-0028): sin IDs ni enlaces de Drive. Abrir vuelve a autorizar.
+export const esquemaDocumentoPedido = z.object({
+  id: z.string(),
+  pedidoId: z.string(),
+  etapa: z.number().int(),
+  entradaId: z.string(),
+  entradaEn: z.string(),
+  nombre: z.string(),
+  tipoDocumento: z.string(),
+  tipoContenido: z.string().nullable(),
+  tamanoBytes: z.number().int().positive(),
+  subidoPor: z.object({ id: z.string(), nombre: z.string(), roles: z.array(z.string()) }),
+  subidoEn: z.string(),
+  estadoCopia: z.enum(['PENDIENTE', 'COPIADO', 'FALLIDO']),
+  disponibilidad: z.enum(['LOCAL', 'DRIVE', 'NO_DISPONIBLE']),
+  puedeAbrir: z.boolean(),
+  /** ADR-0029: entregado a la etapa actual por la última transición. */
+  vigente: z.boolean(),
+  presentaciones: z.array(
+    z.object({ eventoId: z.string(), tipo: z.string(), etapa: z.number().int(), fecha: z.string() }),
+  ),
+});
+export type DocumentoPedido = z.infer<typeof esquemaDocumentoPedido>;
 
 const id = (valor: string) => encodeURIComponent(valor);
 
@@ -354,6 +382,38 @@ export function usePedido(pedidoId: string) {
   });
 }
 
+/** Documentos del pedido (P-13 para verlos; `puedeAbrir` según P-17 ampliada, ADR-0028). */
+export function useDocumentosPedido(pedidoId: string) {
+  const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
+  return useQuery({
+    queryKey: clavesPedidos.documentos(sesionId, pais, pedidoId),
+    queryFn: ({ signal }) =>
+      pedir(`/pedidos/${id(pedidoId)}/documentos`, { esquema: z.array(esquemaDocumentoPedido), signal }),
+    staleTime: 10_000,
+    ...opcionesSeguimiento,
+  });
+}
+
+/** Tipos que DECOKASA muestra en su visor; el resto se descarga (ADR-0028). */
+export const TIPOS_VISIBLES = ['application/pdf', 'image/png', 'image/jpeg'] as const;
+
+/**
+ * Contenido de un documento para el visor de DECOKASA: se pide al backend con la sesión en la cabecera (nunca un JWT en
+ * la URL) y se devuelve una URL blob: local con el tipo canónico validado. Quien la recibe debe revocarla al cerrar.
+ */
+export function useVerArchivo() {
+  const { pedir } = useSesion();
+  return useMutation({
+    mutationFn: async (documento: { id: string; tipoContenido: string | null }) => {
+      const tipo = TIPOS_VISIBLES.find((visible) => visible === documento.tipoContenido);
+      if (!tipo) throw new Error('Este tipo de documento no se puede ver en DECOKASA; descárgalo.');
+      const contenido = await pedir<Blob>(`/archivos/${id(documento.id)}/contenido`, { formato: 'blob' });
+      return { url: URL.createObjectURL(new Blob([contenido], { type: tipo })), tipo };
+    },
+  });
+}
+
 export function useHistorial(pedidoId: string) {
   const { pedir, sesionId } = useSesion();
   const pais = usePaisActivo();
@@ -363,6 +423,21 @@ export function useHistorial(pedidoId: string) {
       pedir(`/pedidos/${id(pedidoId)}/historial`, { esquema: z.array(esquemaEvento), signal }),
     staleTime: 10_000,
     ...opcionesSeguimiento,
+  });
+}
+
+/**
+ * El historial solo si ya está en caché (mejora visual del 2026-10-27): el botón «Ver historial» muestra la cantidad de
+ * eventos sin descargarlo; la descarga ocurre al abrir el panel (useHistorial).
+ */
+export function useHistorialEnCache(pedidoId: string) {
+  const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
+  return useQuery({
+    queryKey: clavesPedidos.historial(sesionId, pais, pedidoId),
+    queryFn: ({ signal }) =>
+      pedir(`/pedidos/${id(pedidoId)}/historial`, { esquema: z.array(esquemaEvento), signal }),
+    enabled: false,
   });
 }
 
@@ -403,37 +478,64 @@ export function useAdjuntosDeEtapas(pedidoId: string, etapas: number[]) {
   });
 }
 
-export const PROCEDENCIAS_FECHA = ['REAL', 'LLEGADA_REAL', 'LLEGADA_ESTIMADA', 'PLANIFICADA'] as const;
+export const PROCEDENCIAS_FECHA = ['REAL', 'LLEGADA_REAL', 'LLEGADA_ESTIMADA', 'CALCULADA', 'PROYECTADA'] as const;
 export type ProcedenciaFecha = (typeof PROCEDENCIAS_FECHA)[number];
-export const ESTADOS_CRONOGRAMA = ['REAL', 'ESTIMADA', 'EN_CURSO', 'PLANIFICADA', 'SIN_ESTIMAR'] as const;
+export const ESTADOS_CRONOGRAMA = ['REAL', 'EN_CURSO', 'EXCEDIDA', 'ESTIMADA', 'SIN_ESTIMAR'] as const;
 export type EstadoCronograma = (typeof ESTADOS_CRONOGRAMA)[number];
+export const BASES_DURACION = ['PLAZO', 'REFERENCIA', 'SIN_PLAZO', 'SIN_DATO'] as const;
+export type BaseDuracion = (typeof BASES_DURACION)[number];
 
-// Cronograma (contrato 0.11.0, F5-D1 opción A): fechas planificadas, estimadas y reales por separado; un plazo
-// pendiente deja "sin estimar" y el total solo existe si es calculable. Aquí no se calcula ninguna fecha.
+const esquemaFaltante = z.object({ numero: z.number().int(), nombre: z.string() });
+
+// Cronograma (contrato 0.25.0-borrador, ADR-0030): planificación original, estimación actual y fechas reales por
+// separado. Las duraciones de referencia sirven para estimar, no son plazos. Aquí no se calcula ninguna fecha. Los
+// campos nuevos admiten ausencia para leer respuestas anteriores a 0.25.0.
 const esquemaCronograma = z.object({
   pedidoId: z.string(),
   fechaPedido: z.string(),
+  calculadoEn: z.string().nullish(),
+  reglas: z.string().nullish(),
   meta: z.object({
     dias: z.number().int(),
     origen: z.enum(['PROPUESTA', 'ADMIN']),
     pendienteDelCliente: z.boolean(),
   }),
   llegada: z.object({ fecha: z.string(), procedencia: z.enum(PROCEDENCIAS_FECHA) }).nullish(),
+  original: z
+    .object({
+      origen: z.enum(['GUARDADA', 'RECONSTRUIDA']),
+      reglas: z.string(),
+      calculadaEn: z.string().nullish(),
+      llegada: z.string().nullish(),
+      finalizacion: z.string().nullish(),
+    })
+    .nullish(),
+  diferenciaContraOriginal: z.number().int().nullish(),
+  finalizacionEstimada: z.string().nullish(),
   totalDias: z.number().int().nullish(),
   diferenciaContraMeta: z.number().int().nullish(),
   calculable: z.boolean(),
-  faltantes: z.array(z.object({ numero: z.number().int(), nombre: z.string() })),
+  faltantes: z.array(esquemaFaltante),
+  faltantesFinalizacion: z.array(esquemaFaltante).nullish(),
   etapas: z.array(
     z.object({
       numero: z.number().int(),
       nombre: z.string(),
-      fechaPlanificada: z.string().nullish(),
-      movidaAlLunes: z.boolean(),
+      fechaOriginal: z.string().nullish(),
       fechaEstimada: z.string().nullish(),
       fechaReal: z.string().nullish(),
+      movidaAlLunes: z.boolean(),
       estado: z.enum(ESTADOS_CRONOGRAMA),
       procedencia: z.enum(PROCEDENCIAS_FECHA).nullish(),
       plazoPendiente: z.boolean(),
+      duracion: z
+        .object({
+          base: z.enum(BASES_DURACION),
+          cantidad: z.number().int().nullish(),
+          tipo: z.enum(['HORAS_HABILES', 'DIAS_HABILES', 'DIAS_CORRIDOS']).nullish(),
+          fuente: z.enum(['CALCULADORA_ORIGINAL', 'REQUERIMIENTOS_4_5']).nullish(),
+        })
+        .nullish(),
     }),
   ),
 });
@@ -517,6 +619,9 @@ export function useCrearPedido() {
       if (pedido.pais === pais) consultas.setQueryData(clavesPedidos.detalle(sesionId, pais, pedido.id), pedido);
       void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId, pais) });
       void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId, pais) });
+      void consultas.invalidateQueries({ queryKey: clavesEstadisticas.todas(sesionId) });
+      void consultas.invalidateQueries({ queryKey: clavesEstadisticas.alertas(sesionId) });
+      void consultas.invalidateQueries({ queryKey: clavesAvisos.todos(sesionId) });
     },
   });
 }
@@ -531,12 +636,15 @@ export function useRefrescarPedido() {
     if (detalle && detalle.pais === pais) {
       consultas.setQueryData(clavesPedidos.detalle(sesionId, pais, pedidoId), detalle);
     } else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pais, pedidoId) });
-    void consultas.invalidateQueries({ queryKey: ['notificaciones', sesionId] });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.cronograma(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId, pais) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId, pais) });
+    // ADR-0029: el Inicio y la campana se recalculan con el cambio.
+    void consultas.invalidateQueries({ queryKey: clavesEstadisticas.todas(sesionId) });
+    void consultas.invalidateQueries({ queryKey: clavesEstadisticas.alertas(sesionId) });
+      void consultas.invalidateQueries({ queryKey: clavesAvisos.todos(sesionId) });
   };
 }
 
@@ -654,31 +762,11 @@ export interface DatosSubida {
   archivo: File;
 }
 
-export function useSubirArchivo() {
-  const { pedir } = useSesion();
-  const refrescar = useRefrescarPedido();
-  return useMutation({
-    mutationFn: ({ pedidoId, etapa, entradaEsperadaId, tipoDocumento, archivo }: DatosSubida) => {
-      const formulario = new FormData();
-      formulario.set('archivo', archivo, archivo.name);
-      formulario.set('tipoDocumento', tipoDocumento);
-      formulario.set('entradaEsperadaId', entradaEsperadaId);
-      return pedir(`/pedidos/${id(pedidoId)}/etapas/${etapa}/archivos`, {
-        metodo: 'POST',
-        cuerpo: formulario,
-        esquema: esquemaAdjunto,
-      });
-    },
-    // Los documentos que faltan para cada acción (accionesDisponibles) dependen de los archivos: se relee el detalle.
-    onSettled: (_adjunto, _error, { pedidoId }) => refrescar(pedidoId),
-  });
-}
-
 /** Descarga el contenido a través del servidor (P-17). El servidor decide el permiso y comprueba la huella. */
 export function useDescargarArchivo() {
   const { pedir } = useSesion();
   return useMutation({
-    mutationFn: async (adjunto: Adjunto) => {
+    mutationFn: async (adjunto: Pick<Adjunto, 'id' | 'nombre'>) => {
       const contenido = await pedir<Blob>(`/archivos/${id(adjunto.id)}/contenido`, { formato: 'blob' });
       const direccion = URL.createObjectURL(contenido);
       const enlace = document.createElement('a');

@@ -30,8 +30,8 @@ describe('Fase 4.6 · pantallas conectadas',()=>{
       http.get('*/api/v1/flujos/EC/A',()=>HttpResponse.json(definicionFlujoA)));
     abrirConSesion(usuario([...roles]),'/bandeja');
     for(const etapa of etapas)expect(await screen.findByRole('heading',{level:2,name:new RegExp(`^A${etapa} ·`)})).toBeInTheDocument();
-    expect(screen.getAllByRole('heading',{level:2})).toHaveLength(etapas.length);
-    expect(lecturas).toBe(1);
+    expect(within(screen.getByRole('region',{name:'Bandeja por etapa'})).getAllByRole('heading',{level:2}).filter(h=>/^A[0-9]+ ?/.test(h.textContent ?? ''))).toHaveLength(etapas.length);
+    expect(lecturas).toBe(5);
   });
 
   it.each([6,9,10])('muestra y conserva bloqueo documental de A%i incluso con Enter',async(etapa)=>{
@@ -62,7 +62,7 @@ describe('Fase 4.6 · pantallas conectadas',()=>{
     await app.usuario.click(within(dialogo).getByRole('button',{name:'Reportar demora'}));
     await waitFor(()=>expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     expect(cuerpo).toEqual({accion:'REPORTAR_DEMORA',etapaEsperada:7,observacion:'Demora ficticia',nuevaFechaEstimadaLlegada:'2026-10-17',adjuntoIds:[]});
-    expect(await screen.findByText('Última demora · llegada estimada 19/10/2026')).toBeInTheDocument();
+    expect(await screen.findByText(/Demora reportada · nueva llegada estimada 19\/10\/2026/)).toBeInTheDocument();
     expect(await screen.findByText('17/10/2026')).toBeInTheDocument();
     await waitFor(()=>expect(api.cuenta('GET','/historial')).toBeGreaterThan(lecturas));
     expect(screen.getByRole('button',{name:/^A7 .*, etapa actual$/})).toHaveAttribute('aria-current','step');
@@ -129,7 +129,7 @@ describe('Fase 4.6 · pantallas conectadas',()=>{
     const fin=pedidoDetalle({etapaActual:11,finalizado:true,resumenes:{10:'Resumen ficticio enviado por servidor'}});
     const api=apiPedido(fin,{historial:[evento('fin-sistema','PEDIDO_FINALIZADO',11,{usuario:null,rolIntervencion:null})]});
     servidor.use(...api.manejadores);const app=abrirConSesion(admin,ruta);
-    await screen.findByText('Pedido finalizado por el servidor. Fin es automático y no admite acciones manuales.');
+    await screen.findAllByText('Finalizado', {exact:true});
     expect(await screen.findByText('Sistema')).toBeInTheDocument();
     expect(screen.queryByRole('button',{name:/^(Aprobar|Confirmar|Enviar|Reasignar|Subir archivo)$/})).not.toBeInTheDocument();
     await app.usuario.click(screen.getByRole('button',{name:/^A10 /}));

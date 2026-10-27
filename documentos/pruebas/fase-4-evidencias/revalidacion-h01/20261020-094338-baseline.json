@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat test --tests *Fase4IT.historialPuedeInvertirElOrdenCausalPorDesempateUuid --tests *MigracionesIT --tests *MigracionesFase4IT --tests *V2RestriccionesIT --console=plain --no-daemon",
-    "fecha":  "20261020-094338",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-h01-40e9d297a3f84f35b9becf9c2bf8c4d1",
-    "googleReal":  false,
-    "salida":  1
-}

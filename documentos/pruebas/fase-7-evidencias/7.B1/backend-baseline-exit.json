@@ -1,4 +1,0 @@
-{
-    "command":  ".\\gradlew.bat check --offline --console=plain --no-daemon",
-    "exit":  1
-}

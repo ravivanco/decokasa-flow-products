@@ -136,7 +136,11 @@ describe('Acciones de la etapa actual', () => {
   it('APROBAR en A3 deja el pedido en A4 según la respuesta', async () => {
     const usuario = { ...ana, roles: ['asistente_compras'] };
     const { api, app } = await abrir(usuario, pedidoDetalle({ etapaActual: 3, acciones: [accion('APROBAR', 4)] }));
-    const cuerpos = acciones(api, () => HttpResponse.json(pedidoDetalle({ etapaActual: 4 })));
+    const cuerpos = acciones(api, () => {
+      // Al cerrar el diálogo se relee el pedido: GET y POST deben conservar el mismo estado confirmado.
+      api.estado.detalle = pedidoDetalle({ etapaActual: 4 });
+      return HttpResponse.json(api.estado.detalle);
+    });
 
     await app.usuario.click(await screen.findByRole('button', { name: 'Aprobar' }));
     const dialogo = await screen.findByRole('dialog', { name: 'Aprobar' });
@@ -191,7 +195,10 @@ describe('Acciones de la etapa actual', () => {
       acciones: [accion('DEVOLVER_POR_ERROR', 2, { requiereObservacion: true })],
     });
     const { api, app } = await abrir(usuario, enA4);
-    const cuerpos = acciones(api, () => HttpResponse.json(pedidoDetalle({ etapaActual: 2 })));
+    const cuerpos = acciones(api, () => {
+      api.estado.detalle = pedidoDetalle({ etapaActual: 2 });
+      return HttpResponse.json(api.estado.detalle);
+    });
 
     await app.usuario.click(await screen.findByRole('button', { name: 'Devolver por error' }));
     const dialogo = await screen.findByRole('dialog', { name: 'Devolver por error' });

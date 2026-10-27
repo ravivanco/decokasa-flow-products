@@ -46,6 +46,11 @@
 }
 
 /* Correspondencia entre las variables de shadcn/ui y las clases de Tailwind (bg-primary, ring-ring…) */
+/* ADR-0029: rayas a 45° de la serie «abierto» (segundo canal, no solo color) */
+.rayas-grafico {
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.45) 0 2px, transparent 2px 6px);
+}
+
 @theme inline {
   --font-heading: var(--font-titulo);
   --color-background: var(--background);
@@ -67,6 +72,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
+  --color-grafico-serie: var(--grafico-serie);
+  --color-grafico-finalizado: var(--grafico-finalizado);
+  --color-grafico-abierto: var(--grafico-abierto);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
@@ -113,6 +121,19 @@
   --chart-3: #15803D;
   --chart-4: #B45309;
   --chart-5: #475569;
+  /* ADR-0029: series de gráficos validadas con el validador de dataviz (banda, croma, CVD y contraste) */
+  --grafico-serie: #5B4BA8;
+  --grafico-finalizado: #2F9E44;
+  /* Antigüedad de un pedido abierto (sigue contando): naranja DECOKASA, siempre con rayas además del color */
+  --grafico-abierto: #FE5E00;
+  /* Años en la dona: orden fijo, nunca cíclico (validado: banda, croma, CVD; contraste bajo 3:1 en 3-5 con
+     etiquetas, leyenda con valores y tabla) */
+  --grafico-cat-1: #5B4BA8;
+  --grafico-cat-2: #EB6834;
+  --grafico-cat-3: #1BAF7A;
+  --grafico-cat-4: #EDA100;
+  --grafico-cat-5: #E87BA4;
+  --grafico-cat-6: #008300;
   /* Barra lateral morada con texto y foco blancos (DESIGN.md 3.3) */
   --sidebar: #31275B;
   --sidebar-foreground: #FFFFFF;

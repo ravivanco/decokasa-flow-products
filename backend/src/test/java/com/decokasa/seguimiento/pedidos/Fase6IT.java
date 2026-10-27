@@ -52,7 +52,7 @@ class Fase6IT {
     UUID entrada(UUID p,int n){return sql.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=?",UUID.class,p,n);}
     UUID archivo(UUID p,int n,String tipo)throws Exception{return archivo(p,n,tipo,admin,201);}
     UUID archivo(UUID p,int n,String tipo,UUID u,int status)throws Exception{
-        String r=mvc.perform(multipart(base(p)+"/etapas/"+n+"/archivos").file(new MockMultipartFile("archivo","ficticio-f6.txt","text/plain",new byte[]{1,2,3,4}))
+        String r=mvc.perform(multipart(base(p)+"/etapas/"+n+"/archivos").file(new MockMultipartFile("archivo","ficticio-f6.csv","text/csv",new byte[]{97,44,98,10}))
             .param("tipoDocumento",tipo).param("entradaEsperadaId",entrada(p,n).toString()).with(jwt().jwt(j->j.subject(u.toString()))))
             .andExpect(status().is(status)).andReturn().getResponse().getContentAsString();return status==201?UUID.fromString(JsonPath.read(r,"$.id")):null;}
     String adj(UUID a){return ",\"adjuntoIds\":[\""+a+"\"]";}
@@ -66,6 +66,8 @@ class Fase6IT {
         if(i==1)enviar(p,i,"Solicitud");else if(i==3)enviar(p,i,"Documentos codificados");
         else if(i==6)accion(p,i,"APROBAR",",\"observacion\":\"Fabricacion ficticia\"",200);
         else if(i==7)accion(p,i,"APROBAR",adj(archivo(p,i,"Packing List")),200);
+        else if(i==10)accion(p,i,"APROBAR",adj(archivo(p,i,"Documento de bodega"))+",\"bodegaId\":\""+bodega(true)+"\"",200);
+        else if(i==11)accion(p,i,"APROBAR",adj(archivo(p,i,"Documento de incidencias")),200);
         else accion(p,i,"APROBAR","",200);
     }return p;}
     UUID bodega(boolean activa)throws Exception{return UUID.fromString(JsonPath.read(http(post("/api/v1/bodegas"),admin,"{\"nombre\":\"F6 "+UUID.randomUUID()+"\",\"ciudad\":\"Ciudad ficticia\",\"activa\":"+activa+"}",201),"$.id"));}
@@ -123,7 +125,7 @@ class Fase6IT {
         accion(p,origen,"ENVIAR",adj(a),200);http(put(base(p)+"/etapas/"+revisora+"/asignacion"),admin,"{\"usuarioId\":\""+revision+"\"}",200);
         http(get(ruta),otro,"",403);http(get(ruta),multiple,"",403);http(get(ruta),revision,"",200);http(get(ruta),admin,"",200);
         sql.update("delete from usuario_rol where usuario_id=?",revision);http(get(ruta),revision,"",403);rol(revision,"asistente_compras");sql.update("update usuario set activo=false where id=?",revision);http(get(ruta),revision,"",403);
-        if(origen==3){accion(p,4,"APROBAR","",200);assertThat(actual(p)).isEqualTo(5);http(get(ruta),china,"",403);} // B5 no revisa B3.
+        if(origen==3){accion(p,4,"APROBAR","",200);assertThat(actual(p)).isEqualTo(5);http(get(ruta),china,"",200);} // ADR-0028: quien act?a en B5 abre todos los documentos.
     }
     @Test void desdeB6HastaFinConDocumentosDemoraLlegadaYBodega()throws Exception{
         UUID p=hasta(6);sinCambio(p,6,"APROBAR","",422);accion(p,6,"APROBAR",",\"observacion\":\"Fabricacion ficticia finalizada\"",china,200);
@@ -174,5 +176,98 @@ class Fase6IT {
         assertThat((List<?>)JsonPath.read(http(get(base(a)),admin,"",200),"$.accionesDisponibles")).isEmpty();
         archivo(a,11,"No admitido",admin,409);http(post(base(a)+"/observaciones"),admin,"{\"texto\":\"No admitida\",\"etapaEsperada\":11,\"entradaEsperadaId\":\""+entrada(a,11)+"\"}",409);
         http(put(base(a)+"/etapas/11/motivo-retraso"),admin,"{\"motivo\":\"No admitido\",\"entradaEsperadaId\":\""+entrada(a,11)+"\"}",409);assertThat(estado(a)).isEqualTo(antes);
+    }
+
+    @Test void adr28DocumentosRecibidosCorreccionesYVigentesSiguenSusTransiciones()throws Exception {
+        UUID p=hasta(3),original=archivo(p,3,"Documentos codificados");
+        accion(p,3,"ENVIAR",adj(original),200);
+        String docs=http(get(base(p)+"/documentos"),revision,"",200);
+        assertThat(JsonPath.<List<String>>read(docs,"$[?(@.vigente == true)].id")).containsExactly(original.toString());
+        accion(p,4,"RECHAZAR",",\"observacion\":\"Corregir documento ficticio\"",200);
+        docs=http(get(base(p)+"/documentos"),marketing,"",200);
+        assertThat(JsonPath.<List<String>>read(docs,"$[?(@.vigente == true)].id")).isEmpty();
+        UUID corregido=archivo(p,3,"Documentos codificados");accion(p,3,"ENVIAR",adj(corregido),200);
+        accion(p,4,"APROBAR","",200);
+        docs=http(get(base(p)+"/documentos"),china,"",200);
+        assertThat(JsonPath.<List<String>>read(docs,"$[*].id")).contains(original.toString(),corregido.toString());
+        assertThat(JsonPath.<List<String>>read(docs,"$[?(@.vigente == true)].id")).containsExactly(corregido.toString());
+        http(get("/api/v1/archivos/"+original+"/contenido"),china,"",200);
+        http(get("/api/v1/archivos/"+corregido+"/contenido"),china,"",200);
+        assertThat(docs).doesNotContain("driveId","claveLocal","sha256","webViewLink");
+        UUID devolver=archivo(p,5,"Corrección de China");
+        accion(p,5,"DEVOLVER_POR_ERROR",",\"observacion\":\"Error ficticio\""+adj(devolver),200);
+        docs=http(get(base(p)+"/documentos"),marketing,"",200);
+        assertThat(JsonPath.<List<String>>read(docs,"$[?(@.vigente == true)].id")).containsExactly(devolver.toString());
+    }
+    @Test void adr28RevocaPaisEntreListadoYAperturaConJwtAntiguo()throws Exception {
+        UUID p=hasta(5),a=archivo(p,5,"Ficticio");
+        http(get(base(p)+"/documentos"),china,"",200);
+        sql.update("delete from usuario_pais where usuario_id=?",china);
+        http(get("/api/v1/archivos/"+a+"/contenido"),china,"",404);
+        http(get(base(p)+"/documentos"),china,"",404);
+    }
+    @Test void adr28PedidoFinalizadoNoTieneDocumentosVigentes()throws Exception {
+        UUID p=hasta(12);String docs=http(get(base(p)+"/documentos"),admin,"",200);
+        assertThat(JsonPath.<List<String>>read(docs,"$[?(@.vigente == true)].id")).isEmpty();
+    }
+    @Test void p11CaracterizaRiesgoConocidoAccionAntiguaTrasVolverAMismaEtapa()throws Exception {
+        UUID p=hasta(4),anterior=entrada(p,4);
+        String comando="{\"accion\":\"APROBAR\",\"etapaEsperada\":4}";
+        accion(p,4,"RECHAZAR",",\"observacion\":\"Reentrada ficticia P11\"",200);
+        UUID doc=archivo(p,3,"Documentos codificados");accion(p,3,"ENVIAR",adj(doc),200);
+        assertThat(entrada(p,4)).isNotEqualTo(anterior);
+        // Caracterización de la limitación aceptada en el cierre de desarrollo de fase 2; NO prueba protección.
+        http(post(base(p)+"/acciones"),revision,comando,200);
+        assertThat(actual(p)).isEqualTo(5);
+        System.out.println("P-11 REPRODUCIDO: acción anterior, nueva entrada de la misma etapa, HTTP 200");
+    }
+    @ParameterizedTest @ValueSource(strings={"admin","marketing","logistica","consulta","asistente_china"})
+    void adr29InicioComunParaTodosLosRolesYRevalidaEstadoVigente(String rol)throws Exception {
+        UUID u=persona(rol);
+        String respuesta=http(get("/api/v1/estadisticas/pedidos?anio=2026&pais=EC"),u,"",200);
+        assertThat(respuesta).contains("medianaResolucionSegundos","tiempoPorPedido","porAnio","porMes");
+        sql.update("delete from usuario_rol where usuario_id=?",u);
+        http(get("/api/v1/estadisticas/pedidos"),u,"",403);http(get("/api/v1/alertas"),u,"",403);
+    }
+    @ParameterizedTest @ValueSource(strings={"anio=1999","anio=2028","desde=2026-02-02&hasta=2026-02-01","desde=2000-01-01&hasta=2011-01-01","tipoFlujo=C"})
+    void adr29RechazaFiltrosInvalidosSinDevolverCifras(String filtros)throws Exception {
+        http(get("/api/v1/estadisticas/pedidos?"+filtros),admin,"",400);
+    }
+    @Test void adr29FiltraPaisVigenteInclusoConJwtAnterior()throws Exception {
+        http(get("/api/v1/estadisticas/pedidos?pais=CO"),admin,"",403);
+        sql.update("delete from usuario_pais where usuario_id=?",admin);
+        String r=http(get("/api/v1/estadisticas/pedidos"),admin,"",200);
+        assertThat(JsonPath.<Integer>read(r,"$.tarjetas.creados")).isZero();
+        assertThat(JsonPath.<List<String>>read(r,"$.paises")).isEmpty();
+        http(get("/api/v1/estadisticas/pedidos?pais=EC"),admin,"",403);
+    }
+    @Test void adr29LimiteDeAnioSeTomaEnEcuadorYAniosIntermediosSonCero()throws Exception {
+        RELOJ.set(Instant.parse("2001-01-01T04:30:00Z"));crear("A",admin,201);
+        RELOJ.set(Instant.parse("2002-01-01T04:30:00Z"));crear("A",admin,201);RELOJ.set(AHORA);
+        String r=http(get("/api/v1/estadisticas/pedidos?anio=2001&tipoFlujo=A"),admin,"",200);
+        assertThat(JsonPath.<Integer>read(r,"$.tarjetas.creados")).isEqualTo(1);
+        assertThat(JsonPath.<List<Integer>>read(r,"$.porAnio[?(@.anio == 2000)].pedidos")).containsExactly(1);
+        assertThat(JsonPath.<List<Integer>>read(r,"$.porAnio[?(@.anio == 2002)].pedidos")).containsExactly(0);
+        assertThat(JsonPath.<List<Integer>>read(r,"$.porMes[?(@.mes == 12)].pedidos")).containsExactly(1);
+        assertThat(JsonPath.<Integer>read(r,"$.tiempoPorPedidoTotal")).isEqualTo(1);
+    }
+    @Test void adr29MesFuturoNoEsCeroNiDuracionPendienteEsDuracionFinal()throws Exception {
+        UUID p=crear("A",admin,201);
+        String r=http(get("/api/v1/estadisticas/pedidos?anio=2026&tipoFlujo=A"),admin,"",200);
+        assertThat(JsonPath.<List<Object>>read(r,"$.porMes[?(@.mes == 12)].pedidos")).containsExactly((Object)null);
+        assertThat(JsonPath.<List<Boolean>>read(r,"$.tiempoPorPedido[?(@.pedidoId == '"+p+"')].finalizado")).containsExactly(false);
+    }
+    @Test void adr29AlertasSonPersonalesPorAsignacionActualYDesaparecenAlAvanzar()throws Exception {
+        UUID p=hasta(3),otro=persona("marketing");
+        sql.update("update etapa_pedido set vence_en=? where pedido_id=? and numero=3",Timestamp.from(AHORA.minusSeconds(1)),p);
+        String ruta="/api/v1/alertas?ambito=MIAS";
+        assertThat(JsonPath.<List<String>>read(http(get(ruta),marketing,"",200),"$[*].pedidoId")).contains(p.toString());
+        assertThat(JsonPath.<List<String>>read(http(get(ruta),china,"",200),"$[*].pedidoId")).doesNotContain(p.toString());
+        http(get("/api/v1/alertas?ambito=TODAS"),marketing,"",403);http(get("/api/v1/alertas?ambito=INVALIDO"),admin,"",400);
+        http(put(base(p)+"/etapas/3/asignacion"),admin,"{\"usuarioId\":\""+otro+"\"}",200);
+        assertThat(JsonPath.<List<String>>read(http(get(ruta),marketing,"",200),"$[*].pedidoId")).doesNotContain(p.toString());
+        assertThat(JsonPath.<List<String>>read(http(get(ruta),otro,"",200),"$[*].pedidoId")).contains(p.toString());
+        UUID doc=archivo(p,3,"Documentos codificados");accion(p,3,"ENVIAR",adj(doc),200);
+        assertThat(JsonPath.<List<String>>read(http(get(ruta),otro,"",200),"$[*].pedidoId")).doesNotContain(p.toString());
     }
 }

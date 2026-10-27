@@ -1,4 +1,0 @@
-{
-    "exit":  1,
-    "scope":  "SQL aislado; no compila main ni sustituye check"
-}

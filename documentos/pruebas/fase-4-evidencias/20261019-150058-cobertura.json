@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat jacocoTestReport jacocoTestCoverageVerification -x test --console=plain --no-daemon",
-    "etapa":  "cobertura",
-    "fecha":  "20261019-150058",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-fase4-1a6557e4cf7940d4879c9f9d9a5242de",
-    "salida":  0
-}

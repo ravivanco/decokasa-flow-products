@@ -1,1 +1,0 @@
-Contexto y control detenidos; contenedor propio parado, sin borrar volúmenes. 2026-10-20T20:46:55.578698400Z

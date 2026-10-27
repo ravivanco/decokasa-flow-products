@@ -113,7 +113,7 @@ describe('Subida de archivos', () => {
         return HttpResponse.json({});
       }),
     );
-    const grande = new File(['x'], 'grande.zip');
+    const grande = new File(['producto,cantidad\nFicticio,1\n'], 'grande.csv', { type: 'text/csv' });
     Object.defineProperty(grande, 'size', { value: 100 * 1024 * 1024 + 1 });
 
     await app.usuario.upload(screen.getByLabelText('Archivo'), grande);
@@ -341,28 +341,29 @@ describe('Permisos con varios roles', () => {
   });
 });
 
-// Copia confirmada no implica publicar una URL hasta consultar el backend con permiso vigente.
-describe('3.B2 enlaces confirmados', () => {
-  it.each([403, 409])('rechazo %i no publica enlace y conserva descarga por backend', async (estado) => {
-    const copiado = {...adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'confirmado.bin'), estadoCopia:'COPIADO'};
-    const {app} = await abrir(con(['marketing']), enA2(), {2:[copiado]});
-    let consultas = 0;
-    servidor.use(http.get(`*/api/v1/archivos/${ARCHIVO_A2}/enlace`, () => {
-      consultas++; return problema(estado, estado===403?'SIN_PERMISO':'ARCHIVO_NO_DISPONIBLE','No confirmado.');
+// ADR-0028: las aperturas se autorizan en DECOKASA, sin publicar enlaces Drive.
+describe('3.B2 apertura desde DECOKASA', () => {
+  it.each([403,409])('rechazo %i se informa y conserva descarga backend sin enlace', async (estado) => {
+    const copiado={...adjunto(ARCHIVO_A2,2,entradaDe(2),'Documentos codificados','confirmado.bin'),estadoCopia:'COPIADO'};
+    const {app}=await abrir(con(['marketing']),enA2(),{2:[copiado]}); let consultas=0;
+    servidor.use(http.get('*/api/v1/archivos/'+ARCHIVO_A2+'/contenido',()=>{
+      consultas++;return problema(estado,estado===403?'SIN_PERMISO':'ARCHIVO_NO_DISPONIBLE','No confirmado.');
     }));
-    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
-    await app.usuario.click(await screen.findByRole('button', {name:'Consultar enlace de Drive'}));
-    await waitFor(() => expect(consultas).toBe(1));
-    await waitFor(() => expect(screen.getByRole('button', {name:'Consultar enlace de Drive'})).toBeEnabled());
-    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
-    expect(screen.getByRole('button', {name:'Descargar confirmado.bin'})).toBeEnabled();
+    expect(screen.queryByRole('link',{name:'Abrir en Drive'})).not.toBeInTheDocument();
+    await app.usuario.click(await screen.findByRole('button',{name:'Descargar confirmado.bin'}));
+    await waitFor(()=>expect(consultas).toBe(1));
+    await waitFor(()=>expect(avisos.error).toHaveBeenCalledTimes(1));
+    expect(avisos.exito).not.toHaveBeenCalled();
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Descargar confirmado.bin'})).toBeEnabled());
+    expect(screen.queryByRole('link',{name:'Abrir en Drive'})).not.toBeInTheDocument();
   });
-  it('una respuesta con URL ajena a Drive no se convierte en enlace', async () => {
-    const copiado = {...adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados'), estadoCopia:'COPIADO'};
-    const {app} = await abrir(con(['marketing']), enA2(), {2:[copiado]});
-    servidor.use(http.get(`*/api/v1/archivos/${ARCHIVO_A2}/enlace`, () => HttpResponse.json({url:'https://ajeno.ejemplo.test/ficticio'})));
-    await app.usuario.click(await screen.findByRole('button', {name:'Consultar enlace de Drive'}));
-    await screen.findByText(/La respuesta del servidor no tiene la forma esperada/);
-    expect(screen.queryByRole('link', {name:'Abrir en Drive'})).not.toBeInTheDocument();
+  it('no consulta enlaces externos ni los convierte en navegaci?n',async()=>{
+    const copiado={...adjunto(ARCHIVO_A2,2,entradaDe(2),'Documentos codificados'),estadoCopia:'COPIADO'};
+    let enlaces=0;
+    servidor.use(http.get('*/api/v1/archivos/'+ARCHIVO_A2+'/enlace',()=>{enlaces++;return HttpResponse.json({url:'https://ajeno.ejemplo.test/ficticio'});}));
+    await abrir(con(['marketing']),enA2(),{2:[copiado]});
+    expect(await screen.findByRole('button',{name:'Descargar '+copiado.nombre})).toBeEnabled();
+    expect(screen.queryByRole('button',{name:'Consultar enlace de Drive'})).not.toBeInTheDocument();
+    expect(screen.queryByRole('link',{name:'Abrir en Drive'})).not.toBeInTheDocument();expect(enlaces).toBe(0);
   });
 });

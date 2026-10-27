@@ -75,6 +75,43 @@ public final class GoogleDriveAlmacen implements AlmacenArchivos {
                 .header("Content-Range","bytes "+inicio+"-"+(inicio+fragmento.length-1)+"/"+total)
                 .PUT(HttpRequest.BodyPublishers.ofByteArray(fragmento))),total);
     }
+    /**
+     * {@code files.get?alt=media} en flujo (ADR-0028): el cuerpo no se acumula en memoria. Los errores se traducen a las
+     * mismas causas que el resto del adaptador, leyendo como mucho 64 KiB del cuerpo de error.
+     */
+    @Override public java.io.InputStream descargar(String id) {
+        validarId(id);
+        if (!habilitada) { throw fallo(Causa.DESACTIVADA); }
+        if (TransactionSynchronizationManager.isActualTransactionActive()) { throw fallo(Causa.TRANSACCION_ACTIVA); }
+        HttpRequest peticion = HttpRequest.newBuilder(URI.create(API + "/" + id + "?alt=media"))
+                .timeout(Duration.ofSeconds(20))
+                .header("Authorization", "Bearer " + acceso.credencial().tokenAcceso()).GET().build();
+        HttpResponse<java.io.InputStream> respuesta;
+        try { respuesta = http.send(peticion, HttpResponse.BodyHandlers.ofInputStream()); }
+        catch (InterruptedException error) { Thread.currentThread().interrupt(); throw fallo(Causa.RESULTADO_INCIERTO); }
+        catch (IOException error) { throw fallo(Causa.TRANSITORIA); }
+        if (respuesta.statusCode() == 200) { return new FlujoDriveConEspera(respuesta.body(),Duration.ofSeconds(20)); }
+        byte[] cuerpo;
+        try (var flujo = new FlujoDriveConEspera(respuesta.body(),Duration.ofSeconds(20))) { cuerpo = flujo.readNBytes(64 * 1024); }
+        catch (IOException error) { cuerpo = new byte[0]; }
+        if (respuesta.statusCode() == 404) { throw fallo(Causa.METADATOS_DIVERGENTES); }
+        final byte[] error = cuerpo;
+        exigirExito(new RespuestaErrorDescarga(respuesta, error));
+        throw fallo(Causa.RESPUESTA_INVALIDA);
+    }
+
+    /** Respuesta de error con el cuerpo ya leído y acotado, para reutilizar {@link #exigirExito}. */
+    private record RespuestaErrorDescarga(HttpResponse<java.io.InputStream> original, byte[] body)
+            implements HttpResponse<byte[]> {
+        @Override public int statusCode() { return original.statusCode(); }
+        @Override public HttpRequest request() { return original.request(); }
+        @Override public Optional<HttpResponse<byte[]>> previousResponse() { return Optional.empty(); }
+        @Override public java.net.http.HttpHeaders headers() { return original.headers(); }
+        @Override public Optional<javax.net.ssl.SSLSession> sslSession() { return original.sslSession(); }
+        @Override public URI uri() { return original.uri(); }
+        @Override public HttpClient.Version version() { return original.version(); }
+    }
+
     @Override public Optional<Remoto> metadatos(String id) {
         validarId(id);
         HttpResponse<byte[]> respuesta = enviar(HttpRequest.newBuilder(URI.create(API+"/"+id+"?fields="+CAMPOS)).GET());
@@ -131,7 +168,9 @@ public final class GoogleDriveAlmacen implements AlmacenArchivos {
             if (!"https".equals(uri.getScheme()) || !"www.googleapis.com".equals(uri.getHost())
                     || uri.getPort() != -1 || uri.getUserInfo() != null || uri.getFragment() != null
                     || !uri.getPath().matches("/upload/drive/v3/files(?:/[A-Za-z0-9_-]{1,200})?") || uri.getRawQuery() == null
-                    || valor.length() > 4096 || !uri.getRawQuery().matches("[A-Za-z0-9_%=&.+-]+")) {
+                    // Google repite en el Location la query de la petición, con las comas de fields= sin codificar
+                    // (comprobado contra Drive el 2026-10-26); la coma es un separador válido de URI.
+                    || valor.length() > 4096 || !uri.getRawQuery().matches("[A-Za-z0-9_%=&.+,-]+")) {
                 throw fallo(Causa.RESPUESTA_INVALIDA);
             }
             return uri;

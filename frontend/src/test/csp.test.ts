@@ -19,7 +19,7 @@ describe('Content-Security-Policy del frontend (M4)', () => {
     "default-src 'self'",
     "script-src 'self'",
     "connect-src 'self'",
-    "object-src 'none'",
+    'object-src blob:',
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
@@ -30,6 +30,13 @@ describe('Content-Security-Policy del frontend (M4)', () => {
   it('no permite eval ni scripts en línea', () => {
     expect(politica()).not.toContain("'unsafe-eval'");
     expect(politica()).not.toMatch(/script-src[^;]*'unsafe-inline'/);
+  });
+
+  it('permite el visor local sin permitir Google ni blob en scripts o conexiones', () => {
+    expect(politica()).toContain("frame-src 'self' blob:");
+    expect(politica()).toContain("img-src 'self' data: blob:");
+    expect(politica()).not.toMatch(/(?:script|connect)-src[^;]*blob:/);
+    expect(politica()).not.toContain('google.com');
   });
 
   it('se envía siempre (always), también en las respuestas de error', () => {

@@ -34,11 +34,14 @@ public class CorreoConfig {
             @Value("${decokasa.google.oauth.habilitada:false}") boolean oauth,
             @Value("${decokasa.google.gmail.habilitada:false}") boolean habilitada,
             @Value("${decokasa.google.gmail.worker.lote:5}") int lote,
-            @Value("${decokasa.google.gmail.worker.lease:PT3M}") Duration lease) {
+            @Value("${decokasa.google.gmail.worker.lease:PT3M}") Duration lease,
+            @Value("${decokasa.notificaciones.enviar-desde:}") String enviarDesde) {
+        // ADR-0032: sin instante de corte no se envía nada; con él, solo lo creado desde entonces (nunca el histórico).
+        Instant desde = enviarDesde == null || enviarDesde.isBlank() ? null : Instant.parse(enviarDesde.strip());
         var tx=new TransactionTemplate(gestor);
         TrabajoCorreo trabajo=new TrabajoCorreo() {
             public Optional<Notificacion> reclamar(Instant a,Instant h,UUID p) {
-                return tx.execute(e -> repo.reclamar(1,a,h,p).stream().findFirst());
+                return tx.execute(e -> repo.reclamar(1,a,h,p,desde).stream().findFirst());
             }
             public boolean vigente(UUID id,UUID p,Instant a) { return Boolean.TRUE.equals(tx.execute(e -> repo.vigente(id,p,a))); }
             public boolean enviada(UUID id,UUID p,String proveedor,Instant a) {
@@ -53,7 +56,8 @@ public class CorreoConfig {
                 return Boolean.TRUE.equals(tx.execute(e -> repo.registrarFallo(id,p,causa,siguiente,false,ahora)));
             }
         };
-        var caso=new EnviarNotificacionesCasoDeUso(trabajo,gmail,directorio,reloj,oauth && habilitada,lote,lease);
+        var caso=new EnviarNotificacionesCasoDeUso(trabajo,gmail,directorio,reloj,oauth && habilitada && desde != null,
+                lote,lease);
         return () -> {
             if (TransactionSynchronizationManager.isActualTransactionActive()) {
                 throw new FalloIntegracionGoogle(FalloIntegracionGoogle.Causa.TRANSACCION_ACTIVA);

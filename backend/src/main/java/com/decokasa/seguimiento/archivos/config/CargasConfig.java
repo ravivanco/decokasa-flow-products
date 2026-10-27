@@ -10,6 +10,7 @@ import com.decokasa.seguimiento.archivos.application.port.out.CargaRepositorio;
 import com.decokasa.seguimiento.archivos.application.port.out.CuotaAlmacenamiento;
 import com.decokasa.seguimiento.archivos.application.port.out.PedidosParaArchivos;
 import com.decokasa.seguimiento.archivos.application.usecase.GestionarCargaCasoDeUso;
+import com.decokasa.seguimiento.archivos.application.port.out.VerificadorFormato;
 import com.decokasa.seguimiento.archivos.application.usecase.SubirArchivoCasoDeUso;
 import com.decokasa.seguimiento.archivos.domain.CargaArchivo;
 import com.decokasa.seguimiento.archivos.domain.LimiteDeTamano;
@@ -36,9 +37,11 @@ public class CargasConfig {
     @Bean GestionarCarga gestionarCarga(PlatformTransactionManager gestor, CargaRepositorio cargas,
             PedidosParaArchivos pedidos, AlmacenLocal almacen, AlmacenCargas parciales, AdjuntoRepositorio adjuntos,
             PublicadorEventos publicador, ResumirUsuarios usuarios, Reloj reloj, LimiteDeTamano limite,
-            CuotaAlmacenamiento cuota) {
+            CuotaAlmacenamiento cuota, VerificadorFormato verificador) {
         TransactionTemplate tx=new TransactionTemplate(gestor);
-        SubirArchivoCasoDeUso subida=new SubirArchivoCasoDeUso(pedidos,almacen,adjuntos,publicador,usuarios,reloj,limite);
+        // ADR-0026: el contenido técnico se comprueba al finalizar, sobre el archivo completo.
+        SubirArchivoCasoDeUso subida=new SubirArchivoCasoDeUso(pedidos,almacen,adjuntos,publicador,usuarios,reloj,limite,
+                verificador);
         GestionarCargaCasoDeUso caso=new GestionarCargaCasoDeUso(cargas,pedidos,almacen,parciales,adjuntos,subida,usuarios,reloj,limite);
         return new GestionarCarga() {
             @Override public Vista iniciar(Solicitante solicitante, Inicio comando) {

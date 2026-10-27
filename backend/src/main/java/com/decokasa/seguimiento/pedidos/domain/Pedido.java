@@ -609,6 +609,25 @@ public final class Pedido {
                         && PermisosEtapa.puedeActuar(etapa(revisora.getKey()), revisora.getValue(), actor));
     }
 
+    /**
+     * ADR-0028 (P-17 ampliada, decisión de Richard 2026-10-26): quien puede actuar en la etapa actual del pedido abre
+     * todos los documentos subidos en el pedido, presentados o no; así, cuando el pedido avanza, el responsable de cada
+     * etapa ve lo que se subió en las anteriores. El admin siempre.
+     * Con el pedido terminado solo queda el admin (y P-17). Una cuenta inactiva o sin roles nunca abre.
+     *
+     * @param rolEtapaActual rol responsable de la etapa actual (de los datos del flujo)
+     */
+    public boolean puedeAbrirDocumentosDelPedido(CodigoRol rolEtapaActual, ActorVigente actor) {
+        if (actor == null || !actor.puedeActuar()) {
+            return false;
+        }
+        if (actor.tieneRol(PermisosEtapa.ADMIN)) {
+            return true;
+        }
+        return !finalizado && rolEtapaActual != null
+                && PermisosEtapa.puedeActuar(etapa(etapaActual), rolEtapaActual, actor);
+    }
+
     /** Entrega los eventos pendientes, en orden, y los quita del agregado. Lo llama el caso de uso al guardar. */
     public List<EventoDePedido> retirarEventos() {
         List<EventoDePedido> eventos = List.copyOf(eventosPendientes);

@@ -1,9 +1,0 @@
-{
-  "escenarioMaximoPedidos": 20,
-  "H01": "cerrado con evidencia de carga/polling actual",
-  "H02": "cerrado con SQL constante y proyección por lote",
-  "objetivoManual500": "no acreditado ni retirado por esta revalidación",
-  "produccionModificada": false,
-  "fases": "abiertas",
-  "5.B3": "no iniciado"
-}

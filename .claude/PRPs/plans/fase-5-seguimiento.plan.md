@@ -70,7 +70,7 @@ Etiquetas: **aprobado** (cliente o ADR aceptado), **provisional** (valor documen
 
 | ID | Paso | Tema | Fuente y estado | Propuesta | Bloquea |
 |---|---|---|---|---|---|
-| **F5-D1** | 5.1 | **Duraciones del cronograma para etapas con plazo `PENDIENTE`** (A5, A7, A10) | ⏸ F4-D3, F4-D6 y F4-D8 | **Aprobada por Richard (2026-10-20), opción A, decisión del equipo:** una duración PENDIENTE no equivale a cero ni a SIN_PLAZO; desde el primer plazo desconocido, las fechas dependientes quedan "sin estimar"; el cálculo se retoma desde un dato de llegada válido, con la llegada real por encima de la estimada y su procedencia visible; el total y la diferencia contra la meta no son calculables si faltan duraciones necesarias; se distinguen fechas planificadas, estimadas y reales. | Implementada en 5.1 |
+| **F5-D1** | 5.1 | **Duraciones del cronograma para etapas con plazo `PENDIENTE`** (A5, A7, A10) | ⏸ F4-D3, F4-D6 y F4-D8 | **Aprobada por Richard (2026-10-20), opción A, decisión del equipo:** una duración PENDIENTE no equivale a cero ni a SIN_PLAZO; desde el primer plazo desconocido, las fechas dependientes quedan "sin estimar"; el cálculo se retoma desde un dato de llegada válido, con la llegada real por encima de la estimada y su procedencia visible; el total y la diferencia contra la meta no son calculables si faltan duraciones necesarias; se distinguen fechas planificadas, estimadas y reales. **Sustituida en parte por ADR-0030 (Richard, 2026-10-26):** las etapas con plazo pendiente se estiman con duraciones de referencia documentadas (31 y 45 días corridos; 24 h de B2), que no son plazos; se guarda la planificación original (V25) y una etapa abierta después de lo estimado se proyecta hasta el momento de la consulta. Se conserva como antecedente. | Implementada en 5.1; ADR-0030 compilado sin pruebas |
 | F5-D2 | 5.4 | Transporte de la actualización entre pantallas | ADR-0014. | **Aprobada provisionalmente por Richard (2026-10-20), decisión técnica del equipo:** consultas periódicas con TanStack Query, 30 s por defecto, configurables entre 10 s y 5 min; sin WebSocket. Un cambio ajeno puede tardar hasta el intervalo más la petición; "al instante" no se declara satisfecho sin aceptación del cliente. | Implementada en 5.4 |
 | F5-D3 | 5.2 | Motivo del retraso | Requisito 4.2 #16 (visible en la etapa); las fuentes no dicen quién lo escribe. | **Aprobada provisionalmente por Richard (2026-10-20), decisión del equipo:** lo registra o corrige quien puede actuar en la etapa actual según P-06, o el admin, mientras exista un vencimiento activo (etapa o urgencia). Cada cambio deja historial (`MOTIVO_RETRASO_REGISTRADO`); una reentrada limpia el motivo vigente sin borrar los anteriores; no genera correo. Los usuarios con varios roles conservan sus permisos; `consulta` o `asistente_china` no conceden escritura ni anulan otros roles. | Implementada en 5.2 |
 | F5-D4 | 5.2 | ¿La urgencia vencida avisa? | Requisitos 4.2 #11 y #16. | **Aprobada provisionalmente por Richard (2026-10-20):** sí. ETAPA y URGENCIA son avisos diferentes; si ambos vencen, dos avisos identificados por su clase. Unicidad: ETAPA = `entradaId` + vencimiento; URGENCIA = UUID estable de la activación (la `entrada_etapa` creada por la devolución con urgencia) + vencimiento, no solo la hora. Las reglas provisionales de urgencia (horas hábiles; un rechazo de Revisión no la reinicia, P-10 ⏸) no cambian. | Implementada en 5.2 |
@@ -296,7 +296,7 @@ No aplica a la parte A: Codex escribe y ejecuta las pruebas en 5.B1–5.B3. Las 
 ## NOT Building
 
 - Feriados de Ecuador o China y jornada laboral: ⏸ F5-D7 y F4-D10. No se crea `feriado`.
-- Plazos de A5, A7 o A10 ni duraciones de cronograma para ellas sin decisión (F5-D1). No se usan los 8, 31, 12 ni 45 días de la calculadora.
+- Plazos de A5, A7 o A10 ni duraciones de cronograma para ellas sin decisión (F5-D1). No se usan los 8, 31, 12 ni 45 días de la calculadora. *(Antecedente: desde ADR-0030, 31 y 45 se usan como duración de referencia para estimar, nunca como plazo.)*
 - Correo al responsable de la etapa (⏸ F5-D5) y avisos de Fin o demora (⏸ F4-D9).
 - Desbloqueo de A6, A9 o A10: F4-D4, F4-D7 y F4-D8 siguen `PENDIENTES`.
 - Flujo B (fase 6), Colombia y selección de país (fase 7).
@@ -940,3 +940,9 @@ Ninguna está decidida. Aquí no se fija la meta, no se cambia el manual y no se
 - **"Un check aparece en otra pantalla sin recargar":** acreditado con el polling de 30 s aceptado por Richard (ADR-0014). No equivale a "al instante" ni a aceptación del cliente.
 - **Accesibilidad:** H01–H05 de 5.B3 cerrados en el alcance revisado, con axe y teclado automatizados. No hubo revisión con un lector de pantalla real.
 - **Cobertura del frontend ≥ 80 %:** objetivo adicional pendiente (67–68 %). No es el umbral del manual (backend, 91 %).
+
+## Cambio posterior: estimación de la llegada (ADR-0030, 2026-10-26)
+
+Compilado, sin pruebas ni recorrido real; sin commit. Detalle, ejemplos y prompt de revalidación para Codex:
+`documentos/entrega-cronograma-adr30-parte-a.md`. Migración V25; contrato 0.25.0-borrador.
+

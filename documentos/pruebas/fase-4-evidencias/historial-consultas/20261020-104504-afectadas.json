@@ -1,8 +1,0 @@
-﻿{
-    "coberturaEjecutada":  false,
-    "fecha":  "20261020-104504",
-    "comando":  "npm.cmd run test -- src/components/pedidos/Fase4Ramas.test.tsx src/components/pedidos/Fase4Pantallas.test.tsx src/components/pedidos/Pedidos.test.tsx --maxWorkers=2",
-    "googleReal":  false,
-    "salida":  0,
-    "backendEjecutado":  false
-}

@@ -103,6 +103,10 @@ public final class Usuario {
     }
 
     public void asignarPaises(Set<CodigoPais> nuevosPaises) {
+        // ADR-0027: la administradora elige el país; una lista vacía dejaría la cuenta sin acceso sin decirlo.
+        if (nuevosPaises.isEmpty()) {
+            throw new DatoInvalido("paises", "Elige al menos un país.");
+        }
         paises = Set.copyOf(nuevosPaises);
     }
 

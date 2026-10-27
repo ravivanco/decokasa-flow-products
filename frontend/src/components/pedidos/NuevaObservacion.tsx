@@ -80,7 +80,7 @@ export function NuevaObservacion({ pedidoId, etapa, entradaId, adjuntos }: Props
           aria-describedby={`${ids}-contador`}
         />
         <FieldDescription id={`${ids}-contador`} className="tabular-nums">
-          {texto.length} de 4000 caracteres · no cambia la etapa ni sus plazos
+          {texto.length} de 4000 caracteres.
         </FieldDescription>
         <FieldError>{error}</FieldError>
       </Field>

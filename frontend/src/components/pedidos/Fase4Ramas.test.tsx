@@ -176,7 +176,7 @@ describe('Fin automático · datos del servidor',()=>{
     const app=abrirConSesion(admin,ruta);await app.usuario.click(await screen.findByRole('button',{name:'Aprobar'}));
     const d=await screen.findByRole('dialog',{name:'Confirmar y finalizar'});await app.usuario.dblClick(within(d).getByRole('button',{name:'Confirmar y finalizar'}));
     await waitFor(()=>expect(envios).toBe(1));expect(screen.queryByText('Pedido finalizado por el servidor. Fin es automático y no admite acciones manuales.')).not.toBeInTheDocument();
-    await act(async()=>liberar());await screen.findByText('Pedido finalizado por el servidor. Fin es automático y no admite acciones manuales.');
+    await act(async()=>liberar());await screen.findAllByText('Finalizado', {exact:true});
     expect(await screen.findByText('Sistema')).toBeInTheDocument();expect(screen.queryByRole('button',{name:/^(Aprobar|Confirmar y finalizar|Reasignar)$/})).not.toBeInTheDocument();
   });
 
@@ -191,7 +191,7 @@ describe('Fin automático · datos del servidor',()=>{
 describe('Historial y bloqueos · ramas de error y datos confirmados',()=>{
   it('bandeja recupera un fallo sin inventar pedidos ni transiciones locales',async()=>{
     let lecturas=0;
-    servidor.use(http.get('*/api/v1/pedidos/bandeja',()=>++lecturas===1?problema(503,'ERROR_INTERNO','Privado ficticio'):HttpResponse.json(pagina([resumenDe(pedidoDetalle({etapaActual:8}))]))),
+    servidor.use(http.get('*/api/v1/pedidos/bandeja',({request})=>{if(new URL(request.url).searchParams.get('tamano')!=='100')return HttpResponse.json(pagina([]));return ++lecturas===1?problema(503,'ERROR_INTERNO','Privado ficticio'):HttpResponse.json(pagina([resumenDe(pedidoDetalle({etapaActual:8}))]));}),
       http.get('*/api/v1/flujos/EC/A',()=>HttpResponse.json(definicionFlujoA)));
     const app=abrirConSesion({...ana,roles:['logistica']},'/bandeja');await screen.findByText('No se pudo cargar tu bandeja.');
     expect(screen.queryByRole('heading',{level:2,name:'A8 · Autorización de salida'})).not.toBeInTheDocument();
@@ -408,14 +408,14 @@ describe('Pendientes activos · historial y recuperación de consultas', () => {
     await screen.findByRole('heading', { level: 2, name: 'A9 · Bodega' });
     await waitFor(() => expect(lecturasFlujo).toBe(1));
     expect(screen.queryByText('Requisitos documentales pendientes en la definición vigente')).not.toBeInTheDocument();
-    const numero = screen.getByRole('link', { name: 'DK-EC-2026-0001' });
+    const numero = within(screen.getByRole('region', {name:'Bandeja por etapa'})).getByRole('link', { name: 'DK-EC-2026-0001' });
     disponible = true;
     await act(async () => { await app.consultas.refetchQueries({ type: 'active' }); });
     await screen.findByText('Requisitos documentales pendientes en la definición vigente');
     expect(screen.getByRole('note')).toHaveTextContent('A9 · Bodega');
     expect(screen.getByRole('note')).toHaveTextContent('A10 · Incidencias');
-    expect(screen.getByRole('link', { name: 'DK-EC-2026-0001' })).toHaveAttribute('href', numero.getAttribute('href'));
-    expect(screen.getAllByRole('link', { name: 'DK-EC-2026-0001' })).toHaveLength(1);
+    expect(within(screen.getByRole('region', {name:'Bandeja por etapa'})).getByRole('link', { name: 'DK-EC-2026-0001' })).toHaveAttribute('href', numero.getAttribute('href'));
+    expect(within(screen.getByRole('region', {name:'Bandeja por etapa'})).getAllByRole('link', { name: 'DK-EC-2026-0001' })).toHaveLength(1);
     expect(lecturasFlujo).toBe(2);
     expect(screen.queryByRole('button', { name: 'Aprobar' })).not.toBeInTheDocument();
   });

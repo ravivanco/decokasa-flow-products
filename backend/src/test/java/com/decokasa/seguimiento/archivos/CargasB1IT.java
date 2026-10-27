@@ -52,7 +52,7 @@ class CargasB1IT {
         entrada=sql.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=1",UUID.class,pedido);
     }
     UUID iniciar(long tamano,UUID idem,int estado) throws Exception {
-        String cuerpo="{\"entradaEsperadaId\":\""+entrada+"\",\"claveIdempotencia\":\""+idem+"\",\"nombre\":\"ficticio.desconocido\",\"tipoDocumento\":\"Ficha\",\"tamanoBytes\":"+tamano+"}";
+        String cuerpo="{\"entradaEsperadaId\":\""+entrada+"\",\"claveIdempotencia\":\""+idem+"\",\"nombre\":\"ficticio.csv\",\"tipoDocumento\":\"Ficha\",\"tamanoBytes\":"+tamano+"}";
         var r=mvc.perform(post("/api/v1/pedidos/"+pedido+"/etapas/1/archivos/cargas").with(token(admin)).contentType("application/json").content(cuerpo)).andExpect(status().is(estado)).andReturn();
         return estado==201?UUID.fromString(JsonPath.read(r.getResponse().getContentAsString(),"$.id")):null;
     }
@@ -63,7 +63,7 @@ class CargasB1IT {
             .header("Content-Range","bytes "+inicio+"-"+(inicio+bytes.length-1)+"/"+total).header("X-Fragmento-SHA256",hash).content(bytes));
     }
     @Test void exactamente100MiBEn25BloquesConBytesRealesYAsociacionCompleta() throws Exception {
-        UUID id=iniciar(104857600,UUID.randomUUID(),201);byte[] bytes=new byte[4194304];Arrays.fill(bytes,(byte)17);String hash=sha(bytes);
+        UUID id=iniciar(104857600,UUID.randomUUID(),201);byte[] bytes=new byte[4194304];Arrays.fill(bytes,(byte)120);String hash=sha(bytes);
         var huellaCompleta=MessageDigest.getInstance("SHA-256");
         for(int n=0;n<25;n++) { huellaCompleta.update(bytes); bloque(id,(long)n*bytes.length,104857600,bytes,hash).andExpect(status().isOk())
             .andExpect(jsonPath("$.offsetConfirmado").value((long)(n+1)*bytes.length)); }
@@ -88,7 +88,7 @@ class CargasB1IT {
         assertThat(sql.queryForObject("select count(*) from carga_archivo where pedido_id=?",Long.class,pedido)).isZero();
     }
     @Test void pausaReanudaConIdempotenciaYParcialNoCuentaComoAdjunto() throws Exception {
-        UUID idem=UUID.randomUUID(),id=iniciar(3,idem,201);byte[] b={1,2,3};
+        UUID idem=UUID.randomUUID(),id=iniciar(3,idem,201);byte[] b={97,44,98};
         assertThat(iniciar(3,idem,201)).isEqualTo(id);
         mvc.perform(post(base(id)+"/finalizacion").with(token(admin))).andExpect(status().isConflict());
         bloque(id,0,3,b,sha(b)).andExpect(status().isOk());
@@ -103,7 +103,7 @@ class CargasB1IT {
         assertThat(sql.queryForObject("select count(*) from archivo_cuota where estado='RESERVADA'",Long.class)).isZero();
     }
     @Test void rechazaHashIncorrectoHuecoTotalDistintoYReplayAlterado() throws Exception {
-        UUID id=iniciar(3,UUID.randomUUID(),201);byte[] b={1,2,3};
+        UUID id=iniciar(3,UUID.randomUUID(),201);byte[] b={97,44,98};
         bloque(id,0,3,b,"0".repeat(64)).andExpect(status().isConflict());
         bloque(id,1,3,new byte[]{1,2},sha(new byte[]{1,2})).andExpect(status().isConflict());
         bloque(id,0,4,b,sha(b)).andExpect(status().isConflict());
@@ -157,7 +157,7 @@ class CargasB1IT {
     }
 
     @Test void nuevoCoordinadorRecuperaOffsetSqlYTruncaTailNoConfirmadoSinPerderPrefijo() throws Exception {
-        UUID id=iniciar(4194305,UUID.randomUUID(),201);byte[] prefijo=new byte[4194304];Arrays.fill(prefijo,(byte)5);
+        UUID id=iniciar(4194305,UUID.randomUUID(),201);byte[] prefijo=new byte[4194304];Arrays.fill(prefijo,(byte)120);
         bloque(id,0,4194305,prefijo,sha(prefijo)).andExpect(status().isOk());
         Path parcial=DISCO.resolve(".cargas/"+id+".parte");Files.write(parcial,new byte[]{99,99},StandardOpenOption.APPEND);
         try(var reinicio=new org.springframework.context.annotation.AnnotationConfigApplicationContext()) {
@@ -171,11 +171,11 @@ class CargasB1IT {
         var segundo=reinicio.getBean(GestionarCarga.class);
         var s=new Solicitante(admin,Set.of(new CodigoRol("admin")));
         assertThat(segundo.consultar(s,id).carga().offsetConfirmado()).isEqualTo(4194304);
-        segundo.fragmento(s,id,new GestionarCarga.Bloque(4194304,4194305,sha(new byte[]{7}),new byte[]{7}));
+        segundo.fragmento(s,id,new GestionarCarga.Bloque(4194304,4194305,sha(new byte[]{97}),new byte[]{97}));
         var a=segundo.completar(s,id);
         assertThat(a.adjunto().tamanoBytes()).isEqualTo(4194305);assertThat(a.eventoId()).isNotNull();
         byte[] real=Files.readAllBytes(DISCO.resolve(a.adjunto().claveLocal()));
-        assertThat(Arrays.copyOf(real,4194304)).isEqualTo(prefijo);assertThat(real[4194304]).isEqualTo((byte)7);
+        assertThat(Arrays.copyOf(real,4194304)).isEqualTo(prefijo);assertThat(real[4194304]).isEqualTo((byte)97);
         assertThat(Files.size(parcial)).isEqualTo(4194305);
         }
     }
@@ -192,7 +192,7 @@ class CargasB1IT {
         assertThat(sql.queryForObject("select count(*) from carga_fragmento where carga_id=?",Long.class,id)).isZero();
     }
     @Test void falloAlRegistrarFinalRevierteMetadatosYPermiteRecuperarElArchivoPreparado() throws Exception {
-        UUID id=iniciar(1,UUID.randomUUID(),201);bloque(id,0,1,new byte[]{7},sha(new byte[]{7})).andExpect(status().isOk());
+        UUID id=iniciar(1,UUID.randomUUID(),201);bloque(id,0,1,new byte[]{97},sha(new byte[]{97})).andExpect(status().isOk());
         var original=contexto.getBean(com.decokasa.seguimiento.archivos.application.port.out.CargaRepositorio.class);
         var unaVez=new java.util.concurrent.atomic.AtomicBoolean(true);
         var doble=(com.decokasa.seguimiento.archivos.application.port.out.CargaRepositorio)java.lang.reflect.Proxy.newProxyInstance(
@@ -213,7 +213,7 @@ class CargasB1IT {
             assertThat(sql.queryForObject("select estado from carga_archivo where id=?",String.class,id)).isEqualTo("RECIBIENDO");
             assertThat(DISCO.resolve(".cargas/"+id+".parte")).exists();
             UUID reservado=sql.queryForObject("select adjunto_reservado_id from carga_archivo where id=?",UUID.class,id);
-            Path preparado=DISCO.resolve(pedido+"/1/"+reservado);assertThat(Files.readAllBytes(preparado)).containsExactly(7);
+            Path preparado=DISCO.resolve(pedido+"/1/"+reservado);assertThat(Files.readAllBytes(preparado)).containsExactly(97);
             assertThat(sql.queryForMap("select estado,bytes_comprometidos from archivo_cuota where adjunto_id=?",reservado))
                 .containsEntry("estado","RESERVADA").containsEntry("bytes_comprometidos",1L);
             var a=recuperar.completar(s,id);assertThat(a.adjunto().id()).isEqualTo(reservado);
@@ -222,7 +222,7 @@ class CargasB1IT {
     }
 
     UUID adjuntoPequeno() throws Exception {
-        UUID id=iniciar(1,UUID.randomUUID(),201);bloque(id,0,1,new byte[]{7},sha(new byte[]{7})).andExpect(status().isOk());
+        UUID id=iniciar(1,UUID.randomUUID(),201);bloque(id,0,1,new byte[]{97},sha(new byte[]{97})).andExpect(status().isOk());
         String r=mvc.perform(post(base(id)+"/finalizacion").with(token(admin))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         return UUID.fromString(JsonPath.read(r,"$.id"));
     }
@@ -235,7 +235,7 @@ class CargasB1IT {
         confirmarCopiaFicticia(id);
         mvc.perform(get("/api/v1/archivos/"+id+"/enlace").with(token(admin))).andExpect(status().isOk())
             .andExpect(header().string("Cache-Control","no-store")).andExpect(jsonPath("$.url").value("https://drive.google.com/file/d/ficticio"));
-        mvc.perform(get("/api/v1/archivos/"+id+"/contenido").with(token(admin))).andExpect(status().isOk()).andExpect(content().bytes(new byte[]{7}));
+        mvc.perform(get("/api/v1/archivos/"+id+"/contenido").with(token(admin))).andExpect(status().isOk()).andExpect(content().bytes(new byte[]{97}));
     }
     @Test void consultaDeEnlaceCompruebaPermisoVigenteAunqueJwtConserveAdmin() throws Exception {
         UUID id=adjuntoPequeno();confirmarCopiaFicticia(id);sql.update("update usuario set activo=false where id=?",admin);
@@ -255,12 +255,12 @@ class CargasB1IT {
 
     @Test void cupoHttpEsAtomicoYFinalizarPermiteReintentarInicioRechazado() throws Exception {
         UUID a=iniciar(1,UUID.randomUUID(),201),segundo=iniciar(1,UUID.randomUUID(),201),clave=UUID.randomUUID();
-        String cuerpo="{\"entradaEsperadaId\":\""+entrada+"\",\"claveIdempotencia\":\""+clave+"\",\"nombre\":\"ficticio.bin\",\"tipoDocumento\":\"Ficha\",\"tamanoBytes\":1}";
+        String cuerpo="{\"entradaEsperadaId\":\""+entrada+"\",\"claveIdempotencia\":\""+clave+"\",\"nombre\":\"ficticio.csv\",\"tipoDocumento\":\"Ficha\",\"tamanoBytes\":1}";
         mvc.perform(post("/api/v1/pedidos/"+pedido+"/etapas/1/archivos/cargas").with(token(admin)).contentType("application/json").content(cuerpo))
             .andExpect(status().isConflict()).andExpect(jsonPath("$.codigo").value("CUOTA_ALMACENAMIENTO"));
         assertThat(sql.queryForObject("select count(*) from carga_archivo where pedido_id=?",Long.class,pedido)).isEqualTo(2);
         assertThat(sql.queryForObject("select count(*) from archivo_cuota where estado='RESERVADA'",Long.class)).isEqualTo(2);
-        bloque(a,0,1,new byte[]{7},sha(new byte[]{7})).andExpect(status().isOk());
+        bloque(a,0,1,new byte[]{97},sha(new byte[]{97})).andExpect(status().isOk());
         mvc.perform(post(base(a)+"/finalizacion").with(token(admin))).andExpect(status().isOk());
         UUID nuevo=iniciar(1,clave,201);assertThat(nuevo).isNotEqualTo(segundo);
         assertThat(sql.queryForObject("select count(*) from archivo_cuota where estado='RESERVADA'",Long.class)).isEqualTo(2);

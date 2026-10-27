@@ -1,9 +1,0 @@
-{
-  "intervaloMs": 30000,
-  "maximasSolapadas": 1,
-  "ocultaSinSolicitudes": true,
-  "foco": true,
-  "reconexion": true,
-  "reloj": "Playwright controlado; HTTP real; retardo de una respuesta real",
-  "visibilidad": "Page Visibility emulada mediante evento y propiedad; no prueba de pestaña física"
-}

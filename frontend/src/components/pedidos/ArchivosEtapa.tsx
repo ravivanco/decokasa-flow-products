@@ -1,4 +1,3 @@
-import { EnlaceDrive } from './EnlaceDrive';
 import { CloudIcon, CloudOffIcon, DownloadIcon, FileIcon, LoaderIcon, UploadIcon } from 'lucide-react';
 import { type FormEvent, useEffect, useId, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -21,6 +20,12 @@ import { formatearFechaHora, formatearTamano, mensajeDeErrorPedido } from './for
 
 /** Límite provisional del equipo (100 MiB por archivo), pendiente del cliente. El servidor lo vuelve a comprobar. */
 const TAMANO_MAXIMO = 100 * 1024 * 1024;
+/**
+ * Formatos admitidos (ADR-0026): solo ayuda al elegir. El servidor decide por la extensión, el tipo y el contenido, y
+ * responde 415 TIPO_ARCHIVO_NO_ACEPTADO si no corresponde.
+ */
+const FORMATOS_ACEPTADOS = '.pdf,.xlsx,.xls,.csv,.jpg,.jpeg,.png';
+const EXTENSIONES_ACEPTADAS = FORMATOS_ACEPTADOS.split(',');
 const OTRO = '__otro__';
 
 interface Props {
@@ -150,7 +155,7 @@ function ListaAdjuntos({
             </span>
           </div>
           <EstadoCopia estado={adjunto.estadoCopia} />
-          {puedeDescargar && adjunto.estadoCopia === 'COPIADO' && <EnlaceDrive key={adjunto.id} id={adjunto.id} />}
+          {/* ADR-0028: sin enlace de Drive; se abre o descarga a través del backend. */}
           {puedeDescargar && (
             <Button
               variant="outline"
@@ -238,6 +243,12 @@ function FormularioSubida({
       setArchivo(null);
       return;
     }
+    const nombre = elegido?.name.toLowerCase() ?? '';
+    if (elegido && !EXTENSIONES_ACEPTADAS.some((extension) => nombre.endsWith(extension))) {
+      setError('Formato no admitido. Sube un PDF, un Excel (.xlsx o .xls), un CSV o una imagen JPG o PNG.');
+      setArchivo(null);
+      return;
+    }
     setArchivo(elegido);
   }
 
@@ -321,14 +332,14 @@ function FormularioSubida({
             id={`${ids}-archivo`}
             ref={entrada}
             type="file"
+            accept={FORMATOS_ACEPTADOS}
             disabled={subir.isPending}
             onChange={(evento) => elegir(evento.target.files)}
             className="cursor-pointer py-1.5"
             aria-describedby={`${ids}-ayuda`}
           />
           <FieldDescription id={`${ids}-ayuda`}>
-            Hasta 100 MiB (provisional). Los formatos aceptados siguen pendientes del cliente.
-            Tras recargar, vuelve a elegir el mismo archivo para reanudar. Una recepción incompleta no cuenta como documento válido.
+            PDF, Excel (.xlsx o .xls), CSV, JPG o PNG, hasta 100 MiB.
           </FieldDescription>
         </Field>
       </FieldGroup>

@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat -I ..\\documentos\\pruebas\\fase-3-evidencias\\archivos-aislados.init.gradle archivosB1Aislados --console=plain --no-daemon",
-    "discoAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-revalidacion-b1-760d75f128a64e0e84e6288da45fa7cd",
-    "etapa":  "arnes",
-    "fecha":  "20261017-124706",
-    "salida":  0
-}

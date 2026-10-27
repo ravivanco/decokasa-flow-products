@@ -1,11 +1,13 @@
-import { HomeIcon, InboxIcon, MailIcon, PackageIcon, ShieldCheckIcon, TargetIcon, UsersIcon, WarehouseIcon, type LucideIcon } from 'lucide-react';
+import { HomeIcon, InboxIcon, PackageIcon, ShieldCheckIcon, TargetIcon, UsersIcon, WarehouseIcon, type LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { cn } from '@/lib/utils';
 import { SelectorPais } from '@/pais/PaisProvider';
 
 // Menú principal (plan, tarea 21). Muestra las secciones activas: inicio, bandeja y pedidos (fase 2) para todos, y
-// usuarios, roles y correos para el admin; bodegas para admin o Logística. El servidor valida cada permiso (R6).
+// usuarios, roles y meta de plazos para el admin; bodegas para admin o Logística. El servidor valida cada permiso (R6).
+// «Correos» se retiró del menú el 2026-10-27 (solo interfaz): el outbox, el historial de notificaciones y el envío
+// por Gmail siguen en el servidor, con sus permisos.
 interface Enlace {
   a: string;
   texto: string;
@@ -24,7 +26,6 @@ const ENLACES: Enlace[] = [
   { a: '/bandeja', texto: 'Mi bandeja', icono: InboxIcon, conBandeja: true },
   { a: '/pedidos', texto: 'Pedidos', icono: PackageIcon },
   { a: '/bodegas', texto: 'Bodegas', icono: WarehouseIcon, soloBodegas: true },
-  { a: '/notificaciones', texto: 'Correos', icono: MailIcon, soloAdmin: true },
   { a: '/usuarios', texto: 'Usuarios', icono: UsersIcon, soloAdmin: true },
   { a: '/roles', texto: 'Roles', icono: ShieldCheckIcon, soloAdmin: true },
   { a: '/configuracion/plazos', texto: 'Meta de plazos', icono: TargetIcon, soloAdmin: true },

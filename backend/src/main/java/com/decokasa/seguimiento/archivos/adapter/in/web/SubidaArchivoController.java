@@ -20,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Subida de archivos (contrato 0.7.0). Límite provisional del equipo de 100 MiB por archivo, configurable y pendiente
- * del cliente ({@code decokasa.archivos.tamano-maximo}). No usa el {@code Content-Type} ni el nombre que envía el
- * cliente para decidir nada.
+ * del cliente ({@code decokasa.archivos.tamano-maximo}). Formatos (ADR-0026): el {@code Content-Type} de la parte solo
+ * debe ser coherente con la extensión; el formato lo deciden la extensión y el contenido.
  */
 @RestController
 public class SubidaArchivoController {
@@ -41,7 +41,7 @@ public class SubidaArchivoController {
         try (InputStream contenido = archivo.getInputStream()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(AdjuntoRespuesta.de(subir.subir(
                     SolicitantesWeb.de(token), new SubirArchivo.Comando(pedidoId, numeroEtapa, entradaEsperadaId,
-                            tipoDocumento, archivo.getOriginalFilename(), contenido))));
+                            tipoDocumento, archivo.getOriginalFilename(), contenido, archivo.getContentType()))));
         } catch (IOException error) {
             throw new UncheckedIOException("No se pudo leer el archivo recibido.", error);
         }

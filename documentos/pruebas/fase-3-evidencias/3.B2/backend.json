@@ -1,4 +1,0 @@
-{
-    "comando":  "gradlew.bat test --tests *CorreoB2IT --tests *Backend24IT.b2* --console=plain --no-daemon",
-    "salida":  0
-}

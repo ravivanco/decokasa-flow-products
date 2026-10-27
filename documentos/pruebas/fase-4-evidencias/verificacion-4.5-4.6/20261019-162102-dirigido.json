@@ -1,7 +1,0 @@
-﻿{
-    "comando":  ".\\gradlew.bat test --tests *Fase4IT --tests *Fase4ReglasTest --tests *Backend24IT --console=plain --no-daemon",
-    "fecha":  "20261019-162102",
-    "almacenAislado":  "C:\\Users\\Richard\\AppData\\Local\\Temp\\decokasa-f4b-97cfdee91f274f7ea27e10ff32566786",
-    "googleReal":  false,
-    "salida":  0
-}

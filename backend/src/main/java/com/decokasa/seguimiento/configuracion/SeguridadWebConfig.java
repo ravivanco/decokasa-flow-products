@@ -3,9 +3,11 @@ package com.decokasa.seguimiento.configuracion;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -88,6 +93,10 @@ public class SeguridadWebConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/renovar",
                                 "/api/v1/auth/cerrar-sesion")
                         .permitAll()
+                        // ADR-0033: recuperación pública (respuesta genérica y límite por IP); cambiar exige sesión.
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/recuperacion",
+                                "/api/v1/auth/recuperacion/restablecer")
+                        .permitAll()
                         .requestMatchers("/api/v1/usuarios/**", "/api/v1/roles/**").hasAuthority("ROL_admin")
                         .anyRequest().authenticated();
                 })
@@ -114,12 +123,19 @@ public class SeguridadWebConfig {
         return new SecretKeySpec(bytes, "HmacSHA256");
     }
 
+    /**
+     * Valida firma, emisor y vigencia y, además, los validadores que aporten los módulos (ADR-0033: sello de
+     * credenciales de {@code usuarios}, que rechaza los JWT emitidos antes de un cambio de contraseña).
+     */
     @Bean
-    JwtDecoder jwtDecoder(SecretKey claveJwt) {
+    JwtDecoder jwtDecoder(SecretKey claveJwt, ObjectProvider<OAuth2TokenValidator<Jwt>> adicionales) {
         NimbusJwtDecoder decodificador = NimbusJwtDecoder.withSecretKey(claveJwt)
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
-        decodificador.setJwtValidator(JwtValidators.createDefaultWithIssuer(EMISOR_JWT));
+        List<OAuth2TokenValidator<Jwt>> validadores = new ArrayList<>();
+        validadores.add(JwtValidators.createDefaultWithIssuer(EMISOR_JWT));
+        adicionales.orderedStream().forEach(validadores::add);
+        decodificador.setJwtValidator(new DelegatingOAuth2TokenValidator<>(validadores));
         return decodificador;
     }
 

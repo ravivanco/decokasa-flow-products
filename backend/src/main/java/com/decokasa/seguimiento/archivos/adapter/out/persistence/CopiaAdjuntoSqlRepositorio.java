@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.MANDATORY)
 public class CopiaAdjuntoSqlRepositorio implements CopiaAdjuntoRepositorio {
     private final NamedParameterJdbcTemplate sql;
-    public CopiaAdjuntoSqlRepositorio(DataSource fuente) { sql = new NamedParameterJdbcTemplate(fuente); }
+    /** Solo se reclaman adjuntos subidos desde este instante; {@link Instant#EPOCH} no limita nada. */
+    private final Instant copiarDesde;
+    public CopiaAdjuntoSqlRepositorio(DataSource fuente) { this(fuente, ""); }
+    /**
+     * {@code copiar-desde} vacío: sin límite. Con un instante ISO-8601, los adjuntos anteriores (por ejemplo, los de una
+     * base recuperada) quedan PENDIENTE sin copiarse: evita una copia masiva al activar el trabajador en local.
+     */
+    @Autowired
+    public CopiaAdjuntoSqlRepositorio(DataSource fuente,
+            @Value("${decokasa.google.drive.worker.copiar-desde:}") String copiarDesde) {
+        sql = new NamedParameterJdbcTemplate(fuente);
+        this.copiarDesde = copiarDesde == null || copiarDesde.isBlank() ? Instant.EPOCH : Instant.parse(copiarDesde.strip());
+    }
     @Override public List<Pendiente> reclamar(int limite, Instant ahora, Instant hasta, UUID propietario) {
         if (limite < 1 || limite > 100 || !hasta.isAfter(ahora) || propietario == null) {
             throw new IllegalArgumentException("Reclamación inválida");
@@ -27,6 +41,7 @@ public class CopiaAdjuntoSqlRepositorio implements CopiaAdjuntoRepositorio {
         return sql.query("""
                 with lote as (
                   select id from adjunto where estado_copia = 'PENDIENTE' and clave_local is not null
+                  and subido_en >= :desde
                   and (proximo_intento_en is null or proximo_intento_en <= :ahora)
                   and (reclamado_hasta is null or reclamado_hasta <= :ahora)
                   and (copia_en_intento or intentos < 4)
@@ -35,7 +50,7 @@ public class CopiaAdjuntoSqlRepositorio implements CopiaAdjuntoRepositorio {
                   intentos = intentos + case when copia_en_intento then 0 else 1 end,
                   copia_en_intento = true from lote where a.id = lote.id returning a.*
                 """, Map.of("limite", limite, "ahora", Timestamp.from(ahora), "hasta", Timestamp.from(hasta),
-                "propietario", propietario), (r, n) -> new Pendiente(r.getObject("id", UUID.class),
+                "propietario", propietario, "desde", Timestamp.from(copiarDesde)), (r, n) -> new Pendiente(r.getObject("id", UUID.class),
                 r.getObject("pedido_id", UUID.class), r.getObject("entrada_id", UUID.class), r.getString("nombre"),
                 r.getLong("tamano_bytes"), r.getString("sha256"), r.getString("tipo_detectado"),
                 r.getString("clave_local"), r.getString("drive_id_reservado"), r.getInt("intentos"),
