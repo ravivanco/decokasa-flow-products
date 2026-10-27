@@ -6,6 +6,7 @@ import { esErrorApi } from '@/api/cliente';
 import { useActualizarUsuario, useCrearUsuario, type CambiosUsuario } from '@/api/consultas';
 import type { Rol, Usuario } from '@/api/esquemas';
 import { mensajeDeError } from '@/api/mensajes';
+import { NOMBRE_PAIS, PAISES } from '@/pais/PaisProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -39,6 +40,8 @@ const camposComunes = {
       'Escribe un teléfono válido, de 7 a 15 dígitos.',
     ),
   roles: z.array(z.string()).min(1, 'Elige al menos un rol.'),
+  // ADR-0027: la administradora elige el país (o los países); no se deduce ni se pone uno por defecto.
+  paises: z.array(z.string()).min(1, 'Elige al menos un país.'),
 };
 
 const esquemaEdicion = z.object(camposComunes);
@@ -52,7 +55,7 @@ const esquemaAlta = z.object({
 
 type DatosFormulario = z.infer<typeof esquemaAlta>;
 type CampoFormulario = keyof DatosFormulario;
-const CAMPOS: CampoFormulario[] = ['nombre', 'correo', 'usuario', 'telefono', 'roles', 'contrasenaInicial'];
+const CAMPOS: CampoFormulario[] = ['nombre', 'correo', 'usuario', 'telefono', 'roles', 'paises', 'contrasenaInicial'];
 
 function valoresDe(usuario: Usuario | null): DatosFormulario {
   return {
@@ -61,6 +64,7 @@ function valoresDe(usuario: Usuario | null): DatosFormulario {
     usuario: usuario?.usuario ?? '',
     telefono: usuario?.telefono ?? '',
     roles: usuario?.roles ?? [],
+    paises: usuario?.paises ?? [],
     contrasenaInicial: '',
   };
 }
@@ -68,7 +72,7 @@ function valoresDe(usuario: Usuario | null): DatosFormulario {
 const mismosRoles = (a: string[], b: string[]) => a.length === b.length && a.every((rol) => b.includes(rol));
 
 /** Campos que se pueden editar (la contraseña inicial solo existe en el alta). */
-const CAMPOS_EDITABLES = ['nombre', 'correo', 'usuario', 'telefono', 'roles'] as const;
+const CAMPOS_EDITABLES = ['nombre', 'correo', 'usuario', 'telefono', 'roles', 'paises'] as const;
 type CampoEditable = (typeof CAMPOS_EDITABLES)[number];
 const NOMBRES_CAMPOS: Record<CampoEditable, string> = {
   nombre: 'el nombre',
@@ -76,6 +80,7 @@ const NOMBRES_CAMPOS: Record<CampoEditable, string> = {
   usuario: 'el usuario',
   telefono: 'el teléfono',
   roles: 'los roles',
+  paises: 'los países',
 };
 
 /** Solo lo que cambió respecto de lo leído, con la versión leída. */
@@ -86,6 +91,7 @@ function cambiosEntre(base: Usuario, datos: DatosFormulario): CambiosUsuario {
   if (datos.usuario !== base.usuario) cambios.usuario = datos.usuario;
   if (datos.telefono !== base.telefono) cambios.telefono = datos.telefono;
   if (!mismosRoles(datos.roles, base.roles)) cambios.roles = datos.roles;
+  if (!mismosRoles(datos.paises, base.paises)) cambios.paises = datos.paises;
   return cambios;
 }
 
@@ -155,7 +161,7 @@ export function FormularioUsuario({ usuario, roles, recargar, onCerrar }: Props)
     try {
       if (base === null) {
         const { contrasenaInicial, ...resto } = datos;
-        await crear.mutateAsync({ ...resto, contrasenaInicial, paises: ['EC'] });
+        await crear.mutateAsync({ ...resto, contrasenaInicial });
       } else {
         const cambios = cambiosEntre(base, datos);
         // Sin cambios no hay nada que enviar (un PATCH con solo la versión es 400).
@@ -208,7 +214,9 @@ export function FormularioUsuario({ usuario, roles, recargar, onCerrar }: Props)
       if (mios[campo] === undefined) continue;
       (valores as Record<CampoEditable, unknown>)[campo] = mios[campo];
       const otroCambio =
-        campo === 'roles' ? !mismosRoles(actual.roles, base.roles) : actual[campo] !== base[campo];
+        campo === 'roles' || campo === 'paises'
+          ? !mismosRoles(actual[campo], base[campo])
+          : actual[campo] !== base[campo];
       if (otroCambio) pisados.push(NOMBRES_CAMPOS[campo]);
     }
     retomarCon(actual, valores);
@@ -322,6 +330,43 @@ export function FormularioUsuario({ usuario, roles, recargar, onCerrar }: Props)
                           />
                           <FieldLabel htmlFor={`rol-${rol.codigo}`} className="font-normal">
                             {rol.nombre}
+                          </FieldLabel>
+                        </Field>
+                      );
+                    })}
+                  </div>
+                  <FieldError errors={[fieldState.error]} />
+                </FieldSet>
+              )}
+            />
+            <Controller
+              control={control}
+              name="paises"
+              render={({ field, fieldState }) => (
+                <FieldSet data-invalid={fieldState.invalid ? true : undefined}>
+                  <FieldLegend variant="label">Países</FieldLegend>
+                  <p className="text-sm text-muted-foreground">
+                    El usuario solo ve y trabaja en los pedidos de los países que elijas.
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {PAISES.map((pais) => {
+                      const marcado = field.value.includes(pais);
+                      return (
+                        <Field key={pais} orientation="horizontal">
+                          <Checkbox
+                            id={`pais-${pais}`}
+                            checked={marcado}
+                            aria-invalid={fieldState.invalid ? true : undefined}
+                            onCheckedChange={(valor) =>
+                              field.onChange(
+                                valor === true
+                                  ? [...field.value, pais]
+                                  : field.value.filter((codigo) => codigo !== pais),
+                              )
+                            }
+                          />
+                          <FieldLabel htmlFor={`pais-${pais}`} className="font-normal">
+                            {NOMBRE_PAIS[pais]}
                           </FieldLabel>
                         </Field>
                       );

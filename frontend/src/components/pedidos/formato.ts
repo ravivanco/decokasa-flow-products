@@ -1,12 +1,18 @@
 import { CODIGO_RESPUESTA_INVALIDA, esErrorApi } from '@/api/cliente';
 import type { Usuario } from '@/api/esquemas';
 import { mensajeDeError } from '@/api/mensajes';
-import type { AccionEtapa, EtapaEnLinea, NivelUrgencia, TipoEvento } from '@/api/pedidos';
+import type { AccionEtapa, DefinicionFlujo, EtapaEnLinea, NivelUrgencia, TipoEvento } from '@/api/pedidos';
 
 // Textos y formatos de las pantallas de pedidos. Las fechas llegan con la zona de Ecuador (-05:00, ADR-0006) y se
 // muestran en esa misma zona, sin depender de la zona del navegador (David trabaja desde China).
 
 const ZONA = 'America/Guayaquil';
+
+/** Fecha civil que devuelve el servidor: se presenta sin convertirla a UTC ni recalcularla. */
+export function formatearFecha(valor: string | null | undefined): string {
+  const partes = valor?.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return partes ? `${partes[3]}/${partes[2]}/${partes[1]}` : '—';
+}
 
 const fechaHora = new Intl.DateTimeFormat('es-EC', {
   timeZone: ZONA,
@@ -44,6 +50,28 @@ export function codigoEtapa(tipoFlujo: string, numero: number): string {
   return `${tipoFlujo}${numero}`;
 }
 
+const NOMBRE_FLUJO: Record<string, string> = { A: 'A · Ecuador', B: 'B · China' };
+
+/** "A · Ecuador", "B · China": de dónde nace el pedido (requerimientos 1.4 y 1.5). */
+export function nombreFlujo(tipoFlujo: string): string {
+  return NOMBRE_FLUJO[tipoFlujo] ?? tipoFlujo;
+}
+
+/**
+ * Pista para la pantalla, no un permiso: los flujos cuya primera etapa tiene un rol vigente de la persona, que es la
+ * regla del servidor para crear (paso 6.2). El admin crea A porque A1 es suyo; no crea B sin Compras China (P-14 ⏸).
+ * Con varios roles se suman. Sale de las definiciones, no de nombres de rol fijos.
+ */
+export function flujosQuePuedeCrear(
+  definiciones: { A?: DefinicionFlujo; B?: DefinicionFlujo },
+  roles: string[],
+): ('A' | 'B')[] {
+  return (['A', 'B'] as const).filter((tipo) => {
+    const inicial = definiciones[tipo]?.etapas[0];
+    return inicial?.rolResponsable != null && roles.includes(inicial.rolResponsable);
+  });
+}
+
 export const NOMBRE_ACCION: Record<AccionEtapa, string> = {
   ENVIAR: 'Enviar',
   APROBAR: 'Aprobar',
@@ -74,6 +102,7 @@ export const NOMBRE_EVENTO: Record<TipoEvento, string> = {
   ARCHIVO_SUBIDO: 'Archivo subido',
   ETAPA_REASIGNADA: 'Etapa reasignada',
   PLAZO_VENCIDO: 'Plazo vencido',
+  MOTIVO_RETRASO_REGISTRADO: 'Motivo del retraso',
   PEDIDO_FINALIZADO: 'Pedido finalizado',
 };
 
@@ -130,7 +159,8 @@ export function mensajeDeErrorPedido(error: unknown, general: string): string {
     return 'El archivo supera el tamaño máximo permitido (100 MiB, valor provisional).';
   }
   if (esErrorApi(error, 'TIPO_ARCHIVO_NO_ACEPTADO')) {
-    return 'El servidor no acepta este tipo de archivo.';
+    // ADR-0026: formatos cerrados; también cuando el contenido no corresponde a la extensión.
+    return 'Formato no admitido o el contenido no corresponde a su extensión. Sube un PDF, un Excel (.xlsx o .xls), un CSV o una imagen JPG o PNG.';
   }
   if (esErrorApi(error, 'ARCHIVO_NO_DISPONIBLE')) {
     return 'El archivo no está disponible o está dañado, y el servidor no lo entrega. Avisa al administrador.';

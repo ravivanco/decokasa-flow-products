@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.compartido.adapter.in.web;
 import com.decokasa.seguimiento.compartido.domain.CodigoError;
 import com.decokasa.seguimiento.compartido.domain.DatoDuplicado;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
+import com.decokasa.seguimiento.compartido.domain.DemasiadasSolicitudes;
 import com.decokasa.seguimiento.compartido.domain.ErrorDeDominio;
 import com.decokasa.seguimiento.compartido.domain.RequisitoFaltante;
 import java.util.EnumMap;
@@ -46,7 +47,19 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.REQUISITO_FALTANTE, HttpStatus.UNPROCESSABLE_CONTENT),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, HttpStatus.LOCKED),
             Map.entry(CodigoError.VERSION_DESACTUALIZADA, HttpStatus.CONFLICT),
-            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, HttpStatus.CONFLICT)));
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_CONFLICTO, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_INCOMPLETA, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_OCUPADA, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.CARGA_ALMACENAMIENTO, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, HttpStatus.CONFLICT),
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.IA_NO_DISPONIBLE, HttpStatus.SERVICE_UNAVAILABLE),
+            Map.entry(CodigoError.LIMITE_PREGUNTAS, HttpStatus.BAD_REQUEST),
+            Map.entry(CodigoError.LIMITE_CONSUMO, HttpStatus.TOO_MANY_REQUESTS),
+            Map.entry(CodigoError.CONTEXTO_EXCEDIDO, HttpStatus.BAD_REQUEST),
+            Map.entry(CodigoError.ENLACE_INVALIDO, HttpStatus.BAD_REQUEST),
+            Map.entry(CodigoError.DEMASIADAS_SOLICITUDES, HttpStatus.TOO_MANY_REQUESTS)));
 
     private static final Map<CodigoError, String> TITULOS = new EnumMap<>(Map.ofEntries(
             Map.entry(CodigoError.VALIDACION, "Datos inválidos"),
@@ -62,7 +75,19 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             Map.entry(CodigoError.REQUISITO_FALTANTE, "Falta un requisito"),
             Map.entry(CodigoError.CUENTA_BLOQUEADA, "Cuenta bloqueada"),
             Map.entry(CodigoError.VERSION_DESACTUALIZADA, "Los datos cambiaron"),
-            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, "Archivo no disponible")));
+            Map.entry(CodigoError.ARCHIVO_NO_DISPONIBLE, "Archivo no disponible"),
+            Map.entry(CodigoError.CARGA_CONFLICTO, "La carga no coincide"),
+            Map.entry(CodigoError.CARGA_INCOMPLETA, "Carga incompleta"),
+            Map.entry(CodigoError.CARGA_OCUPADA, "Carga en curso"),
+            Map.entry(CodigoError.CARGA_ALMACENAMIENTO, "Carga no disponible"),
+            Map.entry(CodigoError.CUOTA_ALMACENAMIENTO, "Cuota de almacenamiento agotada"),
+            Map.entry(CodigoError.GOOGLE_NO_DISPONIBLE, "Conexión Google no disponible"),
+            Map.entry(CodigoError.IA_NO_DISPONIBLE, "Asistente no disponible"),
+            Map.entry(CodigoError.LIMITE_PREGUNTAS, "Límite de preguntas"),
+            Map.entry(CodigoError.LIMITE_CONSUMO, "Límite de consumo"),
+            Map.entry(CodigoError.CONTEXTO_EXCEDIDO, "Contexto excedido"),
+            Map.entry(CodigoError.ENLACE_INVALIDO, "Enlace no válido"),
+            Map.entry(CodigoError.DEMASIADAS_SOLICITUDES, "Demasiadas solicitudes")));
 
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {
@@ -81,6 +106,11 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
         // Contrato (Problema.faltantes): solo con REQUISITO_FALTANTE, la lista de lo que falta para la acción.
         if (error instanceof RequisitoFaltante requisito) {
             problema.setProperty("faltantes", requisito.faltantes());
+        }
+        // ADR-0033: cuánto esperar antes de repetir (sin datos de la cuenta).
+        if (error instanceof DemasiadasSolicitudes limite) {
+            return ResponseEntity.status(estado).header(HttpHeaders.RETRY_AFTER,
+                    String.valueOf(limite.reintentarEnSegundos())).body(problema);
         }
         return ResponseEntity.status(estado).body(problema);
     }

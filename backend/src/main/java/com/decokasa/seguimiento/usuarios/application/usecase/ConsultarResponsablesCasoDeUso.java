@@ -21,6 +21,7 @@ public final class ConsultarResponsablesCasoDeUso implements ConsultarResponsabl
             return Optional.empty();
         }
         return usuarios.buscarPorId(usuarioId)
-                .map(usuario -> new EstadoVigente(usuario.id(), usuario.puedeIniciarSesion(), usuario.roles()));
+                .map(usuario -> new EstadoVigente(usuario.id(), usuario.puedeIniciarSesion(), usuario.roles(),
+                        usuario.paises()));
     }
 }

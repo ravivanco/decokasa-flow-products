@@ -2,9 +2,14 @@ import { PencilIcon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
-import { useActualizarUsuario, useRoles, useUsuarios } from '@/api/consultas';
+import {
+  useActualizarUsuario,
+  useRoles,
+  useUsuarios,
+} from '@/api/consultas';
 import type { Usuario } from '@/api/esquemas';
 import { mensajeDeError } from '@/api/mensajes';
+import { esPais, NOMBRE_PAIS } from '@/pais/PaisProvider';
 import { useUsuarioActual } from '@/auth/SesionProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +27,9 @@ export function UsersManagementView() {
   const usuarios = useUsuarios();
   const roles = useRoles();
   const actualizar = useActualizarUsuario();
+  // Richard (2026-10-27): «Conectar Google Drive» se retiró de la pantalla porque la cuenta central ya está conectada.
+  // El flujo OAuth sigue en el servidor (/integraciones/google/oauth2/…) por si hay que volver a autorizarla.
+
   const [edicion, setEdicion] = useState<Edicion>(null);
   const [aviso, setAviso] = useState<string | null>(null);
 
@@ -53,10 +61,12 @@ export function UsersManagementView() {
     <section className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-heading text-2xl font-bold text-primary">Usuarios</h1>
-        <Button onClick={() => setEdicion({ tipo: 'alta' })} disabled={!roles.data}>
-          <PlusIcon data-icon="inline-start" />
-          Nuevo usuario
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button onClick={() => setEdicion({ tipo: 'alta' })} disabled={!roles.data}>
+            <PlusIcon data-icon="inline-start" />
+            Nuevo usuario
+          </Button>
+        </div>
       </div>
 
       {aviso && (
@@ -86,6 +96,7 @@ export function UsersManagementView() {
               <TableHead>Teléfono</TableHead>
               <TableHead>Roles</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>Países</TableHead>
               <TableHead>
                 <span className="sr-only">Acciones</span>
               </TableHead>
@@ -111,6 +122,11 @@ export function UsersManagementView() {
                   <Badge variant={usuario.activo ? 'default' : 'outline'}>
                     {usuario.activo ? 'Activo' : 'Inactivo'}
                   </Badge>
+                </TableCell>
+                <TableCell>
+                  {usuario.paises.length > 0
+                    ? usuario.paises.map((pais) => (esPais(pais) ? NOMBRE_PAIS[pais] : pais)).join(', ')
+                    : 'Sin país'}
                 </TableCell>
                 <TableCell>
                   <div className="flex justify-end gap-2">

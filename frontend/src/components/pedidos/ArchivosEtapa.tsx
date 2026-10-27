@@ -1,8 +1,9 @@
 import { CloudIcon, CloudOffIcon, DownloadIcon, FileIcon, LoaderIcon, UploadIcon } from 'lucide-react';
-import { type FormEvent, useId, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useId, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
-import { type Adjunto, type EtapaEnLinea, useAdjuntosDeEtapa, useDescargarArchivo, useSubirArchivo } from '@/api/pedidos';
+import { type ProgresoCarga, useCargaArchivo } from '@/api/cargas';
+import { type Adjunto, type EtapaEnLinea, useAdjuntosDeEtapa, useDescargarArchivo } from '@/api/pedidos';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,12 @@ import { formatearFechaHora, formatearTamano, mensajeDeErrorPedido } from './for
 
 /** Límite provisional del equipo (100 MiB por archivo), pendiente del cliente. El servidor lo vuelve a comprobar. */
 const TAMANO_MAXIMO = 100 * 1024 * 1024;
+/**
+ * Formatos admitidos (ADR-0026): solo ayuda al elegir. El servidor decide por la extensión, el tipo y el contenido, y
+ * responde 415 TIPO_ARCHIVO_NO_ACEPTADO si no corresponde.
+ */
+const FORMATOS_ACEPTADOS = '.pdf,.xlsx,.xls,.csv,.jpg,.jpeg,.png';
+const EXTENSIONES_ACEPTADAS = FORMATOS_ACEPTADOS.split(',');
 const OTRO = '__otro__';
 
 interface Props {
@@ -148,6 +155,7 @@ function ListaAdjuntos({
             </span>
           </div>
           <EstadoCopia estado={adjunto.estadoCopia} />
+          {/* ADR-0028: sin enlace de Drive; se abre o descarga a través del backend. */}
           {puedeDescargar && (
             <Button
               variant="outline"
@@ -208,7 +216,10 @@ function FormularioSubida({
   entradaId: string;
   tiposSugeridos: string[];
 }) {
-  const subir = useSubirArchivo();
+  const subir = useCargaArchivo();
+  const control = useRef<AbortController | null>(null);
+  const [progreso, setProgreso] = useState<ProgresoCarga | null>(null);
+  useEffect(() => () => control.current?.abort(), []);
   const ids = useId();
   const entrada = useRef<HTMLInputElement>(null);
   const [archivo, setArchivo] = useState<File | null>(null);
@@ -220,6 +231,7 @@ function FormularioSubida({
 
   function elegir(lista: FileList | null) {
     setError(null);
+    setProgreso(null);
     const elegido = lista?.[0] ?? null;
     if (elegido && elegido.size === 0) {
       setError('El archivo está vacío.');
@@ -231,11 +243,18 @@ function FormularioSubida({
       setArchivo(null);
       return;
     }
+    const nombre = elegido?.name.toLowerCase() ?? '';
+    if (elegido && !EXTENSIONES_ACEPTADAS.some((extension) => nombre.endsWith(extension))) {
+      setError('Formato no admitido. Sube un PDF, un Excel (.xlsx o .xls), un CSV o una imagen JPG o PNG.');
+      setArchivo(null);
+      return;
+    }
     setArchivo(elegido);
   }
 
   function enviar(evento: FormEvent) {
     evento.preventDefault();
+    if (subir.isPending) return;
     if (!archivo) {
       setError('Elige un archivo.');
       return;
@@ -245,15 +264,33 @@ function FormularioSubida({
       return;
     }
     setError(null);
+    control.current = new AbortController();
     subir.mutate(
-      { pedidoId, etapa, entradaEsperadaId: entradaId, tipoDocumento, archivo },
+      { pedidoId, etapa, entradaEsperadaId: entradaId, tipoDocumento, archivo,
+        signal: control.current.signal, onProgreso: setProgreso },
       {
         onSuccess: (adjunto) => {
-          toast.success(`${adjunto.nombre} se subió como ${adjunto.tipoDocumento}.`);
+          toast.success(`${adjunto.nombre} recibido por el servidor. Copia a Drive pendiente.`);
           setArchivo(null);
+          setProgreso(null);
           if (entrada.current) entrada.current.value = '';
         },
-        onError: (fallo) => setError(mensajeDeErrorPedido(fallo, 'No se pudo subir el archivo. Intenta de nuevo.')),
+        onError: (fallo) => {
+          if (fallo instanceof DOMException && fallo.name === 'AbortError') {
+            setError('Carga pausada. Vuelve a pulsar Subir o reanudar para consultar el progreso confirmado.');
+          } else if (esErrorApi(fallo, 'CARGA_CONFLICTO')) {
+            setError('La carga no coincide con el archivo o el progreso cambió. Elige el mismo archivo y vuelve a reanudar; no se sobrescriben los bytes confirmados.');
+          } else if (esErrorApi(fallo, 'CARGA_OCUPADA')) {
+            setError('Esta carga está siendo atendida en otra petición. Espera un momento y reanuda.');
+          } else if (esErrorApi(fallo, 'CARGA_ALMACENAMIENTO')) {
+            setError('El servidor no pudo conservar o recuperar los bytes. No se ha confirmado un adjunto nuevo. Avisa al administrador si persiste.');
+          } else if (esErrorApi(fallo, 'CARGA_MEMORIA')) {
+            setError('No se pudo conservar la referencia de carga en esta pestaña. Revisa el almacenamiento del navegador antes de continuar.');
+          } else {
+            setError(mensajeDeErrorPedido(fallo, 'No se pudo completar la carga. Conserva el archivo y vuelve a pulsar Subir o reanudar.'));
+          }
+        },
+        onSettled: () => { control.current = null; },
       },
     );
   }
@@ -263,7 +300,7 @@ function FormularioSubida({
       <FieldGroup className="gap-4 sm:flex-row sm:items-start">
         <Field className="sm:w-60">
           <FieldLabel htmlFor={`${ids}-tipo`}>Tipo de documento</FieldLabel>
-          <Select value={tipo} onValueChange={setTipo}>
+          <Select value={tipo} onValueChange={setTipo} disabled={subir.isPending}>
             <SelectTrigger id={`${ids}-tipo`} className="w-full">
               <SelectValue />
             </SelectTrigger>
@@ -283,6 +320,7 @@ function FormularioSubida({
               aria-label="Nombre del tipo de documento"
               value={otroTipo}
               maxLength={100}
+              disabled={subir.isPending}
               onChange={(evento) => setOtroTipo(evento.target.value)}
               placeholder="Por ejemplo, ficha técnica"
             />
@@ -294,12 +332,14 @@ function FormularioSubida({
             id={`${ids}-archivo`}
             ref={entrada}
             type="file"
+            accept={FORMATOS_ACEPTADOS}
+            disabled={subir.isPending}
             onChange={(evento) => elegir(evento.target.files)}
             className="cursor-pointer py-1.5"
             aria-describedby={`${ids}-ayuda`}
           />
           <FieldDescription id={`${ids}-ayuda`}>
-            Hasta 100 MiB (provisional). Los formatos aceptados siguen pendientes del cliente.
+            PDF, Excel (.xlsx o .xls), CSV, JPG o PNG, hasta 100 MiB.
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -308,11 +348,25 @@ function FormularioSubida({
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+      {progreso && (
+        <div className="flex flex-col gap-2">
+          <progress aria-label="Bytes confirmados de la carga" max={progreso.total} value={progreso.confirmados} className="h-2 w-full" />
+          <p role="status" aria-live="polite" className="text-sm text-muted-foreground">
+            {progreso.fase === 'comprobando' ? 'Comprobando el archivo elegido. ' : ''}
+            {progreso.fase === 'finalizando' ? 'Confirmando el documento. ' : ''}
+            {Math.floor(100 * progreso.confirmados / progreso.total)} % recibido por el servidor.
+            La copia a Drive permanece pendiente.
+          </p>
+        </div>
+      )}
       <div className="flex flex-wrap items-center justify-end gap-3">
         {subir.isPending && (
           <span role="status" className="text-sm text-muted-foreground">
             Subiendo {archivo?.name}…
           </span>
+        )}
+        {subir.isPending && (
+          <Button type="button" variant="ghost" disabled={progreso?.fase === 'finalizando'} onClick={() => control.current?.abort()}>Pausar</Button>
         )}
         <Button type="submit" variant="outline" disabled={subir.isPending || !archivo}>
           {subir.isPending ? (
@@ -320,7 +374,7 @@ function FormularioSubida({
           ) : (
             <UploadIcon data-icon="inline-start" />
           )}
-          Subir archivo
+          Subir o reanudar
         </Button>
       </div>
     </form>

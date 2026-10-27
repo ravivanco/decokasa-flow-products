@@ -16,6 +16,12 @@ import org.springframework.context.annotation.Configuration;
 public class CompartidoConfig {
 
     @Bean
+    com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventosRegistrados publicadorEventosRegistrados(
+            ApplicationEventPublisher publicador) {
+        return publicador::publishEvent;
+    }
+
+    @Bean
     Reloj reloj() {
         return new RelojSistema();
     }

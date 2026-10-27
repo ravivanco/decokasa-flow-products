@@ -6,7 +6,8 @@ import { codigoEtapa, formatearFechaCorta } from './formato';
 
 // Línea de tiempo horizontal (DESIGN.md 7.2): el recorrido del pedido "como el rastreo de un envío". Una etapa por
 // elemento, cada una es un botón para ver su detalle; la actual lleva aria-current="step" y la etiqueta de texto.
-// El estado lo da el servidor (`estado` de cada etapa); aquí solo se dibuja.
+// El estado lo da el servidor (`estado` de cada etapa); aquí solo se dibuja. El nombre accesible sale del contenido
+// visible, en el mismo orden (código, nombre, estado y fecha), sin aria-label que lo sustituya (WCAG 2.5.3, F5-B3-H01).
 
 interface Props {
   numeroPedido: string;
@@ -58,7 +59,6 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
                 onClick={() => onSeleccionar(etapa.numero)}
                 aria-current={esActual ? 'step' : undefined}
                 aria-pressed={elegida}
-                aria-label={`${codigoEtapa(tipoFlujo, etapa.numero)} ${etapa.nombre}, ${ETIQUETA_ESTADO[etapa.estado]}`}
                 className={cn(
                   'relative z-10 flex min-h-11 w-full flex-col items-center gap-1.5 rounded-md px-1 pb-1.5 text-center outline-none hover:bg-morado-50 focus-visible:ring-3 focus-visible:ring-ring',
                   elegida && 'bg-morado-100 hover:bg-morado-100',
@@ -86,7 +86,7 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
                 </span>
                 <span className="text-xs font-medium text-muted-foreground tabular-nums">
                   {codigoEtapa(tipoFlujo, etapa.numero)}
-                </span>
+                </span>{' '}
                 <span
                   className={cn(
                     'line-clamp-2 text-xs leading-tight',
@@ -95,12 +95,22 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
                 >
                   {etapa.nombre}
                 </span>
+                {/* El estado se nombra una sola vez: en texto para lectores; el rótulo visible que lo repite se oculta
+                    a ellos para no leerlo dos veces. */}
+                <span className="sr-only">, {ETIQUETA_ESTADO[etapa.estado]}</span>
                 {esActual ? (
-                  <span className="text-xs font-semibold text-marca-naranja-texto">Etapa actual</span>
+                  <span aria-hidden="true" className="text-xs font-semibold text-marca-naranja-texto">
+                    Etapa actual
+                  </span>
                 ) : etapa.estado === 'DEVUELTA' ? (
-                  <span className="text-xs text-estado-aviso">Devuelta</span>
+                  <span aria-hidden="true" className="text-xs text-estado-aviso">
+                    Devuelta
+                  </span>
                 ) : fecha ? (
-                  <span className="text-xs text-muted-foreground tabular-nums">{formatearFechaCorta(fecha)}</span>
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    <span className="sr-only">, {etapa.salida ? 'salió el' : 'vence el'} </span>
+                    {formatearFechaCorta(fecha)}
+                  </span>
                 ) : null}
               </button>
             </li>

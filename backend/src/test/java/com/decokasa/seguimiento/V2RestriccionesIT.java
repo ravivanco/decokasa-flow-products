@@ -25,8 +25,8 @@ class V2RestriccionesIT {
     @BeforeAll static void migrarBaseVacia() {
         var resultado=Flyway.configure().dataSource(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword())
                 .locations("classpath:db/migration").load().migrate();
-        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(3);
-        assertThat(resultado.targetSchemaVersion).isEqualTo("3");
+        assertThat(resultado.success).isTrue(); assertThat(resultado.migrationsExecuted).isEqualTo(24);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("24");
     }
     @BeforeEach void preparar() throws SQLException {
         db=DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());
@@ -62,10 +62,10 @@ class V2RestriccionesIT {
         finally { db.rollback(punto); }
     }
     @Test void siembraExactaDeOnceEtapasSinInventarPlazos() throws SQLException {
-        assertThat(textos("select pais_codigo||':'||tipo_flujo||':'||version||':'||vigente from definicion_flujo"))
+        assertThat(textos("select pais_codigo||':'||tipo_flujo||':'||version||':'||vigente from definicion_flujo where tipo_flujo='A' and pais_codigo='EC'"))
                 .containsExactly("EC:A:1:true");
         assertThat(textos("select numero||':'||coalesce(rol_codigo,'-')||':'||plazo_estado||':'||coalesce(plazo_cantidad::text,'-')"
-                +"||':'||coalesce(plazo_tipo,'-')||':'||automatica from definicion_etapa order by numero"))
+                +"||':'||coalesce(plazo_tipo,'-')||':'||automatica from definicion_etapa where flujo_id='01a13cdb-cc00-7000-8000-000000000001' order by numero"))
                 .containsExactly("1:admin:SIN_PLAZO:-:-:false","2:marketing:DEFINIDO:24:HORAS_HABILES:false",
                         "3:asistente_compras:DEFINIDO:24:HORAS_HABILES:false","4:compras_china:DEFINIDO:3:DIAS_HABILES:false",
                         "5:compras_china:PENDIENTE:-:-:false","6:compras_china:DEFINIDO:10:DIAS_HABILES:false",
@@ -75,17 +75,17 @@ class V2RestriccionesIT {
     @Test void catorceTransicionesConRequisitosAprobadosYPendientes() throws SQLException {
         assertThat(textos("select etapa_origen||':'||accion||':'||coalesce(etapa_destino::text,'-')||':'||requiere_observacion"
                 +"||':'||requiere_urgencia||':'||requiere_bodega||':'||requisitos_documentales "
-                +"from transicion_permitida order by etapa_origen,accion"))
+                +"from transicion_permitida where flujo_id='01a13cdb-cc00-7000-8000-000000000001' order by etapa_origen,accion"))
                 .containsExactly("1:ENVIAR:2:false:false:false:DEFINIDOS","2:ENVIAR:3:false:false:false:DEFINIDOS",
                         "3:APROBAR:4:false:false:false:DEFINIDOS","3:RECHAZAR:2:true:false:false:DEFINIDOS",
                         "4:APROBAR:5:false:false:false:DEFINIDOS","4:DEVOLVER_POR_ERROR:2:true:false:false:DEFINIDOS",
                         "4:DEVOLVER_POR_PRODUCTO_NUEVO:2:true:true:false:DEFINIDOS","5:APROBAR:6:true:false:false:DEFINIDOS",
-                        "6:APROBAR:7:false:false:false:PENDIENTES","7:APROBAR:8:false:false:false:DEFINIDOS",
+                        "6:APROBAR:7:false:false:false:DEFINIDOS","7:APROBAR:8:false:false:false:DEFINIDOS",
                         "7:REPORTAR_DEMORA:-:true:false:false:DEFINIDOS","8:APROBAR:9:false:false:false:DEFINIDOS",
-                        "9:APROBAR:10:false:false:true:PENDIENTES","10:APROBAR:11:false:false:false:PENDIENTES");
+                        "9:APROBAR:10:false:false:true:DEFINIDOS","10:APROBAR:11:false:false:false:DEFINIDOS");
         assertThat(textos("select t.etapa_origen||':'||d.tipo_documento from documento_requerido d "
-                +"join transicion_permitida t on t.id=d.transicion_id order by t.etapa_origen"))
-                .containsExactly("1:Solicitud","2:Documentos codificados");
+                +"join transicion_permitida t on t.id=d.transicion_id where t.flujo_id='01a13cdb-cc00-7000-8000-000000000001' order by t.etapa_origen"))
+                .containsExactly("1:Solicitud","2:Documentos codificados","6:Packing List");
     }
     @ParameterizedTest @ValueSource(strings={"update evento_pedido set observacion='Cambio ficticio'", "delete from evento_pedido", "truncate table evento_pedido cascade"})
     void historialRechazaUpdateDeleteYTruncate(String sentencia) throws SQLException { rechaza("P0001",sentencia); }
@@ -183,9 +183,9 @@ class V2RestriccionesIT {
     }
 
     @Test void relacionDeRevisionYRelacionDeEvento() throws SQLException {
-        assertThat(textos("select numero||':'||revisa_etapa from definicion_etapa where revisa_etapa is not null")).containsExactly("3:2");
-        rechaza("23514","update definicion_etapa set revisa_etapa=numero where numero=3");
-        rechaza("23503","update definicion_etapa set revisa_etapa=30 where numero=3");
+        assertThat(textos("select numero||':'||revisa_etapa from definicion_etapa where revisa_etapa is not null and flujo_id='01a13cdb-cc00-7000-8000-000000000001'")).containsExactly("3:2");
+        rechaza("23514","update definicion_etapa set revisa_etapa=numero where numero=3 and flujo_id='01a13cdb-cc00-7000-8000-000000000001'");
+        rechaza("23503","update definicion_etapa set revisa_etapa=30 where numero=3 and flujo_id='01a13cdb-cc00-7000-8000-000000000001'");
         UUID id=adjuntoValido();
         rechaza("23514","insert into evento_adjunto select id,?,'OTRA' from evento_pedido",id);
         rechaza("23503","insert into evento_adjunto select id,?,'SUBIDO' from evento_pedido",UUID.randomUUID());

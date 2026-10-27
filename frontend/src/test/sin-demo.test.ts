@@ -31,6 +31,9 @@ describe('Sin accesos de demostración en el código (S1, S2)', () => {
     const con = codigo
       .filter(({ fuente }) => /(localStorage|sessionStorage)\.setItem/.test(fuente))
       .map(({ ruta }) => path.relative(raiz, ruta));
-    expect(con).toEqual([]);
+    expect(con.sort()).toEqual([path.join('api', 'cargas.ts'), path.join('pais', 'PaisProvider.tsx')].sort());
+    // PaisFase7 verifica el valor real guardado: ?nicamente EC/CO, sin credenciales.
+    // El contenido real guardado se comprueba durante la carga por bloques en ArchivosYPermisos.
+    expect(codigo.filter(({fuente}) => /localStorage\.setItem/.test(fuente))).toEqual([]);
   });
 });

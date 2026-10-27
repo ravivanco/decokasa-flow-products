@@ -99,6 +99,11 @@ export function sesionGuardada(usuario: UsuarioApi) {
 export function catalogos(usuarios: UsuarioApi[] = [admin, mario, ana, beto]) {
   return [
     http.get('*/api/v1/usuarios', () => HttpResponse.json(usuarios)),
+    // ADR-0026: consulta nueva del listado. Estados ficticios explícitos, sin IDs/enlaces Google.
+    http.get('*/api/v1/usuarios/carpetas-drive', () => HttpResponse.json(usuarios.map((usuario) => ({
+      usuarioId: usuario.id, estado: 'SIN_PROGRAMAR', intentos: 0, ultimoError: null,
+      programadaEn: null, creadaEn: null,
+    })))),
     http.get('*/api/v1/roles', () => HttpResponse.json(rolesApi)),
   ];
 }

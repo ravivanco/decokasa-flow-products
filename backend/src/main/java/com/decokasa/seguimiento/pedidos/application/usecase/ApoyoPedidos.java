@@ -1,7 +1,9 @@
 package com.decokasa.seguimiento.pedidos.application.usecase;
 
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
+import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
@@ -19,6 +21,9 @@ import java.util.UUID;
  * vencimientos (plazos, por su puerto) y la publicación de eventos. Sin Spring (R2).
  */
 final class ApoyoPedidos {
+
+    /** Mismo mensaje que un pedido inexistente: un pedido de otro país no revela que existe (ADR-0024). */
+    static final String PEDIDO_NO_EXISTE = "El pedido no existe.";
 
     private final ConsultarResponsables responsables;
     private final CalcularVencimiento vencimientos;
@@ -56,22 +61,36 @@ final class ApoyoPedidos {
         return actor;
     }
 
+    /**
+     * ADR-0024: un pedido de un país que la persona no tiene asignado hoy no existe para ella (404, como un pedido
+     * inexistente), tampoco para el admin. Se comprueba después de la cuenta (P-13) y antes de cualquier otra regla.
+     *
+     * @throws NoEncontrado si el país del pedido no está entre los asignados
+     */
+    void exigirPais(ActorVigente actor, Pedido pedido) {
+        if (!actor.veePais(pedido.pais())) {
+            throw new NoEncontrado(PEDIDO_NO_EXISTE);
+        }
+    }
+
     /** Estado actual de cualquier persona; vacío si no existe. */
     Optional<ActorVigente> persona(UUID usuarioId) {
         return responsables.estado(usuarioId)
-                .map(estado -> new ActorVigente(estado.usuarioId(), estado.activo(), estado.roles()));
+                .map(estado -> new ActorVigente(estado.usuarioId(), estado.activo(), estado.roles(), estado.paises()));
     }
 
-    Vencimientos vencimientos() {
+    /** Vencimientos con el calendario del país del pedido (fase 7: configuración separada por país). */
+    Vencimientos vencimientos(CodigoPais pais) {
+        CalcularVencimiento delPais = vencimientos.paraPais(pais);
         return new Vencimientos() {
             @Override
             public Optional<Instant> deEtapa(Instant entrada, PlazoDeEtapa plazo) {
-                return vencimientos.deEtapa(entrada, plazo);
+                return delPais.deEtapa(entrada, plazo);
             }
 
             @Override
             public Instant deUrgencia(Instant activada, NivelUrgencia nivel) {
-                return vencimientos.deUrgencia(activada, nivel);
+                return delPais.deUrgencia(activada, nivel);
             }
         };
     }

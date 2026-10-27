@@ -51,10 +51,18 @@ public final class DefinicionFlujo implements ContratoDeFlujo {
                 exigirEtapa(etapa.revisaEtapa());
             }
         }
+        if (this.etapas.stream().filter(DefinicionEtapa::registraLlegada).count() > 1) {
+            throw new DatoInvalido("Un flujo tiene como máximo una etapa de llegada (ADR-0018).");
+        }
         for (TransicionPermitida transicion : this.transiciones) {
             exigirEtapa(transicion.etapaOrigen());
             if (transicion.etapaDestino() != null) {
                 exigirEtapa(transicion.etapaDestino());
+            }
+            // Fase 6, paso 6.4: ninguna etapa automática (Fin) admite acciones manuales, en ningún flujo.
+            if (etapa(transicion.etapaOrigen()).automatica()) {
+                throw new DatoInvalido("La etapa " + transicion.etapaOrigen()
+                        + " es automática: no admite acciones manuales.");
             }
         }
     }

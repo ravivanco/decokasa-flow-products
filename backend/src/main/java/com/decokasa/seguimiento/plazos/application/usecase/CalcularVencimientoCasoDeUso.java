@@ -1,10 +1,12 @@
 package com.decokasa.seguimiento.plazos.application.usecase;
 
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.TipoPlazo;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.plazos.domain.CalendarioLaboral;
+import com.decokasa.seguimiento.plazos.domain.CalendariosPorPais;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -19,9 +21,23 @@ public final class CalcularVencimientoCasoDeUso implements CalcularVencimiento {
     static final TipoPlazo TIPO_PROVISIONAL_URGENCIA = TipoPlazo.HORAS_HABILES;
 
     private final CalendarioLaboral calendario;
+    private final CalendariosPorPais calendarios;
 
+    /** Un solo calendario para todos los pedidos (Ecuador, como hasta la fase 6). */
     public CalcularVencimientoCasoDeUso(CalendarioLaboral calendario) {
         this.calendario = calendario;
+        this.calendarios = null;
+    }
+
+    /** Fase 7: el calendario de cada país; sin {@link #paraPais}, el de Ecuador. */
+    public CalcularVencimientoCasoDeUso(CalendariosPorPais calendarios) {
+        this.calendario = calendarios.de(CodigoPais.EC);
+        this.calendarios = calendarios;
+    }
+
+    @Override
+    public CalcularVencimiento paraPais(CodigoPais pais) {
+        return calendarios == null ? this : new CalcularVencimientoCasoDeUso(calendarios.de(pais));
     }
 
     @Override

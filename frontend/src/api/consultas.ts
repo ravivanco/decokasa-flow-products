@@ -12,6 +12,10 @@ export const claves = {
   roles: (sesion: number) => ['sesion', sesion, 'roles'] as const,
 };
 
+/**
+ * Carpeta de Drive de cada usuario (ADR-0026). CREADA solo con la confirmación de Drive guardada en el servidor; con
+ * Google apagado queda PENDIENTE. No trae IDs ni enlaces de Drive.
+ */
 export interface NuevoUsuario {
   nombre: string;
   correo: string;
@@ -56,6 +60,7 @@ export function useCrearUsuario() {
   return useMutation({
     mutationFn: (datos: NuevoUsuario) =>
       pedir('/usuarios', { metodo: 'POST', cuerpo: datos, esquema: esquemaUsuario }),
+    // También refresca las carpetas (prefijo común): el alta programa la carpeta de Drive del usuario nuevo.
     onSuccess: () => consultas.invalidateQueries({ queryKey: claves.usuarios(sesionId) }),
   });
 }

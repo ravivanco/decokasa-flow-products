@@ -22,7 +22,18 @@ public interface DescargarArchivo {
      */
     Contenido abrir(Autorizada autorizada);
 
-    record Autorizada(UUID adjuntoId, String nombre, long tamanoBytes, String sha256, String claveLocal) {
+    /**
+     * @param driveId ID de Drive persistido, solo si la copia está confirmada (ADR-0028); lo resuelve el servidor a
+     *        partir del adjunto, nunca llega del navegador. Nulo si no hay copia confirmada.
+     */
+    record Autorizada(UUID adjuntoId, String nombre, long tamanoBytes, String sha256, String claveLocal,
+            String driveId) {
+        /** Sin copia de Drive: compatibilidad con las pruebas anteriores a ADR-0028. */
+        public Autorizada(UUID adjuntoId, String nombre, long tamanoBytes, String sha256, String claveLocal) {
+            this(adjuntoId, nombre, tamanoBytes, sha256, claveLocal, null);
+        }
+
+        @Override public String toString() { return "Autorizada[" + adjuntoId + "]"; }
     }
 
     /** El flujo ya verificado; quien lo recibe debe cerrarlo. */

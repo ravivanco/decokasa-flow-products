@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   server: {
@@ -18,6 +18,9 @@ export default defineConfig({
     },
   },
   test: {
+    // Mantiene paralelismo sin saturar los 8 núcleos del equipo con jsdom y user-event.
+    // La regresión documenta también la repetición paralela; no se aumentan timeouts.
+    maxWorkers: 4,
     // Las pruebas ejercitan la sesión real aunque el equipo habilite el acceso local de desarrollo.
     env: { VITE_ACCESO_LOCAL: 'false' },
     environment: 'jsdom',

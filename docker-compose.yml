@@ -48,6 +48,13 @@ services:
       # Límite provisional del equipo (100 MiB por archivo), pendiente del cliente. La misma variable alimenta a nginx
       # (servicio frontend), así los dos límites no se desincronizan.
       DECOKASA_ARCHIVOS_TAMANO_MAXIMO: ${ARCHIVOS_TAMANO_MAXIMO_MIB:-100}MB
+      # Claude API (fase 7, paso 7.4; sin ruta para preguntar hasta 7.5): desactivada por defecto. La clave propia de Decokasa sale solo del .env
+      # local; vacía, la IA no se activa. Solo el backend la recibe; el frontend nunca.
+      IA_HABILITADA: ${IA_HABILITADA:-false}
+      DECOKASA_CLAUDE_API_KEY: ${DECOKASA_CLAUDE_API_KEY:-}
+      IA_MODELO: ${IA_MODELO:-}
+      IA_ENTORNO: ${IA_ENTORNO:-}
+      IA_DOCUMENTOS_REALES_AUTORIZADOS: ${IA_DOCUMENTOS_REALES_AUTORIZADOS:-false}
     volumes:
       - ./backend/semilla:/aplicacion/semilla:ro
       - archivos-datos:/aplicacion/archivos

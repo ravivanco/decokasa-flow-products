@@ -35,6 +35,16 @@ public interface PedidosParaArchivos {
      */
     void autorizarDescarga(Solicitante solicitante, UUID pedidoId, int etapaDelArchivo);
 
+    /**
+     * ADR-0028 (P-17 ampliada): la persona puede actuar en la etapa actual y por eso abre cualquier documento del
+     * pedido, presentado o no. Por defecto deniega.
+     *
+     * @throws com.decokasa.seguimiento.compartido.domain.SinPermiso si no puede
+     */
+    default void autorizarAperturaDesdeEtapaActual(Solicitante solicitante, UUID pedidoId) {
+        throw new com.decokasa.seguimiento.compartido.domain.SinPermiso("No puedes abrir este archivo.");
+    }
+
     /** Pedido, rol con el que interviene la persona y entrada actual de la etapa. */
     record AutorizacionSubida(DatosDelPedido pedido, Interviniente actor, UUID entradaId) {
     }

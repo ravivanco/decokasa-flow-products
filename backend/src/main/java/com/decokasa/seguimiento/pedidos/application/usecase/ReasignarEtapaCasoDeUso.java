@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.pedidos.application.usecase;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
+import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
@@ -40,9 +41,15 @@ public final class ReasignarEtapaCasoDeUso implements ReasignarEtapa {
         Pedido pedido = pedidos.buscarParaActualizar(comando.pedidoId())
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente admin = apoyo.solicitante(solicitante);
+        apoyo.exigirPais(admin, pedido);
         // Si la persona no existe, el dominio responde 400 en usuarioId (no puede recibir la etapa).
         ActorVigente candidato = comando.usuarioId() == null ? null
                 : apoyo.persona(comando.usuarioId()).orElse(null);
+        // ADR-0024: nadie recibe una etapa de un pedido que no puede ver (mismo 400 en usuarioId que el dominio).
+        if (candidato != null && !candidato.veePais(pedido.pais())) {
+            throw new DatoInvalido("usuarioId",
+                    "La etapa solo se reasigna a una persona activa con el rol responsable y el país del pedido.");
+        }
         // Rol de la etapa actual en la versión del flujo del pedido. Si numeroEtapa no es la actual, el dominio
         // responde 409 antes de usarlo.
         // Solo el contrato compartido del flujo, no sus clases internas (R4; 2.B1-D01).

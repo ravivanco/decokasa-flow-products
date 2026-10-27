@@ -5,6 +5,7 @@ import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.eventos.MotivoDevolucion;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -37,7 +38,9 @@ public interface ConsultarHistorialPedido {
      */
     record Evento(UUID id, UUID pedidoId, int etapa, String tipo, CodigoRol rolIntervencion, Instant ocurridoEn,
             String observacion, NivelUrgencia nivelUrgencia, Integer etapaDestino, MotivoDevolucion motivoDevolucion,
-            Boolean urgenciaTerminada, UUID asignadoAnterior, UUID asignadoA, List<UUID> adjuntoIds) {
+            Boolean urgenciaTerminada, UUID asignadoAnterior, UUID asignadoA, LocalDate fechaEstimadaAnterior,
+            LocalDate fechaEstimadaSolicitada, LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId,
+            String claseVencimiento, Instant venceEn, List<UUID> adjuntoIds) {
 
         public Evento {
             adjuntoIds = adjuntoIds == null ? List.of() : List.copyOf(adjuntoIds);

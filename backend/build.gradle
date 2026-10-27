@@ -25,6 +25,9 @@ repositories {
 ext {
 	springdocVersion = '3.1.1'
 	archunitVersion = '1.5.1'
+	// SDK oficial de Claude API para Java (ADR-0020; paso 7.4). 3.1.0 es la versión del README del repositorio oficial
+	// anthropics/anthropic-sdk-java consultado el 2026-10-22; Codex la confirma en Maven Central en la parte B.
+	anthropicVersion = '3.1.0'
 }
 
 dependencies {
@@ -37,8 +40,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
 	implementation 'org.flywaydb:flyway-database-postgresql'
+	implementation "com.anthropic:anthropic-java:${anthropicVersion}"
 	runtimeOnly 'org.postgresql:postgresql'
-	// WebSocket no se incluye: queda para la fase 5 (ADR-0014).
+	// WebSocket no se incluye: ADR-0014 (2026-10-20, decisión del equipo) eligió consultas periódicas del frontend.
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'

@@ -1,4 +1,0 @@
-﻿Clases de pedidos inspeccionadas, incluidas anidadas: 76
-Referencias a historial.domain o historial.adapter: 0
-Tipos de contrato inspeccionados: 4
-Referencias de contratos a dominio/adaptadores de historial: 0

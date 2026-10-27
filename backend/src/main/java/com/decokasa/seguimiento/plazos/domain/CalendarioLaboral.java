@@ -4,6 +4,7 @@ import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -19,6 +20,10 @@ import java.util.Objects;
  *   <li>feriados de Ecuador o de China: sin calendario aprobado, no se descuenta ninguno.</li>
  * </ul>
  * Si el cliente define alguno de los dos, el cambio queda en esta clase.
+ *
+ * <p>El cronograma (fase 5, paso 5.1) usa las mismas reglas por medio de {@link #finDePlazo}: no hay un segundo
+ * cálculo. La calculadora antigua del cliente sumaba días corridos y movía al lunes solo la fecha final
+ * (requerimientos 1.8); sus fechas no son el resultado de este calendario hábil.
  */
 public final class CalendarioLaboral {
 
@@ -30,13 +35,42 @@ public final class CalendarioLaboral {
 
     /** El momento en que vence un plazo definido que empieza en {@code inicio}. */
     public Instant vencimiento(Instant inicio, PlazoDeEtapa.Definido plazo) {
-        ZonedDateTime desde = inicio.atZone(zona);
-        ZonedDateTime vence = switch (plazo.tipo()) {
+        return alLunesSiEsFinDeSemana(sumar(inicio.atZone(zona), plazo)).toInstant();
+    }
+
+    /**
+     * Fin de un plazo definido que empieza en {@code inicio}, con la misma regla que {@link #vencimiento}, y si el
+     * resultado cayó en fin de semana y pasó al lunes (lo muestra el cronograma).
+     */
+    public FinDePlazo finDePlazo(Instant inicio, PlazoDeEtapa.Definido plazo) {
+        ZonedDateTime sinAjuste = sumar(inicio.atZone(zona), plazo);
+        ZonedDateTime ajustado = alLunesSiEsFinDeSemana(sinAjuste);
+        return new FinDePlazo(ajustado.toInstant(), ajustado.toLocalDate(), !ajustado.equals(sinAjuste));
+    }
+
+    /** El día de Ecuador de un instante. */
+    public LocalDate fecha(Instant momento) {
+        return momento.atZone(zona).toLocalDate();
+    }
+
+    /**
+     * Una fecha sin hora (por ejemplo, la llegada estimada de F4-D5) como instante: el inicio de ese día en Ecuador.
+     * Es una convención técnica para encadenar las etapas siguientes, no un dato del cliente.
+     */
+    public Instant inicioDelDia(LocalDate fecha) {
+        return fecha.atStartOfDay(zona).toInstant();
+    }
+
+    /** Resultado de {@link #finDePlazo}: el instante, su día en Ecuador y si se movió al lunes. */
+    public record FinDePlazo(Instant momento, LocalDate fecha, boolean movidaAlLunes) {
+    }
+
+    private ZonedDateTime sumar(ZonedDateTime desde, PlazoDeEtapa.Definido plazo) {
+        return switch (plazo.tipo()) {
             case HORAS_HABILES -> sumarHorasHabiles(desde, plazo.cantidad());
             case DIAS_HABILES -> sumarDiasHabiles(desde, plazo.cantidad());
             case DIAS_CORRIDOS -> desde.plusDays(plazo.cantidad());
         };
-        return alLunesSiEsFinDeSemana(vence).toInstant();
     }
 
     /** Solo cuentan las horas de días de lunes a viernes. */

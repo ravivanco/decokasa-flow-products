@@ -103,8 +103,8 @@ class MigracionesIT {
         assertThat(resultadoV2.targetSchemaVersion).isEqualTo("2");
         assertThat(resultadoV2.migrationsExecuted).isEqualTo(1);
         assertThat(resultado.success).isTrue();
-        assertThat(resultado.targetSchemaVersion).isEqualTo("3");
-        assertThat(resultado.migrationsExecuted).isEqualTo(1);
+        assertThat(resultado.targetSchemaVersion).isEqualTo("24");
+        assertThat(resultado.migrationsExecuted).isEqualTo(22);
     }
 
     @Test
@@ -118,23 +118,21 @@ class MigracionesIT {
 
         assertThat(segunda.success).isTrue();
         assertThat(segunda.migrationsExecuted).isZero();
-        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("3");
-        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3");
+        assertThat(flyway.info().current().getVersion().toString()).isEqualTo("24");
+        assertThat(flyway.info().applied()).extracting(m -> m.getVersion().toString()).containsExactly("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
         assertThat(flyway.info().pending()).isEmpty();
     }
 
     @Test
-    void creaLasTablasDeV1MotorYArchivosSinBodegas() throws SQLException {
+    void creaLasTablasDeV1MotorArchivosYBodegasHastaV15() throws SQLException {
         List<String> tablas = textos("""
                 select table_name from information_schema.tables
                 where table_schema = 'public' and table_name <> 'flyway_schema_history'
                 order by table_name""");
 
-        // Conserva todas las tablas V1/V2 y exige las tres nuevas de V3.
+        // Conserva V1–V3 y exige también las tablas nuevas de V4–V6; no acepta tablas inesperadas.
         assertThat(tablas).containsExactly(
-                "adjunto", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido",
-                "pais", "pedido", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida",
-                "usuario", "usuario_pais", "usuario_rol");
+                "adjunto", "archivo_cuota", "archivo_cuota_cerrojo", "aviso_vencimiento", "bodega", "carga_archivo", "carga_fragmento", "carpeta_drive", "carpeta_pedido_drive", "carpeta_usuario_drive", "configuracion_ia", "configuracion_plazos", "consulta_ia", "conversacion_ia", "definicion_etapa", "definicion_flujo", "documento_requerido", "entrada_etapa", "etapa_pedido", "evento_adjunto", "evento_pedido", "mensaje_ia", "notificacion", "pais", "pedido", "precio_modelo_ia", "presupuesto_ia", "reserva_ia", "rol", "rol_permiso", "secuencia_pedido", "token_renovacion", "transicion_permitida", "uso_ia_dia", "uso_ia_usuario_dia", "usuario", "usuario_pais", "usuario_rol");
     }
 
     @Test
@@ -148,7 +146,7 @@ class MigracionesIT {
     // --- Datos sembrados ---
 
     @Test
-    void siembraEcuadorActivoYColombiaInactivo() throws SQLException {
+    void siembraEcuadorYColombiaActivosSegunFase7() throws SQLException {
         Map<String, Boolean> paises = new HashMap<>();
         try (Statement sentencia = conexion.createStatement();
                 ResultSet filas = sentencia.executeQuery("select codigo, nombre, activo from pais")) {
@@ -158,7 +156,7 @@ class MigracionesIT {
             }
         }
 
-        assertThat(paises).containsExactlyInAnyOrderEntriesOf(Map.of("EC", true, "CO", false));
+        assertThat(paises).containsExactlyInAnyOrderEntriesOf(Map.of("EC", true, "CO", true));
     }
 
     @Test

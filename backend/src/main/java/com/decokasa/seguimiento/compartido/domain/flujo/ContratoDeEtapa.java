@@ -1,6 +1,7 @@
 package com.decokasa.seguimiento.compartido.domain.flujo;
 
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
+import com.decokasa.seguimiento.compartido.domain.EstimacionDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 
 /**
@@ -20,4 +21,28 @@ public interface ContratoDeEtapa {
 
     /** Etapa cuyos archivos revisa esta etapa (P-17); nula si no revisa ninguna. Se declara en los datos del flujo. */
     Integer revisaEtapa();
+
+    /**
+     * Etapa de llegada a aduana (ADR-0018): al aprobarla, el pedido registra la llegada. Se declara en los datos del
+     * flujo; no se deduce de otras reglas.
+     */
+    default boolean registraLlegada() {
+        return false;
+    }
+
+    /**
+     * Etapa automática, como Fin (A11 / B12): se completa sola y nadie actúa en ella. Se declara en los datos del
+     * flujo.
+     */
+    default boolean automatica() {
+        return false;
+    }
+
+    /**
+     * Duración de referencia para estimar fechas cuando el plazo no está definido (V25, ADR-0030); nula si no hay
+     * ninguna documentada. No es un plazo: no genera vencimientos.
+     */
+    default EstimacionDeEtapa estimacionDeReferencia() {
+        return null;
+    }
 }

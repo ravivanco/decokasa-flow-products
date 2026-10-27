@@ -1,5 +1,20 @@
 import { z } from 'zod';
 
+/**
+ * Catálogo real (F4-D1): el PATCH devuelve la versión que debe conservar la siguiente edición. Contrato 0.17.0 (fase 7):
+ * cada bodega tiene país, y la ciudad es nula mientras está pendiente (Bodega 1 de Colombia).
+ */
+export const esquemaBodega = z.object({
+  id: z.string(), nombre: z.string(), ciudad: z.string().nullable(), activa: z.boolean(),
+  version: z.number().int().nonnegative(), pais: z.enum(['EC', 'CO']).optional(),
+});
+export type Bodega = z.infer<typeof esquemaBodega>;
+
+/** Texto de la ciudad para mostrar; nunca se usa como valor de un formulario. */
+export function ciudadDeBodega(bodega: Pick<Bodega, 'ciudad'>): string {
+  return bodega.ciudad ?? 'Ciudad pendiente';
+}
+
 // Esquemas de las respuestas de la API, iguales al contrato (documentos/api/openapi.yaml 0.5.0). El cliente valida
 // cada respuesta con ellos: si el backend cambia la forma sin cambiar el contrato, falla aquí y no en la pantalla.
 

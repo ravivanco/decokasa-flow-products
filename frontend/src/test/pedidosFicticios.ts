@@ -1,9 +1,10 @@
 import { http, HttpResponse } from 'msw';
+import type { Cronograma } from '@/api/pedidos';
 
 // Pedidos, etapas, archivos e historial ficticios con la forma del contrato 0.7.0-borrador (documentos/api/openapi.yaml)
 // y una API simulada con estado: las respuestas cambian solo cuando la prueba lo indica, para comprobar que la
 // pantalla muestra lo que devuelve el servidor y nunca avanza una etapa por su cuenta. Nunca datos reales; los nombres
-// de A5 a A10 son solo de prueba.
+// de A5 a A10 siguen el contrato vigente; los pedidos son ficticios.
 
 export const PEDIDO_ID = '0193f0a0-0000-7000-8000-000000000001';
 export const NUMERO = 'DK-EC-2026-0001';
@@ -15,10 +16,10 @@ const ETAPAS_A: [string, string | null][] = [
   ['Análisis y gestión', 'compras_china'],
   ['Fabricación', 'compras_china'],
   ['Embarque', 'compras_china'],
-  ['Tránsito', 'logistica'],
-  ['Aduana', 'logistica'],
+  ['Aduana', 'compras_china'],
+  ['Autorización de salida', 'logistica'],
   ['Bodega', 'logistica'],
-  ['Recepción', 'logistica'],
+  ['Incidencias', 'logistica'],
   ['Fin', null],
 ];
 
@@ -37,6 +38,7 @@ export function accion(
   extra: Partial<{
     requiereObservacion: boolean;
     requiereUrgencia: boolean;
+    requiereBodega: boolean;
     requisitosDocumentales: 'DEFINIDOS' | 'PENDIENTES';
     documentosObligatorios: string[];
     documentosFaltantes: string[];
@@ -48,6 +50,7 @@ export function accion(
     etapaDestino,
     requiereObservacion: false,
     requiereUrgencia: false,
+    requiereBodega: false,
     requisitosDocumentales: 'DEFINIDOS' as 'DEFINIDOS' | 'PENDIENTES',
     documentosObligatorios: [] as string[],
     documentosFaltantes: [] as string[],
@@ -57,6 +60,10 @@ export function accion(
 }
 
 export interface OpcionesPedido {
+  finalizado?: boolean;
+  llegadaAduanaEn?: string;
+  bodega?: { id: string; nombre: string; ciudad: string; activa: boolean; version: number };
+  demoraAduana?: { reportadaPor: ReturnType<typeof persona>; reportadaEn: string; motivo: string; nuevaFechaEstimadaLlegada: string };
   etapaActual?: number;
   acciones?: AccionFicticia[];
   resumenes?: Record<number, string | null>;
@@ -84,24 +91,25 @@ export function pedidoDetalle(opciones: OpcionesPedido = {}) {
     urgencia: opciones.urgencia
       ? { ...opciones.urgencia, activadaEn: '2026-10-15T10:00:00-05:00', venceEn: '2026-10-15T14:00:00-05:00' }
       : null,
-    finalizado: false,
+    finalizado: opciones.finalizado ?? false,
     descripcion: 'Descripción ficticia',
     incluyeProductosNuevos: false,
     creadoPor: ADMIN_PERSONA,
     creadoEn: '2026-10-14T09:00:00-05:00',
     versionFlujo: 1,
-    bodega: null,
-    demoraAduana: null,
+    bodega: opciones.bodega ?? null,
+    demoraAduana: opciones.demoraAduana ?? null,
+    llegadaAduanaEn: opciones.llegadaAduanaEn ?? null,
     lineaDeTiempo: ETAPAS_A.map(([nombre, rol], indice) => {
       const numero = indice + 1;
-      const estado = numero < actual ? 'COMPLETADA' : numero === actual ? 'ACTUAL' : 'PENDIENTE';
+      const estado = numero < actual || (opciones.finalizado && numero === actual) ? 'COMPLETADA' : numero === actual ? 'ACTUAL' : 'PENDIENTE';
       const asignacion = opciones.asignaciones?.[numero];
       return {
         numero,
         nombre,
         estado,
         rolResponsable: rol,
-        estadoPlazo: numero === 1 || numero === 11 ? 'SIN_PLAZO' : numero === 5 ? 'PENDIENTE' : 'DEFINIDO',
+        estadoPlazo: numero === 1 || numero === 11 ? 'SIN_PLAZO' : [5, 7, 10].includes(numero) ? 'PENDIENTE' : 'DEFINIDO',
         asignadoA: asignacion?.persona ?? null,
         asignacionVigente: asignacion ? asignacion.vigente : null,
         entradaId: numero <= actual ? (opciones.entradas?.[numero] ?? entradaDe(numero)) : null,
@@ -194,6 +202,7 @@ export const definicionFlujoA = {
     plazo: null,
     acciones: [],
     automatica: indice + 1 === 11,
+    registraLlegada: indice + 1 === 7,
   })),
 };
 
@@ -230,6 +239,19 @@ export function apiPedido(
     http.get(`${base}/historial`, () => {
       registrar('GET', '/historial');
       return HttpResponse.json(estado.historial);
+    }),
+    // El detalle monta el cronograma desde fase 5. Estos fixtures prueban otras funciones: declaran
+    // una respuesta no calculable, sin fechas estimadas ni reglas de calendario simuladas.
+    http.get(`${base}/cronograma`, () => {
+      registrar('GET', '/cronograma');
+      return HttpResponse.json({
+        pedidoId: estado.detalle.id,
+        fechaPedido: estado.detalle.creadoEn,
+        meta: { dias: 90, origen: 'PROPUESTA', pendienteDelCliente: true },
+        calculable: false,
+        faltantes: [],
+        etapas: [],
+      } satisfies Cronograma);
     }),
     http.get(`${base}/etapas/:etapa/archivos`, ({ params }) => {
       registrar('GET', `/etapas/${String(params.etapa)}/archivos`);

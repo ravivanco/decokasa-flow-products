@@ -12,6 +12,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import java.time.Instant;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -41,6 +43,33 @@ public class UsuarioJpaRepositorio implements UsuarioRepositorio {
         this.roles = roles;
         this.reloj = reloj;
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public List<UsuarioRepositorio.Resumen> resumirPorIds(Set<UUID> ids) {
+        if (ids.isEmpty()) return List.of();
+        // Una fila por usuario/rol, también usuarios sin rol. No se materializan entidades ni colecciones LAZY.
+        @SuppressWarnings("unchecked")
+        List<Object[]> filas = entityManager.createNativeQuery("""
+                select u.id, u.nombre, u.activo, r.codigo
+                from usuario u
+                left join usuario_rol ur on ur.usuario_id = u.id
+                left join rol r on r.id = ur.rol_id
+                where u.id in (:ids)
+                order by u.id, r.codigo
+                """).setParameter("ids", List.copyOf(ids)).getResultList();
+        Map<UUID, String> nombres = new LinkedHashMap<>();
+        Map<UUID, Boolean> activos = new LinkedHashMap<>();
+        Map<UUID, Set<CodigoRol>> porUsuario = new LinkedHashMap<>();
+        for (Object[] fila : filas) {
+            UUID id = UUID.fromString(fila[0].toString());
+            nombres.put(id, (String) fila[1]);
+            activos.put(id, (Boolean) fila[2]);
+            Set<CodigoRol> codigos = porUsuario.computeIfAbsent(id, ignorado -> new LinkedHashSet<>());
+            if (fila[3] != null) codigos.add(new CodigoRol((String) fila[3]));
+        }
+        return nombres.entrySet().stream().map(e -> new UsuarioRepositorio.Resumen(e.getKey(), e.getValue(),
+                porUsuario.get(e.getKey()), activos.get(e.getKey()) && !porUsuario.get(e.getKey()).isEmpty())).toList();
     }
 
     @Override

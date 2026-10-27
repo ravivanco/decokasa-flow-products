@@ -36,7 +36,8 @@ public final class ConsultarHistorialPedidoCasoDeUso implements ConsultarHistori
     @Override
     public List<Entrada> historial(Solicitante solicitante, UUID pedidoId) {
         String numero = pedidos.autorizarConsulta(solicitante, pedidoId);
-        // El repositorio devuelve el orden de inserción; el contrato pide del más reciente al más antiguo.
+        // El repositorio devuelve el orden de inserción (hora y, en empate, secuencia de la base; F4-H01). El contrato
+        // pide del más reciente al más antiguo: con la misma hora, primero el último evento emitido.
         List<EventoPedido> eventos = new ArrayList<>(historial.listarPorPedido(pedidoId));
         Collections.reverse(eventos);
         Map<UUID, ResumirUsuarios.Resumen> personas = usuarios.resumenes(eventos.stream()
@@ -63,7 +64,8 @@ public final class ConsultarHistorialPedidoCasoDeUso implements ConsultarHistori
         return new Evento(evento.id(), evento.pedidoId(), evento.etapa(), evento.tipo().name(), evento.rolCodigo(),
                 evento.ocurridoEn(), evento.observacion(), evento.nivelUrgencia(), detalle.etapaDestino(),
                 detalle.motivoDevolucion(), detalle.urgenciaTerminada(), detalle.asignadoAnterior(), detalle.asignadoA(),
-                evento.adjuntoIds());
+                detalle.fechaEstimadaAnterior(), detalle.fechaEstimadaSolicitada(), detalle.nuevaFechaEstimadaLlegada(),
+                detalle.bodegaId(), detalle.claseVencimiento(), detalle.venceEn(), evento.adjuntoIds());
     }
 
     private static Persona persona(UUID id, Map<UUID, ResumirUsuarios.Resumen> personas) {

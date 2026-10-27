@@ -7,3 +7,6 @@ coverage/
 *.log
 Dockerfile
 .dockerignore
+# Configuración local de Vercel y cachés de herramientas.
+.vercel/
+.vite/

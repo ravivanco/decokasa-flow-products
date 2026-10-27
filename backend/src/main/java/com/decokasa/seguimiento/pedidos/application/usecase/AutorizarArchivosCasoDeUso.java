@@ -52,8 +52,11 @@ public final class AutorizarArchivosCasoDeUso implements AutorizarArchivosDePedi
         Pedido pedido = pedidos.buscarParaActualizar(pedidoId)
                 .orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);
-        CodigoRol rol = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
-        Interviniente interviniente = pedido.autorizarSubida(etapa, entradaEsperadaId, rol, habilitadas, actor);
+        apoyo.exigirPais(actor, pedido);
+        ContratoDeFlujo flujoDelPedido = flujos.porId(pedido.flujoId());
+        CodigoRol rol = flujoDelPedido.etapa(pedido.etapaActual()).rolResponsable();
+        Interviniente interviniente = pedido.autorizarSubida(etapa, entradaEsperadaId, rol,
+                habilitadas.para(flujoDelPedido.etapas()), actor);
         UUID entradaId = pedido.etapas().stream()
                 .filter(etapaDePedido -> etapaDePedido.numero() == pedido.etapaActual())
                 .map(EtapaDePedido::entradaId)
@@ -64,16 +67,16 @@ public final class AutorizarArchivosCasoDeUso implements AutorizarArchivosDePedi
 
     @Override
     public void autorizarConsulta(Solicitante solicitante, UUID pedidoId) {
-        apoyo.lector(solicitante);
-        if (consultas.porId(pedidoId).isEmpty()) {
-            throw new NoEncontrado("El pedido no existe.");
-        }
+        ActorVigente actor = apoyo.lector(solicitante);
+        Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
     }
 
     @Override
     public void autorizarDescarga(Solicitante solicitante, UUID pedidoId, int etapaDelArchivo) {
         ActorVigente actor = apoyo.solicitante(solicitante);
         Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
         ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
         Map<Integer, CodigoRol> revisoras = new HashMap<>();
         for (ContratoDeEtapa etapa : flujo.etapas()) {
@@ -84,6 +87,18 @@ public final class AutorizarArchivosCasoDeUso implements AutorizarArchivosDePedi
         CodigoRol rolDelArchivo = flujo.etapa(etapaDelArchivo).rolResponsable();
         if (!pedido.puedeDescargar(etapaDelArchivo, rolDelArchivo, revisoras, actor)) {
             throw new SinPermiso("No puedes descargar este archivo.");
+        }
+    }
+
+    /** ADR-0028: todos los documentos del pedido, para quien puede actuar en la etapa actual (o el admin), en su país. */
+    @Override
+    public void autorizarAperturaDesdeEtapaActual(Solicitante solicitante, UUID pedidoId) {
+        ActorVigente actor = apoyo.solicitante(solicitante);
+        Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
+        CodigoRol rolActual = flujos.porId(pedido.flujoId()).etapa(pedido.etapaActual()).rolResponsable();
+        if (!pedido.puedeAbrirDocumentosDelPedido(rolActual, actor)) {
+            throw new SinPermiso("No puedes abrir este archivo.");
         }
     }
 }

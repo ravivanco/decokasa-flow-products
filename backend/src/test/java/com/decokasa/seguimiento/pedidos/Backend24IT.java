@@ -55,6 +55,35 @@ class Backend24IT {
         jdbc.update("insert into usuario(id,nombre,correo,usuario,telefono,contrasena_hash,creado_en,actualizado_en,version) "
                 +"values (?,'Persona ficticia',?,?,?,'hash-ficticio',now(),now(),0)",id,s+"@ejemplo.test",s,"+"+s.replaceAll("[a-f]","1").substring(0,14));
         jdbc.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,now() from rol where codigo=?",id,rol);
+        // ADR-0024: el acceso exige país asignado; los fixtures de Ecuador lo asignan de forma explícita.
+        jdbc.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);
+        return id;
+    }
+    /** ADR-0024: con rol admin vigente pero sin países, no crea (403) ni ve, lee o actúa sobre un pedido de EC (404). */
+    @Test void usuarioSinPaisesNoCreaNiVeNiActua() throws Exception {
+        UUID p=crear();
+        UUID sinPais=personaSinPais("admin");
+        json(post("/api/v1/pedidos"),sinPais,"{\"tipoFlujo\":\"A\",\"pais\":\"EC\",\"nombre\":\"Sin país\"}",403);
+        json(post("/api/v1/pedidos"),sinPais,"{\"tipoFlujo\":\"A\",\"nombre\":\"Sin país por defecto\"}",403);
+        respuesta(get(base(p)).with(token(sinPais)),404);
+        respuesta(get(base(p)+"/historial").with(token(sinPais)),404);
+        json(post(base(p)+"/observaciones"),sinPais,
+                "{\"texto\":\"Sin país\",\"etapaEsperada\":1,\"entradaEsperadaId\":\""+entrada(p,1)+"\"}",404);
+        assertThat(jdbc.queryForObject("select count(*) from pedido where creado_por=?",Long.class,sinPais)).isZero();
+        assertThat(jdbc.queryForObject("select count(*) from evento_pedido where usuario_id=?",Long.class,sinPais)).isZero();
+    }
+    /** ADR-0024: retirar el país surte efecto en la siguiente petición, aunque el JWT siga diciendo admin. */
+    @Test void retirarElPaisCortaElAccesoSinRenovarElToken() throws Exception {
+        UUID p=crear();
+        respuesta(get(base(p)).with(token(admin)),200);
+        jdbc.update("delete from usuario_pais where usuario_id=?",admin);
+        respuesta(get(base(p)).with(token(admin)),404);
+        json(post("/api/v1/pedidos"),admin,"{\"tipoFlujo\":\"A\",\"pais\":\"EC\",\"nombre\":\"Tras retirar\"}",403);
+    }
+    /** Misma cuenta activa y con rol, pero sin ningún país asignado (ADR-0024). */
+    UUID personaSinPais(String rol) {
+        UUID id=persona(rol);
+        jdbc.update("delete from usuario_pais where usuario_id=?",id);
         return id;
     }
     RequestPostProcessor token(UUID id) {
@@ -79,13 +108,14 @@ class Backend24IT {
         return jdbc.queryForObject("select entrada_id from etapa_pedido where pedido_id=? and numero=?",UUID.class,p,n);
     }
     UUID archivo(UUID actor,UUID p,int n,String tipo,UUID entrada,byte[] bytes,int estado) throws Exception {
+        boolean pdf=bytes.length>=5 && bytes[0]==37 && bytes[1]==80 && bytes[2]==68 && bytes[3]==70;
         String s=respuesta(multipart(base(p)+"/etapas/"+n+"/archivos")
-                .file(new MockMultipartFile("archivo","../../ficticio.pdf","text/html",bytes))
+                .file(new MockMultipartFile("archivo",pdf?"../../ficticio.pdf":"../../ficticio.csv",pdf?"application/pdf":"text/csv",bytes))
                 .param("tipoDocumento",tipo).param("entradaEsperadaId",entrada.toString()).with(token(actor)),estado);
         return estado==201 ? UUID.fromString(JsonPath.read(s,"$.id")) : null;
     }
     UUID archivo(UUID p,int n) throws Exception {
-        return archivo(admin,p,n,n==1?"Solicitud":"Documentos codificados",entrada(p,n),"%PDF-ficticio".getBytes(java.nio.charset.StandardCharsets.UTF_8),201);
+        return archivo(admin,p,n,n==1?"Solicitud":"Documentos codificados",entrada(p,n),com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf(),201);
     }
     String accion(UUID actor,UUID p,int n,String accion,String extras,int estado) throws Exception {
         return json(post(base(p)+"/acciones"),actor,"{\"accion\":\""+accion+"\",\"etapaEsperada\":"+n+extras+"}",estado);
@@ -150,7 +180,23 @@ class Backend24IT {
         accion(admin,p,4,"DEVOLVER_POR_ERROR",",\"observacion\":\"Error ficticio\"",200);
         avanzar(p,2); accion(admin,p,3,"APROBAR","",200);
         accion(admin,p,4,"APROBAR","",200); antes=estado(p);
-        accion(admin,p,5,"APROBAR",",\"observacion\":\"Fuera de fase\"",409);
+        accion(admin,p,5,"APROBAR",",\"observacion\":\"Fabricacion ficticia terminada\"",200);
+        assertThat(jdbc.queryForObject("select etapa_actual from pedido where id=?",Integer.class,p)).isEqualTo(6);
+        antes=estado(p);
+        assertThat(accion(admin,p,6,"APROBAR","",422)).contains("Packing List"); // Requisito V16, no bloqueo de fase en A5.
+        assertThat(estado(p)).isEqualTo(antes);
+    }
+    @Test void fase4IncidenciasHabilitadaConservaBloqueoDocumental() throws Exception {
+        // Fixture SQL explícito en A10: no es un recorrido desde A1 ni omite A6/A9 en producción.
+        UUID p=crear(),e=UUID.randomUUID();
+        new org.springframework.transaction.support.TransactionTemplate(transaccionesB2).executeWithoutResult(tx->{
+            jdbc.update("update etapa_pedido set estado='COMPLETADA',salida_en=now() where pedido_id=? and numero=1",p);
+            jdbc.update("insert into entrada_etapa(id,pedido_id,etapa,entrada_en) values(?,?,10,now())",e,p);
+            jdbc.update("update etapa_pedido set estado='ACTUAL',entrada_en=now(),entrada_id=? where pedido_id=? and numero=10",e,p);
+            jdbc.update("update pedido set etapa_actual=10 where id=?",p);
+        });
+        var antes=estado(p);
+        assertThat(accion(admin,p,10,"APROBAR","",422)).contains("al menos un documento");
         assertThat(estado(p)).isEqualTo(antes);
     }
     @Test void resumenDeEtapaIncluyeLoOcurrido() throws Exception {
@@ -179,7 +225,7 @@ class Backend24IT {
         assertThat(persona).containsEntry("id",admin.toString()).containsEntry("nombre","Persona ficticia")
                 .containsEntry("roles",List.of("admin"));
         Map<String,Object> detalle=JsonPath.read(creado,"$.detalle");
-        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA");
+        assertThat(detalle.keySet()).containsExactlyInAnyOrder("etapaDestino","motivoDevolucion","urgenciaTerminada","asignadoAnterior","asignadoA","fechaEstimadaAnterior","fechaEstimadaSolicitada","nuevaFechaEstimadaLlegada","bodegaId","claseVencimiento","venceEn");
         assertThat(detalle.values()).containsOnlyNulls();
         var antes=estado(p);
         List<Map<String,Object>> eventos=JsonPath.read(respuesta(get(base(p)+"/historial").with(token(admin)),200),"$");
@@ -290,9 +336,9 @@ class Backend24IT {
         assertThat(estado(p)).isEqualTo(antes);
         json(put(base(p)+"/etapas/2/asignacion"),admin,"{\"usuarioId\":\""+m+"\",\"motivo\":\"Reparto ficticio\"}",200);
         antes=estado(p);
-        archivo(otro,p,2,"Documentos codificados",entrada(p,2),new byte[]{1},403);
+        archivo(otro,p,2,"Documentos codificados",entrada(p,2),new byte[]{97},403);
         assertThat(estado(p)).isEqualTo(antes);
-        UUID a=archivo(m,p,2,"Documentos codificados",entrada(p,2),new byte[]{1},201);
+        UUID a=archivo(m,p,2,"Documentos codificados",entrada(p,2),new byte[]{97},201);
         jdbc.update("delete from usuario_rol where usuario_id=?",m);
         antes=estado(p);
         accion(m,p,2,"ENVIAR",",\"adjuntoIds\":[\""+a+"\"]",403);
@@ -321,7 +367,7 @@ class Backend24IT {
         accion(admin,p,2,"ENVIAR",",\"adjuntoIds\":[\""+a+"\"]",200);
         accion(admin,p,3,"RECHAZAR",",\"observacion\":\"Corregir\"",200);
         assertThat(entrada(p,2)).isNotEqualTo(vieja); var antes=estado(p);
-        archivo(admin,p,2,"Documentos codificados",vieja,new byte[]{1},409);
+        archivo(admin,p,2,"Documentos codificados",vieja,new byte[]{97},409);
         accion(admin,p,2,"ENVIAR",",\"adjuntoIds\":[\""+a+"\"]",400);
         accion(admin,p,2,"ENVIAR","",422);
         assertThat(estado(p)).isEqualTo(antes);
@@ -355,14 +401,14 @@ class Backend24IT {
     @Test void archivosRealesMetadatosYPermisosDeDescarga() throws Exception {
         UUID p=enEtapa(2),a=archivo(p,2),consulta=persona("consulta"),revisor=persona("asistente_compras"),china=persona("compras_china");
         mvc.perform(get("/api/v1/archivos/"+a+"/contenido").with(token(admin))).andExpect(status().isOk())
-                .andExpect(content().bytes("%PDF-ficticio".getBytes(java.nio.charset.StandardCharsets.UTF_8)))
+                .andExpect(content().bytes(com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf()))
                 .andExpect(header().string("X-Content-Type-Options","nosniff"))
                 .andExpect(header().string("Content-Type","application/octet-stream"));
         respuesta(get("/api/v1/archivos/"+a+"/contenido").with(token(consulta)),403);
         respuesta(get("/api/v1/archivos/"+a+"/contenido").with(token(china)),403);
         respuesta(get("/api/v1/archivos/"+a+"/contenido").with(token(revisor)),200);
         var fila=jdbc.queryForMap("select * from adjunto where id=?",a);
-        assertThat(fila.get("tamano_bytes")).isEqualTo(13L);
+        assertThat(fila.get("tamano_bytes")).isEqualTo((long)com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf().length);
         assertThat(fila.get("tipo_detectado")).isEqualTo("application/pdf");
         assertThat(fila.get("clave_local").toString()).doesNotContain("ficticio.pdf","..");
         assertThat(fila.get("sha256").toString()).hasSize(64);
@@ -373,7 +419,7 @@ class Backend24IT {
     void descargaRechazaArchivoAusenteTruncadoOCorrupto(String modo) throws Exception {
         UUID p=crear(),a=archivo(p,1); var antes=estado(p);
         if(modo.equals("ausente")) Files.delete(ruta(a));
-        else Files.write(ruta(a),new byte[modo.equals("corrupto")?13:2]);
+        else Files.write(ruta(a),new byte[modo.equals("corrupto")?com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf().length:2]);
         problema(respuesta(get("/api/v1/archivos/"+a+"/contenido").with(token(admin)),409),"ARCHIVO_NO_DISPONIBLE");
         assertThat(estado(p)).isEqualTo(antes);
     }
@@ -381,7 +427,7 @@ class Backend24IT {
     void accionRechazaArchivoAusenteTruncadoOCorruptoSinAvance(String modo) throws Exception {
         UUID p=crear(),a=archivo(p,1); var antes=estado(p);
         if(modo.equals("ausente")) Files.delete(ruta(a));
-        else Files.write(ruta(a),new byte[modo.equals("corrupto")?13:2]);
+        else Files.write(ruta(a),new byte[modo.equals("corrupto")?com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf().length:2]);
         var r=mvc.perform(post(base(p)+"/acciones").with(token(admin)).contentType("application/json")
                 .content("{\"accion\":\"ENVIAR\",\"etapaEsperada\":1,\"adjuntoIds\":[\""+a+"\"]}"))
                 .andReturn().getResponse();
@@ -392,10 +438,10 @@ class Backend24IT {
     @Test void multipartExigeEntradaYPermisoSinCrearNada() throws Exception {
         UUID p=crear(); var antes=estado(p); long f=numeroArchivos();
         respuesta(multipart(base(p)+"/etapas/1/archivos")
-                .file(new MockMultipartFile("archivo","ficticio.bin","application/octet-stream",new byte[]{1}))
+                .file(new MockMultipartFile("archivo","ficticio.csv","application/octet-stream",new byte[]{97}))
                 .param("tipoDocumento","Solicitud").with(token(admin)),400);
-        archivo(persona("consulta"),p,1,"Solicitud",entrada(p,1),new byte[]{1},403);
-        archivo(admin,p,1,"Solicitud",UUID.randomUUID(),new byte[]{1},409);
+        archivo(persona("consulta"),p,1,"Solicitud",entrada(p,1),new byte[]{97},403);
+        archivo(admin,p,1,"Solicitud",UUID.randomUUID(),new byte[]{97},409);
         assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f);
     }
     @Test void observacionInvalidaOAdjuntoAjenoNoDejanEvento() throws Exception {
@@ -416,13 +462,17 @@ class Backend24IT {
         accion(admin,p,2,"ENVIAR",",\"adjuntoIds\":[\""+propio+"\"]",400);
         assertThat(estado(p)).isEqualTo(antes);
     }
-    @Test void vacioLimiteExactoYExcesoNoDejanRegistrosParciales() throws Exception {
-        UUID p=crear(); var antes=estado(p); long f=numeroArchivos();
-        archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[0],400);
-        archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[1025],413);
-        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f);
-        UUID a=archivo(admin,p,1,"Solicitud",entrada(p,1),new byte[1024],201);
-        assertThat(Files.size(ruta(a))).isEqualTo(1024);
+    @ParameterizedTest @ValueSource(ints={0,1024,1025})
+    void vacioLimiteExactoYExcesoSeAislanPorPropietarioSinLiberarReservasFallidas(int tamano) throws Exception {
+        UUID p=crear();var antes=estado(p);long f=numeroArchivos();
+        UUID a=archivo(admin,p,1,"Solicitud",entrada(p,1),com.decokasa.seguimiento.archivos.ArchivosFicticios.csv(tamano),tamano==0?400:tamano==1024?201:413);
+        if(tamano==1024) {
+            assertThat(Files.size(ruta(a))).isEqualTo(1024);
+            assertThat(jdbc.queryForObject("select bytes_comprometidos from archivo_cuota where adjunto_id=?",Long.class,a)).isEqualTo(1024);
+        } else {
+            assertThat(estado(p)).isEqualTo(antes);assertThat(numeroArchivos()).isEqualTo(f);
+            assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
+        }
     }
     @Test void multipartRealAplicaLimiteDelServletConJwtFirmado() throws Exception {
         UUID p=crear();
@@ -437,9 +487,9 @@ class Backend24IT {
             String boundary="frontera-ficticia-b24";
             String inicio="--"+boundary+"\r\nContent-Disposition: form-data; name=\"tipoDocumento\"\r\n\r\nSolicitud\r\n"
                     +"--"+boundary+"\r\nContent-Disposition: form-data; name=\"entradaEsperadaId\"\r\n\r\n"+entrada(p,1)+"\r\n"
-                    +"--"+boundary+"\r\nContent-Disposition: form-data; name=\"archivo\"; filename=\"ficticio.bin\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+                    +"--"+boundary+"\r\nContent-Disposition: form-data; name=\"archivo\"; filename=\"ficticio.csv\"\r\nContent-Type: application/octet-stream\r\n\r\n";
             var bytes=new ByteArrayOutputStream(); bytes.write(inicio.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-            bytes.write(new byte[tamano]); bytes.write(("\r\n--"+boundary+"--\r\n").getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            bytes.write(com.decokasa.seguimiento.archivos.ArchivosFicticios.csv(tamano)); bytes.write(("\r\n--"+boundary+"--\r\n").getBytes(java.nio.charset.StandardCharsets.UTF_8));
             var request=java.net.http.HttpRequest.newBuilder(java.net.URI.create("http://localhost:"+puerto+base(p)+"/etapas/1/archivos"))
                     .timeout(java.time.Duration.ofSeconds(20)).header("Authorization","Bearer "+firmado)
                     .header("Content-Type","multipart/form-data; boundary="+boundary)
@@ -464,7 +514,7 @@ class Backend24IT {
     }
     @Test void subidaRevalidaEntradaDespuesDeRecibirYRevierteSiHuboReentrada() throws Exception {
         UUID p=enEtapa(2),vieja=entrada(p,2),a=archivo(p,2);
-        InputStream contenido=new ByteArrayInputStream(new byte[]{1,2,3}) {
+        InputStream contenido=new ByteArrayInputStream(com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf()) {
             boolean cambio;
             @Override public synchronized int read(byte[] b,int off,int len) {
                 if(!cambio) {
@@ -482,24 +532,66 @@ class Backend24IT {
         assertThatThrownBy(() -> subir.subir(new Solicitante(admin,Set.of(new CodigoRol("admin"))),
                 new SubirArchivo.Comando(p,2,vieja,"Documentos codificados","ficticio.pdf",contenido)))
                 .isInstanceOf(EtapaCambio.class);
-        assertThat(numeroArchivos()).isEqualTo(f);
+        assertThat(numeroArchivos()).isEqualTo(f+1); // Retained preparation, not a valid attachment.
+        assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
         assertThat(jdbc.queryForObject("select count(*) from adjunto where pedido_id=?",Long.class,p)).isEqualTo(adjuntos);
         assertThat(jdbc.queryForObject("select count(*) from evento_pedido where pedido_id=? and tipo='ARCHIVO_SUBIDO'",Long.class,p)).isEqualTo(2);
         assertThat(entrada(p,2)).isNotEqualTo(vieja);
     }
-    @Test void errorAlRegistrarTrasEscribirRevierteDiscoYBase() throws Exception {
+    @Test void errorAlRegistrarRevierteMetadatosYConservaBytesYReserva() throws Exception {
         UUID p=crear(); var antes=estado(p); long f=numeroArchivos();
         // Fallo SQL real al insertar el evento, después de guardar el archivo y el adjunto.
         jdbc.execute("create function fallo_subida_b24() returns trigger language plpgsql as $$ begin raise exception 'Fallo ficticio B24'; end; $$");
         jdbc.execute("create trigger fallo_subida_b24 before insert on evento_pedido for each row when (new.pedido_id='"+p+"'::uuid and new.tipo='ARCHIVO_SUBIDO') execute function fallo_subida_b24()");
         try {
             assertThatThrownBy(() -> subir.subir(new Solicitante(admin,Set.of(new CodigoRol("admin"))),
-                    new SubirArchivo.Comando(p,1,entrada(p,1),"Solicitud","ficticio.pdf",new ByteArrayInputStream(new byte[]{1}))))
+                    new SubirArchivo.Comando(p,1,entrada(p,1),"Solicitud","ficticio.pdf",new ByteArrayInputStream(com.decokasa.seguimiento.archivos.ArchivosFicticios.pdf()))))
                     .isInstanceOf(RuntimeException.class).hasStackTraceContaining("Fallo ficticio B24");
         } finally {
             jdbc.execute("drop trigger fallo_subida_b24 on evento_pedido");
             jdbc.execute("drop function fallo_subida_b24()");
         }
-        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f);
+        assertThat(estado(p)).isEqualTo(antes); assertThat(numeroArchivos()).isEqualTo(f+1);
+        assertThat(jdbc.queryForObject("select count(*) from archivo_cuota where propietario_id=? and estado='RESERVADA'",Long.class,admin)).isEqualTo(1);
+    }
+
+    @Test void b2TransicionesRealesEncolanUnaIntencionPorEventoSinInventarDestinatario() throws Exception {
+        UUID p=enEtapa(3);
+        accion(admin,p,3,"RECHAZAR",",\"observacion\":\"Correccion ficticia B2\"",200);
+        avanzar(p,2);accion(admin,p,3,"APROBAR","",200);
+        accion(admin,p,4,"DEVOLVER_POR_ERROR",",\"observacion\":\"Devolucion ficticia B2\"",200);
+        var filas=jdbc.queryForList("select n.*,e.tipo as tipo_historial from notificacion n join evento_pedido e on e.id=n.evento_id where n.pedido_id=?",p);
+        assertThat(filas).hasSize(6);
+        assertThat(filas.stream().map(f->f.get("tipo_historial")).toList()).contains("ETAPA_ENVIADA","ETAPA_RECHAZADA","ETAPA_APROBADA","PEDIDO_DEVUELTO");
+        for(var fila:filas) {assertThat(fila.get("destinatario")).isNull();assertThat(fila.get("estado")).isEqualTo("PENDIENTE");assertThat(fila.get("intentos")).isEqualTo(0);}
+        assertThat(jdbc.queryForObject("select count(distinct evento_id) from notificacion where pedido_id=?",Integer.class,p)).isEqualTo(6);
+    }
+    @Autowired org.springframework.transaction.PlatformTransactionManager transaccionesB2;
+    @Test void b2RollbackRealDeTransicionNoDejaAvisoNiHistorialNiAvance() throws Exception {
+        UUID p=crear();UUID a=archivo(p,1);var antes=estado(p);
+        var tx=new org.springframework.transaction.support.TransactionTemplate(transaccionesB2);
+        tx.executeWithoutResult(s->{try {
+            accion(admin,p,1,"ENVIAR",",\"adjuntoIds\":[\""+a+"\"]",200);
+            assertThat(jdbc.queryForObject("select count(*) from notificacion where pedido_id=?",Integer.class,p)).isEqualTo(1);
+            s.setRollbackOnly();
+        } catch(Exception e){throw new IllegalStateException(e);}});
+        assertThat(estado(p)).isEqualTo(antes);
+        assertThat(jdbc.queryForObject("select count(*) from notificacion where pedido_id=?",Integer.class,p)).isZero();
+    }
+    @Test void b2RegistroHttpExigeAdminVigenteInclusoConTokenAntiguo() throws Exception {
+        mvc.perform(get("/api/v1/notificaciones").with(token(admin))).andExpect(status().isOk()).andExpect(header().string("Cache-Control","no-store"));
+        UUID otro=persona("marketing");
+        mvc.perform(get("/api/v1/notificaciones").with(token(otro))).andExpect(status().isForbidden());
+        jdbc.update("delete from usuario_rol where usuario_id=?",admin);
+        mvc.perform(get("/api/v1/notificaciones").with(token(admin))).andExpect(status().isForbidden());
+    }
+
+    @Test void b2RegistroSanitizaErroresYPaginaSinExponerDatosPrivados() throws Exception {
+        UUID p=enEtapa(2);
+        jdbc.update("update notificacion set ultimo_error='dato-ficticio-no-publicable',estado='FALLIDA' where pedido_id=?",p);
+        String cuerpo=respuesta(get("/api/v1/notificaciones?estado=FALLIDA&pagina=0&tamano=100").with(token(admin)),200);
+        assertThat(cuerpo).contains("ERROR_NO_CLASIFICADO").doesNotContain("dato-ficticio-no-publicable","messageId","proveedorId","datos\":");
+        mvc.perform(get("/api/v1/notificaciones?pagina=-1").with(token(admin))).andExpect(status().isBadRequest());
+        mvc.perform(get("/api/v1/notificaciones?tamano=101").with(token(admin))).andExpect(status().isBadRequest());
     }
 }

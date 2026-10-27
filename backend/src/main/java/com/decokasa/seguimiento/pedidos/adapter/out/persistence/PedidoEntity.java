@@ -9,6 +9,7 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -69,6 +70,31 @@ public class PedidoEntity {
     @Column(name = "urgencia_vence_en")
     private Instant urgenciaVenceEn;
 
+    // V15 (paso 5.2): entrada creada por la devolución que activó la urgencia vigente; su identidad estable.
+    @Column(name = "urgencia_activacion_id")
+    private UUID urgenciaActivacionId;
+
+    // V9: check de llegada de A7.
+    @Column(name = "llegada_aduana_en")
+    private Instant llegadaAduanaEn;
+
+    // V9: bodega de destino (F4-D2). El trigger de la base exige una bodega activa y, desde V12, que no cambie (UB002).
+    @Column(name = "bodega_id")
+    private UUID bodegaId;
+
+    // V10: demora vigente en aduana (F4-D5); las cuatro columnas van juntas.
+    @Column(name = "demora_motivo")
+    private String demoraMotivo;
+
+    @Column(name = "demora_nueva_fecha_llegada")
+    private LocalDate demoraNuevaFechaLlegada;
+
+    @Column(name = "demora_reportada_por")
+    private UUID demoraReportadaPor;
+
+    @Column(name = "demora_reportada_en")
+    private Instant demoraReportadaEn;
+
     @Column(name = "actualizado_en")
     private Instant actualizadoEn;
 
@@ -107,6 +133,19 @@ public class PedidoEntity {
         this.urgenciaActivadaEn = urgenciaActivadaEn;
         this.urgenciaVenceEn = urgenciaVenceEn;
         this.actualizadoEn = actualizadoEn;
+    }
+
+    void cambiarLlegadaYDemora(Instant llegadaAduanaEn, String demoraMotivo, LocalDate demoraNuevaFechaLlegada,
+            UUID demoraReportadaPor, Instant demoraReportadaEn) {
+        this.llegadaAduanaEn = llegadaAduanaEn;
+        this.demoraMotivo = demoraMotivo;
+        this.demoraNuevaFechaLlegada = demoraNuevaFechaLlegada;
+        this.demoraReportadaPor = demoraReportadaPor;
+        this.demoraReportadaEn = demoraReportadaEn;
+    }
+
+    void asignarBodega(UUID bodegaId) {
+        this.bodegaId = bodegaId;
     }
 
     void agregarEtapa(EtapaPedidoEntity etapa) {
@@ -177,12 +216,44 @@ public class PedidoEntity {
         return urgenciaVenceEn;
     }
 
+    UUID getBodegaId() {
+        return bodegaId;
+    }
+
+    Instant getLlegadaAduanaEn() {
+        return llegadaAduanaEn;
+    }
+
+    String getDemoraMotivo() {
+        return demoraMotivo;
+    }
+
+    LocalDate getDemoraNuevaFechaLlegada() {
+        return demoraNuevaFechaLlegada;
+    }
+
+    UUID getDemoraReportadaPor() {
+        return demoraReportadaPor;
+    }
+
+    Instant getDemoraReportadaEn() {
+        return demoraReportadaEn;
+    }
+
     Instant getActualizadoEn() {
         return actualizadoEn;
     }
 
     long getVersion() {
         return version;
+    }
+
+    void cambiarActivacionUrgencia(UUID urgenciaActivacionId) {
+        this.urgenciaActivacionId = urgenciaActivacionId;
+    }
+
+    UUID getUrgenciaActivacionId() {
+        return urgenciaActivacionId;
     }
 
     List<EtapaPedidoEntity> getEtapas() {

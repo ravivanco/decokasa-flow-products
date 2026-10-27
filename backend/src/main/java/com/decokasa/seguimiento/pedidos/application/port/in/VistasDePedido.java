@@ -8,6 +8,7 @@ import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.historial.application.port.in.ResumirEtapasDePedido;
 import com.decokasa.seguimiento.pedidos.domain.EstadoEtapa;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,13 +29,17 @@ public final class VistasDePedido {
         PENDIENTE
     }
 
-    public record Urgencia(NivelUrgencia nivel, Instant activadaEn, Instant venceEn) {
+    /** @param vencida la urgencia sigue vigente y su vencimiento ya pasó (lo decide el servidor, paso 5.3) */
+    public record Urgencia(NivelUrgencia nivel, Instant activadaEn, Instant venceEn, boolean vencida) {
     }
 
-    /** @param responsableActual persona asignada a la etapa actual; nula si no hay */
+    /**
+     * @param responsableActual persona asignada a la etapa actual; nula si no hay
+     * @param motivoRetraso motivo vigente de la entrada actual (F5-D3, paso 5.2); nulo si no hay
+     */
     public record Resumen(UUID id, String numero, String nombre, CodigoPais pais, TipoFlujo tipoFlujo,
             int etapaActual, String nombreEtapaActual, Persona responsableActual, Instant venceEn, boolean vencida,
-            Urgencia urgencia, boolean finalizado) {
+            Urgencia urgencia, boolean finalizado, String motivoRetraso) {
     }
 
     /**
@@ -48,15 +53,45 @@ public final class VistasDePedido {
             Instant salida, Instant venceEn, int reentradas, ResumirEtapasDePedido.Cierre ultimoCierre) {
     }
 
-    /** @param documentosPendientes el cliente no definió los documentos (S-2): no se puede completar */
+    /**
+     * @param requiereBodega la acción se envía con {@code bodegaId} (APROBAR de Bodega, F4-D2)
+     * @param documentosPendientes el cliente no definió los documentos (S-2): no se puede completar
+     * @param exigeAlgunDocumento hace falta al menos un documento de la entrada actual, de cualquier tipo (V16)
+     */
     public record AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
-            boolean requiereUrgencia, boolean documentosPendientes, List<String> documentosObligatorios,
-            List<String> documentosFaltantes, boolean puedeCompletarse) {
+            boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+            List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
+            boolean exigeAlgunDocumento) {
+
+        /** Compatibilidad con vistas anteriores a V16. */
+        public AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse) {
+            this(accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosPendientes,
+                    documentosObligatorios, documentosFaltantes, puedeCompletarse, false);
+        }
     }
 
+    /** Esquema Bodega del contrato: la bodega asignada, aunque después se haya desactivado (F4-D1). */
+    public record Bodega(UUID id, String nombre, String ciudad, boolean activa, long version) {
+    }
+
+    /**
+     * Demora vigente en aduana (F4-D5, provisional). La fecha es una estimación, no un vencimiento; es el dato que usará
+     * el cronograma de la fase 5 para recalcular las etapas siguientes (todavía no implementado).
+     */
+    public record Demora(Persona reportadaPor, Instant reportadaEn, String motivo,
+            LocalDate nuevaFechaEstimadaLlegada) {
+    }
+
+    /**
+     * @param bodega bodega de destino; nula hasta aprobar Bodega (F4-D2)
+     * @param demoraAduana nula si no se reportó ninguna demora
+     * @param llegadaAduanaEn check de llegada de A7; nulo si todavía no llegó
+     */
     public record Detalle(Resumen resumen, String descripcion, boolean incluyeProductosNuevos, Persona creadoPor,
-            Instant creadoEn, int versionFlujo, List<Etapa> lineaDeTiempo,
-            List<AccionDisponible> accionesDisponibles) {
+            Instant creadoEn, int versionFlujo, Bodega bodega, Demora demoraAduana, Instant llegadaAduanaEn,
+            List<Etapa> lineaDeTiempo, List<AccionDisponible> accionesDisponibles) {
     }
 
     public record Pagina(List<Resumen> elementos, int pagina, int tamano, long total) {

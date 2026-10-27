@@ -3,6 +3,8 @@ package com.decokasa.seguimiento.historial.domain;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
 import com.decokasa.seguimiento.compartido.domain.eventos.ArchivoSubido;
+import com.decokasa.seguimiento.compartido.domain.eventos.BodegaAsignada;
+import com.decokasa.seguimiento.compartido.domain.eventos.DemoraReportada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaAprobada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaEnviada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaReasignada;
@@ -11,6 +13,9 @@ import com.decokasa.seguimiento.compartido.domain.eventos.EventoDePedido;
 import com.decokasa.seguimiento.compartido.domain.eventos.ObservacionAgregada;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoCreado;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoDevuelto;
+import com.decokasa.seguimiento.compartido.domain.eventos.MotivoRetrasoRegistrado;
+import com.decokasa.seguimiento.compartido.domain.eventos.PedidoFinalizado;
+import com.decokasa.seguimiento.compartido.domain.eventos.PlazoVencido;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -93,6 +98,34 @@ public record EventoPedido(UUID id, UUID pedidoId, int etapa, TipoEventoPedido t
             case ArchivoSubido subido -> {
                 tipo = TipoEventoPedido.ARCHIVO_SUBIDO;
                 detalle = DetalleEvento.VACIO;
+            }
+            case BodegaAsignada asignada -> {
+                tipo = TipoEventoPedido.BODEGA_ASIGNADA;
+                detalle = DetalleEvento.bodega(asignada.bodegaId());
+            }
+            case DemoraReportada demora -> {
+                tipo = TipoEventoPedido.DEMORA_REPORTADA;
+                observacion = demora.observacion();
+                detalle = DetalleEvento.demora(demora.fechaEstimadaAnterior(), demora.fechaSolicitada(),
+                        demora.nuevaFechaEstimadaLlegada());
+            }
+            case MotivoRetrasoRegistrado registrado -> {
+                tipo = TipoEventoPedido.MOTIVO_RETRASO_REGISTRADO;
+                observacion = registrado.motivo();
+                detalle = DetalleEvento.motivo(registrado.entradaId());
+            }
+            case PlazoVencido vencido -> {
+                // Evento del sistema, sin actor ni rol (V2 lo admite para PLAZO_VENCIDO).
+                return new EventoPedido(id, vencido.pedidoId(), vencido.etapa(), TipoEventoPedido.PLAZO_VENCIDO,
+                        null, null, vencido.ocurridoEn(), null, null,
+                        DetalleEvento.vencimiento(vencido.clase().name(), vencido.venceEn(), vencido.entradaId(),
+                                vencido.urgenciaActivacionId()),
+                        List.of());
+            }
+            case PedidoFinalizado finalizado -> {
+                return new EventoPedido(id, finalizado.pedidoId(), finalizado.etapa(),
+                        TipoEventoPedido.PEDIDO_FINALIZADO, null, null, finalizado.ocurridoEn(),
+                        null, null, DetalleEvento.VACIO, List.of());
             }
         }
         return new EventoPedido(id, evento.pedidoId(), evento.etapa(), tipo, evento.actor().usuarioId(),

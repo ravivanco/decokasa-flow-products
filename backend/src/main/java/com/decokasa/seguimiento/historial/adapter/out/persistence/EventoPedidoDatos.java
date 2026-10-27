@@ -14,7 +14,12 @@ import org.springframework.data.repository.query.Param;
  */
 public interface EventoPedidoDatos extends Repository<EventoPedidoEntity, UUID> {
 
-    List<EventoPedidoEntity> findByPedidoIdOrderByOcurridoEnAscIdAsc(UUID pedidoId);
+    /**
+     * Orden de inserción (F4-H01, V13): hora del servidor y, en empate, la secuencia que asigna la base al insertar, que
+     * sigue el orden de emisión del dominio. El id solo desempata los eventos anteriores a V13 (secuencia nula), cuyo
+     * orden real no se conoce.
+     */
+    List<EventoPedidoEntity> findByPedidoIdOrderByOcurridoEnAscSecuenciaAscIdAsc(UUID pedidoId);
 
     @Query("select a from EventoAdjuntoEntity a where a.eventoId in :eventos order by a.adjuntoId")
     List<EventoAdjuntoEntity> adjuntosDe(@Param("eventos") Collection<UUID> eventos);

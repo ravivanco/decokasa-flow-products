@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.flujos.adapter.out.persistence;
 import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
 import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
+import com.decokasa.seguimiento.compartido.domain.EstimacionDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.compartido.domain.TipoPlazo;
@@ -63,15 +64,20 @@ public class DefinicionFlujoJpaRepositorio implements DefinicionFlujoRepositorio
             case "PENDIENTE" -> new PlazoDeEtapa.Pendiente();
             default -> throw new IllegalStateException("Estado de plazo desconocido: " + fila.getPlazoEstado());
         };
+        EstimacionDeEtapa referencia = fila.getEstimacionCantidad() == null ? null
+                : new EstimacionDeEtapa(fila.getEstimacionCantidad(), TipoPlazo.valueOf(fila.getEstimacionTipo()),
+                        EstimacionDeEtapa.Fuente.valueOf(fila.getEstimacionFuente()));
         return new DefinicionEtapa(fila.getNumero(), fila.getNombre(),
                 fila.getRolCodigo() == null ? null : new CodigoRol(fila.getRolCodigo()), plazo, fila.isAutomatica(),
-                fila.getRevisaEtapa() == null ? null : fila.getRevisaEtapa().intValue());
+                fila.getRevisaEtapa() == null ? null : fila.getRevisaEtapa().intValue(), fila.isRegistraLlegada(),
+                referencia);
     }
 
     private static TransicionPermitida transicion(TransicionPermitidaEntity fila) {
         return new TransicionPermitida(fila.getEtapaOrigen(), AccionEtapa.valueOf(fila.getAccion()),
                 fila.getEtapaDestino() == null ? null : fila.getEtapaDestino().intValue(),
                 fila.isRequiereObservacion(), fila.isRequiereUrgencia(), fila.isRequiereBodega(),
-                RequisitosDocumentales.valueOf(fila.getRequisitosDocumentales()), fila.getDocumentos());
+                RequisitosDocumentales.valueOf(fila.getRequisitosDocumentales()), fila.getDocumentos(),
+                fila.isExigeAlgunDocumento());
     }
 }

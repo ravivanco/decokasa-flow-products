@@ -1,6 +1,7 @@
 package com.decokasa.seguimiento.pedidos.adapter.in.web;
 
 import com.decokasa.seguimiento.compartido.adapter.in.web.SolicitantesWeb;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarPedidos;
@@ -56,22 +57,28 @@ public class PedidoController {
             @RequestParam(required = false) @Min(1) Integer etapa,
             @RequestParam(required = false) Boolean vencido,
             @RequestParam(required = false) String texto,
+            @RequestParam(required = false) CodigoPais pais,
             @RequestParam(defaultValue = "0") @Min(0) int pagina,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int tamano) {
         return PedidoRespuestas.de(consultar.listar(SolicitantesWeb.de(token),
-                new ConsultarPedidos.Filtro(tipoFlujo, etapa, vencido, texto), pagina, tamano));
+                new ConsultarPedidos.Filtro(tipoFlujo, etapa, vencido, texto, pais), pagina, tamano));
     }
 
     @GetMapping("/buscar")
-    public PedidoRespuestas.Detalle buscar(@AuthenticationPrincipal Jwt token, @RequestParam String numero) {
-        return PedidoRespuestas.de(consultar.porNumero(SolicitantesWeb.de(token), numero));
+    public PedidoRespuestas.Detalle buscar(@AuthenticationPrincipal Jwt token, @RequestParam String numero,
+            @RequestParam(required = false) CodigoPais pais) {
+        return PedidoRespuestas.de(consultar.porNumero(SolicitantesWeb.de(token), numero, pais));
     }
 
     @GetMapping("/bandeja")
     public PedidoRespuestas.Pagina bandeja(@AuthenticationPrincipal Jwt token,
+            @RequestParam(required = false) Boolean vencido,
+            @RequestParam(required = false) Boolean conUrgencia,
+            @RequestParam(required = false) CodigoPais pais,
             @RequestParam(defaultValue = "0") @Min(0) int pagina,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int tamano) {
-        return PedidoRespuestas.de(consultar.bandeja(SolicitantesWeb.de(token), pagina, tamano));
+        return PedidoRespuestas.de(consultar.bandeja(SolicitantesWeb.de(token),
+                new ConsultarPedidos.FiltroBandeja(vencido, conUrgencia, pais), pagina, tamano));
     }
 
     @GetMapping("/{pedidoId}")

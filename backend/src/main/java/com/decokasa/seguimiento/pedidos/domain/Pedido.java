@@ -10,7 +10,9 @@ import com.decokasa.seguimiento.compartido.domain.RequisitoFaltante;
 import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.TipoFlujo;
 import com.decokasa.seguimiento.compartido.domain.TransicionNoPermitida;
+import com.decokasa.seguimiento.compartido.domain.eventos.BodegaAsignada;
 import com.decokasa.seguimiento.compartido.domain.eventos.DatosDelPedido;
+import com.decokasa.seguimiento.compartido.domain.eventos.DemoraReportada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaAprobada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaEnviada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaReasignada;
@@ -18,10 +20,13 @@ import com.decokasa.seguimiento.compartido.domain.eventos.EtapaRechazada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EventoDePedido;
 import com.decokasa.seguimiento.compartido.domain.eventos.Interviniente;
 import com.decokasa.seguimiento.compartido.domain.eventos.MotivoDevolucion;
+import com.decokasa.seguimiento.compartido.domain.eventos.MotivoRetrasoRegistrado;
 import com.decokasa.seguimiento.compartido.domain.eventos.ObservacionAgregada;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoCreado;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoDevuelto;
+import com.decokasa.seguimiento.compartido.domain.eventos.PedidoFinalizado;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -66,18 +71,54 @@ public final class Pedido {
     private final Instant creadoEn;
     private final List<EtapaDePedido> etapas;
     private int etapaActual;
-    private final boolean finalizado;
-    private final Instant finalizadoEn;
+    private boolean finalizado;
+    private Instant finalizadoEn;
     private UrgenciaActiva urgencia;
+    // Identidad estable de la activación vigente (paso 5.2): la entrada que creó la devolución con urgencia.
+    private UUID urgenciaActivacionId;
+    private Instant llegadaAduanaEn;
+    private DemoraAduana demora;
+    private UUID bodegaId;
     private Instant actualizadoEn;
     private final long version;
     private final List<EventoDePedido> eventosPendientes = new ArrayList<>();
 
-    /** Reconstruye un pedido guardado y comprueba que tenga una sola etapa ACTUAL, la que dice {@code etapaActual}. */
+    /** Reconstruye un pedido guardado que todavía no llegó a aduana ni tiene demora. */
     public Pedido(UUID id, NumeroPedido numero, CodigoPais pais, TipoFlujo tipoFlujo, UUID flujoId, String nombre,
             String descripcion, boolean incluyeProductosNuevos, UUID creadoPor, Instant creadoEn,
             List<EtapaDePedido> etapas, int etapaActual, boolean finalizado, Instant finalizadoEn,
             UrgenciaActiva urgencia, Instant actualizadoEn, long version) {
+        this(id, numero, pais, tipoFlujo, flujoId, nombre, descripcion, incluyeProductosNuevos, creadoPor, creadoEn,
+                etapas, etapaActual, finalizado, finalizadoEn, urgencia, null, null, null, actualizadoEn, version);
+    }
+
+    /**
+     * Reconstruye un pedido guardado y comprueba que tenga una sola etapa ACTUAL, la que dice {@code etapaActual}.
+     *
+     * @param llegadaAduanaEn momento del check de llegada de A7; nulo si todavía no llegó
+     * @param demora demora vigente en aduana (F4-D5); nula si no se reportó ninguna
+     * @param bodegaId bodega de destino, asignada una sola vez al aprobar Bodega (F4-D2); nula hasta entonces
+     */
+    public Pedido(UUID id, NumeroPedido numero, CodigoPais pais, TipoFlujo tipoFlujo, UUID flujoId, String nombre,
+            String descripcion, boolean incluyeProductosNuevos, UUID creadoPor, Instant creadoEn,
+            List<EtapaDePedido> etapas, int etapaActual, boolean finalizado, Instant finalizadoEn,
+            UrgenciaActiva urgencia, Instant llegadaAduanaEn, DemoraAduana demora, UUID bodegaId,
+            Instant actualizadoEn, long version) {
+        this(id, numero, pais, tipoFlujo, flujoId, nombre, descripcion, incluyeProductosNuevos, creadoPor, creadoEn,
+                etapas, etapaActual, finalizado, finalizadoEn, urgencia, null, llegadaAduanaEn, demora, bodegaId,
+                actualizadoEn, version);
+    }
+
+    /**
+     * Como el anterior, con la identidad de la activación de la urgencia vigente (fase 5, paso 5.2).
+     *
+     * @param urgenciaActivacionId entrada creada por la devolución que activó la urgencia; se ignora sin urgencia
+     */
+    public Pedido(UUID id, NumeroPedido numero, CodigoPais pais, TipoFlujo tipoFlujo, UUID flujoId, String nombre,
+            String descripcion, boolean incluyeProductosNuevos, UUID creadoPor, Instant creadoEn,
+            List<EtapaDePedido> etapas, int etapaActual, boolean finalizado, Instant finalizadoEn,
+            UrgenciaActiva urgencia, UUID urgenciaActivacionId, Instant llegadaAduanaEn, DemoraAduana demora,
+            UUID bodegaId, Instant actualizadoEn, long version) {
         this.id = Objects.requireNonNull(id, "id");
         this.numero = Objects.requireNonNull(numero, "numero");
         this.pais = Objects.requireNonNull(pais, "pais");
@@ -94,6 +135,10 @@ public final class Pedido {
         this.finalizado = finalizado;
         this.finalizadoEn = finalizadoEn;
         this.urgencia = urgencia;
+        this.urgenciaActivacionId = urgencia == null ? null : urgenciaActivacionId;
+        this.llegadaAduanaEn = llegadaAduanaEn;
+        this.demora = demora;
+        this.bodegaId = bodegaId;
         this.actualizadoEn = Objects.requireNonNull(actualizadoEn, "actualizadoEn");
         this.version = version;
         if (!finalizado) {
@@ -106,7 +151,8 @@ public final class Pedido {
      * lo reserva el generador (paso 2.4).
      *
      * @param creador estado vigente de quien crea el pedido
-     * @throws SinPermiso si el creador no es el responsable de la primera etapa ni el admin
+     * @throws SinPermiso si el creador no tiene el rol responsable de la primera etapa (el admin solo crea los flujos
+     *         cuya primera etapa es suya, como A1; P-14)
      * @throws DatoInvalido si un dato está fuera de sus límites
      */
     public static Pedido crear(NumeroPedido numero, CodigoPais pais, FlujoDelPedido flujo, String nombre,
@@ -159,6 +205,19 @@ public final class Pedido {
      */
     public EventoDePedido ejecutar(AccionSolicitada solicitud, ReglaDeTransicion regla, EtapasHabilitadas habilitadas,
             ActorVigente actor, Instant ahora, Vencimientos vencimientos) {
+        return ejecutar(solicitud, regla, habilitadas, actor, ahora, vencimientos, null);
+    }
+
+    /**
+     * Como {@link #ejecutar(AccionSolicitada, ReglaDeTransicion, EtapasHabilitadas, ActorVigente, Instant,
+     * Vencimientos)}, y además REPORTAR_DEMORA (F4-D5), que no mueve el pedido y necesita el día de hoy en Ecuador.
+     *
+     * @param hoyEnEcuador fecha de {@code ahora} en Ecuador; obligatoria solo para REPORTAR_DEMORA
+     * @throws DatoInvalido además, si la fecha estimada de una demora queda antes de hoy o no es posterior a la
+     *         estimación vigente, o si llega una fecha estimada con otra acción
+     */
+    public EventoDePedido ejecutar(AccionSolicitada solicitud, ReglaDeTransicion regla, EtapasHabilitadas habilitadas,
+            ActorVigente actor, Instant ahora, Vencimientos vencimientos, LocalDate hoyEnEcuador) {
         if (finalizado) {
             throw new TransicionNoPermitida("El pedido ya terminó.");
         }
@@ -180,6 +239,9 @@ public final class Pedido {
         }
         Integer destino = regla.etapaDestino();
         if (destino == null) {
+            if (solicitud.accion() == AccionEtapa.REPORTAR_DEMORA) {
+                return reportarDemora(solicitud, regla, interviniente, ahora, hoyEnEcuador);
+            }
             throw new TransicionNoPermitida("Esta acción todavía no está implementada.");
         }
 
@@ -188,6 +250,18 @@ public final class Pedido {
         NivelUrgencia nivel = solicitud.nivelUrgencia();
         if (nivel != null && accion != AccionEtapa.DEVOLVER_POR_PRODUCTO_NUEVO) {
             throw new DatoInvalido("nivelUrgencia", "La urgencia solo se indica al devolver por producto nuevo.");
+        }
+        if (solicitud.nuevaFechaEstimadaLlegada() != null) {
+            throw new DatoInvalido("nuevaFechaEstimadaLlegada",
+                    "La fecha estimada de llegada solo se indica al reportar una demora.");
+        }
+        UUID bodegaElegida = solicitud.bodegaId();
+        if (bodegaElegida != null && !regla.requiereBodega()) {
+            throw new DatoInvalido("bodegaId", "La bodega solo se elige al aprobar la etapa de Bodega.");
+        }
+        if (regla.requiereBodega() && bodegaId != null) {
+            // F4-D2: la bodega se asigna una sola vez; cambiarla después queda pendiente del cliente.
+            throw new TransicionNoPermitida("El pedido ya tiene una bodega asignada; no se cambia.");
         }
         exigirRequisitos(regla, observacion, nivel, solicitud);
 
@@ -215,13 +289,40 @@ public final class Pedido {
             urgenciaTerminada = true;
         }
         // PROVISIONAL mientras P-10 siga pendiente del cliente (⏸): un rechazo de Revisión durante una urgencia
-        // (A3 → A2) no la cambia y su vencimiento sigue contando hasta volver a Análisis. No es una regla aprobada.
+        // (A3 → A2, B4 → B3) no la cambia y su vencimiento sigue contando hasta volver a Análisis (A4 / B5). No es una
+        // regla aprobada.
 
         EtapaDePedido etapaDestino = etapa(destino);
-        etapaDestino.entrar(ahora, vencimientos.deEtapa(ahora, regla.plazoDestino()).orElse(null));
+        etapaDestino.entrar(ahora, regla.destinoEsAutomatico() ? null
+                : vencimientos.deEtapa(ahora, regla.plazoDestino()).orElse(null));
+        if (accion == AccionEtapa.DEVOLVER_POR_PRODUCTO_NUEVO) {
+            // Paso 5.2: la identidad de esta activación es la entrada que acaba de crear la devolución. Dos
+            // activaciones nunca comparten entrada, aunque compartan la hora del servidor.
+            urgenciaActivacionId = etapaDestino.entradaId();
+        } else if (urgencia == null) {
+            urgenciaActivacionId = null;
+        }
         etapaActual = destino;
+        if (regla.destinoEsAutomatico()) {
+            // Fin es visual: entrada y salida coinciden con la confirmación, sin etapa ACTUAL ni vencimiento.
+            etapaDestino.salir(ahora, EstadoEtapa.COMPLETADA);
+            finalizado = true;
+            finalizadoEn = ahora;
+        }
+        if (regla.registraLlegada()) {
+            // "David da check cuando llega la mercadería" (4.4, A7): la llegada es la hora del servidor de ese check.
+            llegadaAduanaEn = ahora;
+        }
+        if (regla.requiereBodega()) {
+            // F4-D2: la bodega se guarda solo al aprobar Bodega, con el avance y sus eventos (una sola transacción).
+            bodegaId = bodegaElegida;
+        }
         actualizadoEn = ahora;
-        verificarUnaSolaActual();
+        if (finalizado) {
+            verificarEtapasAlFinalizar();
+        } else {
+            verificarUnaSolaActual();
+        }
 
         DatosDelPedido datos = datosDelPedido();
         int etapaOrigen = origen.numero();
@@ -240,8 +341,81 @@ public final class Pedido {
             case REPORTAR_DEMORA, ELEGIR_BODEGA ->
                     throw new IllegalStateException("Una acción sin etapa de destino no mueve el pedido.");
         };
+        if (regla.requiereBodega()) {
+            eventosPendientes.add(new BodegaAsignada(datos, etapaOrigen, interviniente, ahora, bodegaElegida));
+        }
+        eventosPendientes.add(evento);
+        if (regla.destinoEsAutomatico()) {
+            // Misma hora del servidor que la acción. El orden de lectura por UUID sigue pendiente (F4-H01).
+            eventosPendientes.add(new PedidoFinalizado(datos, destino, ahora));
+        }
+        return evento;
+    }
+
+    /**
+     * Demora en aduana (F4-D5, provisional del equipo, pendiente de confirmación del cliente). No mueve el pedido, no
+     * reinicia plazos ni cambia vencimientos: la fecha estimada no es un vencimiento (el plazo de Aduana sigue
+     * pendiente, F4-D6). Primero la fecha pasa al lunes si cae en fin de semana; después se comprueba que la fecha
+     * efectiva no sea anterior a hoy en Ecuador y que sea posterior a la estimación vigente, si hay una. El pedido
+     * guarda la demora vigente y el evento conserva la estimación anterior y, si es distinta, la fecha solicitada.
+     */
+    private DemoraReportada reportarDemora(AccionSolicitada solicitud, ReglaDeTransicion regla,
+            Interviniente interviniente, Instant ahora, LocalDate hoyEnEcuador) {
+        if (hoyEnEcuador == null) {
+            // Error de programación: REPORTAR_DEMORA se ejecuta con la sobrecarga que recibe el día de hoy en Ecuador.
+            throw new IllegalStateException("REPORTAR_DEMORA necesita el día de hoy en Ecuador.");
+        }
+        String observacion = validarObservacion(solicitud.observacion());
+        if (solicitud.nivelUrgencia() != null) {
+            throw new DatoInvalido("nivelUrgencia", "La urgencia solo se indica al devolver por producto nuevo.");
+        }
+        if (solicitud.bodegaId() != null) {
+            throw new DatoInvalido("bodegaId", "La bodega solo se elige al aprobar la etapa de Bodega.");
+        }
+        LocalDate solicitada = solicitud.nuevaFechaEstimadaLlegada();
+        // El requisito pide observación con la demora, digan lo que digan los datos; la fecha es parte de F4-D5.
+        List<String> faltantes = new ArrayList<>();
+        if (observacion == null) {
+            faltantes.add("observación");
+        }
+        if (solicitada == null) {
+            faltantes.add("fecha estimada de llegada");
+        }
+        regla.documentosObligatorios().stream()
+                .filter(tipo -> !solicitud.documentosPresentes().contains(tipo))
+                .sorted()
+                .forEach(faltantes::add);
+        if (regla.exigeAlgunDocumento() && solicitud.documentosPresentes().isEmpty()) {
+            faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+        }
+        if (!faltantes.isEmpty()) {
+            throw new RequisitoFaltante(faltantes);
+        }
+        LocalDate efectiva = alLunesSiEsFinDeSemana(solicitada);
+        if (efectiva.isBefore(hoyEnEcuador)) {
+            throw new DatoInvalido("nuevaFechaEstimadaLlegada",
+                    "La fecha estimada de llegada no puede ser anterior a hoy.");
+        }
+        LocalDate anterior = demora == null ? null : demora.nuevaFechaEstimadaLlegada();
+        if (anterior != null && !efectiva.isAfter(anterior)) {
+            throw new DatoInvalido("nuevaFechaEstimadaLlegada",
+                    "Una demora deja la llegada después de la estimación vigente (" + anterior + ").");
+        }
+        demora = new DemoraAduana(observacion, efectiva, interviniente.usuarioId(), ahora);
+        actualizadoEn = ahora;
+        DemoraReportada evento = new DemoraReportada(datosDelPedido(), etapaActual, interviniente, ahora, observacion,
+                anterior, solicitada.equals(efectiva) ? null : solicitada, efectiva, solicitud.adjuntoIds());
         eventosPendientes.add(evento);
         return evento;
+    }
+
+    /** Requerimientos §5: una fecha que cae en fin de semana pasa al lunes (también la llegada del barco). */
+    private static LocalDate alLunesSiEsFinDeSemana(LocalDate fecha) {
+        return switch (fecha.getDayOfWeek()) {
+            case SATURDAY -> fecha.plusDays(2);
+            case SUNDAY -> fecha.plusDays(1);
+            default -> fecha;
+        };
     }
 
     /**
@@ -343,6 +517,58 @@ public final class Pedido {
         return evento;
     }
 
+    /**
+     * Registra o corrige el motivo del retraso de la entrada actual de la etapa actual (F5-D3, aprobada
+     * provisionalmente por Richard el 2026-10-20). Puede hacerlo quien puede actuar en la etapa (P-06) o el admin, con
+     * estado, roles y asignación vigentes; {@code consulta} y {@code asistente_china} no conceden el permiso ni quitan
+     * el de otros roles. Solo con un vencimiento activo: el de la etapa o el de la urgencia. Guarda el motivo vigente;
+     * cada registro o corrección deja su propio evento en el historial (los anteriores no se tocan). No mueve el
+     * pedido, no cambia plazos y no genera correo.
+     *
+     * @param texto obligatorio, hasta 4000 caracteres
+     * @return el evento, que también queda en {@link #retirarEventos()}
+     * @throws EtapaCambio si la etapa ya no es la actual o volvió a entrar
+     * @throws TransicionNoPermitida si no hay un vencimiento activo o el pedido terminó
+     * @throws DatoInvalido si el texto está vacío o es demasiado largo
+     */
+    public MotivoRetrasoRegistrado registrarMotivoRetraso(int numeroEtapa, UUID entradaEsperadaId, String texto,
+            CodigoRol rolResponsable, EtapasHabilitadas habilitadas, ActorVigente actor, Instant ahora) {
+        Interviniente interviniente = autorizarEnEntradaActual(numeroEtapa, entradaEsperadaId, rolResponsable,
+                habilitadas, actor, "La etapa del pedido cambió. Vuelve a cargarlo antes de registrar el motivo.");
+        if (!tieneVencimientoActivo(ahora)) {
+            throw new TransicionNoPermitida(
+                    "No hay un plazo vencido en esta etapa: el motivo del retraso se registra con un vencimiento activo.");
+        }
+        String limpio = texto == null ? "" : texto.strip();
+        if (limpio.isEmpty()) {
+            throw new DatoInvalido("motivo", "Escribe el motivo del retraso.");
+        }
+        if (limpio.length() > 4000) {
+            throw new DatoInvalido("motivo", "El motivo del retraso admite hasta 4000 caracteres.");
+        }
+        EtapaDePedido actual = etapa(etapaActual);
+        actual.registrarMotivo(limpio);
+        actualizadoEn = ahora;
+        MotivoRetrasoRegistrado evento = new MotivoRetrasoRegistrado(datosDelPedido(), etapaActual, interviniente,
+                ahora, limpio, actual.entradaId(), UUID.randomUUID());
+        eventosPendientes.add(evento);
+        return evento;
+    }
+
+    /**
+     * Si la etapa actual o la urgencia vigente vencieron antes de {@code ahora}. Un plazo pendiente del cliente no
+     * tiene vencimiento y nunca vence.
+     */
+    public boolean tieneVencimientoActivo(Instant ahora) {
+        if (finalizado) {
+            return false;
+        }
+        Instant venceEtapa = etapa(etapaActual).venceEn();
+        boolean etapaVencida = venceEtapa != null && ahora.isAfter(venceEtapa);
+        boolean urgenciaVencida = urgencia != null && ahora.isAfter(urgencia.venceEn());
+        return etapaVencida || urgenciaVencida;
+    }
+
     private Interviniente autorizarEnEntradaActual(int numeroEtapa, UUID entradaEsperadaId, CodigoRol rolResponsable,
             EtapasHabilitadas habilitadas, ActorVigente actor, String mensajeCambio) {
         if (finalizado) {
@@ -381,6 +607,25 @@ public final class Pedido {
         return revisoras.entrySet().stream()
                 .anyMatch(revisora -> revisora.getValue() != null
                         && PermisosEtapa.puedeActuar(etapa(revisora.getKey()), revisora.getValue(), actor));
+    }
+
+    /**
+     * ADR-0028 (P-17 ampliada, decisión de Richard 2026-10-26): quien puede actuar en la etapa actual del pedido abre
+     * todos los documentos subidos en el pedido, presentados o no; así, cuando el pedido avanza, el responsable de cada
+     * etapa ve lo que se subió en las anteriores. El admin siempre.
+     * Con el pedido terminado solo queda el admin (y P-17). Una cuenta inactiva o sin roles nunca abre.
+     *
+     * @param rolEtapaActual rol responsable de la etapa actual (de los datos del flujo)
+     */
+    public boolean puedeAbrirDocumentosDelPedido(CodigoRol rolEtapaActual, ActorVigente actor) {
+        if (actor == null || !actor.puedeActuar()) {
+            return false;
+        }
+        if (actor.tieneRol(PermisosEtapa.ADMIN)) {
+            return true;
+        }
+        return !finalizado && rolEtapaActual != null
+                && PermisosEtapa.puedeActuar(etapa(etapaActual), rolEtapaActual, actor);
     }
 
     /** Entrega los eventos pendientes, en orden, y los quita del agregado. Lo llama el caso de uso al guardar. */
@@ -422,14 +667,17 @@ public final class Pedido {
         if (pideUrgencia && nivel == null) {
             faltantes.add("urgencia");
         }
-        if (regla.requiereBodega()) {
-            // La bodega llega en la fase 4; ninguna acción habilitada en la fase 2 la pide.
+        if (regla.requiereBodega() && solicitud.bodegaId() == null) {
+            // F4-D2: la bodega se elige con el APROBAR de Bodega.
             faltantes.add("bodega");
         }
         regla.documentosObligatorios().stream()
                 .filter(tipo -> !solicitud.documentosPresentes().contains(tipo))
                 .sorted()
                 .forEach(faltantes::add);
+        if (regla.exigeAlgunDocumento() && solicitud.documentosPresentes().isEmpty()) {
+            faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+        }
         if (!faltantes.isEmpty()) {
             throw new RequisitoFaltante(faltantes);
         }
@@ -440,6 +688,13 @@ public final class Pedido {
                 .filter(etapa -> etapa.numero() == numeroEtapa)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("El pedido no tiene la etapa " + numeroEtapa + "."));
+    }
+
+    private void verificarEtapasAlFinalizar() {
+        if (finalizadoEn == null || etapa(etapaActual).estado() != EstadoEtapa.COMPLETADA
+                || etapas.stream().anyMatch(etapa -> etapa.estado() == EstadoEtapa.ACTUAL)) {
+            throw new IllegalStateException("Un pedido finalizado tiene Fin completada y ninguna etapa actual.");
+        }
     }
 
     private void verificarUnaSolaActual() {
@@ -505,8 +760,31 @@ public final class Pedido {
         return finalizadoEn;
     }
 
+    /** Entrada que activó la urgencia vigente (paso 5.2); vacía sin urgencia. */
+    public Optional<UUID> urgenciaActivacionId() {
+        return Optional.ofNullable(urgenciaActivacionId);
+    }
+
     public Optional<UrgenciaActiva> urgencia() {
         return Optional.ofNullable(urgencia);
+    }
+
+    /** Momento del check de llegada de A7, con la hora del servidor; vacío si todavía no llegó. */
+    public Optional<Instant> llegadaAduanaEn() {
+        return Optional.ofNullable(llegadaAduanaEn);
+    }
+
+    /**
+     * Demora vigente en aduana. Es el dato que usará el cronograma de la fase 5 como punto de partida para recalcular
+     * las etapas siguientes (todavía no implementado); en la fase 4 no es un vencimiento.
+     */
+    public Optional<DemoraAduana> demora() {
+        return Optional.ofNullable(demora);
+    }
+
+    /** Bodega de destino (F4-D2): vacía hasta aprobar Bodega; después no cambia. */
+    public Optional<UUID> bodegaId() {
+        return Optional.ofNullable(bodegaId);
     }
 
     public Instant actualizadoEn() {

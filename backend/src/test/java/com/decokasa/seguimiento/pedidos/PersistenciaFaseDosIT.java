@@ -68,6 +68,7 @@ class PersistenciaFaseDosIT {
                 +"values (?,'Persona ficticia',?,?,?,'hash-ficticio',?, ?,0)",id,sufijo+"@ejemplo.test",sufijo,
                 "+"+Long.toUnsignedString(id.getLeastSignificantBits()).substring(0,14),java.sql.Timestamp.from(AHORA),java.sql.Timestamp.from(AHORA));
         jdbc.update("insert into usuario_rol(usuario_id,rol_id,asignado_en) select ?,id,? from rol where codigo=?",id,java.sql.Timestamp.from(AHORA),rol);
+        jdbc.update("insert into usuario_pais(usuario_id,pais_codigo) values (?,'EC')",id);
         return id;
     }
     private <T> T tx(Supplier<T> trabajo) { return new TransactionTemplate(gestor).execute(estado -> trabajo.get()); }
@@ -125,8 +126,10 @@ class PersistenciaFaseDosIT {
         assertThat(f.etapa(1).plazo()).isInstanceOf(PlazoDeEtapa.SinPlazo.class);
         for(int n:List.of(5,7,10)) assertThat(f.etapa(n).plazo()).isInstanceOf(PlazoDeEtapa.Pendiente.class);
         for(int n:List.of(6,9,10)) {
-            assertThat(transiciones.resolver(f.id(),n,APROBAR).documentosPendientes()).isTrue();
-            assertThat(transiciones.resolver(f.id(),n,APROBAR).documentosObligatorios()).isEmpty();
+            assertThat(transiciones.resolver(f.id(),n,APROBAR).documentosPendientes()).isFalse();
+            assertThat(transiciones.resolver(f.id(),n,APROBAR).documentosObligatorios())
+                    .containsExactlyElementsOf(n==6 ? List.of("Packing List") : List.of());
+            assertThat(transiciones.resolver(f.id(),n,APROBAR).exigeAlgunDocumento()).isEqualTo(n!=6);
         }
         assertThat(transiciones.resolver(f.id(),1,ENVIAR).documentosObligatorios()).containsExactly("Solicitud");
         assertThat(transiciones.resolver(f.id(),2,ENVIAR).documentosObligatorios()).containsExactly("Documentos codificados");

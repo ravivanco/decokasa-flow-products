@@ -4,6 +4,7 @@ import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
 import com.decokasa.seguimiento.compartido.domain.NivelUrgencia;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,12 +22,27 @@ public interface EjecutarAccionEtapa {
     /**
      * @param etapaEsperada la etapa que la persona ve en pantalla; si ya no es la actual, 409 ETAPA_CAMBIO
      * @param adjuntoIds archivos que acompañan la acción; vacío si no hay
+     * @param nuevaFechaEstimadaLlegada solo en REPORTAR_DEMORA (F4-D5): la fecha que escribió la persona
+     * @param bodegaId solo al aprobar la etapa de Bodega (F4-D2): una bodega activa
      */
     record Comando(UUID pedidoId, AccionEtapa accion, int etapaEsperada, String observacion,
-            NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds) {
+            NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds, LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId) {
 
         public Comando {
             adjuntoIds = adjuntoIds == null ? List.of() : List.copyOf(adjuntoIds);
+        }
+
+        /** Sin bodega. */
+        public Comando(UUID pedidoId, AccionEtapa accion, int etapaEsperada, String observacion,
+                NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds, LocalDate nuevaFechaEstimadaLlegada) {
+            this(pedidoId, accion, etapaEsperada, observacion, nivelUrgencia, adjuntoIds, nuevaFechaEstimadaLlegada,
+                    null);
+        }
+
+        /** Sin fecha estimada de llegada. */
+        public Comando(UUID pedidoId, AccionEtapa accion, int etapaEsperada, String observacion,
+                NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds) {
+            this(pedidoId, accion, etapaEsperada, observacion, nivelUrgencia, adjuntoIds, null);
         }
 
         /** Sin archivos. */

@@ -1,12 +1,16 @@
 package com.decokasa.seguimiento.pedidos.application.usecase;
 
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
+import com.decokasa.seguimiento.bodegas.application.port.in.DescribirBodega;
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
+import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
+import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa;
+import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
@@ -18,10 +22,12 @@ import com.decokasa.seguimiento.pedidos.application.port.in.ConsultarPedidos;
 import com.decokasa.seguimiento.pedidos.application.port.in.VistasDePedido;
 import com.decokasa.seguimiento.pedidos.application.port.out.ConsultaDePedidos;
 import com.decokasa.seguimiento.pedidos.domain.ActorVigente;
+import com.decokasa.seguimiento.pedidos.domain.DemoraAduana;
 import com.decokasa.seguimiento.pedidos.domain.EtapaDePedido;
 import com.decokasa.seguimiento.pedidos.domain.EtapasHabilitadas;
 import com.decokasa.seguimiento.pedidos.domain.Pedido;
 import com.decokasa.seguimiento.pedidos.domain.PermisosEtapa;
+import com.decokasa.seguimiento.pedidos.domain.ReglaDeTransicion;
 import com.decokasa.seguimiento.pedidos.domain.UrgenciaActiva;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
@@ -53,11 +59,13 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     private final EtapasHabilitadas habilitadas;
     private final Reloj reloj;
     private final ApoyoPedidos apoyo;
+    private final DescribirBodega bodegas;
 
     public ConsultarPedidosCasoDeUso(ConsultaDePedidos consultas, ConsultarDefinicionFlujo flujos,
             ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos, ResumirUsuarios usuarios,
             EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
-            PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres) {
+            PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres, DescribirBodega bodegas) {
+        this.bodegas = bodegas;
         this.consultas = consultas;
         this.cierres = cierres;
         this.flujos = flujos;
@@ -73,6 +81,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     public VistasDePedido.Detalle detalle(Solicitante solicitante, UUID pedidoId) {
         ActorVigente actor = apoyo.lector(solicitante);
         Pedido pedido = consultas.porId(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
+        apoyo.exigirPais(actor, pedido);
         return detalle(pedido, actor);
     }
 
@@ -85,26 +94,48 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         }
         Pedido pedido = consultas.porNumero(limpio)
                 .orElseThrow(() -> new NoEncontrado("No hay un pedido con ese número."));
+        if (!actor.veePais(pedido.pais())) {
+            // ADR-0024: el número de otro país no revela que existe.
+            throw new NoEncontrado("No hay un pedido con ese número.");
+        }
         return detalle(pedido, actor);
     }
 
     @Override
     public VistasDePedido.Pagina listar(Solicitante solicitante, Filtro filtro, int pagina, int tamano) {
-        apoyo.lector(solicitante);
+        ActorVigente actor = apoyo.lector(solicitante);
         exigirPagina(pagina, tamano);
         String texto = filtro.texto() == null || filtro.texto().isBlank() ? null : filtro.texto().strip();
-        ConsultaDePedidos.Pagina resultado = consultas.listar(filtro.tipoFlujo(), filtro.etapa(), filtro.vencido(),
-                texto, reloj.ahora(), pagina, tamano);
+        // ADR-0024: solo pedidos de los países asignados hoy.
+        ConsultaDePedidos.Pagina resultado = consultas.listar(paisesDe(actor, filtro.pais()), filtro.tipoFlujo(),
+                filtro.etapa(),
+                filtro.vencido(), texto, reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
     }
 
     @Override
-    public VistasDePedido.Pagina bandeja(Solicitante solicitante, int pagina, int tamano) {
+    public VistasDePedido.Pagina bandeja(Solicitante solicitante, FiltroBandeja filtro, int pagina, int tamano) {
         ActorVigente actor = apoyo.lector(solicitante);
         exigirPagina(pagina, tamano);
-        ConsultaDePedidos.Pagina resultado = consultas.bandeja(actor.usuarioId(), actor.roles(),
-                actor.tieneRol(PermisosEtapa.ADMIN), pagina, tamano);
+        FiltroBandeja aplicado = filtro == null ? FiltroBandeja.SIN_FILTRO : filtro;
+        ConsultaDePedidos.Pagina resultado = consultas.bandeja(paisesDe(actor, aplicado.pais()), actor.usuarioId(),
+                actor.roles(),
+                actor.tieneRol(PermisosEtapa.ADMIN), Boolean.TRUE.equals(aplicado.vencido()),
+                Boolean.TRUE.equals(aplicado.conUrgencia()), reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
+    }
+
+    /**
+     * Paso 7.3: el país seleccionado, que debe estar asignado hoy (403 si no); sin país, todos los asignados (ADR-0024).
+     */
+    private static Set<CodigoPais> paisesDe(ActorVigente actor, CodigoPais seleccionado) {
+        if (seleccionado == null) {
+            return actor.paises();
+        }
+        if (!actor.veePais(seleccionado)) {
+            throw new SinPermiso("No tienes asignado ese país.");
+        }
+        return Set.of(seleccionado);
     }
 
     private static void exigirPagina(int pagina, int tamano) {
@@ -142,9 +173,19 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
                     etapa.entradaId(), etapa.entradaEn(), etapa.salidaEn(), etapa.venceEn(), etapa.reentradas(),
                     ultimosCierres.get(definicion.numero())));
         }
+        VistasDePedido.Bodega bodega = pedido.bodegaId()
+                .flatMap(bodegas::describir)
+                .map(vista -> new VistasDePedido.Bodega(vista.id(), vista.nombre(), vista.ciudad(), vista.activa(),
+                        vista.version()))
+                .orElse(null);
+        DemoraAduana demora = pedido.demora().orElse(null);
+        VistasDePedido.Demora demoraAduana = demora == null ? null
+                : new VistasDePedido.Demora(persona(demora.reportadaPor(), personas), demora.reportadaEn(),
+                        demora.motivo(), demora.nuevaFechaEstimadaLlegada());
         return new VistasDePedido.Detalle(resumen(pedido, flujo, personas, ahora), pedido.descripcion(),
                 pedido.incluyeProductosNuevos(), persona(pedido.creadoPor(), personas), pedido.creadoEn(),
-                flujo.version(), List.copyOf(linea), accionesDisponibles(pedido, flujo, actor));
+                flujo.version(), bodega, demoraAduana, pedido.llegadaAduanaEn().orElse(null), List.copyOf(linea),
+                accionesDisponibles(pedido, flujo, actor));
     }
 
     private VistasDePedido.Resumen resumen(Pedido pedido, ContratoDeFlujo flujo,
@@ -157,8 +198,9 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
                 pedido.tipoFlujo(), pedido.etapaActual(), flujo.etapa(pedido.etapaActual()).nombre(),
                 persona(actual.asignadoA(), personas), venceEn, vencida,
                 urgencia == null ? null
-                        : new VistasDePedido.Urgencia(urgencia.nivel(), urgencia.activadaEn(), urgencia.venceEn()),
-                pedido.finalizado());
+                        : new VistasDePedido.Urgencia(urgencia.nivel(), urgencia.activadaEn(), urgencia.venceEn(),
+                                !pedido.finalizado() && ahora.isAfter(urgencia.venceEn())),
+                pedido.finalizado(), actual.motivoRetraso());
     }
 
     /**
@@ -168,7 +210,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
      */
     private List<VistasDePedido.AccionDisponible> accionesDisponibles(Pedido pedido, ContratoDeFlujo flujo,
             ActorVigente actor) {
-        if (pedido.finalizado() || !habilitadas.incluye(pedido.etapaActual())) {
+        if (pedido.finalizado() || !habilitadas.para(flujo.etapas()).incluye(pedido.etapaActual())) {
             return List.of();
         }
         EtapaDePedido actual = etapaDe(pedido, pedido.etapaActual());
@@ -180,12 +222,21 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         List<VistasDePedido.AccionDisponible> lista = new ArrayList<>();
         for (ResolverTransicion.Resolucion resolucion : acciones.accionesDe(pedido.flujoId(), pedido.etapaActual())) {
             List<String> obligatorios = resolucion.documentosObligatorios().stream().sorted().toList();
-            List<String> faltantes = obligatorios.stream().filter(tipo -> !subidos.contains(tipo)).toList();
-            boolean puedeCompletarse = !resolucion.documentosPendientes() && resolucion.etapaDestino() != null
-                    && !resolucion.requiereBodega() && faltantes.isEmpty();
+            List<String> faltantes = new ArrayList<>(
+                    obligatorios.stream().filter(tipo -> !subidos.contains(tipo)).toList());
+            // V16 (A9 y A10): cualquier documento de la entrada actual cuenta; sin ninguno, falta uno.
+            if (resolucion.exigeAlgunDocumento() && subidos.isEmpty()) {
+                faltantes.add(ReglaDeTransicion.FALTA_ALGUN_DOCUMENTO);
+            }
+            // REPORTAR_DEMORA no mueve el pedido y sí está implementada (F4-D5); ELEGIR_BODEGA no se usa (F4-D2). La
+            // bodega, como la observación, se envía con la acción y no cuenta aquí.
+            boolean implementada = resolucion.etapaDestino() != null
+                    || resolucion.accion() == AccionEtapa.REPORTAR_DEMORA;
+            boolean puedeCompletarse = !resolucion.documentosPendientes() && implementada && faltantes.isEmpty();
             lista.add(new VistasDePedido.AccionDisponible(resolucion.accion(), resolucion.etapaDestino(),
-                    resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.documentosPendientes(),
-                    obligatorios, faltantes, puedeCompletarse));
+                    resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.requiereBodega(),
+                    resolucion.documentosPendientes(), obligatorios, List.copyOf(faltantes), puedeCompletarse,
+                    resolucion.exigeAlgunDocumento()));
         }
         return List.copyOf(lista);
     }
@@ -198,6 +249,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         Set<UUID> ids = new HashSet<>();
         for (Pedido pedido : pedidos) {
             ids.add(pedido.creadoPor());
+            pedido.demora().ifPresent(demora -> ids.add(demora.reportadaPor()));
             for (EtapaDePedido etapa : pedido.etapas()) {
                 if (etapa.asignadoA() != null) {
                     ids.add(etapa.asignadoA());

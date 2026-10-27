@@ -51,6 +51,11 @@ public class EventoPedidoEntity {
     @ColumnTransformer(write = "?::jsonb")
     private String datos;
 
+    // V13 (F4-H01): número de inserción que asigna la base (valor por defecto de la columna). La aplicación nunca lo
+    // escribe; nulo en los eventos anteriores a V13, cuyo orden dentro de una misma hora no se conoce.
+    @Column(name = "secuencia", insertable = false, updatable = false)
+    private Long secuencia;
+
     protected EventoPedidoEntity() {
     }
 

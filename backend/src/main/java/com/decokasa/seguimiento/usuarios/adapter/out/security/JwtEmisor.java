@@ -36,6 +36,8 @@ public final class JwtEmisor implements EmisorTokens {
                 .issuedAt(emitidoEn)
                 .expiresAt(emitidoEn.plus(duracion))
                 .claim("roles", usuario.roles().stream().map(CodigoRol::valor).sorted().toList())
+                // ADR-0033: instante exacto de emisión, para invalidar los tokens anteriores a un cambio de contraseña.
+                .claim("emitido_ms", emitidoEn.toEpochMilli())
                 .build();
         JwsHeader cabecera = JwsHeader.with(MacAlgorithm.HS256).build();
         return codificador.encode(JwtEncoderParameters.from(cabecera, claims)).getTokenValue();

@@ -43,6 +43,20 @@ public class DefinicionEtapaEntity {
     @Column(name = "revisa_etapa")
     private Short revisaEtapa;
 
+    // V11 (ADR-0018): etapa de llegada a aduana.
+    @Column(name = "registra_llegada")
+    private boolean registraLlegada;
+
+    // V25 (ADR-0030): duración de referencia para estimar; no es un plazo.
+    @Column(name = "estimacion_cantidad")
+    private Integer estimacionCantidad;
+
+    @Column(name = "estimacion_tipo")
+    private String estimacionTipo;
+
+    @Column(name = "estimacion_fuente")
+    private String estimacionFuente;
+
     protected DefinicionEtapaEntity() {
     }
 
@@ -80,5 +94,21 @@ public class DefinicionEtapaEntity {
 
     Short getRevisaEtapa() {
         return revisaEtapa;
+    }
+
+    boolean isRegistraLlegada() {
+        return registraLlegada;
+    }
+
+    Integer getEstimacionCantidad() {
+        return estimacionCantidad;
+    }
+
+    String getEstimacionTipo() {
+        return estimacionTipo;
+    }
+
+    String getEstimacionFuente() {
+        return estimacionFuente;
     }
 }

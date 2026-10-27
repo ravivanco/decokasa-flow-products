@@ -1,6 +1,6 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { admin, ana, problema, type UsuarioApi } from '@/test/apiFicticia';
 import {
   apiPedido,
@@ -19,6 +19,8 @@ import { servidor } from '@/test/servidor';
 
 const con = (roles: string[]): UsuarioApi => ({ ...ana, roles });
 const flujo = http.get('*/api/v1/flujos/EC/A', () => HttpResponse.json(definicionFlujoA));
+// Desde fase 6 se consultan las definiciones también al abrir creación.
+beforeEach(() => servidor.use(flujo));
 
 /** GET /pedidos con la respuesta dada; registra los parámetros de cada consulta. */
 function listado(responder: (parametros: URLSearchParams) => Response) {
@@ -116,7 +118,7 @@ describe('Lista de pedidos', () => {
   it('el admin ve "Nuevo pedido"', async () => {
     listado(() => HttpResponse.json(pagina([])));
     abrirConSesion(admin, '/pedidos');
-    expect(await screen.findByRole('link', { name: 'Nuevo pedido' })).toHaveAttribute('href', '/pedidos/nuevo');
+    expect(await screen.findByRole('link', { name: 'Nuevo pedido' })).toHaveAttribute('href', '/pedidos/nuevo?flujo=A');
   });
 });
 
@@ -136,10 +138,10 @@ describe('Bandeja', () => {
 
     abrirConSesion(con(['marketing', 'asistente_compras', 'compras_china']), '/bandeja');
 
-    await screen.findByRole('link', { name: 'DK-EC-2026-0002' });
-    const titulos = screen.getAllByRole('heading', { level: 2 }).map((titulo) => titulo.textContent);
+    await within(await screen.findByRole('region', {name:'Bandeja por etapa'})).findByRole('link', { name: 'DK-EC-2026-0002' });
+    const titulos = within(screen.getByRole('region', {name:'Bandeja por etapa'})).getAllByRole('heading', { level: 2 }).map((titulo) => titulo.textContent).filter(t=>/^A[0-9]+ ?/.test(t ?? ''));
     expect(titulos).toEqual(['A2 · Codificación', 'A3 · Revisión y aprobación', 'A4 · Análisis y gestión']);
-    expect(consultas).toHaveLength(1);
+    expect(consultas).toHaveLength(5);
   });
 
   it('sin pendientes lo dice y ofrece ver todos los pedidos', async () => {
