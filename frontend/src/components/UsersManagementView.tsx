@@ -1,9 +1,12 @@
-import { PencilIcon, PlusIcon } from 'lucide-react';
+import { LinkIcon, PencilIcon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
+import { destinoGoogleValido } from '@/lib/destinoGoogle';
+import { irA } from '@/lib/navegacion';
 import {
   useActualizarUsuario,
+  useConectarGoogle,
   useRoles,
   useUsuarios,
 } from '@/api/consultas';
@@ -27,8 +30,25 @@ export function UsersManagementView() {
   const usuarios = useUsuarios();
   const roles = useRoles();
   const actualizar = useActualizarUsuario();
-  // Richard (2026-10-27): «Conectar Google Drive» se retiró de la pantalla porque la cuenta central ya está conectada.
-  // El flujo OAuth sigue en el servidor (/integraciones/google/oauth2/…) por si hay que volver a autorizarla.
+  // «Conectar Google Drive» (recuperado el 2026-10-31): en Render la cuenta central se autoriza desde aquí. El servidor
+  // revalida al admin; el navegador solo sale hacia Google o hacia la salida de un solo uso del backend.
+  const conectarGoogle = useConectarGoogle();
+
+  function conectar() {
+    setAviso(null);
+    conectarGoogle.mutate(undefined, {
+      onSuccess: ({ urlAutorizacion }) => {
+        if (destinoGoogleValido(urlAutorizacion)) irA(urlAutorizacion);
+        else setAviso('El servidor devolvió un destino inesperado para la conexión con Google. No se abrió.');
+      },
+      onError: (error) =>
+        setAviso(
+          esErrorApi(error) && error.status === 404
+            ? 'La conexión con Google no está habilitada en este servidor.'
+            : mensajeDeError(error, 'No se pudo iniciar la conexión con Google. Intenta de nuevo.'),
+        ),
+    });
+  }
 
   const [edicion, setEdicion] = useState<Edicion>(null);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -62,6 +82,10 @@ export function UsersManagementView() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-heading text-2xl font-bold text-primary">Usuarios</h1>
         <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={conectar} disabled={conectarGoogle.isPending}>
+            <LinkIcon data-icon="inline-start" />
+            Conectar Google Drive
+          </Button>
           <Button onClick={() => setEdicion({ tipo: 'alta' })} disabled={!roles.data}>
             <PlusIcon data-icon="inline-start" />
             Nuevo usuario

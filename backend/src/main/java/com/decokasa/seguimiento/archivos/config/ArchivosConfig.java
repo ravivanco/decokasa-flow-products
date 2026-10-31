@@ -61,9 +61,22 @@ public class ArchivosConfig {
         return new VerificadorFormatoEnDisco(Path.of(directorio));
     }
 
+    /**
+     * Con {@code ARCHIVOS_DESTINO=drive} (ADR-0034) este directorio solo guarda temporales de una petición (verificación
+     * técnica antes de registrar); el documento vive únicamente en Drive. Con {@code local} sigue el flujo de la fase 3.
+     */
     @Bean
     AlmacenLocal almacenLocal(@Value("${decokasa.archivos.directorio}") String directorio) {
         return new AlmacenLocalEnDisco(Path.of(directorio));
+    }
+
+    /** {@code local} (desarrollo, copia diferida a Drive) o {@code drive} (ADR-0034: el documento solo en Drive). */
+    static boolean destinoDrive(String destino) {
+        return switch (destino.strip().toLowerCase(java.util.Locale.ROOT)) {
+            case "local", "" -> false;
+            case "drive" -> true;
+            default -> throw new IllegalArgumentException("ARCHIVOS_DESTINO debe ser 'local' o 'drive'.");
+        };
     }
 
     /**
@@ -164,11 +177,19 @@ public class ArchivosConfig {
     @Bean
     SubirArchivo subirArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos, AlmacenLocal almacen,
             AdjuntoRepositorio adjuntos, PublicadorEventos publicador, ResumirUsuarios usuarios, Reloj reloj,
-            LimiteDeTamano limite, CuotaAlmacenamiento cuota, VerificadorFormato verificador) {
+            LimiteDeTamano limite, CuotaAlmacenamiento cuota, VerificadorFormato verificador,
+            @Value("${decokasa.archivos.destino:local}") String destino) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         SubirArchivoCasoDeUso caso = new SubirArchivoCasoDeUso(pedidos, almacen, adjuntos, publicador, usuarios, reloj,
                 limite, verificador);
+        boolean soloDrive = destinoDrive(destino);
         return (solicitante, comando) -> {
+            if (soloDrive) {
+                // ADR-0034: sin clave de idempotencia este camino podría duplicar en Drive; se usa la carga reanudable.
+                throw new com.decokasa.seguimiento.compartido.domain.DatoInvalido("archivo",
+                        "En este servidor los documentos se suben por carga reanudable directamente a Drive. "
+                                + "Actualiza la página y vuelve a subirlo.");
+            }
             UUID adjuntoId = UUID.randomUUID();
             tx.executeWithoutResult(estado -> {
                 caso.prevalidar(solicitante, comando);

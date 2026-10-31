@@ -8,6 +8,12 @@ import java.util.UUID;
 public interface ConexionOAuthGoogle {
     Inicio iniciar(UUID adminId, String vinculoNavegador);
 
+    /**
+     * Retorno público HTTPS (ADR-0034): canjea el ticket de un solo uso de {@link #iniciar}, vincula la solicitud a la
+     * cookie nueva del dominio del callback y devuelve la URL de consentimiento de Google.
+     */
+    String salida(String ticket, String vinculoNavegador);
+
     Pendiente consumir(String estado, String vinculoNavegador);
 
     void conectar(Pendiente pendiente, String codigo);

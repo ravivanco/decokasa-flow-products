@@ -21,15 +21,31 @@ public final class TareaCopiaArchivos {
     }
     @Scheduled(fixedDelayString="${decokasa.google.drive.worker.intervalo-ms:30000}")
     public void ejecutar() {
-        try { carpetas.ejecutar(); }
-        catch (RuntimeException error) {
-            // No adjuntar throwable: excepciones JDBC/HTTP podrían incluir metadatos o datos privados.
-            LOG.warn("No se completó la pasada de carpetas de pedidos en Drive; las intenciones quedan pendientes.");
-        }
-        try { copias.ejecutar(); }
-        catch (RuntimeException error) {
-            // No adjuntar throwable: excepciones JDBC/HTTP podrían incluir metadatos o una sesión privada.
-            LOG.warn("No se completó la pasada de copias Drive; los leases y archivos quedan para recuperación.");
+        org.slf4j.MDC.put("corr","tarea-"+Long.toHexString(System.nanoTime() & 0xffffffL));
+        long inicio=System.nanoTime();
+        int carpetasProcesadas=0;
+        int copiasProcesadas=0;
+        try {
+            try { carpetasProcesadas=carpetas.ejecutar(); }
+            catch (RuntimeException error) {
+                // No adjuntar throwable: excepciones JDBC/HTTP podrían incluir metadatos o datos privados.
+                LOG.warn("No se completó la pasada de carpetas de pedidos en Drive; las intenciones quedan pendientes. tipo={}",
+                        error.getClass().getSimpleName());
+            }
+            try { copiasProcesadas=copias.ejecutar(); }
+            catch (RuntimeException error) {
+                // No adjuntar throwable: excepciones JDBC/HTTP podrían incluir metadatos o una sesión privada.
+                LOG.warn("No se completó la pasada de copias Drive; los leases y archivos quedan para recuperación. tipo={}",
+                        error.getClass().getSimpleName());
+            }
+            long ms=(System.nanoTime()-inicio)/1_000_000;
+            if (carpetasProcesadas>0 || copiasProcesadas>0) {
+                LOG.info("tarea.drive carpetas={} copias={} ms={}",carpetasProcesadas,copiasProcesadas,ms);
+            } else {
+                LOG.debug("tarea.drive sin pendientes ms={}",ms);
+            }
+        } finally {
+            org.slf4j.MDC.remove("corr");
         }
     }
 }

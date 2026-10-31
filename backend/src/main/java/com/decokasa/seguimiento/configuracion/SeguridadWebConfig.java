@@ -87,8 +87,10 @@ public class SeguridadWebConfig {
                         .permitAll()
                         // OAuth de usuario (paso 3.1): solo el retorno y su resultado no llevan JWT.
                         // El callback exige state de un solo uso, cookie de vínculo y admin vigente en aplicación.
+                        // ADR-0034: /salida canjea un ticket de un solo uso (5 min) emitido a un admin con JWT.
                         .requestMatchers(HttpMethod.GET, "/api/v1/integraciones/google/oauth2/callback",
-                                "/api/v1/integraciones/google/oauth2/resultado")
+                                "/api/v1/integraciones/google/oauth2/resultado",
+                                "/api/v1/integraciones/google/oauth2/salida")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/renovar",
                                 "/api/v1/auth/cerrar-sesion")

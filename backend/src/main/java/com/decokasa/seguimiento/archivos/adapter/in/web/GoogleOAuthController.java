@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -34,17 +35,46 @@ public class GoogleOAuthController {
     private static final String COOKIE = "decokasa_google_inicio";
     private static final String RUTA = "/api/v1/integraciones/google/oauth2";
     private final AutorizarCuentaGoogle autorizar;
+    /**
+     * ADR-0034: con retorno público HTTPS (Render) el frontend está en otro dominio. {@code /inicio} no fija cookie y
+     * devuelve la URL de {@code /salida}; al abrirla en el navegador, la cookie se fija ya en el dominio del callback,
+     * con {@code Secure}.
+     */
+    private final boolean porSalida;
     private final SecureRandom azar = new SecureRandom();
 
-    public GoogleOAuthController(AutorizarCuentaGoogle autorizar) { this.autorizar = autorizar; }
+    public GoogleOAuthController(AutorizarCuentaGoogle autorizar,
+            @Value("${decokasa.google.oauth.redirect-uri}") String retorno) {
+        this.autorizar = autorizar;
+        this.porSalida = retorno.startsWith("https://");
+    }
 
     @PostMapping("/inicio")
     public ResponseEntity<Inicio> iniciar(@AuthenticationPrincipal Jwt token) {
-        byte[] bytes = new byte[32]; azar.nextBytes(bytes);
-        String vinculo = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+        String vinculo = aleatorio();
         Inicio inicio = autorizar.iniciar(SolicitantesWeb.de(token), vinculo);
+        if (porSalida) { return proteger(ResponseEntity.ok()).body(inicio); }
         return proteger(ResponseEntity.ok()).header(HttpHeaders.SET_COOKIE,
                 cookie(vinculo, Duration.ofMinutes(5)).toString()).body(inicio);
+    }
+
+    /** Navegación de primer nivel, sin JWT: canjea el ticket de un solo uso y redirige a Google con la cookie nueva. */
+    @GetMapping("/salida")
+    public ResponseEntity<Void> salida(@RequestParam MultiValueMap<String, String> parametros) {
+        if (!porSalida) { return resultado(400); }
+        try {
+            String vinculo = aleatorio();
+            String google = autorizar.salida(unico(parametros, "t"), vinculo);
+            return proteger(ResponseEntity.status(303)).header(HttpHeaders.LOCATION, google)
+                    .header(HttpHeaders.SET_COOKIE, cookie(vinculo, Duration.ofMinutes(5)).toString()).build();
+        } catch (RuntimeException error) {
+            return resultado(400);
+        }
+    }
+
+    private String aleatorio() {
+        byte[] bytes = new byte[32]; azar.nextBytes(bytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
     @GetMapping("/callback")
@@ -92,10 +122,10 @@ public class GoogleOAuthController {
         return valores.getFirst();
     }
 
-    private static ResponseCookie cookie(String valor, Duration duracion) {
-        // HTTP es una excepción SOLO para localhost en este cliente. Host-only; no Domain.
-        // Lax permite el retorno GET de Google; no cambia la cookie Strict de renovación del login.
-        return ResponseCookie.from(COOKIE, valor).httpOnly(true).secure(false).sameSite("Lax")
+    private ResponseCookie cookie(String valor, Duration duracion) {
+        // HTTP es una excepción SOLO para el retorno localhost; con retorno HTTPS la cookie es Secure. Host-only; no
+        // Domain. Lax permite el retorno GET de Google; no cambia la cookie Strict de renovación del login.
+        return ResponseCookie.from(COOKIE, valor).httpOnly(true).secure(porSalida).sameSite("Lax")
                 .path(RUTA).maxAge(duracion).build();
     }
 

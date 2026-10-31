@@ -15,9 +15,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 /** AES-GCM con llave privada del almacén 3.1; protocolo/AAD separados del contenedor OAuth. Sin I/O al construir. */
 public final class ProtectorSesionDriveAes implements ProtectorSesionDrive {
-    private final String rutaLlave;
+    private final SecretosGoogle.FuenteLlave llave;
     private final SecureRandom azar=new SecureRandom();
-    public ProtectorSesionDriveAes(String rutaLlave) { this.rutaLlave=rutaLlave; }
+    /** Paso 3.1: llave en archivo privado local. */
+    public ProtectorSesionDriveAes(String rutaLlave) {
+        this.llave=() -> ArchivosPrivadosGoogle.leer(ArchivosPrivadosGoogle.externo(rutaLlave),32);
+    }
+    /** ADR-0034: la misma llave que los tokens, del origen configurado (archivo o variable de entorno). */
+    public ProtectorSesionDriveAes(SecretosGoogle secretos) { this.llave=secretos.llave(); }
     @Override public byte[] cifrar(UUID id,AlmacenArchivos.Sesion sesion) {
         byte[] nonce=new byte[12];azar.nextBytes(nonce);
         byte[] claro=sesion.uri().getBytes(StandardCharsets.UTF_8);
@@ -35,15 +40,15 @@ public final class ProtectorSesionDriveAes implements ProtectorSesionDrive {
         finally { Arrays.fill(claro,(byte)0); }
     }
     private byte[] transformar(UUID id,int modo,byte[] nonce,byte[] datos) {
-        byte[] llave=null;
+        byte[] clave=null;
         try {
-            llave=ArchivosPrivadosGoogle.leer(ArchivosPrivadosGoogle.externo(rutaLlave),32);
-            if (llave.length!=32) { throw new FalloIntegracionGoogle(Causa.CONFIGURACION); }
+            clave=llave.leer();
+            if (clave.length!=32) { throw new FalloIntegracionGoogle(Causa.CONFIGURACION); }
             Cipher cifrador=Cipher.getInstance("AES/GCM/NoPadding");
-            cifrador.init(modo,new SecretKeySpec(llave,"AES"),new GCMParameterSpec(128,nonce));
+            cifrador.init(modo,new SecretKeySpec(clave,"AES"),new GCMParameterSpec(128,nonce));
             cifrador.updateAAD(("decokasa:drive:1:"+id).getBytes(StandardCharsets.UTF_8));
             return cifrador.doFinal(datos);
         } catch (Exception error) { throw new FalloIntegracionGoogle(Causa.CONFIGURACION); }
-        finally { if (llave!=null) { Arrays.fill(llave,(byte)0); } }
+        finally { if (clave!=null) { Arrays.fill(clave,(byte)0); } }
     }
 }
