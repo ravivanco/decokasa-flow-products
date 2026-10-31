@@ -66,15 +66,23 @@ public class CopiaDriveConfig {
         TransactionTemplate tx=new TransactionTemplate(gestor);
         CopiaAdjuntoRepositorio copias=new CopiaAdjuntoRepositorio() {
             @Override public List<Pendiente> reclamar(int limite,Instant ahora,Instant hasta,UUID propietario) {
-                return tx.execute(s -> repositorio.reclamar(limite,ahora,hasta,propietario));
+                List<Pendiente> filas=tx.execute(s -> repositorio.reclamar(limite,ahora,hasta,propietario));
+                for (Pendiente p:filas) {
+                    LOG.info("copia.reclamada adjunto={} pedido={} tamano={} intentos={} sesion_previa={}",p.id(),p.pedidoId(),
+                            p.tamano(),p.intentos(),p.sesionCifrada()!=null);
+                }
+                return filas;
             }
             @Override public boolean reservarId(UUID id,UUID token,String remoto,Instant ahora) {
                 return Boolean.TRUE.equals(tx.execute(s -> repositorio.reservarId(id,token,remoto,ahora)));
             }
             @Override public boolean confirmar(UUID id,UUID token,String remoto,String enlace,Instant ahora) {
-                return Boolean.TRUE.equals(tx.execute(s -> repositorio.confirmar(id,token,remoto,enlace,ahora)));
+                boolean hecho=Boolean.TRUE.equals(tx.execute(s -> repositorio.confirmar(id,token,remoto,enlace,ahora)));
+                LOG.info("copia.confirmada adjunto={} drive_id={} vigente={}",id,remoto,hecho);
+                return hecho;
             }
             @Override public boolean registrarFallo(UUID id,UUID token,Causa causa,Instant siguiente,boolean terminal,Instant ahora) {
+                LOG.warn("copia.fallo adjunto={} causa={} terminal={} siguiente_intento={}",id,causa,terminal,siguiente);
                 return Boolean.TRUE.equals(tx.execute(s -> repositorio.registrarFallo(id,token,causa,siguiente,terminal,ahora)));
             }
             @Override public boolean renovar(UUID id,UUID token,Instant ahora,Instant hasta) {
@@ -122,17 +130,23 @@ public class CopiaDriveConfig {
         CarpetaPedidoRepositorio intenciones=new CarpetaPedidoRepositorio() {
             @Override public void programar(UUID id,Origen origen,boolean reabrir,Instant ahora) {
                 tx.executeWithoutResult(s -> repositorio.programar(id,origen,reabrir,ahora));
+                LOG.info("carpeta.programada pedido={} origen={} reabrir={}",id,origen,reabrir);
             }
             @Override public List<Pendiente> reclamar(int limite,Instant ahora,Instant hasta,UUID propietario) {
-                return tx.execute(s -> repositorio.reclamar(limite,ahora,hasta,propietario));
+                List<Pendiente> filas=tx.execute(s -> repositorio.reclamar(limite,ahora,hasta,propietario));
+                for (Pendiente p:filas) { LOG.info("carpeta.ejecucion pedido={} intentos={}",p.pedidoId(),p.intentos()); }
+                return filas;
             }
             @Override public boolean renovar(UUID id,UUID token,Instant ahora,Instant hasta) {
                 return Boolean.TRUE.equals(tx.execute(s -> repositorio.renovar(id,token,ahora,hasta)));
             }
             @Override public boolean confirmar(UUID id,UUID token,String driveId,Instant ahora) {
-                return Boolean.TRUE.equals(tx.execute(s -> repositorio.confirmar(id,token,driveId,ahora)));
+                boolean hecho=Boolean.TRUE.equals(tx.execute(s -> repositorio.confirmar(id,token,driveId,ahora)));
+                LOG.info("carpeta.confirmada pedido={} drive_id={} vigente={}",id,driveId,hecho);
+                return hecho;
             }
             @Override public boolean registrarFallo(UUID id,UUID token,Causa causa,Instant siguiente,boolean terminal,Instant ahora) {
+                LOG.warn("carpeta.fallo pedido={} causa={} terminal={} siguiente_intento={}",id,causa,terminal,siguiente);
                 return Boolean.TRUE.equals(tx.execute(s -> repositorio.registrarFallo(id,token,causa,siguiente,terminal,ahora)));
             }
             @Override public Optional<Estado> estado(UUID id) { return tx.execute(s -> repositorio.estado(id)); }
@@ -161,8 +175,14 @@ public class CopiaDriveConfig {
     @Bean GestionarCarpetasPedidos.ProgramarAlta programarAltaCarpetaPedido(CarpetaPedidoRepositorio repositorio,
             ConsultarResponsables responsables,Reloj reloj) {
         var caso=new GestionarCarpetasPedidosCasoDeUso(repositorio,responsables,reloj);
-        return caso::programarAlta;
+        // Dentro de la transacción del alta: sin Google; la carpeta la crea después el trabajador o la primera carga.
+        return (pedidoId,ocurridoEn) -> {
+            caso.programarAlta(pedidoId,ocurridoEn);
+            LOG.info("carpeta.programada pedido={} origen=ALTA_PEDIDO",pedidoId);
+        };
     }
+
+    private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger("decokasa.archivos.drive");
 
     // --- Carpeta global de cada usuario (ADR-0026): solo historial desde ADR-0027 ---
 

@@ -63,6 +63,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
     private static final Set<String> AMBITOS = Set.of("openid", EMAIL,
             "https://www.googleapis.com/auth/gmail.send", "https://www.googleapis.com/auth/drive.file");
     private static final Duration VIGENCIA = Duration.ofMinutes(5);
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger("decokasa.google.oauth");
     /** Retorno público: solo HTTPS, nombre de host en minúsculas, ruta fija, sin puerto, query ni fragmento. */
     private static final Pattern PUBLICO = Pattern.compile(
             "https://[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+"
@@ -260,6 +261,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             almacen().guardar(new Tokens(cliente.id(), identidad.getSubject(), correo,
                     obligatorio(resultado, "access_token"), texto(resultado, "refresh_token"),
                     ahora.plusSeconds(segundos), offlineHasta, String.join(" ", concedidos)), ahora);
+            LOG.info("google.oauth autorización guardada produccion={} autorizacion_hasta={}", produccion, offlineHasta);
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
             throw new GoogleNoDisponible();
@@ -267,6 +269,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             throw error;
         } catch (Exception error) {
             // No adjuntar la causa: Jackson, JWT y HTTP pueden incluir secretos en mensajes o cuerpos.
+            LOG.warn("google.oauth no se completó la autorización tipo={}", error.getClass().getSimpleName());
             throw new GoogleNoDisponible();
         }
     }
@@ -292,8 +295,12 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
                 throw new GoogleNoDisponible();
             }
             return new Credencial(correo, tokens.accessToken());
-        } catch (FalloIntegracionGoogle error) { throw error; }
-        catch (Exception error) {
+        } catch (FalloIntegracionGoogle error) {
+            LOG.warn("google.oauth credencial no disponible causa={}", error.causa());
+            throw error;
+        } catch (Exception error) {
+            // Solo el tipo: los mensajes de JWT, JSON o HTTP pueden contener datos sensibles.
+            LOG.warn("google.oauth credencial no disponible causa={} tipo={}", causa, error.getClass().getSimpleName());
             throw new com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle(causa);
         }
     }

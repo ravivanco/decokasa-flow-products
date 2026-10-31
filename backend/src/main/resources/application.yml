@@ -17,6 +17,16 @@ spring:
   jackson:
     time-zone: America/Guayaquil
 
+logging:
+  pattern:
+    # Identificador de correlación de cada petición o pasada del trabajador (CorrelacionFiltro, TareaCopiaArchivos).
+    correlation: "[corr=%X{corr:-}] "
+  level:
+    # DEBUG para ver cada fragmento de carga y cada llamada a Drive con su duración (LOG_DETALLE_DRIVE=DEBUG).
+    decokasa.google: ${LOG_DETALLE_DRIVE:INFO}
+    decokasa.archivos: ${LOG_DETALLE_DRIVE:INFO}
+    decokasa.http: ${LOG_DETALLE_DRIVE:INFO}
+
 management:
   endpoints:
     web:

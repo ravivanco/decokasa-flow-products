@@ -68,33 +68,68 @@ public class CargasConfig {
                 reloj,limite,parciales instanceof CargaADriveCasoDeUso directo ? directo : null);
         return new GestionarCarga() {
             @Override public Vista iniciar(Solicitante solicitante, Inicio comando) {
-                return tx.execute(estado -> {
-                    Vista vista=caso.iniciar(solicitante,comando);
-                    cuota.reservar(vista.carga().adjuntoReservadoId(),vista.carga().usuarioId(),vista.carga().tamanoBytes());
-                    return vista;
+                long t0=System.nanoTime();
+                Vista vista=tx.execute(estado -> {
+                    Vista v=caso.iniciar(solicitante,comando);
+                    cuota.reservar(v.carga().adjuntoReservadoId(),v.carga().usuarioId(),v.carga().tamanoBytes());
+                    return v;
                 });
+                LOG.info("carga.inicio carga={} pedido={} etapa={} tamano={} offset={} destino={} db_ms={}",vista.carga().id(),
+                        vista.carga().pedidoId(),vista.carga().etapa(),vista.carga().tamanoBytes(),
+                        vista.carga().offsetConfirmado(),caso.directoADrive() ? "drive" : "local",ms(t0));
+                return vista;
             }
             @Override public Vista consultar(Solicitante solicitante, UUID id) {
                 return tx.execute(estado -> caso.vista(caso.autorizar(solicitante,id,false)));
             }
             @Override public Vista fragmento(Solicitante solicitante, UUID id, Bloque bloque) {
-                tx.executeWithoutResult(estado -> caso.autorizar(solicitante,id,false));
-                try (var bloqueo=parciales.bloquear(id)) {
-                    Vista vista=tx.execute(estado -> {
-                        CargaArchivo carga=caso.autorizar(solicitante,id,true);
-                        caso.validarBloque(carga,bloque);
-                        return caso.vista(carga);
-                    });
-                    if (bloque.inicio()==vista.carga().offsetConfirmado()) {
-                        // Con destino Drive, escribir reenvía el fragmento a Drive (sin transacción abierta).
-                        parciales.reconciliar(id,vista.carga().offsetConfirmado());
-                        parciales.escribir(id,bloque.inicio(),bloque.contenido());
+                long t0=System.nanoTime();
+                long dbMs=0;
+                long escrituraMs=0;
+                try {
+                    tx.executeWithoutResult(estado -> caso.autorizar(solicitante,id,false));
+                    try (var bloqueo=parciales.bloquear(id)) {
+                        Vista vista=tx.execute(estado -> {
+                            CargaArchivo carga=caso.autorizar(solicitante,id,true);
+                            caso.validarBloque(carga,bloque);
+                            return caso.vista(carga);
+                        });
+                        dbMs=ms(t0);
+                        if (bloque.inicio()==vista.carga().offsetConfirmado()) {
+                            // Con destino Drive, escribir reenvía el fragmento a Drive (sin transacción abierta).
+                            long t1=System.nanoTime();
+                            parciales.reconciliar(id,vista.carga().offsetConfirmado());
+                            parciales.escribir(id,bloque.inicio(),bloque.contenido());
+                            escrituraMs=ms(t1);
+                        }
+                        // Si la autorización/commit falla, el tail se trunca al offset durable en la próxima petición.
+                        long t2=System.nanoTime();
+                        Vista resultado=tx.execute(estado -> caso.confirmarBloque(solicitante,id,bloque));
+                        dbMs+=ms(t2);
+                        registrarProgreso(resultado,bloque,dbMs,escrituraMs,caso.directoADrive());
+                        return resultado;
                     }
-                    // Si la autorización/commit falla, el tail se trunca al offset durable en la próxima petición.
-                    return tx.execute(estado -> caso.confirmarBloque(solicitante,id,bloque));
+                } catch (RuntimeException error) {
+                    LOG.warn("carga.fragmento.error carga={} inicio={} bytes={} causa={} db_ms={} {}_ms={}",id,bloque.inicio(),
+                            bloque.contenido()==null ? 0 : bloque.contenido().length,causa(error),dbMs,
+                            caso.directoADrive() ? "drive" : "disco",escrituraMs);
+                    throw error;
                 }
             }
             @Override public AdjuntoVista completar(Solicitante solicitante, UUID id) {
+                long t0=System.nanoTime();
+                try {
+                    AdjuntoVista adjunto=completarCarga(solicitante,id);
+                    LOG.info("carga.finalizada carga={} pedido={} adjunto={} tamano={} estado_copia={} ms={}",id,
+                            adjunto.adjunto().pedidoId(),adjunto.adjunto().id(),adjunto.adjunto().tamanoBytes(),
+                            adjunto.adjunto().estadoCopia(),ms(t0));
+                    return adjunto;
+                } catch (RuntimeException error) {
+                    LOG.warn("carga.finalizacion.error carga={} causa={} ms={}",id,causa(error),ms(t0));
+                    throw error;
+                }
+            }
+            private AdjuntoVista completarCarga(Solicitante solicitante, UUID id) {
                 tx.executeWithoutResult(estado -> caso.autorizar(solicitante,id,false));
                 try (var bloqueo=parciales.bloquear(id)) {
                     Vista vista=tx.execute(estado -> caso.vista(caso.autorizar(solicitante,id,true)));
@@ -105,12 +140,16 @@ public class CargasConfig {
                     }
                     if (caso.directoADrive()) {
                         // ADR-0034: verificación contra Drive fuera de transacción; registro en una transacción corta.
+                        long t1=System.nanoTime();
                         GestionarCargaCasoDeUso.PreparadoDrive preparado=caso.prepararFinalDrive(vista);
+                        LOG.info("carga.drive_confirmado carga={} tamano={} verificacion_ms={}",id,preparado.tamanoBytes(),ms(t1));
+                        long t2=System.nanoTime();
                         AdjuntoVista registrado=tx.execute(estado -> {
                             var adjunto=caso.registrarFinalDrive(solicitante,id,preparado);
                             cuota.confirmar(adjunto.adjunto().id(),solicitante.usuarioId(),adjunto.adjunto().tamanoBytes());
                             return adjunto;
                         });
+                        LOG.debug("carga.registro carga={} db_ms={}",id,ms(t2));
                         ((CargaADriveCasoDeUso) parciales).olvidarSesion(id);
                         return registrado;
                     }
@@ -126,6 +165,37 @@ public class CargasConfig {
                 }
             }
         };
+    }
+
+    private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger("decokasa.archivos.cargas");
+
+    private static long ms(long desde) { return (System.nanoTime()-desde)/1_000_000; }
+
+    /** Causa depurada: código del contrato, causa de Google o solo el tipo; nunca el mensaje (puede llevar datos). */
+    private static String causa(RuntimeException error) {
+        if (error instanceof com.decokasa.seguimiento.compartido.domain.ErrorDeDominio dominio) {
+            return dominio.codigo().name();
+        }
+        if (error instanceof com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle google) {
+            return "GOOGLE_"+google.causa().name();
+        }
+        return error.getClass().getSimpleName();
+    }
+
+    /** Cada fragmento en DEBUG; en INFO solo el primero y al cruzar 25, 50, 75 y 100 %. */
+    private static void registrarProgreso(GestionarCarga.Vista vista, GestionarCarga.Bloque bloque, long dbMs,
+            long escrituraMs, boolean drive) {
+        long total=vista.carga().tamanoBytes();
+        long hecho=vista.carga().offsetConfirmado();
+        String destino=drive ? "drive" : "disco";
+        LOG.debug("carga.fragmento carga={} inicio={} bytes={} offset={}/{} db_ms={} {}_ms={}",vista.carga().id(),
+                bloque.inicio(),bloque.contenido().length,hecho,total,dbMs,destino,escrituraMs);
+        long antes=bloque.inicio()*4/total;
+        long ahora=hecho*4/total;
+        if (bloque.inicio()==0 || ahora>antes) {
+            LOG.info("carga.progreso carga={} offset={}/{} porcentaje={} {}_ms_ultimo={}",vista.carga().id(),hecho,total,
+                    hecho*100/total,destino,escrituraMs);
+        }
     }
 
     /** Cada llamada del puerto en su propia transacción corta (las excepciones salen tal cual). */

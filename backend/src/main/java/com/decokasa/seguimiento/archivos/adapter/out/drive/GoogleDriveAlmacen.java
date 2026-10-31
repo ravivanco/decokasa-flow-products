@@ -231,9 +231,29 @@ public final class GoogleDriveAlmacen implements AlmacenArchivos {
     private HttpResponse<byte[]> enviar(HttpRequest.Builder peticion) {
         if (!habilitada) { throw fallo(Causa.DESACTIVADA); }
         if (TransactionSynchronizationManager.isActualTransactionActive()) { throw fallo(Causa.TRANSACCION_ACTIVA); }
-        return transportar(peticion.timeout(Duration.ofSeconds(20))
-                .header("Authorization","Bearer "+acceso.credencial().tokenAcceso()).build());
+        long inicio=System.nanoTime();
+        String token=acceso.credencial().tokenAcceso();
+        long oauthMs=(System.nanoTime()-inicio)/1_000_000;
+        HttpRequest construida=peticion.timeout(Duration.ofSeconds(20)).header("Authorization","Bearer "+token).build();
+        // Solo método y ruta: la query de una sesión reanudable (upload_id) es una credencial y nunca se registra.
+        String operacion=construida.method()+" "+construida.uri().getPath();
+        long envio=System.nanoTime();
+        try {
+            HttpResponse<byte[]> respuesta=transportar(construida);
+            long driveMs=(System.nanoTime()-envio)/1_000_000;
+            if (respuesta.statusCode()>=400 && respuesta.statusCode()!=404) {
+                LOG.warn("google.drive {} -> HTTP {} oauth_ms={} drive_ms={}",operacion,respuesta.statusCode(),oauthMs,driveMs);
+            } else {
+                LOG.debug("google.drive {} -> HTTP {} oauth_ms={} drive_ms={}",operacion,respuesta.statusCode(),oauthMs,driveMs);
+            }
+            return respuesta;
+        } catch (FalloIntegracionGoogle error) {
+            LOG.warn("google.drive {} -> fallo causa={} oauth_ms={} drive_ms={}",operacion,error.causa(),oauthMs,
+                    (System.nanoTime()-envio)/1_000_000);
+            throw error;
+        }
     }
+    private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger("decokasa.google.drive");
 
     private static final class RespuestaLimitada implements HttpResponse.BodySubscriber<byte[]> {
         private final CompletableFuture<byte[]> resultado = new CompletableFuture<>();

@@ -92,6 +92,8 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ErrorDeDominio.class)
     public ResponseEntity<ProblemDetail> manejarErrorDeDominio(ErrorDeDominio error) {
         HttpStatus estado = ESTADOS.get(error.codigo());
+        // Para el resumen de la petición (CorrelacionFiltro): solo el código del contrato, nunca el mensaje.
+        org.slf4j.MDC.put("codigo", error.codigo().name());
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(estado, error.getMessage());
         completar(problema, error.codigo());
         // El formulario marca el campo: datos inválidos (VALIDACION) y repetidos (DUPLICADO, decisión D9).
@@ -118,6 +120,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> manejarErrorInesperado(Exception error) {
         LOG.error("Error inesperado al atender la solicitud", error);
+        org.slf4j.MDC.put("codigo", "ERROR_INTERNO");
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR, "Ocurrió un error inesperado. Intenta de nuevo más tarde.");
         problema.setTitle("Error interno");
