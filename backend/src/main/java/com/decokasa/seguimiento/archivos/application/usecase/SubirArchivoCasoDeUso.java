@@ -107,6 +107,28 @@ public final class SubirArchivoCasoDeUso {
                 PersonasDeArchivos.persona(subidoPor, usuarios.resumenes(List.of(subidoPor)).get(subidoPor)));
     }
 
+    /**
+     * ADR-0034: registra un documento que está únicamente en Drive y ya se confirmó íntegro (tamaño, SHA-256 de cada
+     * fragmento y del total, verificación técnica). Mismo permiso, evento ARCHIVO_SUBIDO e historial que
+     * {@link #registrar}; el adjunto nace COPIADO, sin archivo local.
+     */
+    public AdjuntoVista registrarEnDrive(Solicitante solicitante, SubirArchivo.Comando comando, long tamanoBytes,
+            String sha256, String tipoDetectado, UUID adjuntoId,
+            com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio.EnDrive drive) {
+        AutorizacionSubida autorizacion = pedidos.autorizarSubida(solicitante, comando.pedidoId(), comando.etapa(),
+                comando.entradaEsperadaId());
+        Adjunto adjunto = new Adjunto(adjuntoId, comando.pedidoId(), comando.etapa(), autorizacion.entradaId(),
+                comando.tipoDocumento(), comando.nombreOriginal(), tamanoBytes, sha256, tipoDetectado, null,
+                EstadoCopia.COPIADO, autorizacion.actor().usuarioId(), reloj.ahora());
+        adjuntos.insertarEnDrive(adjunto, drive);
+        publicador.publicar(new ArchivoSubido(autorizacion.pedido(), adjunto.etapa(), autorizacion.actor(),
+                adjunto.subidoEn(), adjunto.id(), adjunto.entradaId(), adjunto.tipoDocumento()));
+        UUID eventoId = adjuntos.eventosDeSubida(List.of(adjunto.id())).get(adjunto.id());
+        UUID subidoPor = adjunto.subidoPor();
+        return new AdjuntoVista(adjunto, eventoId,
+                PersonasDeArchivos.persona(subidoPor, usuarios.resumenes(List.of(subidoPor)).get(subidoPor)));
+    }
+
     public void descartar(SubirArchivo.Comando comando, ArchivoRecibido recibido, UUID adjuntoId) {
         if (recibido != null) {
             almacen.descartar(recibido.claveTemporal());

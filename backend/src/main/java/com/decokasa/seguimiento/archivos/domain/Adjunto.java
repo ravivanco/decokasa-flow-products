@@ -11,7 +11,8 @@ import java.util.regex.Pattern;
  * la huella y el tipo los calcula el servidor sobre lo recibido. La fila no prueba que el archivo exista: quien lo
  * usa lo comprueba en el almacenamiento. Java puro (R1).
  *
- * @param claveLocal clave relativa en el almacenamiento local, generada por el servidor; nunca el nombre original
+ * @param claveLocal clave relativa en el almacenamiento local, generada por el servidor; nunca el nombre original. Nula
+ *        solo en documentos guardados únicamente en Drive (ADR-0034), que siempre están COPIADO
  * @param tipoDetectado tipo deducido del contenido; nulo si no se reconoce
  */
 public record Adjunto(UUID id, UUID pedidoId, int etapa, UUID entradaId, String tipoDocumento, String nombre,
@@ -27,7 +28,10 @@ public record Adjunto(UUID id, UUID pedidoId, int etapa, UUID entradaId, String 
         Objects.requireNonNull(estadoCopia, "estadoCopia");
         Objects.requireNonNull(subidoPor, "subidoPor");
         Objects.requireNonNull(subidoEn, "subidoEn");
-        Objects.requireNonNull(claveLocal, "claveLocal");
+        // ADR-0034: un documento subido directo a Drive no tiene archivo local; solo se admite ya COPIADO.
+        if (claveLocal == null && estadoCopia != EstadoCopia.COPIADO) {
+            throw new NullPointerException("claveLocal");
+        }
         if (tamanoBytes <= 0) {
             throw new DatoInvalido("archivo", "El archivo está vacío.");
         }

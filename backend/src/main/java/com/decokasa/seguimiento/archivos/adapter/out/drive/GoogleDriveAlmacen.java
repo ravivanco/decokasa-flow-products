@@ -112,6 +112,13 @@ public final class GoogleDriveAlmacen implements AlmacenArchivos {
         @Override public HttpClient.Version version() { return original.version(); }
     }
 
+    /** ADR-0034: solo para archivos subidos por esta app y no registrados (drive.file). 404 cuenta como borrado. */
+    @Override public void eliminar(String id) {
+        validarId(id);
+        HttpResponse<byte[]> respuesta = enviar(HttpRequest.newBuilder(URI.create(API+"/"+id)).DELETE());
+        if (respuesta.statusCode() == 404) { return; }
+        exigirExito(respuesta);
+    }
     @Override public Optional<Remoto> metadatos(String id) {
         validarId(id);
         HttpResponse<byte[]> respuesta = enviar(HttpRequest.newBuilder(URI.create(API+"/"+id+"?fields="+CAMPOS)).GET());

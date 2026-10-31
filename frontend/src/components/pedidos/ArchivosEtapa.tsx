@@ -270,7 +270,10 @@ function FormularioSubida({
         signal: control.current.signal, onProgreso: setProgreso },
       {
         onSuccess: (adjunto) => {
-          toast.success(`${adjunto.nombre} recibido por el servidor. Copia a Drive pendiente.`);
+          // ADR-0034: con destino Drive el adjunto solo existe cuando Drive confirmó el archivo íntegro.
+          toast.success(adjunto.estadoCopia === 'COPIADO'
+            ? `${adjunto.nombre} guardado en Google Drive.`
+            : `${adjunto.nombre} recibido por el servidor. Copia a Drive pendiente.`);
           setArchivo(null);
           setProgreso(null);
           if (entrada.current) entrada.current.value = '';
@@ -278,6 +281,11 @@ function FormularioSubida({
         onError: (fallo) => {
           if (fallo instanceof DOMException && fallo.name === 'AbortError') {
             setError('Carga pausada. Vuelve a pulsar Subir o reanudar para consultar el progreso confirmado.');
+          } else if (esErrorApi(fallo, 'GOOGLE_NO_DISPONIBLE')) {
+            // Mensaje del servidor: qué pasó con Google y cómo reintentar sin duplicar (ADR-0034).
+            setError(fallo.message);
+          } else if (esErrorApi(fallo, 'CARGA_CONFLICTO') && fallo.message.includes('Google Drive')) {
+            setError(fallo.message);
           } else if (esErrorApi(fallo, 'CARGA_CONFLICTO')) {
             setError('La carga no coincide con el archivo o el progreso cambió. Elige el mismo archivo y vuelve a reanudar; no se sobrescriben los bytes confirmados.');
           } else if (esErrorApi(fallo, 'CARGA_OCUPADA')) {

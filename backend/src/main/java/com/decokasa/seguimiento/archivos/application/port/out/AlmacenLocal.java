@@ -31,22 +31,6 @@ public interface AlmacenLocal {
     /** Abre el archivo guardado para leerlo. */
     InputStream abrir(String clave);
 
-    /**
-     * Fuera de transacción y antes de registrar el adjunto: deja una copia duradera del temporal ya verificado bajo su
-     * clave definitiva (ADR-0034, despliegue sin disco persistente). Idempotente. Con disco persistente no hace nada.
-     *
-     * @throws java.io.UncheckedIOException si no se pudo guardar; entonces el adjunto no se registra
-     */
-    default void respaldar(ArchivoRecibido recibido, String claveFinal) {
-    }
-
-    /**
-     * La copia de Drive quedó confirmada y verificada: el almacenamiento temporal duradero puede liberar el archivo
-     * (ADR-0034). Nunca falla por un error remoto; con disco persistente no hace nada.
-     */
-    default void liberarRespaldo(String clave) {
-    }
-
     /** Archivo recibido en el área temporal, con los datos que calculó el servidor. */
     record ArchivoRecibido(String claveTemporal, long tamanoBytes, String sha256, String tipoDetectado) {
     }

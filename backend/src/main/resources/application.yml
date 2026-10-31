@@ -151,19 +151,11 @@ decokasa:
   archivos:
     # Almacenamiento local persistente de archivos reales (P-05 opción A). En Docker es el volumen archivos-datos.
     directorio: ${ALMACEN_LOCAL_DIR:./datos/archivos}
-    # ADR-0034. ninguno: el directorio es persistente (Docker local). supabase: el directorio es efímero (Render Free)
-    # y cada adjunto queda además en un bucket PRIVADO hasta confirmar su copia en Drive.
-    respaldo:
-      proveedor: ${ARCHIVOS_RESPALDO:ninguno}
-      supabase:
-        url: ${SUPABASE_URL:}
-        clave-secreta: ${SUPABASE_CLAVE_SECRETA:}
-        bucket: ${SUPABASE_BUCKET_PENDIENTES:decokasa-pendientes}
-        # Cada documento (hasta 100 MiB) se guarda en fragmentos de este tamaño (máximo 45MB; Supabase Free admite
-        # 50 MB por objeto) más un manifiesto con tamaños y SHA-256.
-        fragmento: ${SUPABASE_FRAGMENTO:32MB}
-        # Suma máxima de bytes en el bucket (Supabase Free: 1 GB). Al superarla, la subida responde CUOTA_ALMACENAMIENTO.
-        cuota: ${SUPABASE_CUOTA:900MB}
+    # ADR-0034 (aclaración aprobada el 2026-10-31): drive = cada fragmento de la carga reanudable va directo a una sesión
+    # reanudable de Drive y el adjunto se registra solo con el archivo íntegro confirmado en Drive; el directorio de
+    # arriba solo guarda temporales de una petición. local = flujo de la fase 3 (disco + copia diferida), para
+    # desarrollo y pruebas. En Render: drive.
+    destino: ${ARCHIVOS_DESTINO:local}
     # Límite provisional del equipo (2026-10-15), pendiente del cliente: 100 MiB por archivo ("100MB" en Spring es
     # 104857600 bytes). Configurable; en Docker sale de ARCHIVOS_TAMANO_MAXIMO_MIB, la misma variable que usa nginx.
     tamano-maximo: ${DECOKASA_ARCHIVOS_TAMANO_MAXIMO:100MB}

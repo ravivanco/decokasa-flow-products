@@ -1,8 +1,6 @@
 package com.decokasa.seguimiento.archivos.config;
 
-import com.decokasa.seguimiento.archivos.adapter.out.almacen.AlmacenLocalConRespaldo;
 import com.decokasa.seguimiento.archivos.adapter.out.almacen.AlmacenLocalEnDisco;
-import com.decokasa.seguimiento.archivos.adapter.out.almacen.RespaldoSupabaseStorage;
 import com.decokasa.seguimiento.archivos.adapter.out.almacen.VerificadorFormatoEnDisco;
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarDocumentosDelPedido;
@@ -64,28 +62,20 @@ public class ArchivosConfig {
     }
 
     /**
-     * Disco persistente (Docker local, {@code ninguno}) o disco efímero con respaldo temporal en un bucket privado de
-     * Supabase ({@code supabase}, Render Free; ADR-0034). Cualquier otro valor impide arrancar.
+     * Con {@code ARCHIVOS_DESTINO=drive} (ADR-0034) este directorio solo guarda temporales de una petición (verificación
+     * técnica antes de registrar); el documento vive únicamente en Drive. Con {@code local} sigue el flujo de la fase 3.
      */
     @Bean
-    AlmacenLocal almacenLocal(@Value("${decokasa.archivos.directorio}") String directorio,
-            @Value("${decokasa.archivos.respaldo.proveedor:ninguno}") String proveedor,
-            @Value("${decokasa.archivos.respaldo.supabase.url:}") String url,
-            @Value("${decokasa.archivos.respaldo.supabase.clave-secreta:}") String claveSecreta,
-            @Value("${decokasa.archivos.respaldo.supabase.bucket:decokasa-pendientes}") String bucket,
-            @Value("${decokasa.archivos.respaldo.supabase.fragmento:32MB}") DataSize fragmento,
-            @Value("${decokasa.archivos.respaldo.supabase.cuota:900MB}") DataSize cuota,
-            LimiteDeTamano limite, DataSource fuente, PlatformTransactionManager gestor,
-            tools.jackson.databind.json.JsonMapper json) {
-        AlmacenLocal disco = new AlmacenLocalEnDisco(Path.of(directorio));
-        return switch (proveedor.strip().toLowerCase(java.util.Locale.ROOT)) {
-            case "ninguno", "" -> disco;
-            // Fragmentos por debajo del máximo por objeto de Supabase Free; el documento sigue siendo uno (ADR-0034).
-            case "supabase" -> new AlmacenLocalConRespaldo(disco,
-                    new RespaldoSupabaseStorage(url, claveSecreta, bucket),
-                    new com.decokasa.seguimiento.archivos.adapter.out.persistence.RespaldoTemporalSql(fuente, gestor),
-                    json, limite.bytes(), fragmento.toBytes(), cuota.toBytes());
-            default -> throw new IllegalArgumentException("ARCHIVOS_RESPALDO debe ser 'ninguno' o 'supabase'.");
+    AlmacenLocal almacenLocal(@Value("${decokasa.archivos.directorio}") String directorio) {
+        return new AlmacenLocalEnDisco(Path.of(directorio));
+    }
+
+    /** {@code local} (desarrollo, copia diferida a Drive) o {@code drive} (ADR-0034: el documento solo en Drive). */
+    static boolean destinoDrive(String destino) {
+        return switch (destino.strip().toLowerCase(java.util.Locale.ROOT)) {
+            case "local", "" -> false;
+            case "drive" -> true;
+            default -> throw new IllegalArgumentException("ARCHIVOS_DESTINO debe ser 'local' o 'drive'.");
         };
     }
 
@@ -187,11 +177,19 @@ public class ArchivosConfig {
     @Bean
     SubirArchivo subirArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos, AlmacenLocal almacen,
             AdjuntoRepositorio adjuntos, PublicadorEventos publicador, ResumirUsuarios usuarios, Reloj reloj,
-            LimiteDeTamano limite, CuotaAlmacenamiento cuota, VerificadorFormato verificador) {
+            LimiteDeTamano limite, CuotaAlmacenamiento cuota, VerificadorFormato verificador,
+            @Value("${decokasa.archivos.destino:local}") String destino) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         SubirArchivoCasoDeUso caso = new SubirArchivoCasoDeUso(pedidos, almacen, adjuntos, publicador, usuarios, reloj,
                 limite, verificador);
+        boolean soloDrive = destinoDrive(destino);
         return (solicitante, comando) -> {
+            if (soloDrive) {
+                // ADR-0034: sin clave de idempotencia este camino podría duplicar en Drive; se usa la carga reanudable.
+                throw new com.decokasa.seguimiento.compartido.domain.DatoInvalido("archivo",
+                        "En este servidor los documentos se suben por carga reanudable directamente a Drive. "
+                                + "Actualiza la página y vuelve a subirlo.");
+            }
             UUID adjuntoId = UUID.randomUUID();
             tx.executeWithoutResult(estado -> {
                 caso.prevalidar(solicitante, comando);
@@ -199,17 +197,6 @@ public class ArchivosConfig {
                 cuota.reservar(adjuntoId,solicitante.usuarioId(),limite.bytes());
             });
             ArchivoRecibido recibido = caso.recibir(comando);
-            // ADR-0034: el respaldo duradero va fuera de la transacción y antes de registrar; sin él no hay adjunto.
-            try {
-                almacen.respaldar(recibido, SubirArchivoCasoDeUso.claveFinal(comando, adjuntoId));
-            } catch (java.io.UncheckedIOException error) {
-                almacen.descartar(recibido.claveTemporal());
-                throw com.decokasa.seguimiento.archivos.domain.ProblemaCarga.almacenamiento();
-            } catch (RuntimeException error) {
-                // Por ejemplo, CUOTA_ALMACENAMIENTO del almacenamiento temporal: sale tal cual, sin temporal huérfano.
-                almacen.descartar(recibido.claveTemporal());
-                throw error;
-            }
             // Keep the allocation/bytes on failure: no unapproved automatic retention policy.
             return tx.execute(estado -> {
                 var vista=caso.registrar(solicitante,comando,recibido,adjuntoId);

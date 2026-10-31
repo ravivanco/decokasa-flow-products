@@ -37,6 +37,30 @@ public class AdjuntoJpaRepositorio implements AdjuntoRepositorio {
         entityManager.flush();
     }
 
+    /** ADR-0034: una sola sentencia que cumple las restricciones de V3/V4/V6 (COPIADO ⇔ drive_id, enlace HTTPS). */
+    @Override
+    public void insertarEnDrive(Adjunto adjunto, EnDrive drive) {
+        if (adjunto.estadoCopia() != com.decokasa.seguimiento.archivos.domain.EstadoCopia.COPIADO
+                || adjunto.claveLocal() != null) {
+            throw new IllegalArgumentException("Un documento solo en Drive se registra COPIADO y sin clave local");
+        }
+        entityManager.flush();
+        entityManager.createNativeQuery("""
+                insert into adjunto (id, pedido_id, etapa, entrada_id, tipo_documento, nombre, tamano_bytes, sha256,
+                    tipo_detectado, clave_local, drive_id, drive_id_reservado, drive_carpeta_id, drive_enlace,
+                    estado_copia, copiado_en, subido_por, subido_en)
+                values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, null, ?10, ?10, ?11, ?12, 'COPIADO', ?13, ?14, ?13)
+                """)
+                .setParameter(1, adjunto.id()).setParameter(2, adjunto.pedidoId())
+                .setParameter(3, (short) adjunto.etapa()).setParameter(4, adjunto.entradaId())
+                .setParameter(5, adjunto.tipoDocumento()).setParameter(6, adjunto.nombre())
+                .setParameter(7, adjunto.tamanoBytes()).setParameter(8, adjunto.sha256())
+                .setParameter(9, adjunto.tipoDetectado()).setParameter(10, drive.driveId())
+                .setParameter(11, drive.carpetaId()).setParameter(12, drive.enlace())
+                .setParameter(13, java.sql.Timestamp.from(adjunto.subidoEn())).setParameter(14, adjunto.subidoPor())
+                .executeUpdate();
+    }
+
     @Override
     public Optional<Adjunto> porId(UUID adjuntoId) {
         return Optional.ofNullable(entityManager.find(AdjuntoEntity.class, adjuntoId))

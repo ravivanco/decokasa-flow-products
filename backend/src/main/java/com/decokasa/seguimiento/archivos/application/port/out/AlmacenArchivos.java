@@ -27,6 +27,14 @@ public interface AlmacenArchivos {
         throw new FalloIntegracionGoogle(FalloIntegracionGoogle.Causa.DESACTIVADA);
     }
 
+    /**
+     * ADR-0034: borra un archivo que esta aplicación acaba de subir y que NO llegó a registrarse (por ejemplo, rechazado
+     * por la verificación técnica). Nunca se usa con un documento registrado. Idempotente: si ya no existe, no falla.
+     */
+    default void eliminar(String id) {
+        throw new FalloIntegracionGoogle(FalloIntegracionGoogle.Causa.DESACTIVADA);
+    }
+
     record Copia(String idReservado, UUID adjuntoId, UUID pedidoId, UUID entradaId,
             String nombre, String tipoDetectado, long tamano, String carpetaId) {
         public Copia {
