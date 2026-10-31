@@ -27,6 +27,12 @@ public final class AutorizarCuentaGoogleCasoDeUso implements AutorizarCuentaGoog
         return conexion.iniciar(solicitante.usuarioId(), vinculoNavegador);
     }
 
+    /** Sin JWT (navegación de primer nivel): el admin ya se validó al iniciar y se revalida al completar. */
+    @Override
+    public String salida(String ticket, String vinculoNavegador) {
+        return conexion.salida(ticket, vinculoNavegador);
+    }
+
     @Override
     public void completar(String estado, String vinculoNavegador, String codigo, boolean denegado) {
         // Consume una sola vez, antes de intercambiar códigos, y revalida al admin que inició la conexión.

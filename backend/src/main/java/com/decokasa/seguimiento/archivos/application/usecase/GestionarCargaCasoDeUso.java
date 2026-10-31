@@ -39,12 +39,78 @@ public final class GestionarCargaCasoDeUso {
     private final ResumirUsuarios usuarios;
     private final Reloj reloj;
     private final LimiteDeTamano limite;
+    /** Nulo con ARCHIVOS_DESTINO=local; con drive, los fragmentos van directo a Drive (ADR-0034). */
+    private final CargaADriveCasoDeUso drive;
     public GestionarCargaCasoDeUso(CargaRepositorio cargas, PedidosParaArchivos pedidos, AlmacenLocal almacen,
             AlmacenCargas parciales, AdjuntoRepositorio adjuntos, SubirArchivoCasoDeUso subidas,
             ResumirUsuarios usuarios, Reloj reloj, LimiteDeTamano limite) {
+        this(cargas,pedidos,almacen,parciales,adjuntos,subidas,usuarios,reloj,limite,null);
+    }
+    /** ADR-0034: {@code drive} es a la vez el almacén de cargas ({@code parciales}) y quien confirma en Drive. */
+    public GestionarCargaCasoDeUso(CargaRepositorio cargas, PedidosParaArchivos pedidos, AlmacenLocal almacen,
+            AlmacenCargas parciales, AdjuntoRepositorio adjuntos, SubirArchivoCasoDeUso subidas,
+            ResumirUsuarios usuarios, Reloj reloj, LimiteDeTamano limite, CargaADriveCasoDeUso drive) {
         this.cargas=cargas; this.pedidos=pedidos; this.almacen=almacen; this.parciales=parciales;
         this.adjuntos=adjuntos; this.subidas=subidas; this.usuarios=usuarios; this.reloj=reloj; this.limite=limite;
+        this.drive=drive;
     }
+    public boolean directoADrive() { return drive!=null; }
+
+    /**
+     * ADR-0034, fuera de transacción: el archivo ya está completo en Drive. Se comprueba en Drive (ID, carpeta, tamaño,
+     * marcas), se lee de vuelta verificando el SHA-256 de cada fragmento confirmado y el total, y se pasa la verificación
+     * técnica del formato sobre un temporal que se borra enseguida. Si el contenido no es válido o no coincide, se borra
+     * de Drive y no se registra nada.
+     */
+    public PreparadoDrive prepararFinalDrive(GestionarCarga.Vista vista) {
+        CargaArchivo carga=vista.carga();
+        if (carga.offsetConfirmado()!=carga.tamanoBytes()) { throw ProblemaCarga.incompleta(); }
+        CargaADriveCasoDeUso.Confirmado confirmado=drive.confirmado(carga);
+        AlmacenLocal.ArchivoRecibido recibido;
+        try {
+            recibido=subidas.recibir(comando(carga,new FlujoPorFragmentos(parciales.abrir(carga.id()),
+                    vista.fragmentos(),carga.tamanoBytes())));
+        } catch (com.decokasa.seguimiento.archivos.domain.TipoArchivoNoAceptado rechazo) {
+            drive.descartar(carga);
+            throw rechazo;
+        } catch (java.io.UncheckedIOException error) {
+            if (error.getCause() instanceof FlujoPorFragmentos.Distinto) {
+                drive.descartar(carga);
+                throw ProblemaCarga.reiniciada();
+            }
+            throw com.decokasa.seguimiento.archivos.domain.DriveNoDisponible.alSubir();
+        }
+        try {
+            boolean huellaGoogle=confirmado.sha256()==null || confirmado.sha256().isBlank()
+                    || confirmado.sha256().equalsIgnoreCase(recibido.sha256());
+            if (recibido.tamanoBytes()!=carga.tamanoBytes() || !huellaGoogle) {
+                drive.descartar(carga);
+                throw ProblemaCarga.reiniciada();
+            }
+            return new PreparadoDrive(recibido.tamanoBytes(),recibido.sha256(),recibido.tipoDetectado(),
+                    confirmado.drive());
+        } finally {
+            // Nada queda en el disco: el único almacén del documento es Drive.
+            almacen.descartar(recibido.claveTemporal());
+        }
+    }
+
+    /** ADR-0034, en la transacción final: registra el adjunto COPIADO con sus identificadores de Drive. */
+    public AdjuntoVista registrarFinalDrive(Solicitante solicitante, UUID id, PreparadoDrive preparado) {
+        CargaArchivo carga=autorizar(solicitante,id,true);
+        if (carga.estado()==CargaArchivo.Estado.COMPLETADA) { return adjuntoCompletado(carga); }
+        if (carga.offsetConfirmado()!=carga.tamanoBytes()) { throw ProblemaCarga.incompleta(); }
+        AdjuntoVista adjunto=subidas.registrarEnDrive(solicitante,comando(carga,InputStream.nullInputStream()),
+                preparado.tamanoBytes(),preparado.sha256(),preparado.tipoDetectado(),carga.adjuntoReservadoId(),
+                preparado.drive());
+        Objects.requireNonNull(adjunto.eventoId(),"El adjunto debe tener su evento de subida");
+        cargas.completar(id,adjunto.adjunto().id(),adjunto.eventoId(),reloj.ahora());
+        return adjunto;
+    }
+
+    /** Resultado verificado de una carga directa a Drive, listo para registrarse. */
+    public record PreparadoDrive(long tamanoBytes, String sha256, String tipoDetectado,
+            com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio.EnDrive drive) { }
     public GestionarCarga.Vista iniciar(Solicitante solicitante, GestionarCarga.Inicio comando) {
         if (comando.pedidoId()==null || comando.entradaEsperadaId()==null || comando.claveIdempotencia()==null
                 || comando.etapa()<1 || comando.etapa()>30 || comando.tamanoBytes()<1) {

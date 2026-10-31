@@ -16,6 +16,10 @@ public final class ProblemaCarga extends ErrorDeDominio {
     public static ProblemaCarga ocupada() {
         return new ProblemaCarga(CodigoError.CARGA_OCUPADA,"Esta carga está siendo atendida. Consulta el progreso y vuelve a intentarlo.");
     }
+    /** ADR-0034: la sesión reanudable de Drive caducó o se descartó; la carga vuelve a empezar desde el byte 0. */
+    public static ProblemaCarga reiniciada() {
+        return new ProblemaCarga(CodigoError.CARGA_CONFLICTO,"La sesión con Google Drive caducó y esta carga se reinició. Vuelve a pulsar Subir con el mismo archivo; empezará desde el principio sin duplicar el documento.");
+    }
     public static ProblemaCarga almacenamiento() {
         return new ProblemaCarga(CodigoError.CARGA_ALMACENAMIENTO,"No se pudo conservar o recuperar la carga. No se ha confirmado un adjunto nuevo. Avisa al administrador si persiste.");
     }

@@ -5,6 +5,7 @@ import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosPara
 import com.decokasa.seguimiento.archivos.application.port.out.AdjuntoRepositorio;
 import com.decokasa.seguimiento.archivos.application.port.out.AlmacenLocal;
 import com.decokasa.seguimiento.archivos.domain.Adjunto;
+import com.decokasa.seguimiento.archivos.domain.EstadoCopia;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +61,11 @@ public final class ValidarAdjuntosCasoDeUso implements ValidarAdjuntosParaAccion
                         "Un archivo no existe o no es de la entrada actual de esta etapa: súbelo de nuevo.");
             }
             OptionalLong tamano = almacen.tamano(adjunto.claveLocal());
-            if (tamano.isEmpty() || tamano.getAsLong() != adjunto.tamanoBytes() || !contenidoIntegro(adjunto)) {
+            boolean localIntegro = tamano.isPresent() && tamano.getAsLong() == adjunto.tamanoBytes()
+                    && contenidoIntegro(adjunto);
+            // ADR-0034: sin disco persistente, el archivo local puede faltar tras un reinicio. Una copia COPIADO se
+            // confirmó en Drive con su tamaño y huella (ADR-0028: Drive es el almacén), así que sigue disponible.
+            if (!localIntegro && adjunto.estadoCopia() != EstadoCopia.COPIADO) {
                 throw new DatoInvalido(CAMPO, "Un archivo no está disponible en el almacenamiento: súbelo de nuevo.");
             }
             tipos.add(adjunto.tipoDocumento());

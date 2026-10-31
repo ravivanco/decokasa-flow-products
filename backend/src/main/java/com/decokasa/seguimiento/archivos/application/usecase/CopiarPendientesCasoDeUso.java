@@ -356,8 +356,7 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
         }
         private void confirmarTrasConsulta() { if (!reconciliar()) { throw fallo(Causa.RESULTADO_INCIERTO); } }
         private void confirmar(AlmacenArchivos.Remoto r) {
-            renovar();exigir(copias.confirmar(p.id(),token,id,r.enlace(),reloj.ahora()));
-        }
+            renovar();exigir(copias.confirmar(p.id(),token,id,r.enlace(),reloj.ahora()));        }
         private void registrar(FalloIntegracionGoogle error) {
             if (error.causa()==Causa.LEASE_PERDIDO) { return; }
             boolean terminal=p.intentos()>=4 || !reintentable(error.causa());

@@ -17,7 +17,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -37,6 +36,7 @@ import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
@@ -47,7 +47,14 @@ import org.springframework.web.client.RestTemplate;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
-/** OAuth de usuario: endpoints fijos, sin red al arrancar o iniciar; solo el callback intercambia el código. */
+/**
+ * OAuth de usuario: endpoints fijos, sin red al arrancar o iniciar; solo el callback intercambia el código.
+ *
+ * <p>Retorno local ({@link #CALLBACK}, desarrollo): la cookie de vínculo la fija {@code POST /inicio} en el mismo
+ * origen. Retorno público HTTPS (ADR-0034, Render): el frontend vive en otro dominio, así que {@code /inicio} devuelve
+ * una URL de salida de un solo uso en el dominio del callback; al abrirla, {@link #salida} vuelve a vincular la solicitud
+ * a una cookie nueva de ese dominio y redirige a Google.
+ */
 public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
         com.decokasa.seguimiento.compartido.application.port.out.AccesoCuentaGoogle {
     public static final String CALLBACK = "http://localhost:8080/api/v1/integraciones/google/oauth2/callback";
@@ -56,10 +63,21 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
     private static final Set<String> AMBITOS = Set.of("openid", EMAIL,
             "https://www.googleapis.com/auth/gmail.send", "https://www.googleapis.com/auth/drive.file");
     private static final Duration VIGENCIA = Duration.ofMinutes(5);
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger("decokasa.google.oauth");
+    /** Retorno público: solo HTTPS, nombre de host en minúsculas, ruta fija, sin puerto, query ni fragmento. */
+    private static final Pattern PUBLICO = Pattern.compile(
+            "https://[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+"
+                    + "/api/v1/integraciones/google/oauth2/callback");
+    private static final long SIETE_DIAS = 7 * 86400L;
+    /** App publicada sin refresh_token_expires_in: no caduca por tiempo; fecha nominal para el contenedor. */
+    private static final Duration SIN_CADUCIDAD = Duration.ofDays(3650);
     private final boolean habilitada;
-    private final String clienteRuta;
-    private final String tokensRuta;
-    private final String llaveRuta;
+    private final SecretosGoogle secretos;
+    private final String callback;
+    /** Null con el retorno local; con el público, la URL de salida en el dominio del callback. */
+    private final String salida;
+    /** true solo con la app de Google publicada ("En producción"): sin el tope de siete días de "En pruebas". */
+    private final boolean produccion;
     private final String correo;
     private final JsonMapper json;
     private final Reloj reloj;
@@ -70,17 +88,31 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             .followRedirects(HttpClient.Redirect.NEVER).build();
     private final NimbusJwtDecoder idTokens;
 
+    /** Paso 3.1: archivos privados locales, retorno local y modo "En pruebas". */
     public GoogleOAuthUsuario(boolean habilitada, String clienteRuta, String tokensRuta, String llaveRuta,
             String correo, String callback, JsonMapper json, Reloj reloj, Consumer<UUID> revalidarAdmin) {
+        this(habilitada, SecretosGoogle.archivos(clienteRuta, tokensRuta, llaveRuta), correo, callback, false,
+                json, reloj, revalidarAdmin);
+    }
+
+    /** ADR-0034: origen de secretos, retorno (local o público HTTPS) y modo de publicación configurables. */
+    public GoogleOAuthUsuario(boolean habilitada, SecretosGoogle secretos, String correo, String callback,
+            boolean produccion, JsonMapper json, Reloj reloj, Consumer<UUID> revalidarAdmin) {
         this.habilitada = habilitada;
-        this.clienteRuta = clienteRuta;
-        this.tokensRuta = tokensRuta;
-        this.llaveRuta = llaveRuta;
+        this.secretos = secretos;
+        this.produccion = produccion;
         this.correo = correo.strip().toLowerCase(java.util.Locale.ROOT);
         this.json = json;
         this.reloj = reloj;
         this.revalidarAdmin = revalidarAdmin;
-        if (!CALLBACK.equals(callback)) { throw new IllegalArgumentException("El retorno local OAuth no coincide"); }
+        if (CALLBACK.equals(callback)) {
+            this.salida = null;
+        } else if (callback != null && PUBLICO.matcher(callback).matches()) {
+            this.salida = callback.substring(0, callback.length() - "/callback".length()) + "/salida";
+        } else {
+            throw new IllegalArgumentException("El retorno OAuth no es el local ni una URL HTTPS válida");
+        }
+        this.callback = callback;
         // El constructor por JWK URI no hace discovery ni descarga claves al iniciar la aplicación.
         SimpleClientHttpRequestFactory transporteJwk = new SimpleClientHttpRequestFactory();
         transporteJwk.setConnectTimeout(Duration.ofSeconds(5));
@@ -107,11 +139,9 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
         String verificador = aleatorio();
         String nonce = aleatorio();
         Instant caduca = ahora.plus(VIGENCIA);
-        pendientes.put(huella(estado), new Solicitud(new Pendiente(adminId, verificador, nonce, caduca),
-                huella(vinculoNavegador), cliente.id()));
         Map<String, String> parametros = new LinkedHashMap<>();
         parametros.put("client_id", cliente.id());
-        parametros.put("redirect_uri", CALLBACK);
+        parametros.put("redirect_uri", callback);
         parametros.put("response_type", "code");
         parametros.put("scope", AMBITOS.stream().sorted().collect(Collectors.joining(" ")));
         parametros.put("access_type", "offline");
@@ -121,7 +151,40 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
         parametros.put("login_hint", correo);
         parametros.put("code_challenge", huella(verificador));
         parametros.put("code_challenge_method", "S256");
-        return new Inicio("https://accounts.google.com/o/oauth2/v2/auth?" + formulario(parametros), caduca);
+        String google = "https://accounts.google.com/o/oauth2/v2/auth?" + formulario(parametros);
+        Pendiente pendiente = new Pendiente(adminId, verificador, nonce, caduca);
+        if (salida == null) {
+            pendientes.put(huella(estado), new Solicitud(pendiente, huella(vinculoNavegador), cliente.id(), null, null));
+            return new Inicio(google, caduca);
+        }
+        // Retorno público: el valor recibido es un ticket de un solo uso; el vínculo real lo fija la salida.
+        pendientes.put(huella(estado), new Solicitud(pendiente, null, cliente.id(), huella(vinculoNavegador), google));
+        return new Inicio(salida + "?t=" + vinculoNavegador, caduca);
+    }
+
+    /**
+     * Retorno público (ADR-0034): canjea el ticket de un solo uso, vincula la solicitud a la cookie nueva del dominio del
+     * callback y devuelve la URL de Google. El ticket deja de valer al usarlo.
+     */
+    @Override
+    public synchronized String salida(String ticket, String vinculoNavegador) {
+        if (salida == null) { throw estadoInvalido(); }
+        exigirVinculo(ticket);
+        exigirVinculo(vinculoNavegador);
+        String clave = huella(ticket);
+        Instant ahora = reloj.ahora();
+        for (Map.Entry<String, Solicitud> entrada : pendientes.entrySet()) {
+            Solicitud s = entrada.getValue();
+            if (s.ticket() != null && iguales(s.ticket(), clave)) {
+                if (!ahora.isBefore(s.pendiente().caducaEn())) {
+                    pendientes.remove(entrada.getKey());
+                    throw estadoInvalido();
+                }
+                entrada.setValue(new Solicitud(s.pendiente(), huella(vinculoNavegador), s.clienteId(), null, null));
+                return s.urlGoogle();
+            }
+        }
+        throw estadoInvalido();
     }
 
     @Override
@@ -144,7 +207,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
         if (!reloj.ahora().isBefore(pendiente.caducaEn())) { throw estadoInvalido(); }
         try {
             Map<String, String> parametros = Map.of("client_id", cliente.id(), "client_secret", cliente.secreto(),
-                    "code", codigo, "grant_type", "authorization_code", "redirect_uri", CALLBACK,
+                    "code", codigo, "grant_type", "authorization_code", "redirect_uri", callback,
                     "code_verifier", pendiente.verificador());
             HttpRequest request = HttpRequest.newBuilder(URI.create(TOKEN_URL)).timeout(Duration.ofSeconds(20))
                     .header("Content-Type", "application/x-www-form-urlencoded")
@@ -185,13 +248,20 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             long segundos = resultado.path("expires_in").asLong(0);
             if (segundos <= 0 || segundos > 86400) { throw new GoogleNoDisponible(); }
             Instant ahora = reloj.ahora();
-            long offline = resultado.path("refresh_token_expires_in").asLong(7 * 86400L);
-            if (offline <= 0) { throw new GoogleNoDisponible(); }
-            Instant offlineHasta = ahora.plusSeconds(Math.min(offline, 7 * 86400L));
+            Instant offlineHasta;
+            if (resultado.has("refresh_token_expires_in")) {
+                long offline = resultado.path("refresh_token_expires_in").asLong(0);
+                if (offline <= 0) { throw new GoogleNoDisponible(); }
+                offlineHasta = ahora.plusSeconds(produccion ? offline : Math.min(offline, SIETE_DIAS));
+            } else {
+                // "En pruebas" Google caduca el refresh token a los siete días aunque no lo informe.
+                offlineHasta = produccion ? ahora.plus(SIN_CADUCIDAD) : ahora.plusSeconds(SIETE_DIAS);
+            }
             revalidarAdmin.accept(pendiente.adminId());
             almacen().guardar(new Tokens(cliente.id(), identidad.getSubject(), correo,
                     obligatorio(resultado, "access_token"), texto(resultado, "refresh_token"),
                     ahora.plusSeconds(segundos), offlineHasta, String.join(" ", concedidos)), ahora);
+            LOG.info("google.oauth autorización guardada produccion={} autorizacion_hasta={}", produccion, offlineHasta);
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
             throw new GoogleNoDisponible();
@@ -199,6 +269,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             throw error;
         } catch (Exception error) {
             // No adjuntar la causa: Jackson, JWT y HTTP pueden incluir secretos en mensajes o cuerpos.
+            LOG.warn("google.oauth no se completó la autorización tipo={}", error.getClass().getSimpleName());
             throw new GoogleNoDisponible();
         }
     }
@@ -224,8 +295,12 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
                 throw new GoogleNoDisponible();
             }
             return new Credencial(correo, tokens.accessToken());
-        } catch (FalloIntegracionGoogle error) { throw error; }
-        catch (Exception error) {
+        } catch (FalloIntegracionGoogle error) {
+            LOG.warn("google.oauth credencial no disponible causa={}", error.causa());
+            throw error;
+        } catch (Exception error) {
+            // Solo el tipo: los mensajes de JWT, JSON o HTTP pueden contener datos sensibles.
+            LOG.warn("google.oauth credencial no disponible causa={} tipo={}", causa, error.getClass().getSimpleName());
             throw new com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle(causa);
         }
     }
@@ -269,7 +344,7 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
             if (resultado.has("refresh_token_expires_in")) {
                 long duracion = resultado.path("refresh_token_expires_in").asLong(0);
                 if (duracion < 1) { throw new GoogleNoDisponible(); }
-                Instant limite = reloj.ahora().plusSeconds(Math.min(duracion,7 * 86400L));
+                Instant limite = reloj.ahora().plusSeconds(produccion ? duracion : Math.min(duracion,SIETE_DIAS));
                 if (limite.isBefore(grantHasta)) { grantHasta = limite; }
             }
             return new Tokens(cliente.id(),anterior.cuentaId(),correo,obligatorio(resultado,"access_token"),
@@ -283,37 +358,15 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
         if (!habilitada || !correo.matches("[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@(gmail\\.com|googlemail\\.com)")) {
             throw new GoogleNoDisponible();
         }
-        byte[] bytes = null;
         try {
-            Path ruta = ArchivosPrivadosGoogle.externo(clienteRuta);
-            bytes = ArchivosPrivadosGoogle.leer(ruta, 65536);
-            JsonNode web = json.readTree(bytes).path("web");
-            String id = obligatorio(web, "client_id");
-            String secreto = obligatorio(web, "client_secret");
-            if (!id.endsWith(".apps.googleusercontent.com")) { throw new GoogleNoDisponible(); }
-            // El JSON descargado puede omitir esta metadata. El retorno usado siempre es CALLBACK,
-            // que debe estar registrado en Cloud; nunca se obtiene del navegador ni de esta lista.
-            if (web.has("redirect_uris")) {
-                JsonNode retornos = web.get("redirect_uris");
-                if (!retornos.isArray()) { throw new GoogleNoDisponible(); }
-                boolean retornoExacto = false;
-                for (JsonNode uri : retornos) {
-                    if (!uri.isString()) { throw new GoogleNoDisponible(); }
-                    retornoExacto |= CALLBACK.equals(uri.asString());
-                }
-                if (!retornoExacto) { throw new GoogleNoDisponible(); }
-            }
-            return new Cliente(id, secreto);
+            SecretosGoogle.Cliente leido = secretos.cliente(json, callback);
+            if (!leido.id().endsWith(".apps.googleusercontent.com")) { throw new GoogleNoDisponible(); }
+            return new Cliente(leido.id(), leido.secreto());
         } catch (Exception error) { throw new GoogleNoDisponible(); }
-        finally { if (bytes != null) { Arrays.fill(bytes, (byte) 0); } }
     }
 
-    private AlmacenTokensGoogle almacen() throws IOException {
-        Path cliente = ArchivosPrivadosGoogle.externo(clienteRuta);
-        Path tokens = ArchivosPrivadosGoogle.externo(tokensRuta);
-        Path llave = ArchivosPrivadosGoogle.externo(llaveRuta);
-        if (cliente.equals(tokens) || cliente.equals(llave)) { throw new IOException("Rutas distintas requeridas"); }
-        return new AlmacenTokensGoogle(tokens, llave, json);
+    private BovedaTokensGoogle almacen() throws IOException {
+        return secretos.boveda(json);
     }
 
     private String aleatorio() {
@@ -360,7 +413,8 @@ public final class GoogleOAuthUsuario implements ConexionOAuthGoogle,
     private record Cliente(String id, String secreto) {
         @Override public String toString() { return "ClienteGoogle[PROTEGIDO]"; }
     }
-    private record Solicitud(Pendiente pendiente, String vinculo, String clienteId) {
+    /** vinculo: huella de la cookie; ticket y urlGoogle: solo con retorno público hasta canjear la salida. */
+    private record Solicitud(Pendiente pendiente, String vinculo, String clienteId, String ticket, String urlGoogle) {
         @Override public String toString() { return "SolicitudGoogle[PROTEGIDO]"; }
     }
 

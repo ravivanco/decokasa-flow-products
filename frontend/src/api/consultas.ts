@@ -76,6 +76,21 @@ export function useActualizarUsuario() {
   });
 }
 
+/**
+ * Conexión de la cuenta Google de la empresa (paso 3.1, ADR-0034). Solo admin; el servidor revalida el rol. Devuelve
+ * la URL a la que navegar; quien la usa comprueba antes que sea un destino permitido.
+ */
+export function useConectarGoogle() {
+  const { pedir } = useSesion();
+  return useMutation({
+    mutationFn: () =>
+      pedir('/integraciones/google/oauth2/inicio', {
+        metodo: 'POST',
+        esquema: z.object({ urlAutorizacion: z.string() }),
+      }),
+  });
+}
+
 export function useGuardarRol() {
   const { pedir, sesionId } = useSesion();
   const consultas = useQueryClient();

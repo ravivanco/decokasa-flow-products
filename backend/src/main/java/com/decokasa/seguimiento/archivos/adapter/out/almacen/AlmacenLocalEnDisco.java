@@ -142,6 +142,10 @@ public final class AlmacenLocalEnDisco implements AlmacenLocal {
 
     @Override
     public OptionalLong tamano(String clave) {
+        // ADR-0034: un documento guardado solo en Drive no tiene clave local.
+        if (clave == null) {
+            return OptionalLong.empty();
+        }
         Path archivo = ruta(clave);
         try {
             return Files.isRegularFile(archivo) ? OptionalLong.of(Files.size(archivo)) : OptionalLong.empty();
@@ -152,6 +156,9 @@ public final class AlmacenLocalEnDisco implements AlmacenLocal {
 
     @Override
     public InputStream abrir(String clave) {
+        if (clave == null) {
+            throw new UncheckedIOException(new java.nio.file.NoSuchFileException("sin archivo local"));
+        }
         try {
             return Files.newInputStream(ruta(clave));
         } catch (IOException error) {
