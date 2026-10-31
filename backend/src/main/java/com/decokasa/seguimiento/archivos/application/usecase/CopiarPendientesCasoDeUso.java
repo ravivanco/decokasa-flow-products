@@ -357,6 +357,8 @@ public final class CopiarPendientesCasoDeUso implements ReintentarCopiasPendient
         private void confirmarTrasConsulta() { if (!reconciliar()) { throw fallo(Causa.RESULTADO_INCIERTO); } }
         private void confirmar(AlmacenArchivos.Remoto r) {
             renovar();exigir(copias.confirmar(p.id(),token,id,r.enlace(),reloj.ahora()));
+            // ADR-0034: COPIADO ya es definitivo; liberar el almacenamiento temporal nunca cambia ese estado.
+            try { local.liberarRespaldo(p.claveLocal()); } catch (RuntimeException ignorado) { }
         }
         private void registrar(FalloIntegracionGoogle error) {
             if (error.causa()==Causa.LEASE_PERDIDO) { return; }

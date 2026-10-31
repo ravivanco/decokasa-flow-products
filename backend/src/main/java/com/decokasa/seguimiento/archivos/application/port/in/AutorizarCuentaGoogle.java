@@ -7,6 +7,9 @@ import java.time.Instant;
 public interface AutorizarCuentaGoogle {
     Inicio iniciar(Solicitante solicitante, String vinculoNavegador);
 
+    /** ADR-0034: paso intermedio en el dominio del callback público; devuelve la URL de Google. */
+    String salida(String ticket, String vinculoNavegador);
+
     void completar(String estado, String vinculoNavegador, String codigo, boolean denegado);
 
     record Inicio(String urlAutorizacion, Instant caducaEn) {

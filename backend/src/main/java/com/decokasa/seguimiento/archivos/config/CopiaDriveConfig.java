@@ -45,8 +45,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 /** Cada operación de persistencia abre/cierra su transacción antes del siguiente I/O remoto. */
 @Configuration(proxyBeanMethods=false)
 public class CopiaDriveConfig {
-    @Bean ProtectorSesionDrive protectorSesionDrive(@Value("${decokasa.google.oauth.llave-ruta:}") String llave) {
-        return new ProtectorSesionDriveAes(llave);
+    /** ADR-0034: la llave sale del mismo origen que los tokens (archivo local o GOOGLE_OAUTH_LLAVE). */
+    @Bean ProtectorSesionDrive protectorSesionDrive(com.decokasa.seguimiento.archivos.adapter.out.google.SecretosGoogle secretos) {
+        return new ProtectorSesionDriveAes(secretos);
     }
     @Bean BloqueoCopiaLocal bloqueoCopiaLocal(@Value("${decokasa.archivos.directorio}") String directorio) {
         return new BloqueoCopiasEnDisco(Path.of(directorio));

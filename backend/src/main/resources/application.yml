@@ -96,11 +96,21 @@ decokasa:
     oauth:
       # Paso 3.1: cliente web OAuth de usuario, Mi unidad y Gmail personal. No conecta al arrancar.
       habilitada: ${GOOGLE_OAUTH_HABILITADA:false}
+      # ADR-0034. archivo: JSON del cliente, llave y tokens en archivos privados (paso 3.1, disco persistente).
+      # base: cliente y llave en variables de entorno secretas y tokens cifrados en PostgreSQL (Render Free).
+      almacen: ${GOOGLE_OAUTH_ALMACEN:archivo}
       cliente-ruta: ${GOOGLE_OAUTH_CLIENTE_RUTA:}
       tokens-ruta: ${GOOGLE_OAUTH_TOKENS_RUTA:}
       llave-ruta: ${GOOGLE_OAUTH_LLAVE_RUTA:}
+      # Solo con almacen=base. La llave es Base64 de 32 bytes aleatorios; nunca se guarda en la base ni en Git.
+      cliente-id: ${GOOGLE_OAUTH_CLIENTE_ID:}
+      cliente-secreto: ${GOOGLE_OAUTH_CLIENTE_SECRETO:}
+      llave: ${GOOGLE_OAUTH_LLAVE:}
       cuenta-email: ${GOOGLE_CUENTA_EMAIL:}
-      redirect-uri: http://localhost:8080/api/v1/integraciones/google/oauth2/callback
+      # El local exacto o https://<host>/api/v1/integraciones/google/oauth2/callback. Debe estar registrado en Cloud.
+      redirect-uri: ${GOOGLE_OAUTH_REDIRECT_URI:http://localhost:8080/api/v1/integraciones/google/oauth2/callback}
+      # EN_PRUEBAS: la autorización caduca a los 7 días. PRODUCCION: solo con la app publicada en Google Cloud.
+      publicacion: ${GOOGLE_OAUTH_PUBLICACION:EN_PRUEBAS}
   ia:
     # Fase 7: chat de consulta con Claude API (ADR-0020 a ADR-0023; adaptador del paso 7.4). Desactivado por defecto.
     # Paso 7.4: aunque se active, no hay ruta para preguntar ni presupuesto hasta el paso 7.5.
@@ -141,6 +151,19 @@ decokasa:
   archivos:
     # Almacenamiento local persistente de archivos reales (P-05 opción A). En Docker es el volumen archivos-datos.
     directorio: ${ALMACEN_LOCAL_DIR:./datos/archivos}
+    # ADR-0034. ninguno: el directorio es persistente (Docker local). supabase: el directorio es efímero (Render Free)
+    # y cada adjunto queda además en un bucket PRIVADO hasta confirmar su copia en Drive.
+    respaldo:
+      proveedor: ${ARCHIVOS_RESPALDO:ninguno}
+      supabase:
+        url: ${SUPABASE_URL:}
+        clave-secreta: ${SUPABASE_CLAVE_SECRETA:}
+        bucket: ${SUPABASE_BUCKET_PENDIENTES:decokasa-pendientes}
+        # Cada documento (hasta 100 MiB) se guarda en fragmentos de este tamaño (máximo 45MB; Supabase Free admite
+        # 50 MB por objeto) más un manifiesto con tamaños y SHA-256.
+        fragmento: ${SUPABASE_FRAGMENTO:32MB}
+        # Suma máxima de bytes en el bucket (Supabase Free: 1 GB). Al superarla, la subida responde CUOTA_ALMACENAMIENTO.
+        cuota: ${SUPABASE_CUOTA:900MB}
     # Límite provisional del equipo (2026-10-15), pendiente del cliente: 100 MiB por archivo ("100MB" en Spring es
     # 104857600 bytes). Configurable; en Docker sale de ARCHIVOS_TAMANO_MAXIMO_MIB, la misma variable que usa nginx.
     tamano-maximo: ${DECOKASA_ARCHIVOS_TAMANO_MAXIMO:100MB}
