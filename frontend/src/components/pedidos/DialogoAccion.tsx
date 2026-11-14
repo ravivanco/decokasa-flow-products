@@ -3,6 +3,7 @@ import { type FormEvent, useId, useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
 import { useBodegas } from '@/api/bodegas';
+import { useEmbarques } from '@/api/embarques';
 import {
   type AccionDisponible,
   type Adjunto,
@@ -45,12 +46,14 @@ interface Props {
   onCerrar: () => void;
   registraLlegada?: boolean;
   destinoAutomatico?: boolean;
+  /** La etapa decide un envío de embarques: al rechazar se pueden señalar BL. */
+  apruebaEmbarques?: boolean;
 }
 
 /** Observación obligatoria por contrato (AccionRechazar y las devoluciones), aunque el flujo no la marque. */
 const OBSERVACION_OBLIGATORIA = new Set(['RECHAZAR', 'DEVOLVER_POR_ERROR', 'DEVOLVER_POR_PRODUCTO_NUEVO', 'REPORTAR_DEMORA']);
 
-export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerrar, registraLlegada = false, destinoAutomatico = false }: Props) {
+export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerrar, registraLlegada = false, destinoAutomatico = false, apruebaEmbarques = false }: Props) {
   const ids = useId();
   const ejecutar = useEjecutarAccion();
   const [observacion, setObservacion] = useState('');
@@ -59,8 +62,14 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
   const [bodegaId, setBodegaId] = useState('');
   const bodegas = useBodegas(true, accion.requiereBodega);
   const [elegidos, setElegidos] = useState<Set<string>>(() => new Set(adjuntos.map((adjunto) => adjunto.id)));
-  const [errores, setErrores] = useState<{ observacion?: string; nivel?: string; fecha?: string; bodega?: string }>({});
+  const [errores, setErrores] = useState<{ observacion?: string; nivel?: string; fecha?: string; bodega?: string; asignacion?: string }>({});
   const [fallo, setFallo] = useState<unknown>(null);
+  const enviaEmbarques = accion.exigeEmbarquesListos === true;
+  const rechazaEmbarque = apruebaEmbarques && accion.accion === 'RECHAZAR';
+  const embarques = useEmbarques(pedido.id, enviaEmbarques || rechazaEmbarque);
+  const [confirmaAsignacion, setConfirmaAsignacion] = useState(false);
+  const [senalados, setSenalados] = useState<Set<string>>(new Set());
+  const filasRechazo = embarques.data?.envios.find((envio) => envio.estado === 'PENDIENTE')?.filas ?? [];
 
   const pideObservacion = accion.requiereObservacion || OBSERVACION_OBLIGATORIA.has(accion.accion);
   const origen = pedido.lineaDeTiempo.find((etapa) => etapa.numero === etapaEsperada);
@@ -77,7 +86,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
   const faltanDocumentos = accion.documentosObligatorios.some((tipo) => !tiposPresentados.has(tipo))
     || (exigeAlguno && !hayAlguno);
   const sinPermiso = esErrorApi(fallo) && fallo.status === 403;
-  const nombreAccion = destinoAutomatico ? 'Confirmar y finalizar' : registraLlegada ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion];
+  const nombreAccion = enviaEmbarques ? 'Enviar a aprobación' : destinoAutomatico ? 'Confirmar y finalizar' : registraLlegada ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion];
 
   function alternar(id: string, marcado: boolean) {
     setElegidos((actuales) => {
@@ -96,6 +105,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
     const texto = observacion.trim();
     const nuevos: typeof errores = {};
     if (pideObservacion && !texto) nuevos.observacion = 'Escribe la observación: esta acción la exige.';
+    if (enviaEmbarques && !confirmaAsignacion) nuevos.asignacion = 'Marca la confirmación para enviar.';
     if (texto.length > 4000) nuevos.observacion = 'Hasta 4000 caracteres.';
     if (accion.requiereUrgencia && !nivel) nuevos.nivel = 'Elige la urgencia.';
     if (accion.accion === 'REPORTAR_DEMORA' && !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) nuevos.fecha = 'Indica la fecha estimada de llegada.';
@@ -113,6 +123,8 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
         nuevaFechaEstimadaLlegada: accion.accion === 'REPORTAR_DEMORA' ? fecha : undefined,
         bodegaId: accion.requiereBodega ? bodegaId : undefined,
         adjuntoIds: [...elegidos],
+        confirmaAsignacion: enviaEmbarques ? confirmaAsignacion : undefined,
+        blSenalados: rechazaEmbarque ? [...senalados] : undefined,
       },
       {
         onSuccess: (actualizado) => {
@@ -312,6 +324,40 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
               <FieldError>{errores.observacion}</FieldError>
             </Field>
 
+            {enviaEmbarques && (
+              <Field data-invalid={errores.asignacion ? true : undefined}>
+                <p className="text-sm text-muted-foreground">Quedará registrado:</p>
+                <ul className="list-disc pl-5 text-sm">
+                  {(embarques.data?.bls ?? []).map((bl) => (
+                    <li key={bl.id}>{bl.codigo}: Packing List {bl.packingList ? `v${bl.packingList.version}` : 'sin confirmar'}, pedidos {bl.pedidos.map((vinculado) => vinculado.numero).join(', ')}</li>
+                  ))}
+                </ul>
+                <label className="flex items-start gap-2 text-sm">
+                  <Checkbox checked={confirmaAsignacion} onCheckedChange={(marcado) => setConfirmaAsignacion(marcado === true)} />
+                  Confirmo que toda la mercancía de este pedido está en estos BL.
+                </label>
+                <FieldError>{errores.asignacion}</FieldError>
+              </Field>
+            )}
+            {rechazaEmbarque && filasRechazo.length > 0 && (
+              <FieldSet>
+                <FieldLegend>BL con la diferencia</FieldLegend>
+                {filasRechazo.map((fila) => (
+                  <label key={fila.blId} className="flex items-center gap-2 text-sm">
+                    <Checkbox
+                      checked={senalados.has(fila.blId)}
+                      onCheckedChange={(marcado) => setSenalados((actuales) => {
+                        const siguiente = new Set(actuales);
+                        if (marcado === true) siguiente.add(fila.blId); else siguiente.delete(fila.blId);
+                        return siguiente;
+                      })}
+                    />
+                    {fila.codigo} (v{fila.version})
+                  </label>
+                ))}
+              </FieldSet>
+            )}
+
             {fallo !== null && (
               <Alert variant="destructive" aria-live="polite">
                 <CircleAlertIcon />
@@ -336,7 +382,7 @@ export function DialogoAccion({ pedido, accion, etapaEsperada, adjuntos, onCerra
             </DialogFooter>
             {!accion.puedeCompletarse && !documentosPendientes && (
               <p className="text-right text-sm text-muted-foreground">
-                Falta: {accion.documentosFaltantes.join(', ') || 'requisitos de la etapa'}.
+                Falta: {[...accion.documentosFaltantes, ...(accion.faltantesEmbarque ?? [])].join(', ') || 'requisitos de la etapa'}.
               </p>
             )}
           </form>

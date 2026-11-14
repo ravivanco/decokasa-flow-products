@@ -39,7 +39,8 @@ public class AccionEtapaController {
         Solicitante solicitante = SolicitantesWeb.de(token);
         ejecutar.ejecutar(solicitante, new EjecutarAccionEtapa.Comando(pedidoId, solicitud.accion(),
                 solicitud.etapaEsperada(), solicitud.observacion(), solicitud.nivelUrgencia(), solicitud.adjuntoIds(),
-                solicitud.nuevaFechaEstimadaLlegada(), solicitud.bodegaId()));
+                solicitud.nuevaFechaEstimadaLlegada(), solicitud.bodegaId(),
+                Boolean.TRUE.equals(solicitud.confirmaAsignacion()), solicitud.blSenalados()));
         return PedidoRespuestas.de(consultar.detalle(solicitante, pedidoId));
     }
 

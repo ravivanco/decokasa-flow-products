@@ -62,6 +62,16 @@ decokasa:
     # ADR-0032: instante ISO 8601 (por ejemplo, 2026-11-01T08:00:00-05:00) desde el que el trabajador de Gmail envía.
     # Vacío: no se envía nada. Lo creado antes (outbox histórico) no se envía nunca.
     enviar-desde: ${NOTIFICACIONES_ENVIAR_DESDE:}
+    # Solo pruebas locales: carpeta donde la cola deja cada correo como archivo. Vacío: apagado. No arranca en Render.
+    buzon-simulado: ${NOTIFICACIONES_BUZON_SIMULADO:}
+  whatsapp:
+    # simulado (por defecto): se guarda la alerta y no sale nada. cloud: WhatsApp Cloud API de Meta con la plantilla y
+    # las credenciales del cliente (secretos, nunca en el repositorio). apagado: no se registran alertas.
+    modo: ${WHATSAPP_MODO:simulado}
+    token: ${WHATSAPP_TOKEN:}
+    numero-id: ${WHATSAPP_NUMERO_ID:}
+    plantilla: ${WHATSAPP_PLANTILLA:}
+    idioma: ${WHATSAPP_IDIOMA:es}
   recuperacion:
     # ADR-0033: duración del enlace de recuperación (entre 5 min y 24 h) y solicitudes por cuenta y hora (1 a 10).
     duracion: ${RECUPERACION_DURACION:PT30M}

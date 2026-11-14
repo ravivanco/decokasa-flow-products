@@ -1,7 +1,7 @@
 import { RotateCwIcon } from 'lucide-react';
 import { type ReactNode, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
-import type { PedidoResumen } from '@/api/pedidos';
+import { type PedidoResumen, useRecorridosPorVersion } from '@/api/pedidos';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -48,6 +48,10 @@ export function usePantallaAngosta() {
 
 export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, vacio, recorrido, alturaEstable = false }: Props) {
   const angosta = usePantallaAngosta();
+  // V32: cada pedido se dibuja con la versión de su flujo; la vigente solo es el respaldo.
+  const porVersion = useRecorridosPorVersion(pedidos, Boolean(recorrido));
+  const etapasDe = (pedido: PedidoResumen) =>
+    porVersion[`${pedido.tipoFlujo}-${pedido.versionFlujo}`] ?? recorrido?.[pedido.tipoFlujo];
   const marco = alturaEstable ? 'max-h-[32rem] min-h-32 overflow-auto rounded-lg border bg-card shadow-sm' : 'overflow-x-auto rounded-lg border bg-card shadow-sm';
   const columnas = recorrido ? 8 : 7;
   if (error) {
@@ -69,7 +73,7 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
   }
 
   return (
-    angosta ? <TarjetasPedidos titulo={titulo} pedidos={pedidos} cargando={cargando} recorrido={recorrido} /> : (
+    angosta ? <TarjetasPedidos titulo={titulo} pedidos={pedidos} cargando={cargando} recorrido={recorrido} etapasDe={etapasDe} /> : (
     <div className={marco} tabIndex={alturaEstable ? 0 : undefined} role={alturaEstable ? 'region' : undefined} aria-label={alturaEstable ? titulo : undefined}>
       <Table className={alturaEstable ? 'min-w-[68rem] table-fixed' : 'min-w-[56rem]'}>
         {alturaEstable && <colgroup>
@@ -148,7 +152,7 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
                         etapaActual={pedido.etapaActual}
                         nombreEtapaActual={pedido.nombreEtapaActual}
                         finalizado={pedido.finalizado}
-                        etapas={recorrido[pedido.tipoFlujo]}
+                        etapas={etapasDe(pedido)}
                       />
                     </TableCell>
                   )}
@@ -189,7 +193,9 @@ export function TablaPedidos({ titulo, pedidos, cargando, error, onReintentar, v
 }
 
 /** Pantallas angostas: una tarjeta por pedido con lo mismo que la fila, sin desplazamiento horizontal. */
-function TarjetasPedidos({ titulo, pedidos, cargando, recorrido }: Pick<Props, 'titulo' | 'pedidos' | 'cargando' | 'recorrido'>) {
+function TarjetasPedidos({ titulo, pedidos, cargando, recorrido, etapasDe }: Pick<Props, 'titulo' | 'pedidos' | 'cargando' | 'recorrido'> & {
+  etapasDe: (pedido: PedidoResumen) => EtapaDeFlujo[] | undefined;
+}) {
   if (cargando && !pedidos) {
     return (
       <div className="flex flex-col gap-2" aria-busy="true" aria-label={`Cargando: ${titulo}`}>
@@ -221,7 +227,7 @@ function TarjetasPedidos({ titulo, pedidos, cargando, recorrido }: Pick<Props, '
               etapaActual={pedido.etapaActual}
               nombreEtapaActual={pedido.nombreEtapaActual}
               finalizado={pedido.finalizado}
-              etapas={recorrido[pedido.tipoFlujo]}
+              etapas={etapasDe(pedido)}
             />
           )}
           <div className="flex flex-wrap gap-1.5 [&_[data-slot=badge]]:whitespace-normal [&_[data-slot=badge]]:text-left">

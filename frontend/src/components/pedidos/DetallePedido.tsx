@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router';
 import { usePausarActualizacion } from '@/api/actualizacion';
 import { puedeUsarAsistente } from '@/api/asistente';
 import { esErrorApi } from '@/api/cliente';
-import { type AccionDisponible, type Adjunto, type Persona, useDefinicionFlujo, usePedido } from '@/api/pedidos';
+import { type AccionDisponible, type Adjunto, type Persona, useCronograma, useDefinicionFlujo, usePedido } from '@/api/pedidos';
 import { esAdmin, useUsuarioActual } from '@/auth/SesionProvider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +12,9 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BorradoresEnConflicto, ProveedorBorradores } from './borradores';
 import { DocumentosPedido } from './DocumentosPedido';
+import { ChecklistDocumentos } from './ChecklistDocumentos';
 import { CronogramaPedido } from './CronogramaPedido';
+import { Cronometro } from './Cronometro';
 import { DialogoAccion } from './DialogoAccion';
 import { DialogoReasignar } from './DialogoReasignar';
 import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
@@ -20,6 +22,7 @@ import { codigoEtapa, formatearFecha, formatearFechaHora, mensajeDeErrorPedido, 
 import { PanelHistorial } from './HistorialPedido';
 import { LineaDeTiempo } from './LineaDeTiempo';
 import { PanelEtapa } from './PanelEtapa';
+import { SeccionEmbarques } from './SeccionEmbarques';
 import { ciudadDeBodega } from '@/api/esquemas';
 import { esPais, NOMBRE_PAIS, usePaisActivo, useSeleccionPais } from '@/pais/PaisProvider';
 
@@ -44,6 +47,8 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
   const pedido = usePedido(pedidoId);
   const datos = pedido.data;
   const flujo = useDefinicionFlujo(datos?.pais ?? 'EC', datos?.tipoFlujo ?? 'A', datos?.versionFlujo);
+  // Fecha planificada de cada etapa desde la creación: la cuenta regresiva del recorrido.
+  const cronograma = useCronograma(pedidoId);
 
   const [elegida, setElegida] = useState<number | null>(null);
   const [actualVista, setActualVista] = useState<number | null>(null);
@@ -141,6 +146,9 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
   }
 
   const nombreActual = flujo.data?.etapas.find((e) => e.numero === detalle.etapaActual)?.nombre;
+  const definicionActual = flujo.data?.etapas.find((e) => e.numero === detalle.etapaActual);
+  const fases = new Map((flujo.data?.etapas ?? []).flatMap((e) => (e.faseNumero && e.faseNombre
+    ? [[e.numero, { numero: e.faseNumero, nombre: e.faseNombre }] as const] : [])));
   const conLlegada = flujo.data?.etapas.some((e) => e.registraLlegada || e.acciones.some((a) => a.requiereBodega));
   const etapaLlegada = flujo.data?.etapas.find((e) => e.registraLlegada)?.numero;
 
@@ -182,6 +190,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
           {esPais(detalle.pais) && <Badge variant="outline">{NOMBRE_PAIS[detalle.pais]}</Badge>}
           <Badge variant={detalle.finalizado ? 'secondary' : 'default'}>{detalle.finalizado ? 'Finalizado' : 'En curso'}</Badge>
           <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} estadoPlazo={actual?.estadoPlazo} />
+          {!detalle.finalizado && <Cronometro venceEn={detalle.venceEn} servidorAhora={detalle.servidorAhora} estadoPlazo={actual?.estadoPlazo} />}
           {detalle.urgencia && (
             <DistintivoUrgencia nivel={detalle.urgencia.nivel} venceEn={detalle.urgencia.venceEn} vencida={detalle.urgencia.vencida} />
           )}
@@ -231,10 +240,18 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
         seleccionada={etapa.numero}
         automaticas={automaticas}
         onSeleccionar={setElegida}
+        fases={fases.size > 0 ? fases : undefined}
+        planes={cronograma.data ? new Map(cronograma.data.etapas.flatMap((e) => (e.fechaOriginal ? [[e.numero, e.fechaOriginal] as const] : []))) : undefined}
+        servidorAhora={detalle.servidorAhora}
       />
       </div>
 
       <BorradoresEnConflicto pedido={detalle} />
+
+      <SeccionEmbarques pedido={detalle} etapaActual={actual} />
+      {definicionActual?.checklistDocumentos && actual && !detalle.finalizado && (
+        <ChecklistDocumentos pedido={detalle} etapa={actual} puedeSubir={detalle.accionesDisponibles.length > 0} />
+      )}
 
       <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <DocumentosPedido
@@ -289,6 +306,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
           adjuntos={accion.adjuntos}
           registraLlegada={accion.accion.accion === 'APROBAR' && Boolean(flujo.data?.etapas.find((e) => e.numero === accion.etapaEsperada)?.registraLlegada)}
           destinoAutomatico={accion.accion.etapaDestino !== null && automaticas.has(accion.accion.etapaDestino)}
+          apruebaEmbarques={Boolean(flujo.data?.etapas.find((e) => e.numero === accion.etapaEsperada)?.apruebaEmbarques)}
           onCerrar={() => setAccion(null)}
         />
       )}

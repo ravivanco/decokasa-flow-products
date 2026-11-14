@@ -104,6 +104,8 @@ export const NOMBRE_EVENTO: Record<TipoEvento, string> = {
   PLAZO_VENCIDO: 'Plazo vencido',
   MOTIVO_RETRASO_REGISTRADO: 'Motivo del retraso',
   PEDIDO_FINALIZADO: 'Pedido finalizado',
+  EMBARQUE_REGISTRADO: 'Embarque',
+  PLAN_VENCIDO: 'Plazo planificado vencido',
 };
 
 /** Nombres de los 7 roles iniciales; un rol creado por el admin se muestra con su código. */

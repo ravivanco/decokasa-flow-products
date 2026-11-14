@@ -8,8 +8,11 @@ import com.decokasa.seguimiento.compartido.domain.AccionEtapa;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.compartido.domain.EtapaCambio;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
+import com.decokasa.seguimiento.compartido.domain.RequisitoFaltante;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.TransicionNoPermitida;
+import com.decokasa.seguimiento.compartido.domain.eventos.Interviniente;
+import com.decokasa.seguimiento.embarques.application.port.in.EnviosDeEmbarque;
 import com.decokasa.seguimiento.flujos.application.port.in.ResolverTransicion;
 import com.decokasa.seguimiento.pedidos.application.port.in.EjecutarAccionEtapa;
 import com.decokasa.seguimiento.pedidos.application.port.out.PedidoRepositorio;
@@ -23,8 +26,12 @@ import com.decokasa.seguimiento.pedidos.domain.ReglaDeTransicion;
 import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Ejecuta una acción sobre la etapa actual. Protección contra avances dobles (P-11, sin cambiar el contrato): la fila
@@ -44,12 +51,13 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
     private final ApoyoPedidos apoyo;
     private final ValidarAdjuntosParaAccion adjuntos;
     private final ConsultarBodegaActiva bodegas;
+    private final EnviosDeEmbarque embarques;
 
-    /** @param bodegas bodegas activas (F4-D2): la bodega elegida al aprobar Bodega debe existir y estar activa */
+    /** Con embarques: el envío y la decisión se registran en la transacción de la acción. */
     public EjecutarAccionEtapaCasoDeUso(PedidoRepositorio pedidos, ResolverTransicion transiciones,
             EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
             PublicadorEventos publicador, Reloj reloj, ValidarAdjuntosParaAccion adjuntos,
-            ConsultarBodegaActiva bodegas) {
+            ConsultarBodegaActiva bodegas, EnviosDeEmbarque embarques) {
         this.pedidos = pedidos;
         this.transiciones = transiciones;
         this.habilitadas = habilitadas;
@@ -57,6 +65,16 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
         this.apoyo = new ApoyoPedidos(responsables, vencimientos, publicador);
         this.adjuntos = adjuntos;
         this.bodegas = bodegas;
+        this.embarques = embarques;
+    }
+
+    /** @param bodegas bodegas activas (F4-D2): la bodega elegida al aprobar Bodega debe existir y estar activa */
+    public EjecutarAccionEtapaCasoDeUso(PedidoRepositorio pedidos, ResolverTransicion transiciones,
+            EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj, ValidarAdjuntosParaAccion adjuntos,
+            ConsultarBodegaActiva bodegas) {
+        this(pedidos, transiciones, habilitadas, responsables, vencimientos, publicador, reloj, adjuntos, bodegas,
+                EnviosDeEmbarque.SIN_EMBARQUES);
     }
 
     /** Sin módulo de bodegas: cualquier {@code bodegaId} se rechaza (400 en bodegaId); nunca se ignora. */
@@ -115,6 +133,13 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
             presentes = adjuntos.tiposValidos(pedido.id(), pedido.etapaActual(), actual.entradaId(),
                     comando.adjuntoIds());
         }
+        // V35: un requisito del checklist marcado ✓ en la entrada actual cuenta como documento presente.
+        Set<String> marcados = embarques.tiposMarcados(etapaActual(pedido).entradaId());
+        if (!marcados.isEmpty()) {
+            Set<String> union = new HashSet<>(presentes);
+            union.addAll(marcados);
+            presentes = Set.copyOf(union);
+        }
         // F4-D2: la bodega elegida debe existir y estar activa. Solo se consulta si la acción la usa y podría
         // completarse; si no, el dominio responde antes (bodega no admitida o documentos pendientes, F4-D7). Primero el
         // permiso, como con los archivos. El trigger de la base (V9, V12) es la última barrera ante una desactivación
@@ -129,6 +154,24 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
                         "La bodega no existe, está inactiva o es de otro país; elige una activa del país.");
             }
         }
+        // V32: antes de mover el pedido, con el permiso comprobado primero. Los datos los valida siempre el servidor.
+        boolean enviaEmbarques = resolucion.exigeEmbarquesListos();
+        boolean decideEmbarques = resolucion.origenApruebaEmbarques() && (comando.accion() == AccionEtapa.APROBAR
+                || comando.accion() == AccionEtapa.RECHAZAR);
+        Interviniente interviniente = null;
+        UUID entradaDeOrigen = null;
+        if (enviaEmbarques || decideEmbarques) {
+            EtapaDePedido actual = etapaActual(pedido);
+            interviniente = PermisosEtapa.paraActuar(actual, resolucion.rolResponsableOrigen(), actor);
+            entradaDeOrigen = actual.entradaId();
+        }
+        if (enviaEmbarques) {
+            exigirEmbarquesListos(pedido, comando);
+        }
+        if (decideEmbarques && comando.accion() == AccionEtapa.APROBAR) {
+            embarques.exigirAprobable(pedido.id(), actor.usuarioId());
+        }
+        int etapaDeOrigen = pedido.etapaActual();
         AccionSolicitada solicitud = new AccionSolicitada(comando.accion(), comando.etapaEsperada(),
                 comando.observacion(), comando.nivelUrgencia(), presentes, comando.adjuntoIds(),
                 comando.nuevaFechaEstimadaLlegada(), comando.bodegaId());
@@ -138,7 +181,25 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
                 ahora.atZone(reloj.zona()).toLocalDate());
         pedidos.actualizar(pedido);
         apoyo.publicarEventos(pedido);
+        if (enviaEmbarques) {
+            embarques.registrarEnvio(pedido.datosDelPedido(), etapaDeOrigen, entradaDeOrigen, interviniente, ahora);
+        } else if (decideEmbarques && comando.accion() == AccionEtapa.APROBAR) {
+            embarques.aprobar(pedido.datosDelPedido(), etapaDeOrigen, interviniente, ahora);
+        } else if (decideEmbarques) {
+            embarques.rechazar(pedido.datosDelPedido(), etapaDeOrigen, interviniente, ahora, comando.observacion(),
+                    comando.blSenalados());
+        }
         return pedido;
+    }
+
+    private void exigirEmbarquesListos(Pedido pedido, Comando comando) {
+        List<String> faltantes = new ArrayList<>(embarques.faltantes(pedido.id()));
+        if (!comando.confirmaAsignacion()) {
+            faltantes.add("confirmar que toda la mercancía está asignada");
+        }
+        if (!faltantes.isEmpty()) {
+            throw new RequisitoFaltante(faltantes);
+        }
     }
 
     private static EtapaDePedido etapaActual(Pedido pedido) {

@@ -8,7 +8,8 @@ import java.util.List;
 public record DefinicionFlujoRespuesta(String pais, String tipoFlujo, int version, List<Etapa> etapas) {
 
     public record Etapa(int numero, String nombre, String rolResponsable, String estadoPlazo, Integer revisaEtapa,
-            Plazo plazo, List<Accion> acciones, boolean automatica, boolean registraLlegada) {
+            Plazo plazo, List<Accion> acciones, boolean automatica, boolean registraLlegada, Integer faseNumero,
+            String faseNombre, boolean gestionaEmbarques, boolean apruebaEmbarques, boolean checklistDocumentos) {
     }
 
     public record Plazo(int cantidad, String tipo) {
@@ -16,7 +17,7 @@ public record DefinicionFlujoRespuesta(String pais, String tipoFlujo, int versio
 
     public record Accion(String accion, Integer etapaDestino, boolean requiereObservacion, boolean requiereUrgencia,
             boolean requiereBodega, String requisitosDocumentales, List<String> documentosObligatorios,
-            boolean exigeAlgunDocumento) {
+            boolean exigeAlgunDocumento, boolean exigeEmbarquesListos) {
     }
 
     static DefinicionFlujoRespuesta de(DescribirFlujo.Flujo flujo) {
@@ -44,13 +45,14 @@ public record DefinicionFlujoRespuesta(String pais, String tipoFlujo, int versio
         return new Etapa(etapa.numero(), etapa.nombre(),
                 etapa.rolResponsable() == null ? null : etapa.rolResponsable().valor(), estado, etapa.revisaEtapa(),
                 plazo, etapa.acciones().stream().map(DefinicionFlujoRespuesta::accion).toList(), etapa.automatica(),
-                etapa.registraLlegada());
+                etapa.registraLlegada(), etapa.faseNumero(), etapa.faseNombre(), etapa.gestionaEmbarques(),
+                etapa.apruebaEmbarques(), etapa.checklistDocumentos());
     }
 
     private static Accion accion(DescribirFlujo.Accion accion) {
         return new Accion(accion.accion().name(), accion.etapaDestino(), accion.requiereObservacion(),
                 accion.requiereUrgencia(), accion.requiereBodega(),
                 accion.documentosPendientes() ? "PENDIENTES" : "DEFINIDOS", accion.documentosObligatorios(),
-                accion.exigeAlgunDocumento());
+                accion.exigeAlgunDocumento(), accion.exigeEmbarquesListos());
     }
 }

@@ -14,6 +14,7 @@ import com.decokasa.seguimiento.compartido.domain.SinPermiso;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeEtapa;
 import com.decokasa.seguimiento.compartido.domain.flujo.ContratoDeFlujo;
+import com.decokasa.seguimiento.embarques.application.port.in.EnviosDeEmbarque;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarAccionesDeEtapa;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
 import com.decokasa.seguimiento.flujos.application.port.in.ResolverTransicion;
@@ -60,11 +61,22 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
     private final Reloj reloj;
     private final ApoyoPedidos apoyo;
     private final DescribirBodega bodegas;
+    private final EnviosDeEmbarque embarques;
 
     public ConsultarPedidosCasoDeUso(ConsultaDePedidos consultas, ConsultarDefinicionFlujo flujos,
             ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos, ResumirUsuarios usuarios,
             EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
             PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres, DescribirBodega bodegas) {
+        this(consultas, flujos, acciones, adjuntos, usuarios, habilitadas, responsables, vencimientos, publicador,
+                reloj, cierres, bodegas, EnviosDeEmbarque.SIN_EMBARQUES);
+    }
+
+    public ConsultarPedidosCasoDeUso(ConsultaDePedidos consultas, ConsultarDefinicionFlujo flujos,
+            ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos, ResumirUsuarios usuarios,
+            EtapasHabilitadas habilitadas, ConsultarResponsables responsables, CalcularVencimiento vencimientos,
+            PublicadorEventos publicador, Reloj reloj, ResumirEtapasDePedido cierres, DescribirBodega bodegas,
+            EnviosDeEmbarque embarques) {
+        this.embarques = embarques;
         this.bodegas = bodegas;
         this.consultas = consultas;
         this.cierres = cierres;
@@ -108,7 +120,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         String texto = filtro.texto() == null || filtro.texto().isBlank() ? null : filtro.texto().strip();
         // ADR-0024: solo pedidos de los países asignados hoy.
         ConsultaDePedidos.Pagina resultado = consultas.listar(paisesDe(actor, filtro.pais()), filtro.tipoFlujo(),
-                filtro.etapa(),
+                filtro.etapa(), filtro.versionFlujo(),
                 filtro.vencido(), texto, reloj.ahora(), pagina, tamano);
         return new VistasDePedido.Pagina(resumenes(resultado.pedidos()), pagina, tamano, resultado.total());
     }
@@ -185,7 +197,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         return new VistasDePedido.Detalle(resumen(pedido, flujo, personas, ahora), pedido.descripcion(),
                 pedido.incluyeProductosNuevos(), persona(pedido.creadoPor(), personas), pedido.creadoEn(),
                 flujo.version(), bodega, demoraAduana, pedido.llegadaAduanaEn().orElse(null), List.copyOf(linea),
-                accionesDisponibles(pedido, flujo, actor));
+                accionesDisponibles(pedido, flujo, actor), ahora);
     }
 
     private VistasDePedido.Resumen resumen(Pedido pedido, ContratoDeFlujo flujo,
@@ -200,7 +212,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
                 urgencia == null ? null
                         : new VistasDePedido.Urgencia(urgencia.nivel(), urgencia.activadaEn(), urgencia.venceEn(),
                                 !pedido.finalizado() && ahora.isAfter(urgencia.venceEn())),
-                pedido.finalizado(), actual.motivoRetraso());
+                pedido.finalizado(), actual.motivoRetraso(), flujo.version());
     }
 
     /**
@@ -218,7 +230,9 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         if (!PermisosEtapa.puedeActuar(actual, rol, actor)) {
             return List.of();
         }
-        Set<String> subidos = adjuntos.tiposSubidos(actual.entradaId());
+        Set<String> subidos = new HashSet<>(adjuntos.tiposSubidos(actual.entradaId()));
+        // V35: lo marcado ✓ en el checklist cuenta como presente, igual que al ejecutar la acción.
+        subidos.addAll(embarques.tiposMarcados(actual.entradaId()));
         List<VistasDePedido.AccionDisponible> lista = new ArrayList<>();
         for (ResolverTransicion.Resolucion resolucion : acciones.accionesDe(pedido.flujoId(), pedido.etapaActual())) {
             List<String> obligatorios = resolucion.documentosObligatorios().stream().sorted().toList();
@@ -232,11 +246,16 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
             // bodega, como la observación, se envía con la acción y no cuenta aquí.
             boolean implementada = resolucion.etapaDestino() != null
                     || resolucion.accion() == AccionEtapa.REPORTAR_DEMORA;
-            boolean puedeCompletarse = !resolucion.documentosPendientes() && implementada && faltantes.isEmpty();
+            // V32: lo que falta en BL o en la revisión. El servidor lo vuelve a comprobar al ejecutar la acción.
+            List<String> faltantesEmbarque = resolucion.exigeEmbarquesListos() ? embarques.faltantes(pedido.id())
+                    : resolucion.origenApruebaEmbarques() && resolucion.accion() == AccionEtapa.APROBAR
+                            ? embarques.faltantesParaAprobar(pedido.id(), actor.usuarioId()) : List.of();
+            boolean puedeCompletarse = !resolucion.documentosPendientes() && implementada && faltantes.isEmpty()
+                    && faltantesEmbarque.isEmpty();
             lista.add(new VistasDePedido.AccionDisponible(resolucion.accion(), resolucion.etapaDestino(),
                     resolucion.requiereObservacion(), resolucion.requiereUrgencia(), resolucion.requiereBodega(),
                     resolucion.documentosPendientes(), obligatorios, List.copyOf(faltantes), puedeCompletarse,
-                    resolucion.exigeAlgunDocumento()));
+                    resolucion.exigeAlgunDocumento(), resolucion.exigeEmbarquesListos(), faltantesEmbarque));
         }
         return List.copyOf(lista);
     }

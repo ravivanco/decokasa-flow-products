@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ArchivosEtapa } from './ArchivosEtapa';
+import { Cronometro } from './Cronometro';
 import { codigoEtapa, formatearFechaHora, NOMBRE_ACCION, nombreRol, podriaActuarEn } from './formato';
 import { MotivoRetraso } from './MotivoRetraso';
 import { NuevaObservacion } from './NuevaObservacion';
@@ -101,6 +102,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
           </Dato>
           <Dato termino="Entrada">{formatearFechaHora(etapa.entrada)}</Dato>
           <Dato termino={etapa.salida ? 'Salida' : 'Vence'}>
+            {esActual && <span className="mb-1 block"><Cronometro venceEn={etapa.venceEn} servidorAhora={pedido.servidorAhora} estadoPlazo={etapa.estadoPlazo} /></span>}
             {etapa.salida ? (
               formatearFechaHora(etapa.salida)
             ) : etapa.estadoPlazo === 'PENDIENTE' ? (
@@ -175,10 +177,10 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
                           ? 'outline'
                           : 'default'
                     }
-                    onClick={() => onAccion(accion, actuales)}
+                    onClick={() => onAccion(accion, accion.exigeEmbarquesListos ? [] : actuales)}
                     disabled={adjuntos.isPending || adjuntos.isError || accion.requisitosDocumentales === 'PENDIENTES'}
                   >
-                    {definicion?.registraLlegada && accion.accion === 'APROBAR' ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion]}
+                    {accion.exigeEmbarquesListos ? 'Enviar a aprobación' : definicion?.registraLlegada && accion.accion === 'APROBAR' ? 'Confirmar llegada' : NOMBRE_ACCION[accion.accion]}
                   </Button>
                 ))}
               </div>
@@ -193,7 +195,9 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
                         {NOMBRE_ACCION[accion.accion]}:{' '}
                         {accion.requisitosDocumentales === 'PENDIENTES'
                           ? 'los documentos de esta etapa siguen pendientes del cliente.'
-                          : accion.documentosFaltantes.length > 0
+                          : (accion.faltantesEmbarque?.length ?? 0) > 0
+                            ? `falta: ${accion.faltantesEmbarque?.join(', ')}.`
+                            : accion.documentosFaltantes.length > 0
                             ? `falta subir ${accion.documentosFaltantes.join(', ')}.`
                             : 'todavía no se puede completar.'}
                       </li>

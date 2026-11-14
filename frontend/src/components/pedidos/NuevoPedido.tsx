@@ -169,15 +169,11 @@ function FormularioNuevoPedido({
           {tipo && inicio.primera && (
             <CardDescription className="flex flex-col gap-1">
               <span>
-                Flujo {nombreFlujo(tipo)} de {NOMBRE_PAIS[pais]}. El número se genera al guardar y el pedido empieza
-                en{' '}
-                {codigoEtapa(tipo, inicio.primera.numero)} · {inicio.primera.nombre}.
+                clu
               </span>
               {inicio.destino && inicio.documentos.length > 0 && (
                 <span>
-                  Para enviarlo a {codigoEtapa(tipo, inicio.destino.numero)} · {inicio.destino.nombre} adjunta en la
-                  etapa: {inicio.documentos.join(', ')}. Puedes adjuntar otros documentos
-                  {tipo === 'B' ? ', como el producto propuesto' : ''}.
+                  
                 </span>
               )}
             </CardDescription>

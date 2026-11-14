@@ -258,7 +258,7 @@ class AvisosEscenariosIT {
         for(String tabla:List.of("evento_pedido","aviso_etapa","notificacion"))assertThat(sql.queryForObject("select count(*) from "+tabla+" where "+(tabla.equals("evento_pedido")?"id":"evento_id")+"=?",Integer.class,r.eventoId())).isZero();
     }
     com.decokasa.seguimiento.notificaciones.application.port.in.EnviarNotificacionesPendientes worker(String corte,DirectorioDestinatarios directorio){
-        return new CorreoConfig().enviarNotificacionesPendientes(gestor,correos,gmail,directorio,reloj,true,true,25,Duration.ofMinutes(3),corte);
+        return new CorreoConfig().enviarNotificacionesPendientes(gestor,correos,gmail,directorio,reloj,true,true,25,Duration.ofMinutes(3),corte,"");
     }
     DirectorioDestinatarios directorio(){return NotificacionesConfig.registrados(contactos);}
     @Test void e16VacioCorteYFronteraNoTocanHistoricos(){

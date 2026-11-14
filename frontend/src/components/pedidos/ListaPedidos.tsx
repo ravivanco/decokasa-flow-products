@@ -1,7 +1,7 @@
 import { PlusIcon, SearchIcon } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
-import { useDefinicionesVigentes, usePedidos } from '@/api/pedidos';
+import { type DefinicionFlujo, useDefinicionesVigentes, usePedidos, useVersionesAnteriores } from '@/api/pedidos';
 import { useUsuarioActual } from '@/auth/SesionProvider';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -24,6 +24,33 @@ import { Paginacion, TablaPedidos } from './TablaPedidos';
 
 const TAMANO = 20;
 
+/**
+ * Una opción por etapa. Si la misma posición tiene otro nombre en una versión anterior, cada una lleva su versión y el
+ * filtro no las mezcla.
+ */
+function opcionesDeEtapa(tipo: 'A' | 'B', vigente: DefinicionFlujo, anteriores: DefinicionFlujo[]) {
+  const nombreEn = (definicion: DefinicionFlujo, numero: number) =>
+    definicion.etapas.find((etapa) => etapa.numero === numero)?.nombre;
+  const opciones = vigente.etapas.map((etapa) => {
+    const distinta = anteriores.some((anterior) => {
+      const nombre = nombreEn(anterior, etapa.numero);
+      return nombre !== undefined && nombre !== etapa.nombre;
+    });
+    return { numero: etapa.numero, orden: 0,
+      valor: `${tipo}-${etapa.numero}${distinta ? `-${vigente.version}` : ''}`,
+      texto: `${codigoEtapa(tipo, etapa.numero)} · ${etapa.nombre}` };
+  });
+  for (const anterior of anteriores) {
+    for (const etapa of anterior.etapas) {
+      if (nombreEn(vigente, etapa.numero) !== etapa.nombre) {
+        opciones.push({ numero: etapa.numero, orden: 1, valor: `${tipo}-${etapa.numero}-${anterior.version}`,
+          texto: `${codigoEtapa(tipo, etapa.numero)} · ${etapa.nombre} (versión ${anterior.version})` });
+      }
+    }
+  }
+  return opciones.sort((a, b) => a.numero - b.numero || a.orden - b.orden);
+}
+
 export function ListaPedidos() {
   const usuario = useUsuarioActual();
   const [parametros, setParametros] = useSearchParams();
@@ -32,15 +59,19 @@ export function ListaPedidos() {
   const tipoFlujo = flujoElegido === 'A' || flujoElegido === 'B' ? flujoElegido : undefined;
   // Fase 6: una etapa solo filtra junto con su flujo (B2 no es A2).
   const etapa = tipoFlujo ? Number(parametros.get('etapa')) || undefined : undefined;
+  // V32: A7 es Aduana en v1 y Aprobación de embarque en v2; la versión separa las dos.
+  const versionFlujo = etapa ? Number(parametros.get('version')) || undefined : undefined;
   const vencido = parametros.get('vencido') === 'true';
   const pagina = Math.max(0, Number(parametros.get('pagina')) || 0);
   const [borrador, setBorrador] = useState(texto);
 
-  const pedidos = usePedidos({ texto: texto || undefined, tipoFlujo, etapa, vencido, pagina, tamano: TAMANO });
+  const pedidos = usePedidos({ texto: texto || undefined, tipoFlujo, etapa, versionFlujo, vencido, pagina, tamano: TAMANO });
   const definiciones = useDefinicionesVigentes();
+  const anterioresA = useVersionesAnteriores('A', definiciones.A?.version);
+  const anterioresB = useVersionesAnteriores('B', definiciones.B?.version);
   const creables = flujosQuePuedeCrear(definiciones, usuario.roles);
   const hayFiltros = Boolean(texto || tipoFlujo || vencido);
-  const valorEtapa = tipoFlujo ? (etapa ? `${tipoFlujo}-${etapa}` : tipoFlujo) : 'todas';
+  const valorEtapa = tipoFlujo ? (etapa ? `${tipoFlujo}-${etapa}${versionFlujo ? `-${versionFlujo}` : ''}` : tipoFlujo) : 'todas';
 
   function cambiar(cambios: Record<string, string | undefined>) {
     const siguiente = new URLSearchParams(parametros);
@@ -103,8 +134,8 @@ export function ListaPedidos() {
           <Select
             value={valorEtapa}
             onValueChange={(valor) => {
-              const [flujo, numero] = valor === 'todas' ? [] : valor.split('-');
-              cambiar({ flujo, etapa: numero });
+              const [flujo, numero, version] = valor === 'todas' ? [] : valor.split('-');
+              cambiar({ flujo, etapa: numero, version });
             }}
           >
             <SelectTrigger id="filtro-etapa" className="w-full">
@@ -121,10 +152,8 @@ export function ListaPedidos() {
                   <SelectGroup key={tipo}>
                     <SelectLabel>{`Flujo ${nombreFlujo(tipo)}`}</SelectLabel>
                     <SelectItem value={tipo}>{`Todas las etapas de ${tipo}`}</SelectItem>
-                    {definicion.etapas.map((etapaDelFlujo) => (
-                      <SelectItem key={etapaDelFlujo.numero} value={`${tipo}-${etapaDelFlujo.numero}`}>
-                        {codigoEtapa(tipo, etapaDelFlujo.numero)} · {etapaDelFlujo.nombre}
-                      </SelectItem>
+                    {opcionesDeEtapa(tipo, definicion, tipo === 'A' ? anterioresA : anterioresB).map((opcion) => (
+                      <SelectItem key={opcion.valor} value={opcion.valor}>{opcion.texto}</SelectItem>
                     ))}
                   </SelectGroup>
                 );

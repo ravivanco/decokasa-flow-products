@@ -14,7 +14,8 @@ export default defineConfig({
   server: {
     // En desarrollo, /api va al backend local; así el navegador no hace llamadas entre orígenes.
     proxy: {
-      '/api': 'http://localhost:8080',
+      // VITE_PROXY_API: otro backend local, por ejemplo una base de prueba en otro puerto.
+      '/api': process.env.VITE_PROXY_API ?? 'http://localhost:8080',
     },
   },
   test: {

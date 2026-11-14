@@ -30,7 +30,15 @@ public interface DescribirFlujo {
      * @param registraLlegada etapa de llegada a aduana (ADR-0018)
      */
     record Etapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo, Integer revisaEtapa,
-            boolean automatica, boolean registraLlegada, List<Accion> acciones) {
+            boolean automatica, boolean registraLlegada, List<Accion> acciones, Integer faseNumero, String faseNombre,
+            boolean gestionaEmbarques, boolean apruebaEmbarques, boolean checklistDocumentos) {
+
+        /** Sin fase ni atributos de embarque (anteriores a V32). */
+        public Etapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo, Integer revisaEtapa,
+                boolean automatica, boolean registraLlegada, List<Accion> acciones) {
+            this(numero, nombre, rolResponsable, plazo, revisaEtapa, automatica, registraLlegada, acciones, null, null,
+                    false, false, false);
+        }
     }
 
     /**
@@ -39,7 +47,15 @@ public interface DescribirFlujo {
      */
     record Accion(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion, boolean requiereUrgencia,
             boolean requiereBodega, boolean documentosPendientes, List<String> documentosObligatorios,
-            boolean exigeAlgunDocumento) {
+            boolean exigeAlgunDocumento, boolean exigeEmbarquesListos) {
+
+        /** Compatibilidad con vistas anteriores a V32. */
+        public Accion(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                List<String> documentosObligatorios, boolean exigeAlgunDocumento) {
+            this(accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosPendientes,
+                    documentosObligatorios, exigeAlgunDocumento, false);
+        }
 
         /** Compatibilidad con vistas anteriores a V16. */
         public Accion(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,

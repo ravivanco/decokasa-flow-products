@@ -28,12 +28,26 @@ public interface ResolverTransicion {
      * @param origenRegistraLlegada la etapa de origen es la de llegada a aduana (ADR-0018, marca de los datos)
      * @param destinoEsAutomatico al entrar se completa Fin y se cierra el pedido, sin acción manual
      * @param exigeAlgunDocumento hace falta al menos un documento adjunto, de cualquier tipo (A9 y A10, V16)
+     * @param exigeEmbarquesListos la acción envía los BL del pedido a aprobación (V32)
+     * @param origenApruebaEmbarques la etapa de origen decide un envío de embarques (V32)
      */
     record Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
             Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
             CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico,
-            boolean exigeAlgunDocumento) {
+            boolean exigeAlgunDocumento, boolean exigeEmbarquesListos, boolean origenApruebaEmbarques) {
+
+        /** Compatibilidad con resoluciones anteriores a V32. */
+        public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                Set<String> documentosObligatorios, PlazoDeEtapa plazoDestino, boolean destinoEsRetornoDeUrgencia,
+                CodigoRol rolResponsableOrigen, boolean origenRegistraLlegada, boolean destinoEsAutomatico,
+                boolean exigeAlgunDocumento) {
+            this(etapaOrigen, accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega,
+                    documentosPendientes, documentosObligatorios, plazoDestino, destinoEsRetornoDeUrgencia,
+                    rolResponsableOrigen, origenRegistraLlegada, destinoEsAutomatico, exigeAlgunDocumento, false,
+                    false);
+        }
 
         /** Compatibilidad con resoluciones anteriores a V16: solo los tipos de {@code documentosObligatorios}. */
         public Resolucion(int etapaOrigen, AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,

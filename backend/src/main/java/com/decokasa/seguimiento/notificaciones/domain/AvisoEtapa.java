@@ -17,7 +17,7 @@ public record AvisoEtapa(UUID id, UUID eventoId, UUID pedidoId, UUID usuarioId, 
         boolean comoResponsable, Instant ocurridoEn) {
 
     public enum Tipo {
-        CREACION, LLEGADA, DEVOLUCION, REASIGNACION, CIERRE
+        CREACION, LLEGADA, DEVOLUCION, REASIGNACION, CIERRE, VENCIMIENTO
     }
 
     public AvisoEtapa {

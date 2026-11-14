@@ -70,7 +70,8 @@ public class DefinicionFlujoJpaRepositorio implements DefinicionFlujoRepositorio
         return new DefinicionEtapa(fila.getNumero(), fila.getNombre(),
                 fila.getRolCodigo() == null ? null : new CodigoRol(fila.getRolCodigo()), plazo, fila.isAutomatica(),
                 fila.getRevisaEtapa() == null ? null : fila.getRevisaEtapa().intValue(), fila.isRegistraLlegada(),
-                referencia);
+                referencia, fila.getFaseNumero() == null ? null : fila.getFaseNumero().intValue(), fila.getFaseNombre(),
+                fila.isGestionaEmbarques(), fila.isApruebaEmbarques(), fila.isChecklistDocumentos());
     }
 
     private static TransicionPermitida transicion(TransicionPermitidaEntity fila) {
@@ -78,6 +79,8 @@ public class DefinicionFlujoJpaRepositorio implements DefinicionFlujoRepositorio
                 fila.getEtapaDestino() == null ? null : fila.getEtapaDestino().intValue(),
                 fila.isRequiereObservacion(), fila.isRequiereUrgencia(), fila.isRequiereBodega(),
                 RequisitosDocumentales.valueOf(fila.getRequisitosDocumentales()), fila.getDocumentos(),
-                fila.isExigeAlgunDocumento());
+                fila.isExigeAlgunDocumento(), fila.isExigeEmbarquesListos(),
+                fila.getPlazoReentradaCantidad() == null ? null : new PlazoDeEtapa.Definido(
+                        fila.getPlazoReentradaCantidad(), TipoPlazo.valueOf(fila.getPlazoReentradaTipo())));
     }
 }

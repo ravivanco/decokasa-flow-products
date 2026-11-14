@@ -121,7 +121,7 @@ public class EstadisticasDePedidosSql implements EstadisticasDePedidos {
                 + "  count(*) filter (where v.salida is null) as abiertas"
                 + " from visitas v join definicion_etapa d on d.flujo_id = v.flujo_id and d.numero = v.etapa"
                 + " where not d.automatica and v.entrada_en >= :inicio and v.entrada_en < :fin"
-                + " group by v.tipo_flujo, v.pais_codigo, v.etapa order by v.tipo_flujo, v.pais_codigo, v.etapa",
+                + " group by v.tipo_flujo, v.pais_codigo, v.etapa, d.nombre order by v.tipo_flujo, v.pais_codigo, v.etapa, d.nombre",
                 periodo(alcance(paises, flujo), inicio, fin), (r, n) -> {
                     double mediana = r.getDouble("mediana");
                     Double valor = r.wasNull() ? null : mediana;
@@ -156,7 +156,7 @@ public class EstadisticasDePedidosSql implements EstadisticasDePedidos {
                 + " join definicion_etapa d on d.flujo_id = p.flujo_id and d.numero = e.numero"
                 + " where" + ALCANCE + " and not p.finalizado and (e.vence_en < :ahora"
                 + "  or (p.urgencia_nivel is not null and p.urgencia_vence_en < :ahora))"
-                + " group by p.tipo_flujo, e.numero order by n desc, p.tipo_flujo, e.numero",
+                + " group by p.tipo_flujo, e.numero, d.nombre order by n desc, p.tipo_flujo, e.numero, d.nombre",
                 alcance(paises, flujo).addValue("ahora", Timestamp.from(ahora)),
                 (r, n) -> new ConsultarEstadisticas.RetrasoEtapa(r.getString("tipo_flujo"), r.getInt("numero"),
                         r.getString("nombre"), r.getLong("n"), r.getLong("etapa_vencida"), r.getLong("urgencia_vencida")));

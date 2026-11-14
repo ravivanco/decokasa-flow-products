@@ -160,7 +160,7 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
     @Override
     public Pagina listar(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto, Instant ahora, int pagina,
             int tamano) {
-        return listarEn(null, tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano);
+        return listarEn(null, tipoFlujo, etapa, null, vencido, texto, ahora, pagina, tamano);
     }
 
     /** ADR-0024: el filtro por país va en la consulta, así que la página y el total son los del usuario. */
@@ -170,12 +170,22 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
         if (paises.isEmpty()) {
             return new Pagina(List.of(), 0);
         }
-        return listarEn(paises, tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano);
+        return listarEn(paises, tipoFlujo, etapa, null, vencido, texto, ahora, pagina, tamano);
+    }
+
+    /** V32: el mismo número de etapa significa cosas distintas según la versión del flujo. */
+    @Override
+    public Pagina listar(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Integer versionFlujo,
+            Boolean vencido, String texto, Instant ahora, int pagina, int tamano) {
+        if (paises.isEmpty()) {
+            return new Pagina(List.of(), 0);
+        }
+        return listarEn(paises, tipoFlujo, etapa, versionFlujo, vencido, texto, ahora, pagina, tamano);
     }
 
     // paises nulo: sin filtro de país (firma anterior a la fase 7).
-    private Pagina listarEn(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto,
-            Instant ahora, int pagina, int tamano) {
+    private Pagina listarEn(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Integer versionFlujo,
+            Boolean vencido, String texto, Instant ahora, int pagina, int tamano) {
         StringBuilder condiciones = new StringBuilder(" where 1 = 1");
         if (paises != null) {
             condiciones.append(" and p.paisCodigo in :paises");
@@ -185,6 +195,9 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
         }
         if (etapa != null) {
             condiciones.append(" and p.etapaActual = :etapa");
+        }
+        if (versionFlujo != null) {
+            condiciones.append(" and p.flujoId in (select f.id from DefinicionFlujoEntity f where f.version = :version)");
         }
         String vencida = "exists (select e.id from EtapaPedidoEntity e where e.pedido = p and e.estado = 'ACTUAL'"
                 + " and e.venceEn is not null and e.venceEn < :ahora)";
@@ -210,6 +223,9 @@ public class PedidoJpaRepositorio implements PedidoRepositorio, ConsultaDePedido
             }
             if (etapa != null) {
                 consulta.setParameter("etapa", etapa.shortValue());
+            }
+            if (versionFlujo != null) {
+                consulta.setParameter("version", versionFlujo);
             }
             if (vencido != null) {
                 consulta.setParameter("ahora", ahora);

@@ -81,6 +81,14 @@ public final class DescargarArchivoCasoDeUso implements DescargarArchivo {
     }
 
     @Override
+    public Autorizada delAdjunto(UUID adjuntoId) {
+        Adjunto adjunto = adjuntos.porId(adjuntoId).orElseThrow(() -> new NoEncontrado("El archivo no existe."));
+        String driveId = documentos == null ? null : documentos.driveIdCopiado(adjunto.id()).orElse(null);
+        return new Autorizada(adjunto.id(), adjunto.nombre(), adjunto.tamanoBytes(), adjunto.sha256(),
+                adjunto.claveLocal(), driveId);
+    }
+
+    @Override
     public Contenido abrir(Autorizada autorizada) {
         OptionalLong tamano = almacen.tamano(autorizada.claveLocal());
         boolean localIntegro = tamano.isPresent() && tamano.getAsLong() == autorizada.tamanoBytes()
