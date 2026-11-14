@@ -57,6 +57,22 @@ public class DefinicionEtapaEntity {
     @Column(name = "estimacion_fuente")
     private String estimacionFuente;
 
+    // V32: fases visuales y atributos de embarque.
+    @Column(name = "fase_numero")
+    private Short faseNumero;
+
+    @Column(name = "fase_nombre")
+    private String faseNombre;
+
+    @Column(name = "gestiona_embarques")
+    private boolean gestionaEmbarques;
+
+    @Column(name = "aprueba_embarques")
+    private boolean apruebaEmbarques;
+
+    @Column(name = "checklist_documentos")
+    private boolean checklistDocumentos;
+
     protected DefinicionEtapaEntity() {
     }
 
@@ -110,5 +126,25 @@ public class DefinicionEtapaEntity {
 
     String getEstimacionFuente() {
         return estimacionFuente;
+    }
+
+    Short getFaseNumero() {
+        return faseNumero;
+    }
+
+    String getFaseNombre() {
+        return faseNombre;
+    }
+
+    boolean isGestionaEmbarques() {
+        return gestionaEmbarques;
+    }
+
+    boolean isApruebaEmbarques() {
+        return apruebaEmbarques;
+    }
+
+    boolean isChecklistDocumentos() {
+        return checklistDocumentos;
     }
 }

@@ -10,6 +10,7 @@ import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarContactos;
 import java.util.LinkedHashSet;
 
 import com.decokasa.seguimiento.notificaciones.application.port.in.EncolarNotificacion;
+import com.decokasa.seguimiento.notificaciones.application.port.out.AlertaWhatsApp;
 import com.decokasa.seguimiento.notificaciones.application.port.out.DirectorioDestinatarios;
 import com.decokasa.seguimiento.notificaciones.application.port.out.NotificacionRepositorio;
 import com.decokasa.seguimiento.notificaciones.application.usecase.EncolarNotificacionCasoDeUso;
@@ -87,9 +88,9 @@ public class NotificacionesConfig {
      */
     @Bean EncolarNotificacion encolarNotificacion(NotificacionRepositorio repositorio,
             DirectorioDestinatarios directorio, EtapasDePedido etapas, ConsultarContactos contactos,
-            AvisoRepositorio avisos) {
+            AvisoRepositorio avisos, AlertaWhatsApp whatsapp) {
         EncolarNotificacion vencimientos = new EncolarNotificacionCasoDeUso(repositorio, directorio, false);
-        EncolarNotificacion etapa = new RegistrarAvisosDeEtapaCasoDeUso(etapas, contactos, avisos, repositorio);
+        EncolarNotificacion etapa = new RegistrarAvisosDeEtapaCasoDeUso(etapas, contactos, avisos, repositorio, whatsapp);
         return evento -> {
             vencimientos.encolar(evento);
             etapa.encolar(evento);

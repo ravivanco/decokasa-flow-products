@@ -39,7 +39,7 @@ public final class VistasDePedido {
      */
     public record Resumen(UUID id, String numero, String nombre, CodigoPais pais, TipoFlujo tipoFlujo,
             int etapaActual, String nombreEtapaActual, Persona responsableActual, Instant venceEn, boolean vencida,
-            Urgencia urgencia, boolean finalizado, String motivoRetraso) {
+            Urgencia urgencia, boolean finalizado, String motivoRetraso, int versionFlujo) {
     }
 
     /**
@@ -61,7 +61,17 @@ public final class VistasDePedido {
     public record AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
             List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
-            boolean exigeAlgunDocumento) {
+            boolean exigeAlgunDocumento, boolean exigeEmbarquesListos, List<String> faltantesEmbarque) {
+
+        /** Compatibilidad con vistas anteriores a V32. */
+        public AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
+                boolean requiereUrgencia, boolean requiereBodega, boolean documentosPendientes,
+                List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
+                boolean exigeAlgunDocumento) {
+            this(accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega, documentosPendientes,
+                    documentosObligatorios, documentosFaltantes, puedeCompletarse, exigeAlgunDocumento, false,
+                    List.of());
+        }
 
         /** Compatibilidad con vistas anteriores a V16. */
         public AccionDisponible(AccionEtapa accion, Integer etapaDestino, boolean requiereObservacion,
@@ -91,7 +101,7 @@ public final class VistasDePedido {
      */
     public record Detalle(Resumen resumen, String descripcion, boolean incluyeProductosNuevos, Persona creadoPor,
             Instant creadoEn, int versionFlujo, Bodega bodega, Demora demoraAduana, Instant llegadaAduanaEn,
-            List<Etapa> lineaDeTiempo, List<AccionDisponible> accionesDisponibles) {
+            List<Etapa> lineaDeTiempo, List<AccionDisponible> accionesDisponibles, Instant servidorAhora) {
     }
 
     public record Pagina(List<Resumen> elementos, int pagina, int tamano, long total) {

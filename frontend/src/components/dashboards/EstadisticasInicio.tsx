@@ -328,7 +328,7 @@ function EstadoPedidos({ datos, periodo, ...estado }: PropsGrafico & { periodo: 
             ) : (
               <ul className="flex flex-col gap-0.5 text-xs">
                 {retrasos.map((r) => (
-                  <li key={`${r.tipoFlujo}-${r.etapa}`} className="flex justify-between gap-2">
+                  <li key={`${r.tipoFlujo}-${r.etapa}-${r.nombreEtapa}`} className="flex justify-between gap-2">
                     <span className="truncate">{r.tipoFlujo}{r.etapa} · {r.nombreEtapa}</span>
                     <span className="shrink-0 tabular-nums"><b>{r.pedidos}</b> <span className="text-muted-foreground">(etapa vencida {r.etapaVencida}, urgencia vencida {r.urgenciaVencida})</span></span>
                   </li>
@@ -415,7 +415,7 @@ function RecorridoTipico({ etapas, unidad, maximo, titulo }: { etapas: FilaEtapa
               const esLenta = f === lenta;
               return (
                 <span
-                  key={f.etapa}
+                  key={`${f.etapa}-${f.nombreEtapa}`}
                   tabIndex={0}
                   className={cn(
                     'group relative flex min-w-1 items-center justify-center text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',

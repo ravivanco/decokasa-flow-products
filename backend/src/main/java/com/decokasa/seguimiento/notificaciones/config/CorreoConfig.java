@@ -35,7 +35,8 @@ public class CorreoConfig {
             @Value("${decokasa.google.gmail.habilitada:false}") boolean habilitada,
             @Value("${decokasa.google.gmail.worker.lote:5}") int lote,
             @Value("${decokasa.google.gmail.worker.lease:PT3M}") Duration lease,
-            @Value("${decokasa.notificaciones.enviar-desde:}") String enviarDesde) {
+            @Value("${decokasa.notificaciones.enviar-desde:}") String enviarDesde,
+            @Value("${decokasa.notificaciones.buzon-simulado:}") String buzonSimulado) {
         // ADR-0032: sin instante de corte no se envía nada; con él, solo lo creado desde entonces (nunca el histórico).
         Instant desde = enviarDesde == null || enviarDesde.isBlank() ? null : Instant.parse(enviarDesde.strip());
         var tx=new TransactionTemplate(gestor);
@@ -56,7 +57,9 @@ public class CorreoConfig {
                 return Boolean.TRUE.equals(tx.execute(e -> repo.registrarFallo(id,p,causa,siguiente,false,ahora)));
             }
         };
-        var caso=new EnviarNotificacionesCasoDeUso(trabajo,gmail,directorio,reloj,oauth && habilitada && desde != null,
+        boolean simulado = buzonSimulado != null && !buzonSimulado.isBlank();
+        var caso=new EnviarNotificacionesCasoDeUso(trabajo,gmail,directorio,reloj,
+                (simulado || (oauth && habilitada)) && desde != null,
                 lote,lease);
         return () -> {
             if (TransactionSynchronizationManager.isActualTransactionActive()) {

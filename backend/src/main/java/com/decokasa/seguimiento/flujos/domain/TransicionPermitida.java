@@ -15,7 +15,17 @@ import java.util.Set;
 public record TransicionPermitida(int etapaOrigen, AccionEtapa accion, Integer etapaDestino,
         boolean requiereObservacion, boolean requiereUrgencia, boolean requiereBodega,
         RequisitosDocumentales requisitosDocumentales, Set<String> documentosObligatorios,
-        boolean exigeAlgunDocumento) {
+        boolean exigeAlgunDocumento, boolean exigeEmbarquesListos,
+        com.decokasa.seguimiento.compartido.domain.PlazoDeEtapa plazoReentrada) {
+
+    /** Sin BL exigidos ni plazo de reentrada (anteriores a V32). */
+    public TransicionPermitida(int etapaOrigen, AccionEtapa accion, Integer etapaDestino,
+            boolean requiereObservacion, boolean requiereUrgencia, boolean requiereBodega,
+            RequisitosDocumentales requisitosDocumentales, Set<String> documentosObligatorios,
+            boolean exigeAlgunDocumento) {
+        this(etapaOrigen, accion, etapaDestino, requiereObservacion, requiereUrgencia, requiereBodega,
+                requisitosDocumentales, documentosObligatorios, exigeAlgunDocumento, false, null);
+    }
 
     /** Una transición que solo exige los tipos de {@code documentosObligatorios}. */
     public TransicionPermitida(int etapaOrigen, AccionEtapa accion, Integer etapaDestino,

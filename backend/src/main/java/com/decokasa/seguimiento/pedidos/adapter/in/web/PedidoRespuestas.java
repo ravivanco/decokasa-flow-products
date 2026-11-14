@@ -17,7 +17,7 @@ public final class PedidoRespuestas {
 
     public record Resumen(UUID id, String numero, String nombre, String pais, String tipoFlujo, int etapaActual,
             String nombreEtapaActual, UsuarioResumenRespuesta responsableActual, String venceEn, boolean vencida,
-            String motivoRetraso, Urgencia urgencia, boolean finalizado) {
+            String motivoRetraso, Urgencia urgencia, boolean finalizado, int versionFlujo) {
     }
 
     public record Etapa(int numero, String nombre, String estado, String rolResponsable, String estadoPlazo,
@@ -28,7 +28,7 @@ public final class PedidoRespuestas {
     public record AccionDisponible(String accion, Integer etapaDestino, boolean requiereObservacion,
             boolean requiereUrgencia, boolean requiereBodega, String requisitosDocumentales,
             List<String> documentosObligatorios, List<String> documentosFaltantes, boolean puedeCompletarse,
-            boolean exigeAlgunDocumento) {
+            boolean exigeAlgunDocumento, boolean exigeEmbarquesListos, List<String> faltantesEmbarque) {
     }
 
     /** Esquema Bodega: la asignada al pedido, aunque después se haya desactivado. */
@@ -46,7 +46,7 @@ public final class PedidoRespuestas {
             String motivoRetraso, Urgencia urgencia, boolean finalizado, String descripcion,
             boolean incluyeProductosNuevos, UsuarioResumenRespuesta creadoPor, String creadoEn, int versionFlujo,
             Bodega bodega, DemoraAduana demoraAduana, String llegadaAduanaEn, List<Etapa> lineaDeTiempo,
-            List<AccionDisponible> accionesDisponibles) {
+            List<AccionDisponible> accionesDisponibles, String servidorAhora) {
     }
 
     public record Pagina(List<Resumen> elementos, int pagina, int tamano, long total) {
@@ -61,7 +61,7 @@ public final class PedidoRespuestas {
         return new Resumen(resumen.id(), resumen.numero(), resumen.nombre(), resumen.pais().name(),
                 resumen.tipoFlujo().name(), resumen.etapaActual(), resumen.nombreEtapaActual(),
                 persona(resumen.responsableActual()), FechasWeb.texto(resumen.venceEn()), resumen.vencida(), resumen.motivoRetraso(),
-                urgencia(resumen.urgencia()), resumen.finalizado());
+                urgencia(resumen.urgencia()), resumen.finalizado(), resumen.versionFlujo());
     }
 
     static Detalle de(VistasDePedido.Detalle detalle) {
@@ -72,7 +72,8 @@ public final class PedidoRespuestas {
                 persona(detalle.creadoPor()), FechasWeb.texto(detalle.creadoEn()), detalle.versionFlujo(),
                 bodega(detalle.bodega()), demora(detalle.demoraAduana()), FechasWeb.texto(detalle.llegadaAduanaEn()),
                 detalle.lineaDeTiempo().stream().map(etapa -> etapa(r.tipoFlujo().name(), etapa)).toList(),
-                detalle.accionesDisponibles().stream().map(PedidoRespuestas::accion).toList());
+                detalle.accionesDisponibles().stream().map(PedidoRespuestas::accion).toList(),
+                FechasWeb.texto(detalle.servidorAhora()));
     }
 
     private static Etapa etapa(String tipoFlujo, VistasDePedido.Etapa etapa) {
@@ -88,7 +89,7 @@ public final class PedidoRespuestas {
                 accion.requiereUrgencia(), accion.requiereBodega(),
                 accion.documentosPendientes() ? "PENDIENTES" : "DEFINIDOS",
                 accion.documentosObligatorios(), accion.documentosFaltantes(), accion.puedeCompletarse(),
-                accion.exigeAlgunDocumento());
+                accion.exigeAlgunDocumento(), accion.exigeEmbarquesListos(), accion.faltantesEmbarque());
     }
 
     private static Bodega bodega(VistasDePedido.Bodega bodega) {

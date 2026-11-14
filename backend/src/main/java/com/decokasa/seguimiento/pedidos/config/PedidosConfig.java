@@ -7,6 +7,8 @@ import com.decokasa.seguimiento.archivos.application.port.in.ValidarAdjuntosPara
 import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEventos;
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
+import com.decokasa.seguimiento.embarques.application.port.in.EnviosDeEmbarque;
+import com.decokasa.seguimiento.embarques.application.port.out.PedidosParaEmbarques;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarAccionesDeEtapa;
 import com.decokasa.seguimiento.flujos.application.port.in.ConsultarDefinicionFlujo;
 import com.decokasa.seguimiento.flujos.application.port.in.ResolverTransicion;
@@ -30,6 +32,7 @@ import com.decokasa.seguimiento.pedidos.application.usecase.ConsultarCronogramaC
 import com.decokasa.seguimiento.pedidos.application.usecase.ConsultarPedidosCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.CrearPedidoCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.EjecutarAccionEtapaCasoDeUso;
+import com.decokasa.seguimiento.pedidos.application.usecase.PedidosParaEmbarquesCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.ReasignarEtapaCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.RegistrarMotivoRetrasoCasoDeUso;
 import com.decokasa.seguimiento.pedidos.application.usecase.VerificarConsultaCasoDeUso;
@@ -79,10 +82,10 @@ public class PedidosConfig {
     EjecutarAccionEtapa ejecutarAccionEtapa(PlatformTransactionManager gestor, PedidoRepositorio pedidos,
             ResolverTransicion transiciones, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
             CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj,
-            ValidarAdjuntosParaAccion adjuntos, ConsultarBodegaActiva bodegas) {
+            ValidarAdjuntosParaAccion adjuntos, ConsultarBodegaActiva bodegas, EnviosDeEmbarque embarques) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         EjecutarAccionEtapa caso = new EjecutarAccionEtapaCasoDeUso(pedidos, transiciones, habilitadas, responsables,
-                vencimientos, publicador, reloj, adjuntos, bodegas);
+                vencimientos, publicador, reloj, adjuntos, bodegas, embarques);
         return (solicitante, comando) -> tx.execute(estado -> caso.ejecutar(solicitante, comando));
     }
 
@@ -102,11 +105,11 @@ public class PedidosConfig {
             ConsultarDefinicionFlujo flujos, ConsultarAccionesDeEtapa acciones, ConsultarAdjuntosDeEntrada adjuntos,
             ResumirUsuarios usuarios, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
             CalcularVencimiento vencimientos, PublicadorEventos publicador, Reloj reloj,
-            ResumirEtapasDePedido cierres, DescribirBodega bodegas) {
+            ResumirEtapasDePedido cierres, DescribirBodega bodegas, EnviosDeEmbarque embarques) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         tx.setReadOnly(true);
         ConsultarPedidos caso = new ConsultarPedidosCasoDeUso(consultas, flujos, acciones, adjuntos, usuarios,
-                habilitadas, responsables, vencimientos, publicador, reloj, cierres, bodegas);
+                habilitadas, responsables, vencimientos, publicador, reloj, cierres, bodegas, embarques);
         return new ConsultarPedidos() {
             @Override
             public VistasDePedido.Detalle detalle(Solicitante solicitante, UUID pedidoId) {
@@ -158,6 +161,16 @@ public class PedidosConfig {
      * Reglas de archivos de pedidos (P-06, P-13, P-17, P-18). Se une a la transacción de archivos que lo llama: la
      * subida bloquea el pedido hasta confirmar el adjunto.
      */
+    @Bean
+    PedidosParaEmbarques pedidosParaEmbarques(PedidoRepositorio pedidos, ConsultaDePedidos consultas,
+            ConsultarDefinicionFlujo flujos, EtapasHabilitadas habilitadas, ConsultarResponsables responsables,
+            CalcularVencimiento vencimientos, PublicadorEventos publicador) {
+        // Sin transacción propia: corre en la del caso de uso de embarques.
+        return new PedidosParaEmbarquesCasoDeUso(pedidos, consultas, flujos, new AutorizarArchivosCasoDeUso(pedidos,
+                consultas, flujos, habilitadas, responsables, vencimientos, publicador), responsables, vencimientos,
+                publicador);
+    }
+
     @Bean
     AutorizarArchivosDePedido autorizarArchivosDePedido(PlatformTransactionManager gestor, PedidoRepositorio pedidos,
             ConsultaDePedidos consultas, ConsultarDefinicionFlujo flujos, EtapasHabilitadas habilitadas,

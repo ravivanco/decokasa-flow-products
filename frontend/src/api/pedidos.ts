@@ -47,6 +47,8 @@ const esquemaResumen = z.object({
   motivoRetraso: z.string().nullish(),
   urgencia: esquemaUrgencia.nullish(),
   finalizado: z.boolean(),
+  // V32: un número de etapa significa cosas distintas según la versión del flujo del pedido.
+  versionFlujo: z.number().int().optional(),
 });
 export type PedidoResumen = z.infer<typeof esquemaResumen>;
 
@@ -95,6 +97,9 @@ const esquemaAccionDisponible = z.object({
   puedeCompletarse: z.boolean(),
   // V16 (contrato 0.14.0): al menos un documento de la entrada actual, de cualquier tipo (A9 y A10). Ausente = false.
   exigeAlgunDocumento: z.boolean().optional(),
+  // V32: la acción envía los BL a aprobación; lo que falta para enviar o aprobar.
+  exigeEmbarquesListos: z.boolean().optional(),
+  faltantesEmbarque: z.array(z.string()).optional(),
 });
 export type AccionDisponible = z.infer<typeof esquemaAccionDisponible>;
 
@@ -114,6 +119,8 @@ export const esquemaPedidoDetalle = esquemaResumen.extend({
   }).nullish(),
   lineaDeTiempo: z.array(esquemaEtapaEnLinea),
   accionesDisponibles: z.array(esquemaAccionDisponible),
+  /** Hora del servidor al responder: el cronómetro no depende del reloj del equipo. */
+  servidorAhora: z.string().nullish(),
 });
 export type PedidoDetalle = z.infer<typeof esquemaPedidoDetalle>;
 
@@ -139,6 +146,8 @@ export const TIPOS_EVENTO = [
   'PLAZO_VENCIDO',
   'MOTIVO_RETRASO_REGISTRADO',
   'PEDIDO_FINALIZADO',
+  'EMBARQUE_REGISTRADO',
+  'PLAN_VENCIDO',
 ] as const;
 export type TipoEvento = (typeof TIPOS_EVENTO)[number];
 
@@ -209,10 +218,17 @@ const esquemaDefinicionFlujo = z.object({
           requisitosDocumentales: z.enum(['DEFINIDOS', 'PENDIENTES']),
           documentosObligatorios: z.array(z.string()),
           exigeAlgunDocumento: z.boolean().optional(),
+          exigeEmbarquesListos: z.boolean().optional(),
         }),
       ),
       automatica: z.boolean(),
       registraLlegada: z.boolean(),
+      // V32: fases visuales y etapas de embarque.
+      faseNumero: z.number().int().nullish(),
+      faseNombre: z.string().nullish(),
+      gestionaEmbarques: z.boolean().optional(),
+      apruebaEmbarques: z.boolean().optional(),
+      checklistDocumentos: z.boolean().optional(),
     }),
   ),
 });
@@ -226,6 +242,8 @@ export interface FiltrosPedidos {
   /** Fase 6: el servidor filtra por flujo; con `etapa`, el número es de ese flujo (B2 no es A2). */
   tipoFlujo?: 'A' | 'B';
   etapa?: number;
+  /** V32: con `etapa`, solo pedidos de esa versión del flujo. */
+  versionFlujo?: number;
   vencido?: boolean;
   pagina: number;
   tamano: number;
@@ -254,6 +272,12 @@ export const clavesPedidos = {
       'bandeja',
       { pagina, tamano, vencido: Boolean(filtro.vencido), conUrgencia: Boolean(filtro.conUrgencia) },
     ] as const,
+  embarques: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'embarques', id] as const,
+  checklist: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'checklist', id] as const,
+  alertasSimuladas: (sesion: number, pais: CodigoPais, id: string) =>
+    ['sesion', sesion, 'pedidos', segmentoPais(pais), 'alertas-simuladas', id] as const,
   cronograma: (sesion: number, pais: CodigoPais, id: string) =>
     ['sesion', sesion, 'pedidos', segmentoPais(pais), 'cronograma', id] as const,
   detalle: (sesion: number, pais: CodigoPais, id: string) =>
@@ -313,6 +337,7 @@ export function usePedidos(filtros: FiltrosPedidos, habilitada = true) {
       if (filtros.texto) parametros.set('texto', filtros.texto);
       if (filtros.tipoFlujo) parametros.set('tipoFlujo', filtros.tipoFlujo);
       if (filtros.etapa) parametros.set('etapa', String(filtros.etapa));
+      if (filtros.versionFlujo) parametros.set('versionFlujo', String(filtros.versionFlujo));
       if (filtros.vencido) parametros.set('vencido', 'true');
       return pedir(`/pedidos?${parametros}`, { esquema: esquemaPagina, signal });
     },
@@ -571,6 +596,48 @@ export function useDefinicionFlujo(pais: string, tipo: string, version: number |
 const TIPOS_DE_FLUJO = ['A', 'B'] as const;
 
 /**
+ * Etapas de la versión del flujo de cada pedido, para dibujar su recorrido sin mezclar versiones (V32). Clave:
+ * `tipo-version`. Una consulta por versión, compartida con {@link useDefinicionFlujo}.
+ */
+export function useRecorridosPorVersion(pedidos: PedidoResumen[] | undefined, habilitada = true) {
+  const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
+  const distintas = [...new Set((habilitada ? pedidos ?? [] : [])
+    .filter((pedido) => pedido.versionFlujo !== undefined)
+    .map((pedido) => `${pedido.tipoFlujo}-${pedido.versionFlujo}`))];
+  return useQueries({
+    queries: distintas.map((clave) => {
+      const [tipo, version] = clave.split('-');
+      return {
+        queryKey: clavesPedidos.flujo(sesionId, pais, tipo, Number(version)),
+        queryFn: ({ signal }: { signal: AbortSignal }) =>
+          pedir(`/flujos/${pais}/${tipo}?version=${version}`, { esquema: esquemaDefinicionFlujo, signal }),
+        staleTime: Infinity,
+      };
+    }),
+    combine: (resultados) => Object.fromEntries(
+      resultados.flatMap((resultado, indice) => (resultado.data ? [[distintas[indice], resultado.data.etapas]] : [])),
+    ) as Record<string, DefinicionFlujo['etapas']>,
+  });
+}
+
+/** Versiones anteriores a la vigente, para que el filtro por etapa no mezcle A7 Aduana (v1) con A7 Aprobación (v2). */
+export function useVersionesAnteriores(tipo: 'A' | 'B', vigente: number | undefined) {
+  const { pedir, sesionId } = useSesion();
+  const pais = usePaisActivo();
+  const versiones = Array.from({ length: Math.max((vigente ?? 1) - 1, 0) }, (_, indice) => indice + 1);
+  return useQueries({
+    queries: versiones.map((version) => ({
+      queryKey: clavesPedidos.flujo(sesionId, pais, tipo, version),
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        pedir(`/flujos/${pais}/${tipo}?version=${version}`, { esquema: esquemaDefinicionFlujo, signal }),
+      staleTime: Infinity,
+    })),
+    combine: (resultados) => resultados.flatMap((resultado) => (resultado.data ? [resultado.data] : [])),
+  });
+}
+
+/**
  * Definiciones vigentes del país activo (paso 7.3; antes, solo Ecuador) de los flujos A y B (fase 6), con la misma
  * clave que {@link useDefinicionFlujo}: una
  * consulta por flujo, compartida por todas las pantallas. Las tablas eligen la de cada pedido por su `tipoFlujo`, así
@@ -638,6 +705,9 @@ export function useRefrescarPedido() {
     } else void consultas.invalidateQueries({ queryKey: clavesPedidos.detalle(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.historial(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.cronograma(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.embarques(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.checklist(sesionId, pais, pedidoId) });
+    void consultas.invalidateQueries({ queryKey: clavesPedidos.alertasSimuladas(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.archivos(sesionId, pais, pedidoId) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.listas(sesionId, pais) });
     void consultas.invalidateQueries({ queryKey: clavesPedidos.bandejas(sesionId, pais) });
@@ -657,6 +727,10 @@ export interface DatosAccion {
   nuevaFechaEstimadaLlegada?: string;
   bodegaId?: string;
   adjuntoIds: string[];
+  /** Al enviar embarques: toda la mercancía del pedido está en sus BL. */
+  confirmaAsignacion?: boolean;
+  /** Al rechazar un envío de embarques: los BL con la diferencia. */
+  blSenalados?: string[];
 }
 
 export function useEjecutarAccion() {

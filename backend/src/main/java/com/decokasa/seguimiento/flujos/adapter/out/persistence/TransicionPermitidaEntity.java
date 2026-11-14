@@ -49,6 +49,16 @@ public class TransicionPermitidaEntity {
     @Column(name = "exige_algun_documento")
     private boolean exigeAlgunDocumento;
 
+    // V32: BL listos para enviar y plazo de la etapa de destino al entrar por esta transición.
+    @Column(name = "exige_embarques_listos")
+    private boolean exigeEmbarquesListos;
+
+    @Column(name = "plazo_reentrada_cantidad")
+    private Integer plazoReentradaCantidad;
+
+    @Column(name = "plazo_reentrada_tipo")
+    private String plazoReentradaTipo;
+
     @ElementCollection
     @Immutable
     @CollectionTable(name = "documento_requerido", joinColumns = @JoinColumn(name = "transicion_id"))
@@ -92,6 +102,18 @@ public class TransicionPermitidaEntity {
 
     boolean isExigeAlgunDocumento() {
         return exigeAlgunDocumento;
+    }
+
+    boolean isExigeEmbarquesListos() {
+        return exigeEmbarquesListos;
+    }
+
+    Integer getPlazoReentradaCantidad() {
+        return plazoReentradaCantidad;
+    }
+
+    String getPlazoReentradaTipo() {
+        return plazoReentradaTipo;
     }
 
     Set<String> getDocumentos() {

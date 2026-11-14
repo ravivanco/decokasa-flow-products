@@ -222,7 +222,8 @@ function ResumenBandeja({ conTrabajo }: { conTrabajo: boolean }) {
 function agrupar(pedidos: PedidoResumen[]): [string, PedidoResumen[]][] {
   const grupos = new Map<string, PedidoResumen[]>();
   for (const pedido of pedidos) {
-    const clave = codigoEtapa(pedido.tipoFlujo, pedido.etapaActual);
+    // V32: el nombre separa la misma posición en versiones distintas del flujo.
+    const clave = `${codigoEtapa(pedido.tipoFlujo, pedido.etapaActual)} ${pedido.nombreEtapaActual}`;
     grupos.set(clave, [...(grupos.get(clave) ?? []), pedido]);
   }
   return [...grupos.entries()].sort(([, [a]], [, [b]]) =>
