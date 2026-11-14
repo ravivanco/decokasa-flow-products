@@ -1,5 +1,6 @@
 import {
   ArrowRightLeftIcon,
+  ShipIcon,
   CheckIcon,
   FileUpIcon,
   FlagIcon,
@@ -54,6 +55,7 @@ const ICONO: Partial<Record<TipoEvento, LucideIcon>> = {
   ARCHIVO_SUBIDO: FileUpIcon,
   ETAPA_REASIGNADA: ArrowRightLeftIcon,
   PEDIDO_FINALIZADO: FlagIcon,
+  EMBARQUE_REGISTRADO: ShipIcon,
 };
 
 type Clase = 'avance' | 'rechazo' | 'devolucion' | 'correccion' | 'nota' | 'seguimiento';

@@ -51,6 +51,12 @@ public interface ConsultaDePedidos {
         return soloDe(paises, listar(tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano));
     }
 
+    /** V32: como la anterior y, si {@code versionFlujo} no es nulo, solo con pedidos de esa versión del flujo. */
+    default Pagina listar(Set<CodigoPais> paises, TipoFlujo tipoFlujo, Integer etapa, Integer versionFlujo,
+            Boolean vencido, String texto, Instant ahora, int pagina, int tamano) {
+        return listar(paises, tipoFlujo, etapa, vencido, texto, ahora, pagina, tamano);
+    }
+
     /** Fase 7 (ADR-0024): como {@link #bandeja}, solo con pedidos de los países indicados. Mismo aviso que listar. */
     default Pagina bandeja(Set<CodigoPais> paises, UUID usuarioId, Set<CodigoRol> roles, boolean admin,
             boolean soloVencidos, boolean soloConUrgencia, Instant ahora, int pagina, int tamano) {

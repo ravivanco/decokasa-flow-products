@@ -1,4 +1,5 @@
-import { ArrowRightIcon, BellDotIcon, CheckCheckIcon, CircleCheckBigIcon, CornerDownLeftIcon, FilePlus2Icon, LogInIcon, UserRoundCogIcon } from 'lucide-react';
+import {
+  AlarmClockIcon, ArrowRightIcon, BellDotIcon, CheckCheckIcon, CircleCheckBigIcon, CornerDownLeftIcon, FilePlus2Icon, LogInIcon, UserRoundCogIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { type Aviso, useAvisos, useMarcarAvisosLeidos } from '@/api/avisos';
 import { formatearFechaHora } from '@/components/pedidos/formato';
@@ -18,6 +19,7 @@ const ICONO = {
   DEVOLUCION: CornerDownLeftIcon,
   REASIGNACION: UserRoundCogIcon,
   CIERRE: CircleCheckBigIcon,
+  VENCIMIENTO: AlarmClockIcon,
 } as const;
 
 /** Qué pasó, con palabras (además del icono). */
@@ -27,6 +29,7 @@ const TIPO_AVISO: Record<Aviso['tipo'], string> = {
   DEVOLUCION: 'Devuelto',
   REASIGNACION: 'Reasignado',
   CIERRE: 'Finalizado',
+  VENCIMIENTO: 'Plazo planificado vencido',
 };
 
 export function tituloAviso(aviso: Aviso): string {
@@ -42,6 +45,8 @@ export function tituloAviso(aviso: Aviso): string {
       return `${aviso.numero} reasignado en ${destino}`;
     case 'CIERRE':
       return `${aviso.numero} finalizado`;
+    case 'VENCIMIENTO':
+      return `${aviso.numero}: venció el plazo planificado de ${destino}`;
   }
 }
 

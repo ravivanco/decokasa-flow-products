@@ -7,10 +7,13 @@ import com.decokasa.seguimiento.compartido.domain.eventos.EtapaEnviada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaReasignada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EtapaRechazada;
 import com.decokasa.seguimiento.compartido.domain.eventos.EventoDePedido;
+import com.decokasa.seguimiento.compartido.domain.eventos.EventoEmbarque;
+import com.decokasa.seguimiento.compartido.domain.eventos.PlanVencido;
 import com.decokasa.seguimiento.compartido.domain.eventos.EventoPedidoRegistrado;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoCreado;
 import com.decokasa.seguimiento.compartido.domain.eventos.PedidoDevuelto;
 import com.decokasa.seguimiento.notificaciones.application.port.in.EncolarNotificacion;
+import com.decokasa.seguimiento.notificaciones.application.port.out.AlertaWhatsApp;
 import com.decokasa.seguimiento.notificaciones.application.port.out.AvisoRepositorio;
 import com.decokasa.seguimiento.notificaciones.application.port.out.EtapasDePedido;
 import com.decokasa.seguimiento.notificaciones.application.port.out.NotificacionRepositorio;
@@ -25,7 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Avisos y correos de etapa (ADR-0032). En la misma transacción que la acción y su evento: un aviso por persona en
@@ -48,9 +53,17 @@ public final class RegistrarAvisosDeEtapaCasoDeUso implements EncolarNotificacio
     private final ConsultarContactos contactos;
     private final AvisoRepositorio avisos;
     private final NotificacionRepositorio correos;
+    /** Cada destinatario recibe también la alerta de WhatsApp (simulada o real, según WHATSAPP_MODO). */
+    private final AlertaWhatsApp whatsapp;
 
     public RegistrarAvisosDeEtapaCasoDeUso(EtapasDePedido etapas, ConsultarContactos contactos,
             AvisoRepositorio avisos, NotificacionRepositorio correos) {
+        this(etapas, contactos, avisos, correos, AlertaWhatsApp.APAGADA);
+    }
+
+    public RegistrarAvisosDeEtapaCasoDeUso(EtapasDePedido etapas, ConsultarContactos contactos,
+            AvisoRepositorio avisos, NotificacionRepositorio correos, AlertaWhatsApp whatsapp) {
+        this.whatsapp = whatsapp;
         this.etapas = etapas;
         this.contactos = contactos;
         this.avisos = avisos;
@@ -76,6 +89,11 @@ public final class RegistrarAvisosDeEtapaCasoDeUso implements EncolarNotificacio
                     e.observacion(), null);
             case EtapaReasignada e -> new Operacion(AvisoEtapa.Tipo.REASIGNACION, e.etapa(), e.etapa(), e.motivo(),
                     e.asignadoA());
+            // V32: un Packing List compartido cambió durante la revisión: quien aprueba debe mirar la versión nueva.
+            // V34: la etapa actual pasó su fecha planificada; avisa a su responsable y a Admin.
+            case PlanVencido e -> new Operacion(AvisoEtapa.Tipo.VENCIMIENTO, e.etapa(), e.etapa(), e.texto(), null);
+            case EventoEmbarque e when e.avisaResponsables() -> new Operacion(AvisoEtapa.Tipo.LLEGADA, e.etapa(),
+                    e.etapa(), e.texto(), null);
             default -> null; // PEDIDO_FINALIZADO lo cubre el cierre; los demás eventos no cambian de responsable.
         };
         if (operacion == null) {
@@ -118,6 +136,8 @@ public final class RegistrarAvisosDeEtapaCasoDeUso implements EncolarNotificacio
                 correos.insertarSiAusente(Notificacion.pendiente(evento.pedidoId(), registrado.eventoId(), correo,
                         datos(aviso, evento), evento.ocurridoEn(), PLANTILLA, asunto(aviso)));
             }
+            whatsapp.simular(evento.pedidoId(), registrado.eventoId(), destino.contacto.usuarioId(),
+                    asunto(aviso) + (motivo == null ? "" : ". Motivo: " + motivo), evento.ocurridoEn());
         }
     }
 
@@ -169,6 +189,7 @@ public final class RegistrarAvisosDeEtapaCasoDeUso implements EncolarNotificacio
             case DEVOLUCION -> "volvió a " + destino;
             case REASIGNACION -> "reasignado en " + destino;
             case CIERRE -> "pedido finalizado";
+            case VENCIMIENTO -> "plazo planificado vencido en " + destino;
         };
     }
 

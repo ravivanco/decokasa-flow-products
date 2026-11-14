@@ -71,6 +71,19 @@ public class DiagnosticoArranque {
             LOG.warn("arranque COPIA_DRIVE_AUTOMATICA=false: la carpeta de cada pedido no se crea al darlo de alta; "
                     + "se crea con su primera carga.");
         }
+        boolean gmail = activo("decokasa.google.gmail.habilitada");
+        boolean recuperacion = activo("decokasa.recuperacion.envio-automatico");
+        // ADR-0033: el host del enlace es público (dominio del frontend); nunca se registra el enlace ni un token.
+        LOG.info("arranque recuperacion envio={} trabajador={} enlace_host={} duracion={} maximo_por_hora={}",
+                recuperacion, recuperacion && oauth && gmail, host(valor("decokasa.recuperacion.url-base", "")),
+                valor("decokasa.recuperacion.duracion", "-"), valor("decokasa.recuperacion.maximo-por-hora", "-"));
+        if (recuperacion && (!oauth || !gmail)) {
+            LOG.warn("arranque RECUPERACION_ENVIO_AUTOMATICO=true con GOOGLE_OAUTH_HABILITADA={} y "
+                    + "GOOGLE_GMAIL_HABILITADA={}: los enlaces de recuperación no se enviarán.", oauth, gmail);
+        }
+        if (recuperacion && enRender && valor("decokasa.recuperacion.url-base", "").strip().startsWith("http://")) {
+            LOG.warn("arranque RECUPERACION_URL_BASE usa http en Render: debe ser el dominio público https del frontend.");
+        }
         if (oauth && "base".equals(almacen) && (!presente("decokasa.google.oauth.cliente-id")
                 || !presente("decokasa.google.oauth.cliente-secreto") || !presente("decokasa.google.oauth.llave"))) {
             LOG.warn("arranque GOOGLE_OAUTH_ALMACEN=base sin cliente, secreto o llave: Google no podrá usarse.");

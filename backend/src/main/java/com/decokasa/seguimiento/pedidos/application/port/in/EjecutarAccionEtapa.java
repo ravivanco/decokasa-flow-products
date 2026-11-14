@@ -24,12 +24,24 @@ public interface EjecutarAccionEtapa {
      * @param adjuntoIds archivos que acompañan la acción; vacío si no hay
      * @param nuevaFechaEstimadaLlegada solo en REPORTAR_DEMORA (F4-D5): la fecha que escribió la persona
      * @param bodegaId solo al aprobar la etapa de Bodega (F4-D2): una bodega activa
+     * @param confirmaAsignacion al enviar embarques: toda la mercancía del pedido está en sus BL
+     * @param blSenalados al rechazar un envío de embarques: los BL con la diferencia
      */
     record Comando(UUID pedidoId, AccionEtapa accion, int etapaEsperada, String observacion,
-            NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds, LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId) {
+            NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds, LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId,
+            boolean confirmaAsignacion, List<UUID> blSenalados) {
 
         public Comando {
             adjuntoIds = adjuntoIds == null ? List.of() : List.copyOf(adjuntoIds);
+            blSenalados = blSenalados == null ? List.of() : List.copyOf(blSenalados);
+        }
+
+        /** Acciones que no envían ni deciden embarques. */
+        public Comando(UUID pedidoId, AccionEtapa accion, int etapaEsperada, String observacion,
+                NivelUrgencia nivelUrgencia, List<UUID> adjuntoIds, LocalDate nuevaFechaEstimadaLlegada,
+                UUID bodegaId) {
+            this(pedidoId, accion, etapaEsperada, observacion, nivelUrgencia, adjuntoIds, nuevaFechaEstimadaLlegada,
+                    bodegaId, false, List.of());
         }
 
         /** Sin bodega. */

@@ -18,5 +18,9 @@ public enum TipoEventoPedido {
     ETAPA_REASIGNADA,
     PLAZO_VENCIDO,
     MOTIVO_RETRASO_REGISTRADO,
-    PEDIDO_FINALIZADO
+    PEDIDO_FINALIZADO,
+    /** BL, Packing Lists, envíos y decisiones de embarque (V32). */
+    EMBARQUE_REGISTRADO,
+    /** La etapa actual superó la fecha planificada al crear el pedido (V34). */
+    PLAN_VENCIDO
 }

@@ -2,6 +2,7 @@ import { CheckIcon, FlagIcon, Undo2Icon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import type { EtapaEnLinea } from '@/api/pedidos';
 import { cn } from '@/lib/utils';
+import { duracionReloj, useAhoraServidor } from './Cronometro';
 import { codigoEtapa, formatearFechaCorta } from './formato';
 
 // Línea de tiempo horizontal (DESIGN.md 7.2): el recorrido del pedido "como el rastreo de un envío". Una etapa por
@@ -16,6 +17,27 @@ interface Props {
   seleccionada: number;
   automaticas: Set<number>;
   onSeleccionar: (numero: number) => void;
+  /** Fase de cada etapa, si la versión del flujo las define (V32). En versiones anteriores no cambia nada. */
+  fases?: Map<number, { numero: number; nombre: string }>;
+  /**
+   * Fecha de fin de cada etapa según la planificación hecha al crear el pedido (cronograma, AAAA-MM-DD). Con ella, cada
+   * etapa muestra su cuenta regresiva desde la creación (pedido del cliente, 2026-11-14).
+   */
+  planes?: Map<number, string>;
+  servidorAhora?: string | null;
+}
+
+/** Fin del día planificado en Ecuador (UTC−5). */
+const finDelDia = (fecha: string) => new Date(`${fecha}T23:59:59-05:00`).getTime();
+
+/** El cronómetro solo corre en la etapa activa: las demás no muestran cuenta regresiva. */
+function cuentaDeEtapa(etapa: EtapaEnLinea, plan: string | undefined, ahora: number) {
+  if (etapa.estado !== 'ACTUAL') return null;
+  if (!plan) return { texto: 'Sin plazo', clase: 'text-muted-foreground' };
+  const fin = finDelDia(plan);
+  const resto = fin - ahora;
+  if (resto < 0) return { texto: `Vencido hace ${duracionReloj(resto)}`, clase: 'font-medium text-estado-vencido' };
+  return { texto: `Quedan ${duracionReloj(resto)}`, clase: resto < 86_400_000 ? 'text-estado-aviso' : 'text-estado-ok' };
 }
 
 const ETIQUETA_ESTADO = {
@@ -25,7 +47,9 @@ const ETIQUETA_ESTADO = {
   DEVUELTA: 'devuelta',
 } as const;
 
-export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, automaticas, onSeleccionar }: Props) {
+export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, automaticas, onSeleccionar, fases, planes, servidorAhora }: Props) {
+  // Cuenta regresiva viva, segundo a segundo, solo si hay fechas planificadas que contar.
+  const ahora = useAhoraServidor(servidorAhora, planes && planes.size > 0 ? 1000 : 0);
   const actual = useRef<HTMLLIElement>(null);
 
   // En pantallas angostas, la etapa actual queda a la vista al abrir el pedido.
@@ -33,22 +57,42 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
     actual.current?.scrollIntoView?.({ block: 'nearest', inline: 'center' });
   }, []);
 
+  // Etapas agrupadas por fase, en el orden del flujo; sin fases, un solo grupo como siempre.
+  const grupos: { fase?: { numero: number; nombre: string }; etapas: EtapaEnLinea[] }[] = [];
+  for (const etapa of etapas) {
+    const fase = fases?.get(etapa.numero);
+    const ultimo = grupos.at(-1);
+    if (ultimo && ultimo.fase?.numero === fase?.numero) ultimo.etapas.push(etapa);
+    else grupos.push({ fase, etapas: [etapa] });
+  }
+
   return (
-    <div className="overflow-x-auto rounded-lg border bg-card px-2 py-4 shadow-sm">
-      <ol aria-label={`Recorrido del pedido ${numeroPedido}`} className="flex min-w-max items-start">
-        {etapas.map((etapa, indice) => {
+    <div className="flex min-w-0 gap-3 overflow-x-auto rounded-lg border bg-card px-2 py-4 shadow-sm">
+      {grupos.map((grupo) => (
+      <div key={grupo.fase?.numero ?? 'todas'} className={grupo.fase ? 'flex flex-col gap-2 rounded-md border bg-muted/30 px-1 py-2' : undefined}>
+      {grupo.fase && (
+        <p className="flex flex-wrap items-center gap-2 px-2 font-heading text-sm font-semibold text-primary">
+          Fase {grupo.fase.numero} · {grupo.fase.nombre}
+          <span className="rounded-sm bg-secondary px-1.5 py-0.5 text-xs font-medium">
+            {grupo.etapas.every((etapa) => etapa.estado === 'COMPLETADA') ? 'Completada'
+              : grupo.etapas.some((etapa) => etapa.estado !== 'PENDIENTE') ? 'En curso' : 'Pendiente'}
+          </span>
+        </p>
+      )}
+      <ol aria-label={grupo.fase ? `Fase ${grupo.fase.numero} del pedido ${numeroPedido}` : `Recorrido del pedido ${numeroPedido}`} className="flex min-w-max items-start">
+        {grupo.etapas.map((etapa, indice, lista) => {
           const esActual = etapa.estado === 'ACTUAL';
           const recorrida = etapa.estado !== 'PENDIENTE';
-          const tramoRecorrido = indice + 1 < etapas.length && etapas[indice + 1].estado !== 'PENDIENTE';
+          const tramoRecorrido = indice + 1 < lista.length && lista[indice + 1].estado !== 'PENDIENTE';
           const fecha = etapa.salida ?? etapa.venceEn ?? null;
           const elegida = etapa.numero === seleccionada;
           return (
             <li
               key={etapa.numero}
               ref={esActual ? actual : undefined}
-              className="relative flex w-28 flex-col items-center"
+              className={cn("relative flex flex-col items-center", fases ? "w-24" : "w-28")}
             >
-              {indice + 1 < etapas.length && (
+              {indice + 1 < lista.length && (
                 <span
                   aria-hidden="true"
                   className={cn('absolute top-5 left-1/2 h-0.5 w-full', tramoRecorrido ? 'bg-primary' : 'bg-border')}
@@ -112,11 +156,17 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
                     {formatearFechaCorta(fecha)}
                   </span>
                 ) : null}
+                {planes && planes.size > 0 && !automaticas.has(etapa.numero) && (() => {
+                  const cuenta = cuentaDeEtapa(etapa, planes.get(etapa.numero), ahora);
+                  return cuenta ? <span className={cn('text-xs tabular-nums', cuenta.clase)}><span className="sr-only">, </span>{cuenta.texto}</span> : null;
+                })()}
               </button>
             </li>
           );
         })}
       </ol>
+      </div>
+      ))}
     </div>
   );
 }

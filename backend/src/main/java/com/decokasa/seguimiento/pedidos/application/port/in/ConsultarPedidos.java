@@ -60,7 +60,14 @@ public interface ConsultarPedidos {
      * Cada campo nulo no filtra. {@code pais} (7.3): el país seleccionado; nulo para todos los asignados; uno no
      * asignado responde 403.
      */
-    record Filtro(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto, CodigoPais pais) {
+    record Filtro(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto, CodigoPais pais,
+            Integer versionFlujo) {
+
+        /** Sin versión: una etapa filtra por número en todas las versiones del flujo. */
+        public Filtro(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto, CodigoPais pais) {
+            this(tipoFlujo, etapa, vencido, texto, pais, null);
+        }
+
 
         /** Compatibilidad anterior a 7.3: sin país seleccionado (todos los asignados). */
         public Filtro(TipoFlujo tipoFlujo, Integer etapa, Boolean vencido, String texto) {

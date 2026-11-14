@@ -55,13 +55,14 @@ public class PedidoController {
     public PedidoRespuestas.Pagina listar(@AuthenticationPrincipal Jwt token,
             @RequestParam(required = false) TipoFlujo tipoFlujo,
             @RequestParam(required = false) @Min(1) Integer etapa,
+            @RequestParam(required = false) @Min(1) Integer versionFlujo,
             @RequestParam(required = false) Boolean vencido,
             @RequestParam(required = false) String texto,
             @RequestParam(required = false) CodigoPais pais,
             @RequestParam(defaultValue = "0") @Min(0) int pagina,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int tamano) {
         return PedidoRespuestas.de(consultar.listar(SolicitantesWeb.de(token),
-                new ConsultarPedidos.Filtro(tipoFlujo, etapa, vencido, texto, pais), pagina, tamano));
+                new ConsultarPedidos.Filtro(tipoFlujo, etapa, vencido, texto, pais, versionFlujo), pagina, tamano));
     }
 
     @GetMapping("/buscar")

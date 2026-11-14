@@ -14,8 +14,17 @@ import java.util.Objects;
  * Java puro (R1).
  */
 public record DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo,
-        boolean automatica, Integer revisaEtapa, boolean registraLlegada, EstimacionDeEtapa estimacionDeReferencia)
-        implements ContratoDeEtapa {
+        boolean automatica, Integer revisaEtapa, boolean registraLlegada, EstimacionDeEtapa estimacionDeReferencia,
+        Integer faseNumero, String faseNombre, boolean gestionaEmbarques, boolean apruebaEmbarques,
+        boolean checklistDocumentos) implements ContratoDeEtapa {
+
+    /** Etapa sin fase ni atributos de embarque (anteriores a V32). */
+    public DefinicionEtapa(int numero, String nombre, CodigoRol rolResponsable, PlazoDeEtapa plazo,
+            boolean automatica, Integer revisaEtapa, boolean registraLlegada,
+            EstimacionDeEtapa estimacionDeReferencia) {
+        this(numero, nombre, rolResponsable, plazo, automatica, revisaEtapa, registraLlegada, estimacionDeReferencia,
+                null, null, false, false, false);
+    }
 
     public DefinicionEtapa {
         if (numero < 1 || numero > 30) {

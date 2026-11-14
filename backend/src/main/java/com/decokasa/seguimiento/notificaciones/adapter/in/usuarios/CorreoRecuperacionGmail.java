@@ -7,6 +7,9 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.UUID;
+import com.decokasa.seguimiento.compartido.domain.FalloIntegracionGoogle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Entrega el enlace de recuperación con el mismo adaptador de Gmail que los avisos (ADR-0033), pero sin pasar por el
@@ -16,6 +19,8 @@ public final class CorreoRecuperacionGmail implements CorreoRecuperacion {
 
     private static final DateTimeFormatter FECHA =
             DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy, HH:mm", Locale.forLanguageTag("es-EC"));
+
+    private static final Logger LOG = LoggerFactory.getLogger("decokasa.recuperacion");
 
     private final Notificador gmail;
 
@@ -31,8 +36,18 @@ public final class CorreoRecuperacionGmail implements CorreoRecuperacion {
                 + "El enlace sirve una sola vez y caduca el " + FECHA.format(expiraEn.atZone(Reloj.ZONA_ECUADOR))
                 + " (hora de Ecuador). Si no lo pediste, ignora este correo: tu contraseña no cambia.\n\n"
                 + "DECOKASA nunca te pedirá tu contraseña por correo.";
-        gmail.enviar(new Notificador.Correo(solicitudId, destinatario, "DECOKASA: restablece tu contraseña", texto,
-                "<notificacion-" + solicitudId + "@decokasa.invalid>"));
+        try {
+            gmail.enviar(new Notificador.Correo(solicitudId, destinatario, "DECOKASA: restablece tu contraseña", texto,
+                    "<notificacion-" + solicitudId + "@decokasa.invalid>"));
+        } catch (FalloIntegracionGoogle error) {
+            // Solo el id de la solicitud y la causa técnica: ni destinatario, ni enlace, ni token.
+            LOG.warn("recuperacion.correo fallido solicitud={} causa={}", solicitudId, error.causa());
+            throw error;
+        } catch (RuntimeException error) {
+            LOG.warn("recuperacion.correo fallido solicitud={} causa={}", solicitudId, error.getClass().getSimpleName());
+            throw error;
+        }
+        LOG.info("recuperacion.correo enviado solicitud={}", solicitudId);
     }
 
     @Override

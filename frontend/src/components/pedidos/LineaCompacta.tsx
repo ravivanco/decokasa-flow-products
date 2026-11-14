@@ -10,6 +10,7 @@ import { codigoEtapa } from './formato';
 export interface EtapaDeFlujo {
   numero: number;
   nombre: string;
+  faseNumero?: number | null;
 }
 
 interface Props {
@@ -50,7 +51,8 @@ export const LineaCompacta = memo(function LineaCompacta({
                 title={`${codigoEtapa(tipoFlujo, etapa.numero)} · ${etapa.nombre}`}
               >
                 {indice > 0 && (
-                  <span className={cn('h-0.5 w-2', recorrida || actual ? 'bg-primary' : 'bg-border')} />
+                  <span className={cn('h-0.5', etapa.faseNumero !== etapas[indice - 1].faseNumero ? 'w-4' : 'w-2',
+                    recorrida || actual ? 'bg-primary' : 'bg-border')} />
                 )}
                 <span
                   className={cn(

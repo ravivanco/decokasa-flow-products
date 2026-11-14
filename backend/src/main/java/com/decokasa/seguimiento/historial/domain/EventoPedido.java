@@ -114,6 +114,15 @@ public record EventoPedido(UUID id, UUID pedidoId, int etapa, TipoEventoPedido t
                 observacion = registrado.motivo();
                 detalle = DetalleEvento.motivo(registrado.entradaId());
             }
+            case com.decokasa.seguimiento.compartido.domain.eventos.EventoEmbarque embarque -> {
+                tipo = TipoEventoPedido.EMBARQUE_REGISTRADO;
+                observacion = embarque.texto();
+                detalle = DetalleEvento.VACIO;
+            }
+            case com.decokasa.seguimiento.compartido.domain.eventos.PlanVencido plan -> {
+                return new EventoPedido(id, plan.pedidoId(), plan.etapa(), TipoEventoPedido.PLAN_VENCIDO, null, null,
+                        plan.ocurridoEn(), plan.texto(), null, DetalleEvento.VACIO, List.of());
+            }
             case PlazoVencido vencido -> {
                 // Evento del sistema, sin actor ni rol (V2 lo admite para PLAZO_VENCIDO).
                 return new EventoPedido(id, vencido.pedidoId(), vencido.etapa(), TipoEventoPedido.PLAZO_VENCIDO,

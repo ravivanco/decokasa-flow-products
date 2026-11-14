@@ -45,4 +45,19 @@ public interface ContratoDeEtapa {
     default EstimacionDeEtapa estimacionDeReferencia() {
         return null;
     }
+
+    /** Etapa donde se gestionan los BL del pedido (V32). */
+    default boolean gestionaEmbarques() {
+        return false;
+    }
+
+    /** Etapa donde se aprueba o rechaza el envío de embarques (V32). */
+    default boolean apruebaEmbarques() {
+        return false;
+    }
+
+    /** Etapa con checklist de documentos configurable (V32). */
+    default boolean checklistDocumentos() {
+        return false;
+    }
 }

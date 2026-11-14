@@ -18,7 +18,7 @@ import java.util.UUID;
 public sealed interface EventoDePedido
         permits PedidoCreado, EtapaEnviada, EtapaAprobada, EtapaRechazada, PedidoDevuelto, EtapaReasignada,
         ObservacionAgregada, ArchivoSubido, DemoraReportada, BodegaAsignada, PedidoFinalizado, PlazoVencido,
-        MotivoRetrasoRegistrado {
+        MotivoRetrasoRegistrado, EventoEmbarque, PlanVencido {
 
     UUID pedidoId();
 

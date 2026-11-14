@@ -44,13 +44,16 @@ public final class ResolverTransicionCasoDeUso implements ResolverTransicion, Co
 
     private static Resolucion resolucion(DefinicionFlujo flujo, TransicionPermitida transicion) {
         Integer destino = transicion.etapaDestino();
-        PlazoDeEtapa plazoDestino = destino == null ? null : flujo.etapa(destino).plazo();
+        // V32: una transición puede fijar el plazo de la etapa de destino (la corrección tras un rechazo).
+        PlazoDeEtapa plazoDestino = destino == null ? null
+                : transicion.plazoReentrada() != null ? transicion.plazoReentrada() : flujo.etapa(destino).plazo();
         boolean retornoDeUrgencia = destino != null && flujo.esRetornoDeUrgencia(destino);
         return new Resolucion(transicion.etapaOrigen(), transicion.accion(), destino, transicion.requiereObservacion(),
                 transicion.requiereUrgencia(), transicion.requiereBodega(), transicion.documentosPendientes(),
                 transicion.documentosObligatorios(), plazoDestino, retornoDeUrgencia,
                 flujo.etapa(transicion.etapaOrigen()).rolResponsable(),
                 flujo.etapa(transicion.etapaOrigen()).registraLlegada(),
-                destino != null && flujo.etapa(destino).automatica(), transicion.exigeAlgunDocumento());
+                destino != null && flujo.etapa(destino).automatica(), transicion.exigeAlgunDocumento(),
+                transicion.exigeEmbarquesListos(), flujo.etapa(transicion.etapaOrigen()).apruebaEmbarques());
     }
 }

@@ -17,6 +17,14 @@ public interface DescargarArchivo {
     Autorizada autorizar(Solicitante solicitante, UUID adjuntoId);
 
     /**
+     * Prepara la descarga de un adjunto que otro módulo ya autorizó (Packing List abierto desde un pedido del BL). Nunca
+     * se llama con un identificador que venga del navegador sin esa autorización.
+     */
+    default Autorizada delAdjunto(UUID adjuntoId) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * @throws com.decokasa.seguimiento.compartido.domain.ArchivoNoDisponible si falta, está incompleto o su huella no
      *         coincide
      */

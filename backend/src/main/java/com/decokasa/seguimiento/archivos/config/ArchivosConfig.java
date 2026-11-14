@@ -125,6 +125,11 @@ public class ArchivosConfig {
             }
 
             @Override
+            public Autorizada delAdjunto(UUID adjuntoId) {
+                return caso.delAdjunto(adjuntoId);
+            }
+
+            @Override
             public Contenido abrir(Autorizada autorizada) {
                 return caso.abrir(autorizada);
             }

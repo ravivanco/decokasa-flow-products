@@ -21,5 +21,5 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 public record SolicitudAccion(@NotNull AccionEtapa accion, @NotNull @Min(1) Integer etapaEsperada,
         @Size(max = 4000) String observacion, NivelUrgencia nivelUrgencia, List<@NotNull UUID> adjuntoIds,
         @JsonDeserialize(using = FechaEstimadaLlegadaDeserializer.class)
-        LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId) {
+        LocalDate nuevaFechaEstimadaLlegada, UUID bodegaId, Boolean confirmaAsignacion, List<@NotNull UUID> blSenalados) {
 }

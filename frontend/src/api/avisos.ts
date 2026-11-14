@@ -17,7 +17,7 @@ export const esquemaAviso = z.object({
   numero: z.string(),
   pais: z.string(),
   tipoFlujo: z.string(),
-  tipo: z.enum(['CREACION', 'LLEGADA', 'DEVOLUCION', 'REASIGNACION', 'CIERRE']),
+  tipo: z.enum(['CREACION', 'LLEGADA', 'DEVOLUCION', 'REASIGNACION', 'CIERRE', 'VENCIMIENTO']),
   etapaOrigen: z.number().int().nullable(),
   nombreOrigen: z.string().nullable(),
   etapaDestino: z.number().int(),
