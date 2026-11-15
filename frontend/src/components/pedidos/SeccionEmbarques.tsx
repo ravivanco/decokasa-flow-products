@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { toast } from 'sonner';
 import { useCargaArchivo } from '@/api/cargas';
 import { esErrorApi } from '@/api/cliente';
-import { type Bl, IMPORTADORAS, nombreImportadora, useAlertasSimuladas, useEmbarques, useMutacionesEmbarques, type VistaEmbarques } from '@/api/embarques';
+import { type Bl, IMPORTADORAS, nombreImportadora, useEmbarques, useMutacionesEmbarques, type VistaEmbarques } from '@/api/embarques';
 import type { EtapaEnLinea, PedidoDetalle } from '@/api/pedidos';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -63,22 +63,26 @@ function SelectorImportadora({ id, valor, editable, onCambiar }: {
   );
 }
 
+/** gestion: A6 (crear y editar BL). aprobacion: A7 (revisar). info: pedidos de versiones anteriores con BL vinculados. */
+export type ModoEmbarques = 'gestion' | 'aprobacion' | 'info';
+
 interface Props {
   pedido: PedidoDetalle;
   etapaActual: EtapaEnLinea | undefined;
+  modo: ModoEmbarques;
 }
 
-export function SeccionEmbarques({ pedido, etapaActual }: Props) {
+export function SeccionEmbarques({ pedido, etapaActual, modo }: Props) {
   const embarques = useEmbarques(pedido.id);
   const vista = embarques.data;
-  if (!vista || (!vista.gestionaEmbarques && vista.bls.length === 0)) return null;
+  if (!vista) return null;
+  // Lo ya terminado no ocupa la pantalla: un pedido v2 fuera de A6 y A7 no muestra sus BL aquí.
+  if (modo === 'info' && (vista.gestionaEmbarques || vista.bls.length === 0)) return null;
   return (
     <section aria-label="Embarques del pedido" className="flex flex-col gap-4">
-      <Resumen pedido={pedido} vista={vista} />
-      {vista.apruebaEmbarques && <AprobacionEmbarque pedidoId={pedido.id} vista={vista} />}
-      <Bloques pedido={pedido} etapa={etapaActual} vista={vista} />
-      <HistorialEnvios vista={vista} />
-      <AlertasSimuladas pedidoId={pedido.id} />
+      <Resumen pedido={pedido} vista={vista} tabla={modo !== 'gestion'} />
+      {modo === 'aprobacion' && vista.apruebaEmbarques && <AprobacionEmbarque pedidoId={pedido.id} vista={vista} />}
+      {modo === 'gestion' && <Bloques pedido={pedido} etapa={etapaActual} vista={vista} />}
     </section>
   );
 }
@@ -97,7 +101,7 @@ function estadoEmbarque(bl: Bl, hoy: string) {
   return bl.fechaSalida && bl.fechaSalida > hoy ? 'Programado' : 'En tránsito';
 }
 
-function Resumen({ pedido, vista }: { pedido: PedidoDetalle; vista: VistaEmbarques }) {
+function Resumen({ pedido, vista, tabla }: { pedido: PedidoDetalle; vista: VistaEmbarques; tabla: boolean }) {
   const estado = estadoDelPedido(vista, pedido);
   const hoy = (pedido.servidorAhora ?? new Date().toISOString()).slice(0, 10);
   const rechazo = vista.envios[0]?.estado === 'RECHAZADO' ? vista.envios[0].decisiones.at(-1) : undefined;
@@ -105,14 +109,13 @@ function Resumen({ pedido, vista }: { pedido: PedidoDetalle; vista: VistaEmbarqu
     <div className="flex flex-col gap-3 rounded-lg border bg-card p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h2 className="font-heading text-lg font-semibold">Embarques de este pedido</h2>
+          <h2 className="font-heading text-lg font-semibold">Embarques</h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground"><b className="text-foreground tabular-nums">{vista.bls.length}</b> BL</span>
           <span className={`w-fit rounded-md px-3 py-1 text-sm font-semibold ${estado.clase}`}>{estado.texto}</span>
         </div>
-        <p className="text-sm text-muted-foreground">BL vinculados: <b className="text-foreground tabular-nums">{vista.bls.length}</b></p>
       </div>
-      {!vista.gestionaEmbarques && (
-        <p className="text-sm text-muted-foreground">Pedido en una versión anterior del flujo: sus reglas no cambian. Los BL se muestran como información.</p>
-      )}
       {rechazo && (
         <Alert variant="destructive">
           <CircleAlertIcon />
@@ -122,7 +125,7 @@ function Resumen({ pedido, vista }: { pedido: PedidoDetalle; vista: VistaEmbarqu
           </AlertDescription>
         </Alert>
       )}
-      {vista.bls.length > 0 && (
+      {tabla && vista.bls.length > 0 && (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[36rem] text-sm">
             <caption className="sr-only">Resumen de los BL del pedido</caption>
@@ -132,7 +135,6 @@ function Resumen({ pedido, vista }: { pedido: PedidoDetalle; vista: VistaEmbarqu
               <th scope="col" className="py-1.5 pr-3 font-medium">Estado del embarque</th>
               <th scope="col" className="py-1.5 pr-3 font-medium">Salida</th>
               <th scope="col" className="py-1.5 pr-3 font-medium">Llegada estimada</th>
-              <th scope="col" className="py-1.5 font-medium">Pedidos</th>
             </tr></thead>
             <tbody>
               {vista.bls.map((bl) => (
@@ -142,7 +144,6 @@ function Resumen({ pedido, vista }: { pedido: PedidoDetalle; vista: VistaEmbarqu
                   <td className="py-1.5 pr-3"><Badge variant="outline">{estadoEmbarque(bl, hoy)}</Badge></td>
                   <td className="py-1.5 pr-3 tabular-nums">{bl.fechaSalida ? formatearFecha(bl.fechaSalida) : '—'}</td>
                   <td className="py-1.5 pr-3 tabular-nums">{bl.llegadaEstimada ? formatearFecha(bl.llegadaEstimada) : 'Llegada por definir'}</td>
-                  <td className="py-1.5">{bl.pedidos.length > 1 ? `Compartido con ${bl.pedidos.length - 1} pedido(s) más` : 'Solo este pedido'}</td>
                 </tr>
               ))}
             </tbody>
@@ -193,14 +194,13 @@ function Bloques({ pedido, etapa, vista }: { pedido: PedidoDetalle; etapa: Etapa
     <div className="flex flex-col gap-3 rounded-lg border bg-card p-4 shadow-sm">
       {vista.puedeEditar && (
         <div className="flex flex-wrap items-end gap-3">
-          <Field className="w-44">
-            <FieldLabel htmlFor="cantidad-bl">¿Cuántos BL vas a crear?</FieldLabel>
+          <Field className="w-28">
+            <FieldLabel htmlFor="cantidad-bl">BL nuevos</FieldLabel>
             <Input id="cantidad-bl" type="number" min={1} max={20} value={cantidad} onChange={(evento) => setCantidad(Number(evento.target.value))} />
           </Field>
-          <Button variant="outline" onClick={() => setBorradores(Array.from({ length: Math.min(Math.max(cantidad, 1), 20) }, nuevo))}>Crear bloques</Button>
-          <Button variant="ghost" onClick={() => setBorradores((actuales) => [...actuales, nuevo()])}>
+          <Button variant="outline" onClick={() => setBorradores((actuales) => [...actuales, ...Array.from({ length: Math.min(Math.max(cantidad, 1), 20) }, nuevo)])}>
             <PlusIcon data-icon="inline-start" />
-            Añadir un bloque
+            Añadir BL
           </Button>
         </div>
       )}
@@ -209,10 +209,11 @@ function Bloques({ pedido, etapa, vista }: { pedido: PedidoDetalle; etapa: Etapa
           <BloqueBl key={bl.id} pedido={pedido} etapa={etapa} vista={vista} bl={bl} inicial={iniciales[bl.id] ?? null} />
         ))}
         {borradores.map((borrador, indice) => (
-          <article key={borrador.clave} aria-label={`BL nuevo ${indice + 1}`} className="flex flex-col gap-3 rounded-md border border-dashed p-3">
+          <article key={borrador.clave} aria-label={`BL nuevo ${indice + 1}`}
+            className="flex flex-col gap-3 rounded-md border-2 border-estado-vencido p-3">
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-heading font-semibold">BL nuevo {indice + 1}</h3>
-              <Badge variant="outline">Sin guardar</Badge>
+              <Badge variant="outline" className="border-estado-vencido text-estado-vencido">Sin guardar</Badge>
             </div>
             <Field data-invalid={borrador.error ? true : undefined}>
               <FieldLabel htmlFor={`codigo-${borrador.clave}`}>Código del BL</FieldLabel>
@@ -258,8 +259,8 @@ function FechasBl({ idBase, salida, llegada, transito, editable, onSalida, onLle
       </Field>
       <Field>
         <FieldLabel htmlFor={`llegada-${idBase}`}>Llegada estimada</FieldLabel>
-        <Input id={`llegada-${idBase}`} type="date" value={llegada} disabled={!editable} onChange={(evento) => onLlegada(evento.target.value)} />
-        <p className="text-xs text-muted-foreground">{transito ? `Vacía: salida + ${transito} días.` : 'Vacía: llegada por definir.'}</p>
+        <Input id={`llegada-${idBase}`} type="date" value={llegada} disabled={!editable} onChange={(evento) => onLlegada(evento.target.value)}
+          title={transito ? `Si queda vacía: salida + ${transito} días` : undefined} />
       </Field>
     </div>
   );
@@ -276,6 +277,8 @@ function BloqueBl({ pedido, etapa, vista, bl, inicial }: {
   const [error, setError] = useState<string | null>(null);
   const editable = vista.puedeEditar && !bl.bloqueado;
   const otros = bl.enAprobacionEn.filter((numero) => numero !== pedido.numero);
+  // Verde solo con lo guardado en el servidor: importadora, Packing List confirmado y fecha de salida.
+  const completo = bl.estado === 'LISTO' && Boolean(bl.importadora);
 
   function guardar() {
     setError(null);
@@ -287,18 +290,21 @@ function BloqueBl({ pedido, etapa, vista, bl, inicial }: {
   }
 
   return (
-    <article aria-label={`BL ${bl.codigo}`} className="flex flex-col gap-3 rounded-md border border-primary/40 p-3">
+    <article aria-label={`BL ${bl.codigo}`}
+      className={`flex flex-col gap-3 rounded-md border-2 p-3 transition-colors ${completo ? 'border-estado-ok bg-estado-ok-fondo/40' : 'border-estado-vencido'}`}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-heading font-semibold">{bl.codigo}</h3>
-        <Badge variant={bl.estado === 'LISTO' ? 'secondary' : 'outline'}>
-          {bl.estado === 'LISTO' ? 'Listo' : bl.estado === 'SIN_SALIDA' ? 'Sin fecha de salida' : 'Sin Packing List'}
+        <Badge variant="outline" className={completo ? 'border-estado-ok text-estado-ok' : 'border-estado-vencido text-estado-vencido'}>
+          {completo ? 'Completo'
+            : bl.estado === 'SIN_PACKING_LIST' ? 'Falta Packing List'
+              : bl.estado === 'SIN_SALIDA' ? 'Falta fecha de salida' : 'Falta importadora'}
         </Badge>
       </div>
       {bl.bloqueado && (
-        <p className="text-xs text-muted-foreground">Ya hay una aprobación sobre este BL: se conserva la v{bl.aprobadoEnVersion} y su sustitución queda bloqueada hasta definir la regla de corrección.</p>
+        <p className="text-xs text-muted-foreground">Aprobado en la v{bl.aprobadoEnVersion}: no se puede sustituir.</p>
       )}
       {otros.length > 0 && !bl.bloqueado && (
-        <p className="text-xs text-muted-foreground">En revisión en {otros.join(', ')}. Si cambias el Packing List, se pedirá revisar la versión nueva.</p>
+        <p className="text-xs text-muted-foreground">En revisión en {otros.join(', ')}.</p>
       )}
       <SelectorImportadora id={`importadora-${bl.id}`} valor={importadora} editable={editable} onCambiar={setImportadora} />
       <PackingListDelBl pedido={pedido} etapa={etapa} bl={bl} editable={editable} inicial={inicial} />
@@ -445,51 +451,5 @@ function DialogoAnadirPedido({ pedidoId, bl, onCerrar }: { pedidoId: string; bl:
         </form>
       </DialogContent>
     </Dialog>
-  );
-}
-
-function HistorialEnvios({ vista }: { vista: VistaEmbarques }) {
-  if (vista.envios.length === 0) return null;
-  return (
-    <details className="rounded-lg border bg-card p-4 shadow-sm">
-      <summary className="cursor-pointer font-heading font-semibold">Envíos y decisiones ({vista.envios.length})</summary>
-      <ol className="mt-3 flex flex-col gap-3">
-        {vista.envios.map((envio) => (
-          <li key={envio.id} className="rounded-md border p-3 text-sm">
-            <p className="font-medium">Envío {envio.numero} · {envio.estado.toLowerCase()} · {envio.enviadoPor}, {formatearFechaHora(envio.enviadoEn)}</p>
-            <ul className="mt-1 list-disc pl-5 text-muted-foreground">
-              {envio.filas.map((fila) => (
-                <li key={fila.blId}>{fila.codigo} ({nombreImportadora(fila.importadora)}): Packing List v{fila.version}, pedidos {fila.pedidos.map((p) => `${p.numero} (vinculó ${p.vinculadoPor})`).join(', ')}</li>
-              ))}
-            </ul>
-            {envio.revisiones.map((revision) => (
-              <p key={`${revision.blId}-${revision.version}`} className="mt-1">Revisada la v{revision.version} de {revision.codigo} por {revision.revisadoPor}.</p>
-            ))}
-            {envio.decisiones.map((decision) => (
-              <p key={decision.decididoEn} className="mt-1">
-                {decision.decision === 'APROBADA' ? 'Aprobado' : 'Rechazado'} por {decision.usuario}, {formatearFechaHora(decision.decididoEn)}
-                {decision.motivo ? `: ${decision.motivo}` : ''}
-              </p>
-            ))}
-          </li>
-        ))}
-      </ol>
-    </details>
-  );
-}
-
-function AlertasSimuladas({ pedidoId }: { pedidoId: string }) {
-  const alertas = useAlertasSimuladas(pedidoId);
-  if (!alertas.data?.length) return null;
-  return (
-    <details className="rounded-lg border bg-card p-4 shadow-sm">
-      <summary className="cursor-pointer font-heading font-semibold">Alertas de WhatsApp simuladas ({alertas.data.length})</summary>
-      <p className="mt-2 text-xs text-muted-foreground">Simulación: no se envió ningún mensaje real.</p>
-      <ul className="mt-2 flex flex-col gap-1 text-sm">
-        {alertas.data.map((alerta) => (
-          <li key={alerta.id}><b>{alerta.destinatario}</b>: {alerta.texto} <span className="text-xs text-muted-foreground">{formatearFechaHora(alerta.creadoEn)}</span></li>
-        ))}
-      </ul>
-    </details>
   );
 }

@@ -2,6 +2,7 @@ package com.decokasa.seguimiento.usuarios.adapter.in.web;
 
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.SinPermiso;
+import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarCambioObligatorio;
 import com.decokasa.seguimiento.usuarios.application.port.in.CerrarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.in.IniciarSesion;
 import com.decokasa.seguimiento.usuarios.application.port.in.ObtenerUsuarioActual;
@@ -46,11 +47,13 @@ public class AuthController {
             @NotEmpty(message = "Escribe tu contraseña.") @Size(max = 72) String contrasena) {
     }
 
-    public record RespuestaSesion(String tokenAcceso, long expiraEn, UsuarioRespuesta usuario) {
+    /** @param debeCambiarContrasena V36: tiene una contraseña temporal de Admin y debe cambiarla antes de seguir */
+    public record RespuestaSesion(String tokenAcceso, long expiraEn, UsuarioRespuesta usuario,
+            boolean debeCambiarContrasena) {
 
-        static RespuestaSesion de(SesionIniciada sesion) {
+        static RespuestaSesion de(SesionIniciada sesion, boolean debeCambiar) {
             return new RespuestaSesion(sesion.tokenAcceso(), sesion.expiraEnSegundos(),
-                    UsuarioRespuesta.de(sesion.usuario()));
+                    UsuarioRespuesta.de(sesion.usuario()), debeCambiar);
         }
     }
 
@@ -70,10 +73,13 @@ public class AuthController {
     private final ObtenerUsuarioActual obtenerUsuarioActual;
     private final Reloj reloj;
     private final List<String> origenesPermitidos;
+    private final ConsultarCambioObligatorio cambioObligatorio;
 
     public AuthController(IniciarSesion iniciarSesion, RenovarSesion renovarSesion, CerrarSesion cerrarSesion,
             ObtenerUsuarioActual obtenerUsuarioActual, Reloj reloj,
-            @Value("${decokasa.cors.origenes}") List<String> origenesPermitidos) {
+            @Value("${decokasa.cors.origenes}") List<String> origenesPermitidos,
+            ConsultarCambioObligatorio cambioObligatorio) {
+        this.cambioObligatorio = cambioObligatorio;
         this.iniciarSesion = iniciarSesion;
         this.renovarSesion = renovarSesion;
         this.cerrarSesion = cerrarSesion;
@@ -112,7 +118,7 @@ public class AuthController {
     private ResponseEntity<RespuestaSesion> conCookie(SesionIniciada sesion) {
         Duration restante = Duration.between(reloj.ahora(), sesion.renovableHasta());
         ResponseCookie cookie = cookie(sesion.tokenRenovacion(), restante.isNegative() ? Duration.ZERO : restante);
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(RespuestaSesion.de(sesion));
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(RespuestaSesion.de(sesion, cambioObligatorio.debeCambiar(sesion.usuario().id())));
     }
 
     private static ResponseCookie cookie(String valor, Duration vida) {

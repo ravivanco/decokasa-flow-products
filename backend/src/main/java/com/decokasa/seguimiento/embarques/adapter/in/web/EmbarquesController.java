@@ -131,18 +131,6 @@ public class EmbarquesController {
         return embarques.checklist(SolicitantesWeb.de(token), pedidoId);
     }
 
-    /** V35: marca ✓ o desmarca un requisito del checklist de la entrada actual. El archivo es opcional. */
-    @PostMapping("/checklist-documentos/marcas")
-    public GestionarEmbarques.Checklist marcarRequisito(@AuthenticationPrincipal Jwt token,
-            @PathVariable UUID pedidoId, @Valid @RequestBody SolicitudMarca solicitud) {
-        return embarques.marcarRequisito(SolicitantesWeb.de(token), pedidoId, solicitud.tipoDocumento(),
-                solicitud.marcado(), solicitud.entradaEsperadaId());
-    }
-
-    public record SolicitudMarca(@NotBlank @Size(max = 100) String tipoDocumento, boolean marcado,
-            @NotNull UUID entradaEsperadaId) {
-    }
-
     @GetMapping("/alertas-simuladas")
     public List<GestionarEmbarques.AlertaSimulada> alertasSimuladas(@AuthenticationPrincipal Jwt token,
             @PathVariable UUID pedidoId) {

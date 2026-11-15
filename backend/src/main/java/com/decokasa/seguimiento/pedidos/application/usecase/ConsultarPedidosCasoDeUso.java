@@ -230,9 +230,7 @@ public final class ConsultarPedidosCasoDeUso implements ConsultarPedidos {
         if (!PermisosEtapa.puedeActuar(actual, rol, actor)) {
             return List.of();
         }
-        Set<String> subidos = new HashSet<>(adjuntos.tiposSubidos(actual.entradaId()));
-        // V35: lo marcado ✓ en el checklist cuenta como presente, igual que al ejecutar la acción.
-        subidos.addAll(embarques.tiposMarcados(actual.entradaId()));
+        Set<String> subidos = adjuntos.tiposSubidos(actual.entradaId());
         List<VistasDePedido.AccionDisponible> lista = new ArrayList<>();
         for (ResolverTransicion.Resolucion resolucion : acciones.accionesDe(pedido.flujoId(), pedido.etapaActual())) {
             List<String> obligatorios = resolucion.documentosObligatorios().stream().sorted().toList();

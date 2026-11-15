@@ -58,20 +58,6 @@ public final class PedidosParaEmbarquesCasoDeUso implements PedidosParaEmbarques
         return autorizar(solicitante, pedidoId, false);
     }
 
-    @Override
-    public Gestion autorizarChecklist(Solicitante solicitante, UUID pedidoId) {
-        Pedido pedido = pedidos.buscarParaActualizar(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
-        ActorVigente actor = apoyo.solicitante(solicitante);
-        apoyo.exigirPais(actor, pedido);
-        ContratoDeFlujo flujo = flujos.porId(pedido.flujoId());
-        ContratoDeEtapa etapa = flujo.etapa(pedido.etapaActual());
-        if (pedido.finalizado() || !etapa.checklistDocumentos()) {
-            throw new TransicionNoPermitida("El checklist solo se marca en la etapa que lo tiene.");
-        }
-        Interviniente interviniente = PermisosEtapa.paraActuar(actual(pedido), etapa.rolResponsable(), actor);
-        return new Gestion(referencia(pedido, flujo), interviniente);
-    }
-
     private Gestion autorizar(Solicitante solicitante, UUID pedidoId, boolean gestion) {
         Pedido pedido = pedidos.buscarParaActualizar(pedidoId).orElseThrow(() -> new NoEncontrado("El pedido no existe."));
         ActorVigente actor = apoyo.solicitante(solicitante);

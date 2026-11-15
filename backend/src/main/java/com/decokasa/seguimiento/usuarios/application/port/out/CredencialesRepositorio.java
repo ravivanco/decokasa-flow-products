@@ -13,5 +13,11 @@ public interface CredencialesRepositorio {
      */
     void cambiarContrasena(UUID usuarioId, String contrasenaHash, Instant ahora);
 
+    /** Como {@link #cambiarContrasena}, pero marca la cuenta para que cree su propia contraseña al entrar (V36). */
+    void restablecerTemporal(UUID usuarioId, String contrasenaHash, Instant ahora);
+
+    /** La cuenta tiene una contraseña temporal pendiente de cambio (V36). */
+    boolean debeCambiar(UUID usuarioId);
+
     Optional<Instant> cambiadasEn(UUID usuarioId);
 }

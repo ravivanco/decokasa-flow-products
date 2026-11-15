@@ -5,7 +5,6 @@ import com.decokasa.seguimiento.compartido.application.port.out.PublicadorEvento
 import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.DatoDuplicado;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
-import com.decokasa.seguimiento.compartido.domain.EtapaCambio;
 import com.decokasa.seguimiento.compartido.domain.NoEncontrado;
 import com.decokasa.seguimiento.compartido.domain.Solicitante;
 import com.decokasa.seguimiento.compartido.domain.TransicionNoPermitida;
@@ -187,28 +186,6 @@ public final class GestionarEmbarquesCasoDeUso implements GestionarEmbarques {
         }
         return repositorio.checklist(pedido.flujoId(), pedidoId, pedido.etapaActual(), pedido.entradaActualId())
                 .conPermiso(!pedido.finalizado() && pedidos.puedeActuar(solicitante, pedidoId));
-    }
-
-    @Override
-    public Checklist marcarRequisito(Solicitante solicitante, UUID pedidoId, String tipoDocumento, boolean marcado,
-            UUID entradaEsperadaId) {
-        PedidosParaEmbarques.Gestion gestion = pedidos.autorizarChecklist(solicitante, pedidoId);
-        PedidosParaEmbarques.Referencia pedido = gestion.pedido();
-        if (entradaEsperadaId == null || !entradaEsperadaId.equals(pedido.entradaActualId())) {
-            throw new EtapaCambio("La etapa cambió: vuelve a cargar el checklist.");
-        }
-        Checklist actual = repositorio.checklist(pedido.flujoId(), pedidoId, pedido.etapaActual(),
-                pedido.entradaActualId());
-        Requisito requisito = actual.requisitos().stream()
-                .filter(fila -> fila.tipoDocumento().equals(tipoDocumento))
-                .findFirst()
-                .orElseThrow(() -> new DatoInvalido("tipoDocumento", "Ese documento no está en el checklist."));
-        if (requisito.marcado() != marcado) {
-            repositorio.marcarRequisito(UUID.randomUUID(), pedidoId, pedido.entradaActualId(), tipoDocumento, marcado,
-                    gestion.actor().usuarioId(), reloj.ahora());
-        }
-        return repositorio.checklist(pedido.flujoId(), pedidoId, pedido.etapaActual(), pedido.entradaActualId())
-                .conPermiso(true);
     }
 
     @Override

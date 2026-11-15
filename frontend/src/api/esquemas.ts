@@ -29,6 +29,8 @@ export const esquemaUsuario = z.object({
   activo: z.boolean(),
   // Versión administrativa (D10): se envía tal cual en el PATCH para no sobrescribir cambios de otra persona.
   version: z.number().int().nonnegative(),
+  /** V36: solo en la sesión; Admin le puso una contraseña temporal y debe cambiarla antes de seguir. */
+  debeCambiarContrasena: z.boolean().optional(),
 });
 export type Usuario = z.infer<typeof esquemaUsuario>;
 
@@ -41,7 +43,8 @@ export const esquemaRespuestaSesion = z.object({
   tokenAcceso: z.string(),
   expiraEn: z.number().int(),
   usuario: esquemaUsuario,
-});
+  debeCambiarContrasena: z.boolean().default(false),
+}).transform((sesion) => ({ ...sesion, usuario: { ...sesion.usuario, debeCambiarContrasena: sesion.debeCambiarContrasena } }));
 export type RespuestaSesion = z.infer<typeof esquemaRespuestaSesion>;
 
 export const esquemaRol = z.object({

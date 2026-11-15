@@ -101,13 +101,11 @@ const esquemaChecklist = z.object({
     tipoDocumento: z.string(),
     adjuntoId: z.string().nullable(),
     nombreArchivo: z.string().nullable(),
-    // V35: la marca ✓ cumple el requisito; el archivo es opcional.
-    marcado: z.boolean().default(false),
-    marcadoPor: z.string().nullish(),
-    marcadoEn: z.string().nullish(),
+    subidoPor: z.string().nullish(),
+    subidoEn: z.string().nullish(),
   })),
   entradaId: z.string().nullish(),
-  puedeMarcar: z.boolean().default(false),
+  puedeSubir: z.boolean().default(false),
 });
 export type Checklist = z.infer<typeof esquemaChecklist>;
 
@@ -139,25 +137,6 @@ export function useChecklist(pedidoId: string, habilitada: boolean) {
     queryKey: clavesPedidos.checklist(sesionId, pais, pedidoId),
     queryFn: ({ signal }) => pedir(`${ruta(pedidoId)}/checklist-documentos`, { esquema: esquemaChecklist, signal }),
     enabled: habilitada,
-  });
-}
-
-/** Marca ✓ o desmarca un requisito del checklist de la entrada actual (V35). */
-export function useMarcarRequisito(pedidoId: string) {
-  const { pedir, sesionId } = useSesion();
-  const pais = usePaisActivo();
-  const consultas = useQueryClient();
-  const refrescar = useRefrescarPedido();
-  const clave = clavesPedidos.checklist(sesionId, pais, pedidoId);
-  return useMutation({
-    mutationFn: (datos: { tipoDocumento: string; marcado: boolean; entradaEsperadaId: string }) =>
-      pedir(`${ruta(pedidoId)}/checklist-documentos/marcas`, { metodo: 'POST', cuerpo: datos, esquema: esquemaChecklist }),
-    onSuccess: (checklist: Checklist) => {
-      consultas.setQueryData(clave, checklist);
-      // Las acciones disponibles cambian: lo marcado cuenta como documento presente.
-      refrescar(pedidoId);
-    },
-    onError: () => { void consultas.invalidateQueries({ queryKey: clave }); },
   });
 }
 
