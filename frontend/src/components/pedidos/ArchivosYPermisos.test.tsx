@@ -178,7 +178,7 @@ describe('Descarga de archivos', () => {
   });
 
   it.each([
-    [403, 'SIN_PERMISO', /No tienes permiso para descargar este archivo/],
+    [403, 'SIN_PERMISO', /documento confidencial/],
     [409, 'ARCHIVO_NO_DISPONIBLE', /no está disponible o está dañado/],
   ])('un %i %s se explica y no entrega nada', async (status, codigo, mensaje) => {
     const archivos = { 2: [adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'codigos.pdf')] };
@@ -319,7 +319,8 @@ describe('Permisos con varios roles', () => {
     expect(screen.getByRole('button', { name: 'Publicar observación' })).toBeInTheDocument();
   });
 
-  it('solo consulta: sin acciones, sin subida, sin observaciones y sin descarga', async () => {
+  // Cliente (2026-11-15): todos los que ven el pedido abren y descargan sus documentos (salvo los confidenciales).
+  it('solo consulta: sin acciones, sin subida ni observaciones, pero puede descargar', async () => {
     const archivos = { 2: [adjunto(ARCHIVO_A2, 2, entradaDe(2), 'Documentos codificados', 'codigos.pdf')] };
     await abrir(con(['consulta']), enA2([]), archivos);
 
@@ -327,7 +328,7 @@ describe('Permisos con varios roles', () => {
     expect(screen.getByText(/No tienes acciones en esta etapa/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Subir o reanudar' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Publicar observación' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Descargar codigos.pdf' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Descargar codigos.pdf' }).length).toBeGreaterThan(0);
   });
 
   it('asistente_compras en A3 puede descargar los archivos de A2, que revisa (P-17)', async () => {

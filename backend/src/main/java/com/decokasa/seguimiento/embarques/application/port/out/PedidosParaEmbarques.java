@@ -32,9 +32,6 @@ public interface PedidosParaEmbarques {
     /** Bloquea el pedido y exige poder actuar en su etapa de aprobación (P-06). */
     Gestion autorizarRevision(Solicitante solicitante, UUID pedidoId);
 
-    /** Bloquea el pedido y exige poder actuar en su etapa actual, que debe tener checklist (P-06, V35). */
-    Gestion autorizarChecklist(Solicitante solicitante, UUID pedidoId);
-
     /** Exige poder ver el pedido (P-13 y país asignado). */
     Referencia autorizarConsulta(Solicitante solicitante, UUID pedidoId);
 

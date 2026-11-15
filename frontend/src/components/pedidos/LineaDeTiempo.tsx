@@ -67,9 +67,13 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
   }
 
   return (
-    <div className="flex min-w-0 gap-3 overflow-x-auto rounded-lg border bg-card px-2 py-4 shadow-sm">
+    <div className="min-w-0 overflow-x-auto rounded-lg border bg-card px-2 py-4 shadow-sm">
+    {/* Cada fase ocupa un ancho proporcional a sus etapas y las etapas se reparten por igual: en escritorio todo el
+        recorrido cabe sin desplazarse; por debajo de ese ancho mínimo, el recorrido se desplaza en horizontal. */}
+    <div className="flex w-full min-w-[60rem] gap-3">
       {grupos.map((grupo) => (
-      <div key={grupo.fase?.numero ?? 'todas'} className={grupo.fase ? 'flex flex-col gap-2 rounded-md border bg-muted/30 px-1 py-2' : undefined}>
+      <div key={grupo.fase?.numero ?? 'todas'} style={{ flexGrow: grupo.etapas.length, flexBasis: 0 }}
+        className={cn('flex min-w-0 flex-col gap-2', grupo.fase && 'rounded-md border bg-muted/30 px-1 py-2')}>
       {grupo.fase && (
         <p className="flex flex-wrap items-center gap-2 px-2 font-heading text-sm font-semibold text-primary">
           Fase {grupo.fase.numero} · {grupo.fase.nombre}
@@ -79,7 +83,7 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
           </span>
         </p>
       )}
-      <ol aria-label={grupo.fase ? `Fase ${grupo.fase.numero} del pedido ${numeroPedido}` : `Recorrido del pedido ${numeroPedido}`} className="flex min-w-max items-start">
+      <ol aria-label={grupo.fase ? `Fase ${grupo.fase.numero} del pedido ${numeroPedido}` : `Recorrido del pedido ${numeroPedido}`} className="flex w-full items-start">
         {grupo.etapas.map((etapa, indice, lista) => {
           const esActual = etapa.estado === 'ACTUAL';
           const recorrida = etapa.estado !== 'PENDIENTE';
@@ -90,7 +94,7 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
             <li
               key={etapa.numero}
               ref={esActual ? actual : undefined}
-              className={cn("relative flex flex-col items-center", fases ? "w-24" : "w-28")}
+              className="relative flex min-w-0 flex-1 flex-col items-center"
             >
               {indice + 1 < lista.length && (
                 <span
@@ -132,8 +136,10 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
                   {codigoEtapa(tipoFlujo, etapa.numero)}
                 </span>{' '}
                 <span
+                  title={etapa.nombre}
+                  lang="es"
                   className={cn(
-                    'line-clamp-2 text-xs leading-tight',
+                    'line-clamp-3 text-xs leading-tight hyphens-auto',
                     esActual ? 'font-semibold text-foreground' : recorrida ? 'text-primary' : 'text-muted-foreground',
                   )}
                 >
@@ -167,6 +173,7 @@ export function LineaDeTiempo({ numeroPedido, tipoFlujo, etapas, seleccionada, a
       </ol>
       </div>
       ))}
+    </div>
     </div>
   );
 }

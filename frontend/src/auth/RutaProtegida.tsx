@@ -14,6 +14,8 @@ export function Cargando() {
   );
 }
 
+const RUTA_CAMBIO = '/perfil/contrasena';
+
 /** Sin sesión lleva al login y recuerda la página pedida para volver después. */
 export function RutaProtegida() {
   const { estado } = useSesion();
@@ -21,6 +23,10 @@ export function RutaProtegida() {
   if (estado.fase === 'cargando') return <Cargando />;
   if (estado.fase === 'anonima') {
     return <Navigate to="/login" replace state={{ desde: `${ubicacion.pathname}${ubicacion.search}` }} />;
+  }
+  // V36: con una contraseña temporal de Admin, primero se crea una propia. El servidor ya invalidó las sesiones previas.
+  if (estado.fase === 'abierta' && estado.usuario.debeCambiarContrasena && ubicacion.pathname !== RUTA_CAMBIO) {
+    return <Navigate to={RUTA_CAMBIO} replace />;
   }
   return <Outlet />;
 }

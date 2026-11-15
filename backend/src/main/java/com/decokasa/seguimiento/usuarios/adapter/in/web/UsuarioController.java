@@ -3,6 +3,7 @@ package com.decokasa.seguimiento.usuarios.adapter.in.web;
 import com.decokasa.seguimiento.compartido.domain.CodigoPais;
 import com.decokasa.seguimiento.compartido.domain.CodigoRol;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
+import com.decokasa.seguimiento.usuarios.application.port.in.RestablecerContrasenaUsuario;
 import com.decokasa.seguimiento.usuarios.application.port.in.ActualizarUsuario;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarUsuarios;
 import com.decokasa.seguimiento.usuarios.application.port.in.CrearUsuario;
@@ -72,12 +73,26 @@ public class UsuarioController {
     private final ConsultarUsuarios consultarUsuarios;
     private final CrearUsuario crearUsuario;
     private final ActualizarUsuario actualizarUsuario;
+    private final RestablecerContrasenaUsuario restablecer;
 
     public UsuarioController(ConsultarUsuarios consultarUsuarios, CrearUsuario crearUsuario,
-            ActualizarUsuario actualizarUsuario) {
+            ActualizarUsuario actualizarUsuario, RestablecerContrasenaUsuario restablecer) {
         this.consultarUsuarios = consultarUsuarios;
         this.crearUsuario = crearUsuario;
         this.actualizarUsuario = actualizarUsuario;
+        this.restablecer = restablecer;
+    }
+
+    /** V36: contraseña temporal para el usuario (solo Admin); la persona debe cambiarla al iniciar sesión. */
+    public record SolicitudRestablecerContrasena(@NotEmpty(message = "Escribe la contraseña temporal.") @Size(max = 72)
+            String contrasenaTemporal) {
+    }
+
+    @PostMapping("/{usuarioId}/contrasena")
+    public ResponseEntity<Void> restablecerContrasena(@AuthenticationPrincipal Jwt token, @PathVariable UUID usuarioId,
+            @Valid @RequestBody SolicitudRestablecerContrasena solicitud) {
+        restablecer.restablecer(Solicitantes.de(token), usuarioId, solicitud.contrasenaTemporal());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

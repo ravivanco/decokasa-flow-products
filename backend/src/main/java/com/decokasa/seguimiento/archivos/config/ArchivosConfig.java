@@ -1,5 +1,9 @@
 package com.decokasa.seguimiento.archivos.config;
 
+import java.util.Set;
+import com.decokasa.seguimiento.archivos.application.usecase.AccesoConfidencialCasoDeUso;
+import com.decokasa.seguimiento.archivos.application.port.out.ConfidencialesRepositorio;
+import com.decokasa.seguimiento.archivos.application.port.in.AccesoConfidencial;
 import com.decokasa.seguimiento.archivos.adapter.out.almacen.AlmacenLocalEnDisco;
 import com.decokasa.seguimiento.archivos.adapter.out.almacen.VerificadorFormatoEnDisco;
 import com.decokasa.seguimiento.archivos.application.port.in.ConsultarAdjuntosDeEntrada;
@@ -102,16 +106,23 @@ public class ArchivosConfig {
 
     @Bean
     ListarAdjuntosDeEtapa listarAdjuntosDeEtapa(PlatformTransactionManager gestor, PedidosParaArchivos pedidos,
-            AdjuntoRepositorio adjuntos, ResumirUsuarios usuarios) {
+            AdjuntoRepositorio adjuntos, ResumirUsuarios usuarios, AccesoConfidencial confidencial) {
         TransactionTemplate tx = soloLectura(gestor);
         ListarAdjuntosDeEtapa caso = new ListarAdjuntosDeEtapaCasoDeUso(pedidos, adjuntos, usuarios);
-        return (solicitante, pedidoId, etapa) -> tx.execute(estado -> caso.listar(solicitante, pedidoId, etapa));
+        // V37: sin acceso, los documentos confidenciales no aparecen.
+        return (solicitante, pedidoId, etapa) -> tx.execute(estado -> {
+            var lista = caso.listar(solicitante, pedidoId, etapa);
+            if (confidencial.puedeVer(pedidoId, solicitante.usuarioId())) { return lista; }
+            Set<UUID> ocultos = confidencial.confidenciales(pedidoId);
+            return lista.stream().filter(vista -> !ocultos.contains(vista.adjunto().id())).toList();
+        });
     }
 
     /** La autorización va en una transacción corta; la lectura y verificación del archivo, fuera de ella. */
     @Bean
     DescargarArchivo descargarArchivo(PlatformTransactionManager gestor, PedidosParaArchivos pedidos,
-            AdjuntoRepositorio adjuntos, AlmacenLocal almacen, DocumentosDePedido documentos, AlmacenArchivos drive) {
+            AdjuntoRepositorio adjuntos, AlmacenLocal almacen, DocumentosDePedido documentos, AlmacenArchivos drive,
+            AccesoConfidencial confidencial) {
         TransactionTemplate tx = soloLectura(gestor);
         // ADR-0028: sin transacción externa. La autorización prueba P-17 y, si la niega, la regla de la etapa actual;
         // una negativa esperada dentro de una transacción compartida la marcaría para deshacer y el commit fallaría (500).
@@ -121,7 +132,34 @@ public class ArchivosConfig {
         return new DescargarArchivo() {
             @Override
             public Autorizada autorizar(Solicitante solicitante, UUID adjuntoId) {
-                return caso.autorizar(solicitante, adjuntoId);
+                // V37: un documento confidencial lo abre quien tiene acceso (por rol o dado por Admin en su pedido),
+                // dentro de su país, sin importar la etapa; nadie más, aunque actúe en esa etapa.
+                UUID pedidoId = tx.execute(estado -> adjuntos.porId(adjuntoId).map(a -> a.pedidoId()).orElse(null));
+                if (pedidoId == null) { return caso.autorizar(solicitante, adjuntoId); }
+                if (!confidencial.confidenciales(pedidoId).contains(adjuntoId)) {
+                    // Pedido del cliente (2026-11-15): todo documento no confidencial lo ve y descarga cualquiera que vea
+                    // el pedido, en cualquier etapa (P-13 y país); P-17 ya no limita estos documentos.
+                    try {
+                        return caso.autorizar(solicitante, adjuntoId);
+                    } catch (com.decokasa.seguimiento.compartido.domain.SinPermiso porEtapa) {
+                        try {
+                            tx.executeWithoutResult(estado -> pedidos.autorizarConsulta(solicitante, pedidoId));
+                        } catch (com.decokasa.seguimiento.compartido.domain.NoEncontrado deOtroPais) {
+                            throw new com.decokasa.seguimiento.compartido.domain.NoEncontrado("El archivo no existe.");
+                        }
+                        return caso.delAdjunto(adjuntoId);
+                    }
+                }
+                try {
+                    tx.executeWithoutResult(estado -> pedidos.autorizarConsulta(solicitante, pedidoId));
+                } catch (com.decokasa.seguimiento.compartido.domain.NoEncontrado deOtroPais) {
+                    throw new com.decokasa.seguimiento.compartido.domain.NoEncontrado("El archivo no existe.");
+                }
+                if (!confidencial.puedeVer(pedidoId, solicitante.usuarioId())) {
+                    throw new com.decokasa.seguimiento.compartido.domain.SinPermiso(
+                            "Documento confidencial: pide acceso a Admin.");
+                }
+                return caso.delAdjunto(adjuntoId);
             }
 
             @Override
@@ -142,12 +180,48 @@ public class ArchivosConfig {
      */
     @Bean
     ConsultarDocumentosDelPedido consultarDocumentosDelPedido(PlatformTransactionManager gestor,
-            PedidosParaArchivos pedidos, DocumentosDePedido documentos, AlmacenLocal almacen, ResumirUsuarios usuarios) {
+            PedidosParaArchivos pedidos, DocumentosDePedido documentos, AlmacenLocal almacen, ResumirUsuarios usuarios,
+            AccesoConfidencial confidencial) {
         TransactionTemplate tx = soloLectura(gestor);
         var caso = new ConsultarDocumentosDelPedidoCasoDeUso(pedidos,
                 enTransaccion(DocumentosDePedido.class, documentos, tx), almacen,
                 enTransaccion(ResumirUsuarios.class, usuarios, tx));
-        return caso::listar;
+        // V37: sin acceso, los documentos confidenciales no aparecen en la lista.
+        return (solicitante, pedidoId) -> {
+            var lista = caso.listar(solicitante, pedidoId);
+            Set<UUID> confidenciales = confidencial.confidenciales(pedidoId);
+            boolean ve = confidencial.puedeVer(pedidoId, solicitante.usuarioId());
+            // Todos abren lo no confidencial; lo confidencial, solo quien tiene acceso (y a los demás no les llega).
+            return lista.stream()
+                    .filter(v -> ve || !confidenciales.contains(v.documento().id()))
+                    .map(v -> v.puedeAbrir() ? v
+                            : new ConsultarDocumentosDelPedido.Vista(v.documento(), v.autor(), v.disponibilidad(), true, v.vigente()))
+                    .toList();
+        };
+    }
+
+    /** V37: cada operación en su propia transacción corta. */
+    @Bean
+    AccesoConfidencial accesoConfidencial(PlatformTransactionManager gestor, ConfidencialesRepositorio repositorio,
+            PedidosParaArchivos pedidos, com.decokasa.seguimiento.compartido.application.port.out.Reloj reloj) {
+        TransactionTemplate tx = new TransactionTemplate(gestor);
+        AccesoConfidencial caso = new AccesoConfidencialCasoDeUso(repositorio, pedidos, reloj);
+        return new AccesoConfidencial() {
+            @Override public Set<UUID> confidenciales(UUID pedidoId) { return tx.execute(e -> caso.confidenciales(pedidoId)); }
+            @Override public boolean puedeVer(UUID pedidoId, UUID usuarioId) {
+                return Boolean.TRUE.equals(tx.execute(e -> caso.puedeVer(pedidoId, usuarioId)));
+            }
+            @Override public Resumen resumen(Solicitante s, UUID pedidoId) { return tx.execute(e -> caso.resumen(s, pedidoId)); }
+            @Override public java.util.List<ConAcceso> conAcceso(Solicitante s, UUID pedidoId) {
+                return tx.execute(e -> caso.conAcceso(s, pedidoId));
+            }
+            @Override public void otorgar(Solicitante s, UUID pedidoId, UUID usuarioId) {
+                tx.executeWithoutResult(e -> caso.otorgar(s, pedidoId, usuarioId));
+            }
+            @Override public void revocar(Solicitante s, UUID pedidoId, UUID usuarioId) {
+                tx.executeWithoutResult(e -> caso.revocar(s, pedidoId, usuarioId));
+            }
+        };
     }
 
     /** Cada llamada del puerto en su propia transacción corta (las excepciones salen tal cual). */

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { esErrorApi } from '@/api/cliente';
-import { useActualizarUsuario, useCrearUsuario, type CambiosUsuario } from '@/api/consultas';
+import { useActualizarUsuario, useCrearUsuario, useRestablecerContrasena, type CambiosUsuario } from '@/api/consultas';
 import type { Rol, Usuario } from '@/api/esquemas';
 import { mensajeDeError } from '@/api/mensajes';
 import { NOMBRE_PAIS, PAISES } from '@/pais/PaisProvider';
@@ -377,6 +377,7 @@ export function FormularioUsuario({ usuario, roles, recargar, onCerrar }: Props)
               )}
             />
           </FieldGroup>
+          {!esAlta && usuario && <RestablecerContrasena usuario={usuario} />}
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onCerrar}>
               Cancelar
@@ -388,5 +389,76 @@ export function FormularioUsuario({ usuario, roles, recargar, onCerrar }: Props)
         </form>
       </DialogContent>
     </Dialog>
+  );
+}
+
+/** Contraseña temporal sin letras ni números que se confundan (I/l/1, O/0), con al menos 12 caracteres. */
+function generarTemporal(): string {
+  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+  const azar = new Uint32Array(14);
+  crypto.getRandomValues(azar);
+  return Array.from(azar, (n) => letras[n % letras.length]).join('');
+}
+
+/**
+ * V36, solo Admin (el servidor lo vuelve a comprobar): pone una contraseña temporal, cierra las sesiones de la cuenta y
+ * la obliga a crear una propia al entrar. La temporal se muestra solo aquí para dársela a la persona.
+ */
+function RestablecerContrasena({ usuario }: { usuario: Usuario }) {
+  const restablecer = useRestablecerContrasena();
+  const [abierto, setAbierto] = useState(false);
+  const [temporal, setTemporal] = useState('');
+  const [hecho, setHecho] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function confirmar() {
+    setError(null);
+    try {
+      await restablecer.mutateAsync({ id: usuario.id, contrasenaTemporal: temporal });
+      setHecho(true);
+    } catch (fallo) {
+      setError(mensajeDeError(fallo, 'No se pudo restablecer la contraseña.'));
+    }
+  }
+
+  if (!abierto) {
+    return (
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2">
+        <span className="text-sm text-muted-foreground">¿Olvidó su contraseña y no le llega el correo?</span>
+        <Button type="button" variant="outline" size="sm" onClick={() => { setTemporal(generarTemporal()); setAbierto(true); }}>
+          Restablecer contraseña
+        </Button>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-3 rounded-md border p-3">
+      {hecho ? (
+        <Alert>
+          <AlertDescription>
+            Listo. Entrégale a {usuario.nombre} esta contraseña temporal: <b className="font-mono tabular-nums">{temporal}</b>.
+            Sus sesiones se cerraron y deberá crear una propia al iniciar sesión. No se volverá a mostrar.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <>
+          <Field data-invalid={error ? true : undefined}>
+            <FieldLabel htmlFor="contrasena-temporal">Contraseña temporal</FieldLabel>
+            <div className="flex gap-2">
+              <Input id="contrasena-temporal" value={temporal} autoComplete="off" spellCheck={false}
+                aria-invalid={error ? true : undefined} onChange={(evento) => setTemporal(evento.target.value)} />
+              <Button type="button" variant="outline" onClick={() => setTemporal(generarTemporal())}>Generar</Button>
+            </div>
+            {error && <FieldError>{error}</FieldError>}
+          </Field>
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="ghost" onClick={() => setAbierto(false)}>Cancelar</Button>
+            <Button type="button" disabled={restablecer.isPending || temporal.length < 8} onClick={() => void confirmar()}>
+              {restablecer.isPending ? 'Restableciendo…' : 'Restablecer'}
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
   );
 }

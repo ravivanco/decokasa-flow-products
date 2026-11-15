@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ArchivosEtapa } from './ArchivosEtapa';
-import { Cronometro } from './Cronometro';
 import { codigoEtapa, formatearFechaHora, NOMBRE_ACCION, nombreRol, podriaActuarEn } from './formato';
 import { MotivoRetraso } from './MotivoRetraso';
 import { NuevaObservacion } from './NuevaObservacion';
@@ -33,6 +32,8 @@ interface Props {
   usuario: Usuario;
   onAccion: (accion: AccionDisponible, adjuntos: Adjunto[]) => void;
   onReasignar: () => void;
+  /** La etapa tiene su propio espacio de trabajo (BL, revisión o checklist): el panel queda en acciones. */
+  enfocada?: boolean;
 }
 
 const ESTADO: Record<EtapaEnLinea['estado'], string> = {
@@ -42,7 +43,7 @@ const ESTADO: Record<EtapaEnLinea['estado'], string> = {
   DEVUELTA: 'Devuelta',
 };
 
-export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasignar }: Props) {
+export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasignar, enfocada = false }: Props) {
   const esActual = etapa.estado === 'ACTUAL' && !pedido.finalizado;
   const adjuntos = useAdjuntosDeEtapa(pedido.id, etapa.numero);
   const actuales = (adjuntos.data ?? []).filter((adjunto) => adjunto.entradaId === etapa.entradaId);
@@ -53,13 +54,9 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
   const esAdmin = usuario.roles.includes('admin');
   const definicion = flujo?.etapas.find((d) => d.numero === etapa.numero);
 
-  // Pista de P-17: admin, quien puede actuar en la etapa del archivo o en una etapa que la revisa (dato del flujo).
-  const revisoras = (flujo?.etapas ?? [])
-    .filter((d) => d.revisaEtapa === etapa.numero)
-    .map((d) => pedido.lineaDeTiempo.find((e) => e.numero === d.numero))
-    .filter((e): e is EtapaEnLinea => e !== undefined);
-  const puedeDescargar =
-    esAdmin || podriaActuarEn(etapa, usuario) || revisoras.some((revisora) => podriaActuarEn(revisora, usuario));
+  // Pedido del cliente (2026-11-15): todos los que ven el pedido abren y descargan sus documentos; los confidenciales
+  // ni siquiera llegan a quien no tiene acceso (lo decide el servidor).
+  const puedeDescargar = true;
 
   const documentos = esActual
     ? acciones.flatMap((accion) => accion.documentosObligatorios)
@@ -102,7 +99,6 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
           </Dato>
           <Dato termino="Entrada">{formatearFechaHora(etapa.entrada)}</Dato>
           <Dato termino={etapa.salida ? 'Salida' : 'Vence'}>
-            {esActual && <span className="mb-1 block"><Cronometro venceEn={etapa.venceEn} servidorAhora={pedido.servidorAhora} estadoPlazo={etapa.estadoPlazo} /></span>}
             {etapa.salida ? (
               formatearFechaHora(etapa.salida)
             ) : etapa.estadoPlazo === 'PENDIENTE' ? (
@@ -113,7 +109,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
               formatearFechaHora(etapa.venceEn)
             )}
           </Dato>
-          <Dato termino="Reentradas">{etapa.reentradas}</Dato>
+          {etapa.reentradas > 0 && <Dato termino="Reentradas">{etapa.reentradas}</Dato>}
         </dl>
         {etapa.resumen && (
           // role="note": es información de la etapa, no un aviso urgente. El Alert de shadcn trae role="alert", que
@@ -139,7 +135,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
         )}
         {documentosPendientes && <Alert role="note"><CircleAlertIcon />
           <AlertTitle>Documentos pendientes de definición</AlertTitle>
-          <AlertDescription>Los requisitos de esta etapa todavía no están definidos. Los archivos conservados no eliminan este bloqueo y no se puede confirmar el avance.</AlertDescription>
+          <AlertDescription>Falta que el cliente defina los documentos de esta etapa.</AlertDescription>
         </Alert>}
         {definicion?.automatica && <Alert role="note"><AlertTitle>Etapa automática</AlertTitle>
           <AlertDescription>{pedido.finalizado && etapa.estado === 'COMPLETADA'
@@ -161,9 +157,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
             </div>
             {acciones.length === 0 ? (
               <p className="text-sm text-muted-foreground">
-                No tienes acciones en esta etapa. Le corresponde a{' '}
-                {etapa.asignadoA?.nombre ?? `quien tenga el rol ${nombreRol(etapa.rolResponsable)}`}
-                {esAdmin ? ', o la etapa todavía no está habilitada en esta fase' : ''}.
+                No tienes acciones en esta etapa. Le corresponde a {etapa.asignadoA?.nombre ?? nombreRol(etapa.rolResponsable)}.
               </p>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -198,7 +192,9 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
                           : (accion.faltantesEmbarque?.length ?? 0) > 0
                             ? `falta: ${accion.faltantesEmbarque?.join(', ')}.`
                             : accion.documentosFaltantes.length > 0
-                            ? `falta subir ${accion.documentosFaltantes.join(', ')}.`
+                            ? enfocada && accion.documentosFaltantes.length > 3
+                              ? `faltan ${accion.documentosFaltantes.length} documentos del checklist.`
+                              : `falta subir ${accion.documentosFaltantes.join(', ')}.`
                             : 'todavía no se puede completar.'}
                       </li>
                     ))}
@@ -209,15 +205,25 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
           </section>
         )}
 
-        <ArchivosEtapa
-          pedidoId={pedido.id}
-          etapa={etapa}
-          puedeSubir={puedeIntervenir}
-          puedeDescargar={puedeDescargar}
-          tiposSugeridos={tiposSugeridos}
-        />
+        {/* En una etapa enfocada los documentos se suben en su espacio de trabajo (BL o checklist). */}
+        {!enfocada && (
+          <ArchivosEtapa
+            pedidoId={pedido.id}
+            etapa={etapa}
+            puedeSubir={puedeIntervenir}
+            puedeDescargar={puedeDescargar}
+            tiposSugeridos={tiposSugeridos}
+          />
+        )}
 
-        {puedeIntervenir && etapa.entradaId && (
+        {puedeIntervenir && etapa.entradaId && (enfocada ? (
+          <details className="group rounded-md border px-3 py-2">
+            <summary className="cursor-pointer text-sm font-medium">Agregar observación</summary>
+            <section aria-label="Observaciones de la etapa" className="flex flex-col gap-3 pt-3">
+              <NuevaObservacion key={etapa.entradaId} pedidoId={pedido.id} etapa={etapa.numero} entradaId={etapa.entradaId} adjuntos={actuales} />
+            </section>
+          </details>
+        ) : (
           <>
             <Separator />
             <section aria-label="Observaciones de la etapa" className="flex flex-col gap-3">
@@ -230,7 +236,7 @@ export function PanelEtapa({ pedido, etapa, flujo, usuario, onAccion, onReasigna
               />
             </section>
           </>
-        )}
+        ))}
       </CardContent>
     </Card>
   );

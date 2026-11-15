@@ -27,7 +27,6 @@ import com.decokasa.seguimiento.plazos.application.port.in.CalcularVencimiento;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarResponsables;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -132,13 +131,6 @@ public final class EjecutarAccionEtapaCasoDeUso implements EjecutarAccionEtapa {
             PermisosEtapa.paraActuar(actual, resolucion.rolResponsableOrigen(), actor);
             presentes = adjuntos.tiposValidos(pedido.id(), pedido.etapaActual(), actual.entradaId(),
                     comando.adjuntoIds());
-        }
-        // V35: un requisito del checklist marcado ✓ en la entrada actual cuenta como documento presente.
-        Set<String> marcados = embarques.tiposMarcados(etapaActual(pedido).entradaId());
-        if (!marcados.isEmpty()) {
-            Set<String> union = new HashSet<>(presentes);
-            union.addAll(marcados);
-            presentes = Set.copyOf(union);
         }
         // F4-D2: la bodega elegida debe existir y estar activa. Solo se consulta si la acción la usa y podría
         // completarse; si no, el dominio responde antes (bodega no admitida o documentos pendientes, F4-D7). Primero el

@@ -29,12 +29,27 @@ public class CredencialesSql implements CredencialesRepositorio {
 
     @Override
     public void cambiarContrasena(UUID usuarioId, String contrasenaHash, Instant ahora) {
+        guardar(usuarioId, contrasenaHash, ahora, false);
+    }
+
+    @Override
+    public void restablecerTemporal(UUID usuarioId, String contrasenaHash, Instant ahora) {
+        guardar(usuarioId, contrasenaHash, ahora, true);
+    }
+
+    @Override
+    public boolean debeCambiar(UUID usuarioId) {
+        return sql.query("select debe_cambiar_contrasena from usuario where id = :id",
+                new MapSqlParameterSource("id", usuarioId), (f, n) -> f.getBoolean(1)).stream().findFirst().orElse(false);
+    }
+
+    private void guardar(UUID usuarioId, String contrasenaHash, Instant ahora, boolean temporal) {
         OffsetDateTime sello = OffsetDateTime.ofInstant(ahora.truncatedTo(ChronoUnit.MILLIS), ZoneOffset.UTC);
         int filas = sql.update("update usuario set contrasena_hash = :h, credenciales_cambiadas_en = :sello,"
                         + " intentos_fallidos = 0, bloqueado_hasta = null, actualizado_en = :sello,"
-                        + " version = version + 1 where id = :id",
+                        + " debe_cambiar_contrasena = :temporal, version = version + 1 where id = :id",
                 new MapSqlParameterSource("id", usuarioId).addValue("h", Objects.requireNonNull(contrasenaHash))
-                        .addValue("sello", sello));
+                        .addValue("sello", sello).addValue("temporal", temporal));
         if (filas != 1) {
             throw new IllegalStateException("No se pudo guardar la contraseña.");
         }
