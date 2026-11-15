@@ -457,49 +457,24 @@ public class EmbarquesSql implements EmbarquesRepositorio {
                 where flujo_id = :flujo and etapa_origen = :etapa and accion = 'APROBAR'
                 """, parametros, String.class);
         List<GestionarEmbarques.Requisito> filas = sql.query("""
-                select d.tipo_documento, a.id, a.nombre, coalesce(m.marcado, false) as marcado, u.nombre as marco,
-                  m.creado_en as marcado_en
+                select d.tipo_documento, a.id, a.nombre, a.autor, a.subido_en
                 from transicion_permitida t
                 join documento_requerido d on d.transicion_id = t.id
-                left join lateral (select x.id, x.nombre from adjunto x
+                left join lateral (select x.id, x.nombre, u.nombre as autor, x.subido_en from adjunto x
+                  left join usuario u on u.id = x.subido_por
                   where x.pedido_id = :pedido and x.entrada_id = :entrada and x.tipo_documento = d.tipo_documento
                   order by x.subido_en desc, x.id limit 1) a on true
-                left join lateral (select c.marcado, c.usuario_id, c.creado_en from checklist_marca c
-                  where c.entrada_id = :entrada and c.tipo_documento = d.tipo_documento
-                  order by c.creado_en desc, c.id desc limit 1) m on true
-                left join usuario u on u.id = m.usuario_id and m.marcado
                 where t.flujo_id = :flujo and t.etapa_origen = :etapa and t.accion = 'APROBAR'
                 order by d.orden nulls last, d.tipo_documento
                 """, parametros, (r, n) -> {
-                    boolean marcado = r.getBoolean("marcado");
-                    Timestamp en = r.getTimestamp("marcado_en");
+                    Timestamp en = r.getTimestamp("subido_en");
                     return new GestionarEmbarques.Requisito(r.getString("tipo_documento"),
-                            r.getObject("id", UUID.class), r.getString("nombre"), marcado,
-                            marcado ? r.getString("marco") : null, marcado && en != null ? en.toInstant() : null);
+                            r.getObject("id", UUID.class), r.getString("nombre"), r.getString("autor"),
+                            en == null ? null : en.toInstant());
                 });
         int confirmados = (int) filas.stream().filter(GestionarEmbarques.Requisito::cumplido).count();
         return new GestionarEmbarques.Checklist(true, "PENDIENTES".equals(requisitos), filas.size(), confirmados, filas,
                 entradaId, false);
-    }
-
-    @Override
-    public void marcarRequisito(UUID id, UUID pedidoId, UUID entradaId, String tipoDocumento, boolean marcado,
-            UUID usuarioId, Instant ahora) {
-        sql.update("""
-                insert into checklist_marca (id, pedido_id, entrada_id, tipo_documento, marcado, usuario_id, creado_en)
-                values (:id, :pedido, :entrada, :tipo, :marcado, :usuario, :ahora)
-                """, new MapSqlParameterSource("id", id).addValue("pedido", pedidoId).addValue("entrada", entradaId)
-                .addValue("tipo", tipoDocumento).addValue("marcado", marcado).addValue("usuario", usuarioId)
-                .addValue("ahora", Timestamp.from(ahora)));
-    }
-
-    @Override
-    public Set<String> tiposMarcados(UUID entradaId) {
-        return new LinkedHashSet<>(sql.queryForList("""
-                select tipo_documento from (select distinct on (tipo_documento) tipo_documento, marcado
-                  from checklist_marca where entrada_id = :entrada
-                  order by tipo_documento, creado_en desc, id desc) x where marcado
-                """, new MapSqlParameterSource("entrada", entradaId), String.class));
     }
 
     @Override

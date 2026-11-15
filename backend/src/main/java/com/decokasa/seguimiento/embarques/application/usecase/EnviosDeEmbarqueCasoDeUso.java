@@ -14,7 +14,6 @@ import com.decokasa.seguimiento.embarques.application.port.out.EmbarquesReposito
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,11 +29,6 @@ public final class EnviosDeEmbarqueCasoDeUso implements EnviosDeEmbarque {
     public EnviosDeEmbarqueCasoDeUso(EmbarquesRepositorio repositorio, PublicadorEventos publicador) {
         this.repositorio = repositorio;
         this.publicador = publicador;
-    }
-
-    @Override
-    public Set<String> tiposMarcados(UUID entradaId) {
-        return entradaId == null ? Set.of() : repositorio.tiposMarcados(entradaId);
     }
 
     @Override

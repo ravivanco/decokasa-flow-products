@@ -17,7 +17,8 @@ import { CronogramaPedido } from './CronogramaPedido';
 import { Cronometro } from './Cronometro';
 import { DialogoAccion } from './DialogoAccion';
 import { DialogoReasignar } from './DialogoReasignar';
-import { DistintivoUrgencia, DistintivoVencimiento } from './Distintivos';
+import { DistintivoUrgencia } from './Distintivos';
+import type { ModoEmbarques } from './SeccionEmbarques';
 import { codigoEtapa, formatearFecha, formatearFechaHora, mensajeDeErrorPedido, nombreFlujo } from './formato';
 import { PanelHistorial } from './HistorialPedido';
 import { LineaDeTiempo } from './LineaDeTiempo';
@@ -151,6 +152,19 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
     ? [[e.numero, { numero: e.faseNumero, nombre: e.faseNombre }] as const] : [])));
   const conLlegada = flujo.data?.etapas.some((e) => e.registraLlegada || e.acciones.some((a) => a.requiereBodega));
   const etapaLlegada = flujo.data?.etapas.find((e) => e.registraLlegada)?.numero;
+  // Pedido del cliente (2026-11-14): mientras se mira la etapa actual, la pantalla muestra solo su trabajo. En A6 la
+  // gestión de BL, en A7 la revisión y en Aduana el checklist; lo de etapas terminadas no ocupa espacio.
+  const viendoActual = etapa.numero === detalle.etapaActual && !detalle.finalizado;
+  const foco: 'checklist' | ModoEmbarques | null = !viendoActual ? null
+    : definicionActual?.gestionaEmbarques ? 'gestion'
+      : definicionActual?.apruebaEmbarques ? 'aprobacion'
+        : definicionActual?.checklistDocumentos ? 'checklist' : null;
+  const conDatosDeLlegada = Boolean(detalle.llegadaAduanaEn || detalle.bodega);
+  // Etapas ya recorridas, de la última que salió a la primera (sirve también tras una devolución).
+  const entradasPrevias = detalle.lineaDeTiempo
+    .filter((e) => e.numero !== detalle.etapaActual && e.salida && e.entradaId)
+    .sort((a, b) => (b.salida ?? '').localeCompare(a.salida ?? ''))
+    .map((e) => e.entradaId as string);
 
   // Desde el cronograma: lleva el panel a esa etapa y la muestra.
   function irAEtapa(numero: number) {
@@ -187,9 +201,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
           <h1 className="font-heading text-2xl font-bold text-primary tabular-nums">{detalle.numero}</h1>
           <Badge variant="outline">{nombreFlujo(detalle.tipoFlujo)}</Badge>
-          {esPais(detalle.pais) && <Badge variant="outline">{NOMBRE_PAIS[detalle.pais]}</Badge>}
           <Badge variant={detalle.finalizado ? 'secondary' : 'default'}>{detalle.finalizado ? 'Finalizado' : 'En curso'}</Badge>
-          <DistintivoVencimiento venceEn={detalle.venceEn} vencida={detalle.vencida} finalizado={detalle.finalizado} estadoPlazo={actual?.estadoPlazo} />
           {!detalle.finalizado && <Cronometro venceEn={detalle.venceEn} servidorAhora={detalle.servidorAhora} estadoPlazo={actual?.estadoPlazo} />}
           {detalle.urgencia && (
             <DistintivoUrgencia nivel={detalle.urgencia.nivel} venceEn={detalle.urgencia.venceEn} vencida={detalle.urgencia.vencida} />
@@ -200,19 +212,19 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
         </div>
         <p className="font-medium">{detalle.nombre}</p>
         {detalle.descripcion && (
-          <p className="line-clamp-3 max-w-prose whitespace-pre-wrap text-sm text-muted-foreground">{detalle.descripcion}</p>
+          <p className="line-clamp-2 max-w-prose whitespace-pre-wrap text-sm text-muted-foreground">{detalle.descripcion}</p>
         )}
-        <dl className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+        <dl className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted-foreground">
           {!detalle.finalizado && (
-            <div className="flex gap-1"><dt className="text-muted-foreground">Etapa actual:</dt>
-              <dd className="font-medium">{codigoEtapa(detalle.tipoFlujo, detalle.etapaActual)}{nombreActual ? ` · ${nombreActual}` : ''}</dd></div>
+            <div className="flex gap-1"><dt className="sr-only">Etapa actual</dt>
+              <dd className="font-medium text-foreground">{codigoEtapa(detalle.tipoFlujo, detalle.etapaActual)}{nombreActual ? ` · ${nombreActual}` : ''}</dd></div>
           )}
           {!detalle.finalizado && (
-            <div className="flex gap-1"><dt className="text-muted-foreground">Responsable:</dt>
-              <dd className="font-medium">{detalle.responsableActual?.nombre ?? 'Sin asignar (según el rol de la etapa)'}</dd></div>
+            <div className="flex gap-1"><dt>Responsable</dt>
+              <dd className="font-medium text-foreground">{detalle.responsableActual?.nombre ?? 'Sin asignar'}</dd></div>
           )}
-          <div className="flex gap-1"><dt className="text-muted-foreground">Creado:</dt>
-            <dd><span className="tabular-nums">{formatearFechaHora(detalle.creadoEn)}</span> por {detalle.creadoPor.nombre}</dd></div>
+          <div className="flex gap-1"><dt>Creado</dt>
+            <dd><span className="tabular-nums">{formatearFechaHora(detalle.creadoEn)}</span> · {detalle.creadoPor.nombre}</dd></div>
           {detalle.incluyeProductosNuevos && <div><dd>Incluye productos nuevos</dd></div>}
         </dl>
         {detalle.demoraAduana && !detalle.finalizado && (
@@ -225,10 +237,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
 
       {flujo.isError && (
         <Alert>
-          <AlertDescription>
-            No se pudo cargar la definición del flujo; algunos nombres de etapa pueden faltar. Las acciones siguen
-            disponibles y se comprueban al enviarlas.
-          </AlertDescription>
+          <AlertDescription>No se pudo cargar la definición del flujo. Las acciones siguen disponibles.</AlertDescription>
         </Alert>
       )}
 
@@ -248,19 +257,28 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
 
       <BorradoresEnConflicto pedido={detalle} />
 
-      <SeccionEmbarques pedido={detalle} etapaActual={actual} />
-      {definicionActual?.checklistDocumentos && actual && !detalle.finalizado && (
-        <ChecklistDocumentos pedido={detalle} etapa={actual} puedeSubir={detalle.accionesDisponibles.length > 0} />
-      )}
-
-      <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <DocumentosPedido
-          pedidoId={detalle.id}
-          tipoFlujo={detalle.tipoFlujo}
-          etapaActual={detalle.etapaActual}
-          finalizado={detalle.finalizado}
-          nombreEtapa={(numero) => flujo.data?.etapas.find((e) => e.numero === numero)?.nombre}
-        />
+      <div className={foco
+        ? 'grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1.7fr)_minmax(20rem,1fr)]'
+        : 'grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]'}>
+        {/* El trabajo de la etapa primero (BL, revisión o checklist) y, en todas las etapas, los documentos vigentes. */}
+        <div className="flex flex-col gap-4">
+          {foco === 'gestion' || foco === 'aprobacion' ? (
+            <SeccionEmbarques pedido={detalle} etapaActual={actual} modo={foco} />
+          ) : foco === 'checklist' && actual ? (
+            <ChecklistDocumentos pedido={detalle} etapa={actual} />
+          ) : null}
+          <DocumentosPedido
+            pedidoId={detalle.id}
+            tipoFlujo={detalle.tipoFlujo}
+            etapaActual={detalle.etapaActual}
+            entradaActualId={actual?.entradaId}
+            entradasPrevias={entradasPrevias}
+            finalizado={detalle.finalizado}
+            nombreEtapa={(numero) => flujo.data?.etapas.find((e) => e.numero === numero)?.nombre}
+          />
+          {/* Pedidos de versiones anteriores con BL vinculados: solo información. */}
+          {!foco && <SeccionEmbarques pedido={detalle} etapaActual={actual} modo="info" />}
+        </div>
         <div className="flex flex-col gap-4 xl:sticky xl:top-4">
           <PanelEtapa
             key={`${etapa.numero}-${etapa.entradaId ?? 'sin-entrada'}`}
@@ -272,8 +290,9 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
               setAccion({ accion: elegidaAccion, etapaEsperada: detalle.etapaActual, adjuntos })
             }
             onReasignar={() => setReasignando(true)}
+            enfocada={foco !== null}
           />
-          {conLlegada && (
+          {conLlegada && conDatosDeLlegada && (
             <section aria-label="Llegada y bodega" className="rounded-lg border bg-card px-4 py-3">
               <dl className="grid gap-2 text-sm sm:grid-cols-2">
                 <div><dt className="text-xs text-muted-foreground">Llegada a aduana</dt>
@@ -283,7 +302,7 @@ function ContenidoDetalle({ pedidoId }: { pedidoId: string }) {
               </dl>
               {detalle.demoraAduana && (
                 <p className="mt-2 text-xs text-muted-foreground">
-                  Demora reportada por {detalle.demoraAduana.reportadaPor.nombre} el {formatearFechaHora(detalle.demoraAduana.reportadaEn)}. La estimación no sustituye el plazo pendiente.
+                  Demora reportada por {detalle.demoraAduana.reportadaPor.nombre} · {formatearFechaHora(detalle.demoraAduana.reportadaEn)}
                 </p>
               )}
             </section>

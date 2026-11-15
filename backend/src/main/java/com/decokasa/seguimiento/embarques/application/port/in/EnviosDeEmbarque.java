@@ -4,7 +4,6 @@ import com.decokasa.seguimiento.compartido.domain.eventos.DatosDelPedido;
 import com.decokasa.seguimiento.compartido.domain.eventos.Interviniente;
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -24,14 +23,6 @@ public interface EnviosDeEmbarque {
         @Override public void rechazar(DatosDelPedido pedido, int etapa, Interviniente actor, Instant ahora,
                 String motivo, List<UUID> blSenalados) { }
     };
-
-    /**
-     * Requisitos del checklist marcados ✓ en la entrada (V35): cuentan como documentos presentes al ejecutar la acción.
-     * Sin checklist, ninguno.
-     */
-    default Set<String> tiposMarcados(UUID entradaId) {
-        return Set.of();
-    }
 
     /** Lo que falta para enviar a aprobación: BL vinculados, fecha de salida y Packing List confirmado. */
     List<String> faltantes(UUID pedidoId);

@@ -26,7 +26,8 @@ export const AVISO_CONTRASENA_CAMBIADA = 'Tu contraseña se cambió y se cerraro
 
 export function CambiarContrasena() {
   const cambiar = useCambiarContrasena();
-  const { cerrarSesion } = useSesion();
+  const { cerrarSesion, estado } = useSesion();
+  const obligatorio = estado.fase === 'abierta' && Boolean(estado.usuario.debeCambiarContrasena);
   const navegar = useNavigate();
   const { register, handleSubmit, setError, formState: { errors } } = useForm<Datos>({
     resolver: zodResolver(esquema),
@@ -65,6 +66,14 @@ export function CambiarContrasena() {
         <h1 className="font-heading text-2xl font-bold text-primary">Cambiar contraseña</h1>
         <p className="text-muted-foreground">Confirma tu contraseña actual y elige una nueva.</p>
       </div>
+      {obligatorio && (
+        <Alert>
+          <InfoIcon />
+          <AlertDescription>
+            Un administrador restableció tu contraseña. Escribe la temporal que te dio y crea una propia para continuar.
+          </AlertDescription>
+        </Alert>
+      )}
       <form noValidate onSubmit={handleSubmit(enviar)} className="flex flex-col gap-5 rounded-lg border bg-card p-5 shadow-sm">
         {mensajeError && (
           <Alert variant="destructive">

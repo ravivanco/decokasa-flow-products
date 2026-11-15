@@ -1,22 +1,20 @@
-import { CircleAlertIcon, LoaderIcon, PaperclipIcon, RotateCwIcon } from 'lucide-react';
+import { CircleAlertIcon, CircleCheckIcon, LoaderIcon, RotateCwIcon, UploadIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useCargaArchivo } from '@/api/cargas';
-import { type Checklist, useChecklist, useMarcarRequisito } from '@/api/embarques';
+import { type Checklist, useChecklist } from '@/api/embarques';
 import type { EtapaEnLinea, PedidoDetalle } from '@/api/pedidos';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { EXTENSIONES_ACEPTADAS, mensajeDeCarga } from './SeccionEmbarques';
 
-// Checklist de la etapa (V35, pedido del cliente del 2026-11-14): cada requisito se cumple con la marca ✓ de quien
-// actúa en la etapa o con un archivo de ese tipo en la entrada actual. Adjuntar es opcional. La marca la guarda el
-// servidor (quién y cuándo) y el servidor vuelve a comprobarla al aprobar; la pantalla nunca marca nada por su cuenta.
+// Checklist de la etapa (cliente, 2026-11-14): cada uno de los requisitos exige subir su documento, y el ✓ aparece solo
+// cuando el servidor confirma el archivo de ese tipo en la entrada actual. No hay marca manual.
 
 interface Props {
   pedido: PedidoDetalle;
   etapa: EtapaEnLinea;
-  /** Se conserva por compatibilidad; el permiso real llega del servidor en `puedeMarcar`. */
+  /** Se conserva por compatibilidad; el permiso real llega del servidor en `puedeSubir`. */
   puedeSubir?: boolean;
 }
 
@@ -32,10 +30,10 @@ export function ChecklistDocumentos({ pedido, etapa }: Props) {
         <div>
           <h2 id="checklist-titulo" className="font-heading text-lg font-semibold">Checklist de documentos</h2>
           <p className="text-sm text-muted-foreground">
-            Marca cada documento cuando lo tengas. Adjuntar el archivo es opcional.
+            Sube el documento de cada ítem; se marca ✓ cuando el servidor confirma el archivo.
           </p>
         </div>
-        <p className="font-heading text-2xl font-bold tabular-nums text-primary" aria-label={`${datos.confirmados} de ${datos.total} documentos listos`}>
+        <p className="font-heading text-2xl font-bold tabular-nums text-primary" aria-label={`${datos.confirmados} de ${datos.total} documentos subidos`}>
           {datos.confirmados}/{datos.total}
         </p>
       </div>
@@ -56,9 +54,8 @@ export function ChecklistDocumentos({ pedido, etapa }: Props) {
             numero={indice + 1}
             pedidoId={pedido.id}
             etapa={etapa}
-            entradaId={datos.entradaId ?? etapa.entradaId ?? null}
             requisito={requisito}
-            puedeMarcar={datos.puedeMarcar}
+            puedeSubir={datos.puedeSubir}
           />
         ))}
       </ol>
@@ -66,33 +63,21 @@ export function ChecklistDocumentos({ pedido, etapa }: Props) {
   );
 }
 
-function Requisito({ numero, pedidoId, etapa, entradaId, requisito, puedeMarcar }: {
+function Requisito({ numero, pedidoId, etapa, requisito, puedeSubir }: {
   numero: number;
   pedidoId: string;
   etapa: EtapaEnLinea;
-  entradaId: string | null;
   requisito: Checklist['requisitos'][number];
-  puedeMarcar: boolean;
+  puedeSubir: boolean;
 }) {
   const tipo = requisito.tipoDocumento;
-  const conArchivo = requisito.adjuntoId !== null;
-  const cumplido = requisito.marcado || conArchivo;
-  const marcar = useMarcarRequisito(pedidoId);
+  const confirmado = requisito.adjuntoId !== null;
   const subir = useCargaArchivo();
   const entrada = useRef<HTMLInputElement>(null);
   const control = useRef<AbortController | null>(null);
   const [archivo, setArchivo] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => () => control.current?.abort(), []);
-
-  function cambiarMarca(marcado: boolean) {
-    if (!entradaId) return;
-    setError(null);
-    marcar.mutate(
-      { tipoDocumento: tipo, marcado, entradaEsperadaId: entradaId },
-      { onError: () => setError('No se pudo guardar la marca. Vuelve a intentarlo.') },
-    );
-  }
 
   function cargar(elegido: File) {
     if (!etapa.entradaId) return;
@@ -109,39 +94,31 @@ function Requisito({ numero, pedidoId, etapa, entradaId, requisito, puedeMarcar 
     );
   }
 
-  const idCasilla = `checklist-${numero}`;
-  const detalle = requisito.marcado && requisito.marcadoPor
-    ? `Marcado por ${requisito.marcadoPor}${requisito.marcadoEn ? ` · ${fecha.format(new Date(requisito.marcadoEn))}` : ''}`
+  const detalle = confirmado && requisito.subidoPor
+    ? `Subido por ${requisito.subidoPor}${requisito.subidoEn ? ` · ${fecha.format(new Date(requisito.subidoEn))}` : ''}`
     : null;
 
   return (
-    <li className={cn('flex flex-wrap items-center gap-3 rounded-md border px-3 py-2', cumplido && 'border-estado-ok bg-estado-ok-fondo')}>
-      <div className="flex min-h-10 items-center">
-        <Checkbox
-          id={idCasilla}
-          checked={cumplido}
-          // Con archivo ya está cumplido: la casilla no se puede quitar desde aquí.
-          disabled={!puedeMarcar || conArchivo || marcar.isPending || !entradaId}
-          onCheckedChange={(valor) => cambiarMarca(valor === true)}
-        />
-      </div>
-      <label htmlFor={idCasilla} className="min-w-40 flex-1 text-sm">
-        <span className="tabular-nums text-muted-foreground">{numero}. </span>
+    <li className={cn('flex flex-wrap items-center gap-3 rounded-md border px-3 py-2', confirmado && 'border-estado-ok bg-estado-ok-fondo')}>
+      <span
+        role="img"
+        aria-label={confirmado ? `${tipo}: documento confirmado` : `${tipo}: falta el documento`}
+        className={cn('flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums',
+          confirmado ? 'bg-estado-ok text-primary-foreground' : 'border bg-secondary')}
+      >
+        {confirmado ? <CircleCheckIcon aria-hidden="true" className="size-4" /> : numero}
+      </span>
+      <span className="min-w-40 flex-1 text-sm">
         {tipo}
-        {requisito.nombreArchivo && (
-          <span className="flex items-center gap-1 truncate text-xs text-muted-foreground">
-            <PaperclipIcon aria-hidden="true" className="size-3" />
-            {requisito.nombreArchivo}
-          </span>
-        )}
+        {requisito.nombreArchivo && <span className="block truncate text-xs text-muted-foreground">{requisito.nombreArchivo}</span>}
         {detalle && <span className="block text-xs text-muted-foreground">{detalle}</span>}
-      </label>
-      {marcar.isPending || subir.isPending ? (
+      </span>
+      {confirmado ? null : subir.isPending ? (
         <span role="status" className="flex items-center gap-1 text-xs text-muted-foreground">
           <LoaderIcon aria-hidden="true" className="size-3 animate-spin" />
-          Guardando
+          Esperando confirmación
         </span>
-      ) : puedeMarcar && !conArchivo ? (
+      ) : puedeSubir ? (
         <>
           <input
             ref={entrada}
@@ -157,13 +134,15 @@ function Requisito({ numero, pedidoId, etapa, entradaId, requisito, puedeMarcar 
               Reintentar
             </Button>
           ) : (
-            <Button type="button" variant="ghost" size="sm" onClick={() => entrada.current?.click()} aria-label={`Adjuntar archivo de ${tipo} (opcional)`}>
-              <PaperclipIcon data-icon="inline-start" />
-              Adjuntar
+            <Button type="button" variant="outline" size="sm" onClick={() => entrada.current?.click()} aria-label={`Subir ${tipo}`}>
+              <UploadIcon data-icon="inline-start" />
+              Subir
             </Button>
           )}
         </>
-      ) : null}
+      ) : (
+        <span className="text-xs text-muted-foreground">Pendiente</span>
+      )}
       {error && <p role="alert" className="w-full text-xs text-estado-vencido">{error}</p>}
     </li>
   );

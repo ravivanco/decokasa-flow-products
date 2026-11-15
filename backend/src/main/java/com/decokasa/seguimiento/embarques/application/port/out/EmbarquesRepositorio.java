@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 /** Persistencia de BL, Packing Lists y envíos. Siempre dentro de la transacción del caso de uso. */
@@ -91,13 +90,6 @@ public interface EmbarquesRepositorio {
     List<String> codigosDelEnvio(UUID envioId, List<UUID> blIds);
 
     GestionarEmbarques.Checklist checklist(UUID flujoId, UUID pedidoId, int etapa, UUID entradaId);
-
-    /** Guarda una marca del checklist; las marcas son de solo inserción y la última es la vigente. */
-    void marcarRequisito(UUID id, UUID pedidoId, UUID entradaId, String tipoDocumento, boolean marcado,
-            UUID usuarioId, Instant ahora);
-
-    /** Tipos marcados ✓ hoy en la entrada. */
-    Set<String> tiposMarcados(UUID entradaId);
 
     List<GestionarEmbarques.AlertaSimulada> alertasSimuladas(UUID pedidoId);
 }

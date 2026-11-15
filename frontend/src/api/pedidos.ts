@@ -439,6 +439,20 @@ export function useVerArchivo() {
   });
 }
 
+/** Excel moderno y CSV: se ven en DECOKASA como tabla (lector propio, sin dependencias). El .xls antiguo se descarga. */
+export const TIPOS_HOJA = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'] as const;
+
+export function useVerHoja() {
+  const { pedir } = useSesion();
+  return useMutation({
+    mutationFn: async (documento: { id: string; tipoContenido: string | null }) => {
+      const contenido = await pedir<Blob>(`/archivos/${id(documento.id)}/contenido`, { formato: 'blob' });
+      const { leerCsv, leerXlsx } = await import('@/lib/hojaCalculo');
+      return documento.tipoContenido === 'text/csv' ? leerCsv(await contenido.text()) : leerXlsx(await contenido.arrayBuffer());
+    },
+  });
+}
+
 export function useHistorial(pedidoId: string) {
   const { pedir, sesionId } = useSesion();
   const pais = usePaisActivo();

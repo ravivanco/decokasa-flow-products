@@ -97,7 +97,7 @@ export function MotivoRetraso({ pedido, etapa, puedeEditar }: Props) {
               aria-describedby={`${ids}-ayuda`}
             />
             <FieldDescription id={`${ids}-ayuda`} className="tabular-nums">
-              {texto.length} de 4000 caracteres · cada cambio queda en el historial; no envía correo
+              {texto.length} / 4000
             </FieldDescription>
             <FieldError>{error}</FieldError>
           </Field>

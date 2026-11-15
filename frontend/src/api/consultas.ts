@@ -76,6 +76,15 @@ export function useActualizarUsuario() {
   });
 }
 
+/** V36: Admin pone una contraseña temporal; el usuario deberá cambiarla al iniciar sesión. */
+export function useRestablecerContrasena() {
+  const { pedir } = useSesion();
+  return useMutation({
+    mutationFn: ({ id, contrasenaTemporal }: { id: string; contrasenaTemporal: string }) =>
+      pedir(`/usuarios/${encodeURIComponent(id)}/contrasena`, { metodo: 'POST', cuerpo: { contrasenaTemporal } }),
+  });
+}
+
 /**
  * Conexión de la cuenta Google de la empresa (paso 3.1, ADR-0034). Solo admin; el servidor revalida el rol. Devuelve
  * la URL a la que navegar; quien la usa comprueba antes que sea un destino permitido.

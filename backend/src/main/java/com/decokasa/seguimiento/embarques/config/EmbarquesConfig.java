@@ -31,7 +31,8 @@ public class EmbarquesConfig {
 
     @Bean
     GestionarEmbarques gestionarEmbarques(PlatformTransactionManager gestor, EmbarquesRepositorio repositorio,
-            PedidosParaEmbarques pedidos, PublicadorEventos publicador, DescargarArchivo descargas, Reloj reloj) {
+            PedidosParaEmbarques pedidos, PublicadorEventos publicador, DescargarArchivo descargas, Reloj reloj,
+            com.decokasa.seguimiento.archivos.application.port.in.AccesoConfidencial confidencial) {
         TransactionTemplate tx = new TransactionTemplate(gestor);
         TransactionTemplate lectura = new TransactionTemplate(gestor);
         lectura.setReadOnly(true);
@@ -74,12 +75,12 @@ public class EmbarquesConfig {
             }
 
             @Override public Checklist checklist(Solicitante s, UUID pedidoId) {
-                return lectura.execute(e -> caso.checklist(s, pedidoId));
-            }
-
-            @Override public Checklist marcarRequisito(Solicitante s, UUID pedidoId, String tipo, boolean marcado,
-                    UUID entrada) {
-                return tx.execute(e -> caso.marcarRequisito(s, pedidoId, tipo, marcado, entrada));
+                Checklist lista = lectura.execute(e -> caso.checklist(s, pedidoId));
+                // V37: sin acceso a los confidenciales se ve qué ítem está cumplido, no el archivo ni quién lo subió.
+                if (lista == null || !lista.aplica() || confidencial.puedeVer(pedidoId, s.usuarioId())) { return lista; }
+                return new Checklist(lista.aplica(), lista.pendienteDefinicion(), lista.total(), lista.confirmados(),
+                        lista.requisitos().stream().map(r -> new Requisito(r.tipoDocumento(), r.adjuntoId(), null, null,
+                                null)).toList(), lista.entradaId(), lista.puedeSubir());
             }
 
             @Override public List<AlertaSimulada> alertasSimuladas(Solicitante s, UUID pedidoId) {

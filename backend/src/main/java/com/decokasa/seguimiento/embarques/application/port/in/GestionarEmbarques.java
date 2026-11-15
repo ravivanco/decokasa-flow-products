@@ -36,13 +36,6 @@ public interface GestionarEmbarques {
 
     Checklist checklist(Solicitante solicitante, UUID pedidoId);
 
-    /**
-     * Marca o desmarca un requisito del checklist (V35). Solo quien actúa en la etapa, en la entrada que tiene a la
-     * vista. @throws com.decokasa.seguimiento.compartido.domain.EtapaCambio si la etapa avanzó o volvió a entrar
-     */
-    Checklist marcarRequisito(Solicitante solicitante, UUID pedidoId, String tipoDocumento, boolean marcado,
-            UUID entradaEsperadaId);
-
     List<AlertaSimulada> alertasSimuladas(Solicitante solicitante, UUID pedidoId);
 
     record NuevoBl(String codigo, LocalDate fechaSalida, LocalDate llegadaEstimada, String importadora) {
@@ -95,12 +88,14 @@ public interface GestionarEmbarques {
     }
 
     /**
+     * Cada requisito exige su documento: se marca ✓ solo cuando el servidor confirma un archivo de ese tipo en la entrada
+     * actual (cliente, 2026-11-14).
      * @param pendienteDefinicion la lista de requisitos no está definida: la etapa no se puede aprobar
-     * @param confirmados requisitos marcados o con archivo
-     * @param puedeMarcar la persona puede marcar y subir archivos hoy
+     * @param confirmados requisitos con archivo confirmado
+     * @param puedeSubir la persona puede subir archivos hoy en esta etapa
      */
     record Checklist(boolean aplica, boolean pendienteDefinicion, int total, int confirmados,
-            List<Requisito> requisitos, UUID entradaId, boolean puedeMarcar) {
+            List<Requisito> requisitos, UUID entradaId, boolean puedeSubir) {
 
         public Checklist conPermiso(boolean puede) {
             return new Checklist(aplica, pendienteDefinicion, total, confirmados, requisitos, entradaId, puede);
@@ -108,15 +103,13 @@ public interface GestionarEmbarques {
     }
 
     /**
-     * Un requisito se cumple con la marca ✓ o con un archivo de ese tipo en la entrada actual (V35).
-     * @param adjuntoId archivo confirmado por el servidor en la entrada actual; nulo si no hay
-     * @param marcado la última marca de la entrada actual es ✓
+     * @param adjuntoId archivo confirmado por el servidor en la entrada actual; nulo si falta
+     * @param subidoPor quien subió ese archivo
      */
-    record Requisito(String tipoDocumento, UUID adjuntoId, String nombreArchivo, boolean marcado, String marcadoPor,
-            Instant marcadoEn) {
+    record Requisito(String tipoDocumento, UUID adjuntoId, String nombreArchivo, String subidoPor, Instant subidoEn) {
 
         public boolean cumplido() {
-            return marcado || adjuntoId != null;
+            return adjuntoId != null;
         }
     }
 

@@ -1,4 +1,4 @@
-import { CloudIcon, CloudOffIcon, DownloadIcon, FileIcon, LoaderIcon, UploadIcon } from 'lucide-react';
+import { CloudIcon, CloudOffIcon, DownloadIcon, FileIcon, LoaderIcon, UploadIcon, EyeIcon } from 'lucide-react';
 import { type FormEvent, useEffect, useId, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { esErrorApi } from '@/api/cliente';
@@ -7,6 +7,7 @@ import { type Adjunto, type EtapaEnLinea, useAdjuntosDeEtapa, useDescargarArchiv
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useAbridorDocumentos, visible } from './DocumentosPedido';
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -42,6 +43,7 @@ interface Props {
 export function ArchivosEtapa({ pedidoId, etapa, puedeSubir, puedeDescargar, tiposSugeridos }: Props) {
   const adjuntos = useAdjuntosDeEtapa(pedidoId, etapa.numero);
   const descargar = useDescargarArchivo();
+  const abridor = useAbridorDocumentos();
   const [descargando, setDescargando] = useState<string | null>(null);
 
   const actuales = adjuntos.data?.filter((adjunto) => adjunto.entradaId === etapa.entradaId) ?? [];
@@ -53,7 +55,7 @@ export function ArchivosEtapa({ pedidoId, etapa, puedeSubir, puedeDescargar, tip
       onError: (error) =>
         toast.error(
           esErrorApi(error) && error.status === 403
-            ? 'No tienes permiso para descargar este archivo. Lo descargan el admin, quien actúa en su etapa y quien la revisa.'
+            ? 'No tienes permiso para este archivo: es un documento confidencial. Pide acceso a Admin.'
             : mensajeDeErrorPedido(error, 'No se pudo descargar el archivo. Intenta de nuevo.'),
         ),
       onSettled: () => setDescargando(null),
@@ -92,6 +94,7 @@ export function ArchivosEtapa({ pedidoId, etapa, puedeSubir, puedeDescargar, tip
             puedeDescargar={puedeDescargar}
             descargando={descargando}
             onDescargar={bajar}
+            onVer={abridor.abrir}
           />
           {anteriores.length > 0 && (
             <details className="rounded-lg border bg-muted/40 px-4 py-1">
@@ -105,6 +108,7 @@ export function ArchivosEtapa({ pedidoId, etapa, puedeSubir, puedeDescargar, tip
                   puedeDescargar={puedeDescargar}
                   descargando={descargando}
                   onDescargar={bajar}
+                  onVer={abridor.abrir}
                 />
               </div>
             </details>
@@ -122,6 +126,7 @@ export function ArchivosEtapa({ pedidoId, etapa, puedeSubir, puedeDescargar, tip
           tiposSugeridos={tiposSugeridos}
         />
       )}
+      {abridor.elemento}
     </section>
   );
 }
@@ -132,12 +137,14 @@ function ListaAdjuntos({
   puedeDescargar,
   descargando,
   onDescargar,
+  onVer,
 }: {
   adjuntos: Adjunto[];
   vacio: string;
   puedeDescargar: boolean;
   descargando: string | null;
   onDescargar: (adjunto: Adjunto) => void;
+  onVer: (documento: { id: string; nombre: string; tipoContenido: string | null }) => void;
 }) {
   if (adjuntos.length === 0) return vacio ? <p className="text-sm text-muted-foreground">{vacio}</p> : null;
   return (
@@ -156,6 +163,13 @@ function ListaAdjuntos({
           </div>
           <EstadoCopia estado={adjunto.estadoCopia} />
           {/* ADR-0028: sin enlace de Drive; se abre o descarga a través del backend. */}
+          {puedeDescargar && visible({ tipoContenido: tipoPorNombre(adjunto.nombre) }) && (
+            <Button variant="outline" size="sm" aria-label={`Ver ${adjunto.nombre}`}
+              onClick={() => onVer({ id: adjunto.id, nombre: adjunto.nombre, tipoContenido: tipoPorNombre(adjunto.nombre) })}>
+              <EyeIcon data-icon="inline-start" />
+              Ver
+            </Button>
+          )}
           {puedeDescargar && (
             <Button
               variant="outline"
@@ -387,4 +401,12 @@ function FormularioSubida({
       </div>
     </form>
   );
+}
+
+/** Tipo para el visor según la extensión (el servidor ya validó el contenido al subirlo). */
+function tipoPorNombre(nombre: string): string | null {
+  const extension = nombre.toLowerCase().split('.').pop();
+  return extension === 'pdf' ? 'application/pdf' : extension === 'png' ? 'image/png'
+    : extension === 'jpg' || extension === 'jpeg' ? 'image/jpeg' : extension === 'csv' ? 'text/csv'
+      : extension === 'xlsx' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : null;
 }

@@ -64,6 +64,9 @@ decokasa:
     enviar-desde: ${NOTIFICACIONES_ENVIAR_DESDE:}
     # Solo pruebas locales: carpeta donde la cola deja cada correo como archivo. Vacío: apagado. No arranca en Render.
     buzon-simulado: ${NOTIFICACIONES_BUZON_SIMULADO:}
+    # Solo pruebas locales con Gmail real: direcciones separadas por comas a las que sí se envía; al resto no sale
+    # nada. Vacío (producción): se envía a todos. No arranca en Render.
+    solo-a: ${NOTIFICACIONES_SOLO_A:}
   whatsapp:
     # simulado (por defecto): se guarda la alerta y no sale nada. cloud: WhatsApp Cloud API de Meta con la plantilla y
     # las credenciales del cliente (secretos, nunca en el repositorio). apagado: no se registran alertas.

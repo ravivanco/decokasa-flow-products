@@ -122,12 +122,7 @@ export function CronogramaPedido({ pedido, etapaLlegada, onIrAEtapa }: Props) {
       aria-labelledby="cronograma-titulo"
       className="flex scroll-mt-4 flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm sm:p-5"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <h2 id="cronograma-titulo" className="font-heading text-xl font-semibold">
-          Cronograma de llegada
-        </h2>
-        <p className="text-xs text-muted-foreground">Días del calendario del país del pedido · horas en hora de Ecuador (UTC−5)</p>
-      </div>
+      <h2 id="cronograma-titulo" className="font-heading text-lg font-semibold">Cronograma de llegada</h2>
 
       {cronograma.isPending ? (
         <div className="flex flex-col gap-3" aria-busy="true" aria-label="Cargando el cronograma">
@@ -182,11 +177,7 @@ function Contenido({ datos, pedido, etapaLlegada, onIrAEtapa }: { datos: Cronogr
               <AlertaHito
                 icono={HourglassIcon}
                 titulo={`${nombreEtapa(excedida)} sigue abierta después de lo estimado`}
-                texto={`${excedida.fechaOriginal ? `La planificación original la terminaba el ${formatearFecha(excedida.fechaOriginal)}. ` : ''}La estimación supone que termina hoy, así que la llegada se mueve cada día que siga abierta. ${
-                  excedida.duracion?.base === 'REFERENCIA'
-                    ? 'Su duración es solo una referencia, no un plazo aprobado: no genera alerta.'
-                    : 'Su plazo y sus alertas no cambian.'
-                }`}
+                texto=""
                 onAbrir={() => setSeleccion({ modo: 'etapa', numero: excedida.numero })}
               />
             </li>

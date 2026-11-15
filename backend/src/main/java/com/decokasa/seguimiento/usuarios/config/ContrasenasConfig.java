@@ -4,6 +4,8 @@ import com.decokasa.seguimiento.compartido.application.port.out.Reloj;
 import com.decokasa.seguimiento.compartido.domain.DatoInvalido;
 import com.decokasa.seguimiento.usuarios.adapter.in.security.ValidadorSelloCredenciales;
 import com.decokasa.seguimiento.usuarios.application.port.in.CambiarContrasena;
+import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarCambioObligatorio;
+import com.decokasa.seguimiento.usuarios.application.port.in.RestablecerContrasenaUsuario;
 import com.decokasa.seguimiento.usuarios.application.port.in.ConsultarSelloCredenciales;
 import com.decokasa.seguimiento.usuarios.application.port.in.EnviarCorreosRecuperacion;
 import com.decokasa.seguimiento.usuarios.application.port.in.RecuperarContrasena;
@@ -17,6 +19,7 @@ import com.decokasa.seguimiento.usuarios.application.port.out.UsuarioRepositorio
 import com.decokasa.seguimiento.usuarios.application.usecase.CambiarContrasenaCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.EnviarCorreosRecuperacionCasoDeUso;
 import com.decokasa.seguimiento.usuarios.application.usecase.RecuperarContrasenaCasoDeUso;
+import com.decokasa.seguimiento.usuarios.application.usecase.RestablecerContrasenaUsuarioCasoDeUso;
 import com.decokasa.seguimiento.usuarios.domain.CuentaBloqueada;
 import com.decokasa.seguimiento.usuarios.domain.PoliticaBloqueo;
 import java.time.Duration;
@@ -89,6 +92,26 @@ public class ContrasenasConfig {
             return null;
         }, error -> error instanceof CuentaBloqueada || (error instanceof DatoInvalido invalido
                 && CambiarContrasenaCasoDeUso.CAMPO_ACTUAL.equals(invalido.campo())));
+    }
+
+    @Bean
+    RestablecerContrasenaUsuario restablecerContrasenaUsuario(Transacciones tx, UsuarioRepositorio usuarios,
+            CredencialesRepositorio credenciales, RecuperacionRepositorio recuperaciones,
+            TokenRenovacionRepositorio tokens, CodificadorContrasena codificador, Reloj reloj) {
+        RestablecerContrasenaUsuario caso = new RestablecerContrasenaUsuarioCasoDeUso(usuarios, credenciales,
+                recuperaciones, tokens, codificador, reloj);
+        return (solicitante, usuarioId, temporal) -> tx.ejecutar(() -> {
+            caso.restablecer(solicitante, usuarioId, temporal);
+            // Sin contraseñas en el registro: solo quién la restableció y a qué cuenta.
+            org.slf4j.LoggerFactory.getLogger("decokasa.usuarios").info(
+                    "contrasena_restablecida_por_admin admin={} usuario={}", solicitante.usuarioId(), usuarioId);
+            return null;
+        });
+    }
+
+    @Bean
+    ConsultarCambioObligatorio consultarCambioObligatorio(Transacciones tx, CredencialesRepositorio credenciales) {
+        return usuarioId -> tx.ejecutar(() -> credenciales.debeCambiar(usuarioId));
     }
 
     @Bean
